@@ -36,7 +36,7 @@ def sample(args) -> None:
             by_lang[r["doc_lang"]].append(r)
     for lang, rs in sorted(by_lang.items()):
         chosen += rng.sample(rs, max(1, round(len(rs) * args.part_a)))
-    tasks = [ls_task(r, entities=r["entities"], model=r.get("annotator", "generateur_v1")) for r in chosen]
+    tasks = [ls_task(r, entities=r["entities"], model="caseforge-preannotation-v1") for r in chosen]
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     Path(args.out).write_text(json.dumps(tasks, ensure_ascii=False, indent=1), encoding="utf-8")
     c = {f: sum(r["famille"] == f for r in chosen) for f in ("B", "L", "A")}

@@ -21,7 +21,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -79,7 +79,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -176,7 +176,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -255,11 +255,11 @@
   "data": {
    "doc_id": "syn_fr_000",
    "passage_id": "syn_fr_000_p003",
-   "text": "Une tentative antérieure pilotée par S. Khelifi sur la machine machine de coupe automatique n'a pas suffi ; la direction de CTIF à Jendouba attend une approche structurée. Gamme touchée : tissu denim indigo.",
+   "text": "Une tentative antérieure pilotée par S. Khelifi sur le poste « machine de coupe automatique » n'a pas suffi ; la direction de CTIF à Jendouba attend une approche structurée. Gamme touchée : tissu denim indigo.",
    "lang": "fr",
    "sensitivity": "forte",
    "ptype": "contexte",
-   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur la machine machine de coupe automatique n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : tissu denim indigo.",
+   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur le poste « machine de coupe automatique » n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : tissu denim indigo.",
    "secteur": "textile",
    "format": "email",
    "bruit": "propre",
@@ -273,7 +273,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -306,8 +306,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 124,
-       "end": 128,
+       "start": 126,
+       "end": 130,
        "text": "CTIF",
        "labels": [
         "ORG"
@@ -319,8 +319,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 131,
-       "end": 139,
+       "start": 133,
+       "end": 141,
        "text": "Jendouba",
        "labels": [
         "SITE"
@@ -332,8 +332,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 188,
-       "end": 206,
+       "start": 190,
+       "end": 208,
        "text": "tissu denim indigo",
        "labels": [
         "PRODUIT"
@@ -396,7 +396,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -480,7 +480,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -546,11 +546,11 @@
   "data": {
    "doc_id": "syn_fr_000",
    "passage_id": "syn_fr_000_p006",
-   "text": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine presse à repasser et l'historique suivant : MTBF de 3 heures. Un atelier de délavage à la pierre a déjà été animé.",
+   "text": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « presse à repasser » et l'historique suivant : MTBF de 3 heures. Un atelier de délavage à la pierre a déjà été animé.",
    "lang": "fr",
    "sensitivity": "aucune",
    "ptype": "donnee",
-   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine presse à repasser et l'historique suivant : MTBF de 3 heures. Un atelier de délavage à la pierre a déjà été animé.",
+   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « presse à repasser » et l'historique suivant : MTBF de 3 heures. Un atelier de délavage à la pierre a déjà été animé.",
    "secteur": "textile",
    "format": "email",
    "bruit": "propre",
@@ -564,15 +564,15 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 74,
-       "end": 91,
+       "start": 71,
+       "end": 88,
        "text": "presse à repasser",
        "labels": [
         "EQUIPEMENT"
@@ -584,8 +584,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 118,
-       "end": 134,
+       "start": 117,
+       "end": 133,
        "text": "MTBF de 3 heures",
        "labels": [
         "INDICATEUR"
@@ -597,8 +597,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 150,
-       "end": 170,
+       "start": 149,
+       "end": 169,
        "text": "délavage à la pierre",
        "labels": [
         "PROCESSUS"
@@ -661,7 +661,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -745,7 +745,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -842,7 +842,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -900,7 +900,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -997,7 +997,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1076,11 +1076,11 @@
   "data": {
    "doc_id": "syn_fr_003",
    "passage_id": "syn_fr_003_p003",
-   "text": "Une tentative antérieure pilotée par O. Khelifi sur la machine machine à mesurer tridimensionnelle n'a pas suffi ; la direction de EMPCR à Mahdia attend une approche structurée. Gamme touchée : arbres de transmission.",
+   "text": "Une tentative antérieure pilotée par O. Khelifi sur le poste « machine à mesurer tridimensionnelle » n'a pas suffi ; la direction de EMPCR à Mahdia attend une approche structurée. Gamme touchée : arbres de transmission.",
    "lang": "fr",
    "sensitivity": "forte",
    "ptype": "contexte",
-   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur la machine machine à mesurer tridimensionnelle n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : arbres de transmission.",
+   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur le poste « machine à mesurer tridimensionnelle » n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : arbres de transmission.",
    "secteur": "mecanique",
    "format": "email",
    "bruit": "propre",
@@ -1094,7 +1094,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1127,8 +1127,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 131,
-       "end": 136,
+       "start": 133,
+       "end": 138,
        "text": "EMPCR",
        "labels": [
         "ORG"
@@ -1140,8 +1140,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 139,
-       "end": 145,
+       "start": 141,
+       "end": 147,
        "text": "Mahdia",
        "labels": [
         "SITE"
@@ -1153,8 +1153,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 194,
-       "end": 216,
+       "start": 196,
+       "end": 218,
        "text": "arbres de transmission",
        "labels": [
         "PRODUIT"
@@ -1217,7 +1217,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1301,7 +1301,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1367,11 +1367,11 @@
   "data": {
    "doc_id": "syn_fr_003",
    "passage_id": "syn_fr_003_p006",
-   "text": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine tour à commande numérique et l'historique suivant : taux de rebut de 85 %. Un atelier de changement rapide d'outil a déjà été animé.",
+   "text": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « tour à commande numérique » et l'historique suivant : taux de rebut de 85 %. Un atelier de changement rapide d'outil a déjà été animé.",
    "lang": "fr",
    "sensitivity": "aucune",
    "ptype": "donnee",
-   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine tour à commande numérique et l'historique suivant : taux de rebut de 85 %. Un atelier de changement rapide d'outil a déjà été animé.",
+   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « tour à commande numérique » et l'historique suivant : taux de rebut de 85 %. Un atelier de changement rapide d'outil a déjà été animé.",
    "secteur": "mecanique",
    "format": "email",
    "bruit": "propre",
@@ -1385,15 +1385,15 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 74,
-       "end": 99,
+       "start": 71,
+       "end": 96,
        "text": "tour à commande numérique",
        "labels": [
         "EQUIPEMENT"
@@ -1405,8 +1405,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 126,
-       "end": 147,
+       "start": 125,
+       "end": 146,
        "text": "taux de rebut de 85 %",
        "labels": [
         "INDICATEUR"
@@ -1418,8 +1418,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 163,
-       "end": 188,
+       "start": 162,
+       "end": 187,
        "text": "changement rapide d'outil",
        "labels": [
         "PROCESSUS"
@@ -1482,7 +1482,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1566,7 +1566,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1663,7 +1663,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -1721,7 +1721,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1818,7 +1818,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1897,11 +1897,11 @@
   "data": {
    "doc_id": "syn_fr_005",
    "passage_id": "syn_fr_005_p003",
-   "text": "Une tcntative antérieure pllotée par S. Tlili sur la machine lit d'air fluidisé n'a pas suffi ; la direction de APTA à Mahdia attend une approche structurée. Gamme touchée : pommades.",
+   "text": "Une tcntative antérieure pllotée par S. Tlili sur le poste « lit d'air fluidisé » n'a pas suffi ; la direction de APTA à Mahdia attend une approche structurée. Gamme touchée : pommades.",
    "lang": "fr",
    "sensitivity": "forte",
    "ptype": "contexte",
-   "text_anonymise": "Une tcntative antérieure pllotée par [PERSONNE_1] sur la machine lit d'air fluidisé n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : pommades.",
+   "text_anonymise": "Une tcntative antérieure pllotée par [PERSONNE_1] sur le poste « lit d'air fluidisé » n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : pommades.",
    "secteur": "pharma",
    "format": "email",
    "bruit": "ocr",
@@ -1915,7 +1915,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -1948,8 +1948,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 112,
-       "end": 116,
+       "start": 114,
+       "end": 118,
        "text": "APTA",
        "labels": [
         "ORG"
@@ -1961,8 +1961,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 119,
-       "end": 125,
+       "start": 121,
+       "end": 127,
        "text": "Mahdia",
        "labels": [
         "SITE"
@@ -1974,8 +1974,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 174,
-       "end": 182,
+       "start": 176,
+       "end": 184,
        "text": "pommades",
        "labels": [
         "PRODUIT"
@@ -2020,11 +2020,11 @@
   "data": {
    "doc_id": "syn_fr_005",
    "passage_id": "syn_fr_005_p004",
-   "text": "Le projet est suivl par M. Slim Tlili (responsable logistique). Démarche attendue : valldation du nettoyage.",
+   "text": "Le projet est suivi par M. S1im Tlili (responsable logistique). Démarche attendue : validatlon du nettoyage.",
    "lang": "fr",
    "sensitivity": "forte",
    "ptype": "objectif",
-   "text_anonymise": "Le projet est suivl par [PERSONNE_1] (responsable logistique). Démarche attendue : valldation du nettoyage.",
+   "text_anonymise": "Le projet est suivi par [PERSONNE_1] (responsable logistique). Démarche attendue : validatlon du nettoyage.",
    "secteur": "pharma",
    "format": "email",
    "bruit": "ocr",
@@ -2038,7 +2038,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -2047,7 +2047,7 @@
       "value": {
        "start": 24,
        "end": 37,
-       "text": "M. Slim Tlili",
+       "text": "M. S1im Tlili",
        "labels": [
         "PERSONNE"
        ]
@@ -2060,7 +2060,7 @@
       "value": {
        "start": 84,
        "end": 107,
-       "text": "valldation du nettoyage",
+       "text": "validatlon du nettoyage",
        "labels": [
         "PROCESSUS"
        ]
@@ -2104,11 +2104,11 @@
   "data": {
    "doc_id": "syn_fr_005",
    "passage_id": "syn_fr_005_p005",
-   "text": "Lc partcnaire impose les conditions suivantes : 1e budget alloué ne doit pas dépasser 50000 DT ; la soluti0n doit respecter la norme ISO 22000.",
+   "text": "Le partcnalre impose les conditions suivantes : le budgct alloué ne doit pas dépasser 50000 DT ; la solution dolt respecter la norme ISO 22000.",
    "lang": "fr",
    "sensitivity": "aucune",
    "ptype": "contrainte",
-   "text_anonymise": "Lc partcnaire impose les conditions suivantes : 1e budget alloué ne doit pas dépasser 50000 DT ; la soluti0n doit respecter la norme ISO 22000.",
+   "text_anonymise": "Le partcnalre impose les conditions suivantes : le budgct alloué ne doit pas dépasser 50000 DT ; la solution dolt respecter la norme ISO 22000.",
    "secteur": "pharma",
    "format": "email",
    "bruit": "ocr",
@@ -2122,7 +2122,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -2131,7 +2131,7 @@
       "value": {
        "start": 48,
        "end": 94,
-       "text": "1e budget alloué ne doit pas dépasser 50000 DT",
+       "text": "le budgct alloué ne doit pas dépasser 50000 DT",
        "labels": [
         "CONTRAINTE"
        ]
@@ -2144,7 +2144,7 @@
       "value": {
        "start": 97,
        "end": 142,
-       "text": "la soluti0n doit respecter la norme ISO 22000",
+       "text": "la solution dolt respecter la norme ISO 22000",
        "labels": [
         "CONTRAINTE"
        ]
@@ -2188,11 +2188,11 @@
   "data": {
    "doc_id": "syn_fr_005",
    "passage_id": "syn_fr_005_p006",
-   "text": "L'entreprise f0urnira les extractions de l'ERP, les relevés de la machine blistereuse et l'historique suivant : MTBF de 8 heures. Un atelier de validation du nettoyage a déjà été animé.",
+   "text": "L'entreprise fournirà les extractions de l'ERP, les relevés du poste « blistereuse » et l'historique suivant : MTBF de 8 heures. Un atelier de validation du nettoyage a déjà été animé.",
    "lang": "fr",
    "sensitivity": "aucune",
    "ptype": "donnee",
-   "text_anonymise": "L'entreprise f0urnira les extractions de l'ERP, les relevés de la machine blistereuse et l'historique suivant : MTBF de 8 heures. Un atelier de validation du nettoyage a déjà été animé.",
+   "text_anonymise": "L'entreprise fournirà les extractions de l'ERP, les relevés du poste « blistereuse » et l'historique suivant : MTBF de 8 heures. Un atelier de validation du nettoyage a déjà été animé.",
    "secteur": "pharma",
    "format": "email",
    "bruit": "ocr",
@@ -2206,15 +2206,15 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 74,
-       "end": 85,
+       "start": 71,
+       "end": 82,
        "text": "blistereuse",
        "labels": [
         "EQUIPEMENT"
@@ -2226,8 +2226,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 112,
-       "end": 128,
+       "start": 111,
+       "end": 127,
        "text": "MTBF de 8 heures",
        "labels": [
         "INDICATEUR"
@@ -2239,8 +2239,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 144,
-       "end": 167,
+       "start": 143,
+       "end": 166,
        "text": "validation du nettoyage",
        "labels": [
         "PROCESSUS"
@@ -2303,7 +2303,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -2369,11 +2369,11 @@
   "data": {
    "doc_id": "syn_fr_005",
    "passage_id": "syn_fr_005_p008",
-   "text": "Pour toute question, j0indrc S. Tlili au +216 82 736 429 ou par courriel à s.tlili@àpta.tn.",
+   "text": "Pour toute question, joindre S. Tlili àu +216 82 736 429 ou pàr courriel à s.tlili@apta.tn.",
    "lang": "fr",
    "sensitivity": "forte",
    "ptype": "autre",
-   "text_anonymise": "Pour toute question, j0indrc [PERSONNE_1] au [DONNEE_MASQUEE] ou par courriel à [DONNEE_MASQUEE].",
+   "text_anonymise": "Pour toute question, joindre [PERSONNE_1] àu [DONNEE_MASQUEE] ou pàr courriel à [DONNEE_MASQUEE].",
    "secteur": "pharma",
    "format": "email",
    "bruit": "ocr",
@@ -2387,7 +2387,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -2422,7 +2422,7 @@
       "value": {
        "start": 75,
        "end": 90,
-       "text": "s.tlili@àpta.tn",
+       "text": "s.tlili@apta.tn",
        "labels": [
         "DONNEE_SENSIBLE"
        ]
@@ -2484,7 +2484,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -2542,7 +2542,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -2639,7 +2639,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -2718,11 +2718,11 @@
   "data": {
    "doc_id": "syn_fr_008",
    "passage_id": "syn_fr_008_p003",
-   "text": "Une tentative antérieure pilotée par I. Tlili sur la machine dénudeuse n'a pas suffi ; la direction de GCTA à Sousse attend une approche structurée. Gamme touchée : connecteurs étanches.",
+   "text": "Une tentative antérieure pilotée par I. Tlili sur le poste « dénudeuse » n'a pas suffi ; la direction de GCTA à Sousse attend une approche structurée. Gamme touchée : connecteurs étanches.",
    "lang": "fr",
    "sensitivity": "forte",
    "ptype": "contexte",
-   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur la machine dénudeuse n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : connecteurs étanches.",
+   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur le poste « dénudeuse » n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : connecteurs étanches.",
    "secteur": "cablage",
    "format": "cahier_charges",
    "bruit": "propre",
@@ -2736,7 +2736,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -2769,8 +2769,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 103,
-       "end": 107,
+       "start": 105,
+       "end": 109,
        "text": "GCTA",
        "labels": [
         "ORG"
@@ -2782,8 +2782,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 110,
-       "end": 116,
+       "start": 112,
+       "end": 118,
        "text": "Sousse",
        "labels": [
         "SITE"
@@ -2795,8 +2795,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 165,
-       "end": 185,
+       "start": 167,
+       "end": 187,
        "text": "connecteurs étanches",
        "labels": [
         "PRODUIT"
@@ -2859,7 +2859,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -2925,11 +2925,11 @@
   "data": {
    "doc_id": "syn_fr_008",
    "passage_id": "syn_fr_008_p005",
-   "text": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine machine de sertissage et l'historique suivant : taux de réclamation de 3 %. Un atelier de méthode 5S a déjà été animé.",
+   "text": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « machine de sertissage » et l'historique suivant : taux de réclamation de 3 %. Un atelier de méthode 5S a déjà été animé.",
    "lang": "fr",
    "sensitivity": "aucune",
    "ptype": "donnee",
-   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine machine de sertissage et l'historique suivant : taux de réclamation de 3 %. Un atelier de méthode 5S a déjà été animé.",
+   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « machine de sertissage » et l'historique suivant : taux de réclamation de 3 %. Un atelier de méthode 5S a déjà été animé.",
    "secteur": "cablage",
    "format": "cahier_charges",
    "bruit": "propre",
@@ -2943,15 +2943,15 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 74,
-       "end": 95,
+       "start": 71,
+       "end": 92,
        "text": "machine de sertissage",
        "labels": [
         "EQUIPEMENT"
@@ -2963,8 +2963,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 122,
-       "end": 148,
+       "start": 121,
+       "end": 147,
        "text": "taux de réclamation de 3 %",
        "labels": [
         "INDICATEUR"
@@ -2976,8 +2976,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 164,
-       "end": 174,
+       "start": 163,
+       "end": 173,
        "text": "méthode 5S",
        "labels": [
         "PROCESSUS"
@@ -3040,7 +3040,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -3124,7 +3124,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -3208,7 +3208,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -3266,7 +3266,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -3363,7 +3363,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -3442,11 +3442,11 @@
   "data": {
    "doc_id": "syn_fr_013",
    "passage_id": "syn_fr_013_p003",
-   "text": "Une tentative antérieure pilotée par S. Dridi sur la machine sertisseuse n'a pas suffi ; la direction de SATA à Ksar Hellal attend une approche structurée. Gamme touchée : harissa en tube.",
+   "text": "Une tentative antérieure pilotée par S. Dridi sur le poste « sertisseuse » n'a pas suffi ; la direction de SATA à Ksar Hellal attend une approche structurée. Gamme touchée : harissa en tube.",
    "lang": "fr",
    "sensitivity": "forte",
    "ptype": "contexte",
-   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur la machine sertisseuse n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : harissa en tube.",
+   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur le poste « sertisseuse » n'a pas suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : harissa en tube.",
    "secteur": "agroalimentaire",
    "format": "pv_reunion",
    "bruit": "propre",
@@ -3460,7 +3460,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -3493,8 +3493,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 105,
-       "end": 109,
+       "start": 107,
+       "end": 111,
        "text": "SATA",
        "labels": [
         "ORG"
@@ -3506,8 +3506,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 112,
-       "end": 123,
+       "start": 114,
+       "end": 125,
        "text": "Ksar Hellal",
        "labels": [
         "SITE"
@@ -3519,8 +3519,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 172,
-       "end": 187,
+       "start": 174,
+       "end": 189,
        "text": "harissa en tube",
        "labels": [
         "PRODUIT"
@@ -3583,7 +3583,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -3667,7 +3667,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -3733,11 +3733,11 @@
   "data": {
    "doc_id": "syn_fr_013",
    "passage_id": "syn_fr_013_p006",
-   "text": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine étiqueteuse et l'historique suivant : taux de rebut de 58 %. Un atelier de pasteurisation a déjà été animé.",
+   "text": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « étiqueteuse » et l'historique suivant : taux de rebut de 58 %. Un atelier de pasteurisation a déjà été animé.",
    "lang": "fr",
    "sensitivity": "aucune",
    "ptype": "donnee",
-   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine étiqueteuse et l'historique suivant : taux de rebut de 58 %. Un atelier de pasteurisation a déjà été animé.",
+   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « étiqueteuse » et l'historique suivant : taux de rebut de 58 %. Un atelier de pasteurisation a déjà été animé.",
    "secteur": "agroalimentaire",
    "format": "pv_reunion",
    "bruit": "propre",
@@ -3751,15 +3751,15 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 74,
-       "end": 85,
+       "start": 71,
+       "end": 82,
        "text": "étiqueteuse",
        "labels": [
         "EQUIPEMENT"
@@ -3771,8 +3771,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 112,
-       "end": 133,
+       "start": 111,
+       "end": 132,
        "text": "taux de rebut de 58 %",
        "labels": [
         "INDICATEUR"
@@ -3784,8 +3784,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 149,
-       "end": 163,
+       "start": 148,
+       "end": 162,
        "text": "pasteurisation",
        "labels": [
         "PROCESSUS"
@@ -3848,7 +3848,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -3945,7 +3945,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -4003,7 +4003,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -4100,7 +4100,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -4179,11 +4179,11 @@
   "data": {
    "doc_id": "syn_fr_028",
    "passage_id": "syn_fr_028_p003",
-   "text": "Une tentative antérieure pilotée par K. Khelifi sur la machine twin-screw extruder n'a pàs suffi ; la direction de SPTA à Jendouba attend une approche structurée. Gamme touchée : bouchons injectés.",
+   "text": "Une tentative antérieure pilotée par K. Khelifi sur le poste « twin-screw extruder » n'a pas suffi ; 1a direction de SPTA à Jendouba attend une approche structurée. Gamme touchée : bouchons injectés.",
    "lang": "mixte",
    "sensitivity": "forte",
    "ptype": "contexte",
-   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur la machine twin-screw extruder n'a pàs suffi ; la direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : bouchons injectés.",
+   "text_anonymise": "Une tentative antérieure pilotée par [PERSONNE_1] sur le poste « twin-screw extruder » n'a pas suffi ; 1a direction de [ENTREPRISE_A] à [SITE_1] attend une approche structurée. Gamme touchée : bouchons injectés.",
    "secteur": "plasturgie",
    "format": "demande_pfe",
    "bruit": "ocr",
@@ -4197,7 +4197,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -4230,8 +4230,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 115,
-       "end": 119,
+       "start": 117,
+       "end": 121,
        "text": "SPTA",
        "labels": [
         "ORG"
@@ -4243,8 +4243,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 122,
-       "end": 130,
+       "start": 124,
+       "end": 132,
        "text": "Jendouba",
        "labels": [
         "SITE"
@@ -4256,8 +4256,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 179,
-       "end": 196,
+       "start": 181,
+       "end": 198,
        "text": "bouchons injectés",
        "labels": [
         "PRODUIT"
@@ -4302,11 +4302,11 @@
   "data": {
    "doc_id": "syn_fr_028",
    "passage_id": "syn_fr_028_p004",
-   "text": "Le pr0jet est suivi par M. Khaled Khelifi (ingénieur process). Dérnarche attendue : regrind recycling.",
+   "text": "Le projet cst suivi par M. Khaled Khelifi (ingénieur process). Démarchc attendue : regrind recycling.",
    "lang": "mixte",
    "sensitivity": "forte",
    "ptype": "objectif",
-   "text_anonymise": "Le pr0jet est suivi par [PERSONNE_1] (ingénieur process). Dérnarche attendue : regrind recycling.",
+   "text_anonymise": "Le projet cst suivi par [PERSONNE_1] (ingénieur process). Démarchc attendue : regrind recycling.",
    "secteur": "plasturgie",
    "format": "demande_pfe",
    "bruit": "ocr",
@@ -4320,7 +4320,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -4340,8 +4340,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 84,
-       "end": 101,
+       "start": 83,
+       "end": 100,
        "text": "regrind recycling",
        "labels": [
         "PROCESSUS"
@@ -4404,7 +4404,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -4470,11 +4470,11 @@
   "data": {
    "doc_id": "syn_fr_028",
    "passage_id": "syn_fr_028_p006",
-   "text": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine granulator et l'historique suivant : taux de réclamation de 6 %. Un atelier de regrind recycling a déjà été animé.",
+   "text": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « granulator » et l'historique suivant : taux de réclamation de 6 %. Un atelier de regrind recycling a déjà été animé.",
    "lang": "mixte",
    "sensitivity": "aucune",
    "ptype": "donnee",
-   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés de la machine granulator et l'historique suivant : taux de réclamation de 6 %. Un atelier de regrind recycling a déjà été animé.",
+   "text_anonymise": "L'entreprise fournira les extractions de l'ERP, les relevés du poste « granulator » et l'historique suivant : taux de réclamation de 6 %. Un atelier de regrind recycling a déjà été animé.",
    "secteur": "plasturgie",
    "format": "demande_pfe",
    "bruit": "ocr",
@@ -4488,15 +4488,15 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 74,
-       "end": 84,
+       "start": 71,
+       "end": 81,
        "text": "granulator",
        "labels": [
         "EQUIPEMENT"
@@ -4508,8 +4508,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 111,
-       "end": 137,
+       "start": 110,
+       "end": 136,
        "text": "taux de réclamation de 6 %",
        "labels": [
         "INDICATEUR"
@@ -4521,8 +4521,8 @@
       "to_name": "text",
       "type": "labels",
       "value": {
-       "start": 153,
-       "end": 170,
+       "start": 152,
+       "end": 169,
        "text": "regrind recycling",
        "labels": [
         "PROCESSUS"
@@ -4585,7 +4585,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -4669,7 +4669,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -4766,7 +4766,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -4824,7 +4824,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -4921,7 +4921,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5018,7 +5018,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5141,7 +5141,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5225,7 +5225,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5309,7 +5309,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5406,7 +5406,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5490,7 +5490,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5587,7 +5587,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -5645,7 +5645,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5742,7 +5742,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5839,7 +5839,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -5962,7 +5962,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6046,7 +6046,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6143,7 +6143,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6227,7 +6227,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6311,7 +6311,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -6369,7 +6369,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6466,7 +6466,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6563,7 +6563,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6686,7 +6686,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6770,7 +6770,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6867,7 +6867,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -6951,7 +6951,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7035,7 +7035,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -7093,7 +7093,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7190,7 +7190,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7287,7 +7287,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7410,7 +7410,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7494,7 +7494,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7578,7 +7578,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7675,7 +7675,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7759,7 +7759,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -7856,7 +7856,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -7914,7 +7914,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8011,7 +8011,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8108,7 +8108,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8231,7 +8231,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8315,7 +8315,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8399,7 +8399,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8496,7 +8496,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8580,7 +8580,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8677,7 +8677,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -8735,7 +8735,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8832,7 +8832,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -8929,7 +8929,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9052,7 +9052,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9136,7 +9136,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9220,7 +9220,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9317,7 +9317,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9401,7 +9401,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9498,7 +9498,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -9556,7 +9556,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9653,7 +9653,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9750,7 +9750,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9873,7 +9873,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -9957,7 +9957,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10041,7 +10041,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10138,7 +10138,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10222,7 +10222,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10319,7 +10319,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -10377,7 +10377,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10474,7 +10474,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10571,7 +10571,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10694,7 +10694,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10778,7 +10778,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10862,7 +10862,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -10959,7 +10959,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11043,7 +11043,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11140,7 +11140,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -11198,7 +11198,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11295,7 +11295,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11392,7 +11392,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11515,7 +11515,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11599,7 +11599,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11696,7 +11696,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11780,7 +11780,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -11864,7 +11864,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -11922,7 +11922,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12019,7 +12019,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12116,7 +12116,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12239,7 +12239,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12323,7 +12323,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12407,7 +12407,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12504,7 +12504,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12601,7 +12601,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -12659,7 +12659,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12769,7 +12769,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12866,7 +12866,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -12989,7 +12989,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13073,7 +13073,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13170,7 +13170,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13254,7 +13254,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13351,7 +13351,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -13409,7 +13409,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13519,7 +13519,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13616,7 +13616,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13739,7 +13739,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13823,7 +13823,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -13920,7 +13920,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14004,7 +14004,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14102,7 +14102,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14187,7 +14187,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14298,7 +14298,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14409,7 +14409,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14507,7 +14507,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14605,7 +14605,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14716,7 +14716,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14801,7 +14801,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14899,7 +14899,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -14984,7 +14984,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15069,7 +15069,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15167,7 +15167,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15265,7 +15265,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15350,7 +15350,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15435,7 +15435,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15533,7 +15533,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15644,7 +15644,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15716,7 +15716,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15801,7 +15801,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15899,7 +15899,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -15971,7 +15971,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16056,7 +16056,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16167,7 +16167,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16278,7 +16278,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16376,7 +16376,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16461,7 +16461,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16572,7 +16572,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -16631,7 +16631,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16742,7 +16742,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16879,7 +16879,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -16977,7 +16977,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17062,7 +17062,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17173,7 +17173,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17271,7 +17271,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17382,7 +17382,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17467,7 +17467,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17565,7 +17565,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17663,7 +17663,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17748,7 +17748,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17833,7 +17833,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -17944,7 +17944,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18055,7 +18055,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18153,7 +18153,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18251,7 +18251,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18336,7 +18336,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -18395,7 +18395,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18519,7 +18519,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18617,7 +18617,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18715,7 +18715,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18800,7 +18800,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18885,7 +18885,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -18983,7 +18983,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19094,7 +19094,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19205,7 +19205,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19303,7 +19303,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19401,7 +19401,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19525,7 +19525,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19610,7 +19610,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19708,7 +19708,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19793,7 +19793,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -19878,7 +19878,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20002,7 +20002,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20100,7 +20100,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20185,7 +20185,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20270,7 +20270,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20368,7 +20368,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20492,7 +20492,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20590,7 +20590,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20688,7 +20688,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20786,7 +20786,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20871,7 +20871,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -20956,7 +20956,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21080,7 +21080,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21178,7 +21178,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21276,7 +21276,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21374,7 +21374,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21485,7 +21485,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21570,7 +21570,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21668,7 +21668,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21766,7 +21766,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -21903,7 +21903,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22001,7 +22001,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22099,7 +22099,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22184,7 +22184,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22295,7 +22295,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22419,7 +22419,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22504,7 +22504,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22602,7 +22602,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22700,7 +22700,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22785,7 +22785,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -22844,7 +22844,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -22968,7 +22968,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23079,7 +23079,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23164,7 +23164,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23262,7 +23262,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23360,7 +23360,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -23419,7 +23419,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23530,7 +23530,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23641,7 +23641,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23739,7 +23739,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23837,7 +23837,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -23935,7 +23935,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24020,7 +24020,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24131,7 +24131,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24242,7 +24242,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24314,7 +24314,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24412,7 +24412,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24497,7 +24497,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24608,7 +24608,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24693,7 +24693,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24778,7 +24778,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -24876,7 +24876,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25000,7 +25000,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25111,7 +25111,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25235,7 +25235,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25333,7 +25333,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25431,7 +25431,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25503,7 +25503,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25588,7 +25588,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25673,7 +25673,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25771,7 +25771,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25869,7 +25869,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -25980,7 +25980,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26065,7 +26065,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26150,7 +26150,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26248,7 +26248,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26372,7 +26372,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26470,7 +26470,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26555,7 +26555,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26653,7 +26653,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26764,7 +26764,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -26862,7 +26862,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27025,7 +27025,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27110,7 +27110,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27208,7 +27208,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27306,7 +27306,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27378,7 +27378,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27463,7 +27463,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27561,7 +27561,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27659,7 +27659,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27757,7 +27757,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27855,7 +27855,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -27940,7 +27940,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -28051,7 +28051,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -28136,7 +28136,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -28195,7 +28195,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -28332,7 +28332,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -28443,7 +28443,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -28528,7 +28528,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -28626,7 +28626,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -28737,7 +28737,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -28796,7 +28796,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -28920,7 +28920,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29044,7 +29044,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29142,7 +29142,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29240,7 +29240,7 @@
   },
   "predictions": [
    {
-    "model_version": "assistant_ia_claude",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29337,7 +29337,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29434,7 +29434,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29531,7 +29531,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29628,7 +29628,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29725,7 +29725,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29809,7 +29809,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -29906,7 +29906,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30003,7 +30003,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30100,7 +30100,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30184,7 +30184,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -30242,7 +30242,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30339,7 +30339,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30436,7 +30436,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30520,7 +30520,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30643,7 +30643,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30740,7 +30740,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30824,7 +30824,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -30921,7 +30921,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -30979,7 +30979,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31076,7 +31076,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31160,7 +31160,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -31218,7 +31218,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31302,7 +31302,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31399,7 +31399,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31496,7 +31496,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31580,7 +31580,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31690,7 +31690,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31787,7 +31787,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31897,7 +31897,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -31981,7 +31981,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32065,7 +32065,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32149,7 +32149,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32272,7 +32272,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32369,7 +32369,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32453,7 +32453,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32550,7 +32550,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32647,7 +32647,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -32705,7 +32705,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32789,7 +32789,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "lang",
@@ -32847,7 +32847,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -32944,7 +32944,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -33041,7 +33041,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -33138,7 +33138,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -33222,7 +33222,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",
@@ -33306,7 +33306,7 @@
   },
   "predictions": [
    {
-    "model_version": "generateur_v1",
+    "model_version": "caseforge-preannotation-v1",
     "result": [
      {
       "from_name": "label",

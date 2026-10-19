@@ -64,16 +64,16 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 
 | Date | Étape | Détails |
 |---|---|---|
-| 2026-10-19T11:57:04 | generate | {"documents": 90, "passages": 756, "entites": 2030, "fiches": 90, "config": "config/dataset.yaml"} |
-| 2026-10-19T11:57:04 | libre | {"documents": 24, "passages": 156, "entites": 464, "avertissements": 0} |
-| 2026-10-19T11:57:04 | external_fetch | {"sources": ["SRC-ANERCORP", "SRC-EUROPEANA", "SRC-WIKIGOLD", "SRC-SECFILINGS"]} |
-| 2026-10-19T11:57:08 | external_convert | {"source": "SRC-ANERCORP", "passages": 2662, "entites": 10096, "passages_industriels": 605, "fichier": "data/annotated/externe_anercorp.jsonl"} |
-| 2026-10-19T11:57:08 | external_convert | {"source": "SRC-EUROPEANA", "passages": 6112, "entites": 9805, "passages_industriels": 400, "fichier": "data/annotated/externe_europeana.jsonl"} |
-| 2026-10-19T11:57:08 | external_convert | {"source": "SRC-WIKIGOLD", "passages": 848, "entites": 2843, "passages_industriels": 84, "fichier": "data/annotated/externe_wikigold.jsonl"} |
-| 2026-10-19T11:57:08 | external_convert | {"source": "SRC-SECFILINGS", "passages": 719, "entites": 1468, "passages_industriels": 507, "fichier": "data/annotated/externe_secfilings.jsonl"} |
-| 2026-10-19T11:57:08 | segment | {"documents": 3, "passages": 14, "pre_annotations": 18, "sources": ["SRC-EQUIPE"]} |
-| 2026-10-19T11:57:08 | verify_sample | {"passages": 355, "famille_B_test": 154, "libre": 156, "famille_A": 45} |
-| 2026-10-19T11:57:10 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité |
+| 2026-10-19T15:28:27 | generate | {"documents": 90, "passages": 756, "entites": 2030, "fiches": 90, "config": "config/dataset.yaml"} |
+| 2026-10-19T15:28:27 | libre | {"documents": 24, "passages": 156, "entites": 464, "avertissements": 0} |
+| 2026-10-19T15:28:27 | external_fetch | {"sources": ["SRC-ANERCORP", "SRC-EUROPEANA", "SRC-WIKIGOLD", "SRC-SECFILINGS"]} |
+| 2026-10-19T15:28:31 | external_convert | {"source": "SRC-ANERCORP", "passages": 2662, "entites": 10096, "passages_industriels": 605, "fichier": "data/annotated/externe_anercorp.jsonl"} |
+| 2026-10-19T15:28:32 | external_convert | {"source": "SRC-EUROPEANA", "passages": 6112, "entites": 9805, "passages_industriels": 400, "fichier": "data/annotated/externe_europeana.jsonl"} |
+| 2026-10-19T15:28:32 | external_convert | {"source": "SRC-WIKIGOLD", "passages": 848, "entites": 2843, "passages_industriels": 84, "fichier": "data/annotated/externe_wikigold.jsonl"} |
+| 2026-10-19T15:28:32 | external_convert | {"source": "SRC-SECFILINGS", "passages": 719, "entites": 1468, "passages_industriels": 507, "fichier": "data/annotated/externe_secfilings.jsonl"} |
+| 2026-10-19T15:28:32 | segment | {"documents": 3, "passages": 14, "pre_annotations": 18, "sources": ["SRC-EQUIPE"]} |
+| 2026-10-19T15:28:32 | verify_sample | {"passages": 355, "famille_B_test": 154, "libre": 156, "famille_A": 45} |
+| 2026-10-19T15:28:34 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité |
 
 ## 5. Nettoyage et dédoublonnage
 
@@ -248,17 +248,17 @@ Accord inter-annotateurs : pas encore mesuré (`cfdata.agreement`).
 | train.conll | `eb95e013a41b8a4a…` |
 | documents_train.jsonl | `cc1fd11e0a1c8ccb…` |
 | fiches_train.jsonl | `91b8e92123b77e1d…` |
-| dev.jsonl | `6b23fee7907d2e21…` |
-| dev.bio.jsonl | `102b599a6843a472…` |
-| hf/validation.jsonl | `de15334214abb698…` |
-| dev.conll | `33831d1a490cd6f4…` |
-| documents_dev.jsonl | `c69d5c7bd36bea68…` |
+| dev.jsonl | `315ec5007748c1b6…` |
+| dev.bio.jsonl | `7507a8d3ed9c7df8…` |
+| hf/validation.jsonl | `1957d817e6e4d3de…` |
+| dev.conll | `3f12c69baa389a90…` |
+| documents_dev.jsonl | `23054d5d07260155…` |
 | fiches_dev.jsonl | `00ef3225df28e8bb…` |
-| test.jsonl | `5b432975e38eee50…` |
-| test.bio.jsonl | `7777e4dbe5a6f972…` |
-| hf/test.jsonl | `12f4a04cbafab8d0…` |
-| test.conll | `f2e50b67f85596f4…` |
-| documents_test.jsonl | `de321dc394deffdc…` |
+| test.jsonl | `410e46ba7b12cd6c…` |
+| test.bio.jsonl | `9529881e8af2989d…` |
+| hf/test.jsonl | `464cea5d45aaefa5…` |
+| test.conll | `e8fcb5f470cebc71…` |
+| documents_test.jsonl | `009668d6fb447dfc…` |
 | fiches_test.jsonl | `ca08723b6b56510a…` |
 | externe_train.jsonl | `156a4f4351922296…` |
 | externe_train.bio.jsonl | `dfc09c15105cf4c3…` |
