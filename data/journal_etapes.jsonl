@@ -1,0 +1,10 @@
+{"etape": "generate", "date": "2026-10-19T11:57:04", "documents": 90, "passages": 756, "entites": 2030, "fiches": 90, "config": "config/dataset.yaml"}
+{"etape": "libre", "date": "2026-10-19T11:57:04", "documents": 24, "passages": 156, "entites": 464, "avertissements": 0}
+{"etape": "external_fetch", "date": "2026-10-19T11:57:04", "sources": ["SRC-ANERCORP", "SRC-EUROPEANA", "SRC-WIKIGOLD", "SRC-SECFILINGS"]}
+{"etape": "external_convert", "date": "2026-10-19T11:57:08", "source": "SRC-ANERCORP", "passages": 2662, "entites": 10096, "passages_industriels": 605, "fichier": "data/annotated/externe_anercorp.jsonl"}
+{"etape": "external_convert", "date": "2026-10-19T11:57:08", "source": "SRC-EUROPEANA", "passages": 6112, "entites": 9805, "passages_industriels": 400, "fichier": "data/annotated/externe_europeana.jsonl"}
+{"etape": "external_convert", "date": "2026-10-19T11:57:08", "source": "SRC-WIKIGOLD", "passages": 848, "entites": 2843, "passages_industriels": 84, "fichier": "data/annotated/externe_wikigold.jsonl"}
+{"etape": "external_convert", "date": "2026-10-19T11:57:08", "source": "SRC-SECFILINGS", "passages": 719, "entites": 1468, "passages_industriels": 507, "fichier": "data/annotated/externe_secfilings.jsonl"}
+{"etape": "segment", "date": "2026-10-19T11:57:08", "documents": 3, "passages": 14, "pre_annotations": 18, "sources": ["SRC-EQUIPE"]}
+{"etape": "verify_sample", "date": "2026-10-19T11:57:08", "passages": 355, "famille_B_test": 154, "libre": 156, "famille_A": 45}
+{"etape": "build", "date": "2026-10-19T11:57:10", "passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité)", "Double annotation d'un sous-ensemble", "Accord inter-annotateurs (kappa)", "Fiches relues selon la grille (docs/grille_relecture_fiches.md)"]}

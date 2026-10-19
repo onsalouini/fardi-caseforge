@@ -1,0 +1,43 @@
+<View>
+  <Header value="CaseForge — annotation d'un passage"/>
+  <Text name="meta" value="Document : $doc_id · Passage : $passage_id · Source : $source"/>
+
+  <Labels name="label" toName="text" showInline="true">
+    <Label value="ORG" background="#e6194b"/>
+    <Label value="PERSONNE" background="#f58231"/>
+    <Label value="SITE" background="#ffe119"/>
+    <Label value="DONNEE_SENSIBLE" background="#911eb4"/>
+    <Label value="PRODUIT" background="#4363d8"/>
+    <Label value="EQUIPEMENT" background="#42d4f4"/>
+    <Label value="PROCESSUS" background="#3cb44b"/>
+    <Label value="INDICATEUR" background="#bfef45"/>
+    <Label value="CONTRAINTE" background="#469990"/>
+  </Labels>
+
+  <Text name="text" value="$text" granularity="symbol"/>
+
+  <Header value="Langue du passage" size="5"/>
+  <Choices name="lang" toName="text" choice="single" showInline="true" required="true">
+    <Choice value="fr"/>
+    <Choice value="ar"/>
+    <Choice value="en"/>
+    <Choice value="mixte"/>
+  </Choices>
+
+  <Header value="Sensibilité" size="5"/>
+  <Choices name="sensitivity" toName="text" choice="single" showInline="true" required="true">
+    <Choice value="aucune"/>
+    <Choice value="faible"/>
+    <Choice value="forte"/>
+  </Choices>
+
+  <Header value="Type de passage" size="5"/>
+  <Choices name="ptype" toName="text" choice="single" showInline="true" required="true">
+    <Choice value="contexte"/>
+    <Choice value="probleme"/>
+    <Choice value="contrainte"/>
+    <Choice value="donnee"/>
+    <Choice value="objectif"/>
+    <Choice value="autre"/>
+  </Choices>
+</View>

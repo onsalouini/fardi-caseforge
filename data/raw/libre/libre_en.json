@@ -1,0 +1,167 @@
+[
+ {
+  "doc_id": "lib_en_01", "lang": "en", "secteur": "aeronautique", "format": "email",
+  "passages": [
+   {"ptype": "autre", "text": "From: Daniel Whitfield <d.whitfield@aerocompo-tn.com>\nTo: Industrial Engineering Department\nSubject: Student project – composite curing issues"},
+   {"ptype": "contexte", "text": "Dear Professor,\nAeroCompo Tunisia is a 300-employee subsidiary producing carbon-fibre interior panels and cabin brackets for regional aircraft. Our plant is located in the El Mghira aeronautics park."},
+   {"ptype": "probleme", "text": "Over the last two quarters, our first-pass yield on autoclave-cured panels dropped from 93% to 84%. Most rejects show porosity detected by ultrasonic inspection. We suspect inconsistent vacuum bagging or a drift in the autoclave temperature profile."},
+   {"ptype": "objectif", "text": "We would like a team of students to perform a root cause analysis, build a statistical model linking curing parameters to porosity, and propose an updated work instruction for the lay-up operators."},
+   {"ptype": "contrainte", "text": "Please note: any process change must remain compliant with EN 9100 and be approved by our customer's quality team. Students cannot access the clean room without a 2-day training. The project must be delivered by June 2027."},
+   {"ptype": "donnee", "text": "We can share anonymised autoclave logs and NDT reports for 1,400 panels. The unit price agreed with our customer and the name of the aircraft programme are confidential.\nBest regards,\nDaniel Whitfield, Operations Excellence Manager, +216 71 940 255"}
+  ],
+  "entites": [
+   ["Daniel Whitfield", "PERSONNE", "per1"], ["d.whitfield@aerocompo-tn.com", "DONNEE_SENSIBLE", "mail"], ["+216 71 940 255", "DONNEE_SENSIBLE", "tel"],
+   ["AeroCompo Tunisia", "ORG", "org"], ["El Mghira aeronautics park", "SITE", "site1"],
+   ["carbon-fibre interior panels", "PRODUIT", "prod1"], ["cabin brackets", "PRODUIT", "prod2"],
+   ["autoclave", "EQUIPEMENT", "eq1"], ["clean room", "EQUIPEMENT", "eq2"],
+   ["ultrasonic inspection", "PROCESSUS", "proc1"], ["vacuum bagging", "PROCESSUS", "proc2"], ["root cause analysis", "PROCESSUS", "proc3"], ["lay-up", "PROCESSUS", "proc4"], ["curing", "PROCESSUS", "proc5"],
+   ["first-pass yield on autoclave-cured panels dropped from 93% to 84%", "INDICATEUR", "ind1"],
+   ["any process change must remain compliant with EN 9100 and be approved by our customer's quality team", "CONTRAINTE", "ctr1"], ["Students cannot access the clean room without a 2-day training", "CONTRAINTE", "ctr2"], ["The project must be delivered by June 2027", "CONTRAINTE", "ctr3"],
+   ["unit price agreed with our customer", "DONNEE_SENSIBLE", "prix"], ["name of the aircraft programme", "DONNEE_SENSIBLE", "client"]
+  ]
+ },
+ {
+  "doc_id": "lib_en_02", "lang": "en", "secteur": "agroalimentaire", "format": "pv_reunion",
+  "passages": [
+   {"ptype": "autre", "text": "MINUTES – Operations review, Golden Grain Mills, Bizerte plant – 16 October 2026"},
+   {"ptype": "contexte", "text": "Attendees: Mr. Omar Haddad (Plant Manager), Ms. Lina Garcia (Food Safety Lead), Mr. Fethi Toumi (Maintenance Supervisor)."},
+   {"ptype": "probleme", "text": "Item 1 – Flour extraction rate on the durum wheat line fell to 71.5% against a 74% target. The roller mill gaps have not been recalibrated since the March overhaul."},
+   {"ptype": "probleme", "text": "Item 2 – Two customer complaints about foreign bodies in semolina bags. Metal detector rejects increased by 40% month over month."},
+   {"ptype": "objectif", "text": "Action: invite final-year students to run a capability study on the milling process and to redesign the preventive maintenance plan for the roller mills and the metal detector."},
+   {"ptype": "contrainte", "text": "Constraints: all work must follow the site's FSSC 22000 rules; the mill runs 24/7 and can only be stopped during the monthly sanitation shift; budget limited to TND 25,000."},
+   {"ptype": "donnee", "text": "Confidential: wheat purchase contracts with the state grain board and the margin per tonne of semolina."}
+  ],
+  "entites": [
+   ["Golden Grain Mills", "ORG", "org"], ["Bizerte plant", "SITE", "site1"], ["state grain board", "ORG", "org2"],
+   ["Mr. Omar Haddad", "PERSONNE", "per1"], ["Ms. Lina Garcia", "PERSONNE", "per2"], ["Mr. Fethi Toumi", "PERSONNE", "per3"],
+   ["semolina bags", "PRODUIT", "prod1"], ["durum wheat", "PRODUIT", "prod2"], ["semolina", "PRODUIT", "prod3"],
+   ["roller mill", "EQUIPEMENT", "eq1"], ["roller mills", "EQUIPEMENT", "eq1"], ["metal detector", "EQUIPEMENT", "eq2"], ["durum wheat line", "EQUIPEMENT", "eq3"],
+   ["capability study", "PROCESSUS", "proc1"], ["milling process", "PROCESSUS", "proc2"], ["preventive maintenance plan", "PROCESSUS", "proc3"], ["sanitation shift", "PROCESSUS", "proc4"],
+   ["Flour extraction rate on the durum wheat line fell to 71.5% against a 74% target", "INDICATEUR", "ind1"], ["Metal detector rejects increased by 40% month over month", "INDICATEUR", "ind2"],
+   ["all work must follow the site's FSSC 22000 rules", "CONTRAINTE", "ctr1"], ["can only be stopped during the monthly sanitation shift", "CONTRAINTE", "ctr2"], ["budget limited to TND 25,000", "CONTRAINTE", "ctr3"],
+   ["wheat purchase contracts with the state grain board", "DONNEE_SENSIBLE", "contrat"], ["margin per tonne of semolina", "DONNEE_SENSIBLE", "marge"]
+  ]
+ },
+ {
+  "doc_id": "lib_en_03", "lang": "en", "secteur": "electronique", "format": "fiche_nc",
+  "passages": [
+   {"ptype": "autre", "text": "NON-CONFORMANCE REPORT NCR-0932 | Issued by: Quality Dept., NovaTronic Assembly | Site: Sousse Technopark"},
+   {"ptype": "donnee", "text": "Product: smart meter main board SMB-3 | Lot: 26-41-07 | Quantity inspected: 2,500 | Defective: 186 | Customer: European utility (name withheld)"},
+   {"ptype": "probleme", "text": "Defect description: insufficient solder and tombstoning on 0402 capacitors, found at in-circuit testing. Defect rate reached 7.4% on night shift, versus 1.9% on day shift. Issue started after the stencil was replaced."},
+   {"ptype": "contexte", "text": "Containment: lot quarantined, 100% AOI re-inspection, rework by trained operators. 8D owner: Ms. Amel Ben Youssef."},
+   {"ptype": "objectif", "text": "Request to the university: analyse solder paste printing data, run a design of experiments on squeegee pressure and print speed, and propose an SPC dashboard."},
+   {"ptype": "contrainte", "text": "Requirements: corrective actions must be validated within 15 working days; no change to the reflow oven profile without customer approval; IPC-A-610 class 2 must be maintained."},
+   {"ptype": "donnee", "text": "Internal only: penalty clause of EUR 12,000 per late shipment; purchase order PO-77120."}
+  ],
+  "entites": [
+   ["NovaTronic Assembly", "ORG", "org"], ["Sousse Technopark", "SITE", "site1"], ["Ms. Amel Ben Youssef", "PERSONNE", "per1"],
+   ["smart meter main board SMB-3", "PRODUIT", "prod1"], ["0402 capacitors", "PRODUIT", "prod2"], ["solder paste", "PRODUIT", "prod3"],
+   ["stencil", "EQUIPEMENT", "eq1"], ["reflow oven", "EQUIPEMENT", "eq2"], ["SPC dashboard", "EQUIPEMENT", "eq3"],
+   ["in-circuit testing", "PROCESSUS", "proc1"], ["AOI re-inspection", "PROCESSUS", "proc2"], ["rework", "PROCESSUS", "proc3"], ["design of experiments", "PROCESSUS", "proc4"], ["solder paste printing", "PROCESSUS", "proc5"],
+   ["Defective: 186", "INDICATEUR", "ind0"], ["Defect rate reached 7.4% on night shift", "INDICATEUR", "ind1"], ["1.9% on day shift", "INDICATEUR", "ind2"],
+   ["corrective actions must be validated within 15 working days", "CONTRAINTE", "ctr1"], ["no change to the reflow oven profile without customer approval", "CONTRAINTE", "ctr2"], ["IPC-A-610 class 2 must be maintained", "CONTRAINTE", "ctr3"],
+   ["penalty clause of EUR 12,000 per late shipment", "DONNEE_SENSIBLE", "penalite"], ["PO-77120", "DONNEE_SENSIBLE", "commande"], ["26-41-07", "DONNEE_SENSIBLE", "lot"]
+  ]
+ },
+ {
+  "doc_id": "lib_en_04", "lang": "en", "secteur": "chimie", "format": "demande_pfe",
+  "passages": [
+   {"ptype": "autre", "text": "Final-year internship offer – PureChem Detergents, Ben Arous"},
+   {"ptype": "contexte", "text": "PureChem Detergents manufactures liquid laundry detergent and dishwashing gel for supermarkets in Tunisia and Algeria. The plant runs two mixing tanks of 10 m3 and an automatic bottling line."},
+   {"ptype": "probleme", "text": "Batch-to-batch viscosity variation is causing frequent rework: about 1 batch in 8 is out of specification. Raw material consumption is also 6% above the theoretical recipe."},
+   {"ptype": "objectif", "text": "The intern will build a data-driven model of the mixing process, define optimal dosing sequences and implement a simple batch record system."},
+   {"ptype": "contrainte", "text": "The intern must comply with chemical safety rules and wear PPE in the production area. Formulas must never be copied or taken off site. Final report due within 4 months."},
+   {"ptype": "donnee", "text": "Supervisor: Mr. Slim Karoui, Production Engineer (s.karoui@purechem.tn). Monthly allowance: TND 400. Supplier prices for surfactants are confidential."}
+  ],
+  "entites": [
+   ["PureChem Detergents", "ORG", "org"], ["Ben Arous", "SITE", "site1"], ["Mr. Slim Karoui", "PERSONNE", "per1"], ["s.karoui@purechem.tn", "DONNEE_SENSIBLE", "mail"],
+   ["liquid laundry detergent", "PRODUIT", "prod1"], ["dishwashing gel", "PRODUIT", "prod2"], ["surfactants", "PRODUIT", "prod3"],
+   ["mixing tanks of 10 m3", "EQUIPEMENT", "eq1"], ["automatic bottling line", "EQUIPEMENT", "eq2"], ["batch record system", "EQUIPEMENT", "eq3"],
+   ["mixing process", "PROCESSUS", "proc1"], ["dosing sequences", "PROCESSUS", "proc2"], ["rework", "PROCESSUS", "proc3"],
+   ["about 1 batch in 8 is out of specification", "INDICATEUR", "ind1"], ["Raw material consumption is also 6% above the theoretical recipe", "INDICATEUR", "ind2"],
+   ["The intern must comply with chemical safety rules and wear PPE in the production area", "CONTRAINTE", "ctr1"], ["Formulas must never be copied or taken off site", "CONTRAINTE", "ctr2"], ["Final report due within 4 months", "CONTRAINTE", "ctr3"],
+   ["Monthly allowance: TND 400", "DONNEE_SENSIBLE", "salaire"], ["Supplier prices for surfactants", "DONNEE_SENSIBLE", "prix"]
+  ]
+ },
+ {
+  "doc_id": "lib_en_05", "lang": "en", "secteur": "materiaux", "format": "cahier_charges",
+  "passages": [
+   {"ptype": "autre", "text": "SPECIFICATION – Energy monitoring for the glass furnace\nRequester: Sahara Glassworks Ltd, Kasserine"},
+   {"ptype": "contexte", "text": "1. Background. Sahara Glassworks produces flint glass bottles and jars for the beverage and food industries using an end-fired regenerative furnace (150 t/day)."},
+   {"ptype": "probleme", "text": "2. Problem. Natural gas consumption per tonne of glass has increased by 9% in 18 months. Energy now represents 38% of production cost. There is no sub-metering per process area."},
+   {"ptype": "objectif", "text": "3. Scope. Design an energy monitoring system with IoT sensors on the furnace, forehearths and annealing lehr, and develop an energy performance indicator dashboard aligned with ISO 50001."},
+   {"ptype": "contrainte", "text": "4. Requirements. Sensors must withstand 70 °C ambient temperature. Installation must be done without stopping the furnace. Total hardware cost must stay below TND 35,000."},
+   {"ptype": "donnee", "text": "5. Inputs. Gas bills (anonymised), furnace PLC data, production reports. The natural gas tariff negotiated with the supplier is not to be disclosed. Contact: Ms. Rim Chaouch, Energy Manager."}
+  ],
+  "entites": [
+   ["Sahara Glassworks Ltd", "ORG", "org"], ["Sahara Glassworks", "ORG", "org"], ["Kasserine", "SITE", "site1"], ["Ms. Rim Chaouch", "PERSONNE", "per1"],
+   ["flint glass bottles and jars", "PRODUIT", "prod1"], ["Natural gas", "PRODUIT", "prod2"],
+   ["end-fired regenerative furnace (150 t/day)", "EQUIPEMENT", "eq1"], ["IoT sensors", "EQUIPEMENT", "eq2"], ["forehearths", "EQUIPEMENT", "eq3"], ["annealing lehr", "EQUIPEMENT", "eq4"], ["furnace PLC", "EQUIPEMENT", "eq5"],
+   ["energy monitoring", "PROCESSUS", "proc1"], ["sub-metering", "PROCESSUS", "proc2"],
+   ["Natural gas consumption per tonne of glass has increased by 9% in 18 months", "INDICATEUR", "ind1"], ["Energy now represents 38% of production cost", "INDICATEUR", "ind2"], ["energy performance indicator", "INDICATEUR", "ind3"],
+   ["Sensors must withstand 70 °C ambient temperature", "CONTRAINTE", "ctr1"], ["Installation must be done without stopping the furnace", "CONTRAINTE", "ctr2"], ["Total hardware cost must stay below TND 35,000", "CONTRAINTE", "ctr3"], ["aligned with ISO 50001", "CONTRAINTE", "ctr4"],
+   ["natural gas tariff negotiated with the supplier", "DONNEE_SENSIBLE", "prix"]
+  ]
+ },
+ {
+  "doc_id": "lib_en_06", "lang": "en", "secteur": "cuir", "format": "notes",
+  "passages": [
+   {"ptype": "autre", "text": "Site visit notes – Medina Footwear, Moknine – 8 Oct"},
+   {"ptype": "contexte", "text": "Met Mr. Hamdi Saidane (owner) and the methods engineer. They make leather safety shoes and work boots, 2,200 pairs/day, mostly for a French distributor."},
+   {"ptype": "probleme", "text": "Main pain points: sole bonding failures (customer returns ≈ 2.5%), and very long lead time between cutting and lasting – WIP is everywhere. The cutting press area has no layout logic."},
+   {"ptype": "probleme", "text": "Also: high absenteeism on the stitching line (around 11%), which makes line balancing impossible to keep."},
+   {"ptype": "objectif", "text": "Possible student topics: (1) peel test campaign and adhesive process window; (2) lean layout redesign with a value stream map; (3) skills matrix for multi-skilled operators."},
+   {"ptype": "contrainte", "text": "Owner's conditions: no stopping the cutting room in peak season (Feb–Apr); results presented internally first; no videos of operators."},
+   {"ptype": "donnee", "text": "Not for publication: the cost price per pair and the distributor's brand."}
+  ],
+  "entites": [
+   ["Medina Footwear", "ORG", "org"], ["Moknine", "SITE", "site1"], ["Mr. Hamdi Saidane", "PERSONNE", "per1"],
+   ["leather safety shoes", "PRODUIT", "prod1"], ["work boots", "PRODUIT", "prod2"],
+   ["cutting press", "EQUIPEMENT", "eq1"], ["stitching line", "EQUIPEMENT", "eq2"], ["cutting room", "EQUIPEMENT", "eq3"],
+   ["sole bonding", "PROCESSUS", "proc1"], ["cutting", "PROCESSUS", "proc2"], ["lasting", "PROCESSUS", "proc3"], ["line balancing", "PROCESSUS", "proc4"], ["peel test campaign", "PROCESSUS", "proc5"], ["value stream map", "PROCESSUS", "proc6"], ["skills matrix", "PROCESSUS", "proc7"],
+   ["2,200 pairs/day", "INDICATEUR", "ind0"], ["customer returns ≈ 2.5%", "INDICATEUR", "ind1"], ["high absenteeism on the stitching line (around 11%)", "INDICATEUR", "ind2"],
+   ["no stopping the cutting room in peak season (Feb–Apr)", "CONTRAINTE", "ctr1"], ["results presented internally first", "CONTRAINTE", "ctr2"], ["no videos of operators", "CONTRAINTE", "ctr3"],
+   ["cost price per pair", "DONNEE_SENSIBLE", "prix"], ["distributor's brand", "DONNEE_SENSIBLE", "client"]
+  ]
+ },
+ {
+  "doc_id": "lib_en_07", "lang": "en", "secteur": "logistique", "format": "formulaire",
+  "passages": [
+   {"ptype": "autre", "text": "INDUSTRY PROBLEM SUBMISSION FORM – University–Industry Programme"},
+   {"ptype": "donnee", "text": "Company: ColdLink Distribution | City: Sfax | Employees: 95 | Activity: refrigerated transport and cold storage of dairy and frozen products | Contact person: Mr. Wassim Frikha, Fleet Manager"},
+   {"ptype": "probleme", "text": "Problem description: our 38 refrigerated trucks travel 14% empty kilometres, and temperature excursions above 8 °C were recorded on 6% of deliveries last quarter. Route planning is done manually every evening."},
+   {"ptype": "objectif", "text": "Expected outcome: a vehicle routing model with time windows, and an alert system based on the truck temperature loggers."},
+   {"ptype": "contrainte", "text": "Specific constraints: drivers' working time cannot exceed 9 hours per day; solution must run on our existing telematics platform; no personal data of drivers may be exported."},
+   {"ptype": "donnee", "text": "Confidential information: customer delivery addresses, freight rates per pallet, fuel card numbers."}
+  ],
+  "entites": [
+   ["ColdLink Distribution", "ORG", "org"], ["Sfax", "SITE", "site1"], ["Mr. Wassim Frikha", "PERSONNE", "per1"],
+   ["dairy and frozen products", "PRODUIT", "prod1"],
+   ["refrigerated trucks", "EQUIPEMENT", "eq1"], ["truck temperature loggers", "EQUIPEMENT", "eq2"], ["telematics platform", "EQUIPEMENT", "eq3"],
+   ["Route planning", "PROCESSUS", "proc1"], ["vehicle routing model with time windows", "PROCESSUS", "proc2"], ["cold storage", "PROCESSUS", "proc3"],
+   ["travel 14% empty kilometres", "INDICATEUR", "ind1"], ["temperature excursions above 8 °C were recorded on 6% of deliveries", "INDICATEUR", "ind2"],
+   ["drivers' working time cannot exceed 9 hours per day", "CONTRAINTE", "ctr1"], ["solution must run on our existing telematics platform", "CONTRAINTE", "ctr2"], ["no personal data of drivers may be exported", "CONTRAINTE", "ctr3"],
+   ["customer delivery addresses", "DONNEE_SENSIBLE", "adresse"], ["freight rates per pallet", "DONNEE_SENSIBLE", "prix"], ["fuel card numbers", "DONNEE_SENSIBLE", "carte"]
+  ]
+ },
+ {
+  "doc_id": "lib_en_08", "lang": "en", "secteur": "pharma", "format": "email",
+  "passages": [
+   {"ptype": "autre", "text": "Subject: Proposal – tablet coating defects (urgent)"},
+   {"ptype": "contexte", "text": "Hello,\nI am the QA manager at Carthage BioPharma, a generics manufacturer in Mégrine. We produce film-coated metformin tablets and amoxicillin capsules for the local and West African markets."},
+   {"ptype": "probleme", "text": "Since August, the coating pan has produced tablets with logo bridging and colour variation. The batch rejection rate rose to 3.2% and two batches were recalled by a distributor. Annual product quality review is due in January."},
+   {"ptype": "objectif", "text": "We are looking for students to analyse coating process parameters (spray rate, inlet air temperature, pan speed) using multivariate analysis and suggest a control strategy."},
+   {"ptype": "contrainte", "text": "Conditions: GMP training is compulsory before any site access; batch records may only be consulted on site; any recommendation must be compatible with the registered manufacturing process."},
+   {"ptype": "donnee", "text": "Please keep confidential: the recall cost (TND 210,000) and the name of the distributor.\nKind regards,\nDr. Nadia Mestiri"}
+  ],
+  "entites": [
+   ["Carthage BioPharma", "ORG", "org"], ["Mégrine", "SITE", "site1"], ["Dr. Nadia Mestiri", "PERSONNE", "per1"],
+   ["film-coated metformin tablets", "PRODUIT", "prod1"], ["amoxicillin capsules", "PRODUIT", "prod2"],
+   ["coating pan", "EQUIPEMENT", "eq1"],
+   ["coating process", "PROCESSUS", "proc1"], ["multivariate analysis", "PROCESSUS", "proc2"], ["Annual product quality review", "PROCESSUS", "proc3"], ["control strategy", "PROCESSUS", "proc4"],
+   ["The batch rejection rate rose to 3.2%", "INDICATEUR", "ind1"], ["two batches were recalled", "INDICATEUR", "ind2"],
+   ["GMP training is compulsory before any site access", "CONTRAINTE", "ctr1"], ["batch records may only be consulted on site", "CONTRAINTE", "ctr2"], ["any recommendation must be compatible with the registered manufacturing process", "CONTRAINTE", "ctr3"],
+   ["recall cost (TND 210,000)", "DONNEE_SENSIBLE", "cout"], ["name of the distributor", "DONNEE_SENSIBLE", "client"]
+  ]
+ }
+]

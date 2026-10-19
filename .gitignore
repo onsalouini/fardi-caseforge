@@ -1,0 +1,33 @@
+# --- Données partenaires : JAMAIS dans Git ---
+data/raw/fardi/
+data/raw/*fardi*
+*.fardi.*
+
+# --- Fichiers intermédiaires régénérés par ./run_pipeline.sh ---
+# (le jeu final data/final/ est versionné ; les annotations humaines aussi, voir les exceptions plus bas)
+data/annotated/*
+!data/annotated/humain_*.jsonl
+!data/annotated/verif_*.jsonl
+!data/annotated/fiches_relues.jsonl
+data/raw/synth/
+data/raw/libre/txt/
+data/annotated/*.problemes.txt
+
+# --- Python / entraînement ---
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+runs/
+wandb/
+mlruns/
+*.ckpt
+*.safetensors
+*.bin
+
+# --- Divers ---
+.DS_Store
+.env
+.idea/
+.vscode/

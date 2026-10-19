@@ -1,0 +1,4 @@
+doc_id,filename,source_id,source,secteur,licence,auteur,url
+eq_001,equipe/eq_001_textile_fr.txt,SRC-EQUIPE,equipe,textile,CC-BY-4.0 (équipe),membre1,
+eq_002,equipe/eq_002_agro_ar.txt,SRC-EQUIPE,equipe,agroalimentaire,CC-BY-4.0 (équipe),membre2,
+eq_003,equipe/eq_003_cable_en.txt,SRC-EQUIPE,equipe,cablage,CC-BY-4.0 (équipe),membre3,

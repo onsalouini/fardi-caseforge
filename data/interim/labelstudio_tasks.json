@@ -1,0 +1,554 @@
+[
+ {
+  "data": {
+   "doc_id": "eq_001",
+   "passage_id": "eq_001_p000",
+   "text": "Objet : Réduction du taux de rebut sur la ligne de teinture",
+   "lang_auto": "fr",
+   "doc_lang": "fr",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "textile",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre1",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": []
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_001",
+   "passage_id": "eq_001_p001",
+   "text": "Bonjour, La Société Textiles du Cap Bon (STCB), installée dans la zone industrielle de Menzel Temime, fabrique des jeans stretch pour deux donneurs d'ordre européens. Depuis janvier, le taux de rebut sur la ligne de teinture n°2 est passé de 3 % à 7,5 %.",
+   "lang_auto": "fr",
+   "doc_lang": "fr",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "textile",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre1",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 12,
+       "end": 39,
+       "text": "Société Textiles du Cap Bon",
+       "labels": [
+        "ORG"
+       ]
+      }
+     },
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 115,
+       "end": 128,
+       "text": "jeans stretch",
+       "labels": [
+        "PRODUIT"
+       ]
+      }
+     },
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 207,
+       "end": 228,
+       "text": "ligne de teinture n°2",
+       "labels": [
+        "EQUIPEMENT"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_001",
+   "passage_id": "eq_001_p002",
+   "text": "M. Karim Belhadj, responsable qualité, souhaite qu'un groupe d'étudiants analyse les causes avec une démarche AMDEC et propose un plan d'action. Les écarts de nuance apparaissent surtout après le changement de lot de colorant.",
+   "lang_auto": "fr",
+   "doc_lang": "fr",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "textile",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre1",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 0,
+       "end": 16,
+       "text": "M. Karim Belhadj",
+       "labels": [
+        "PERSONNE"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_001",
+   "passage_id": "eq_001_p003",
+   "text": "Contraintes : la ligne ne peut pas être arrêtée plus de 4 heures par semaine. Le budget alloué ne doit pas dépasser 15 000 DT. Les solutions doivent respecter la norme ISO 105.",
+   "lang_auto": "fr",
+   "doc_lang": "fr",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "textile",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre1",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 23,
+       "end": 76,
+       "text": "ne peut pas être arrêtée plus de 4 heures par semaine",
+       "labels": [
+        "CONTRAINTE"
+       ]
+      }
+     },
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 119,
+       "end": 125,
+       "text": "000 DT",
+       "labels": [
+        "DONNEE_SENSIBLE"
+       ]
+      }
+     },
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 141,
+       "end": 175,
+       "text": "doivent respecter la norme ISO 105",
+       "labels": [
+        "CONTRAINTE"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_001",
+   "passage_id": "eq_001_p004",
+   "text": "Données disponibles : historique du TRS sur 6 mois, fiches de non-conformité, relevés de température du bain. Le chiffre d'affaires 2025 de STCB (12,4 MDT) et les prix clients restent confidentiels.",
+   "lang_auto": "fr",
+   "doc_lang": "fr",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "textile",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre1",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 146,
+       "end": 154,
+       "text": "12,4 MDT",
+       "labels": [
+        "DONNEE_SENSIBLE"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_001",
+   "passage_id": "eq_001_p005",
+   "text": "Contact : k.belhadj@stcb.tn – 71 555 123",
+   "lang_auto": "fr",
+   "doc_lang": "fr",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "textile",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre1",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 10,
+       "end": 27,
+       "text": "k.belhadj@stcb.tn",
+       "labels": [
+        "DONNEE_SENSIBLE"
+       ]
+      }
+     },
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 30,
+       "end": 40,
+       "text": "71 555 123",
+       "labels": [
+        "DONNEE_SENSIBLE"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_002",
+   "passage_id": "eq_002_p000",
+   "text": "الموضوع: تحسين مردودية خط التعبئة",
+   "lang_auto": "ar",
+   "doc_lang": "ar",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "agroalimentaire",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre2",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": []
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_002",
+   "passage_id": "eq_002_p001",
+   "text": "تقوم شركة الزيتون الذهبي بتعبئة زيت الزيتون في مصنعها بالمنطقة الصناعية بصفاقس. يعاني خط التعبئة رقم 1 من توقفات متكررة بسبب آلة السدّ.",
+   "lang_auto": "ar",
+   "doc_lang": "ar",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "agroalimentaire",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre2",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 5,
+       "end": 31,
+       "text": "شركة الزيتون الذهبي بتعبئة",
+       "labels": [
+        "ORG"
+       ]
+      }
+     },
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 86,
+       "end": 102,
+       "text": "خط التعبئة رقم 1",
+       "labels": [
+        "EQUIPEMENT"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_002",
+   "passage_id": "eq_002_p002",
+   "text": "يرغب السيد منير الطرابلسي، مدير الإنتاج، في دراسة أسباب التوقفات واقتراح خطة صيانة وقائية. يجب ألا تتجاوز مدة التوقف المبرمجة ساعتين في الأسبوع.",
+   "lang_auto": "ar",
+   "doc_lang": "ar",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "agroalimentaire",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre2",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 5,
+       "end": 25,
+       "text": "السيد منير الطرابلسي",
+       "labels": [
+        "PERSONNE"
+       ]
+      }
+     },
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 91,
+       "end": 143,
+       "text": "يجب ألا تتجاوز مدة التوقف المبرمجة ساعتين في الأسبوع",
+       "labels": [
+        "CONTRAINTE"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_002",
+   "passage_id": "eq_002_p003",
+   "text": "المعطيات المتوفرة: سجل الأعطال لمدة سنة، نسبة المردود الإجمالي للمعدات 58 %. رقم العقد مع الحريف الرئيسي 2025-044 سري.",
+   "lang_auto": "ar",
+   "doc_lang": "ar",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "agroalimentaire",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre2",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 41,
+       "end": 75,
+       "text": "نسبة المردود الإجمالي للمعدات 58 %",
+       "labels": [
+        "INDICATEUR"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_003",
+   "passage_id": "eq_003_p000",
+   "text": "Subject: Lead time reduction for harness assembly",
+   "lang_auto": "en",
+   "doc_lang": "en",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "cablage",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre3",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": []
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_003",
+   "passage_id": "eq_003_p001",
+   "text": "Sahel Wiring Systems operates a harness assembly plant in Sousse and supplies the X-200 cable harness to an automotive customer. The average lead time is currently 9 days.",
+   "lang_auto": "en",
+   "doc_lang": "en",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "cablage",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre3",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 0,
+       "end": 20,
+       "text": "Sahel Wiring Systems",
+       "labels": [
+        "ORG"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_003",
+   "passage_id": "eq_003_p002",
+   "text": "Ms. Leila Gharbi, supply chain manager, wants students to map the value stream and propose a lean improvement plan. Deliveries must be completed within 5 days and the line must keep its IATF 16949 certification.",
+   "lang_auto": "en",
+   "doc_lang": "en",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "cablage",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre3",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": [
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 0,
+       "end": 16,
+       "text": "Ms. Leila Gharbi",
+       "labels": [
+        "PERSONNE"
+       ]
+      }
+     },
+     {
+      "from_name": "label",
+      "to_name": "text",
+      "type": "labels",
+      "value": {
+       "start": 127,
+       "end": 210,
+       "text": "must be completed within 5 days and the line must keep its IATF 16949 certification",
+       "labels": [
+        "CONTRAINTE"
+       ]
+      }
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "data": {
+   "doc_id": "eq_003",
+   "passage_id": "eq_003_p003",
+   "text": "Available data: ERP extracts from SAP, takt time measurements, operator shift plans. Unit prices agreed with the customer are confidential.",
+   "lang_auto": "en",
+   "doc_lang": "en",
+   "source_id": "SRC-EQUIPE",
+   "source_type": "equipe",
+   "secteur": "cablage",
+   "licence": "CC-BY-4.0 (équipe)",
+   "url": "",
+   "auteur_document": "membre3",
+   "famille": "R"
+  },
+  "predictions": [
+   {
+    "model_version": "regles_v1",
+    "result": []
+   }
+  ]
+ }
+]

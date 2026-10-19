@@ -1,0 +1,173 @@
+[
+ {
+  "doc_id": "lib_fr_01", "lang": "fr", "secteur": "energie", "format": "email",
+  "passages": [
+   {"ptype": "autre", "text": "De : Hichem Ouertani <h.ouertani@solarisud.tn>\nÀ : Département Génie Industriel\nObjet : RE: proposition de sujet – onduleurs qui chauffent"},
+   {"ptype": "contexte", "text": "Bonjour Madame,\nComme convenu au téléphone, je vous envoie le détail. Nous sommes Solari Sud Énergie, PME de 140 personnes, et nous assemblons des kits photovoltaïques pour toitures (panneaux + onduleur hybride 5 kW) dans notre atelier de la ZI El Fejja."},
+   {"ptype": "probleme", "text": "Depuis l'été, le taux de retour SAV des onduleurs est monté à 4,8 % (contre 1,2 % l'an dernier). La plupart des retours concernent un arrêt par surchauffe après 2 à 3 h de fonctionnement en plein soleil. On soupçonne le montage du dissipateur sur la carte de puissance, mais personne n'a eu le temps de creuser."},
+   {"ptype": "contexte", "text": "Notre fournisseur de cartes, Elektron Médine, nous dit que leurs cartes sont conformes. Nous avons déjà changé la pâte thermique en septembre, sans effet visible."},
+   {"ptype": "objectif", "text": "Ce qu'on attend des étudiants : une analyse des causes (on aimerait un diagramme d'Ishikawa et un plan d'expériences), puis une proposition de correction chiffrée sur la ligne de montage."},
+   {"ptype": "contrainte", "text": "Attention, l'atelier tourne en 2x8 et on ne peut pas immobiliser la ligne de test plus d'une demi-journée par semaine. Toute modification doit garder la certification IEC 62109 des onduleurs."},
+   {"ptype": "donnee", "text": "Je peux fournir : les fiches SAV des 6 derniers mois (environ 310 retours), les relevés de la caméra thermique, la gamme de montage. Par contre nos prix d'achat des cartes (38,60 DT HT l'unité) et le contrat cadre avec la STEG ne doivent pas sortir de l'entreprise."},
+   {"ptype": "autre", "text": "Cordialement,\nHichem Ouertani\nResponsable industrialisation – 98 412 337"}
+  ],
+  "entites": [
+   ["Hichem Ouertani", "PERSONNE", "per1"], ["h.ouertani@solarisud.tn", "DONNEE_SENSIBLE", "mail"], ["98 412 337", "DONNEE_SENSIBLE", "tel"],
+   ["Solari Sud Énergie", "ORG", "org"], ["Elektron Médine", "ORG", "org2"], ["STEG", "ORG", "org3"],
+   ["ZI El Fejja", "SITE", "site1"],
+   ["kits photovoltaïques pour toitures", "PRODUIT", "prod1"], ["onduleur hybride 5 kW", "PRODUIT", "prod2"],
+   ["carte de puissance", "EQUIPEMENT", "eq1"], ["dissipateur", "EQUIPEMENT", "eq2"], ["ligne de montage", "EQUIPEMENT", "eq3"], ["ligne de test", "EQUIPEMENT", "eq4"], ["caméra thermique", "EQUIPEMENT", "eq5"],
+   ["diagramme d'Ishikawa", "PROCESSUS", "proc1"], ["plan d'expériences", "PROCESSUS", "proc2"], ["gamme de montage", "PROCESSUS", "proc3"],
+   ["taux de retour SAV des onduleurs est monté à 4,8 %", "INDICATEUR", "ind1"], ["1,2 % l'an dernier", "INDICATEUR", "ind2"],
+   ["on ne peut pas immobiliser la ligne de test plus d'une demi-journée par semaine", "CONTRAINTE", "ctr1"],
+   ["Toute modification doit garder la certification IEC 62109 des onduleurs", "CONTRAINTE", "ctr2"],
+   ["38,60 DT HT l'unité", "DONNEE_SENSIBLE", "prix"], ["contrat cadre avec la STEG", "DONNEE_SENSIBLE", "contrat"]
+  ]
+ },
+ {
+  "doc_id": "lib_fr_02", "lang": "fr", "secteur": "materiaux", "format": "pv_reunion",
+  "passages": [
+   {"ptype": "autre", "text": "COMPTE RENDU – Réunion qualité du 14/10 – Cimenterie Atlas du Nord, usine de Jebel Ressas"},
+   {"ptype": "contexte", "text": "Présents : Mme Rania Khemiri (dir. qualité), M. Lotfi Sghaier (resp. cuisson), M. Adel Fourati (maintenance). Excusé : le DG."},
+   {"ptype": "probleme", "text": "Point 1 – Résistance du ciment CEM II/A-L 42,5 : sur les 3 dernières semaines, la résistance à 28 jours moyenne est tombée à 44,1 MPa, avec 9 % des lots sous le seuil client. Le four n°1 présente des variations de température de flamme importantes depuis le changement de combustible (passage au petcoke)."},
+   {"ptype": "probleme", "text": "Point 2 – Le broyeur à boulets BK2 consomme plus que prévu : 38 kWh/t contre 33 kWh/t visés. M. Fourati pense à une usure du blindage."},
+   {"ptype": "objectif", "text": "Décision : proposer à l'ESPRIM un projet de fin d'études sur la maîtrise statistique de la qualité du clinker (cartes de contrôle, corrélation dosage cru / résistance) et une étude d'optimisation énergétique du broyage."},
+   {"ptype": "contrainte", "text": "Contraintes rappelées : le four ne doit jamais être arrêté pour l'étude ; les essais se font uniquement sur les prélèvements réglementaires. Les résultats doivent rester compatibles avec la norme NT 47.01."},
+   {"ptype": "donnee", "text": "Données mises à disposition : historique laboratoire 2024-2026, relevés SCADA du four, consommations électriques par atelier. Le prix de la tonne vendue au grossiste (214 DT) et les volumes du contrat export Libye restent strictement internes."},
+   {"ptype": "autre", "text": "Prochaine réunion : 28/10. Rédacteur : R. Khemiri."}
+  ],
+  "entites": [
+   ["Cimenterie Atlas du Nord", "ORG", "org"], ["ESPRIM", "ORG", "org2"], ["Jebel Ressas", "SITE", "site1"],
+   ["Mme Rania Khemiri", "PERSONNE", "per1"], ["R. Khemiri", "PERSONNE", "per1"], ["M. Lotfi Sghaier", "PERSONNE", "per2"], ["M. Adel Fourati", "PERSONNE", "per3"], ["M. Fourati", "PERSONNE", "per3"],
+   ["ciment CEM II/A-L 42,5", "PRODUIT", "prod1"], ["clinker", "PRODUIT", "prod2"],
+   ["four n°1", "EQUIPEMENT", "eq1"], ["broyeur à boulets BK2", "EQUIPEMENT", "eq2"], ["blindage", "EQUIPEMENT", "eq3"], ["relevés SCADA du four", "EQUIPEMENT", "eq4"],
+   ["maîtrise statistique de la qualité", "PROCESSUS", "proc1"], ["cartes de contrôle", "PROCESSUS", "proc2"], ["broyage", "PROCESSUS", "proc3"], ["changement de combustible", "PROCESSUS", "proc4"],
+   ["résistance à 28 jours moyenne est tombée à 44,1 MPa", "INDICATEUR", "ind1"], ["9 % des lots sous le seuil client", "INDICATEUR", "ind2"], ["38 kWh/t contre 33 kWh/t visés", "INDICATEUR", "ind3"],
+   ["le four ne doit jamais être arrêté pour l'étude", "CONTRAINTE", "ctr1"], ["les essais se font uniquement sur les prélèvements réglementaires", "CONTRAINTE", "ctr2"], ["Les résultats doivent rester compatibles avec la norme NT 47.01", "CONTRAINTE", "ctr3"],
+   ["prix de la tonne vendue au grossiste (214 DT)", "DONNEE_SENSIBLE", "prix"], ["volumes du contrat export Libye", "DONNEE_SENSIBLE", "contrat"]
+  ]
+ },
+ {
+  "doc_id": "lib_fr_03", "lang": "fr", "secteur": "automobile", "format": "fiche_nc",
+  "passages": [
+   {"ptype": "autre", "text": "FICHE DE NON-CONFORMITÉ N° NC-2026-0417\nÉmetteur : Service Qualité Client – MécaPièces Sahel SARL\nSite : Msaken"},
+   {"ptype": "donnee", "text": "Client : constructeur allemand (rang 1) | Réf. pièce : support moteur SM-77 | Qté livrée : 12 000 | Qté rejetée : 640 | Date réclamation : 03/10/2026"},
+   {"ptype": "probleme", "text": "Description du défaut : bavures et cotes hors tolérance sur l'alésage Ø22 H7, détectées au contrôle réception du client. Le taux de rejet du lot atteint 5,3 %. Pièces issues du centre d'usinage DMG n°4, équipe de nuit."},
+   {"ptype": "contexte", "text": "Actions immédiates : tri à 100 % chez le client par une société de tri externe (coût refacturé), blocage du stock en interne. Analyse 8D ouverte par Mme Sana Hajji."},
+   {"ptype": "objectif", "text": "Demande au partenaire académique : mener l'analyse des causes racines (5 pourquoi + AMDEC procédé) et proposer un système anti-erreur sur le montage d'usinage."},
+   {"ptype": "contrainte", "text": "Délai : le rapport 8D doit être envoyé au client sous 10 jours ouvrés. Aucune modification du programme CN sans validation du bureau des méthodes."},
+   {"ptype": "donnee", "text": "Pénalité contractuelle prévue : 2 % du montant de la commande par jour de retard – ne pas diffuser. Numéro de commande client 4500917742."}
+  ],
+  "entites": [
+   ["MécaPièces Sahel SARL", "ORG", "org"], ["Msaken", "SITE", "site1"], ["Mme Sana Hajji", "PERSONNE", "per1"],
+   ["support moteur SM-77", "PRODUIT", "prod1"],
+   ["centre d'usinage DMG n°4", "EQUIPEMENT", "eq1"], ["montage d'usinage", "EQUIPEMENT", "eq2"], ["programme CN", "EQUIPEMENT", "eq3"],
+   ["contrôle réception", "PROCESSUS", "proc1"], ["tri à 100 %", "PROCESSUS", "proc2"], ["Analyse 8D", "PROCESSUS", "proc3"], ["5 pourquoi", "PROCESSUS", "proc4"], ["AMDEC procédé", "PROCESSUS", "proc5"], ["système anti-erreur", "PROCESSUS", "proc6"],
+   ["Qté rejetée : 640", "INDICATEUR", "ind1"], ["taux de rejet du lot atteint 5,3 %", "INDICATEUR", "ind2"],
+   ["le rapport 8D doit être envoyé au client sous 10 jours ouvrés", "CONTRAINTE", "ctr1"], ["Aucune modification du programme CN sans validation du bureau des méthodes", "CONTRAINTE", "ctr2"],
+   ["2 % du montant de la commande par jour de retard", "DONNEE_SENSIBLE", "penalite"], ["4500917742", "DONNEE_SENSIBLE", "commande"]
+  ]
+ },
+ {
+  "doc_id": "lib_fr_04", "lang": "fr", "secteur": "agroalimentaire", "format": "demande_pfe",
+  "passages": [
+   {"ptype": "autre", "text": "Proposition de stage PFE – Laiterie des Hautes Steppes (LHS), Sidi Bouzid"},
+   {"ptype": "contexte", "text": "La LHS collecte environ 85 000 litres de lait par jour auprès de 1 200 éleveurs et produit du lait UHT demi-écrémé, des yaourts brassés et du lben. L'usine fonctionne 7j/7."},
+   {"ptype": "probleme", "text": "Problème : les pertes en ligne sur le conditionnement UHT sont élevées (3,9 % du volume traité), principalement lors des changements de format 1 L / 0,5 L sur la remplisseuse aseptique TBA-19. Chaque changement dure en moyenne 95 minutes."},
+   {"ptype": "objectif", "text": "Travail demandé : appliquer la méthode SMED pour réduire la durée des changements de format, proposer un standard de nettoyage en place adapté, et chiffrer le gain annuel."},
+   {"ptype": "contrainte", "text": "Le stagiaire devra respecter les règles d'hygiène du plan HACCP (tenue, zones à accès restreint). Les essais ne peuvent avoir lieu que pendant les arrêts programmés du jeudi. Le budget d'investissement est plafonné à 40 000 DT."},
+   {"ptype": "donnee", "text": "Encadrant entreprise : M. Mourad Ben Hassine, responsable production (m.benhassine@lhs-lait.tn). Gratification : 450 DT/mois. Les prix de collecte payés aux éleveurs sont confidentiels."}
+  ],
+  "entites": [
+   ["Laiterie des Hautes Steppes", "ORG", "org"], ["LHS", "ORG", "org"], ["Sidi Bouzid", "SITE", "site1"],
+   ["M. Mourad Ben Hassine", "PERSONNE", "per1"], ["m.benhassine@lhs-lait.tn", "DONNEE_SENSIBLE", "mail"],
+   ["lait UHT demi-écrémé", "PRODUIT", "prod1"], ["yaourts brassés", "PRODUIT", "prod2"], ["lben", "PRODUIT", "prod3"],
+   ["remplisseuse aseptique TBA-19", "EQUIPEMENT", "eq1"],
+   ["conditionnement UHT", "PROCESSUS", "proc1"], ["méthode SMED", "PROCESSUS", "proc2"], ["nettoyage en place", "PROCESSUS", "proc3"], ["plan HACCP", "PROCESSUS", "proc4"],
+   ["85 000 litres de lait par jour", "INDICATEUR", "ind0"], ["pertes en ligne sur le conditionnement UHT sont élevées (3,9 % du volume traité)", "INDICATEUR", "ind1"], ["Chaque changement dure en moyenne 95 minutes", "INDICATEUR", "ind2"],
+   ["Le stagiaire devra respecter les règles d'hygiène du plan HACCP", "CONTRAINTE", "ctr1"], ["Les essais ne peuvent avoir lieu que pendant les arrêts programmés du jeudi", "CONTRAINTE", "ctr2"], ["Le budget d'investissement est plafonné à 40 000 DT", "CONTRAINTE", "ctr3"],
+   ["450 DT/mois", "DONNEE_SENSIBLE", "salaire"], ["prix de collecte payés aux éleveurs", "DONNEE_SENSIBLE", "prix"]
+  ]
+ },
+ {
+  "doc_id": "lib_fr_05", "lang": "fr", "secteur": "electronique", "format": "cahier_charges",
+  "passages": [
+   {"ptype": "autre", "text": "CAHIER DES CHARGES FONCTIONNEL – Projet « Zéro papier » en ligne CMS\nDemandeur : Ifriqia Electronics Assembly (IEA) – Technopôle de Sousse"},
+   {"ptype": "contexte", "text": "1. Contexte. IEA assemble des cartes électroniques pour l'éclairage public et des compteurs communicants. L'atelier compte 3 lignes CMS (sérigraphie, pose de composants, four de refusion) et un poste de test ICT."},
+   {"ptype": "probleme", "text": "2. Problème. Les ordres de fabrication (OF) et les fiches de suivi circulent encore sur papier. Résultat : 2 à 3 erreurs de traçabilité par semaine, et un délai moyen de 26 h entre la fin d'un OF et sa clôture dans l'ERP."},
+   {"ptype": "objectif", "text": "3. Besoin. Concevoir une application de saisie sur tablette au poste, reliée à l'ERP Odoo, pour enregistrer les numéros de série, les contrôles AOI et les non-conformités."},
+   {"ptype": "contrainte", "text": "4. Exigences. L'application doit fonctionner hors connexion pendant au moins 2 heures. Les données ne doivent pas quitter le réseau interne de l'usine. Interface en français et en arabe obligatoire."},
+   {"ptype": "donnee", "text": "5. Données fournies. Export anonymisé des OF 2025, plan de l'atelier, liste des postes. Le chiffre d'affaires réalisé avec le client principal (6,2 MDT) n'est communiqué qu'à l'encadrant académique."},
+   {"ptype": "autre", "text": "Contact projet : Yassine Laabidi, ingénieur méthodes – poste 214."}
+  ],
+  "entites": [
+   ["Ifriqia Electronics Assembly", "ORG", "org"], ["IEA", "ORG", "org"], ["Technopôle de Sousse", "SITE", "site1"], ["Yassine Laabidi", "PERSONNE", "per1"],
+   ["cartes électroniques pour l'éclairage public", "PRODUIT", "prod1"], ["compteurs communicants", "PRODUIT", "prod2"],
+   ["lignes CMS", "EQUIPEMENT", "eq1"], ["four de refusion", "EQUIPEMENT", "eq2"], ["poste de test ICT", "EQUIPEMENT", "eq3"], ["tablette", "EQUIPEMENT", "eq4"], ["ERP Odoo", "EQUIPEMENT", "eq5"],
+   ["sérigraphie", "PROCESSUS", "proc1"], ["pose de composants", "PROCESSUS", "proc2"], ["contrôles AOI", "PROCESSUS", "proc3"], ["traçabilité", "PROCESSUS", "proc4"],
+   ["2 à 3 erreurs de traçabilité par semaine", "INDICATEUR", "ind1"], ["délai moyen de 26 h entre la fin d'un OF et sa clôture dans l'ERP", "INDICATEUR", "ind2"],
+   ["L'application doit fonctionner hors connexion pendant au moins 2 heures", "CONTRAINTE", "ctr1"], ["Les données ne doivent pas quitter le réseau interne de l'usine", "CONTRAINTE", "ctr2"], ["Interface en français et en arabe obligatoire", "CONTRAINTE", "ctr3"],
+   ["chiffre d'affaires réalisé avec le client principal (6,2 MDT)", "DONNEE_SENSIBLE", "ca"], ["poste 214", "DONNEE_SENSIBLE", "tel"]
+  ]
+ },
+ {
+  "doc_id": "lib_fr_06", "lang": "fr", "secteur": "chimie", "format": "notes",
+  "passages": [
+   {"ptype": "autre", "text": "Notes visite usine – 07/10 – Engrais & Phosphates du Golfe (EPG), Ghannouch"},
+   {"ptype": "contexte", "text": "Accueil par Dr Nabil Zayani, chef du service environnement. L'usine produit de l'acide phosphorique et du DAP granulé, essentiellement pour l'export."},
+   {"ptype": "probleme", "text": "Gros sujet = rejets de phosphogypse et émissions de fluor à la cheminée de l'atelier d'attaque. Mesure du dernier audit : 7,4 mg/Nm3 de fluor contre une limite à 5 mg/Nm3. Plaintes répétées de l'association des riverains."},
+   {"ptype": "probleme", "text": "2e sujet : colmatage fréquent des filtres à bande, env. 3 arrêts non planifiés/mois, chaque arrêt = ~6 h de production perdue."},
+   {"ptype": "objectif", "text": "Idées de projets étudiants : (a) modélisation du laveur de gaz et dimensionnement d'un second étage ; (b) maintenance prédictive des filtres à partir des données de pression différentielle."},
+   {"ptype": "contrainte", "text": "Conditions : visite du site uniquement accompagnée, EPI obligatoires ; aucune photo dans la zone d'attaque. Tout rapport doit être relu par le service juridique avant diffusion."},
+   {"ptype": "donnee", "text": "À ne pas citer : le montant de l'amende environnementale reçue en 2025 et le nom du client indien principal."}
+  ],
+  "entites": [
+   ["Engrais & Phosphates du Golfe", "ORG", "org"], ["EPG", "ORG", "org"], ["Ghannouch", "SITE", "site1"], ["Dr Nabil Zayani", "PERSONNE", "per1"],
+   ["acide phosphorique", "PRODUIT", "prod1"], ["DAP granulé", "PRODUIT", "prod2"], ["phosphogypse", "PRODUIT", "prod3"],
+   ["cheminée de l'atelier d'attaque", "EQUIPEMENT", "eq1"], ["filtres à bande", "EQUIPEMENT", "eq2"], ["laveur de gaz", "EQUIPEMENT", "eq3"],
+   ["maintenance prédictive", "PROCESSUS", "proc1"], ["modélisation du laveur de gaz", "PROCESSUS", "proc2"],
+   ["7,4 mg/Nm3 de fluor contre une limite à 5 mg/Nm3", "INDICATEUR", "ind1"], ["3 arrêts non planifiés/mois", "INDICATEUR", "ind2"], ["~6 h de production perdue", "INDICATEUR", "ind3"],
+   ["visite du site uniquement accompagnée", "CONTRAINTE", "ctr1"], ["EPI obligatoires", "CONTRAINTE", "ctr2"], ["aucune photo dans la zone d'attaque", "CONTRAINTE", "ctr3"], ["Tout rapport doit être relu par le service juridique avant diffusion", "CONTRAINTE", "ctr4"],
+   ["montant de l'amende environnementale reçue en 2025", "DONNEE_SENSIBLE", "amende"], ["nom du client indien principal", "DONNEE_SENSIBLE", "client"]
+  ]
+ },
+ {
+  "doc_id": "lib_fr_07", "lang": "mixte", "secteur": "logistique", "format": "email",
+  "passages": [
+   {"ptype": "autre", "text": "Objet : Projet entrepôt – urgent avant le peak de décembre"},
+   {"ptype": "contexte", "text": "Salut Ines,\nJe te fais un résumé rapide pour les étudiants. Chez TransMed Logistics on gère l'entrepôt sous douane de Radès pour trois enseignes de retail. On reçoit les conteneurs, on fait le picking et le cross-docking vers les magasins."},
+   {"ptype": "probleme", "text": "Le problème c'est le taux de service : on est à 91 % de commandes livrées complètes et à l'heure, alors que le SLA impose 97 %. Les pickers font beaucoup de déplacements inutiles, le slotting n'a pas été revu depuis 2022 et le WMS génère des listes dans un ordre aberrant."},
+   {"ptype": "objectif", "text": "Ce qu'il nous faudrait : une analyse ABC des références, un nouveau plan d'implantation, et pourquoi pas une simulation (FlexSim ou Python) pour comparer les scénarios."},
+   {"ptype": "contrainte", "text": "Contraintes : on ne touche pas aux racks fixes de l'allée A (zone douane). La solution doit être opérationnelle avant le 1er décembre. Pas de nouveau logiciel payant."},
+   {"ptype": "donnee", "text": "On a 14 mois d'historique de commandes (≈ 2,1 millions de lignes). Je ne peux pas partager les tarifs facturés aux enseignes ni le nom de nos clients dans le rapport final.\nBonne journée,\nKarim Jlassi – Ops Manager – +216 52 300 118"}
+  ],
+  "entites": [
+   ["TransMed Logistics", "ORG", "org"], ["Radès", "SITE", "site1"], ["Karim Jlassi", "PERSONNE", "per1"], ["Ines", "PERSONNE", "per2"], ["+216 52 300 118", "DONNEE_SENSIBLE", "tel"],
+   ["entrepôt sous douane", "EQUIPEMENT", "eq0"], ["WMS", "EQUIPEMENT", "eq1"], ["racks fixes de l'allée A", "EQUIPEMENT", "eq2"],
+   ["picking", "PROCESSUS", "proc1"], ["cross-docking", "PROCESSUS", "proc2"], ["slotting", "PROCESSUS", "proc3"], ["analyse ABC", "PROCESSUS", "proc4"], ["simulation", "PROCESSUS", "proc5"],
+   ["taux de service : on est à 91 % de commandes livrées complètes et à l'heure", "INDICATEUR", "ind1"], ["le SLA impose 97 %", "CONTRAINTE", "ctr0"],
+   ["on ne touche pas aux racks fixes de l'allée A", "CONTRAINTE", "ctr1"], ["La solution doit être opérationnelle avant le 1er décembre", "CONTRAINTE", "ctr2"], ["Pas de nouveau logiciel payant", "CONTRAINTE", "ctr3"],
+   ["tarifs facturés aux enseignes", "DONNEE_SENSIBLE", "prix"], ["nom de nos clients", "DONNEE_SENSIBLE", "client"]
+  ]
+ },
+ {
+  "doc_id": "lib_fr_08", "lang": "fr", "secteur": "textile", "format": "formulaire",
+  "passages": [
+   {"ptype": "autre", "text": "FORMULAIRE DE SOUMISSION D'UN PROBLÈME INDUSTRIEL – Programme Industrie-Université"},
+   {"ptype": "donnee", "text": "Raison sociale : Confection Ennasr | Ville : Ksar Hellal | Effectif : 420 | Activité : confection de pantalons chino et de vestes de travail en sous-traitance | Interlocuteur : Mme Houda Rekik, responsable méthodes"},
+   {"ptype": "probleme", "text": "Description du problème (5 lignes max) : l'équilibrage des chaînes de couture est fait à l'œil. Sur la chaîne 3, le rendement est de 61 % et les en-cours s'accumulent devant le poste de pose de ceinture. Les délais de livraison au donneur d'ordre ne sont tenus que 70 % du temps."},
+   {"ptype": "objectif", "text": "Résultat attendu : étude des temps (chronométrage, temps standards), équilibrage de la chaîne 3 et plan de formation des opératrices polyvalentes."},
+   {"ptype": "contrainte", "text": "Contraintes particulières : production non interrompue ; les opératrices ne peuvent pas être filmées ; l'étude doit être terminée avant la collection été 2027."},
+   {"ptype": "donnee", "text": "Informations confidentielles (ne pas publier) : prix minute facturé (0,145 €), salaires des chefs de chaîne, nom de la marque cliente."}
+  ],
+  "entites": [
+   ["Confection Ennasr", "ORG", "org"], ["Ksar Hellal", "SITE", "site1"], ["Mme Houda Rekik", "PERSONNE", "per1"],
+   ["pantalons chino", "PRODUIT", "prod1"], ["vestes de travail", "PRODUIT", "prod2"],
+   ["chaînes de couture", "EQUIPEMENT", "eq1"], ["chaîne 3", "EQUIPEMENT", "eq2"], ["poste de pose de ceinture", "EQUIPEMENT", "eq3"],
+   ["équilibrage des chaînes de couture", "PROCESSUS", "proc1"], ["étude des temps", "PROCESSUS", "proc2"], ["chronométrage", "PROCESSUS", "proc3"], ["équilibrage de la chaîne 3", "PROCESSUS", "proc4"],
+   ["rendement est de 61 %", "INDICATEUR", "ind1"], ["Les délais de livraison au donneur d'ordre ne sont tenus que 70 % du temps", "INDICATEUR", "ind2"],
+   ["production non interrompue", "CONTRAINTE", "ctr1"], ["les opératrices ne peuvent pas être filmées", "CONTRAINTE", "ctr2"], ["l'étude doit être terminée avant la collection été 2027", "CONTRAINTE", "ctr3"],
+   ["prix minute facturé (0,145 €)", "DONNEE_SENSIBLE", "prix"], ["salaires des chefs de chaîne", "DONNEE_SENSIBLE", "salaire"], ["nom de la marque cliente", "DONNEE_SENSIBLE", "client"]
+  ]
+ }
+]

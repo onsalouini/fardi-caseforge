@@ -1,0 +1,7 @@
+Subject: Lead time reduction for harness assembly
+
+Sahel Wiring Systems operates a harness assembly plant in Sousse and supplies the X-200 cable harness to an automotive customer. The average lead time is currently 9 days.
+
+Ms. Leila Gharbi, supply chain manager, wants students to map the value stream and propose a lean improvement plan. Deliveries must be completed within 5 days and the line must keep its IATF 16949 certification.
+
+Available data: ERP extracts from SAP, takt time measurements, operator shift plans. Unit prices agreed with the customer are confidential.

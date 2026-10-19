@@ -1,0 +1,27 @@
+# Configuration du jeu de données CaseForge (cahier des charges, projet 7)
+
+generation:                 # SRC-SYN : problèmes simulés générés par gabarits
+  n_documents: 90           # + 24 problèmes en texte libre (SRC-LIBRE) = 114 (cahier : 80 à 120)
+  langues: {fr: 0.3334, ar: 0.3333, en: 0.3333}
+  test_tous_les: 6          # 1 document sur 6 par secteur en famille B (jamais vue) -> test
+  graine: 42
+  dossier_brut: data/raw/synth
+  sortie: data/annotated
+
+externe:                    # corpus réels annotés à la main (ORG, PERSONNE, SITE)
+  passages_par_langue: 1500 # équilibrage fr / ar / en
+  test_part: 0.15           # -> externe_test
+
+cibles:
+  passages_min: 800
+  entites_min: 2000
+  test_passages_min: 100
+  test_fiches_min: 15
+  entites_min_par_etiquette_et_langue: 20
+  part_double_annotation_min: 0.15
+  kappa_min: 0.70
+
+splits:
+  dev_part: 0.15
+  reel_test_part: 0.35      # part des documents rédigés librement (ou réels) envoyés en test
+  graine: 42
