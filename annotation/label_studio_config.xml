@@ -1,6 +1,6 @@
 <View>
   <Header value="CaseForge — annotation d'un passage"/>
-  <Text name="meta" value="Document : $doc_id · Passage : $passage_id · Source : $source"/>
+  <Text name="meta" value="Document : $doc_id · Passage : $passage_id · Source : $source_id"/>
 
   <Labels name="label" toName="text" showInline="true">
     <Label value="ORG" background="#e6194b"/>
