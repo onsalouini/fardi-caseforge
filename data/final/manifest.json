@@ -1,5 +1,5 @@
 {
- "date": "2026-10-19",
+ "date": "2026-10-20",
  "config": {
   "generation": {
    "n_documents": 90,
@@ -24,6 +24,7 @@
    "test_fiches_min": 15,
    "entites_min_par_etiquette_et_langue": 20,
    "part_double_annotation_min": 0.15,
+   "double_min": 15,
    "kappa_min": 0.7
   },
   "splits": {
@@ -33,29 +34,29 @@
   }
  },
  "files": {
-  "train.jsonl": "d253a093be34da681f32a6c0d1164122f672f2ba33fbe784a8f4ccf2aa899ccf",
+  "train.jsonl": "6539259bf29d91a249514f87bc7bef57b09836cd1157ecb2af9118066bf2ea0c",
   "train.bio.jsonl": "62701b91508daf6b49cb8bd034277987b1a783327a98f77cd33d73bc1e111076",
   "hf/train.jsonl": "87b8083ae6325552c6b63d9705f09275bdf833348e325fb7895c4b824047c2e6",
   "train.conll": "eb95e013a41b8a4abb63036134b5474c16e099e31b789cd3e3e20fcddfa055b7",
   "documents_train.jsonl": "cc1fd11e0a1c8ccb0f30f6a8b7507be1587b750203fd0e1c2ea537fb306c6f36",
   "fiches_train.jsonl": "91b8e92123b77e1d36a554b5504a0a60bf14079b92a23e5474ad2818cf9ac4e0",
-  "dev.jsonl": "315ec5007748c1b6fdc287d6dd989f36219c2a9ecac4c84e5e3e5e76a5ab9d57",
+  "dev.jsonl": "3860ad067d7faae5fc9c398c0ee450c7a5bea9903322c5d28068cc8ef20c45ed",
   "dev.bio.jsonl": "7507a8d3ed9c7df886305c06c8ba1acbff7caba722ca62ea7c0a5317ec3fdada",
   "hf/validation.jsonl": "1957d817e6e4d3dea402bff42d8a4eb0f117f12a2651be20a9ff73a679315cbf",
   "dev.conll": "3f12c69baa389a90d657aa35ad5d30fa8448459affbcd8947f9f31ec60e17369",
   "documents_dev.jsonl": "23054d5d0726015574d78ece1cf5737d74a13e8c55ce04689ac7f5a8fee79e11",
   "fiches_dev.jsonl": "00ef3225df28e8bb4bee336fae91a976f145abb45d2c762e303567a45bdd8951",
-  "test.jsonl": "410e46ba7b12cd6c7cc78acbbe521b774c815b3c022b630e3743f80bab912638",
+  "test.jsonl": "9936b8f163d6d114350fe578d0588e6537918efdb8f98c385154f1d061fea8c6",
   "test.bio.jsonl": "9529881e8af2989d3cf653bfbb2cf73f11200a3164baa06162505768d0408f67",
   "hf/test.jsonl": "464cea5d45aaefa5e1429184f49c9c0d800b2abb736b6e9ef0e98acdeea6bd10",
   "test.conll": "e8fcb5f470cebc71abbf455a6f40d27bafaefa8c26b39f3ba10a28649db1a510",
   "documents_test.jsonl": "009668d6fb447dfc6ecd78fb7e798ff67e35ff6aa66e4a7cbc5a8744f7b482d5",
   "fiches_test.jsonl": "ca08723b6b56510a842483e363db52769ad24b00f4b836e32a677910b3ae3bb3",
-  "externe_train.jsonl": "156a4f435192229615625980e879f83d16e9005ccd38b088ede8d134d9be6458",
+  "externe_train.jsonl": "47cbe472c1d309731cb143c90905e0b419be5fc5d27cadb43da20e6dcdf71e61",
   "externe_train.bio.jsonl": "dfc09c15105cf4c31b6da64e6e46751b5d2bc7cf6db5cf459450aa12267bd08f",
   "hf/externe_train.jsonl": "35917f4174ba489be2ae114243ab1900bd751704dafae40ad1b3d941dea104c3",
   "externe_train.conll": "188e788a9f655e6b9f04c91376c44cb0aadf45ba77e9fefd4f4b606f2cb809e9",
-  "externe_test.jsonl": "0f7e10f4ac87efd50a9e37aab0ac3dbfa7503a106e9dfae6f99e5e7ae61c46fb",
+  "externe_test.jsonl": "6c665abc40e751085a61aab1cd91879221a71bdbe5788c2fcc134d8ea9a96e8e",
   "externe_test.bio.jsonl": "b4c35c1abad6fcff0ea2ff9f6b4cf55d5838d7903ca13df5b07f14d510c17f6a",
   "hf/externe_test.jsonl": "468ebb636c392c31ab193a0adbd34ac6c79acf6fa9de070651255a8a286361c4",
   "externe_test.conll": "5feb6c1035cb5e01fdfef07cdeaf8dfe3ced1699c727511f288362a133954efa"

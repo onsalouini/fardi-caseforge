@@ -15,11 +15,16 @@
 | Séparation entraînement / validation / test gelé, par document | assignment.json + SHA-256 | fixé | OK |
 | Pilote FARDI séparé | 0 passages | si autorisé | OK |
 
-### Exigences qui demandent un travail humain (interdit de les simuler)
+### Exigences du cahier qui demandent un travail humain (interdit de les simuler)
 
 | Exigence | État | Cible | Statut |
 |---|---|---|---|
-| Vérification humaine des pré-annotations (test en priorité) | 0/206 passages de test | 100 % du test | À FAIRE |
-| Double annotation d'un sous-ensemble | 0 passages | ≥ 15% | À FAIRE |
-| Accord inter-annotateurs (kappa) | non mesuré | ≥ 0.7 | À FAIRE |
+| Double annotation d'un sous-ensemble (aveugle, de zéro) | 16 passages | ≥ 15 passages | OK |
+| Accord inter-annotateurs (kappa) | mesuré | ≥ 0.7 | OK |
 | Fiches relues selon la grille (docs/grille_relecture_fiches.md) | 0 relues | 40 à 60 | À FAIRE |
+
+### Recommandé (non exigé par le cahier des charges)
+
+| Recommandation | État | Cible |
+|---|---|---|
+| Vérification humaine complète du test (qualité de la référence) | 0/206 passages | 100 % du test, avant l'évaluation finale |

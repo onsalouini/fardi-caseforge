@@ -3,6 +3,8 @@
 Usage :
     python -m cfdata.import_ls --export export.json --out data/annotated/humain_lot1.jsonl --method humain
     --method : humain (documents réels annotés à la main)
+               humain_aveugle (annotation indépendante de zéro, sans pré-annotation : sert au kappa)
+               acceptation_rapide (pré-annotations soumises sans modification : tracées, NON comptées comme vérifiées)
                construction_verifiee (passages générés vérifiés par un humain)
 
 Sortie : une ligne par (passage, annotateur). Tous les champs de provenance de la tâche sont conservés.
@@ -29,7 +31,8 @@ def convert(task: dict, ann: dict, method: str, problems: Counter, log: list[str
     text = data["text"]
     pid = data.get("passage_id", task.get("id"))
     row = {k: v for k, v in data.items() if k not in {"text_anonymise"}}
-    row.update(text=text, annotator=annotator_name(ann), annotation_method=method, entities=[])
+    row.update(text=text, annotator=annotator_name(ann), annotation_method=method, entities=[],
+               lead_time=ann.get("lead_time"))
     attrs = {"lang": None, "sensitivity": None, "ptype": None}
 
     for r in ann.get("result", []):
@@ -73,7 +76,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--export", required=True)
     ap.add_argument("--out", required=True)
-    ap.add_argument("--method", default="humain", choices=["humain", "construction_verifiee"])
+    ap.add_argument("--method", default="humain", choices=["humain", "humain_aveugle", "construction_verifiee", "acceptation_rapide"])
+    ap.add_argument("--annotator", help="nom à utiliser pour l'annotateur (remplace l'identifiant Label Studio)")
     args = ap.parse_args()
 
     tasks = json.load(open(args.export, encoding="utf-8"))
@@ -81,7 +85,10 @@ def main() -> None:
     for t in tasks:
         for ann in t.get("annotations", []):
             if not ann.get("was_cancelled"):
-                rows.append(convert(t, ann, args.method, problems, log))
+                r = convert(t, ann, args.method, problems, log)
+                if args.annotator:
+                    r["annotator"] = args.annotator
+                rows.append(r)
 
     n = write_jsonl(args.out, rows)
     n_ent = sum(len(r["entities"]) for r in rows)

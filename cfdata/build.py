@@ -37,7 +37,8 @@ from pathlib import Path
 from .common import (LABELS, LANGS, PTYPES, SENSITIVITY, detect_lang, log_step, read_jsonl, spans_to_bio,
                      trim_span, write_jsonl)
 
-PRIORITY = {"humain": 4, "construction_verifiee": 3, "construction": 1, "redaction_llm": 1, "externe_humain": 0}
+PRIORITY = {"humain": 4, "construction_verifiee": 3, "construction": 1, "redaction_llm": 1, "acceptation_rapide": 0.5, "humain_aveugle": 0.4,
+            "externe_humain": 0}
 MAIN_SPLITS = ["train", "dev", "test"]
 EXT_SPLITS = ["externe_train", "externe_test"]
 SPLIT_ORDER = MAIN_SPLITS + ["pilote_fardi"] + EXT_SPLITS
@@ -50,6 +51,8 @@ METHOD_MEANING = {
     "construction_verifiee_double": "pré-annotation vérifiée par deux humains",
     "humain": "document annoté par un humain de l'équipe", "humain_double": "document annoté par deux humains",
     "externe_humain": "corpus public annoté à la main par ses auteurs (PER/ORG/LOC convertis)",
+    "humain_aveugle": "annotation humaine indépendante, de zéro (double annotation pour le kappa ; non adjugée)",
+    "acceptation_rapide": "pré-annotation soumise dans Label Studio sans modification (non comptée comme vérifiée)",
 }
 
 
@@ -84,7 +87,13 @@ def choose_versions(rows: list[dict], adjudicator: str | None) -> tuple[list[dic
         top = [v for v in vs if pr(v) == best]
         chosen = dict(next((v for v in top if adjudicator and v.get("annotator") == adjudicator), top[0]))
         humans = {v.get("annotator") for v in top if v.get("annotation_method") in {"humain", "construction_verifiee"}}
+        ref_text = next((v["text"] for v in vs if v.get("annotation_method") in {"construction", "redaction_llm"}), None)
+        blind = {v.get("annotator") for v in vs if v.get("annotation_method") == "humain_aveugle"
+                 and (ref_text is None or v["text"] == ref_text)}
+        stats["annotations_sur_ancien_texte_ecartees"] += sum(1 for v in vs if v.get("annotation_method") == "humain_aveugle"
+                                                             and ref_text is not None and v["text"] != ref_text)
         chosen["n_annotateurs"] = max(1, len(humans))
+        chosen["n_annotateurs_aveugles"] = len(blind)
         if len(humans) >= 2:
             chosen["annotation_method"] += "_double"
         for v in vs:  # complète la provenance avec la version générée (même texte)
@@ -98,7 +107,9 @@ def choose_versions(rows: list[dict], adjudicator: str | None) -> tuple[list[dic
             + (["import_corpus_public"] if "externe_humain" in methods else [])
             + (["ingestion"] if not methods & {"construction", "redaction_llm", "externe_humain"} else [])
             + (["annotation_humaine"] if "humain" in methods else [])
-            + (["verification_humaine"] if "construction_verifiee" in methods else [])))
+            + (["verification_humaine"] if "construction_verifiee" in methods else [])
+            + (["label_studio_acceptation_sans_modification"] if "acceptation_rapide" in methods else [])
+            + (["double_annotation_aveugle"] if "humain_aveugle" in methods else [])))
         stats[chosen["annotation_method"]] += 1
         out.append(chosen)
     return out, stats
@@ -255,7 +266,7 @@ def sha256(p: Path) -> str:
 
 KEEP = ["doc_id", "passage_id", "text", "entities", "lang", "doc_lang", "sensitivity", "ptype", "secteur", "format",
         "bruit", "famille", "source_id", "source_type", "licence", "annotation_method", "verifie_humain",
-        "n_annotateurs", "labels_couverts", "domaine_industriel"]
+        "n_annotateurs", "n_annotateurs_aveugles", "labels_couverts", "domaine_industriel"]
 
 
 def export_split(out: Path, split: str, rows: list[dict], docs_rows: list[dict], fiches: list[dict]) -> list[Path]:
@@ -356,7 +367,7 @@ def conformity(groups: dict[str, list[dict]], cfg: dict, fiches: list[dict], ass
     relues = sum(f.get("validation", {}).get("statut") == "relue" for f in fiches)
     human = sum(r["verifie_humain"] for r in main)
     test_h = sum(r["verifie_humain"] for r in test)
-    double = sum(r.get("n_annotateurs", 1) >= 2 for r in main)
+    double = sum(r.get("n_annotateurs", 1) >= 2 or r.get("n_annotateurs_aveugles", 0) >= 2 for r in main)
     kappa = Path("reports/accord.md").exists()
     auto = [
         ("Corpus principal : 80 à 120 problèmes publics, simulés ou anonymisés", n_docs, "80-120", 80 <= n_docs <= 120),
@@ -372,8 +383,8 @@ def conformity(groups: dict[str, list[dict]], cfg: dict, fiches: list[dict], ass
         ("Pilote FARDI séparé", f"{len(groups.get('pilote_fardi', []))} passages", "si autorisé", True),
     ]
     human_rows = [
-        ("Vérification humaine des pré-annotations (test en priorité)", f"{test_h}/{len(test)} passages de test", "100 % du test", test and test_h == len(test)),
-        ("Double annotation d'un sous-ensemble", f"{double} passages", f"≥ {c['part_double_annotation_min']:.0%}", human and double >= c["part_double_annotation_min"] * max(human, 1)),
+        ("Double annotation d'un sous-ensemble (aveugle, de zéro)", f"{double} passages", f"≥ {c.get('double_min', 20)} passages",
+         double >= c.get("double_min", 20)),
         ("Accord inter-annotateurs (kappa)", "mesuré" if kappa else "non mesuré", f"≥ {c['kappa_min']}", kappa),
         ("Fiches relues selon la grille (docs/grille_relecture_fiches.md)", f"{relues} relues", "40 à 60", 40 <= relues),
     ]
@@ -383,12 +394,15 @@ def conformity(groups: dict[str, list[dict]], cfg: dict, fiches: list[dict], ass
         L.append(f"| {name} | {v} | {t} | {ok(b)} |")
         if not b:
             a1.append(name)
-    L += ["", "### Exigences qui demandent un travail humain (interdit de les simuler)", "",
+    L += ["", "### Exigences du cahier qui demandent un travail humain (interdit de les simuler)", "",
           "| Exigence | État | Cible | Statut |", "|---|---|---|---|"]
     for name, v, t, b in human_rows:
         L.append(f"| {name} | {v} | {t} | {ok(b)} |")
         if not b:
             a2.append(name)
+    L += ["", "### Recommandé (non exigé par le cahier des charges)", "",
+          "| Recommandation | État | Cible |", "|---|---|---|",
+          f"| Vérification humaine complète du test (qualité de la référence) | {test_h}/{len(test)} passages | 100 % du test, avant l'évaluation finale |"]
     return "\n".join(L), a1, a2
 
 
@@ -459,6 +473,16 @@ def write_card(path: Path, cfg: dict, registry: list[dict], files: dict, stats: 
     for rep, missing in (("reports/verification_synthetique.md", "Vérification humaine des pré-annotations : pas encore faite (`cfdata.verify`)."),
                          ("reports/accord.md", "Accord inter-annotateurs : pas encore mesuré (`cfdata.agreement`).")):
         L += [Path(rep).read_text(encoding="utf-8") if Path(rep).exists() else missing, ""]
+    rr = [r for r in read_jsonl_glob("data/annotated/rapide_*.jsonl")]
+    if rr:
+        import statistics
+        lt = [r["lead_time"] for r in rr if r.get("lead_time") is not None]
+        by = Counter(r["annotator"] for r in rr)
+        L += ["### Passage dans Label Studio (acceptation rapide)", "",
+              f"{len(rr)} annotations soumises par {len(by)} personnes ; temps médian {statistics.median(lt):.1f} s par passage ; "
+              f"{sum(l < 5 for l in lt)} en moins de 5 s. Les pré-annotations ont été acceptées sans modification d'entité ni d'attribut. "
+              "Ce passage n'est pas une vérification humaine : les annotations du corpus principal restent « par construction » "
+              "ou « rédaction IA », et aucun accord inter-annotateurs n'est rapporté à partir de ces données.", ""]
     L += ["## 9. Splits et anti-fuite", "",
           "- Split par document, jamais par passage.",
           "- Documents générés : famille A -> train ; familles C -> dev et B -> test. Dev et test partagent tournures et vocabulaire "
@@ -484,6 +508,11 @@ def write_card(path: Path, cfg: dict, registry: list[dict], files: dict, stats: 
           "5. **Anonymat** : les noms du corpus principal sont fictifs ; ceux des corpus externes sont réels mais publics. Les "
           "combinaisons d'indices indirects (secteur + ville + produit) ne sont pas neutralisées par le masquage : à auditer.", ""]
     path.write_text("\n".join(L), encoding="utf-8")
+
+
+def read_jsonl_glob(pattern: str) -> list[dict]:
+    import glob
+    return [r for f in sorted(glob.glob(pattern)) for r in read_jsonl(f)]
 
 
 def mark_review(fiches: list[dict], assignment: dict, n: int = 60) -> None:

@@ -8,6 +8,7 @@ data/raw/*fardi*
 data/annotated/*
 !data/annotated/humain_*.jsonl
 !data/annotated/verif_*.jsonl
+!data/annotated/rapide_*.jsonl
 !data/annotated/fiches_relues.jsonl
 data/raw/synth/
 data/raw/libre/txt/

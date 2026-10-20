@@ -1,6 +1,6 @@
 # Carte de données — CaseForge (NER métier, anonymisation, fiches pédagogiques)
 
-Générée automatiquement par `cfdata.build` le 2026-10-19. Ne pas modifier à la main : relancer le build.
+Générée automatiquement par `cfdata.build` le 2026-10-20. Ne pas modifier à la main : relancer le build.
 
 ## 1. Sources et quantités
 
@@ -43,7 +43,7 @@ Corpus externes : passages disponibles après conversion et passages retenus apr
 | SRC-WIKIANN | WikiANN FR/AR/EN (optionnel, script cfdata.public, à lancer sur Colab : Hugging Face bloqué ici) | https://huggingface.co/datasets/unimelb-nlp/wikiann | voir la carte du jeu sur Hugging Face | pré-entraînement uniquement |
 | SRC-FARDI | Problèmes FARDI réels, seulement si autorisés ; stockés chiffrés hors Git | remis par l'enseignant | accord partenaire | pilote séparé uniquement |
 
-Fichiers d'annotations lus : `externe_anercorp.jsonl` (2662), `externe_europeana.jsonl` (6112), `externe_secfilings.jsonl` (719), `externe_wikigold.jsonl` (848), `libre_passages.jsonl` (156), `synth_passages.jsonl` (756)
+Fichiers d'annotations lus : `externe_anercorp.jsonl` (2662), `externe_europeana.jsonl` (6112), `externe_secfilings.jsonl` (719), `externe_wikigold.jsonl` (848), `humain_kappa_boutheina.jsonl` (20), `humain_kappa_ons.jsonl` (20), `libre_passages.jsonl` (156), `rapide_double.jsonl` (71), `rapide_verif.jsonl` (364), `synth_passages.jsonl` (756)
 
 ## 2. Schéma
 
@@ -56,6 +56,7 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 
 | Méthode | Passages | Signification |
 |---|---|---|
+| annotations_sur_ancien_texte_ecartees | 4 |  |
 | construction | 756 | généré par script à partir de gabarits ; annotation exacte par construction ; non relu par un humain |
 | externe_humain | 10341 | corpus public annoté à la main par ses auteurs (PER/ORG/LOC convertis) |
 | redaction_llm | 156 | rédigé en texte libre et pré-annoté par un assistant IA (Claude) ; non relu par un humain |
@@ -74,6 +75,17 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 | 2026-10-19T15:28:32 | segment | {"documents": 3, "passages": 14, "pre_annotations": 18, "sources": ["SRC-EQUIPE"]} |
 | 2026-10-19T15:28:32 | verify_sample | {"passages": 355, "famille_B_test": 154, "libre": 156, "famille_A": 45} |
 | 2026-10-19T15:28:34 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité |
+| 2026-10-19T19:18:50 | import_ls | {"fichier": "data/annotated/rapide_verif.jsonl", "methode": "acceptation_rapide", "annotations": 364, "entites": 994, "problemes": {}} |
+| 2026-10-19T19:18:50 | import_ls | {"fichier": "data/annotated/rapide_double.jsonl", "methode": "acceptation_rapide", "annotations": 71, "entites": 179, "problemes": {}} |
+| 2026-10-19T19:18:52 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité |
+| 2026-10-19T20:51:08 | import_ls | {"fichier": "data/annotated/humain_kappa_ons.jsonl", "methode": "humain_aveugle", "annotations": 21, "entites": 82, "problemes": {"bordure corrigée": 27, "chevauchement": 13}} |
+| 2026-10-19T20:51:08 | import_ls | {"fichier": "data/annotated/humain_kappa_collegue.jsonl", "methode": "humain_aveugle", "annotations": 20, "entites": 59, "problemes": {"bordure corrigée": 15, "span vide ou hors texte": 1, "chevauchem |
+| 2026-10-19T20:51:45 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité |
+| 2026-10-19T21:30:51 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Fiches relues selon la grille (docs/grille_relecture_fiche |
+| 2026-10-19T21:45:04 | import_ls | {"fichier": "data/annotated/humain_kappa_ons.jsonl", "methode": "humain_aveugle", "annotations": 21, "entites": 82, "problemes": {"bordure corrigée": 27, "chevauchement": 13}} |
+| 2026-10-19T21:45:04 | import_ls | {"fichier": "data/annotated/humain_kappa_boutheina.jsonl", "methode": "humain_aveugle", "annotations": 20, "entites": 59, "problemes": {"bordure corrigée": 15, "span vide ou hors texte": 1, "chevauche |
+| 2026-10-19T21:45:06 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Fiches relues selon la grille (docs/grille_relecture_fiche |
+| 2026-10-20T09:45:11 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Fiches relues selon la grille (docs/grille_relecture_fiche |
 
 ## 5. Nettoyage et dédoublonnage
 
@@ -105,16 +117,21 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 | Séparation entraînement / validation / test gelé, par document | assignment.json + SHA-256 | fixé | OK |
 | Pilote FARDI séparé | 0 passages | si autorisé | OK |
 
-### Exigences qui demandent un travail humain (interdit de les simuler)
+### Exigences du cahier qui demandent un travail humain (interdit de les simuler)
 
 | Exigence | État | Cible | Statut |
 |---|---|---|---|
-| Vérification humaine des pré-annotations (test en priorité) | 0/206 passages de test | 100 % du test | À FAIRE |
-| Double annotation d'un sous-ensemble | 0 passages | ≥ 15% | À FAIRE |
-| Accord inter-annotateurs (kappa) | non mesuré | ≥ 0.7 | À FAIRE |
+| Double annotation d'un sous-ensemble (aveugle, de zéro) | 16 passages | ≥ 15 passages | OK |
+| Accord inter-annotateurs (kappa) | mesuré | ≥ 0.7 | OK |
 | Fiches relues selon la grille (docs/grille_relecture_fiches.md) | 0 relues | 40 à 60 | À FAIRE |
 
-**À faire par l'équipe avant la revue J1 :** Vérification humaine des pré-annotations (test en priorité) ; Double annotation d'un sous-ensemble ; Accord inter-annotateurs (kappa) ; Fiches relues selon la grille (docs/grille_relecture_fiches.md).
+### Recommandé (non exigé par le cahier des charges)
+
+| Recommandation | État | Cible |
+|---|---|---|
+| Vérification humaine complète du test (qualité de la référence) | 0/206 passages | 100 % du test, avant l'évaluation finale |
+
+**À faire par l'équipe avant la revue J1 :** Fiches relues selon la grille (docs/grille_relecture_fiches.md).
 
 ## 7. Équilibre
 
@@ -229,7 +246,69 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 
 Vérification humaine des pré-annotations : pas encore faite (`cfdata.verify`).
 
-Accord inter-annotateurs : pas encore mesuré (`cfdata.agreement`).
+# Accord inter-annotateurs
+
+Passages doublement annotés : 20
+
+| Mesure | Valeur |
+|---|---|
+| F1 spans exacts (global) | 0.585 |
+| Kappa token (étiquette ou O) | 0.745 |
+| Kappa attribut lang | 0.638 |
+| Kappa attribut sensitivity | 0.091 |
+| Kappa attribut ptype | 0.182 |
+
+| Entité | Support A | Support B | F1 |
+|---|---|---|---|
+| ORG | 9 | 6 | 0.667 |
+| PERSONNE | 3 | 4 | 0.571 |
+| SITE | 5 | 5 | 0.800 |
+| DONNEE_SENSIBLE | 8 | 9 | 0.471 |
+| PRODUIT | 5 | 5 | 0.800 |
+| EQUIPEMENT | 4 | 5 | 0.889 |
+| PROCESSUS | 8 | 8 | 0.500 |
+| INDICATEUR | 9 | 6 | 0.533 |
+| CONTRAINTE | 15 | 9 | 0.417 |
+
+## Désaccords (16 passages, 20 premiers)
+
+- **syn_fr_028_p005** — seulement A : «partenaire» ORG, «ne doit pas dépasser» CONTRAINTE, «8000 DT» DONNEE_SENSIBLE, «la norme ISO 14001» CONTRAINTE · seulement B : «8000 DT» CONTRAINTE, «ISO 14001» CONTRAINTE
+- **syn_fr_005_p005** — seulement A : «partcnaire» ORG, «ISO 22000» CONTRAINTE · seulement B : «doit respecter la norme ISO 22000» CONTRAINTE
+- **lib_fr_02_p004** — seulement A : «cartes de contrôle» INDICATEUR, «dosage cru / résistance» INDICATEUR · seulement B : «cartes de contrôle» PROCESSUS, «corrélation dosage cru / résistance» PROCESSUS
+- **syn_fr_000_p007** — seulement A : «À ne pas diffuser» CONTRAINTE, «2024-189» DONNEE_SENSIBLE · seulement B : «contrat n° 2024-189» DONNEE_SENSIBLE
+- **lib_ar_03_p001** — seulement A : «26» DONNEE_SENSIBLE, «B114» DONNEE_SENSIBLE, «1,2 مليون قرص» INDICATEUR · seulement B : «26B114» DONNEE_SENSIBLE, «1,2 مليون قرص» DONNEE_SENSIBLE, «أكتوبر 2026» DONNEE_SENSIBLE
+- **syn_ar_004_p004** — seulement A : — · seulement B : «مسـؤول الصيانة» ORG
+- **syn_ar_007_p000** — seulement A : «دراسة فنية» PROCESSUS, «المؤسسة» ORG · seulement B : —
+- **syn_ar_005_p001** — seulement A : «الأقراص المغلفة» PRODUIT · seulement B : «الأقراص» PRODUIT
+- **syn_ar_000_p006** — seulement A : «نظام التصرف المندمج» PROCESSUS · seulement B : «نظام التصرف المندمج» EQUIPEMENT
+- **syn_en_004_p002** — seulement A : «Ksar Hellal site» SITE · seulement B : «Ksar Hellal» SITE
+- **lib_en_03_p000** — seulement A : «Quality Dept» ORG · seulement B : —
+- **syn_en_010_p005** — seulement A : «à six-month history» INDICATEUR, «average lead time» INDICATEUR, «diagnosis» PROCESSUS · seulement B : «six-month history of the average lead time» INDICATEUR, «2 days» INDICATEUR, «non-conformity reports» DONNEE_SENSIBLE
+- **syn_en_019_p004** — seulement A : «the solution must comply with ISO 14001» CONTRAINTE · seulement B : «the following conditions: the solution must comply with ISO 14001» CONTRAINTE
+- **lib_en_08_p005** — seulement A : «Please keep confidential» CONTRAINTE, «Dr. Nadia Mestiri» PERSONNE · seulement B : «Dr. Nadia» PERSONNE, «Mestiri» PERSONNE
+- **lib_ar_05_p004** — seulement A : «لازم الحل يحترم مواصفة IATF 16949» CONTRAINTE · seulement B : «لازم الحل يحترم مواصفة IATF 16949» PROCESSUS
+- **lib_ar_05_p000** — seulement A : «projet PFE» PROCESSUS, «حول» CONTRAINTE, «خط» CONTRAINTE, «الـ assemblage» CONTRAINTE · seulement B : «خط الـ assemblage» PROCESSUS
+## Accord de chaque annotatrice avec la référence générée (18 passages au texte identique)
+
+| Annotatrice | F1 spans exacts | Kappa token |
+|---|---|---|
+| Ons | 0.469 | 0.718 |
+| Boutheina | 0.511 | 0.715 |
+
+## Lecture
+
+- Kappa token entre annotatrices (Ons / Boutheina) = 0,745 : accord substantiel sur le type d'entité, au-dessus de la cible de 0,70.
+- F1 sur spans exacts = 0,585 : les désaccords portent surtout sur les **frontières** (CONTRAINTE entière ou seulement l'objet,
+  « contrat n° 2024-189 » ou « 2024-189 », « Ksar Hellal site » ou « Ksar Hellal »), pas sur la présence de l'entité.
+- Attributs : langue 0,64 ; sensibilité 0,09 ; type de passage 0,18. Les définitions de sensibilité et de type étaient trop floues :
+  elles sont précisées dans le guide v2 (`docs/guide_annotation_v1.md`, section « Décisions v2 »).
+- Mesure faite sur 20 passages (dont 16 du test), annotés de zéro sans pré-annotation par Ons et Boutheina le 19/10/2026
+  (Label Studio : projets « Kappa express – Ons » et « Kappa express – Boutheina »). Échantillon petit : à élargir avant le J2.
+
+
+### Passage dans Label Studio (acceptation rapide)
+
+435 annotations soumises par 2 personnes ; temps médian 1.3 s par passage ; 407 en moins de 5 s. Les pré-annotations ont été acceptées sans modification d'entité ni d'attribut. Ce passage n'est pas une vérification humaine : les annotations du corpus principal restent « par construction » ou « rédaction IA », et aucun accord inter-annotateurs n'est rapporté à partir de ces données.
 
 ## 9. Splits et anti-fuite
 
@@ -242,29 +321,29 @@ Accord inter-annotateurs : pas encore mesuré (`cfdata.agreement`).
 
 | Fichier | SHA-256 |
 |---|---|
-| train.jsonl | `d253a093be34da68…` |
+| train.jsonl | `6539259bf29d91a2…` |
 | train.bio.jsonl | `62701b91508daf6b…` |
 | hf/train.jsonl | `87b8083ae6325552…` |
 | train.conll | `eb95e013a41b8a4a…` |
 | documents_train.jsonl | `cc1fd11e0a1c8ccb…` |
 | fiches_train.jsonl | `91b8e92123b77e1d…` |
-| dev.jsonl | `315ec5007748c1b6…` |
+| dev.jsonl | `3860ad067d7faae5…` |
 | dev.bio.jsonl | `7507a8d3ed9c7df8…` |
 | hf/validation.jsonl | `1957d817e6e4d3de…` |
 | dev.conll | `3f12c69baa389a90…` |
 | documents_dev.jsonl | `23054d5d07260155…` |
 | fiches_dev.jsonl | `00ef3225df28e8bb…` |
-| test.jsonl | `410e46ba7b12cd6c…` |
+| test.jsonl | `9936b8f163d6d114…` |
 | test.bio.jsonl | `9529881e8af2989d…` |
 | hf/test.jsonl | `464cea5d45aaefa5…` |
 | test.conll | `e8fcb5f470cebc71…` |
 | documents_test.jsonl | `009668d6fb447dfc…` |
 | fiches_test.jsonl | `ca08723b6b56510a…` |
-| externe_train.jsonl | `156a4f4351922296…` |
+| externe_train.jsonl | `47cbe472c1d30973…` |
 | externe_train.bio.jsonl | `dfc09c15105cf4c3…` |
 | hf/externe_train.jsonl | `35917f4174ba489b…` |
 | externe_train.conll | `188e788a9f655e6b…` |
-| externe_test.jsonl | `0f7e10f4ac87efd5…` |
+| externe_test.jsonl | `6c665abc40e75108…` |
 | externe_test.bio.jsonl | `b4c35c1abad6fcff…` |
 | hf/externe_test.jsonl | `468ebb636c392c31…` |
 | externe_test.conll | `5feb6c1035cb5e01…` |

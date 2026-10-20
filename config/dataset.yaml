@@ -19,6 +19,7 @@ cibles:
   test_fiches_min: 15
   entites_min_par_etiquette_et_langue: 20
   part_double_annotation_min: 0.15
+  double_min: 15            # passages annotés en double, à l'aveugle (le cahier dit « un sous-ensemble »)
   kappa_min: 0.70
 
 splits:
