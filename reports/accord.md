@@ -1,4 +1,13 @@
-# Accord inter-annotateurs
+# Accord inter-annotateurs (kappa express, 20 passages)
+
+Protocole : 20 passages (6 FR, 6 AR, 6 EN, 2 mixtes ; 14 SRC-SYN, 6 SRC-LIBRE) annotés indépendamment par deux personnes dans deux projets Label Studio séparés, sans pré-annotation, le 19/10/2026. Temps médian : environ 1 à 2 minutes par passage.
+
+**Mesure retenue : kappa token = 0,745 (cible >= 0,70 atteinte).**
+
+Limites :
+- Échantillon petit (20 passages, 141 entités) : intervalle de confiance large.
+- Kappas des attributs (langue, sensibilité, type) non interprétables : dans l'un des deux projets, les valeurs de référence étaient visibles dans les colonnes du tableau Label Studio.
+- La F1 sur spans exacts (0,526) est pénalisée par des erreurs de sélection et par les bordures ; le kappa token y est moins sensible.
 
 Passages doublement annotés : 20
 

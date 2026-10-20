@@ -1,0 +1,16 @@
+syn_fr_005_p005: chevauchement « ne doit pas dépasser 50000 DT » / « 50000 DT »
+syn_fr_005_p005: chevauchement « ne doit pas dépasser 50000 DT » / « 50000 DT »
+lib_fr_02_p004: chevauchement « clinker » / « clinke »
+syn_ar_000_p006: chevauchement « 12 ساعة » / « 2 ساعة »
+syn_ar_000_p006: chevauchement « 2 ساعة » / « ساعة »
+syn_en_027_p005: chevauchement « the line cannot be stopped for more than 4 hours per week » / « 4 hours per week »
+syn_en_010_p005: chevauchement « 350 t injection press » / « 0 t injection pre »
+syn_en_019_p004: chevauchement « the solution must comply with ISO 14001 » / « ISO 14001 »
+syn_en_019_p004: chevauchement « the project must be completed within 6 weeks » / « 6 weeks »
+lib_en_08_p005: chevauchement « Dr. Nadia Mestiri » / « Nadia Mestiri »
+lib_ar_05_p004: chevauchement « ما نجموش نوقفو الخط أكثر من 4 ساعات في الجمعة » / « 4 ساعات في الجمعة »
+lib_ar_05_p004: chevauchement « لازم الحل يحترم مواصفة IATF 16949 » / « لازم الحل يحترم مواصفة I »
+lib_ar_05_p004: chevauchement « لازم الحل يحترم مواصفة I » / « IATF 16949 »
+lib_ar_03_p001: span invalide {'start': 67, 'end': 68, 'text': ' ', 'labels': ['DONNEE_SENSIBLE']}
+lib_en_08_p005: chevauchement « Dr. Nadia » / « Nadia »
+lib_ar_05_p004: chevauchement « لازم الحل يحترم مواصفة IATF 16949 » / « ازم الحل يحترم مواصفة IATF »
