@@ -1863,8 +1863,8 @@ poste	B-DONNEE_SENSIBLE
 والمنهجية	O
 المطلوبة	O
 هي	O
-الغسل	B-PROCESSUS
-بالحجر	I-PROCESSUS
+الصيانة	B-PROCESSUS
+الوقائية	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_000_p005
@@ -1898,24 +1898,23 @@ ISO	I-CONTRAINTE
 التصرف	O
 المندمج	O
 وقياسات	O
-مكبس	B-EQUIPEMENT
-الكي	I-EQUIPEMENT
+آلة	B-EQUIPEMENT
+القص	I-EQUIPEMENT
+الآلي	I-EQUIPEMENT
 وسجلا	O
 يبين	O
-متوسط	B-INDICATEUR
-زمن	I-INDICATEUR
-بين	I-INDICATEUR
-الأعطال	I-INDICATEUR
-يبلغ	I-INDICATEUR
-12	I-INDICATEUR
-ساعة	I-INDICATEUR
+نسبة	B-INDICATEUR
+شكايات	I-INDICATEUR
+تبلغ	I-INDICATEUR
+2	I-INDICATEUR
+%	I-INDICATEUR
 .	O
 تم	O
 تنظيم	O
 ورشة	O
 حول	O
-الغسل	B-PROCESSUS
-بالحجر	I-PROCESSUS
+الصيانة	B-PROCESSUS
+الوقائية	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_000_p007
@@ -2009,7 +2008,7 @@ tn	I-DONNEE_SENSIBLE
 بين	I-INDICATEUR
 الأعطال	I-INDICATEUR
 يبلغ	I-INDICATEUR
-12	I-INDICATEUR
+9	I-INDICATEUR
 ساعة	I-INDICATEUR
 .	O
 تم	O
@@ -2067,7 +2066,7 @@ tn	I-DONNEE_SENSIBLE
 إنهاء	I-CONTRAINTE
 المشروع	I-CONTRAINTE
 في	I-CONTRAINTE
-3	I-CONTRAINTE
+5	I-CONTRAINTE
 أسابيع	I-CONTRAINTE
 .	O
 
@@ -2080,20 +2079,23 @@ tn	I-DONNEE_SENSIBLE
 التصرف	O
 المندمج	O
 وقياسات	O
-sertisseuse	B-EQUIPEMENT
+étiqueteuse	B-EQUIPEMENT
 وسجلا	O
 يبين	O
-نسبة	B-INDICATEUR
-شكايات	I-INDICATEUR
-تبلغ	I-INDICATEUR
-18	I-INDICATEUR
-%	I-INDICATEUR
+متوسط	B-INDICATEUR
+زمن	I-INDICATEUR
+بين	I-INDICATEUR
+الأعطال	I-INDICATEUR
+يبلغ	I-INDICATEUR
+14	I-INDICATEUR
+ساعة	I-INDICATEUR
 .	O
 تم	O
 تنظيم	O
 ورشة	O
 حول	O
-pasteurisation	B-PROCESSUS
+diagramme	B-PROCESSUS
+d'Ishikawa	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_007_p006
@@ -2110,7 +2112,8 @@ pasteurisation	B-PROCESSUS
 والمنهجية	O
 المطلوبة	O
 هي	O
-pasteurisation	B-PROCESSUS
+diagramme	B-PROCESSUS
+d'Ishikawa	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_007_p007
@@ -2164,7 +2167,7 @@ pasteurisation	B-PROCESSUS
 نسبة	B-INDICATEUR
 فضلات	I-INDICATEUR
 تبلغ	I-INDICATEUR
-62	I-INDICATEUR
+12	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 تم	O
@@ -2235,23 +2238,21 @@ ISO	I-CONTRAINTE
 التصرف	O
 المندمج	O
 وقياسات	O
-extrudeuse	B-EQUIPEMENT
-bi-vis	I-EQUIPEMENT
+broyeur	B-EQUIPEMENT
 وسجلا	O
 يبين	O
 نسبة	B-INDICATEUR
-شكايات	I-INDICATEUR
+فضلات	I-INDICATEUR
 تبلغ	I-INDICATEUR
-67	I-INDICATEUR
+6	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 تم	O
 تنظيم	O
 ورشة	O
 حول	O
-recyclage	B-PROCESSUS
-des	I-PROCESSUS
-chutes	I-PROCESSUS
+plan	B-PROCESSUS
+d'expériences	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_010_p006
@@ -2268,9 +2269,8 @@ chutes	I-PROCESSUS
 والمنهجية	O
 المطلوبة	O
 هي	O
-recyclage	B-PROCESSUS
-des	I-PROCESSUS
-chutes	I-PROCESSUS
+plan	B-PROCESSUS
+d'expériences	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_010_p007
@@ -2334,7 +2334,7 @@ chutes	I-PROCESSUS
 نسبة	B-INDICATEUR
 فضلات	I-INDICATEUR
 تبلغ	I-INDICATEUR
-92	I-INDICATEUR
+14	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 تم	O
@@ -2390,9 +2390,9 @@ chutes	I-PROCESSUS
 والمنهجية	O
 المطلوبة	O
 هي	O
-منهجية	B-PROCESSUS
-5	I-PROCESSUS
-S	I-PROCESSUS
+تحليل	B-PROCESSUS
+الأسباب	I-PROCESSUS
+الجذرية	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_026_p005
@@ -2405,7 +2405,7 @@ S	I-PROCESSUS
 إنهاء	I-CONTRAINTE
 المشروع	I-CONTRAINTE
 في	I-CONTRAINTE
-2	I-CONTRAINTE
+4	I-CONTRAINTE
 أسابيع؛	I-CONTRAINTE
 يجب	B-CONTRAINTE
 أن	I-CONTRAINTE
@@ -2426,24 +2426,22 @@ ISO	I-CONTRAINTE
 المندمج	O
 وقياسات	O
 آلة	B-EQUIPEMENT
-التعرية	I-EQUIPEMENT
+التثبيت	I-EQUIPEMENT
 وسجلا	O
 يبين	O
-متوسط	B-INDICATEUR
-زمن	I-INDICATEUR
-بين	I-INDICATEUR
-الأعطال	I-INDICATEUR
-يبلغ	I-INDICATEUR
-6	I-INDICATEUR
-ساعة	I-INDICATEUR
+نسبة	B-INDICATEUR
+فضلات	I-INDICATEUR
+تبلغ	I-INDICATEUR
+12	I-INDICATEUR
+%	I-INDICATEUR
 .	O
 تم	O
 تنظيم	O
 ورشة	O
 حول	O
-منهجية	B-PROCESSUS
-5	I-PROCESSUS
-S	I-PROCESSUS
+تحليل	B-PROCESSUS
+الأسباب	I-PROCESSUS
+الجذرية	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_026_p007
@@ -2523,7 +2521,7 @@ tn	I-DONNEE_SENSIBLE
 نسـبة	B-INDICATEUR
 فضلات	I-INDICATEUR
 تبلغ	I-INDICATEUR
-7	I-INDICATEUR
+9	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 تم	O
@@ -2580,16 +2578,15 @@ tn	I-DONNEE_SENSIBLE
 والمنهجية	O
 المـطلوبة	O
 هي	O
-التغـيير	B-PROCESSUS
-السريع	I-PROCESSUS
-للأدوات	I-PROCESSUS
+الصيانـة	B-PROCESSUS
+الوقائية	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_027_p005
 يفرض	O
-الشـريك	O
-الشروط	O
-التـالية	O
+الشريك	O
+الشـروط	O
+التالية	O
 :	O
 يجب	B-CONTRAINTE
 الا	I-CONTRAINTE
@@ -2600,7 +2597,7 @@ tn	I-DONNEE_SENSIBLE
 دينار؛	I-CONTRAINTE
 يجب	B-CONTRAINTE
 ان	I-CONTRAINTE
-يحترم	I-CONTRAINTE
+يـحترم	I-CONTRAINTE
 الحل	I-CONTRAINTE
 المواصفة	I-CONTRAINTE
 ISO	I-CONTRAINTE
@@ -2616,25 +2613,24 @@ ISO	I-CONTRAINTE
 التصرف	O
 المندمج	O
 وقياسات	O
-المخرطة	B-EQUIPEMENT
-الرقمية	I-EQUIPEMENT
+الة	B-EQUIPEMENT
+القياس	I-EQUIPEMENT
+ثلاثية	I-EQUIPEMENT
+الأبعاد	I-EQUIPEMENT
 وسجلا	O
 يبين	O
-متوسط	B-INDICATEUR
-زمن	I-INDICATEUR
-بـين	I-INDICATEUR
-الاعطال	I-INDICATEUR
-يبلغ	I-INDICATEUR
-12	I-INDICATEUR
-ساعة	I-INDICATEUR
+نسبة	B-INDICATEUR
+فـضلات	I-INDICATEUR
+تبلغ	I-INDICATEUR
+6	I-INDICATEUR
+%	I-INDICATEUR
 .	O
 تم	O
 تنظيم	O
 ورشة	O
 حول	O
-التغيير	B-PROCESSUS
-السريع	I-PROCESSUS
-للادوات	I-PROCESSUS
+الصيانة	B-PROCESSUS
+الوقائية	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_027_p007
@@ -2718,7 +2714,7 @@ tn	I-DONNEE_SENSIBLE
 بين	I-INDICATEUR
 الأعطال	I-INDICATEUR
 يبلغ	I-INDICATEUR
-3	I-INDICATEUR
+6	I-INDICATEUR
 ساعة	I-INDICATEUR
 .	O
 تم	O
@@ -2774,9 +2770,8 @@ tn	I-DONNEE_SENSIBLE
 والمنهجية	O
 المطلوبة	O
 هي	O
-التحقق	B-PROCESSUS
-من	I-PROCESSUS
-التنظيف	I-PROCESSUS
+الصيانة	B-PROCESSUS
+الوقائية	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_029_p005
@@ -2789,7 +2784,7 @@ tn	I-DONNEE_SENSIBLE
 إنهاء	I-CONTRAINTE
 المشروع	I-CONTRAINTE
 في	I-CONTRAINTE
-4	I-CONTRAINTE
+6	I-CONTRAINTE
 أسابيع؛	I-CONTRAINTE
 يجب	B-CONTRAINTE
 أن	I-CONTRAINTE
@@ -2809,24 +2804,26 @@ ISO	I-CONTRAINTE
 التصرف	O
 المندمج	O
 وقياسات	O
-مجفف	B-EQUIPEMENT
-الطبقة	I-EQUIPEMENT
-المميعة	I-EQUIPEMENT
+آلة	B-EQUIPEMENT
+التعبئة	I-EQUIPEMENT
+في	I-EQUIPEMENT
+الأشرطة	I-EQUIPEMENT
 وسجلا	O
 يبين	O
-نسبة	B-INDICATEUR
-فضلات	I-INDICATEUR
-تبلغ	I-INDICATEUR
-58	I-INDICATEUR
-%	I-INDICATEUR
+متوسط	B-INDICATEUR
+زمن	I-INDICATEUR
+بين	I-INDICATEUR
+الأعطال	I-INDICATEUR
+يبلغ	I-INDICATEUR
+10	I-INDICATEUR
+ساعة	I-INDICATEUR
 .	O
 تم	O
 تنظيم	O
 ورشة	O
 حول	O
-التحقق	B-PROCESSUS
-من	I-PROCESSUS
-التنظيف	I-PROCESSUS
+الصيانة	B-PROCESSUS
+الوقائية	I-PROCESSUS
 .	O
 
 # passage_id = syn_ar_029_p007
@@ -2924,7 +2921,7 @@ indicator	O
 scrap	B-INDICATEUR
 rate	I-INDICATEUR
 of	I-INDICATEUR
-58%	I-INDICATEUR
+6%	I-INDICATEUR
 .	O
 Readings	O
 were	O
@@ -2989,8 +2986,8 @@ the	O
 expected	O
 approach	O
 is	O
-stone	B-PROCESSUS
-washing	I-PROCESSUS
+preventive	B-PROCESSUS
+maintenance	I-PROCESSUS
 .	O
 
 # passage_id = syn_en_000_p005
@@ -3007,7 +3004,7 @@ must	I-CONTRAINTE
 be	I-CONTRAINTE
 completed	I-CONTRAINTE
 within	I-CONTRAINTE
-3	I-CONTRAINTE
+5	I-CONTRAINTE
 weeks	I-CONTRAINTE
 ;	O
 the	B-CONTRAINTE
@@ -3027,9 +3024,8 @@ provide	O
 ERP	O
 extracts	O
 ,	O
-automatic	B-EQUIPEMENT
-cutting	I-EQUIPEMENT
-machine	I-EQUIPEMENT
+ironing	B-EQUIPEMENT
+press	I-EQUIPEMENT
 logs	O
 and	O
 the	O
@@ -3037,14 +3033,14 @@ following	O
 indicator	O
 history	O
 :	O
-complaint	B-INDICATEUR
+scrap	B-INDICATEUR
 rate	I-INDICATEUR
 of	I-INDICATEUR
-85%	I-INDICATEUR
+4%	I-INDICATEUR
 .	O
 A	O
-stone	B-PROCESSUS
-washing	I-PROCESSUS
+preventive	B-PROCESSUS
+maintenance	I-PROCESSUS
 workshop	O
 has	O
 already	O
@@ -3135,7 +3131,7 @@ indicator	O
 :	O
 MTBF	B-INDICATEUR
 of	I-INDICATEUR
-10	I-INDICATEUR
+9	I-INDICATEUR
 hours	I-INDICATEUR
 .	O
 Readings	O
@@ -3202,8 +3198,9 @@ the	O
 expected	O
 approach	O
 is	O
-regrind	B-PROCESSUS
-recycling	I-PROCESSUS
+design	B-PROCESSUS
+of	I-PROCESSUS
+experiments	I-PROCESSUS
 .	O
 
 # passage_id = syn_en_004_p005
@@ -3240,7 +3237,8 @@ provide	O
 ERP	O
 extracts	O
 ,	O
-granulator	B-EQUIPEMENT
+twin-screw	B-EQUIPEMENT
+extruder	I-EQUIPEMENT
 logs	O
 and	O
 the	O
@@ -3248,14 +3246,15 @@ following	O
 indicator	O
 history	O
 :	O
-complaint	B-INDICATEUR
-rate	I-INDICATEUR
+MTBF	B-INDICATEUR
 of	I-INDICATEUR
-58%	I-INDICATEUR
+10	I-INDICATEUR
+hours	I-INDICATEUR
 .	O
 A	O
-regrind	B-PROCESSUS
-recycling	I-PROCESSUS
+design	B-PROCESSUS
+of	I-PROCESSUS
+experiments	I-PROCESSUS
 workshop	O
 has	O
 already	O
@@ -3359,7 +3358,7 @@ indicator	O
 complaint	B-INDICATEUR
 rate	I-INDICATEUR
 of	I-INDICATEUR
-7%	I-INDICATEUR
+5%	I-INDICATEUR
 .	O
 Readings	O
 were	O
@@ -3437,8 +3436,9 @@ provide	O
 ERP	O
 extracts	O
 ,	O
-CNC	B-EQUIPEMENT
-lathe	I-EQUIPEMENT
+coordinate	B-EQUIPEMENT
+measuring	I-EQUIPEMENT
+machine	I-EQUIPEMENT
 logs	O
 and	O
 the	O
@@ -3446,14 +3446,14 @@ following	O
 indicator	O
 history	O
 :	O
-MTBF	B-INDICATEUR
+complaint	B-INDICATEUR
+rate	I-INDICATEUR
 of	I-INDICATEUR
-12	I-INDICATEUR
-hours	I-INDICATEUR
+3%	I-INDICATEUR
 .	O
 A	O
-SMED	B-PROCESSUS
-changeover	I-PROCESSUS
+preventive	B-PROCESSUS
+maintenance	I-PROCESSUS
 workshop	O
 has	O
 already	O
@@ -3481,8 +3481,8 @@ the	O
 expected	O
 approach	O
 is	O
-SMED	B-PROCESSUS
-changeover	I-PROCESSUS
+preventive	B-PROCESSUS
+maintenance	I-PROCESSUS
 .	O
 
 # passage_id = syn_en_009_p007
@@ -3554,7 +3554,7 @@ indicator	O
 complaint	B-INDICATEUR
 rate	I-INDICATEUR
 of	I-INDICATEUR
-92%	I-INDICATEUR
+8%	I-INDICATEUR
 .	O
 Readings	O
 were	O
@@ -3617,9 +3617,9 @@ the	O
 expected	O
 approach	O
 is	O
-5	B-PROCESSUS
-S	I-PROCESSUS
-method	I-PROCESSUS
+root	B-PROCESSUS
+cause	I-PROCESSUS
+analysis	I-PROCESSUS
 .	O
 
 # passage_id = syn_en_014_p005
@@ -3644,7 +3644,7 @@ must	I-CONTRAINTE
 be	I-CONTRAINTE
 completed	I-CONTRAINTE
 within	I-CONTRAINTE
-12	I-CONTRAINTE
+8	I-CONTRAINTE
 weeks	I-CONTRAINTE
 .	O
 
@@ -3656,8 +3656,8 @@ provide	O
 ERP	O
 extracts	O
 ,	O
-crimping	B-EQUIPEMENT
-machine	I-EQUIPEMENT
+wire	B-EQUIPEMENT
+stripper	I-EQUIPEMENT
 logs	O
 and	O
 the	O
@@ -3665,15 +3665,15 @@ following	O
 indicator	O
 history	O
 :	O
-scrap	B-INDICATEUR
+complaint	B-INDICATEUR
 rate	I-INDICATEUR
 of	I-INDICATEUR
-4%	I-INDICATEUR
+6%	I-INDICATEUR
 .	O
 A	O
-5	B-PROCESSUS
-S	I-PROCESSUS
-method	I-PROCESSUS
+root	B-PROCESSUS
+cause	I-PROCESSUS
+analysis	I-PROCESSUS
 workshop	O
 has	O
 already	O
@@ -3753,7 +3753,7 @@ indicator	O
 complaint	B-INDICATEUR
 rate	I-INDICATEUR
 of	I-INDICATEUR
-6%	I-INDICATEUR
+5%	I-INDICATEUR
 .	O
 Readings	O
 were	O
@@ -3831,8 +3831,8 @@ provide	O
 ERP	O
 extracts	O
 ,	O
-can	B-EQUIPEMENT
-seamer	I-EQUIPEMENT
+labelling	B-EQUIPEMENT
+machine	I-EQUIPEMENT
 logs	O
 and	O
 the	O
@@ -3840,13 +3840,14 @@ following	O
 indicator	O
 history	O
 :	O
-MTBF	B-INDICATEUR
+complaint	B-INDICATEUR
+rate	I-INDICATEUR
 of	I-INDICATEUR
-3	I-INDICATEUR
-hours	I-INDICATEUR
+4%	I-INDICATEUR
 .	O
 A	O
-pasteurization	B-PROCESSUS
+Ishikawa	B-PROCESSUS
+diagram	I-PROCESSUS
 workshop	O
 has	O
 already	O
@@ -3948,7 +3949,7 @@ indicator	O
 scrap	B-INDICATEUR
 rate	I-INDICATEUR
 of	I-INDICATEUR
-67%	I-INDICATEUR
+14%	I-INDICATEUR
 .	O
 Readings	O
 werc	O
@@ -4008,7 +4009,7 @@ must	I-CONTRAINTE
 be	I-CONTRAINTE
 completed	I-CONTRAINTE
 within	I-CONTRAINTE
-5	I-CONTRAINTE
+8	I-CONTRAINTE
 wecks	I-CONTRAINTE
 ;	O
 the	B-CONTRAINTE
@@ -4028,24 +4029,23 @@ provide	O
 ERP	O
 extracts	O
 ,	O
-fluld	B-EQUIPEMENT
-bed	I-EQUIPEMENT
-dryer	I-EQUIPEMENT
+bllster	B-EQUIPEMENT
+machine	I-EQUIPEMENT
 logs	O
 and	O
 the	O
 following	O
-indicator	O
-hlstory	O
+indlcator	O
+history	O
 :	O
-complaint	B-INDICATEUR
+scrap	B-INDICATEUR
 rate	I-INDICATEUR
 of	I-INDICATEUR
 7%	I-INDICATEUR
 .	O
 A	O
-cleaning	B-PROCESSUS
-validation	I-PROCESSUS
+preventive	B-PROCESSUS
+maintenance	I-PROCESSUS
 workshop	O
 has	O
 already	O
@@ -4164,7 +4164,7 @@ taux	B-INDICATEUR
 de	I-INDICATEUR
 réclamation	I-INDICATEUR
 de	I-INDICATEUR
-3	I-INDICATEUR
+5	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 Relevés	O
@@ -4235,10 +4235,8 @@ process	O
 Démarche	O
 attendue	O
 :	O
-délavage	B-PROCESSUS
-à	I-PROCESSUS
-la	I-PROCESSUS
-pierre	I-PROCESSUS
+maintenance	B-PROCESSUS
+préventive	I-PROCESSUS
 .	O
 
 # passage_id = syn_fr_000_p005
@@ -4282,26 +4280,27 @@ relevés	O
 du	O
 poste	O
 «	O
-presse	B-EQUIPEMENT
-à	I-EQUIPEMENT
-repasser	I-EQUIPEMENT
+machine	B-EQUIPEMENT
+de	I-EQUIPEMENT
+coupe	I-EQUIPEMENT
+automatique	I-EQUIPEMENT
 »	O
 et	O
 l'historique	O
 suivant	O
 :	O
-MTBF	B-INDICATEUR
+taux	B-INDICATEUR
 de	I-INDICATEUR
-3	I-INDICATEUR
-heures	I-INDICATEUR
+réclamation	I-INDICATEUR
+de	I-INDICATEUR
+2	I-INDICATEUR
+%	I-INDICATEUR
 .	O
 Un	O
 atelier	O
 de	O
-délavage	B-PROCESSUS
-à	I-PROCESSUS
-la	I-PROCESSUS
-pierre	I-PROCESSUS
+maintenance	B-PROCESSUS
+préventive	I-PROCESSUS
 a	O
 déjà	O
 été	O
@@ -4411,7 +4410,7 @@ taux	B-INDICATEUR
 de	I-INDICATEUR
 réclamation	I-INDICATEUR
 de	I-INDICATEUR
-62	I-INDICATEUR
+4	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 Relevés	O
@@ -4483,9 +4482,8 @@ méthodes	O
 Démarche	O
 attendue	O
 :	O
-changement	B-PROCESSUS
-rapide	I-PROCESSUS
-d'outil	I-PROCESSUS
+maintenance	B-PROCESSUS
+préventive	I-PROCESSUS
 .	O
 
 # passage_id = syn_fr_003_p005
@@ -4502,7 +4500,7 @@ doit	I-CONTRAINTE
 être	I-CONTRAINTE
 terminé	I-CONTRAINTE
 en	I-CONTRAINTE
-4	I-CONTRAINTE
+6	I-CONTRAINTE
 semaines	I-CONTRAINTE
 ;	O
 la	B-CONTRAINTE
@@ -4528,10 +4526,10 @@ relevés	O
 du	O
 poste	O
 «	O
-tour	B-EQUIPEMENT
+machine	B-EQUIPEMENT
 à	I-EQUIPEMENT
-commande	I-EQUIPEMENT
-numérique	I-EQUIPEMENT
+mesurer	I-EQUIPEMENT
+tridimensionnelle	I-EQUIPEMENT
 »	O
 et	O
 l'historique	O
@@ -4539,17 +4537,16 @@ suivant	O
 :	O
 taux	B-INDICATEUR
 de	I-INDICATEUR
-rebut	I-INDICATEUR
+réclamation	I-INDICATEUR
 de	I-INDICATEUR
-85	I-INDICATEUR
+3	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 Un	O
 atelier	O
 de	O
-changement	B-PROCESSUS
-rapide	I-PROCESSUS
-d'outil	I-PROCESSUS
+maintenance	B-PROCESSUS
+préventive	I-PROCESSUS
 a	O
 déjà	O
 été	O
@@ -4655,7 +4652,7 @@ taux	B-INDICATEUR
 de	I-INDICATEUR
 rebut	I-INDICATEUR
 de	I-INDICATEUR
-3	I-INDICATEUR
+11	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 Relevés	O
@@ -4723,9 +4720,8 @@ logistique	O
 Démarche	O
 attendue	O
 :	O
-validatlon	B-PROCESSUS
-du	I-PROCESSUS
-nettoyage	I-PROCESSUS
+maintenànce	B-PROCESSUS
+préventive	I-PROCESSUS
 .	O
 
 # passage_id = syn_fr_005_p005
@@ -4769,23 +4765,26 @@ relevés	O
 du	O
 poste	O
 «	O
-blistereuse	B-EQUIPEMENT
+lit	B-EQUIPEMENT
+d'air	I-EQUIPEMENT
+fluidisé	I-EQUIPEMENT
 »	O
 et	O
 l'historique	O
 suivant	O
 :	O
-MTBF	B-INDICATEUR
+taux	B-INDICATEUR
 de	I-INDICATEUR
-8	I-INDICATEUR
-heures	I-INDICATEUR
+rebut	I-INDICATEUR
+de	I-INDICATEUR
+4	I-INDICATEUR
+%	I-INDICATEUR
 .	O
 Un	O
 atelier	O
 de	O
-validation	B-PROCESSUS
-du	I-PROCESSUS
-nettoyage	I-PROCESSUS
+maintenance	B-PROCESSUS
+préventive	I-PROCESSUS
 a	O
 déjà	O
 été	O
@@ -4822,15 +4821,15 @@ question	O
 joindre	O
 S	B-PERSONNE
 .	I-PERSONNE
-Tlili	I-PERSONNE
-àu	O
+T1i1i	I-PERSONNE
+au	O
 +	B-DONNEE_SENSIBLE
 216	I-DONNEE_SENSIBLE
 82	I-DONNEE_SENSIBLE
 736	I-DONNEE_SENSIBLE
 429	I-DONNEE_SENSIBLE
 ou	O
-pàr	O
+par	O
 courriel	O
 à	O
 s	B-DONNEE_SENSIBLE
@@ -4988,27 +4987,24 @@ relevés	O
 du	O
 poste	O
 «	O
-machine	B-EQUIPEMENT
-de	I-EQUIPEMENT
-sertissage	I-EQUIPEMENT
+dénudeuse	B-EQUIPEMENT
 »	O
 et	O
 l'historique	O
 suivant	O
 :	O
-taux	B-INDICATEUR
+MTBF	B-INDICATEUR
 de	I-INDICATEUR
-réclamation	I-INDICATEUR
-de	I-INDICATEUR
-3	I-INDICATEUR
-%	I-INDICATEUR
+10	I-INDICATEUR
+heures	I-INDICATEUR
 .	O
 Un	O
 atelier	O
 de	O
-méthode	B-PROCESSUS
-5	I-PROCESSUS
-S	I-PROCESSUS
+analyse	B-PROCESSUS
+des	I-PROCESSUS
+causes	I-PROCESSUS
+racines	I-PROCESSUS
 a	O
 déjà	O
 été	O
@@ -5032,9 +5028,10 @@ process	O
 Démarche	O
 attendue	O
 :	O
-méthode	B-PROCESSUS
-5	I-PROCESSUS
-S	I-PROCESSUS
+analyse	B-PROCESSUS
+des	I-PROCESSUS
+causes	I-PROCESSUS
+racines	I-PROCESSUS
 .	O
 
 # passage_id = syn_fr_008_p007
@@ -5121,7 +5118,7 @@ taux	B-INDICATEUR
 de	I-INDICATEUR
 réclamation	I-INDICATEUR
 de	I-INDICATEUR
-78	I-INDICATEUR
+6	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 Relevés	O
@@ -5191,7 +5188,8 @@ qualité	O
 Démarche	O
 attendue	O
 :	O
-pasteurisation	B-PROCESSUS
+diagramme	B-PROCESSUS
+d'Ishikawa	I-PROCESSUS
 .	O
 
 # passage_id = syn_fr_013_p005
@@ -5208,7 +5206,7 @@ doit	I-CONTRAINTE
 être	I-CONTRAINTE
 terminé	I-CONTRAINTE
 en	I-CONTRAINTE
-10	I-CONTRAINTE
+6	I-CONTRAINTE
 semaines	I-CONTRAINTE
 ;	O
 le	B-CONTRAINTE
@@ -5235,7 +5233,7 @@ relevés	O
 du	O
 poste	O
 «	O
-étiqueteuse	B-EQUIPEMENT
+sertisseuse	B-EQUIPEMENT
 »	O
 et	O
 l'historique	O
@@ -5243,15 +5241,16 @@ suivant	O
 :	O
 taux	B-INDICATEUR
 de	I-INDICATEUR
-rebut	I-INDICATEUR
+réclamation	I-INDICATEUR
 de	I-INDICATEUR
-58	I-INDICATEUR
+5	I-INDICATEUR
 %	I-INDICATEUR
 .	O
 Un	O
 atelier	O
 de	O
-pasteurisation	B-PROCESSUS
+diagramme	B-PROCESSUS
+d'Ishikawa	I-PROCESSUS
 a	O
 déjà	O
 été	O
@@ -5410,8 +5409,9 @@ process	O
 Démarchc	O
 attendue	O
 :	O
-regrind	B-PROCESSUS
-recycling	I-PROCESSUS
+design	B-PROCESSUS
+of	I-PROCESSUS
+experiments	I-PROCESSUS
 .	O
 
 # passage_id = syn_fr_028_p005
@@ -5455,24 +5455,24 @@ relevés	O
 du	O
 poste	O
 «	O
-granulator	B-EQUIPEMENT
+twin-screw	B-EQUIPEMENT
+extruder	I-EQUIPEMENT
 »	O
 et	O
 l'historique	O
 suivant	O
 :	O
-taux	B-INDICATEUR
+MTBF	B-INDICATEUR
 de	I-INDICATEUR
-réclamation	I-INDICATEUR
-de	I-INDICATEUR
-6	I-INDICATEUR
-%	I-INDICATEUR
+14	I-INDICATEUR
+heures	I-INDICATEUR
 .	O
 Un	O
 atelier	O
 de	O
-regrind	B-PROCESSUS
-recycling	I-PROCESSUS
+design	B-PROCESSUS
+of	I-PROCESSUS
+experiments	I-PROCESSUS
 a	O
 déjà	O
 été	O

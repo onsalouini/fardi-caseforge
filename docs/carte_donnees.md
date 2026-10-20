@@ -56,7 +56,7 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 
 | Méthode | Passages | Signification |
 |---|---|---|
-| annotations_sur_ancien_texte_ecartees | 4 |  |
+| annotations_sur_ancien_texte_ecartees | 12 |  |
 | construction | 756 | généré par script à partir de gabarits ; annotation exacte par construction ; non relu par un humain |
 | externe_humain | 10341 | corpus public annoté à la main par ses auteurs (PER/ORG/LOC convertis) |
 | redaction_llm | 156 | rédigé en texte libre et pré-annoté par un assistant IA (Claude) ; non relu par un humain |
@@ -65,30 +65,19 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 
 | Date | Étape | Détails |
 |---|---|---|
-| 2026-10-19T15:28:27 | generate | {"documents": 90, "passages": 756, "entites": 2030, "fiches": 90, "config": "config/dataset.yaml"} |
-| 2026-10-19T15:28:27 | libre | {"documents": 24, "passages": 156, "entites": 464, "avertissements": 0} |
-| 2026-10-19T15:28:27 | external_fetch | {"sources": ["SRC-ANERCORP", "SRC-EUROPEANA", "SRC-WIKIGOLD", "SRC-SECFILINGS"]} |
-| 2026-10-19T15:28:31 | external_convert | {"source": "SRC-ANERCORP", "passages": 2662, "entites": 10096, "passages_industriels": 605, "fichier": "data/annotated/externe_anercorp.jsonl"} |
-| 2026-10-19T15:28:32 | external_convert | {"source": "SRC-EUROPEANA", "passages": 6112, "entites": 9805, "passages_industriels": 400, "fichier": "data/annotated/externe_europeana.jsonl"} |
-| 2026-10-19T15:28:32 | external_convert | {"source": "SRC-WIKIGOLD", "passages": 848, "entites": 2843, "passages_industriels": 84, "fichier": "data/annotated/externe_wikigold.jsonl"} |
-| 2026-10-19T15:28:32 | external_convert | {"source": "SRC-SECFILINGS", "passages": 719, "entites": 1468, "passages_industriels": 507, "fichier": "data/annotated/externe_secfilings.jsonl"} |
-| 2026-10-19T15:28:32 | segment | {"documents": 3, "passages": 14, "pre_annotations": 18, "sources": ["SRC-EQUIPE"]} |
-| 2026-10-19T15:28:32 | verify_sample | {"passages": 355, "famille_B_test": 154, "libre": 156, "famille_A": 45} |
-| 2026-10-19T15:28:34 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité |
-| 2026-10-19T19:18:50 | import_ls | {"fichier": "data/annotated/rapide_verif.jsonl", "methode": "acceptation_rapide", "annotations": 364, "entites": 994, "problemes": {}} |
-| 2026-10-19T19:18:50 | import_ls | {"fichier": "data/annotated/rapide_double.jsonl", "methode": "acceptation_rapide", "annotations": 71, "entites": 179, "problemes": {}} |
-| 2026-10-19T19:18:52 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité |
-| 2026-10-19T20:51:08 | import_ls | {"fichier": "data/annotated/humain_kappa_ons.jsonl", "methode": "humain_aveugle", "annotations": 21, "entites": 82, "problemes": {"bordure corrigée": 27, "chevauchement": 13}} |
-| 2026-10-19T20:51:08 | import_ls | {"fichier": "data/annotated/humain_kappa_collegue.jsonl", "methode": "humain_aveugle", "annotations": 20, "entites": 59, "problemes": {"bordure corrigée": 15, "span vide ou hors texte": 1, "chevauchem |
-| 2026-10-19T20:51:45 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Vérification humaine des pré-annotations (test en priorité |
-| 2026-10-19T21:30:51 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Fiches relues selon la grille (docs/grille_relecture_fiche |
-| 2026-10-19T21:45:04 | import_ls | {"fichier": "data/annotated/humain_kappa_ons.jsonl", "methode": "humain_aveugle", "annotations": 21, "entites": 82, "problemes": {"bordure corrigée": 27, "chevauchement": 13}} |
-| 2026-10-19T21:45:04 | import_ls | {"fichier": "data/annotated/humain_kappa_boutheina.jsonl", "methode": "humain_aveugle", "annotations": 20, "entites": 59, "problemes": {"bordure corrigée": 15, "span vide ou hors texte": 1, "chevauche |
-| 2026-10-19T21:45:06 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Fiches relues selon la grille (docs/grille_relecture_fiche |
-| 2026-10-20T09:38:31 | import_ls | {"fichier": "annotation/kappa_express/humain_kappa.jsonl", "methode": "humain", "annotations": 41, "entites": 141, "problemes": {"bordure corrigée": 42, "chevauchement": 15, "span vide ou hors texte": |
-| 2026-10-20T09:45:11 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Fiches relues selon la grille (docs/grille_relecture_fiche |
-| 2026-10-20T11:17:01 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": []} |
-| 2026-10-20T11:25:01 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": []} |
+| 2026-10-20T12:13:44 | generate | {"documents": 90, "passages": 756, "entites": 2030, "fiches": 90, "config": "config/dataset.yaml"} |
+| 2026-10-20T12:13:45 | libre | {"documents": 24, "passages": 156, "entites": 464, "avertissements": 0} |
+| 2026-10-20T12:13:45 | external_fetch | {"sources": ["SRC-ANERCORP", "SRC-EUROPEANA", "SRC-WIKIGOLD", "SRC-SECFILINGS"]} |
+| 2026-10-20T12:13:48 | external_convert | {"source": "SRC-ANERCORP", "passages": 2662, "entites": 10096, "passages_industriels": 605, "fichier": "data/annotated/externe_anercorp.jsonl"} |
+| 2026-10-20T12:13:49 | external_convert | {"source": "SRC-EUROPEANA", "passages": 6112, "entites": 9805, "passages_industriels": 400, "fichier": "data/annotated/externe_europeana.jsonl"} |
+| 2026-10-20T12:13:49 | external_convert | {"source": "SRC-WIKIGOLD", "passages": 848, "entites": 2843, "passages_industriels": 84, "fichier": "data/annotated/externe_wikigold.jsonl"} |
+| 2026-10-20T12:13:49 | external_convert | {"source": "SRC-SECFILINGS", "passages": 719, "entites": 1468, "passages_industriels": 507, "fichier": "data/annotated/externe_secfilings.jsonl"} |
+| 2026-10-20T12:13:49 | segment | {"documents": 3, "passages": 14, "pre_annotations": 19, "sources": ["SRC-EQUIPE"]} |
+| 2026-10-20T12:13:49 | verify_sample | {"passages": 355, "famille_B_test": 154, "libre": 156, "famille_A": 45} |
+| 2026-10-20T12:13:49 | fiches_relues_obsoletes | {"n": 16, "doc_ids": ["syn_ar_000", "syn_ar_001", "syn_ar_006", "syn_ar_007", "syn_ar_008", "syn_en_000", "syn_en_004", "syn_en_005", "syn_en_006", "syn_en_008", "syn_fr_000", "syn_fr_003", "syn_fr_00 |
+| 2026-10-20T12:13:51 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Double annotation d'un sous-ensemble (aveugle, de zéro)",  |
+| 2026-10-20T12:16:19 | fiches_relues_obsoletes | {"n": 16, "doc_ids": ["syn_ar_000", "syn_ar_001", "syn_ar_006", "syn_ar_007", "syn_ar_008", "syn_en_000", "syn_en_004", "syn_en_005", "syn_en_006", "syn_en_008", "syn_fr_000", "syn_fr_003", "syn_fr_00 |
+| 2026-10-20T12:16:20 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Double annotation d'un sous-ensemble (aveugle, de zéro)",  |
 
 ## 5. Nettoyage et dédoublonnage
 
@@ -124,15 +113,17 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 
 | Exigence | État | Cible | Statut |
 |---|---|---|---|
-| Double annotation d'un sous-ensemble (aveugle, de zéro) | 16 passages | ≥ 15 passages | OK |
+| Double annotation d'un sous-ensemble (aveugle, de zéro) | 12 passages | ≥ 15 passages | À FAIRE |
 | Accord inter-annotateurs (kappa) | mesuré | ≥ 0.7 | OK |
-| Fiches relues selon la grille (docs/grille_relecture_fiches.md) | 40 relues | 40 à 60 | OK |
+| Fiches relues selon la grille (docs/grille_relecture_fiches.md) | 24 relues | 40 à 60 | À FAIRE |
 
 ### Recommandé (non exigé par le cahier des charges)
 
 | Recommandation | État | Cible |
 |---|---|---|
 | Vérification humaine complète du test (qualité de la référence) | 0/206 passages | 100 % du test, avant l'évaluation finale |
+
+**À faire par l'équipe avant la revue J1 :** Double annotation d'un sous-ensemble (aveugle, de zéro) ; Fiches relues selon la grille (docs/grille_relecture_fiches.md).
 
 ## 7. Équilibre
 
@@ -315,24 +306,24 @@ Passages doublement annotés : 20
 
 | Fichier | SHA-256 |
 |---|---|
-| train.jsonl | `6539259bf29d91a2…` |
-| train.bio.jsonl | `62701b91508daf6b…` |
-| hf/train.jsonl | `87b8083ae6325552…` |
-| train.conll | `eb95e013a41b8a4a…` |
-| documents_train.jsonl | `cc1fd11e0a1c8ccb…` |
-| fiches_train.jsonl | `0df99a0213b0ff48…` |
-| dev.jsonl | `3860ad067d7faae5…` |
-| dev.bio.jsonl | `7507a8d3ed9c7df8…` |
-| hf/validation.jsonl | `1957d817e6e4d3de…` |
-| dev.conll | `3f12c69baa389a90…` |
-| documents_dev.jsonl | `23054d5d07260155…` |
-| fiches_dev.jsonl | `3267273cfff71861…` |
-| test.jsonl | `9936b8f163d6d114…` |
-| test.bio.jsonl | `9529881e8af2989d…` |
-| hf/test.jsonl | `464cea5d45aaefa5…` |
-| test.conll | `e8fcb5f470cebc71…` |
-| documents_test.jsonl | `009668d6fb447dfc…` |
-| fiches_test.jsonl | `95d75cbcfa9e8db2…` |
+| train.jsonl | `a670bae902ba1dfe…` |
+| train.bio.jsonl | `dfad87b4e58d7859…` |
+| hf/train.jsonl | `9577538bbd6f7e89…` |
+| train.conll | `0f2f50ea435317f6…` |
+| documents_train.jsonl | `6adc5fc9d3940ec9…` |
+| fiches_train.jsonl | `506f781581b43c66…` |
+| dev.jsonl | `a075b2f5845a7d17…` |
+| dev.bio.jsonl | `2cf746dcb55fbba9…` |
+| hf/validation.jsonl | `41d113331b8f1ef3…` |
+| dev.conll | `47d9f59a02a13dcb…` |
+| documents_dev.jsonl | `9851151d1e3cf28b…` |
+| fiches_dev.jsonl | `ec908e00fcad5372…` |
+| test.jsonl | `a67903d53a02e01d…` |
+| test.bio.jsonl | `86e451ba656325c9…` |
+| hf/test.jsonl | `4d0364d5676a7284…` |
+| test.conll | `a40685b5e01ffef7…` |
+| documents_test.jsonl | `c88cef9e06371bf9…` |
+| fiches_test.jsonl | `2923fb1d0b92d105…` |
 | externe_train.jsonl | `47cbe472c1d30973…` |
 | externe_train.bio.jsonl | `dfc09c15105cf4c3…` |
 | hf/externe_train.jsonl | `35917f4174ba489b…` |

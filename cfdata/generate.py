@@ -153,12 +153,27 @@ def pick_values(lang: str, sector: str, famille: str, rng: random.Random, code_s
     equips = rng.sample(fam(lex["equip"][tech_lang]), 2)
     ind_i, ind2_i = rng.sample(fam(list(range(len(P.INDICATORS[lang])))), 2)
     ctr_i, ctr2_i = rng.sample(fam(list(range(len(P.CONSTRAINTS[lang])))), 2)
-    def num(tpl: str) -> int:  # valeurs plausibles selon l'unité
+    def num(tpl: str) -> int:  # tirage brut (inchangé depuis v1 : garde la même suite aléatoire)
         if "%" in tpl:
             return rng.choice([3, 4, 6, 7, 9, 12, 18, 58, 62, 67, 71, 78, 85, 92])
         if "000" in tpl:
             return rng.choice([5, 8, 10, 15, 20, 30, 50])
         return rng.choice([2, 3, 4, 5, 6, 8, 10, 12])
+    # v3 : le tirage brut est ramené à une plage plausible selon le type d'indicateur ou de contrainte
+    # (relecture des fiches du 20/10 : « taux de rebut de 85 % », « projet en 2 semaines » jugés irréalistes)
+    PLAUSIBLE_IND = {0: [52, 55, 58, 61, 63, 66, 68], 1: [4, 6, 7, 9, 11, 12, 14], 2: [6, 7, 8, 9, 10, 12, 14],
+                     3: [6, 8, 9, 10, 12, 14, 16], 4: [72, 75, 78, 80, 83, 85, 88], 5: [2, 3, 4, 5, 6, 7, 8]}
+    RAW = [3, 4, 6, 7, 9, 12, 18, 58, 62, 67, 71, 78, 85, 92, 5, 8, 10, 15, 20, 30, 50, 2]
+    def ind_val(i: int, raw: int, shift: int = 0, avoid: int | None = None) -> int:
+        vals = PLAUSIBLE_IND[i]  # shift / avoid : la valeur de l'historique diffère de la valeur actuelle
+        k = (RAW.index(raw) if raw in RAW else raw) + shift
+        return vals[(k + 1) % len(vals)] if vals[k % len(vals)] == avoid else vals[k % len(vals)]
+    def ctr_val(i: int, raw: int) -> int:
+        if i == 5:  # durée du projet : 4 à 8 semaines (cadre pédagogique)
+            return {2: 4, 3: 5, 4: 6, 5: 8, 6: 6, 8: 8, 10: 6, 12: 8}.get(raw, 6)
+        if i == 0:  # arrêt de ligne : au moins 4 heures par semaine
+            return max(raw, 4)
+        return raw
     norm = rng.choice(P.NORMS)
     year, k = rng.choice([2024, 2025, 2026]), rng.randint(1, 299)
     ca = f"{rng.randint(2, 95)},{rng.randint(1, 9)}"
@@ -171,16 +186,23 @@ def pick_values(lang: str, sector: str, famille: str, rng: random.Random, code_s
                       f"+216 {rng.randint(20, 99)} {rng.randint(100, 999)} {rng.randint(100, 999)}"])
     v = {
         "ORG": org, "ACR": acr or org, "PER": per, "PERC": perc, "SITE": site, "SITEC": city,
-        "PROD": rng.choice(fam(lex["prod"][lang])), "EQUIP": equips[0], "EQUIP2": equips[1],
+        # v3 : les relevés disponibles portent sur le MÊME équipement que le problème (EQUIP2 = EQUIP),
+        # et l'historique porte sur le MÊME indicateur (IND2 = autre valeur de IND)
+        "PROD": rng.choice(fam(lex["prod"][lang])), "EQUIP": equips[0], "EQUIP2": equips[0],
         "PROC": rng.choice(fam(lex["proc"][tech_lang])),
-        "IND": (t := P.INDICATORS[lang][ind_i]).format(n=num(t)),
-        "IND2": (t := P.INDICATORS[lang][ind2_i]).format(n=num(t)),
-        "CTR": (t := P.CONSTRAINTS[lang][ctr_i]).format(n=num(t), norm=norm),
-        "CTR2": (t := P.CONSTRAINTS[lang][ctr2_i]).format(n=num(t), norm=norm),
+        "IND": (t := P.INDICATORS[lang][ind_i]).format(n=(n1 := ind_val(ind_i, num(t)))),
+        "IND2": P.INDICATORS[lang][ind_i].format(n=(n2 := ind_val(ind_i, num(P.INDICATORS[lang][ind2_i]), shift=3, avoid=n1))),
+        "CTR": (t := P.CONSTRAINTS[lang][ctr_i]).format(n=ctr_val(ctr_i, num(t)), norm=norm),
+        "CTR2": (t := P.CONSTRAINTS[lang][ctr2_i]).format(n=ctr_val(ctr2_i, num(t)), norm=norm),
         **ds, "DS_MAIL": f"{mail_user}@{mail_dom}.tn", "DS_TEL": tel,
         "ROLE": rng.choice(P.ROLES[lang]), "MOIS": rng.choice(P.MONTHS[lang]),
         "CLIENT": rng.choice(P.CLIENTS[lang]), "MISSION": rng.choice(P.MISSIONS[lang]),
     }
+    # v3 : la valeur actuelle (IND) est la valeur DÉGRADÉE, l'historique (IND2) la meilleure. TRS, MTBF et taux
+    # de service : plus haut = mieux ; rebut, délai, réclamations : plus bas = mieux. Même suite aléatoire.
+    haut = ind_i in (0, 3, 4)
+    n_act, n_hist = (min(n1, n2), max(n1, n2)) if haut else (max(n1, n2), min(n1, n2))
+    v["IND"], v["IND2"] = (P.INDICATORS[lang][ind_i].format(n=n_act), P.INDICATORS[lang][ind_i].format(n=n_hist))
     if lang == "ar":  # pas de sigle en arabe : on répète le nom
         v["ACR"] = org
     return v, switched
@@ -244,15 +266,15 @@ def make_document(doc_id: str, lang: str, sector: str, fmt: str, noise: str, fam
             "ptype": T.PTYPE[role], "text_anonymise": anon, "anonymisation": mapping,
             "secteur": sector, "format": fmt, "bruit": noise, "famille": famille, "doc_lang": lang,
             "source_id": "SRC-SYN", "source_type": "simule_genere", "licence": "CC-BY-4.0 (équipe)",
-            "annotation_method": "construction", "annotator": "generateur_v1",
+            "annotation_method": "construction", "annotator": "generateur_v3",
             "generation": {"gabarit": f"{lang}.{fmt}.{role}.{variant}", "graine": seed},
         })
-    fiche = make_fiche(doc_id, lang, sector, values, passages)
+    fiche = make_fiche(doc_id, lang, sector, values, passages, variant)
     raw = "\n\n".join(p["text"] for p in passages) + "\n"
     return raw, passages, fiche
 
 
-def make_fiche(doc_id: str, lang: str, sector: str, v: dict, passages: list[dict]) -> dict:
+def make_fiche(doc_id: str, lang: str, sector: str, v: dict, passages: list[dict], variant: int = 0) -> dict:
     """Fiche de référence anonymisée ; chaque champ indique son origine (passage source ou gabarit pédagogique)."""
     fx = T.FICHE_FIXED[lang]
     by_ref: dict[str, list[str]] = {}
@@ -271,8 +293,9 @@ def make_fiche(doc_id: str, lang: str, sector: str, v: dict, passages: list[dict
             {"texte": fx["objectif_1"].format(IND=v["IND"]), "origine": "source", "sources": src("ind1")},
             {"texte": fx["objectif_2"].format(PROC=v["PROC"]), "origine": "source", "sources": src("proc1")},
         ],
-        "donnees": [{"texte": v["EQUIP2"], "origine": "source", "sources": src("equip2")},
-                    {"texte": v["IND2"], "origine": "source", "sources": src("ind2")}],
+        "donnees": [{"texte": fx["releves"].format(EQUIP=v["EQUIP2"]), "origine": "source", "sources": src("equip2")},
+                    {"texte": fx["historique"].format(IND=v["IND2"]), "origine": "source", "sources": src("ind2")},
+                    {"texte": fx["autres_donnees"][variant], "origine": "source", "sources": src("equip2")}],
         "contraintes": [{"texte": v["CTR"], "origine": "source", "sources": src("ctr1")},
                         {"texte": v["CTR2"], "origine": "source", "sources": src("ctr2")}],
         "consignes": [{"texte": c, "origine": "gabarit"} for c in fx["consignes"]],
@@ -332,7 +355,7 @@ def main() -> None:
         fiches.append(fiche)
         meta.append({"doc_id": doc_id, "filename": f"synth/{doc_id}.txt", "source": "simule", "source_id": "SRC-SYN",
                      "secteur": d["sector"], "format": d["fmt"], "bruit": d["noise"], "famille": d["famille"],
-                     "langue": d["lang"], "licence": "CC-BY-4.0 (équipe)", "auteur": "generateur_v1", "graine": seed})
+                     "langue": d["lang"], "licence": "CC-BY-4.0 (équipe)", "auteur": "generateur_v3", "graine": seed})
 
     out = Path(g["sortie"])
     write_jsonl(out / "synth_passages.jsonl", all_passages)

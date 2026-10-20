@@ -72,6 +72,15 @@ def load_all(ann_dir: Path) -> tuple[list[dict], dict, list[dict]]:
         files[f.name] = len(rs)
     # fiches relues par l'équipe (data/annotated/fiches_relues.jsonl) : remplacent la version générée
     relues = {f["doc_id"]: f for f in fiches if f.get("validation", {}).get("statut") == "relue"}
+    generees = {f["doc_id"]: f for f in fiches if f.get("validation", {}).get("statut") != "relue"}
+    # une relecture ne vaut que pour la fiche relue : si le générateur a changé la fiche depuis, la relecture
+    # est obsolète (gardée dans fiches_relues.jsonl pour l'historique, mais ni appliquée ni comptée)
+    contenu = lambda f: [[i["texte"] for i in f.get(k, [])] for k in ("objectifs", "donnees", "contraintes")]
+    obsoletes = sorted(d for d, f in relues.items() if d in generees and contenu(f) != contenu(generees[d]))
+    if obsoletes:
+        print(f"  {len(obsoletes)} relectures obsolètes (fiche régénérée depuis) : non comptées")
+        log_step("fiches_relues_obsoletes", {"n": len(obsoletes), "doc_ids": obsoletes})
+    relues = {d: f for d, f in relues.items() if d not in obsoletes}
     fiches = list({f["doc_id"]: relues.get(f["doc_id"], f) for f in fiches}.values())
     return rows, files, fiches
 
