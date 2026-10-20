@@ -20,3 +20,5 @@
 {"etape": "build", "date": "2026-10-19T21:45:06", "passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Fiches relues selon la grille (docs/grille_relecture_fiches.md)"]}
 {"etape": "import_ls", "date": "2026-10-20T09:38:31", "fichier": "annotation/kappa_express/humain_kappa.jsonl", "methode": "humain", "annotations": 41, "entites": 141, "problemes": {"bordure corrigée": 42, "chevauchement": 15, "span vide ou hors texte": 1}}
 {"etape": "build", "date": "2026-10-20T09:45:11", "passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Fiches relues selon la grille (docs/grille_relecture_fiches.md)"]}
+{"etape": "build", "date": "2026-10-20T11:17:01", "passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": []}
+{"etape": "build", "date": "2026-10-20T11:25:01", "passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": []}

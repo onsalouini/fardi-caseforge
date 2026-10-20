@@ -3,6 +3,9 @@
     python -m cfdata.fiches_review export --out reports/relecture_fiches.xlsx
     (remplir les colonnes de notes dans Excel)
     python -m cfdata.fiches_review import --xlsx reports/relecture_fiches.xlsx --out data/annotated/fiches_relues.jsonl
+
+Ou avec la page annotation/relecture_fiches.html (un fichier JSON de notes par relectrice) :
+    python -m cfdata.fiches_review import-json --json annotation/relecture_ons.json,annotation/relecture_boutheina.json
 """
 from __future__ import annotations
 
@@ -98,12 +101,38 @@ def imp(args):
     print(f"{len(out)} fiches relues ({acc} acceptées, {len(out) - acc} à corriger) ; {incomplete} lignes incomplètes ignorées -> {args.out}")
 
 
+def imp_json(args):
+    """Notes téléchargées depuis annotation/relecture_fiches.html -> fiches_relues.jsonl."""
+    fiches = {f["doc_id"]: f for f in read_jsonl("data/final/fiches_a_relire.jsonl")}
+    out, seen = [], set()
+    for path in args.json.split(","):
+        for r in json.load(open(path, encoding="utf-8")):
+            scores = {c: r.get(c) for c in CRIT}
+            if any(v not in (0, 1, 2) for v in scores.values()) or not r.get("relu_par"):
+                raise SystemExit(f"{path} : notes incomplètes pour {r.get('doc_id')}")
+            if r["doc_id"] in seen:
+                raise SystemExit(f"{r['doc_id']} relue deux fois")
+            seen.add(r["doc_id"])
+            f = dict(fiches[r["doc_id"]])
+            total = sum(scores.values())
+            f["validation"] = {"statut": "relue", "valide_par": r["relu_par"], "date": args.date, "scores": scores,
+                               "total": total, "acceptee": total >= 13 and scores["invention"] > 0 and scores["anonymisation"] > 0,
+                               "commentaire": r.get("commentaire", ""), "fichier_notes": path.replace("\\", "/")}
+            out.append(f)
+    write_jsonl(args.out, out)
+    acc = sum(f["validation"]["acceptee"] for f in out)
+    print(f"{len(out)} fiches relues ({acc} acceptées, {len(out) - acc} à corriger) -> {args.out}")
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(required=True)
     a = sub.add_parser("export"); a.add_argument("--out", default="reports/relecture_fiches.xlsx"); a.set_defaults(f=export)
     b = sub.add_parser("import"); b.add_argument("--xlsx", default="reports/relecture_fiches.xlsx")
     b.add_argument("--out", default="data/annotated/fiches_relues.jsonl"); b.set_defaults(f=imp)
+    c = sub.add_parser("import-json"); c.add_argument("--json", required=True)
+    c.add_argument("--date", default=str(date.today()))
+    c.add_argument("--out", default="data/annotated/fiches_relues.jsonl"); c.set_defaults(f=imp_json)
     args = ap.parse_args()
     args.f(args)
 
