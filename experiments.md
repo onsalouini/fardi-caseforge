@@ -1,7 +1,19 @@
 # Journal des expériences — CaseForge
 
 Équipe : Ali Ben Jannet, Boutheina Rjab, Ons Alouini, Ghayth Mahmoud.
-Chef de projet (semaines 1 à 3) : à compléter.
+## Organisation
+
+Travail en binômes, un lot après l'autre ; le lot E (audit, intégration) est partagé : chacun audite le composant d'un autre binôme.
+
+| Lot | Binôme | Responsable | Chef de projet pendant le lot |
+|---|---|---|---|
+| A · Données & langue | Boutheina, Ons | à désigner | à désigner |
+| B · Extraction (règles, NER, anonymisation) | Ali, Ghayth | à désigner | à désigner |
+| C · Modèles (TF-IDF, fine-tuning) | à définir | | |
+| D · LLM et RAG | à définir | | |
+| E · Audit et intégration | tous | | |
+
+Test gelé de référence : tag `test-gele-v2` (commit `cdf1231`, 20/10). Le tag `test-gele-v1` (19/10) correspond à l'ancienne version, avant correction des gabarits.
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
 ## 2026-10-20 · Ali · Étude langue : identification de langue, normaliseur, courbe d'apprentissage
@@ -25,6 +37,7 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 
 ## 2026-10-19 · Ghayth · Correction des gabarits et re-gel du test
 - Bug « machine machine » corrigé dans `cfdata/templates.py`, données régénérées, nouveaux hash dans `manifest.json`. Aucun modèle n'avait été entraîné. Commit `c2dd328`.
+- Tag `test-gele-v2` (commit `cdf1231`, 20/10) : version de référence du test pour toutes les évaluations.
 
 ## 2026-10-19 · Équipe · Validation rapide des pré-annotations (non retenue)
 - 355 passages soumis dans Label Studio à environ 1 s par passage, 0 modification. Non comptés comme vérification humaine.
