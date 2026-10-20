@@ -2,7 +2,7 @@
  {
   "doc_id": "lib_ar_01",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "لم يتم ذكر مدة الموسم المقدّرة بـ75 يومًا، ولا الأسباب المحتملة للمشكل، مثل آلة الغلق ودرجة حرارة التعقيم. بقية المعلومات موثّقة بشكل مناسب.\n",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -15,7 +15,7 @@
  {
   "doc_id": "lib_ar_02",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "لم يتم تحديد آلة الحقن رقم 7 ذات قوة 450 طنًا، كما لم تُذكر العيوب بدقة، مثل التشوهات والفقاعات. تم الاحتفاظ بمؤشر استهلاك الطاقة.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -28,7 +28,7 @@
  {
   "doc_id": "lib_ar_03",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "لم تتم الإشارة بوضوح إلى أن المكبس الدوّار الجديد استُخدم لأول مرة، كما لم يُذكر تفصيل فحص 4 عينات من أصل 20. المراجع المقدّمة صحيحة.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -41,7 +41,7 @@
  {
   "doc_id": "lib_ar_04",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "لم يتم ذكر القدرة البالغة 10 ميغاواط، ولا الأسباب المحددة للمشكل، مثل تراكم الغبار وأعطال العاكسات الكهربائية، كما لم يُذكر تنظيف الألواح كل ستة أسابيع.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -54,7 +54,7 @@
  {
   "doc_id": "lib_en_01",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "The extracted data omit the suspected causes (vacuum bagging and the autoclave temperature profile), the porosity finding, and the dataset covering 1,400 panels.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -67,7 +67,7 @@
  {
   "doc_id": "lib_en_02",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "The two foreign-body complaints and the specific extraction-rate comparison (71.5% versus the 74% target) are not fully represented. The reported 40% increase is included.\n",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -80,7 +80,7 @@
  {
   "doc_id": "lib_en_03",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "The number of inspected units (2,500), the defect mechanism, the stencil change, and the comparison between night and day shifts are only partially covered. The 186 defects and both reported rates are included.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -93,7 +93,7 @@
  {
   "doc_id": "lib_en_04",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "The two 10 m³ tanks and the automatic bottling line are omitted, although the two main performance indicators are included.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -106,7 +106,7 @@
  {
   "doc_id": "lib_fr_01",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "Les quelque 310 retours, les relevés thermiques et la gamme de montage ne sont pas repris. La contrainte liée à l’organisation du travail en 2×8 n’est pas mentionnée, même si la limite d’arrêt et la certification sont bien prises en compte.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 1,
@@ -119,7 +119,7 @@
  {
   "doc_id": "lib_fr_02",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "Le projet combine la maîtrise statistique du clinker et l’optimisation énergétique du broyage. Compte tenu de l’impossibilité d’arrêter le four et des possibilités limitées d’essais, le périmètre paraît ambitieux pour une durée de 4 à 8 semaines.",
   "fidelite_objectifs": 2,
   "donnees": 2,
   "contraintes": 2,
@@ -132,7 +132,7 @@
  {
   "doc_id": "lib_fr_03",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "Le nombre de pièces livrées (12 000), la nature des défauts et l’usinage de nuit ne sont pas repris. De plus, le délai de 10 jours ouvrés pour produire le rapport 8D paraît très court pour mener une étude complète.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -145,7 +145,7 @@
  {
   "doc_id": "lib_fr_04",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "Le nombre d’éleveurs concernés, les produits fabriqués et le fonctionnement continu 7 jours sur 7 ne sont pas mentionnés. Les indicateurs directement liés au problème sont néanmoins présents.",
   "fidelite_objectifs": 2,
   "donnees": 1,
   "contraintes": 2,
@@ -158,7 +158,7 @@
  {
   "doc_id": "syn_fr_000",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "Les objectifs portant sur le délavage à la pierre et la presse à repasser ne correspondent pas au problème de la machine de coupe automatique du tissu denim. Les données relatives au MTBF et à la presse à repasser sont hors sujet par rapport au taux de réclamation. Enfin, la durée de trois semaines est inférieure à la cible de 4 à 8 semaines.",
   "fidelite_objectifs": 1,
   "donnees": 0,
   "contraintes": 2,
@@ -171,7 +171,7 @@
  {
   "doc_id": "syn_fr_003",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "La méthode SMED et le changement rapide d’outil sont peu cohérents avec le problème décrit, qui concerne une machine de mesure tridimensionnelle et un taux de réclamation. Les données relatives au tour CNC et au taux de rebut de 85 % ne correspondent pas clairement au problème. La durée de quatre semaines est acceptable, mais le sujet manque de cohérence.",
   "fidelite_objectifs": 1,
   "donnees": 0,
   "contraintes": 2,
@@ -184,7 +184,7 @@
  {
   "doc_id": "syn_fr_005",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "La validation du nettoyage et la blistereuse ne correspondent pas au problème décrit, qui concerne un lit d’air fluidisé et un taux de rebut. Les données sur le MTBF et la blistereuse sont hors sujet. Plusieurs fautes de frappe, telles que « gammc », « tcntative » et « validatlon », nuisent à la lisibilité et nécessitent une correction.",
   "fidelite_objectifs": 1,
   "donnees": 0,
   "contraintes": 2,
@@ -197,7 +197,7 @@
  {
   "doc_id": "syn_ar_000",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "الأهداف المتعلقة بالغسل بالحجر لا تتوافق مع مشكلة آلة القص الآلي وشكايات النسيج. كما أن البيانات المتعلقة بمكبس الكي ومتوسط زمن الأعطال لا تعالج المشكل الأساسي. مدة ستة أسابيع مناسبة من حيث الزمن، لكن موضوع المشروع غير منسجم. توجد كذلك أخطاء إملائية وصياغية تحتاج إلى التصحيح.",
   "fidelite_objectifs": 1,
   "donnees": 0,
   "contraintes": 2,
@@ -210,7 +210,7 @@
  {
   "doc_id": "syn_ar_001",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "أهداف البسترة لا تتوافق مع مشكلة آلة السدّ ومؤشر الفضلات المذكورين في النص. كما أن آلة التلصيق لا تتطابق مع آلة السدّ، والمؤشر المستخدم لا يفسّر المشكل الأساسي. مدة أسبوعين أقصر من الإطار المطلوب، وهو من 4 إلى 8 أسابيع. توجد أخطاء إملائية وصياغية تستوجب المراجعة.",
   "fidelite_objectifs": 1,
   "donnees": 0,
   "contraintes": 2,
@@ -223,7 +223,7 @@
  {
   "doc_id": "syn_en_000",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "The objectives concerning stone washing and the ironing press do not match the described denim-cutting-machine issue. The data about the automatic cutting machine and the 85% complaint rate are inconsistent with the stated ironing-press and scrap-rate problem. The proposed duration of three weeks is shorter than the required 4–8 weeks.",
   "fidelite_objectifs": 1,
   "donnees": 0,
   "contraintes": 2,
@@ -236,7 +236,7 @@
  {
   "doc_id": "syn_en_004",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "The objective of regrind recycling does not clearly address the stated twin-screw-extruder and MTBF problem. The granulator logs and the 58% complaint rate are inconsistent with the main issue and do not adequately support the proposed objective. The relationship between the problem, the data, and the objective needs clarification.",
   "fidelite_objectifs": 1,
   "donnees": 0,
   "contraintes": 2,
@@ -249,7 +249,7 @@
  {
   "doc_id": "syn_en_005",
   "relu_par": "Ons",
-  "commentaire": "",
+  "commentaire": "The cleaning-validation objective does not align with the blister-machine and MTBF issue as presented. The fluid-bed-dryer logs and scrap-rate data are inconsistent with the primary indicator. In addition, numerous character-level errors, such as “ointmcnts”, “superviscd”, “condltions”, and “hist0ry”, reduce readability and require correction before the sheet can be considered acceptable.",
   "fidelite_objectifs": 1,
   "donnees": 0,
   "contraintes": 2,
