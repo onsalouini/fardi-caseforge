@@ -32,3 +32,4 @@ mlruns/
 .env
 .idea/
 .vscode/
+*.pkl

@@ -1,5 +1,5 @@
 {
- "date": "2026-10-20",
+ "date": "2026-10-24",
  "config": {
   "generation": {
    "n_documents": 90,
@@ -34,7 +34,7 @@
   }
  },
  "files": {
-  "train.jsonl": "a670bae902ba1dfe08215ed6226524a42962bd8db99472c0d3b04d92961b92ef",
+  "train.jsonl": "3525a8e541c87a3f6955e4d2502fd66a1411751175cdb7787f959409d62f24c6",
   "train.bio.jsonl": "dfad87b4e58d7859f5e83f714fa1cb46b54785193c70d1e6302ebf7d924d49d9",
   "hf/train.jsonl": "9577538bbd6f7e89078af2b73936842d3249eacadf8a0b29d4659bf1a0e9dd9d",
   "train.conll": "0f2f50ea435317f6c074b37988aec36b215c4c1094919fdedaecb5d1dd42e9a7",
@@ -45,13 +45,13 @@
   "hf/validation.jsonl": "41d113331b8f1ef3af9781454d3a1c2ce34d0f7e81112c00582ecdd4e4cf160f",
   "dev.conll": "47d9f59a02a13dcb208ba9508b6dc253ae9aba5c67920ba78095711131b82cdd",
   "documents_dev.jsonl": "9851151d1e3cf28bbecd937650e99495a1170b57f0704efb981be66c74ebf8a8",
-  "fiches_dev.jsonl": "ec908e00fcad53727d2347e40c5384ce047218ecfc5d24b8d988ee95abf6d745",
-  "test.jsonl": "a67903d53a02e01dee836d8f052f156e6d0a4c86324983a29e72919d10de05f1",
+  "fiches_dev.jsonl": "c0c3fb41ecb302c9553a06fe2e3eb6dbfbdb513678beec7d214f584ddad21467",
+  "test.jsonl": "ac5ca78116ea677ec181f09e75570bfe0c4f905fb8d4b17840755dffaf906204",
   "test.bio.jsonl": "86e451ba656325c9c9f7d8e5b628306a272ee639a960eceb1822d3bbe8d95804",
   "hf/test.jsonl": "4d0364d5676a72845d3782de0a6e15f314ac864220c6e1ddb3ec1d1f8d4c52ce",
   "test.conll": "a40685b5e01ffef7a0db57d38e3857450bdc3c6c205ac314594210779fb6b43e",
   "documents_test.jsonl": "c88cef9e06371bf99d9f64ed110c687c77cd82b31a09bfcb9d27f48baec6d6d0",
-  "fiches_test.jsonl": "2923fb1d0b92d1053feb9b7b38a9b7574b945c834426a2c76016b73ff6b589aa",
+  "fiches_test.jsonl": "4e7e516b6072b40c83fba4e9d3ab0bb5ad87e086b39157ff71b3ff4c33e5e286",
   "externe_train.jsonl": "47cbe472c1d309731cb143c90905e0b419be5fc5d27cadb43da20e6dcdf71e61",
   "externe_train.bio.jsonl": "dfc09c15105cf4c31b6da64e6e46751b5d2bc7cf6db5cf459450aa12267bd08f",
   "hf/externe_train.jsonl": "35917f4174ba489be2ae114243ab1900bd751704dafae40ad1b3d941dea104c3",
