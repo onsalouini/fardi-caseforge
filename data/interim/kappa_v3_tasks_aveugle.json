@@ -1,0 +1,98 @@
+[
+ {
+  "data": {
+   "doc_id": "syn_fr_005",
+   "passage_id": "syn_fr_005_p005",
+   "text": "Le partcnalre impose les conditions suivantes : le budgct alloué ne doit pas dépasser 50000 DT ; la solution dolt respecter la norme ISO 22000.",
+   "secteur": "pharma",
+   "format": "email",
+   "bruit": "ocr",
+   "famille": "B",
+   "source_id": "SRC-SYN",
+   "source_type": "simule_genere",
+   "licence": "CC-BY-4.0 (équipe)",
+   "annotation_method": "construction",
+   "annotator": null
+  }
+ },
+ {
+  "data": {
+   "doc_id": "syn_fr_003",
+   "passage_id": "syn_fr_003_p003",
+   "text": "Une tentative antérieure pilotée par O. Khelifi sur le poste « machine à mesurer tridimensionnelle » n'a pas suffi ; la direction de EMPCR à Mahdia attend une approche structurée. Gamme touchée : arbres de transmission.",
+   "secteur": "mecanique",
+   "format": "email",
+   "bruit": "propre",
+   "famille": "B",
+   "source_id": "SRC-SYN",
+   "source_type": "simule_genere",
+   "licence": "CC-BY-4.0 (équipe)",
+   "annotation_method": "construction",
+   "annotator": null
+  }
+ },
+ {
+  "data": {
+   "doc_id": "syn_ar_004",
+   "passage_id": "syn_ar_004_p004",
+   "text": "يرغب السيدة أميرة السعيدي، مسـؤول الصيانة، في ان يعمل فريق مـن الطلبة على هذا المشكل باعتماد ضبط معايير القولبة.",
+   "secteur": "plasturgie",
+   "format": "email",
+   "bruit": "ocr",
+   "famille": "A",
+   "source_id": "SRC-SYN",
+   "source_type": "simule_genere",
+   "licence": "CC-BY-4.0 (équipe)",
+   "annotation_method": "construction",
+   "annotator": null
+  }
+ },
+ {
+  "data": {
+   "doc_id": "syn_ar_000",
+   "passage_id": "syn_ar_000_p006",
+   "text": "ستوفر المؤسسة مستخرجات من نظام التصرف المندمج وقياسات آلة القص الآلي وسجلا يبين نسبة شكايات تبلغ 2 %. تم تنظيم ورشة حول الصيانة الوقائية.",
+   "secteur": "textile",
+   "format": "email",
+   "bruit": "propre",
+   "famille": "B",
+   "source_id": "SRC-SYN",
+   "source_type": "simule_genere",
+   "licence": "CC-BY-4.0 (équipe)",
+   "annotation_method": "construction",
+   "annotator": null
+  }
+ },
+ {
+  "data": {
+   "doc_id": "syn_en_004",
+   "passage_id": "syn_en_004_p002",
+   "text": "The main issue concerns the twin-screw extruder. Key indicator: MTBF of 9 hours. Readings were collected at the Ksar Hellal site.",
+   "secteur": "plasturgie",
+   "format": "email",
+   "bruit": "abreviations",
+   "famille": "B",
+   "source_id": "SRC-SYN",
+   "source_type": "simule_genere",
+   "licence": "CC-BY-4.0 (équipe)",
+   "annotation_method": "construction",
+   "annotator": null
+  }
+ },
+ {
+  "data": {
+   "doc_id": "syn_en_010",
+   "passage_id": "syn_en_010_p005",
+   "text": "Available data: readings from the blow moulder, a six-rnonth history of the OEE of 63%, non-conformity reports. Staff have already been trained in statistical process control.",
+   "secteur": "plasturgie",
+   "format": "cahier_charges",
+   "bruit": "ocr",
+   "famille": "A",
+   "source_id": "SRC-SYN",
+   "source_type": "simule_genere",
+   "licence": "CC-BY-4.0 (équipe)",
+   "annotation_method": "construction",
+   "annotator": null
+  }
+ }
+]
