@@ -1,6 +1,6 @@
 # Carte de données — CaseForge (NER métier, anonymisation, fiches pédagogiques)
 
-Générée automatiquement par `cfdata.build` le 2026-10-20. Ne pas modifier à la main : relancer le build.
+Générée automatiquement par `cfdata.build` le 2026-10-24. Ne pas modifier à la main : relancer le build.
 
 ## 1. Sources et quantités
 
@@ -43,7 +43,7 @@ Corpus externes : passages disponibles après conversion et passages retenus apr
 | SRC-WIKIANN | WikiANN FR/AR/EN (optionnel, script cfdata.public, à lancer sur Colab : Hugging Face bloqué ici) | https://huggingface.co/datasets/unimelb-nlp/wikiann | voir la carte du jeu sur Hugging Face | pré-entraînement uniquement |
 | SRC-FARDI | Problèmes FARDI réels, seulement si autorisés ; stockés chiffrés hors Git | remis par l'enseignant | accord partenaire | pilote séparé uniquement |
 
-Fichiers d'annotations lus : `externe_anercorp.jsonl` (2662), `externe_europeana.jsonl` (6112), `externe_secfilings.jsonl` (719), `externe_wikigold.jsonl` (848), `humain_kappa_boutheina.jsonl` (20), `humain_kappa_ons.jsonl` (20), `libre_passages.jsonl` (156), `rapide_double.jsonl` (71), `rapide_verif.jsonl` (364), `synth_passages.jsonl` (756)
+Fichiers d'annotations lus : `externe_anercorp.jsonl` (2662), `externe_europeana.jsonl` (6112), `externe_secfilings.jsonl` (719), `externe_wikigold.jsonl` (848), `humain_kappa_boutheina.jsonl` (20), `humain_kappa_ons.jsonl` (20), `humain_kappa_v3_boutheina.jsonl` (6), `humain_kappa_v3_ons.jsonl` (6), `libre_passages.jsonl` (156), `rapide_double.jsonl` (71), `rapide_verif.jsonl` (364), `synth_passages.jsonl` (756)
 
 ## 2. Schéma
 
@@ -78,6 +78,12 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 | 2026-10-20T12:13:51 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Double annotation d'un sous-ensemble (aveugle, de zéro)",  |
 | 2026-10-20T12:16:19 | fiches_relues_obsoletes | {"n": 16, "doc_ids": ["syn_ar_000", "syn_ar_001", "syn_ar_006", "syn_ar_007", "syn_ar_008", "syn_en_000", "syn_en_004", "syn_en_005", "syn_en_006", "syn_en_008", "syn_fr_000", "syn_fr_003", "syn_fr_00 |
 | 2026-10-20T12:16:20 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": ["Double annotation d'un sous-ensemble (aveugle, de zéro)",  |
+| 2026-10-24T15:11:16 | import_ls | {"fichier": "data/annotated/humain_kappa_v3_boutheina.jsonl", "methode": "humain_aveugle", "annotations": 6, "entites": 18, "problemes": {"bordure corrigée": 1}} |
+| 2026-10-24T15:27:46 | import_ls | {"fichier": "data/annotated/humain_kappa_v3_ons.jsonl", "methode": "humain_aveugle", "annotations": 6, "entites": 21, "problemes": {"bordure corrigée": 14, "chevauchement": 1}} |
+| 2026-10-24T15:27:46 | import_ls | {"fichier": "data/annotated/humain_kappa_v3_boutheina.jsonl", "methode": "humain_aveugle", "annotations": 6, "entites": 18, "problemes": {"bordure corrigée": 1}} |
+| 2026-10-24T15:28:03 | import_ls | {"fichier": "data/annotated/humain_kappa_v3_ons.jsonl", "methode": "humain_aveugle", "annotations": 6, "entites": 21, "problemes": {"bordure corrigée": 14, "chevauchement": 1}} |
+| 2026-10-24T15:28:03 | import_ls | {"fichier": "data/annotated/humain_kappa_v3_boutheina.jsonl", "methode": "humain_aveugle", "annotations": 6, "entites": 18, "problemes": {"bordure corrigée": 1}} |
+| 2026-10-24T15:28:21 | build | {"passages": {"train": 496, "dev": 162, "test": 206, "externe_train": 3825, "externe_test": 688}, "a_completer_auto": [], "a_faire_humain": []} |
 
 ## 5. Nettoyage et dédoublonnage
 
@@ -113,17 +119,15 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 
 | Exigence | État | Cible | Statut |
 |---|---|---|---|
-| Double annotation d'un sous-ensemble (aveugle, de zéro) | 12 passages | ≥ 15 passages | À FAIRE |
+| Double annotation d'un sous-ensemble (aveugle, de zéro) | 18 passages | ≥ 15 passages | OK |
 | Accord inter-annotateurs (kappa) | mesuré | ≥ 0.7 | OK |
-| Fiches relues selon la grille (docs/grille_relecture_fiches.md) | 24 relues | 40 à 60 | À FAIRE |
+| Fiches relues selon la grille (docs/grille_relecture_fiches.md) | 40 relues | 40 à 60 | OK |
 
 ### Recommandé (non exigé par le cahier des charges)
 
 | Recommandation | État | Cible |
 |---|---|---|
 | Vérification humaine complète du test (qualité de la référence) | 0/206 passages | 100 % du test, avant l'évaluation finale |
-
-**À faire par l'équipe avant la revue J1 :** Double annotation d'un sous-ensemble (aveugle, de zéro) ; Fiches relues selon la grille (docs/grille_relecture_fiches.md).
 
 ## 7. Équilibre
 
@@ -238,58 +242,54 @@ Les corpus externes ne couvrent que ORG, PERSONNE et SITE (`labels_couverts`, `l
 
 Vérification humaine des pré-annotations : pas encore faite (`cfdata.verify`).
 
-# Accord inter-annotateurs (kappa express, 20 passages)
+# Accord inter-annotateurs (kappa express, 18 passages valides)
 
-Protocole : 20 passages (6 FR, 6 AR, 6 EN, 2 mixtes ; 14 SRC-SYN, 6 SRC-LIBRE) annotés indépendamment par deux personnes dans deux projets Label Studio séparés, sans pré-annotation, le 19/10/2026. Temps médian : environ 1 à 2 minutes par passage.
+Protocole : passages annotés indépendamment par Ons et Boutheina dans deux projets Label Studio séparés, sans pré-annotation. 20 passages le 19/10/2026 ; après la correction du générateur (v3), 6 passages dont le texte avait changé ont été réannotés à l'aveugle le 24/10/2026 (`data/interim/kappa_v3_tasks.json`) et 2 passages retirés du jeu (doublons) ne sont plus comptés. Mesure sur les 18 passages dont le texte est identique au jeu final. Temps médian : environ 1 à 2 minutes par passage.
 
-**Mesure retenue : kappa token = 0,745 (cible >= 0,70 atteinte).**
+**Mesure retenue : kappa token = 0,758 (cible >= 0,70 atteinte).** Avant la v3, sur 20 passages : 0,745.
 
 Limites :
-- Échantillon petit (20 passages, 141 entités) : intervalle de confiance large.
-- Kappas des attributs (langue, sensibilité, type) non interprétables : dans l'un des deux projets, les valeurs de référence étaient visibles dans les colonnes du tableau Label Studio.
-- La F1 sur spans exacts (0,526) est pénalisée par des erreurs de sélection et par les bordures ; le kappa token y est moins sensible.
+- Échantillon petit (18 passages) : intervalle de confiance large.
+- Kappas des attributs (langue, sensibilité, type) non interprétables : dans l'un des projets, les valeurs de référence étaient visibles dans les colonnes du tableau Label Studio.
+- La F1 sur spans exacts (0,636) est pénalisée par les bordures de sélection et par les cas tranchés seulement dans le guide v2 (CONTRAINTE, DONNEE_SENSIBLE) ; le kappa token y est moins sensible.
 
-Passages doublement annotés : 20
+Passages doublement annotés : 18
 
 | Mesure | Valeur |
 |---|---|
-| F1 spans exacts (global) | 0.526 |
-| Kappa token (étiquette ou O) | 0.745 |
-| Kappa attribut lang | 0.638 |
-| Kappa attribut sensitivity | 0.091 |
-| Kappa attribut ptype | 0.182 |
+| F1 spans exacts (global) | 0.636 |
+| Kappa token (étiquette ou O) | 0.758 |
+| Kappa attribut lang | 0.683 |
+| Kappa attribut sensitivity | 0.014 |
+| Kappa attribut ptype | 0.377 |
 
 | Entité | Support A | Support B | F1 |
 |---|---|---|---|
-| ORG | 9 | 6 | 0.667 |
-| PERSONNE | 4 | 5 | 0.444 |
-| SITE | 5 | 5 | 0.800 |
-| DONNEE_SENSIBLE | 9 | 9 | 0.444 |
-| PRODUIT | 6 | 5 | 0.727 |
-| EQUIPEMENT | 5 | 5 | 0.800 |
-| PROCESSUS | 8 | 9 | 0.471 |
-| INDICATEUR | 14 | 6 | 0.400 |
-| CONTRAINTE | 18 | 9 | 0.370 |
+| ORG | 9 | 5 | 0.714 |
+| PERSONNE | 3 | 4 | 0.571 |
+| SITE | 5 | 5 | 1.000 |
+| DONNEE_SENSIBLE | 8 | 8 | 0.500 |
+| PRODUIT | 5 | 5 | 0.800 |
+| EQUIPEMENT | 4 | 4 | 1.000 |
+| PROCESSUS | 7 | 8 | 0.533 |
+| INDICATEUR | 6 | 3 | 0.667 |
+| CONTRAINTE | 14 | 7 | 0.381 |
 
-## Désaccords (17 passages, 20 premiers)
+## Désaccords (13 passages, 20 premiers)
 
 - **syn_fr_028_p005** — seulement A : «partenaire» ORG, «ne doit pas dépasser» CONTRAINTE, «8000 DT» DONNEE_SENSIBLE, «la norme ISO 14001» CONTRAINTE · seulement B : «8000 DT» CONTRAINTE, «ISO 14001» CONTRAINTE
-- **syn_fr_005_p005** — seulement A : «partcnaire» ORG, «50000 DT» DONNEE_SENSIBLE, «ISO 22000» CONTRAINTE · seulement B : «doit respecter la norme ISO 22000» CONTRAINTE
-- **lib_fr_02_p004** — seulement A : «clinke» PRODUIT, «cartes de contrôle» INDICATEUR, «dosage cru / résistance» INDICATEUR · seulement B : «cartes de contrôle» PROCESSUS, «corrélation dosage cru / résistance» PROCESSUS
+- **lib_fr_02_p004** — seulement A : «cartes de contrôle» INDICATEUR, «dosage cru / résistance» INDICATEUR · seulement B : «cartes de contrôle» PROCESSUS, «corrélation dosage cru / résistance» PROCESSUS
 - **syn_fr_000_p007** — seulement A : «À ne pas diffuser» CONTRAINTE, «2024-189» DONNEE_SENSIBLE · seulement B : «contrat n° 2024-189» DONNEE_SENSIBLE
 - **lib_ar_03_p001** — seulement A : «26» DONNEE_SENSIBLE, «B114» DONNEE_SENSIBLE, «1,2 مليون قرص» INDICATEUR · seulement B : «26B114» DONNEE_SENSIBLE, «1,2 مليون قرص» DONNEE_SENSIBLE, «أكتوبر 2026» DONNEE_SENSIBLE
-- **syn_ar_004_p004** — seulement A : — · seulement B : «مسـؤول الصيانة» ORG
 - **syn_ar_007_p000** — seulement A : «دراسة فنية» PROCESSUS, «المؤسسة» ORG · seulement B : —
 - **syn_ar_005_p001** — seulement A : «الأقراص المغلفة» PRODUIT · seulement B : «الأقراص» PRODUIT
-- **syn_ar_000_p006** — seulement A : «نظام التصرف المندمج» PROCESSUS, «2 ساعة» INDICATEUR, «ساعة» INDICATEUR · seulement B : «نظام التصرف المندمج» EQUIPEMENT
-- **syn_en_004_p002** — seulement A : «Ksar Hellal site» SITE · seulement B : «Ksar Hellal» SITE
 - **lib_en_03_p000** — seulement A : «Quality Dept» ORG · seulement B : —
-- **syn_en_027_p005** — seulement A : «4 hours per week» INDICATEUR · seulement B : —
-- **syn_en_010_p005** — seulement A : «0 t injection pre» EQUIPEMENT, «à six-month history» INDICATEUR, «average lead time» INDICATEUR, «diagnosis» PROCESSUS · seulement B : «six-month history of the average lead time» INDICATEUR, «2 days» INDICATEUR, «non-conformity reports» DONNEE_SENSIBLE
-- **syn_en_019_p004** — seulement A : «the solution must comply with ISO 14001» CONTRAINTE, «ISO 14001» CONTRAINTE, «6 weeks» INDICATEUR · seulement B : «the following conditions: the solution must comply with ISO 14001» CONTRAINTE
-- **lib_en_08_p005** — seulement A : «Please keep confidential» CONTRAINTE, «Dr. Nadia Mestiri» PERSONNE, «Nadia Mestiri» PERSONNE · seulement B : «Dr. Nadia» PERSONNE, «Nadia» PERSONNE, «Mestiri» PERSONNE
-- **lib_ar_05_p004** — seulement A : «4 ساعات في الجمعة» INDICATEUR, «لازم الحل يحترم مواصفة I» CONTRAINTE, «لازم الحل يحترم مواصفة IATF 16949» CONTRAINTE, «IATF 16949» CONTRAINTE · seulement B : «لازم الحل يحترم مواصفة IATF 16949» PROCESSUS, «ازم الحل يحترم مواصفة IATF» PROCESSUS
+- **syn_en_019_p004** — seulement A : «the solution must comply with ISO 14001» CONTRAINTE · seulement B : «the following conditions: the solution must comply with ISO 14001» CONTRAINTE
+- **lib_en_08_p005** — seulement A : «Please keep confidential» CONTRAINTE, «Dr. Nadia Mestiri» PERSONNE · seulement B : «Dr. Nadia» PERSONNE, «Mestiri» PERSONNE
+- **lib_ar_05_p004** — seulement A : «لازم الحل يحترم مواصفة IATF 16949» CONTRAINTE · seulement B : «لازم الحل يحترم مواصفة IATF 16949» PROCESSUS
 - **lib_ar_05_p000** — seulement A : «projet PFE» PROCESSUS, «حول» CONTRAINTE, «خط» CONTRAINTE, «الـ assemblage» CONTRAINTE · seulement B : «خط الـ assemblage» PROCESSUS
+- **syn_fr_005_p005** — seulement A : «partcnalre» ORG, «la norme ISO 22000» CONTRAINTE · seulement B : —
+- **syn_ar_000_p006** — seulement A : «نظام التصرف المندمج» PROCESSUS · seulement B : —
 
 ### Passage dans Label Studio (acceptation rapide)
 
@@ -306,7 +306,7 @@ Passages doublement annotés : 20
 
 | Fichier | SHA-256 |
 |---|---|
-| train.jsonl | `a670bae902ba1dfe…` |
+| train.jsonl | `3525a8e541c87a3f…` |
 | train.bio.jsonl | `dfad87b4e58d7859…` |
 | hf/train.jsonl | `9577538bbd6f7e89…` |
 | train.conll | `0f2f50ea435317f6…` |
@@ -317,13 +317,13 @@ Passages doublement annotés : 20
 | hf/validation.jsonl | `41d113331b8f1ef3…` |
 | dev.conll | `47d9f59a02a13dcb…` |
 | documents_dev.jsonl | `9851151d1e3cf28b…` |
-| fiches_dev.jsonl | `ec908e00fcad5372…` |
-| test.jsonl | `a67903d53a02e01d…` |
+| fiches_dev.jsonl | `c0c3fb41ecb302c9…` |
+| test.jsonl | `ac5ca78116ea677e…` |
 | test.bio.jsonl | `86e451ba656325c9…` |
 | hf/test.jsonl | `4d0364d5676a7284…` |
 | test.conll | `a40685b5e01ffef7…` |
 | documents_test.jsonl | `c88cef9e06371bf9…` |
-| fiches_test.jsonl | `2923fb1d0b92d105…` |
+| fiches_test.jsonl | `4e7e516b6072b40c…` |
 | externe_train.jsonl | `47cbe472c1d30973…` |
 | externe_train.bio.jsonl | `dfc09c15105cf4c3…` |
 | hf/externe_train.jsonl | `35917f4174ba489b…` |

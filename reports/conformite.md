@@ -19,9 +19,9 @@
 
 | Exigence | État | Cible | Statut |
 |---|---|---|---|
-| Double annotation d'un sous-ensemble (aveugle, de zéro) | 12 passages | ≥ 15 passages | À FAIRE |
+| Double annotation d'un sous-ensemble (aveugle, de zéro) | 18 passages | ≥ 15 passages | OK |
 | Accord inter-annotateurs (kappa) | mesuré | ≥ 0.7 | OK |
-| Fiches relues selon la grille (docs/grille_relecture_fiches.md) | 24 relues | 40 à 60 | À FAIRE |
+| Fiches relues selon la grille (docs/grille_relecture_fiches.md) | 40 relues | 40 à 60 | OK |
 
 ### Recommandé (non exigé par le cahier des charges)
 

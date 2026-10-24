@@ -14,9 +14,14 @@ Travail en binômes, un lot après l'autre ; le lot E (audit, intégration) est 
 | D · LLM et RAG | à définir | |
 | E · Audit et intégration | tous | — |
 
-Test gelé de référence : tag `test-gele-v3` (générateur v3, à poser après la relecture des 16 fiches `syn_` et le complément de double annotation). Les tags `test-gele-v1` et `test-gele-v2` désignent le même contenu de test (générateur v2) et ne doivent plus servir à évaluer.
+Test gelé de référence : tag `test-gele-v3` (générateur v3, après relecture et double annotation complétées le 24/10). Les tags `test-gele-v1` et `test-gele-v2` désignent l'ancien contenu de test (générateur v2) et ne doivent plus servir à évaluer.
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
+
+## 2026-10-24 · Ons, Boutheina · Relecture v3 et double annotation complétée — Lot A clos
+- 16 fiches `syn_` régénérées relues (8 chacune, `annotation/relecture_fiches_v3.html`) : 14 acceptées, 2 à corriger. Total : 40 fiches relues, 38 acceptées (24/24 `lib_`, 14/16 `syn_`). Défaut restant signalé : la fiche omet la gamme touchée et la tentative antérieure.
+- 6 passages réannotés à l'aveugle (`data/interim/kappa_v3_tasks.json`). Kappa token sur les 18 passages valides = 0,758 (0,745 avant v3) ; F1 spans exacts = 0,636. `reports/accord.md` mis à jour.
+- `reports/conformite.md` : 13 exigences sur 13 OK. Test gelé : tag `test-gele-v3`.
 
 ## 2026-10-20 · Ons · Générateur v3 (correction du défaut trouvé par la relecture) et étude tokenisation
 - Défaut corrigé dans `cfdata/generate.py`, `pools.py`, `templates.py` : les relevés portent sur le même équipement que le problème (EQUIP2 = EQUIP) ; l'historique porte sur le même indicateur ; les démarches ({PROC}) sont des méthodes d'amélioration (AMDEC, MSP, maintenance préventive, plan d'expériences…) et non des procédés de fabrication ; valeurs plausibles (rebut 4-14 %, TRS 52-68 %, projet en 4 à 8 semaines) ; la valeur actuelle est la valeur dégradée et l'historique la meilleure ; objectif « chiffrer » retiré de la fiche (non présent dans la source) ; données de la fiche complétées.
