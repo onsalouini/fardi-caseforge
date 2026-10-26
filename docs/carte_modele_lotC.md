@@ -14,7 +14,9 @@ faites par l'équipe.
 | C4 | NER des 9 entités (baseline apprise) | `caseforge/models/crf_ner.py` | `reports/predictions/crf_dev.jsonl` |
 | C5 | Reproduction : NER arabe sur ANERcorp | `exemples/reproduction_anercorp.py` | `reports/lotC_reproduction_anercorp.md` |
 
-Évaluation NER commune aux lots B et C : `caseforge/eval/ner_eval.py` (entités exactes au niveau des mots).
+Évaluation NER : harnais officiel `caseforge/eval/ner_metrics.py` du Lot B (mode « mots » pour comparer les modèles,
+mode « caractère » et taux de fuite pour l'anonymisation) ; `caseforge/eval/ner_eval.py` donne les mêmes chiffres en mode
+mots (non-régression à 1e-6).
 Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Explications : `reports/lotC_explications.md`.
 
 ---
@@ -40,7 +42,7 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
   car le problème est convexe (la graine ne change presque rien) ; le corpus simulé (gabarits) facilite la tâche, le score
   sur de vrais documents sera plus bas.
 - **Usage prévu** : segmenter un document pour orienter l'extraction (Lot B) et le remplissage de la fiche (Lot D).
-Comparaison avec les règles du Lot B
+
 ## C2 · Secteur du document (TF-IDF + régression logistique)
 
 - **Entrée → sortie** : texte anonymisé d'un document entier → 7 classes (6 secteurs du corpus simulé + autre).
@@ -84,6 +86,11 @@ Comparaison avec les règles du Lot B
   d'apprentissage en plateau dès 50 % du train (Lot A). Au caractère près, le plafond atteignable en arabe n'est que de
   0,75 à 0,84 à cause des proclitiques : d'où l'évaluation au niveau des mots.
 - **Usage prévu** : baseline de comparaison pour les règles spaCy (Lot B) et XLM-R (Silver).
+- **Comparaison avec les règles du Lot B** (harnais `ner_metrics.py`, `reports/lotb_baseline_regles.md`, dev) : règles
+  strict 0,432 / partiel 0,521 ; CRF strict 0,374 / partiel 0,564. Bootstrap apparié par document (CRF − règles) :
+  strict −0,058 (p = 0,946), partiel +0,043 (p = 0,038). Aucune méthode n'est meilleure partout : les règles sont fortes
+  sur DONNEE_SENSIBLE (0,85) et INDICATEUR (0,86), le CRF sur PERSONNE (0,84), SITE, PRODUIT, EQUIPEMENT et PROCESSUS,
+  où les règles sont à 0.
 
 ## C5 · Reproduction d'un résultat publié : NER arabe par CRF sur ANERcorp
 
