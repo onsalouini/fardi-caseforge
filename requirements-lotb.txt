@@ -1,4 +1,10 @@
 # Dépendances du Lot B (en plus de requirements.txt, qui reste celui du Lot A) — Python 3.11
+#
+# ENVIRONNEMENT LOCAL SEULEMENT (Python 3.11, CPU) : torch==2.5.1 et stanza==1.6.1 ciblent le .venv local.
+# NE PAS INSTALLER CE FICHIER SUR COLAB NI KAGGLE : il remplacerait le torch GPU préinstallé, et transformers
+# récent refuse les poids .bin avec torch < 2.6. Sur Colab / Kaggle, garder le torch préinstallé et lancer :
+#     pip install -r requirements-lotb-colab.txt
+# (voir README, section « Lot B »).
 -r requirements.txt
 pytest>=8.0
 ruff>=0.6
