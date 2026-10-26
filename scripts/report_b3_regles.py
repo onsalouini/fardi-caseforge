@@ -15,6 +15,7 @@ from typing import Any
 
 from caseforge.eval.bootstrap import paired_bootstrap
 from caseforge.eval.data import FINAL, REPORTS, RESULTS, charger_dev, ecrire_json
+from caseforge.eval.donnees_sensibles import SOUS_TYPES, diagnostic
 from caseforge.eval.ner_metrics import MODES, entites_mots, evaluate, tags_mots
 from caseforge.extraction.rules import COUCHES
 from caseforge.labels import LABELS
@@ -184,6 +185,79 @@ def ecarts_gold_guide(train: list[dict]) -> dict[str, int]:
             if e["label"] in {"SITE", "ORG"} and _PROCLITIQUE_AR.match(e["text"]):
                 c[f"{e['label']} arabe avec proclitique"] += 1
     return dict(c)
+
+
+# ---------- Diagnostic DONNEE_SENSIBLE ----------
+def section_donnees_sensibles(dev: list[dict], b1: list[dict], b3: list[dict]) -> list[str]:
+    """Section 10 : précision et rappel DONNEE_SENSIBLE par sous-type et langue, lus comme sur-masquage et fuite."""
+    diag = diagnostic(dev, {"B3": [b3], "B1": [b1], "B1 ∪ B3": [b1, b3]})
+    ecrire_json(RESULTS / "b3_diagnostic_donnees_sensibles.json", diag)
+    lignes = []
+    for nom, r in diag.items():
+        tranches = [("global", r["global"])]
+        tranches += [(st, r["sous_type"][st]) for st in SOUS_TYPES if st in r["sous_type"]]
+        tranches += [(f"langue {k}", r["langue"][k]) for k in LANGUES if k in r["langue"]]
+        for t, v in tranches:
+            tk, ca = v["token"], v["caractere"]
+            lignes.append(
+                [
+                    nom,
+                    t,
+                    f"{tk['n_gold']} / {tk['n_pred']}",
+                    f(tk["precision"]),
+                    f(tk["rappel"]),
+                    f"{ca['n_gold']} / {ca['n_pred']}",
+                    f(ca["precision"]),
+                    f(ca["rappel"]),
+                ]
+            )
+    g3, g1, gu = (diag[k]["global"] for k in ("B3", "B1", "B1 ∪ B3"))
+    tel3, tel1 = (diag[k]["sous_type"]["téléphone"]["token"] for k in ("B3", "B1"))
+    m3, m1 = (diag[k]["sous_type"]["montant"] for k in ("B3", "B1"))
+    autre = diag["B1 ∪ B3"]["sous_type"]["autre"]["caractere"]
+    L = [
+        "## 10. Diagnostic DONNEE_SENSIBLE pour l'anonymisation (dev, lecture seule)",
+        "",
+        "Aucune règle n'a été modifiée pour ce diagnostic. Le sous-type est déduit de la forme du span "
+        "(`caseforge.eval.donnees_sensibles`), de la même façon pour le gold et les prédictions. **Token** : "
+        "entités exactes au niveau des mots. **Caractère** : recouvrement caractère par caractère (non blancs), comme "
+        "le taux de fuite (`caseforge.eval.leak`). Pour l'anonymisation, **un faux positif est un sur-masquage** "
+        "(perte d'information pédagogique) et **un faux négatif une fuite** (donnée confidentielle laissée en clair). "
+        "« B1 ∪ B3 » réunit les prédictions DONNEE_SENSIBLE des deux systèmes. Effectifs : gold / prédit (entités en "
+        "token, caractères en caractère).",
+        "",
+    ]
+    L += _table(
+        ["Système", "Tranche", "Token gold / prédit", "Token P", "Token R", "Car. gold / prédit", "Car. P", "Car. R"],
+        lignes,
+    )
+    L += [
+        "",
+        "**Conclusion (anonymisation).**",
+        "",
+        f"- Fuite : B3 laisse passer plus de données que B1. Son rappel est de {f(g3['token']['rappel'])} en token et "
+        f"{f(g3['caractere']['rappel'])} en caractère, contre {f(g1['token']['rappel'])} et "
+        f"{f(g1['caractere']['rappel'])} pour B1. L'écart vient surtout des téléphones : B3 en retrouve "
+        f"{f(tel3['rappel'])} contre {f(tel1['rappel'])} pour B1. Les deux règles visent le même format tunisien "
+        "(2-3-3 chiffres), mais celle de B3 ajoute des bornes de contexte (pas de chiffre ni de lettre autour, pas "
+        "de mot après le numéro) que les téléphones du dev ne respectent sans doute pas. Il vient aussi des montants : "
+        f"rappel caractère {f(m3['caractere']['rappel'])} contre {f(m1['caractere']['rappel'])}. B1 reconnaît "
+        "« millions de dinars » et « mille dinars », que le motif de B3 ne couvre pas (multiplicateur suivi de "
+        "« de »). Ces deux causes sont des hypothèses tirées du code : le texte du dev n'a pas été lu.",
+        f"- Sur-masquage : B3 n'en fait aucun (précision caractère {f(g3['caractere']['precision'])}). B1 masque "
+        "des montants qui ne sont pas sensibles, probablement des plafonds de contrainte (cas 5), puisqu'il "
+        "n'a pas de test de contexte : sa précision montant est "
+        f"de {f(m1['token']['precision'])} en token et {f(m1['caractere']['precision'])} en caractère.",
+        f"- L'union B1 ∪ B3 a exactement le rappel de B1 ({f(gu['token']['rappel'])} en token, "
+        f"{f(gu['caractere']['rappel'])} en caractère) : tout ce que trouve B3 est déjà couvert par B1. "
+        "Pour masquer, la règle B1 est donc la meilleure base de DONNEE_SENSIBLE. Le sur-masquage qu'elle provoque "
+        "coûte moins qu'une fuite.",
+        f"- Fuite résiduelle commune : les DONNEE_SENSIBLE décrites en toutes lettres, sans chiffre (« autre », "
+        f"{autre['n_gold']} caractères), ne sont couvertes par aucun système (rappel {f(autre['rappel'])}). "
+        "Aucune règle de forme ne peut les détecter : il faudra un modèle ou une liste de tournures.",
+        "",
+    ]
+    return L
 
 
 # ---------- Rapport ----------
@@ -469,6 +543,9 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         "(CLAUDE.md, section 1 : on ne corrige pas `data/final/`). Autre écart vu dans le train : « NCR-0932 », "
         "exemple de DONNEE_SENSIBLE du guide, n'est pas annoté dans un en-tête de rapport.",
         "",
+    ]
+    L += section_donnees_sensibles(dev, b1, b3)
+    L += [
         "## Annexe A — Modes strict et partiel (dev)",
         "",
     ]

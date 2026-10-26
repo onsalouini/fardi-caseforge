@@ -1,0 +1,398 @@
+{
+  "B3": {
+    "sous_type": {
+      "autre": {
+        "token": {
+          "n_gold": 6,
+          "n_pred": 0,
+          "rappel": 0.0,
+          "precision": 0.0
+        },
+        "caractere": {
+          "n_gold": 177,
+          "n_pred": 0,
+          "rappel": 0.0,
+          "precision": 0.0
+        }
+      },
+      "e-mail": {
+        "token": {
+          "n_gold": 14,
+          "n_pred": 14,
+          "rappel": 1.0,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 264,
+          "n_pred": 264,
+          "rappel": 1.0,
+          "precision": 1.0
+        }
+      },
+      "téléphone": {
+        "token": {
+          "n_gold": 14,
+          "n_pred": 5,
+          "rappel": 0.35714285714285715,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 140,
+          "n_pred": 48,
+          "rappel": 0.34285714285714286,
+          "precision": 1.0
+        }
+      },
+      "contrat / référence": {
+        "token": {
+          "n_gold": 15,
+          "n_pred": 15,
+          "rappel": 1.0,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 258,
+          "n_pred": 258,
+          "rappel": 1.0,
+          "precision": 1.0
+        }
+      },
+      "montant": {
+        "token": {
+          "n_gold": 15,
+          "n_pred": 15,
+          "rappel": 0.26666666666666666,
+          "precision": 0.26666666666666666
+        },
+        "caractere": {
+          "n_gold": 209,
+          "n_pred": 137,
+          "rappel": 0.6555023923444976,
+          "precision": 1.0
+        }
+      }
+    },
+    "langue": {
+      "ar": {
+        "token": {
+          "n_gold": 20,
+          "n_pred": 18,
+          "rappel": 0.65,
+          "precision": 0.7222222222222222
+        },
+        "caractere": {
+          "n_gold": 335,
+          "n_pred": 254,
+          "rappel": 0.7582089552238805,
+          "precision": 1.0
+        }
+      },
+      "en": {
+        "token": {
+          "n_gold": 20,
+          "n_pred": 14,
+          "rappel": 0.7,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 313,
+          "n_pred": 221,
+          "rappel": 0.7060702875399361,
+          "precision": 1.0
+        }
+      },
+      "fr": {
+        "token": {
+          "n_gold": 24,
+          "n_pred": 17,
+          "rappel": 0.4583333333333333,
+          "precision": 0.6470588235294118
+        },
+        "caractere": {
+          "n_gold": 400,
+          "n_pred": 232,
+          "rappel": 0.58,
+          "precision": 1.0
+        }
+      }
+    },
+    "global": {
+      "token": {
+        "n_gold": 64,
+        "n_pred": 49,
+        "rappel": 0.59375,
+        "precision": 0.7755102040816326
+      },
+      "caractere": {
+        "n_gold": 1048,
+        "n_pred": 707,
+        "rappel": 0.674618320610687,
+        "precision": 1.0
+      }
+    }
+  },
+  "B1": {
+    "sous_type": {
+      "autre": {
+        "token": {
+          "n_gold": 6,
+          "n_pred": 0,
+          "rappel": 0.0,
+          "precision": 0.0
+        },
+        "caractere": {
+          "n_gold": 177,
+          "n_pred": 0,
+          "rappel": 0.0,
+          "precision": 0.0
+        }
+      },
+      "e-mail": {
+        "token": {
+          "n_gold": 14,
+          "n_pred": 14,
+          "rappel": 1.0,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 264,
+          "n_pred": 264,
+          "rappel": 1.0,
+          "precision": 1.0
+        }
+      },
+      "téléphone": {
+        "token": {
+          "n_gold": 14,
+          "n_pred": 14,
+          "rappel": 1.0,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 140,
+          "n_pred": 140,
+          "rappel": 1.0,
+          "precision": 1.0
+        }
+      },
+      "montant": {
+        "token": {
+          "n_gold": 15,
+          "n_pred": 29,
+          "rappel": 1.0,
+          "precision": 0.5172413793103449
+        },
+        "caractere": {
+          "n_gold": 209,
+          "n_pred": 323,
+          "rappel": 1.0,
+          "precision": 0.6470588235294118
+        }
+      },
+      "contrat / référence": {
+        "token": {
+          "n_gold": 15,
+          "n_pred": 15,
+          "rappel": 1.0,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 258,
+          "n_pred": 258,
+          "rappel": 1.0,
+          "precision": 1.0
+        }
+      }
+    },
+    "langue": {
+      "ar": {
+        "token": {
+          "n_gold": 20,
+          "n_pred": 22,
+          "rappel": 0.9,
+          "precision": 0.8181818181818182
+        },
+        "caractere": {
+          "n_gold": 335,
+          "n_pred": 324,
+          "rappel": 0.8477611940298507,
+          "precision": 0.8765432098765432
+        }
+      },
+      "en": {
+        "token": {
+          "n_gold": 20,
+          "n_pred": 24,
+          "rappel": 0.9,
+          "precision": 0.75
+        },
+        "caractere": {
+          "n_gold": 313,
+          "n_pred": 304,
+          "rappel": 0.8210862619808307,
+          "precision": 0.8453947368421053
+        }
+      },
+      "fr": {
+        "token": {
+          "n_gold": 24,
+          "n_pred": 26,
+          "rappel": 0.9166666666666666,
+          "precision": 0.8461538461538461
+        },
+        "caractere": {
+          "n_gold": 400,
+          "n_pred": 357,
+          "rappel": 0.825,
+          "precision": 0.9243697478991597
+        }
+      }
+    },
+    "global": {
+      "token": {
+        "n_gold": 64,
+        "n_pred": 72,
+        "rappel": 0.90625,
+        "precision": 0.8055555555555556
+      },
+      "caractere": {
+        "n_gold": 1048,
+        "n_pred": 985,
+        "rappel": 0.8311068702290076,
+        "precision": 0.884263959390863
+      }
+    }
+  },
+  "B1 ∪ B3": {
+    "sous_type": {
+      "autre": {
+        "token": {
+          "n_gold": 6,
+          "n_pred": 0,
+          "rappel": 0.0,
+          "precision": 0.0
+        },
+        "caractere": {
+          "n_gold": 177,
+          "n_pred": 0,
+          "rappel": 0.0,
+          "precision": 0.0
+        }
+      },
+      "e-mail": {
+        "token": {
+          "n_gold": 14,
+          "n_pred": 14,
+          "rappel": 1.0,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 264,
+          "n_pred": 264,
+          "rappel": 1.0,
+          "precision": 1.0
+        }
+      },
+      "téléphone": {
+        "token": {
+          "n_gold": 14,
+          "n_pred": 14,
+          "rappel": 1.0,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 140,
+          "n_pred": 140,
+          "rappel": 1.0,
+          "precision": 1.0
+        }
+      },
+      "montant": {
+        "token": {
+          "n_gold": 15,
+          "n_pred": 40,
+          "rappel": 1.0,
+          "precision": 0.375
+        },
+        "caractere": {
+          "n_gold": 209,
+          "n_pred": 323,
+          "rappel": 1.0,
+          "precision": 0.6470588235294118
+        }
+      },
+      "contrat / référence": {
+        "token": {
+          "n_gold": 15,
+          "n_pred": 15,
+          "rappel": 1.0,
+          "precision": 1.0
+        },
+        "caractere": {
+          "n_gold": 258,
+          "n_pred": 258,
+          "rappel": 1.0,
+          "precision": 1.0
+        }
+      }
+    },
+    "langue": {
+      "ar": {
+        "token": {
+          "n_gold": 20,
+          "n_pred": 27,
+          "rappel": 0.9,
+          "precision": 0.6666666666666666
+        },
+        "caractere": {
+          "n_gold": 335,
+          "n_pred": 324,
+          "rappel": 0.8477611940298507,
+          "precision": 0.8765432098765432
+        }
+      },
+      "en": {
+        "token": {
+          "n_gold": 20,
+          "n_pred": 24,
+          "rappel": 0.9,
+          "precision": 0.75
+        },
+        "caractere": {
+          "n_gold": 313,
+          "n_pred": 304,
+          "rappel": 0.8210862619808307,
+          "precision": 0.8453947368421053
+        }
+      },
+      "fr": {
+        "token": {
+          "n_gold": 24,
+          "n_pred": 32,
+          "rappel": 0.9166666666666666,
+          "precision": 0.6875
+        },
+        "caractere": {
+          "n_gold": 400,
+          "n_pred": 357,
+          "rappel": 0.825,
+          "precision": 0.9243697478991597
+        }
+      }
+    },
+    "global": {
+      "token": {
+        "n_gold": 64,
+        "n_pred": 83,
+        "rappel": 0.90625,
+        "precision": 0.6987951807228916
+      },
+      "caractere": {
+        "n_gold": 1048,
+        "n_pred": 985,
+        "rappel": 0.8311068702290076,
+        "precision": 0.884263959390863
+      }
+    }
+  }
+}

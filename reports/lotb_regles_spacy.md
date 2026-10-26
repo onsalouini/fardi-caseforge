@@ -103,8 +103,8 @@ Part des prédictions et précision en mode token (entité exacte au niveau des 
 | `dependencies.indicateur_proche` | 8 | 0,020 | 0,750 | 56 | 0,857 |
 | `matchers.personne_civilite` | 23 | 0,058 | 1,000 | 55 | 1,000 |
 | `regex.telephone` | 5 | 0,013 | 1,000 | 48 | 1,000 |
-| `regex.email` | 14 | 0,036 | 1,000 | 47 | 1,000 |
 | `regex.montant` | 15 | 0,038 | 0,267 | 47 | 0,872 |
+| `regex.email` | 14 | 0,036 | 1,000 | 47 | 1,000 |
 | `regex.reference` | 15 | 0,038 | 1,000 | 45 | 0,978 |
 | `dependencies.processus_sigle` | 2 | 0,005 | 0,000 | 32 | 0,844 |
 | `matchers.org_sigle` | 0 | — | — | 27 | 1,000 |
@@ -118,9 +118,9 @@ Part des prédictions et précision en mode token (entité exacte au niveau des 
 | `matchers.org_sigle_reutilise` | 0 | — | — | 2 | 1,000 |
 | `matchers.org_champ` | 0 | — | — | 2 | 1,000 |
 | `matchers.personne_salutation` | 0 | — | — | 1 | 1,000 |
-| `matchers.site_zone` | 3 | 0,008 | 0,000 | 1 | 1,000 |
 | `regex.code_interne` | 0 | — | — | 1 | 0,000 |
 | `regex.quantite` | 0 | — | — | 1 | 1,000 |
+| `matchers.site_zone` | 3 | 0,008 | 0,000 | 1 | 1,000 |
 | `matchers.personne_signature` | 1 | 0,003 | 1,000 | 0 | — |
 
 Règles sous 0,5 de précision sur le dev et sur le train : `dependencies.produit_tete`.
@@ -189,6 +189,47 @@ Les règles suivent le guide v2 : le mot générique (« site », « usine », �
 | SITE avec article ou mot générique (« la ZI de … », « … site », « مدينة … ») | 29 |
 
 Ces écarts coûtent des bordures en mode token et en strict ; ils sont signalés dans `experiments.md` (CLAUDE.md, section 1 : on ne corrige pas `data/final/`). Autre écart vu dans le train : « NCR-0932 », exemple de DONNEE_SENSIBLE du guide, n'est pas annoté dans un en-tête de rapport.
+
+## 10. Diagnostic DONNEE_SENSIBLE pour l'anonymisation (dev, lecture seule)
+
+Aucune règle n'a été modifiée pour ce diagnostic. Le sous-type est déduit de la forme du span (`caseforge.eval.donnees_sensibles`), de la même façon pour le gold et les prédictions. **Token** : entités exactes au niveau des mots. **Caractère** : recouvrement caractère par caractère (non blancs), comme le taux de fuite (`caseforge.eval.leak`). Pour l'anonymisation, **un faux positif est un sur-masquage** (perte d'information pédagogique) et **un faux négatif une fuite** (donnée confidentielle laissée en clair). « B1 ∪ B3 » réunit les prédictions DONNEE_SENSIBLE des deux systèmes. Effectifs : gold / prédit (entités en token, caractères en caractère).
+
+| Système | Tranche | Token gold / prédit | Token P | Token R | Car. gold / prédit | Car. P | Car. R |
+|---|---|---|---|---|---|---|---|
+| B3 | global | 64 / 49 | 0,776 | 0,594 | 1048 / 707 | 1,000 | 0,675 |
+| B3 | montant | 15 / 15 | 0,267 | 0,267 | 209 / 137 | 1,000 | 0,656 |
+| B3 | contrat / référence | 15 / 15 | 1,000 | 1,000 | 258 / 258 | 1,000 | 1,000 |
+| B3 | e-mail | 14 / 14 | 1,000 | 1,000 | 264 / 264 | 1,000 | 1,000 |
+| B3 | téléphone | 14 / 5 | 1,000 | 0,357 | 140 / 48 | 1,000 | 0,343 |
+| B3 | autre | 6 / 0 | 0,000 | 0,000 | 177 / 0 | 0,000 | 0,000 |
+| B3 | langue fr | 24 / 17 | 0,647 | 0,458 | 400 / 232 | 1,000 | 0,580 |
+| B3 | langue ar | 20 / 18 | 0,722 | 0,650 | 335 / 254 | 1,000 | 0,758 |
+| B3 | langue en | 20 / 14 | 1,000 | 0,700 | 313 / 221 | 1,000 | 0,706 |
+| B1 | global | 64 / 72 | 0,806 | 0,906 | 1048 / 985 | 0,884 | 0,831 |
+| B1 | montant | 15 / 29 | 0,517 | 1,000 | 209 / 323 | 0,647 | 1,000 |
+| B1 | contrat / référence | 15 / 15 | 1,000 | 1,000 | 258 / 258 | 1,000 | 1,000 |
+| B1 | e-mail | 14 / 14 | 1,000 | 1,000 | 264 / 264 | 1,000 | 1,000 |
+| B1 | téléphone | 14 / 14 | 1,000 | 1,000 | 140 / 140 | 1,000 | 1,000 |
+| B1 | autre | 6 / 0 | 0,000 | 0,000 | 177 / 0 | 0,000 | 0,000 |
+| B1 | langue fr | 24 / 26 | 0,846 | 0,917 | 400 / 357 | 0,924 | 0,825 |
+| B1 | langue ar | 20 / 22 | 0,818 | 0,900 | 335 / 324 | 0,877 | 0,848 |
+| B1 | langue en | 20 / 24 | 0,750 | 0,900 | 313 / 304 | 0,845 | 0,821 |
+| B1 ∪ B3 | global | 64 / 83 | 0,699 | 0,906 | 1048 / 985 | 0,884 | 0,831 |
+| B1 ∪ B3 | montant | 15 / 40 | 0,375 | 1,000 | 209 / 323 | 0,647 | 1,000 |
+| B1 ∪ B3 | contrat / référence | 15 / 15 | 1,000 | 1,000 | 258 / 258 | 1,000 | 1,000 |
+| B1 ∪ B3 | e-mail | 14 / 14 | 1,000 | 1,000 | 264 / 264 | 1,000 | 1,000 |
+| B1 ∪ B3 | téléphone | 14 / 14 | 1,000 | 1,000 | 140 / 140 | 1,000 | 1,000 |
+| B1 ∪ B3 | autre | 6 / 0 | 0,000 | 0,000 | 177 / 0 | 0,000 | 0,000 |
+| B1 ∪ B3 | langue fr | 24 / 32 | 0,688 | 0,917 | 400 / 357 | 0,924 | 0,825 |
+| B1 ∪ B3 | langue ar | 20 / 27 | 0,667 | 0,900 | 335 / 324 | 0,877 | 0,848 |
+| B1 ∪ B3 | langue en | 20 / 24 | 0,750 | 0,900 | 313 / 304 | 0,845 | 0,821 |
+
+**Conclusion (anonymisation).**
+
+- Fuite : B3 laisse passer plus de données que B1. Son rappel est de 0,594 en token et 0,675 en caractère, contre 0,906 et 0,831 pour B1. L'écart vient surtout des téléphones : B3 en retrouve 0,357 contre 1,000 pour B1. Les deux règles visent le même format tunisien (2-3-3 chiffres), mais celle de B3 ajoute des bornes de contexte (pas de chiffre ni de lettre autour, pas de mot après le numéro) que les téléphones du dev ne respectent sans doute pas. Il vient aussi des montants : rappel caractère 0,656 contre 1,000. B1 reconnaît « millions de dinars » et « mille dinars », que le motif de B3 ne couvre pas (multiplicateur suivi de « de »). Ces deux causes sont des hypothèses tirées du code : le texte du dev n'a pas été lu.
+- Sur-masquage : B3 n'en fait aucun (précision caractère 1,000). B1 masque des montants qui ne sont pas sensibles, probablement des plafonds de contrainte (cas 5), puisqu'il n'a pas de test de contexte : sa précision montant est de 0,517 en token et 0,647 en caractère.
+- L'union B1 ∪ B3 a exactement le rappel de B1 (0,906 en token, 0,831 en caractère) : tout ce que trouve B3 est déjà couvert par B1. Pour masquer, la règle B1 est donc la meilleure base de DONNEE_SENSIBLE. Le sur-masquage qu'elle provoque coûte moins qu'une fuite.
+- Fuite résiduelle commune : les DONNEE_SENSIBLE décrites en toutes lettres, sans chiffre (« autre », 177 caractères), ne sont couvertes par aucun système (rappel 0,000). Aucune règle de forme ne peut les détecter : il faudra un modèle ou une liste de tournures.
 
 ## Annexe A — Modes strict et partiel (dev)
 
