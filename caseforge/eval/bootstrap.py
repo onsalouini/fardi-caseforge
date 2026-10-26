@@ -46,8 +46,11 @@ def paired_bootstrap(
     seed: int = 42,
     mode: str = "strict",
     average: str = "micro",
+    tokenizer: str = "cfdata",
 ) -> dict[str, Any]:
     """Compare deux systèmes A et B par bootstrap apparié sur les documents.
+
+    ``mode`` : ``token`` (comparaison des modèles), ``strict`` ou ``partiel`` ; ``tokenizer`` ne sert qu'au mode token.
 
     Renvoie ``delta`` = F1(B) - F1(A) sur le jeu complet, l'intervalle de confiance à 95 % par percentiles
     des deltas rééchantillonnés, et la p-valeur unilatérale de H0 « B n'est pas meilleur que A » :
@@ -58,7 +61,7 @@ def paired_bootstrap(
     gold_rows = list(gold_rows)
     pred_a, pred_b = list(pred_a), list(pred_b)
     align(pred_a, pred_b, noms=("A", "B"))  # mêmes passages des deux côtés
-    pcs_a, pcs_b = passage_counts(gold_rows, pred_a), passage_counts(gold_rows, pred_b)
+    pcs_a, pcs_b = passage_counts(gold_rows, pred_a, tokenizer), passage_counts(gold_rows, pred_b, tokenizer)
 
     par_doc: dict[str, list[list[Counts]]] = defaultdict(lambda: [[], []])
     for pa, pb in zip(pcs_a, pcs_b, strict=True):
@@ -82,6 +85,7 @@ def paired_bootstrap(
 
     return {
         "mode": mode,
+        "tokenizer": tokenizer,
         "average": average,
         "n_documents": len(docs),
         "n_resamples": n_resamples,

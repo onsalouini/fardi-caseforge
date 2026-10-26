@@ -1,14 +1,24 @@
-"""Métriques NER au niveau span pour le Lot B.
+"""Harnais NER unique du Lot B (et du Lot C) : métriques au niveau des mots et des spans.
 
 Entrées : listes de lignes ``{passage_id, doc_id, doc_lang, lang, text, entities}``, où ``entities`` est une
 liste de ``{start, end, label}``. Les métadonnées (doc_id, langues, source) sont lues sur la ligne gold ; une
 ligne prédite n'a besoin que de ``passage_id`` et ``entities`` (si elle porte ``text``, il doit être identique).
 
-Deux modes d'appariement, toujours un-pour-un :
+Trois modes (métriques officielles : voir ``CLAUDE.md``, section « Métriques officielles ») :
 
-- ``strict`` : bornes et étiquette exactes ;
-- ``partiel`` : chevauchement d'au moins 1 caractère et même étiquette ; appariement glouton par chevauchement
-  décroissant (une prédiction ne valide qu'une seule entité gold, et inversement).
+- ``token`` (comparaison des modèles NER) : gold et prédiction sont convertis en BIO sur les mots
+  (``cfdata.common.spans_to_bio``), puis on compare les entités exactes au niveau des mots (premier mot, dernier
+  mot, étiquette). Reproduit ``caseforge.eval.ner_eval`` ; ``tokenizer="stanza"`` remplace les mots de
+  ``cfdata.common.tokenize`` par ceux de ``caseforge.extraction.nlp.parse`` (spaCy fr / en, stanza ar) ;
+- ``strict`` : bornes au caractère et étiquette exactes, appariement un-pour-un ;
+- ``partiel`` (diagnostic des bordures) : chevauchement d'au moins 1 caractère et même étiquette ; appariement
+  glouton un-pour-un par chevauchement décroissant (une prédiction ne valide qu'une seule entité gold, et
+  inversement).
+
+Par défaut, un passage présent d'un seul côté est une erreur ; avec ``absents_vides=True`` (comportement de
+``ner_eval``), un passage gold sans prédiction compte comme « aucune entité prédite » et un ``passage_id`` inconnu
+du gold est ignoré. Seule différence voulue avec ``ner_eval`` : une étiquette hors de ``caseforge.labels.LABELS``
+lève une erreur au lieu d'être ignorée en silence.
 
 Deux macro-moyennes :
 
@@ -29,9 +39,10 @@ from typing import Any
 from caseforge.extraction.bio import aligner_sur_tokens
 from caseforge.labels import LABELS
 from cfdata.agreement import cohen_kappa, token_labels
-from cfdata.common import tokenize
+from cfdata.common import spans_to_bio, tokenize
 
-MODES: tuple[str, ...] = ("strict", "partiel")
+MODES: tuple[str, ...] = ("token", "strict", "partiel")
+TOKENIZERS: tuple[str, ...] = ("cfdata", "stanza")
 SOURCES: tuple[str, ...] = ("syn", "lib", "externe")
 MANQUE = "MANQUÉ"
 INVENTE = "INVENTÉ"
@@ -79,6 +90,17 @@ def align(
         if "text" in rb and "text" in a[pid] and rb["text"] != a[pid]["text"]:
             raise ValueError(f"texte différent entre {noms[0]} et {noms[1]} pour {pid}")
     return [(ra, b[pid]) for pid, ra in a.items()]
+
+
+def completer_predictions(gold_rows: Iterable[dict], pred_rows: Iterable[dict]) -> tuple[list[dict], dict[str, int]]:
+    """Aligne les prédictions sur le gold comme ``ner_eval`` : passage absent = aucune entité, inconnu = ignoré.
+
+    Renvoie les lignes prédites dans l'ordre du gold et les effectifs ``sans_prediction`` / ``inconnus``.
+    """
+    gold = _index(gold_rows, "gold")
+    pred = _index(pred_rows, "pred")
+    lignes = [pred.get(pid, {"passage_id": pid, "entities": []}) for pid in gold]
+    return lignes, {"sans_prediction": len(gold.keys() - pred.keys()), "inconnus": len(pred.keys() - gold.keys())}
 
 
 def _spans(row: dict) -> list[Span]:
@@ -150,6 +172,77 @@ def _counts(gold: Sequence[Span], pred: Sequence[Span], mode: str) -> Counts:
     return c
 
 
+# ---------- Mode token (niveau mots) ----------
+def offsets_mots(text: str, lang: str, tokenizer: str = "cfdata") -> list[tuple[int, int]]:
+    """Offsets ``(début, fin)`` des mots d'un texte selon le tokeniseur ``cfdata`` ou ``stanza``.
+
+    ``stanza`` désigne ``caseforge.extraction.nlp.parse`` (spaCy fr / en, stanza ar, mixte par phrase, d'après
+    ``lang``), comme le tokeniseur « spacy/stanza » de la B2.
+    """
+    if tokenizer == "cfdata":
+        return [(s, e) for _, s, e in tokenize(text)]
+    if tokenizer == "stanza":
+        from caseforge.extraction.nlp import offsets, parse  # import paresseux : charge spaCy et stanza
+
+        return offsets(parse(text, lang))
+    raise ValueError(f"tokeniseur inconnu {tokenizer!r} : {', '.join(TOKENIZERS)}")
+
+
+def tags_mots(text: str, spans: Sequence[Span], offs: Sequence[tuple[int, int]] | None = None) -> list[str]:
+    """Tags BIO des mots : ``cfdata.common.spans_to_bio`` si ``offs`` est absent, sinon la même règle sur ``offs``.
+
+    Règle de ``spans_to_bio`` : un mot reçoit l'étiquette d'une entité dès qu'il la chevauche, les entités étant
+    traitées par position croissante (la dernière l'emporte sur un mot partagé).
+    """
+    ents = [{"start": s, "end": e, "label": lab} for s, e, lab in spans]
+    if offs is None:
+        return spans_to_bio(text, ents)[1]
+    tags = ["O"] * len(offs)
+    for e in sorted(ents, key=lambda e: e["start"]):
+        premier = True
+        for i, (s, t) in enumerate(offs):
+            if s < e["end"] and t > e["start"]:
+                tags[i] = ("B-" if premier else "I-") + e["label"]
+                premier = False
+    return tags
+
+
+def entites_mots(tags: Sequence[str]) -> set[Span]:
+    """Entités ``(premier mot, dernier mot exclu, étiquette)`` décodées comme ``ner_eval.entites_mots``.
+
+    Une entité s'ouvre sur ``B-X``, ou sur ``I-X`` qui suit une autre étiquette ; un ``I-X`` qui suit ``O`` est
+    ignoré. Le résultat est un ensemble : deux spans identiques ne comptent qu'une fois.
+    """
+    out: set[Span] = set()
+    cur: tuple[int, str] | None = None
+    for i, t in enumerate([*tags, "O"]):
+        if t == "O" or t.startswith("B-") or (cur is not None and cur[1] != t[2:]):
+            if cur is not None:
+                out.add((cur[0], i, cur[1]))
+            cur = (i, t[2:]) if t != "O" else None
+    return out
+
+
+def _counts_token(gold: set[Span], pred: set[Span]) -> Counts:
+    """Compte tp / fp / fn par étiquette sur des entités exactes au niveau des mots."""
+    c: Counts = {lab: [0, 0, 0] for lab in LABELS}
+    for e in gold & pred:
+        c[e[2]][0] += 1
+    for e in pred - gold:
+        c[e[2]][1] += 1
+    for e in gold - pred:
+        c[e[2]][2] += 1
+    return c
+
+
+def _counts_mots(g: dict, sg: Sequence[Span], sp: Sequence[Span], tokenizer: str) -> Counts:
+    """Comptes du mode token pour un passage gold ``g`` et ses spans gold / prédits."""
+    if tokenizer not in TOKENIZERS:
+        raise ValueError(f"tokeniseur inconnu {tokenizer!r} : {', '.join(TOKENIZERS)}")
+    offs = None if tokenizer == "cfdata" else offsets_mots(g["text"], g.get("lang", g["doc_lang"]), tokenizer)
+    return _counts_token(entites_mots(tags_mots(g["text"], sg, offs)), entites_mots(tags_mots(g["text"], sp, offs)))
+
+
 @dataclass
 class PassageCounts:
     """Comptes tp / fp / fn d'un passage, par mode et par étiquette, avec ses métadonnées."""
@@ -162,8 +255,10 @@ class PassageCounts:
     counts: dict[str, Counts] = field(default_factory=dict)
 
 
-def passage_counts(gold_rows: Iterable[dict], pred_rows: Iterable[dict]) -> list[PassageCounts]:
-    """Calcule les comptes de chaque passage dans les deux modes (base de ``evaluate`` et du bootstrap)."""
+def passage_counts(
+    gold_rows: Iterable[dict], pred_rows: Iterable[dict], tokenizer: str = "cfdata"
+) -> list[PassageCounts]:
+    """Calcule les comptes de chaque passage dans les trois modes (base de ``evaluate`` et du bootstrap)."""
     out = []
     for g, p in align(gold_rows, pred_rows):
         sg, sp = _spans(g), _spans(p)
@@ -174,7 +269,10 @@ def passage_counts(gold_rows: Iterable[dict], pred_rows: Iterable[dict]) -> list
                 doc_lang=g["doc_lang"],
                 lang=g.get("lang", g["doc_lang"]),
                 source=source_of(g["doc_id"]),
-                counts={m: _counts(sg, sp, m) for m in MODES},
+                counts={
+                    "token": _counts_mots(g, sg, sp, tokenizer),
+                    **{m: _counts(sg, sp, m) for m in ("strict", "partiel")},
+                },
             )
         )
     return out
@@ -262,19 +360,31 @@ def _groupe(pcs: list[PassageCounts], mode: str, cle: str) -> dict[str, dict[str
     return {k: _bloc(sum_counts(x.counts[mode] for x in v), len(v)) for k, v in sorted(groupes.items())}
 
 
-def evaluate(gold_rows: Iterable[dict], pred_rows: Iterable[dict]) -> dict[str, Any]:
-    """Évalue des prédictions contre le gold, dans les modes strict et partiel.
+def evaluate(
+    gold_rows: Iterable[dict], pred_rows: Iterable[dict], tokenizer: str = "cfdata", absents_vides: bool = False
+) -> dict[str, Any]:
+    """Évalue des prédictions contre le gold, dans les modes token, strict et partiel.
+
+    ``tokenizer`` (``cfdata`` ou ``stanza``) ne concerne que le mode token. Avec ``absents_vides``, les passages
+    sont alignés comme dans ``ner_eval`` (``completer_predictions``) et les effectifs sont joints sous
+    ``passages_completes``.
 
     Pour chaque mode : bloc global (micro et macro), ventilation par étiquette, par ``doc_lang``, par source
     (syn / lib / externe), et une annexe « passages mixtes » (``lang == "mixte"``) limitée aux effectifs et
     aux erreurs. La matrice de confusion (``confusion``) est jointe sous la clé ``confusion``.
     """
     gold_rows, pred_rows = list(gold_rows), list(pred_rows)
-    pcs = passage_counts(gold_rows, pred_rows)
+    completes = None
+    if absents_vides:
+        pred_rows, completes = completer_predictions(gold_rows, pred_rows)
+    pcs = passage_counts(gold_rows, pred_rows, tokenizer)
     res: dict[str, Any] = {
         "n_passages": len(pcs),
         "n_documents": len({pc.doc_id for pc in pcs}),
+        "tokenizer": tokenizer,
     }
+    if completes is not None:
+        res["passages_completes"] = completes
     for mode in MODES:
         tot = sum_counts(pc.counts[mode] for pc in pcs)
         mixtes = [pc for pc in pcs if pc.lang == "mixte"]

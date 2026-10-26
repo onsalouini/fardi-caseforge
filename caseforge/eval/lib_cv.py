@@ -17,7 +17,7 @@ from collections.abc import Callable
 from typing import Any
 
 from caseforge.eval.data import DEV_JSONL, FINAL
-from caseforge.eval.ner_metrics import evaluate
+from caseforge.eval.ner_metrics import MODES, evaluate
 from caseforge.labels import LABELS, REPO_ROOT
 from cfdata.common import read_jsonl
 
@@ -88,7 +88,7 @@ def evaluate_cv(system_fn: SystemFn) -> dict[str, Any]:
 
     out: dict[str, Any] = {"n_plis": len(plis), "n_passages": len(rows)}
     regroupe = evaluate(toutes_gold, toutes_pred)
-    for mode in ("strict", "partiel"):
+    for mode in MODES:
         etiquettes = {}
         for lab in LABELS:
             vals = [
@@ -112,8 +112,7 @@ def evaluate_cv(system_fn: SystemFn) -> dict[str, Any]:
             "pli": x["pli"],
             "doc_id": x["doc_id"],
             "doc_lang": x["doc_lang"],
-            "strict": x["res"]["strict"]["global"]["micro"]["f1"],
-            "partiel": x["res"]["partiel"]["global"]["micro"]["f1"],
+            **{mode: x["res"][mode]["global"]["micro"]["f1"] for mode in MODES},
         }
         for x in par_pli
     ]
