@@ -5,7 +5,19 @@ from __future__ import annotations
 import pytest
 
 from caseforge.eval.bootstrap import paired_bootstrap
-from caseforge.eval.ner_metrics import INVENTE, MANQUE, confusion, evaluate, to_json, to_markdown, token_kappa
+from caseforge.eval.ner_metrics import (
+    INVENTE,
+    MANQUE,
+    confusion,
+    evaluate,
+    macro_f1_9,
+    macro_f1_presentes,
+    sum_counts,
+    to_json,
+    to_markdown,
+    token_kappa,
+)
+from caseforge.labels import LABELS
 
 
 def ent(text: str, surface: str, label: str, occ: int = 0) -> dict:
@@ -65,8 +77,9 @@ def test_entite_manquee() -> None:
     pred = [row("p1", T_ORG, [ent(T_ORG, "STCB", "ORG")])]
     res = evaluate(gold, pred)
     assert glob(res, "strict") == (1, 0, 1, 1.0, 0.5, pytest.approx(2 / 3))
-    # macro : ORG F1 = 1, SITE F1 = 0
-    assert res["strict"]["global"]["macro"]["f1"] == pytest.approx(0.5)
+    # macro présentes : ORG F1 = 1, SITE F1 = 0 ; macro 9 : (1 + 0 * 8) / 9
+    assert res["strict"]["global"]["macro_presentes"]["f1"] == pytest.approx(0.5)
+    assert res["strict"]["global"]["macro_9"]["f1"] == pytest.approx(1 / 9)
     assert res["confusion"]["SITE"][MANQUE] == 1
 
 
@@ -76,7 +89,7 @@ def test_entite_inventee() -> None:
     res = evaluate(gold, pred)
     assert glob(res, "strict") == (1, 1, 0, 0.5, 1.0, pytest.approx(2 / 3))
     # macro : ORG (P 1, R 1) et SITE (P 0, R 0) seulement inventé
-    assert res["strict"]["global"]["macro"] == {"p": 0.5, "r": 0.5, "f1": 0.5}
+    assert res["strict"]["global"]["macro_presentes"] == {"p": 0.5, "r": 0.5, "f1": 0.5}
     assert res["confusion"][INVENTE]["SITE"] == 1
 
 
@@ -84,7 +97,9 @@ def test_passage_sans_entite() -> None:
     gold = [row("p1", "Objet : réunion.", [])]
     res = evaluate(gold, [row("p1", "Objet : réunion.", [])])
     assert glob(res, "strict") == (0, 0, 0, 0.0, 0.0, 0.0)
-    assert res["strict"]["global"]["macro"]["f1"] == 0.0
+    assert res["strict"]["global"]["macro_9"]["f1"] == 0.0
+    assert res["strict"]["global"]["macro_presentes"]["f1"] == 0.0
+    assert len(res["strict"]["global"]["etiquettes_absentes"]) == 9
     res = evaluate(gold, [row("p1", "Objet : réunion.", [ent("Objet : réunion.", "réunion", "PROCESSUS")])])
     assert glob(res, "strict") == (0, 1, 0, 0.0, 0.0, 0.0)
 
@@ -188,3 +203,34 @@ def test_bootstrap_b_meilleur_et_reproductible() -> None:
     r1, r2 = paired_bootstrap(gold, mi, gold), paired_bootstrap(gold, mi, gold)
     assert r1 == r2
     assert r1["ic95"][0] <= r1["delta"] <= r1["ic95"][1]
+
+
+def test_macro_f1_9() -> None:
+    # 9 étiquettes : ORG parfaite (F1 1), SITE manquée (F1 0), PERSONNE à moitié (tp 1, fn 1 : F1 2/3),
+    # les 6 autres absentes du gold et de la prédiction (F1 0, signalées)
+    c = sum_counts([{"ORG": [2, 0, 0], "SITE": [0, 0, 1], "PERSONNE": [1, 0, 1]}])
+    assert macro_f1_9(c) == pytest.approx((1 + 0 + 2 / 3) / 9)
+    assert macro_f1_presentes(c) == pytest.approx((1 + 0 + 2 / 3) / 3)
+    t = "Mme Sara K. et M. Ali B. de STCB et ACME, Sfax."
+    gold = [
+        row(
+            "p1",
+            t,
+            [
+                ent(t, "Mme Sara K.", "PERSONNE"),
+                ent(t, "M. Ali B.", "PERSONNE"),
+                ent(t, "STCB", "ORG"),
+                ent(t, "ACME", "ORG"),
+                ent(t, "Sfax", "SITE"),
+            ],
+        )
+    ]
+    pred = [row("p1", t, [ent(t, "Mme Sara K.", "PERSONNE"), ent(t, "STCB", "ORG"), ent(t, "ACME", "ORG")])]
+    g = evaluate(gold, pred)["strict"]["global"]
+    assert g["macro_9"]["f1"] == pytest.approx(macro_f1_9(c))
+    assert g["macro_presentes"]["f1"] == pytest.approx(macro_f1_presentes(c))
+    absentes = [lab for lab in LABELS if lab not in {"ORG", "PERSONNE", "SITE"}]
+    assert g["etiquettes_absentes"] == absentes
+    md = to_markdown(evaluate(gold, pred))
+    assert "F1 macro (9)" in md and "F1 macro (présentes)" in md
+    assert "Note : F1 macro (9) compte F1 = 0" in md and ", ".join(absentes) in md

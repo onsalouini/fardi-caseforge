@@ -13,12 +13,22 @@ from collections import defaultdict
 from collections.abc import Iterable
 from typing import Any
 
-from caseforge.eval.ner_metrics import Counts, align, macro, micro_f1, passage_counts, sum_counts
+from caseforge.eval.ner_metrics import (
+    Counts,
+    align,
+    macro_f1_9,
+    macro_f1_presentes,
+    micro_f1,
+    passage_counts,
+    sum_counts,
+)
+
+MOYENNES = {"micro": micro_f1, "macro_9": macro_f1_9, "macro_presentes": macro_f1_presentes}
 
 
 def _f1(c: Counts, average: str) -> float:
-    """F1 micro ou macro de comptes agrégés."""
-    return micro_f1(c) if average == "micro" else macro(c)["f1"]
+    """F1 de comptes agrégés : ``micro``, ``macro_9`` ou ``macro_presentes``."""
+    return MOYENNES[average](c)
 
 
 def _quantile(xs: list[float], q: float) -> float:
@@ -43,6 +53,8 @@ def paired_bootstrap(
     des deltas rééchantillonnés, et la p-valeur unilatérale de H0 « B n'est pas meilleur que A » :
     ``(1 + #{delta* <= 0}) / (1 + n_resamples)``.
     """
+    if average not in MOYENNES:
+        raise ValueError(f"average inconnu {average!r} : {sorted(MOYENNES)}")
     gold_rows = list(gold_rows)
     pred_a, pred_b = list(pred_a), list(pred_b)
     align(pred_a, pred_b, noms=("A", "B"))  # mêmes passages des deux côtés

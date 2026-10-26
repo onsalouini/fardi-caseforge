@@ -10,8 +10,12 @@ Deux modes d'appariement, toujours un-pour-un :
 - ``partiel`` : chevauchement d'au moins 1 caractère et même étiquette ; appariement glouton par chevauchement
   décroissant (une prédiction ne valide qu'une seule entité gold, et inversement).
 
-Le macro-F1 est la moyenne sur les étiquettes présentes dans le sous-ensemble évalué (gold ou prédiction) :
-une étiquette absente des deux côtés ne compte pas, une étiquette seulement inventée compte pour 0.
+Deux macro-moyennes :
+
+- ``macro_9`` (principale) : moyenne sur les 9 étiquettes de ``caseforge.labels`` ; une étiquette absente du gold
+  ET de la prédiction dans la tranche compte pour F1 = 0 et est listée dans ``etiquettes_absentes`` ;
+- ``macro_presentes`` : moyenne sur les seules étiquettes présentes (gold ou prédiction) ; une étiquette
+  seulement inventée compte pour 0.
 """
 
 from __future__ import annotations
@@ -199,16 +203,40 @@ def micro_f1(c: Counts) -> float:
     return _prf(tp, fp, fn)["f1"]
 
 
-def macro(c: Counts) -> dict[str, float]:
-    """Moyenne des P / R / F1 sur les étiquettes présentes (gold ou prédiction)."""
-    vus = [_prf(*v) for v in c.values() if sum(v)]
-    if not vus:
+def _moyenne(prfs: list[dict[str, float]]) -> dict[str, float]:
+    """Moyenne de P / R / F1 ; 0 si la liste est vide."""
+    if not prfs:
         return {"p": 0.0, "r": 0.0, "f1": 0.0}
-    return {k: sum(x[k] for x in vus) / len(vus) for k in ("p", "r", "f1")}
+    return {k: sum(x[k] for x in prfs) / len(prfs) for k in ("p", "r", "f1")}
+
+
+def macro_9(c: Counts) -> dict[str, float]:
+    """Moyenne des P / R / F1 sur les 9 étiquettes ; une étiquette absente des deux côtés compte pour 0."""
+    return _moyenne([_prf(*c[lab]) for lab in LABELS])
+
+
+def macro_presentes(c: Counts) -> dict[str, float]:
+    """Moyenne des P / R / F1 sur les seules étiquettes présentes (gold ou prédiction)."""
+    return _moyenne([_prf(*c[lab]) for lab in LABELS if sum(c[lab])])
+
+
+def macro_f1_9(c: Counts) -> float:
+    """Macro-F1 principal : moyenne de la F1 sur les 9 étiquettes de ``caseforge.labels``."""
+    return macro_9(c)["f1"]
+
+
+def macro_f1_presentes(c: Counts) -> float:
+    """Macro-F1 sur les étiquettes présentes dans la tranche (ancien macro-F1 du harnais)."""
+    return macro_presentes(c)["f1"]
+
+
+def etiquettes_absentes(c: Counts) -> list[str]:
+    """Étiquettes absentes du gold et de la prédiction : comptées F1 = 0 dans ``macro_9``."""
+    return [lab for lab in LABELS if not sum(c[lab])]
 
 
 def _bloc(c: Counts, n_passages: int) -> dict[str, Any]:
-    """Résumé d'un sous-ensemble : effectifs, tp / fp / fn, micro et macro."""
+    """Résumé d'un sous-ensemble : effectifs, tp / fp / fn, micro et les deux macro-moyennes."""
     tp, fp, fn = (sum(v[k] for v in c.values()) for k in range(3))
     return {
         "n_passages": n_passages,
@@ -218,7 +246,9 @@ def _bloc(c: Counts, n_passages: int) -> dict[str, Any]:
         "fp": fp,
         "fn": fn,
         "micro": _prf(tp, fp, fn),
-        "macro": macro(c),
+        "macro_9": macro_9(c),
+        "macro_presentes": macro_presentes(c),
+        "etiquettes_absentes": etiquettes_absentes(c),
     }
 
 
@@ -315,15 +345,25 @@ def _f(x: float) -> str:
 
 def _table_blocs(titre: str, blocs: dict[str, dict[str, Any]]) -> list[str]:
     lignes = [
-        f"| {titre} | Passages | Gold | Prédit | P micro | R micro | F1 micro | F1 macro |",
-        "|---|---|---|---|---|---|---|---|",
+        f"| {titre} | Passages | Gold | Prédit | P micro | R micro | F1 micro | F1 macro (9) | F1 macro (présentes) |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
+    notes = []
     for k, b in blocs.items():
         mi = b["micro"]
         lignes.append(
-            f"| {k} | {b['n_passages']} | {b['support_gold']} | {b['support_pred']} | "
-            f"{_f(mi['p'])} | {_f(mi['r'])} | {_f(mi['f1'])} | {_f(b['macro']['f1'])} |"
+            f"| {k} | {b['n_passages']} | {b['support_gold']} | {b['support_pred']} | {_f(mi['p'])} | "
+            f"{_f(mi['r'])} | {_f(mi['f1'])} | {_f(b['macro_9']['f1'])} | {_f(b['macro_presentes']['f1'])} |"
         )
+        if b["etiquettes_absentes"]:
+            notes.append(f"{k} : {', '.join(b['etiquettes_absentes'])}")
+    if notes:
+        lignes += [
+            "",
+            "Note : F1 macro (9) compte F1 = 0 pour les étiquettes absentes du gold et de la prédiction — "
+            + " ; ".join(notes)
+            + ".",
+        ]
     return lignes
 
 

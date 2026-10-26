@@ -75,3 +75,31 @@ Toute expérience ajoute une entrée **en tête** de `experiments.md`, juste sou
 ```
 
 Les résultats négatifs sont aussi consignés.
+
+## 7. Git et travail en équipe
+
+- **Une branche par tâche**, tirée de `lot-b` : `lot-b/<tache>` (ex. `lot-b/b1-baseline`). Ne jamais committer directement sur `main` ni sur `lot-b`.
+- **Début de chaque tâche** :
+
+  ```bash
+  git fetch origin
+  git checkout lot-b
+  git pull --rebase origin lot-b
+  git rebase origin/main          # seulement si main a avancé
+  git checkout -b lot-b/<tache>
+  ```
+
+- **Fin de chaque tâche**, seulement si `ruff check caseforge tests`, `ruff format --check caseforge tests` et `pytest` passent :
+
+  ```bash
+  git fetch origin
+  git rebase origin/lot-b
+  pytest                          # relancé après le rebase
+  git push -u origin lot-b/<tache>
+  gh pr create --base lot-b       # si gh est disponible, sinon donner l'URL de création de PR
+  ```
+
+  Pas de fusion sans relecture d'un pair.
+- **Interdit** : `push --force` sur `main` ou `lot-b`. Sur une branche de tâche, seulement `--force-with-lease`.
+- **Conflit pendant un rebase** : s'arrêter, lister les fichiers en conflit, ne rien résoudre seul. Pour `experiments.md`, les entrées des deux côtés sont conservées, triées par date décroissante.
+- Ne jamais committer de données partenaires (`data/raw/fardi/`) ni de modèles (`*.safetensors`, `runs/`).
