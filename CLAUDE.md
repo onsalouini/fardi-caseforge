@@ -88,7 +88,7 @@ Les résultats négatifs sont aussi consignés.
 
 ## 8. Git et travail en équipe
 
-- **Une branche par tâche**, tirée de `lot-b` : `lotb/<tache>` (ex. `lotb/b1-baseline`). Ne jamais committer directement sur `main` ni sur `lot-b`. (Git refuse `lot-b/<tache>` tant que la branche `lot-b` existe : une ref ne peut pas être à la fois une branche et un dossier.)
+- **Une branche par lot** (exigence du cahier des charges) : le Lot B travaille directement sur `lot-b`. Pas de branche ni de PR par tâche.
 - **Périmètre ruff du Lot B** : seulement les fichiers du Lot B. Ne modifier ni `caseforge/models/` ni `caseforge/retrieval/` (Lot C), même pour les mettre aux normes. `caseforge/eval/ner_eval.py` appartient aussi au Lot C : il est exclu du périmètre et n'est pas modifié.
 
   ```bash
@@ -105,24 +105,21 @@ Les résultats négatifs sont aussi consignés.
 - **Début de chaque tâche** :
 
   ```bash
-  git fetch origin
-  git checkout lot-b
-  git pull --rebase origin lot-b
-  git rebase origin/main          # seulement si main a avancé
-  git checkout -b lotb/<tache>
+  git checkout lot-b && git pull origin lot-b
   ```
 
 - **Fin de chaque tâche**, seulement si ruff (périmètre `$LOTB` ci-dessus) et `pytest` passent :
 
   ```bash
-  git fetch origin
-  git rebase origin/lot-b
-  pytest                          # relancé après le rebase
-  git push -u origin lotb/<tache>
-  gh pr create --base lot-b       # si gh est disponible, sinon donner l'URL de création de PR
+  git commit
+  git pull origin lot-b           # fusion (merge), pas de rebase
+  pytest                          # relancé si le pull a apporté des commits
+  git push origin lot-b
   ```
 
-  Pas de fusion sans relecture d'un pair.
-- **Interdit** : `push --force` sur `main` ou `lot-b`. Sur une branche de tâche, seulement `--force-with-lease`.
-- **Conflit pendant un rebase** : s'arrêter, lister les fichiers en conflit, ne rien résoudre seul. Pour `experiments.md`, les entrées des deux côtés sont conservées, triées par date décroissante.
+- **PR `lot-b` -> `main` seulement aux jalons** (J2, J3, J4…), relue par un pair avant fusion.
+- **Claude Code ne fusionne jamais une PR et ne pousse jamais sur `main`.**
+- **Intégration de `main` dans `lot-b`** : `git merge origin/main --no-edit`, uniquement à la demande.
+- **Interdit** : `push --force` sur `main` ou `lot-b`.
+- **Conflit pendant une fusion** : s'arrêter, lister les fichiers en conflit, ne rien résoudre seul. Pour `experiments.md`, les entrées des deux côtés sont conservées, triées par date décroissante.
 - Ne jamais committer de données partenaires (`data/raw/fardi/`) ni de modèles (`*.safetensors`, `runs/`).
