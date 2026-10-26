@@ -1,0 +1,8 @@
+# Dépendances du Lot B (en plus de requirements.txt, qui reste celui du Lot A)
+-r requirements.txt
+pytest>=8.0
+ruff>=0.6
+# NER (fine-tuning, sur GPU) : décommenter au besoin
+# transformers>=4.44
+# datasets>=2.20
+# torch>=2.3
