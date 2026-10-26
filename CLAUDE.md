@@ -6,7 +6,7 @@ Le Lot A (données et langue) est clos depuis le 24/10/2026, et le test est gel�
 
 - **Interdiction de modifier `cfdata/` et `data/final/`** : ni édition, ni reformatage, ni fichier ajouté ou supprimé.
 - Ne pas lancer `./run_pipeline.sh` ni `python -m cfdata.build` : ces commandes réécrivent `data/final/` et modifieraient les hash de `manifest.json`.
-- On **PEUT** importer les fonctions utilitaires de `cfdata.common` (`tokenize`, `trim_span`, `detect_lang`, `spans_to_bio`, `read_jsonl`) pour garantir la même tokenisation que le Lot A. On **NE DOIT PAS** importer les constantes d'étiquettes de `cfdata` ni modifier `cfdata/`. Les étiquettes viennent uniquement de `caseforge.labels` (section 4).
+- On **PEUT** importer les fonctions utilitaires de `cfdata.common` (`tokenize`, `trim_span`, `detect_lang`, `spans_to_bio`, `read_jsonl`) et de `cfdata.agreement` (`token_labels`, `cohen_kappa`) pour garantir la même tokenisation et le même kappa que le Lot A. On **NE DOIT PAS** importer les constantes d'étiquettes de `cfdata` ni modifier `cfdata/`. Les étiquettes viennent uniquement de `caseforge.labels` (section 4).
 - Si un défaut du Lot A bloque le Lot B, le signaler dans `experiments.md` au lieu de le corriger dans `cfdata/` ou `data/final/`.
 - `data/raw/fardi/` (données partenaires) ne va jamais dans Git (`.gitignore`).
 
@@ -25,13 +25,15 @@ Les fichiers suivants **ne doivent JAMAIS être lus**, ni par du code, ni par un
 - `data/final/externe_test.conll`
 - `data/final/hf/externe_test.jsonl`
 
-**Seule exception** : `scripts/final_eval.py`, exécuté avec l'option `--i-know-this-is-the-frozen-test`. Ce script refuse de s'exécuter sans cette option, ne sert qu'à l'évaluation finale unique, et chaque exécution est consignée dans `experiments.md`.
+`data/annotated/humain_kappa*.jsonl`, `data/interim/kappa_*.json(l)` et `data/interim/double_annotation_tasks.json` contiennent des passages du test gelé (14 des 20 passages du kappa express). Ils ne servent QU'à la non-régression du harnais (`tests/test_non_regression_kappa.py`). Interdiction de les lire, de les afficher ou d'en tirer des exemples pour écrire des règles, des lexiques ou des prompts.
+
+**Seule exception** pour les fichiers de test : `scripts/final_eval.py`, exécuté avec l'option `--i-know-this-is-the-frozen-test`. Ce script refuse de s'exécuter sans cette option, ne sert qu'à l'évaluation finale unique, et chaque exécution est consignée dans `experiments.md`.
 
 Toute mise au point (règles, hyperparamètres, seuils, choix du point de contrôle, analyse d'erreurs) se fait **sur le dev** : `dev.jsonl`, `dev.bio.jsonl`, `dev.conll`, `documents_dev.jsonl`, `fiches_dev.jsonl`, `hf/validation.jsonl`.
 
 Pour le corpus externe, la mise au point se fait sur un **dev externe tiré de `externe_train`** : 15 %, découpé par document (`doc_id`) si possible, sinon par passage, graine 42. La découpe est enregistrée une fois pour toutes dans `data/lotb/externe_dev_ids.json`, puis relue telle quelle ; les passages qui y figurent sont exclus de l'entraînement.
 
-Garde-fou : `tests/test_test_gele.py` échoue si un fichier de `caseforge/`, `scripts/` ou `tests/` mentionne un fichier de test gelé (seules exceptions : `scripts/final_eval.py` et ce test lui-même).
+Garde-fou : `tests/test_test_gele.py` échoue si un fichier de `caseforge/`, `scripts/` ou `tests/` mentionne un fichier de test gelé (exception : `scripts/final_eval.py`) ou un fichier du kappa (exception : `tests/test_non_regression_kappa.py`).
 
 ## 3. Code du Lot B
 
