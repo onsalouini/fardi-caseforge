@@ -40,7 +40,7 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
   car le problème est convexe (la graine ne change presque rien) ; le corpus simulé (gabarits) facilite la tâche, le score
   sur de vrais documents sera plus bas.
 - **Usage prévu** : segmenter un document pour orienter l'extraction (Lot B) et le remplissage de la fiche (Lot D).
-
+Comparaison avec les règles du Lot B
 ## C2 · Secteur du document (TF-IDF + régression logistique)
 
 - **Entrée → sortie** : texte anonymisé d'un document entier → 7 classes (6 secteurs du corpus simulé + autre).
