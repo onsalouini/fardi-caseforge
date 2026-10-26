@@ -123,3 +123,4 @@ Les résultats négatifs sont aussi consignés.
 - **Interdit** : `push --force` sur `main` ou `lot-b`.
 - **Conflit pendant une fusion** : s'arrêter, lister les fichiers en conflit, ne rien résoudre seul. Pour `experiments.md`, les entrées des deux côtés sont conservées, triées par date décroissante.
 - Ne jamais committer de données partenaires (`data/raw/fardi/`) ni de modèles (`*.safetensors`, `runs/`).
+- **Pas d'attribution automatique** : aucune ligne `Co-Authored-By` ni `Claude-Session` dans les messages de commit, aucune mention « Generated with Claude Code » dans les PR (réglé dans `.claude/settings.json` : `includeCoAuthoredBy: false`, `attribution` vide). Les anciens commits ne sont pas réécrits.
