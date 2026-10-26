@@ -1,0 +1,162 @@
+{"passage_id": "lib_ar_02_p000", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 27, "end": 57, "label": "ORG", "text": "شركة البلاستيك الحديث بالمنطقة"}]}
+{"passage_id": "lib_ar_02_p001", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 10, "end": 34, "label": "PERSONNE", "text": "السيد أنور الدالي المدير"}, {"start": 42, "end": 67, "label": "PERSONNE", "text": "السيدة مريم الكافي مسؤولة"}, {"start": 76, "end": 99, "label": "PERSONNE", "text": "السيد بشير الهمامي رئيس"}]}
+{"passage_id": "lib_ar_02_p002", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "lib_ar_02_p003", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "lib_ar_02_p004", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 34, "end": 52, "label": "PROCESSUS", "text": "ضبط معايير القولبة"}]}
+{"passage_id": "lib_ar_02_p005", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 8, "end": 53, "label": "CONTRAINTE", "text": "يجب ألا تتجاوز ميزانية التعديلات 60 ألف دينار"}, {"start": 93, "end": 140, "label": "CONTRAINTE", "text": "يجب أن تبقى الحلول متوافقة مع المواصفة ISO 9001"}]}
+{"passage_id": "lib_ar_02_p006", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "lib_en_01_p000", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": [{"start": 24, "end": 52, "label": "DONNEE_SENSIBLE", "text": "d.whitfield@aerocompo-tn.com"}]}
+{"passage_id": "lib_en_01_p001", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "lib_en_01_p002", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "lib_en_01_p003", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "lib_en_01_p004", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": [{"start": 32, "end": 113, "label": "CONTRAINTE", "text": "must remain compliant with EN 9100 and be approved by our customer's quality team"}, {"start": 124, "end": 177, "label": "CONTRAINTE", "text": "cannot access the clean room without a 2-day training"}, {"start": 191, "end": 221, "label": "CONTRAINTE", "text": "must be delivered by June 2027"}]}
+{"passage_id": "lib_en_01_p005", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": [{"start": 233, "end": 248, "label": "DONNEE_SENSIBLE", "text": "+216 71 940 255"}]}
+{"passage_id": "lib_fr_06_p000", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "lib_fr_06_p001", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 12, "end": 27, "label": "PERSONNE", "text": "Dr Nabil Zayani"}]}
+{"passage_id": "lib_fr_06_p002", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "lib_fr_06_p003", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "lib_fr_06_p004", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "lib_fr_06_p005", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 121, "end": 176, "label": "CONTRAINTE", "text": "doit être relu par le service juridique avant diffusion"}]}
+{"passage_id": "lib_fr_06_p006", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_ar_001_p000", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_001_p001", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 5, "end": 34, "label": "ORG", "text": "شركة النور للصناعات الغذائـية"}]}
+{"passage_id": "syn_ar_001_p002", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 60, "end": 79, "label": "INDICATEUR", "text": "نسبة فضلات تبلغ 7 %"}]}
+{"passage_id": "syn_ar_001_p003", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 87, "end": 116, "label": "ORG", "text": "شركة الـنور للصناعات الغذائية"}]}
+{"passage_id": "syn_ar_001_p004", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 14, "end": 32, "label": "PERSONNE", "text": "السيدة وفاء المجري"}]}
+{"passage_id": "syn_ar_001_p005", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 61, "end": 72, "label": "DONNEE_SENSIBLE", "text": "15000 دينار"}, {"start": 74, "end": 103, "label": "CONTRAINTE", "text": "يجب إنهاء المشروع في 4 اسابيع"}]}
+{"passage_id": "syn_ar_001_p006", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 8, "end": 30, "label": "ORG", "text": "مؤسسة مستخرجات من نظام"}, {"start": 75, "end": 94, "label": "INDICATEUR", "text": "نسبة فضلات تبلغ 6 %"}]}
+{"passage_id": "syn_ar_001_p007", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 32, "end": 51, "label": "DONNEE_SENSIBLE", "text": "421,35 دينار للوحدة"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE", "text": "العقد عدد 2024-207"}]}
+{"passage_id": "syn_ar_001_p008", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 52, "end": 62, "label": "DONNEE_SENSIBLE", "text": "74 455 926"}, {"start": 78, "end": 95, "label": "DONNEE_SENSIBLE", "text": "w.mejri@ennour.tn"}]}
+{"passage_id": "syn_ar_006_p000", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_006_p001", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 5, "end": 30, "label": "ORG", "text": "شركة حنبعل للنسيج انطلاقا"}]}
+{"passage_id": "syn_ar_006_p002", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 64, "end": 85, "label": "INDICATEUR", "text": "نسبة شكايـات تبلغ 5 %"}]}
+{"passage_id": "syn_ar_006_p003", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 92, "end": 112, "label": "ORG", "text": "شركة حنبعل للنسيج في"}]}
+{"passage_id": "syn_ar_006_p004", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 61, "end": 72, "label": "DONNEE_SENSIBLE", "text": "30000 دينار"}, {"start": 74, "end": 110, "label": "CONTRAINTE", "text": "يجب أن يحترم الحل المواصفة ISO 13485"}]}
+{"passage_id": "syn_ar_006_p005", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 8, "end": 30, "label": "ORG", "text": "مؤسسة مستخرجات من نظام"}, {"start": 81, "end": 101, "label": "INDICATEUR", "text": "نسبة شكايات تبلغ 4 %"}]}
+{"passage_id": "syn_ar_006_p006", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 14, "end": 33, "label": "PERSONNE", "text": "السيدة آمنة الجزيري"}]}
+{"passage_id": "syn_ar_006_p007", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 32, "end": 51, "label": "DONNEE_SENSIBLE", "text": "178,16 دينار للوحدة"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE", "text": "العقد عدد 2026-032"}]}
+{"passage_id": "syn_ar_008_p001", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 5, "end": 34, "label": "ORG", "text": "شركة قرقنة للأسلاك الكهربائية"}]}
+{"passage_id": "syn_ar_008_p002", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 61, "end": 81, "label": "INDICATEUR", "text": "نسبة شكايات تبلغ 8 %"}]}
+{"passage_id": "syn_ar_008_p003", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 88, "end": 117, "label": "ORG", "text": "شركة قرقنة للأسلاك الكهربائية"}]}
+{"passage_id": "syn_ar_008_p004", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 28, "end": 64, "label": "CONTRAINTE", "text": "يجب أن يحترم الحل المواصفة ISO 14001"}, {"start": 66, "end": 95, "label": "CONTRAINTE", "text": "يجب إنهاء المشروع في 6 أسابيع"}]}
+{"passage_id": "syn_ar_008_p005", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 8, "end": 30, "label": "ORG", "text": "مؤسسة مستخرجات من نظام"}, {"start": 77, "end": 97, "label": "INDICATEUR", "text": "نسبة شكايات تبلغ 7 %"}]}
+{"passage_id": "syn_ar_008_p006", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 14, "end": 32, "label": "PERSONNE", "text": "السيدة هالة بن عمر"}]}
+{"passage_id": "syn_ar_008_p007", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 32, "end": 51, "label": "DONNEE_SENSIBLE", "text": "473,63 دينار للوحدة"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE", "text": "العقد عدد 2024-080"}]}
+{"passage_id": "syn_ar_017_p000", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_017_p001", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 5, "end": 35, "label": "ORG", "text": "شركة الياسمين للأدوية انـطلاقا"}]}
+{"passage_id": "syn_ar_017_p002", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_017_p003", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 100, "end": 124, "label": "ORG", "text": "شركة الياسمين للأدوية في"}]}
+{"passage_id": "syn_ar_017_p004", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 14, "end": 32, "label": "PERSONNE", "text": "السيد حاتم الغنوشي"}]}
+{"passage_id": "syn_ar_017_p005", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 62, "end": 73, "label": "DONNEE_SENSIBLE", "text": "50000 دينار"}, {"start": 75, "end": 111, "label": "CONTRAINTE", "text": "يجب ان يحترم الحل المواصفة ISO 22000"}]}
+{"passage_id": "syn_ar_017_p006", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 8, "end": 31, "label": "ORG", "text": "مؤسسة مستخـرجات من نظام"}]}
+{"passage_id": "syn_ar_017_p007", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 49, "end": 59, "label": "DONNEE_SENSIBLE", "text": "74 634 289"}, {"start": 74, "end": 97, "label": "DONNEE_SENSIBLE", "text": "h.ghannouchi@jasmine.tn"}]}
+{"passage_id": "syn_ar_021_p000", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_021_p001", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 15, "end": 43, "label": "ORG", "text": "شركة النور للميكانيك الدقيقة"}]}
+{"passage_id": "syn_ar_021_p002", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 65, "end": 84, "label": "INDICATEUR", "text": "نسبة فضلات تبلغ 7 %"}]}
+{"passage_id": "syn_ar_021_p003", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 92, "end": 120, "label": "ORG", "text": "شركة النور للميكانيك الدقيقة"}]}
+{"passage_id": "syn_ar_021_p004", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 61, "end": 72, "label": "DONNEE_SENSIBLE", "text": "20000 دينار"}, {"start": 74, "end": 103, "label": "CONTRAINTE", "text": "يجب إنهاء المشروع في 8 أسابيع"}]}
+{"passage_id": "syn_ar_021_p005", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 8, "end": 30, "label": "ORG", "text": "مؤسسة مستخرجات من نظام"}, {"start": 81, "end": 100, "label": "INDICATEUR", "text": "نسبة فضلات تبلغ 4 %"}]}
+{"passage_id": "syn_ar_021_p006", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 32, "end": 51, "label": "DONNEE_SENSIBLE", "text": "448,98 دينار للوحدة"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE", "text": "العقد عدد 2025-120"}]}
+{"passage_id": "syn_ar_021_p007", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 48, "end": 58, "label": "DONNEE_SENSIBLE", "text": "73 749 951"}, {"start": 73, "end": 91, "label": "DONNEE_SENSIBLE", "text": "l.gharbi@ennour.tn"}]}
+{"passage_id": "syn_ar_022_p001", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 15, "end": 37, "label": "ORG", "text": "شركة المتوسط للبلاستيك"}]}
+{"passage_id": "syn_ar_022_p002", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 60, "end": 80, "label": "INDICATEUR", "text": "نسبة شكايات تبلغ 4 %"}]}
+{"passage_id": "syn_ar_022_p003", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 87, "end": 112, "label": "ORG", "text": "شركة المتوسط للبلاستيك في"}]}
+{"passage_id": "syn_ar_022_p004", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 28, "end": 57, "label": "CONTRAINTE", "text": "يجب انهاء المشروع في 4 اسابيع"}, {"start": 59, "end": 97, "label": "CONTRAINTE", "text": "يجب أن يحترم الـحل المواصـفة ISO 45001"}]}
+{"passage_id": "syn_ar_022_p005", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 8, "end": 30, "label": "ORG", "text": "مؤسسة مستخرجات من نظام"}, {"start": 76, "end": 97, "label": "INDICATEUR", "text": "نسبة شكايات تبـلغ 2 %"}]}
+{"passage_id": "syn_ar_022_p006", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 34, "end": 53, "label": "DONNEE_SENSIBLE", "text": "462,48 دينار للوحدة"}, {"start": 55, "end": 73, "label": "DONNEE_SENSIBLE", "text": "العقد عدد 2024-115"}]}
+{"passage_id": "syn_ar_022_p007", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 48, "end": 63, "label": "DONNEE_SENSIBLE", "text": "+216 75 105 233"}, {"start": 78, "end": 103, "label": "DONNEE_SENSIBLE", "text": "r.jaziri@mediterranean.tn"}]}
+{"passage_id": "syn_en_005_p001", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_005_p002", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 60, "end": 75, "label": "INDICATEUR", "text": "MTBF of 8 hours"}]}
+{"passage_id": "syn_en_005_p003", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_005_p004", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 44, "label": "PERSONNE", "text": "Mr. Hatem Mejri"}]}
+{"passage_id": "syn_en_005_p005", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 55, "end": 87, "label": "CONTRAINTE", "text": "must be completed within 6 weeks"}, {"start": 116, "end": 124, "label": "DONNEE_SENSIBLE", "text": "5000 TND"}]}
+{"passage_id": "syn_en_005_p006", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 97, "end": 112, "label": "INDICATEUR", "text": "MTBF of 9 hours"}]}
+{"passage_id": "syn_en_005_p007", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 36, "end": 45, "label": "DONNEE_SENSIBLE", "text": "TND 61.99"}, {"start": 50, "end": 71, "label": "DONNEE_SENSIBLE", "text": "contract no. 2024-154"}]}
+{"passage_id": "syn_en_005_p008", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 38, "end": 48, "label": "DONNEE_SENSIBLE", "text": "70 695 481"}, {"start": 65, "end": 80, "label": "DONNEE_SENSIBLE", "text": "h.mejri@opoa.tn"}]}
+{"passage_id": "syn_en_006_p001", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 45, "end": 67, "label": "ORG", "text": "Jasmine Textiles Group"}]}
+{"passage_id": "syn_en_006_p002", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 70, "end": 87, "label": "INDICATEUR", "text": "scrap rate of 14%"}]}
+{"passage_id": "syn_en_006_p003", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_006_p004", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 70, "end": 79, "label": "DONNEE_SENSIBLE", "text": "20000 TND"}, {"start": 93, "end": 125, "label": "CONTRAINTE", "text": "must be completed within 5 weeks"}]}
+{"passage_id": "syn_en_006_p005", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 107, "end": 123, "label": "INDICATEUR", "text": "scrap rate of 9%"}]}
+{"passage_id": "syn_en_006_p006", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 45, "label": "PERSONNE", "text": "Mr. Tarek Zouari"}]}
+{"passage_id": "syn_en_006_p007", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 36, "end": 45, "label": "DONNEE_SENSIBLE", "text": "TND 44.50"}, {"start": 50, "end": 71, "label": "DONNEE_SENSIBLE", "text": "contract no. 2026-192"}]}
+{"passage_id": "syn_en_008_p001", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 41, "end": 62, "label": "ORG", "text": "Hannibal Wiring Group"}]}
+{"passage_id": "syn_en_008_p002", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_008_p003", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_008_p004", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 55, "end": 87, "label": "CONTRAINTE", "text": "must be completed within 8 weeks"}, {"start": 116, "end": 125, "label": "DONNEE_SENSIBLE", "text": "30000 TND"}]}
+{"passage_id": "syn_en_008_p005", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_008_p006", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 43, "label": "PERSONNE", "text": "Ms. Rim Zouari"}]}
+{"passage_id": "syn_en_008_p007", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 36, "end": 46, "label": "DONNEE_SENSIBLE", "text": "TND 346.25"}, {"start": 51, "end": 72, "label": "DONNEE_SENSIBLE", "text": "contract no. 2026-287"}]}
+{"passage_id": "syn_en_013_p000", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_013_p001", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 25, "end": 45, "label": "ORG", "text": "Ennour Foods Systems"}]}
+{"passage_id": "syn_en_013_p002", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 55, "end": 71, "label": "INDICATEUR", "text": "MTBF of 10 hours"}]}
+{"passage_id": "syn_en_013_p003", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_013_p004", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 48, "label": "PERSONNE", "text": "Ms. Wafa Ghannouchi"}]}
+{"passage_id": "syn_en_013_p005", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 70, "end": 79, "label": "DONNEE_SENSIBLE", "text": "30000 TND"}, {"start": 94, "end": 120, "label": "CONTRAINTE", "text": "must comply with ISO 22000"}]}
+{"passage_id": "syn_en_013_p006", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 92, "end": 108, "label": "INDICATEUR", "text": "MTBF of 14 hours"}]}
+{"passage_id": "syn_en_013_p007", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 43, "end": 53, "label": "DONNEE_SENSIBLE", "text": "74 840 674"}, {"start": 70, "end": 90, "label": "DONNEE_SENSIBLE", "text": "w.ghannouchi@efen.tn"}]}
+{"passage_id": "syn_en_015_p000", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_015_p001", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 39, "end": 66, "label": "ORG", "text": "Precision Engineering Group"}]}
+{"passage_id": "syn_en_015_p002", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 73, "end": 88, "label": "INDICATEUR", "text": "MTBF of 9 hours"}]}
+{"passage_id": "syn_en_015_p003", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_015_p004", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 45, "label": "PERSONNE", "text": "Mr. Riadh Hadded"}]}
+{"passage_id": "syn_en_015_p005", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 55, "end": 87, "label": "CONTRAINTE", "text": "must be completed within 6 weeks"}, {"start": 116, "end": 125, "label": "DONNEE_SENSIBLE", "text": "20000 TND"}]}
+{"passage_id": "syn_en_015_p006", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 110, "end": 126, "label": "INDICATEUR", "text": "MTBF of 14 hours"}]}
+{"passage_id": "syn_en_015_p007", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 39, "end": 54, "label": "DONNEE_SENSIBLE", "text": "+216 31 266 465"}, {"start": 71, "end": 89, "label": "DONNEE_SENSIBLE", "text": "r.hadded@rnpeme.tn"}]}
+{"passage_id": "syn_en_028_p000", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_028_p001", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 25, "end": 44, "label": "ORG", "text": "Ennour Plastics Ltd"}]}
+{"passage_id": "syn_en_028_p002", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 64, "end": 79, "label": "INDICATEUR", "text": "MTBF of 6 hours"}]}
+{"passage_id": "syn_en_028_p003", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_028_p004", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 47, "label": "PERSONNE", "text": "Mr. Hatem Mansouri"}]}
+{"passage_id": "syn_en_028_p005", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 113, "end": 122, "label": "DONNEE_SENSIBLE", "text": "15000 TND"}]}
+{"passage_id": "syn_en_028_p006", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 101, "end": 116, "label": "INDICATEUR", "text": "MTBF of 8 hours"}]}
+{"passage_id": "syn_en_028_p007", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 36, "end": 46, "label": "DONNEE_SENSIBLE", "text": "TND 117.25"}, {"start": 51, "end": 72, "label": "DONNEE_SENSIBLE", "text": "contract no. 2025-211"}]}
+{"passage_id": "syn_en_028_p008", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 41, "end": 51, "label": "DONNEE_SENSIBLE", "text": "70 963 466"}, {"start": 68, "end": 86, "label": "DONNEE_SENSIBLE", "text": "h.mansouri@epen.tn"}]}
+{"passage_id": "syn_fr_007_p000", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_007_p001", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 42, "end": 77, "label": "ORG", "text": "Groupe Agroalimentalre Méditerranée"}]}
+{"passage_id": "syn_fr_007_p002", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 87, "end": 108, "label": "INDICATEUR", "text": "taux de rebut de 11 %"}]}
+{"passage_id": "syn_fr_007_p003", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_007_p004", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 60, "end": 93, "label": "CONTRAINTE", "text": "doit respecter la norme ISO 45001"}, {"start": 134, "end": 142, "label": "DONNEE_SENSIBLE", "text": "15000 DT"}]}
+{"passage_id": "syn_fr_007_p005", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 111, "end": 131, "label": "INDICATEUR", "text": "taux de rebut de 7 %"}]}
+{"passage_id": "syn_fr_007_p006", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 24, "end": 39, "label": "PERSONNE", "text": "M. Hatem Haddcd"}]}
+{"passage_id": "syn_fr_007_p007", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 54, "label": "DONNEE_SENSIBLE", "text": "298,37 DT l'unité"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "text": "contrat n° 2024-195"}]}
+{"passage_id": "syn_fr_022_p000", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_022_p001", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 12, "end": 37, "label": "ORG", "text": "Société Plastiques Ennour"}]}
+{"passage_id": "syn_fr_022_p002", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 83, "end": 104, "label": "INDICATEUR", "text": "taux de rebut de 14 %"}]}
+{"passage_id": "syn_fr_022_p003", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_022_p004", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 86, "end": 94, "label": "DONNEE_SENSIBLE", "text": "30000 DT"}, {"start": 109, "end": 142, "label": "CONTRAINTE", "text": "doit respecter la norme ISO 45001"}]}
+{"passage_id": "syn_fr_022_p005", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 107, "end": 127, "label": "INDICATEUR", "text": "taux de rebut de 6 %"}]}
+{"passage_id": "syn_fr_022_p006", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 54, "label": "DONNEE_SENSIBLE", "text": "291,70 DT l'unité"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "text": "contrat n° 2026-022"}]}
+{"passage_id": "syn_fr_022_p007", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 42, "end": 52, "label": "DONNEE_SENSIBLE", "text": "79 899 749"}, {"start": 71, "end": 87, "label": "DONNEE_SENSIBLE", "text": "e.zouari@spen.tn"}]}
+{"passage_id": "syn_fr_024_p001", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 41, "end": 69, "label": "ORG", "text": "Compagnie Textiles Kerkennah"}]}
+{"passage_id": "syn_fr_024_p002", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 104, "end": 120, "label": "INDICATEUR", "text": "MTBF de 6 heures"}]}
+{"passage_id": "syn_fr_024_p003", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 47, "label": "PERSONNE", "text": "M. Hammami"}]}
+{"passage_id": "syn_fr_024_p004", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 24, "end": 40, "label": "PERSONNE", "text": "M. Mehdi Hammami"}]}
+{"passage_id": "syn_fr_024_p005", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 60, "end": 92, "label": "CONTRAINTE", "text": "doit respecter la norme ISO 9001"}, {"start": 105, "end": 136, "label": "CONTRAINTE", "text": "doit être terminé en 6 semaines"}]}
+{"passage_id": "syn_fr_024_p006", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 128, "end": 144, "label": "INDICATEUR", "text": "MTBF de 8 heures"}]}
+{"passage_id": "syn_fr_024_p007", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 54, "label": "DONNEE_SENSIBLE", "text": "431,49 DT l'unité"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "text": "contrat n° 2025-285"}]}
+{"passage_id": "syn_fr_024_p008", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 29, "end": 39, "label": "PERSONNE", "text": "M. Hammami"}, {"start": 43, "end": 58, "label": "DONNEE_SENSIBLE", "text": "+216 44 151 389"}, {"start": 77, "end": 94, "label": "DONNEE_SENSIBLE", "text": "m.hammami@ctke.tn"}]}
+{"passage_id": "syn_fr_026_p001", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 54, "end": 82, "label": "ORG", "text": "Établissements Câblage Oasis"}]}
+{"passage_id": "syn_fr_026_p002", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 97, "end": 118, "label": "INDICATEUR", "text": "taux de rebut de 11 %"}]}
+{"passage_id": "syn_fr_026_p003", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_026_p004", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 24, "end": 39, "label": "PERSONNE", "text": "M. Tarek Jaziri"}]}
+{"passage_id": "syn_fr_026_p005", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 58, "end": 89, "label": "CONTRAINTE", "text": "doit être terminé en 8 semaines"}, {"start": 130, "end": 137, "label": "DONNEE_SENSIBLE", "text": "5000 DT"}]}
+{"passage_id": "syn_fr_026_p006", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 121, "end": 141, "label": "INDICATEUR", "text": "taux de rebut de 4 %"}]}
+{"passage_id": "syn_fr_026_p007", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 54, "label": "DONNEE_SENSIBLE", "text": "311,58 DT l'unité"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "text": "contrat n° 2025-003"}]}
+{"passage_id": "syn_fr_026_p008", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 42, "end": 57, "label": "DONNEE_SENSIBLE", "text": "+216 69 303 854"}, {"start": 76, "end": 92, "label": "DONNEE_SENSIBLE", "text": "t.jaziri@ecoa.tn"}]}
+{"passage_id": "syn_fr_027_p001", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 42, "end": 81, "label": "ORG", "text": "Société Mécanique de Précision Hannibal"}]}
+{"passage_id": "syn_fr_027_p002", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 111, "end": 132, "label": "INDICATEUR", "text": "taux de rebut de 14 %"}]}
+{"passage_id": "syn_fr_027_p003", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_027_p004", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 24, "end": 39, "label": "PERSONNE", "text": "Mme Wafa Jaziri"}]}
+{"passage_id": "syn_fr_027_p005", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 58, "end": 89, "label": "CONTRAINTE", "text": "doit être terminé en 6 semaines"}, {"start": 104, "end": 137, "label": "CONTRAINTE", "text": "doit respecter la norme ISO 22000"}]}
+{"passage_id": "syn_fr_027_p006", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 135, "end": 155, "label": "INDICATEUR", "text": "taux de rebut de 9 %"}]}
+{"passage_id": "syn_fr_027_p007", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 54, "label": "DONNEE_SENSIBLE", "text": "297,51 DT l'unité"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "text": "contrat n° 2024-281"}]}
+{"passage_id": "syn_fr_027_p008", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 42, "end": 57, "label": "DONNEE_SENSIBLE", "text": "+216 82 340 293"}, {"start": 76, "end": 93, "label": "DONNEE_SENSIBLE", "text": "w.jaziri@smpha.tn"}]}
+{"passage_id": "syn_fr_029_p001", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 45, "end": 76, "label": "ORG", "text": "Groupe Pharmaceutique Kerkennah"}]}
+{"passage_id": "syn_fr_029_p002", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "mixte", "entities": [{"start": 91, "end": 107, "label": "INDICATEUR", "text": "MTBF de 9 heures"}]}
+{"passage_id": "syn_fr_029_p003", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "mixte", "entities": [{"start": 37, "end": 46, "label": "PERSONNE", "text": "M. Zouari"}]}
+{"passage_id": "syn_fr_029_p004", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "mixte", "entities": [{"start": 24, "end": 39, "label": "PERSONNE", "text": "M. Mehdi Zouari"}]}
+{"passage_id": "syn_fr_029_p005", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 58, "end": 89, "label": "CONTRAINTE", "text": "doit être terminé en 6 semaines"}, {"start": 130, "end": 138, "label": "DONNEE_SENSIBLE", "text": "10000 DT"}]}
+{"passage_id": "syn_fr_029_p006", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "mixte", "entities": [{"start": 115, "end": 132, "label": "INDICATEUR", "text": "MTBF de 12 heures"}]}
+{"passage_id": "syn_fr_029_p007", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 54, "label": "DONNEE_SENSIBLE", "text": "179,23 DT l'unité"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "text": "contrat n° 2026-257"}]}
+{"passage_id": "syn_fr_029_p008", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 29, "end": 38, "label": "PERSONNE", "text": "M. Zouari"}, {"start": 42, "end": 57, "label": "DONNEE_SENSIBLE", "text": "+216 31 950 870"}, {"start": 76, "end": 92, "label": "DONNEE_SENSIBLE", "text": "m.zouari@gpke.tn"}]}

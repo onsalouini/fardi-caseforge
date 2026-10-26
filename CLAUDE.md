@@ -78,7 +78,16 @@ Les résultats négatifs sont aussi consignés.
 
 ## 7. Git et travail en équipe
 
-- **Une branche par tâche**, tirée de `lot-b` : `lot-b/<tache>` (ex. `lot-b/b1-baseline`). Ne jamais committer directement sur `main` ni sur `lot-b`.
+- **Une branche par tâche**, tirée de `lot-b` : `lotb/<tache>` (ex. `lotb/b1-baseline`). Ne jamais committer directement sur `main` ni sur `lot-b`. (Git refuse `lot-b/<tache>` tant que la branche `lot-b` existe : une ref ne peut pas être à la fois une branche et un dossier.)
+- **Périmètre ruff du Lot B** : seulement les fichiers du Lot B. Ne modifier ni `caseforge/models/` ni `caseforge/retrieval/` (Lot C), même pour les mettre aux normes.
+
+  ```bash
+  LOTB="caseforge/labels.py caseforge/eval caseforge/extraction caseforge/anonymization scripts \
+        tests/test_labels.py tests/test_test_gele.py tests/test_ner_metrics.py tests/test_non_regression_kappa.py tests/test_bio.py"
+  ruff check $LOTB && ruff format --check $LOTB
+  ```
+
+  Tout nouveau test du Lot B est ajouté à cette liste.
 - **Début de chaque tâche** :
 
   ```bash
@@ -86,16 +95,16 @@ Les résultats négatifs sont aussi consignés.
   git checkout lot-b
   git pull --rebase origin lot-b
   git rebase origin/main          # seulement si main a avancé
-  git checkout -b lot-b/<tache>
+  git checkout -b lotb/<tache>
   ```
 
-- **Fin de chaque tâche**, seulement si `ruff check caseforge tests`, `ruff format --check caseforge tests` et `pytest` passent :
+- **Fin de chaque tâche**, seulement si ruff (périmètre `$LOTB` ci-dessus) et `pytest` passent :
 
   ```bash
   git fetch origin
   git rebase origin/lot-b
   pytest                          # relancé après le rebase
-  git push -u origin lot-b/<tache>
+  git push -u origin lotb/<tache>
   gh pr create --base lot-b       # si gh est disponible, sinon donner l'URL de création de PR
   ```
 
