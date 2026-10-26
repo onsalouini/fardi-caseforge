@@ -1,0 +1,320 @@
+# Gouvernorats, délégations et villes de Tunisie (graphie latine usuelle et graphie arabe), pour les SITE.
+# Source : découpage administratif public de la Tunisie (24 gouvernorats et leurs délégations, Institut National
+# de la Statistique ; liste « Délégations de Tunisie » de Wikipédia). Transcription manuelle, non exhaustive :
+# les grandes villes et les délégations industrielles sont couvertes. Graphies avec et sans accent.
+# Exclus volontairement : « Tunisie » (pays seul, guide v2, section 2) et « Médina » (nom commun ambigu).
+# Pas de recopie de cfdata/pools.py.
+Tunis
+Ariana
+Ben Arous
+Manouba
+La Manouba
+Nabeul
+Zaghouan
+Bizerte
+Béja
+Beja
+Jendouba
+Le Kef
+Kef
+Siliana
+Sousse
+Monastir
+Mahdia
+Sfax
+Kairouan
+Kasserine
+Sidi Bouzid
+Gabès
+Gabes
+Médenine
+Medenine
+Tataouine
+Gafsa
+Tozeur
+Kébili
+Kebili
+Carthage
+La Marsa
+Le Bardo
+Bardo
+La Goulette
+Sidi Hassine
+El Omrane
+El Menzah
+Sijoumi
+El Ouardia
+La Soukra
+Raoued
+Kalâat el-Andalous
+Sidi Thabet
+Ettadhamen
+Mnihla
+Charguia
+El Mourouj
+Hammam Lif
+Hammam Chott
+Bou Mhel
+Ezzahra
+Radès
+Rades
+Mégrine
+Megrine
+Mohamedia
+Fouchana
+Mornag
+Den Den
+Douar Hicher
+Oued Ellil
+Mornaguia
+Borj El Amri
+Djedeida
+Tebourba
+El Battan
+Dar Chaâbane
+Dar Chaabane
+Béni Khiar
+Korba
+Menzel Temime
+El Mida
+Kélibia
+Kelibia
+El Haouaria
+Soliman
+Menzel Bouzelfa
+Béni Khalled
+Grombalia
+Bou Argoub
+Hammamet
+Zriba
+Bir Mcherga
+El Fahs
+Menzel Bourguiba
+Mateur
+Menzel Jemil
+Ras Jebel
+Sejnane
+Ghar El Melh
+El Alia
+Utique
+Medjez el-Bab
+Medjez El Bab
+Téboursouk
+Testour
+Nefza
+Goubellat
+Bou Salem
+Tabarka
+Aïn Draham
+Ain Draham
+Fernana
+Ghardimaou
+Dahmani
+Tajerouine
+Sakiet Sidi Youssef
+Kalaat Senan
+Bou Arada
+Bouarada
+Gaâfour
+Gaafour
+El Krib
+Makthar
+Hammam Sousse
+Akouda
+Kalâa Kebira
+Kalaa Kebira
+Kalâa Seghira
+Kalaa Seghira
+Msaken
+M'saken
+Enfida
+Enfidha
+Bouficha
+Sidi Bou Ali
+Hergla
+Kondar
+Sidi El Hani
+Ksar Hellal
+Moknine
+Jemmal
+Téboulba
+Teboulba
+Bekalta
+Ksibet el-Médiouni
+Sahline
+Zéramdine
+Ouerdanine
+Bembla
+Sayada
+Ksour Essef
+El Jem
+Chebba
+Melloulèche
+Bou Merdes
+Souassi
+Sakiet Ezzit
+Sakiet Eddaïer
+Thyna
+Agareb
+El Hencha
+Jebiniana
+Kerkennah
+Mahrès
+Skhira
+Menzel Chaker
+Haffouz
+Sbikha
+Oueslatia
+Hajeb El Ayoun
+Sbeïtla
+Sbeitla
+Fériana
+Thala
+Foussana
+Sbiba
+Regueb
+Jilma
+Meknassy
+Mezzouna
+El Hamma
+Mareth
+Matmata
+Ghannouch
+Métouia
+Djerba
+Houmt Souk
+Midoun
+Zarzis
+Ben Gardane
+Ghomrassen
+Remada
+Métlaoui
+Metlaoui
+Redeyef
+Moularès
+Mdhilla
+El Guettar
+Nefta
+Degache
+Douz
+تونس
+أريانة
+اريانة
+بن عروس
+منوبة
+نابل
+زغوان
+بنزرت
+باجة
+جندوبة
+الكاف
+سليانة
+سوسة
+المنستير
+المهدية
+صفاقس
+القيروان
+القصرين
+سيدي بوزيد
+قابس
+مدنين
+تطاوين
+قفصة
+توزر
+قبلي
+قرطاج
+المرسى
+باردو
+حلق الوادي
+الشرقية
+رادس
+مقرين
+المروج
+حمام الأنف
+حمام الشط
+الزهراء
+فوشانة
+المحمدية
+مرناق
+دوار هيشر
+وادي الليل
+طبربة
+الجديدة
+منزل تميم
+قليبية
+الحمامات
+قرمبالية
+سليمان
+منزل بوزلفة
+بني خلاد
+دار شعبان
+بني خيار
+قربة
+الفحص
+منزل بورقيبة
+ماطر
+منزل جميل
+رأس الجبل
+مجاز الباب
+تبرسق
+طبرقة
+عين دراهم
+بوسالم
+غار الدماء
+الدهماني
+تاجروين
+بوعرادة
+قعفور
+مكثر
+حمام سوسة
+أكودة
+القلعة الكبرى
+القلعة الصغرى
+مساكن
+النفيضة
+بوفيشة
+هرقلة
+قصر هلال
+المكنين
+جمال
+طبلبة
+بنبلة
+صيادة
+قصور الساف
+الجم
+الشابة
+ساقية الزيت
+ساقية الدائر
+عقارب
+الحنشة
+جبنيانة
+قرقنة
+المحرس
+الصخيرة
+حفوز
+السبيخة
+الوسلاتية
+حاجب العيون
+سبيطلة
+فريانة
+تالة
+الرقاب
+المكناسي
+الحامة
+مارث
+مطماطة
+غنوش
+المطوية
+جربة
+حومة السوق
+ميدون
+جرجيس
+بن قردان
+غمراسن
+رمادة
+المتلوي
+الرديف
+المظيلة
+نفطة
+دقاش
+دوز

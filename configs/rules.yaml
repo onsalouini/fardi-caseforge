@@ -1,0 +1,11 @@
+# Configuration des règles du Lot B (caseforge.extraction.rules.extract_rules).
+# Chaque couche peut être désactivée (ablation) ; la résolution désactivée ne retire que les doublons exacts.
+couches:
+  regex: true          # DONNEE_SENSIBLE (e-mail, téléphone, montants, références), quantités produites
+  matchers: true       # PERSONNE, ORG, SITE
+  dependencies: true   # CONTRAINTE, INDICATEUR, EQUIPEMENT, PROCESSUS, PRODUIT (DependencyMatcher)
+  resolution: true     # bordures, proclitiques arabes, génériques, chevauchements par priorité
+# Sigles, noms d'ORG et de personnes trouvés dans un passage, réutilisés dans les autres passages du document.
+memoire_document: true
+# rule_id à ignorer, par exemple : [dependencies.produit_tete, matchers.personne_prenom]
+regles_desactivees: []

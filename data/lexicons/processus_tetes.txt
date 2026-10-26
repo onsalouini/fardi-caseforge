@@ -1,0 +1,105 @@
+# Mots-têtes génériques de PROCESSUS : procédés, étapes de fabrication, méthodes d'analyse ou de gestion
+# (guide v2, section 2 ; cas 6 : une méthode ou un outil d'analyse est un PROCESSUS). Format : terme<TAB>type (« champ » : libellé de champ suivi de deux-points).
+# « tete » : mot-tête étendu à ses compléments (« analyse des risques ») ; « seul » : sigle ou nom de méthode
+# annoté tel quel (« AMDEC », « 5S ») ; « complement » : mot trop générique seul (« analyse », « méthode »),
+# annoté seulement avec un complément. Le guide exclut « projet », « étude », « diagnostic » seuls.
+# Source : vocabulaire de la qualité et du génie industriel (ISO 9000:2015, AFNOR FD X 50-176, norme
+# IEC 60812 pour l'AMDEC / FMEA, Codex Alimentarius pour HACCP, glossaires lean : SMED, 5S, VSM, Kaizen).
+procédé	complement
+procédés	complement
+méthode	complement
+démarche	complement
+analyse	complement
+contrôle	complement
+maîtrise	complement
+assemblage	tete
+montage	tete
+maintenance	tete
+planification	tete
+ordonnancement	tete
+inspection	tete
+réglage	tete
+traitement	complement
+teinture	tete
+tri	tete
+nettoyage	tete
+étude des temps	tete
+plan d'expériences	tete
+plan de surveillance	tete
+plan de contrôle	tete
+plan HACCP	tete
+cartes de contrôle	tete
+diagramme	complement
+simulation	tete
+chronométrage	tete
+équilibrage	tete
+picking	tete
+process	complement
+method	complement
+analysis	complement
+control	complement
+assembly	tete
+maintenance	tete
+scheduling	tete
+planning	tete
+inspection	tete
+testing	tete
+tuning	tete
+treatment	complement
+dyeing	tete
+sorting	tete
+cleaning	tete
+rework	tete
+design of experiments	tete
+control chart	tete
+control charts	tete
+simulation	tete
+line balancing	tete
+capability study	tete
+value stream map	tete
+تحليل	complement
+مراقبة	complement
+المراقبة	complement
+صيانة	tete
+الصيانة	tete
+جدولة	tete
+تخطيط	tete
+منهجية	complement
+طريقة	complement
+التحكم	complement
+تجميع	tete
+فحص	tete
+اختبار	tete
+معالجة	complement
+تنظيف	tete
+التنظيف	tete
+التعقيم	tete
+خطة	complement
+نظام تحليل المخاطر	tete
+AMDEC	seul
+FMEA	seul
+PFMEA	seul
+HACCP	seul
+SPC	seul
+MSP	seul
+SMED	seul
+5S	seul
+TPM	seul
+Kaizen	seul
+Kanban	seul
+VSM	seul
+8D	seul
+Six Sigma	seul
+DMAIC	seul
+Ishikawa	seul
+Pareto	seul
+cross-docking	seul
+slotting	seul
+lean	seul
+Démarche	champ
+Méthode	champ
+Méthode utilisée	champ
+Method	champ
+Approach	champ
+المنهجية	champ
+الطريقة	champ
