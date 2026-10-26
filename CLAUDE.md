@@ -79,13 +79,17 @@ Les résultats négatifs sont aussi consignés.
 ## 7. Git et travail en équipe
 
 - **Une branche par tâche**, tirée de `lot-b` : `lotb/<tache>` (ex. `lotb/b1-baseline`). Ne jamais committer directement sur `main` ni sur `lot-b`. (Git refuse `lot-b/<tache>` tant que la branche `lot-b` existe : une ref ne peut pas être à la fois une branche et un dossier.)
-- **Périmètre ruff du Lot B** : seulement les fichiers du Lot B. Ne modifier ni `caseforge/models/` ni `caseforge/retrieval/` (Lot C), même pour les mettre aux normes.
+- **Périmètre ruff du Lot B** : seulement les fichiers du Lot B. Ne modifier ni `caseforge/models/` ni `caseforge/retrieval/` (Lot C), même pour les mettre aux normes. `caseforge/eval/ner_eval.py` appartient aussi au Lot C : il est exclu du périmètre et n'est pas modifié.
 
   ```bash
   LOTB="caseforge/labels.py caseforge/eval caseforge/extraction caseforge/anonymization scripts \
-        tests/test_labels.py tests/test_test_gele.py tests/test_ner_metrics.py tests/test_non_regression_kappa.py tests/test_bio.py"
-  ruff check $LOTB && ruff format --check $LOTB
+        tests/test_labels.py tests/test_test_gele.py tests/test_ner_metrics.py tests/test_non_regression_kappa.py \
+        tests/test_bio.py tests/test_nlp.py tests/test_lib_cv.py"
+  EXCL="--extend-exclude caseforge/eval/ner_eval.py"
+  ruff check $EXCL $LOTB && ruff format --check $EXCL $LOTB
   ```
+
+  Environnement : Python 3.11 dans `.venv` (`py -3.11 -m venv .venv`, puis `pip install -r requirements-lotb.txt`).
 
   Tout nouveau test du Lot B est ajouté à cette liste.
 - **Début de chaque tâche** :

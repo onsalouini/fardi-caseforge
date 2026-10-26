@@ -2,7 +2,7 @@
 
 Dev uniquement (162 passages, 21 documents ; test gelé non lu). Harnais `caseforge.eval.ner_metrics` : **strict** = bornes et étiquette exactes, **partiel** = chevauchement ≥ 1 caractère et même étiquette. F1 macro (9) = moyenne sur les 9 étiquettes.
 
-Règles : `cfdata.prelabel.predict` (`scripts/eval_prelabel.py`). CRF : `exemples/baseline_crf.py`, mêmes caractéristiques et hyperparamètres, graines 13, 42, 2026 (`scripts/run_crf_baseline.py`), prédictions BIO reconverties en caractères.
+Règles : `cfdata.prelabel.predict` (`scripts/eval_prelabel.py`). CRF : `exemples/baseline_crf.py`, mêmes caractéristiques et hyperparamètres (`scripts/run_crf_baseline.py`), prédictions BIO reconverties en caractères. Plafond tokens = F1 stricte du gold lui-même passé en BIO sur les tokens de `cfdata.common.tokenize` puis reconverti (`token_ceiling`) : le maximum atteignable par un modèle BIO.
 
 ## 1. Résultat global
 
@@ -10,10 +10,13 @@ Règles : `cfdata.prelabel.predict` (`scripts/eval_prelabel.py`). CRF : `exemple
 |---|---|---|---|---|---|---|
 | Règles | strict | 0,741 | 0,305 | 0,432 | 0,335 | 0,335 |
 | Règles | partiel | 0,892 | 0,367 | 0,521 | 0,422 | 0,422 |
-| CRF | strict | 0,478 | 0,307 | 0,374 ± 0,000 | 0,377 ± 0,000 | 0,377 |
-| CRF | partiel | 0,720 | 0,463 | 0,564 ± 0,000 | 0,552 ± 0,000 | 0,552 |
+| CRF (train complet) | strict | 0,478 | 0,307 | 0,374 | 0,377 | 0,377 |
+| CRF (train complet) | partiel | 0,720 | 0,463 | 0,564 | 0,552 | 0,552 |
+| CRF (90 % du train, 3 tirages) | strict | — | — | 0,375 ± 0,025 | 0,373 ± 0,031 | — |
+| CRF (90 % du train, 3 tirages) | partiel | — | — | 0,552 ± 0,019 | 0,537 ± 0,020 | — |
+| Plafond tokens | strict | — | — | 0,947 | — | — |
 
-CRF : moyenne ± écart-type sur les 3 graines. L'écart-type est nul : `sklearn-crfsuite` (lbfgs) est déterministe et n'a pas de paramètre de graine (l'option `--seed` de `baseline_crf.py` n'est pas utilisée) ; prédictions identiques entre graines : oui.
+**Variance du CRF.** `sklearn-crfsuite` (L-BFGS) est déterministe et n'a pas de paramètre de graine (l'option `--seed` de `baseline_crf.py` n'est pas utilisée) : deux entraînements identiques donnent les mêmes prédictions (oui). Changer de graine ne mesure donc rien. La variance est mesurée en réentraînant le CRF sur 3 sous-échantillons de 90 % des documents du train (tirés avec les graines 13, 42, 2026) : moyenne ± écart-type ci-dessus. C'est une variance due aux données d'entraînement, pas à l'optimisation. Le bootstrap (section 6) utilise le CRF du train complet.
 
 ### Reproduction de la valeur de référence du CRF (0,393)
 
@@ -21,7 +24,7 @@ CRF : moyenne ± écart-type sur les 3 graines. L'écart-type est nul : `sklearn
 |---|---|---|---|---|
 | Script d'origine (spans de tokens, gold BIO) | 0,393 | 0,472 | 0,351 | 0,374 |
 | Harnais strict (spans de caractères) | 0,374 | 0,451 | 0,289 | 0,374 |
-| Plafond : gold BIO reconverti en caractères | 0,947 | 0,994 | 0,841 | 1,000 |
+| Plafond tokens : gold BIO reconverti en caractères | 0,947 | 0,994 | 0,841 | 1,000 |
 
 On retrouve exactement 0,393 avec le calcul du script d'origine. L'écart avec le harnais vient de l'unité de comparaison : le script compare des spans de **tokens** au gold BIO, le harnais compare des spans de **caractères** au gold `dev.jsonl`. Le gold BIO est construit par chevauchement (`spans_to_bio`) : un span qui ne tombe pas sur des frontières de tokens (proclitique arabe collé, ponctuation, mot partiel) ne peut pas être retrouvé exactement. Même le gold BIO reconverti n'atteint que 0,947 en strict : c'est le plafond de tout modèle BIO sur ces tokens. Par langue, le script d'origine ventile selon `lang` du passage (les 4 passages mixtes sont à part), le harnais selon `doc_lang`.
 
@@ -43,22 +46,45 @@ F1 par étiquette. Les règles n'ont aucune règle SITE : F1 = 0 par constructio
 
 ## 3. Par langue (`doc_lang`)
 
-| Tranche | Passages | Gold | Règles strict | Règles partiel | Règles macro (9) | CRF strict | CRF partiel | CRF macro (9) |
-|---|---|---|---|---|---|---|---|---|
-| fr | 55 | 154 | 0,461 | 0,544 | 0,346 | 0,451 | 0,625 | 0,423 |
-| ar | 54 | 145 | 0,458 | 0,551 | 0,362 | 0,289 | 0,544 | 0,326 |
-| en | 53 | 150 | 0,374 | 0,463 | 0,292 | 0,374 | 0,521 | 0,346 |
+| Tranche | Passages | Gold | Règles strict | Règles partiel | Règles macro (9) | CRF strict | CRF 90 % strict | Plafond tokens | CRF partiel | CRF macro (9) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| fr | 55 | 154 | 0,461 | 0,544 | 0,346 | 0,451 | 0,447 ± 0,004 | 0,994 | 0,625 | 0,423 |
+| ar | 54 | 145 | 0,458 | 0,551 | 0,362 | 0,289 | 0,280 ± 0,049 | 0,841 | 0,544 | 0,326 |
+| en | 53 | 150 | 0,374 | 0,463 | 0,292 | 0,374 | 0,386 ± 0,046 | 1,000 | 0,521 | 0,346 |
 
 F1 micro sauf mention « macro (9) ».
 
 ## 4. Par source
 
-| Tranche | Passages | Gold | Règles strict | Règles partiel | Règles macro (9) | CRF strict | CRF partiel | CRF macro (9) |
-|---|---|---|---|---|---|---|---|---|
-| syn | 142 | 390 | 0,471 | 0,538 | 0,358 | 0,393 | 0,581 | 0,398 |
-| lib | 20 | 59 | 0,137 | 0,384 | 0,094 | 0,230 | 0,437 | 0,211 |
+| Tranche | Passages | Gold | Règles strict | Règles partiel | Règles macro (9) | CRF strict | CRF 90 % strict | Plafond tokens | CRF partiel | CRF macro (9) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| syn | 142 | 390 | 0,471 | 0,538 | 0,358 | 0,393 | 0,391 ± 0,024 | 0,949 | 0,581 | 0,398 |
+| lib | 20 | 59 | 0,137 | 0,384 | 0,094 | 0,230 | 0,248 ± 0,034 | 0,932 | 0,437 | 0,211 |
 
 F1 micro sauf mention « macro (9) ».
+
+## Validation croisée sur le texte libre (`lib_`, règles)
+
+Protocole de développement des règles sur du vrai texte (`caseforge.eval.lib_cv`) : 15 plis, un document `lib_` de train ou de dev laissé de côté par pli (98 passages ; liste des plis dans `data/lotb/lib_cv_folds.json`). Moyenne ± écart-type sur les plis ; « regroupé » = F1 micro sur toutes les prédictions réunies. Le dev global reste la mesure de référence.
+
+| Mode | F1 micro (plis) | F1 macro (9) (plis) | Regroupé | fr | ar | en |
+|---|---|---|---|---|---|---|
+| strict | 0,160 ± 0,089 | 0,119 ± 0,059 | 0,162 | 0,102 ± 0,023 (n = 5) | 0,244 ± 0,092 (n = 5) | 0,134 ± 0,070 (n = 5) |
+| partiel | 0,320 ± 0,116 | 0,222 ± 0,080 | 0,324 | 0,273 ± 0,087 (n = 5) | 0,400 ± 0,113 (n = 5) | 0,285 ± 0,120 (n = 5) |
+
+| Étiquette | F1 stricte (plis) | Plis concernés |
+|---|---|---|
+| ORG | 0,067 ± 0,258 | 15 |
+| PERSONNE | 0,533 ± 0,516 | 15 |
+| SITE | 0,000 ± 0,000 | 15 |
+| DONNEE_SENSIBLE | 0,171 ± 0,259 | 15 |
+| PRODUIT | 0,000 ± 0,000 | 13 |
+| EQUIPEMENT | 0,000 ± 0,000 | 15 |
+| PROCESSUS | 0,027 ± 0,103 | 15 |
+| INDICATEUR | 0,000 ± 0,000 | 15 |
+| CONTRAINTE | 0,271 ± 0,402 | 15 |
+
+Par étiquette : moyenne sur les plis où l'étiquette apparaît (en gold ou en prédiction).
 
 ## Annexe — passages mixtes (`lang == mixte`)
 

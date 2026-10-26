@@ -21,7 +21,6 @@ from caseforge.labels import LABELS
 from cfdata.common import read_jsonl
 from cfdata.prelabel import R_ORG, R_PER, gazetteer
 
-GRAINE_CRF = 13  # les trois graines donnent des prédictions identiques (voir b1_crf_dev_summary.json)
 LABELS_GAZETTEER = ("PRODUIT", "EQUIPEMENT", "PROCESSUS")
 TRAIN_JSONL = FINAL / "train.jsonl"
 
@@ -29,6 +28,11 @@ TRAIN_JSONL = FINAL / "train.jsonl"
 def f(x: float) -> str:
     """Nombre à 3 décimales, virgule décimale."""
     return f"{x:.3f}".replace(".", ",")
+
+
+def _moy_ecart(x: dict[str, float]) -> str:
+    """« moyenne ± écart-type » à 3 décimales."""
+    return f"{f(x['moyenne'])} ± {f(x['ecart_type'])}"
 
 
 def _sous_ensemble(rows: list[dict], ids: set[str]) -> list[dict]:
@@ -91,11 +95,15 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
     """Calcule toutes les comparaisons et écrit le rapport Markdown."""
     gold = charger_dev()
     regles = read_jsonl(RESULTS / "b1_prelabel_dev.jsonl")
-    crf = read_jsonl(RESULTS / f"b1_crf_dev_seed{GRAINE_CRF}.jsonl")
+    crf = read_jsonl(RESULTS / "b1_crf_dev.jsonl")
     resume_crf = json.loads((RESULTS / "b1_crf_dev_summary.json").read_text(encoding="utf-8"))
     R, C = evaluate(gold, regles), evaluate(gold, crf)
-    agr = resume_crf["agrege"]
-    identiques = "oui" if resume_crf["predictions_identiques_entre_graines"] else "non"
+    sous = resume_crf["sous_echantillons"]
+    agr = sous["agrege"]
+    complet = resume_crf["complet"]
+    deterministe = "oui" if resume_crf["deterministe"] else "non"
+    pl = resume_crf["plafond_tokens"]
+    cv = json.loads((RESULTS / "b1_prelabel_lib_cv.json").read_text(encoding="utf-8"))
 
     boot = {
         f"{m}_{a}": paired_bootstrap(gold, regles, crf, mode=m, average=a)
@@ -111,43 +119,63 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         "chevauchement ≥ 1 caractère et même étiquette. F1 macro (9) = moyenne sur les 9 étiquettes.",
         "",
         "Règles : `cfdata.prelabel.predict` (`scripts/eval_prelabel.py`). CRF : `exemples/baseline_crf.py`, mêmes "
-        f"caractéristiques et hyperparamètres, graines {', '.join(map(str, resume_crf['graines']))} "
-        "(`scripts/run_crf_baseline.py`), prédictions BIO reconverties en caractères.",
+        "caractéristiques et hyperparamètres (`scripts/run_crf_baseline.py`), prédictions BIO reconverties en "
+        "caractères. Plafond tokens = F1 stricte du gold lui-même passé en BIO sur les tokens de "
+        "`cfdata.common.tokenize` puis reconverti (`token_ceiling`) : le maximum atteignable par un modèle BIO.",
         "",
         "## 1. Résultat global",
         "",
     ]
     lignes = []
-    for nom, res in (("Règles", R), ("CRF", C)):
+    for nom, res in (("Règles", R), ("CRF (train complet)", C)):
         for mode in ("strict", "partiel"):
             g = res[mode]["global"]
-            f1 = f(g["micro"]["f1"])
-            m9 = f(g["macro_9"]["f1"])
-            if nom == "CRF":
-                f1 += f" ± {f(agr[f'harnais_{mode}_f1_micro']['ecart_type'])}"
-                m9 += f" ± {f(agr[f'harnais_{mode}_f1_macro_9']['ecart_type'])}"
-            lignes.append([nom, mode, f(g["micro"]["p"]), f(g["micro"]["r"]), f1, m9, f(g["macro_presentes"]["f1"])])
+            lignes.append(
+                [
+                    nom,
+                    mode,
+                    f(g["micro"]["p"]),
+                    f(g["micro"]["r"]),
+                    f(g["micro"]["f1"]),
+                    f(g["macro_9"]["f1"]),
+                    f(g["macro_presentes"]["f1"]),
+                ]
+            )
+    for mode in ("strict", "partiel"):
+        a, m = agr[f"harnais_{mode}_f1_micro"], agr[f"harnais_{mode}_f1_macro_9"]
+        lignes.append(
+            [
+                "CRF (90 % du train, 3 tirages)",
+                mode,
+                "—",
+                "—",
+                f"{f(a['moyenne'])} ± {f(a['ecart_type'])}",
+                f"{f(m['moyenne'])} ± {f(m['ecart_type'])}",
+                "—",
+            ]
+        )
+    lignes.append(["Plafond tokens", "strict", "—", "—", f(pl["global"]), "—", "—"])
     L += _table(["Système", "Mode", "P micro", "R micro", "F1 micro", "F1 macro (9)", "F1 macro (présentes)"], lignes)
     L += [
         "",
-        "CRF : moyenne ± écart-type sur les 3 graines. L'écart-type est nul : `sklearn-crfsuite` (lbfgs) est "
-        "déterministe et n'a pas de paramètre de graine (l'option `--seed` de `baseline_crf.py` n'est pas utilisée) ; "
-        f"prédictions identiques entre graines : {identiques}.",
+        "**Variance du CRF.** `sklearn-crfsuite` (L-BFGS) est déterministe et n'a pas de paramètre de graine (l'option "
+        "`--seed` de `baseline_crf.py` n'est pas utilisée) : deux entraînements identiques donnent les mêmes "
+        f"prédictions ({deterministe}). Changer de graine ne mesure donc rien. La variance est mesurée en "
+        f"réentraînant le CRF sur {len(sous['graines'])} sous-échantillons de "
+        f"{round(100 * sous['fraction_documents'])} % des documents du train (tirés avec les graines "
+        f"{', '.join(map(str, sous['graines']))}) : moyenne ± écart-type ci-dessus. C'est une variance due aux "
+        "données d'entraînement, pas à l'optimisation. Le bootstrap (section 6) utilise le CRF du train complet.",
         "",
         "### Reproduction de la valeur de référence du CRF (0,393)",
         "",
     ]
-    pl = resume_crf["plafond_conversion_bio"]
     L += _table(
         ["Mesure", "Global", "fr", "ar", "en"],
         [
             [
                 "Script d'origine (spans de tokens, gold BIO)",
-                f(agr["script_origine_f1_micro"]["moyenne"]),
-                *[
-                    f(resume_crf["par_graine"][str(GRAINE_CRF)]["script_origine"]["par_langue"].get(k, 0.0))
-                    for k in ("fr", "ar", "en")
-                ],
+                f(complet["script_origine"]["f1_micro_spans_tokens"]),
+                *[f(complet["script_origine"]["par_langue"].get(k, 0.0)) for k in ("fr", "ar", "en")],
             ],
             [
                 "Harnais strict (spans de caractères)",
@@ -155,9 +183,9 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
                 *[f(C["strict"]["par_langue"][k]["micro"]["f1"]) for k in ("fr", "ar", "en")],
             ],
             [
-                "Plafond : gold BIO reconverti en caractères",
-                f(pl["strict"]["f1_micro"]),
-                *[f(pl["strict"]["par_langue"][k]) for k in ("fr", "ar", "en")],
+                "Plafond tokens : gold BIO reconverti en caractères",
+                f(pl["global"]),
+                *[f(pl["par_langue"][k]) for k in ("fr", "ar", "en")],
             ],
         ],
     )
@@ -167,7 +195,7 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         "de comparaison : le script compare des spans de **tokens** au gold BIO, le harnais compare des spans de "
         "**caractères** au gold `dev.jsonl`. Le gold BIO est construit par chevauchement (`spans_to_bio`) : un span "
         "qui ne tombe pas sur des frontières de tokens (proclitique arabe collé, ponctuation, mot partiel) ne peut "
-        f"pas être retrouvé exactement. Même le gold BIO reconverti n'atteint que {f(pl['strict']['f1_micro'])} "
+        f"pas être retrouvé exactement. Même le gold BIO reconverti n'atteint que {f(pl['global'])} "
         "en strict : c'est le plafond de tout modèle BIO sur ces tokens. Par langue, le script d'origine ventile "
         "selon `lang` du passage (les 4 passages mixtes sont à part), le harnais selon `doc_lang`.",
         "",
@@ -204,6 +232,8 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
                 "Règles partiel",
                 "Règles macro (9)",
                 "CRF strict",
+                "CRF 90 % strict",
+                "Plafond tokens",
                 "CRF partiel",
                 "CRF macro (9)",
             ],
@@ -216,6 +246,8 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
                     f(R["partiel"][cle][k]["micro"]["f1"]),
                     f(R["strict"][cle][k]["macro_9"]["f1"]),
                     f(C["strict"][cle][k]["micro"]["f1"]),
+                    _moy_ecart(agr[f"harnais_strict_{cle}"][k]),
+                    f(pl[cle][k]),
                     f(C["partiel"][cle][k]["micro"]["f1"]),
                     f(C["strict"][cle][k]["macro_9"]["f1"]),
                 ]
@@ -231,6 +263,41 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         note = "Note : étiquettes absentes du gold et des prédictions dans au moins une tranche "
         note += f"(F1 = 0 dans la macro (9)) : {', '.join(abs_)}."
         L += [note, ""]
+
+    L += [
+        "## Validation croisée sur le texte libre (`lib_`, règles)",
+        "",
+        f"Protocole de développement des règles sur du vrai texte (`caseforge.eval.lib_cv`) : {cv['n_plis']} plis, "
+        f"un document `lib_` de train ou de dev laissé de côté par pli ({cv['n_passages']} passages ; liste des plis "
+        "dans `data/lotb/lib_cv_folds.json`). Moyenne ± écart-type sur les plis ; « regroupé » = F1 micro sur toutes "
+        "les prédictions réunies. Le dev global reste la mesure de référence.",
+        "",
+    ]
+    L += _table(
+        ["Mode", "F1 micro (plis)", "F1 macro (9) (plis)", "Regroupé", "fr", "ar", "en"],
+        [
+            [
+                mode,
+                _moy_ecart(cv[mode]["f1_micro"]),
+                _moy_ecart(cv[mode]["f1_macro_9"]),
+                f(cv[mode]["regroupe_f1_micro"]),
+                *[
+                    f"{_moy_ecart(cv[mode]['par_langue'][k])} (n = {cv[mode]['par_langue'][k]['n_plis']})"
+                    for k in ("fr", "ar", "en")
+                ],
+            ]
+            for mode in ("strict", "partiel")
+        ],
+    )
+    L += [""]
+    L += _table(
+        ["Étiquette", "F1 stricte (plis)", "Plis concernés"],
+        [
+            [lab, _moy_ecart(cv["strict"]["par_etiquette"][lab]), str(cv["strict"]["par_etiquette"][lab]["n_plis"])]
+            for lab in LABELS
+        ],
+    )
+    L += ["", "Par étiquette : moyenne sur les plis où l'étiquette apparaît (en gold ou en prédiction).", ""]
 
     mr, mc = R["strict"]["mixtes"], C["strict"]["mixtes"]
     L += ["## Annexe — passages mixtes (`lang == mixte`)", ""]

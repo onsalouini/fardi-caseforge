@@ -34,3 +34,22 @@ def spans_tokens_vers_caracteres(text: str, tokens: Sequence[str], spans: Iterab
     if [t for t, _, _ in offs] != list(tokens):
         raise ValueError("les tokens ne correspondent pas à cfdata.common.tokenize(text)")
     return [{"start": offs[i][1], "end": offs[j - 1][2], "label": lab} for i, j, lab in spans]
+
+
+def aligner_sur_tokens(entities: Iterable[dict], offsets: Sequence[tuple[int, int]]) -> list[dict]:
+    """Aligne des spans de caractères sur des tokens, comme le ferait un aller-retour par BIO.
+
+    Même règle que ``cfdata.common.spans_to_bio`` : un token reçoit l'étiquette d'une entité dès qu'il la
+    chevauche, les entités étant traitées par position croissante (la dernière l'emporte sur un token partagé).
+    Les tags obtenus sont ensuite décodés en spans de tokens puis en spans de caractères.
+    """
+    tags = ["O"] * len(offsets)
+    for e in sorted(entities, key=lambda e: e["start"]):
+        premier = True
+        for i, (s, t) in enumerate(offsets):
+            if s < e["end"] and t > e["start"]:
+                tags[i] = ("B-" if premier else "I-") + e["label"]
+                premier = False
+    return [
+        {"start": offsets[i][0], "end": offsets[j - 1][1], "label": lab} for i, j, lab in bio_vers_spans_tokens(tags)
+    ]
