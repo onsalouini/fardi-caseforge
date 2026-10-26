@@ -27,3 +27,12 @@ Macro-F1 sur les 6 types, moyenne ± écart-type sur 3 graines.
 weighted avg      0.872     0.864     0.858       162
 
 ```
+
+## Bootstrap apparié (résultat principal, dev)
+
+10000 tirages avec remise des 162 passages du dev, le même échantillon pour les deux modèles ; graine 2026 pour les modèles, 13 pour les tirages. p = part des tirages où « caractères » ne fait pas mieux.
+
+| Comparaison | Écart de macro-F1 (dev) | IC 95 % de l'écart | p-valeur | Significatif (p < 0,05) |
+|---|---|---|---|---|
+| caractères vs mots | +0.120 | [+0.052 ; +0.192] | 0.0004 | oui |
+| caractères vs classe majoritaire | +0.790 | [+0.727 ; +0.842] | < 0.0001 | oui |
