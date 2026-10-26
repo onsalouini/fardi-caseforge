@@ -234,3 +234,27 @@ def test_macro_f1_9() -> None:
     md = to_markdown(evaluate(gold, pred))
     assert "F1 macro (9)" in md and "F1 macro (présentes)" in md
     assert "Note : F1 macro (9) compte F1 = 0" in md and ", ".join(absentes) in md
+
+
+def test_token_ceiling_proclitique() -> None:
+    from caseforge.eval.ner_metrics import token_ceiling
+    from caseforge.extraction.nlp import strip_arabic_proclitics
+
+    t = "STCB بالمنطقة الصناعية."
+    gold = [row("a1", t, [ent(t, "STCB", "ORG"), ent(t, "المنطقة الصناعية", "SITE")], "lib_ar_01", "ar")]
+    # le token « بالمنطقة » emporte le proclitique : SITE ne peut pas être retrouvé exactement
+    assert token_ceiling(gold)["global"] == pytest.approx(0.5)
+    assert token_ceiling(gold)["par_langue"] == {"ar": pytest.approx(0.5)}
+    assert token_ceiling(gold, post_fn=strip_arabic_proclitics)["global"] == 1.0
+
+
+def test_aligner_sur_tokens_equivaut_a_spans_to_bio() -> None:
+    from caseforge.eval.data import charger_dev
+    from caseforge.extraction.bio import aligner_sur_tokens, bio_vers_spans_tokens, spans_tokens_vers_caracteres
+    from cfdata.common import spans_to_bio, tokenize
+
+    for g in charger_dev():
+        toks, tags = spans_to_bio(g["text"], g["entities"])
+        attendu = spans_tokens_vers_caracteres(g["text"], toks, bio_vers_spans_tokens(tags))
+        offs = [(s, e) for _, s, e in tokenize(g["text"])]
+        assert aligner_sur_tokens(g["entities"], offs) == attendu

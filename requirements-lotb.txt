@@ -1,8 +1,23 @@
-# Dépendances du Lot B (en plus de requirements.txt, qui reste celui du Lot A)
+# Dépendances du Lot B (en plus de requirements.txt, qui reste celui du Lot A) — Python 3.11
+#
+# ENVIRONNEMENT LOCAL SEULEMENT (Python 3.11, CPU) : torch==2.5.1 et stanza==1.6.1 ciblent le .venv local.
+# NE PAS INSTALLER CE FICHIER SUR COLAB NI KAGGLE : il remplacerait le torch GPU préinstallé, et transformers
+# récent refuse les poids .bin avec torch < 2.6. Sur Colab / Kaggle, garder le torch préinstallé et lancer :
+#     pip install -r requirements-lotb-colab.txt
+# (voir README, section « Lot B »).
 -r requirements.txt
 pytest>=8.0
 ruff>=0.6
+sklearn-crfsuite==0.5.0   # baseline CRF (B1)
+# Pipeline linguistique (B2). spacy-stanza 1.0.4 exige stanza < 1.7, et stanza 1.6 ne charge pas ses modèles
+# avec torch >= 2.6 (weights_only par défaut) : d'où torch 2.5.1.
+spacy==3.8.17
+spacy-stanza==1.0.4
+stanza==1.6.1
+torch==2.5.1
+fr_core_news_md @ https://github.com/explosion/spacy-models/releases/download/fr_core_news_md-3.8.0/fr_core_news_md-3.8.0-py3-none-any.whl
+en_core_web_md @ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0-py3-none-any.whl
+# Modèle stanza arabe (une fois) : python -c "import stanza; stanza.download('ar')"
 # NER (fine-tuning, sur GPU) : décommenter au besoin
 # transformers>=4.44
 # datasets>=2.20
-# torch>=2.3

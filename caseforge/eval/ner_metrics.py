@@ -22,12 +22,14 @@ from __future__ import annotations
 
 import json
 from collections import defaultdict
-from collections.abc import Iterable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
+from caseforge.extraction.bio import aligner_sur_tokens
 from caseforge.labels import LABELS
 from cfdata.agreement import cohen_kappa, token_labels
+from cfdata.common import tokenize
 
 MODES: tuple[str, ...] = ("strict", "partiel")
 SOURCES: tuple[str, ...] = ("syn", "lib", "externe")
@@ -320,6 +322,36 @@ def confusion(gold_rows: Iterable[dict], pred_rows: Iterable[dict]) -> dict[str,
             if j not in mp:
                 m[INVENTE][p[2]] += 1
     return m
+
+
+# ---------- Plafond des modèles à base de tokens ----------
+def token_ceiling(
+    gold_rows: Iterable[dict],
+    tokenize_fn: Callable[[dict], list[tuple[int, int]]] | None = None,
+    post_fn: Callable[[str, int, int], tuple[int, int]] | None = None,
+) -> dict[str, Any]:
+    """F1 stricte du gold converti en BIO sur des tokens puis reconverti en spans de caractères.
+
+    C'est le meilleur score strict qu'un modèle qui étiquette des tokens puisse atteindre. Par défaut, les tokens
+    sont ceux de ``cfdata.common.tokenize`` (comme ``spans_to_bio``) ; ``tokenize_fn(row)`` permet d'en essayer
+    d'autres (offsets ``(début, fin)``), et ``post_fn(text, start, end)`` de corriger chaque span reconverti (par
+    exemple ``strip_arabic_proclitics``). Renvoie la F1 micro stricte globale, par ``doc_lang`` et par source.
+    """
+    gold_rows = list(gold_rows)
+    preds = []
+    for g in gold_rows:
+        offs = tokenize_fn(g) if tokenize_fn else [(s, e) for _, s, e in tokenize(g["text"])]
+        ents = aligner_sur_tokens(g["entities"], offs)
+        if post_fn:
+            for e in ents:
+                e["start"], e["end"] = post_fn(g["text"], e["start"], e["end"])
+        preds.append({"passage_id": g["passage_id"], "entities": ents})
+    res = evaluate(gold_rows, preds)["strict"]
+    return {
+        "global": res["global"]["micro"]["f1"],
+        "par_langue": {k: v["micro"]["f1"] for k, v in res["par_langue"].items()},
+        "par_source": {k: v["micro"]["f1"] for k, v in res["par_source"].items()},
+    }
 
 
 # ---------- Kappa ----------

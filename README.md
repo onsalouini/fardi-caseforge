@@ -24,6 +24,20 @@ ds = load_dataset("json", data_files={"train": "data/final/hf/train.jsonl",
 - Baseline CRF (testée) : `pip install sklearn-crfsuite && python exemples/baseline_crf.py`
 - Fine-tuning XLM-R avec masquage des étiquettes non couvertes : `exemples/entrainer_xlmr.py` (sur GPU)
 
+## Lot B (extraction, anonymisation, évaluation)
+
+Règles du dépôt : [`CLAUDE.md`](CLAUDE.md). Journal : [`experiments.md`](experiments.md).
+
+- **En local** (Python 3.11, CPU) : `py -3.11 -m venv .venv`, puis `pip install -r requirements-lotb.txt` (épingle torch 2.5.1 et stanza 1.6.1).
+- **Sur Colab ou Kaggle** : ne pas installer `requirements-lotb.txt`, qui remplacerait le torch GPU préinstallé. Garder ce torch et lancer :
+
+  ```bash
+  pip install -r requirements-lotb-colab.txt
+  python -c "import stanza; stanza.download('ar')"
+  ```
+
+  Non vérifié sur Colab : avec torch >= 2.6, stanza 1.6 risque de ne pas charger le modèle arabe (repli sur `spacy.blank('ar')`). Voir les notes en fin de `requirements-lotb-colab.txt`.
+
 ## Reconstruire le jeu
 
 ```bash
