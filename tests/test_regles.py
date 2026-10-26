@@ -134,6 +134,49 @@ def test_cas5_montants() -> None:
     assert surfaces("رقم المعاملات 4,3 مليون دينار سري.", "ar", "DONNEE_SENSIBLE") == ["4,3 مليون دينار"]
 
 
+@pytest.mark.parametrize(
+    ("text", "lang", "attendu"),
+    [
+        ("Le CA atteint 4,3 millions de dinars.", "fr", "4,3 millions de dinars"),
+        ("Une marge de deux millions d'euros reste confidentielle.", "fr", "deux millions d'euros"),
+        ("The turnover reached 1.5 million TND last year.", "en", "1.5 million TND"),
+        ("رقم المعاملات ثلاثة ملايين دينار سري.", "ar", "ثلاثة ملايين دينار"),
+        ("بلغ رقم المعاملات مليون دينار.", "ar", "مليون دينار"),
+    ],
+)
+def test_cas5_montants_en_lettres(text: str, lang: str, attendu: str) -> None:
+    """Correction B6 : montant avec un multiplicateur en toutes lettres (« millions de dinars », « مليون دينار »)."""
+    assert surfaces(text, lang, "DONNEE_SENSIBLE") == [attendu]
+
+
+def test_cas5_montant_en_lettres_plafond() -> None:
+    assert surfaces("Le budget ne doit pas dépasser 2 millions de dinars.", "fr", "DONNEE_SENSIBLE") == []
+
+
+@pytest.mark.parametrize(
+    ("text", "lang", "attendu"),
+    [
+        ("Tél. : 71 234 567, fax 71.234.568.", "fr", ["71 234 567", "71.234.568"]),
+        (
+            "Appelez le 98765432 ou le (+216) 22-333-444 pour tout renseignement.",
+            "fr",
+            ["98765432", "(+216) 22-333-444"],
+        ),
+        ("Call 00216 55 12 34 56 before noon.", "en", ["00216 55 12 34 56"]),
+        ("للاتصال: 71 234 567 أو +216 98 765 432", "ar", ["71 234 567", "+216 98 765 432"]),
+    ],
+)
+def test_telephones_tunisiens(text: str, lang: str, attendu: list[str]) -> None:
+    """Correction B6 : 8 chiffres groupés 2-3-3, 2-2-2-2 ou collés, indicatif +216 / 00216 / (+216), suivis de texte."""
+    assert surfaces(text, lang, "DONNEE_SENSIBLE") == attendu
+
+
+def test_nombre_n_est_pas_un_telephone() -> None:
+    assert (
+        surfaces("Capacité : 12 000 000 pièces par an ; 25 000 000 de pièces en 2027.", "fr", "DONNEE_SENSIBLE") == []
+    )
+
+
 def test_cas5_quantite_et_date() -> None:
     """Une quantité produite est un INDICATEUR ; une date n'est pas annotée."""
     text = "ينتج المصنع 1,2 مليون قرص في الشهر."

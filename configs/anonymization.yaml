@@ -1,0 +1,26 @@
+# Politique d'anonymisation du Lot B (caseforge.anonymization.policy, anonymize_document).
+#
+# Même format que les « remplacements » de data/final/documents_*.jsonl (Lot A) : un pseudonyme entre crochets,
+# préfixe en majuscules, souligné, rang du cluster dans le document, dans l'ordre de première apparition :
+#   ORG -> [ENTREPRISE_A], [ENTREPRISE_B]… (lettres) ; PERSONNE -> [PERSONNE_1]… ; SITE -> [SITE_1]… (chiffres).
+# Écart voulu avec la référence : le Lot A masque toute DONNEE_SENSIBLE par [DONNEE_MASQUEE] ; ici, masque typé
+# d'après la forme du span. Les étiquettes absentes de cette politique (non sensibles) sont conservées.
+pseudonymes:
+  ORG: {prefixe: ENTREPRISE, numerotation: lettres}
+  PERSONNE: {prefixe: PERSONNE, numerotation: chiffres}
+  SITE: {prefixe: SITE, numerotation: chiffres}
+donnee_sensible:
+  etiquette: DONNEE_SENSIBLE
+  # sous-type (caseforge.eval.donnees_sensibles.sous_type, puis mot « contrat ») -> masque
+  masques:
+    montant: "[MONTANT]"
+    contrat: "[CONTRAT]"
+    e-mail: "[EMAIL]"
+    téléphone: "[TELEPHONE]"
+    contrat / référence: "[REFERENCE]"
+    autre: "[REFERENCE]"
+  masque_reference_lot_a: "[DONNEE_MASQUEE]"   # pour comparer avec text_anonymise de référence
+# Options par défaut de anonymize_document (les ablations les changent)
+coreference: true   # coref_simple : formes normalisées, sigles, nom de famille seul, initiales
+balayage: true      # second passage : formes déjà remplacées retrouvées ailleurs dans le document
+balayage_longueur_min: 3   # caractères non blancs d'une forme pour qu'elle soit recherchée (sigles : 2)

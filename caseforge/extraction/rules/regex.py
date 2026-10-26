@@ -23,9 +23,15 @@ IDENTIFIANT = r"[A-Z0-9][A-Za-z0-9]*(?:[-/][A-Za-z0-9]+)*"
 _DELIMITEURS = re.compile(r"[.;:!?؛\n|]")
 
 EMAIL = re.compile(r"(?<![\w.+-])[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
+# Téléphone (correction B6, formats généraux du plan de numérotation tunisien) : 8 chiffres, le premier de 2 à 9,
+# groupés 2-3-3, 2-2-2-2 ou collés, séparés par une espace (insécable comprise), un point ou un tiret ; indicatif
+# +216, 00216 ou (+216) facultatif. Autres indicatifs : + ou 00 suivi de 3 à 5 groupes. Chiffres arabes admis.
+_SEP_TEL = r"[    .\-]"
+_NATIONAL = rf"[2-9٢-٩]\d(?:{_SEP_TEL}?\d{{3}}{_SEP_TEL}?\d{{3}}|{_SEP_TEL}\d{{2}}{_SEP_TEL}\d{{2}}{_SEP_TEL}\d{{2}})"
+_FIN_TEL = rf"(?!\w|[.,]\d|{_SEP_TEL}\d)"
 TELEPHONE = re.compile(
-    r"(?<![\w+,.])(?:\+\d{2,3}[ .]?)?(?<!\d[ .,])\d{2}[ .]\d{3}[ .]\d{3}(?![\w,]|[ .,]\d)"
-    r"|(?<![\w+])\+\d{1,3}(?:[ .]\d{1,4}){3,5}(?![\w,]|[.,]\d)"
+    rf"(?<![\w+.,])(?<!\d{_SEP_TEL})(?:(?:\(\s?(?:\+|00)216\s?\)|(?:\+|00)216){_SEP_TEL}?)?{_NATIONAL}{_FIN_TEL}"
+    rf"|(?<![\w+])(?:\+|00)[1-9]\d{{0,2}}(?:{_SEP_TEL}\(?\d{{1,4}}\)?){{3,5}}{_FIN_TEL}"
 )
 MATRICULE_FISCAL = re.compile(r"(?<![\w/])\d{7}\s?[A-Z]\s?/\s?[A-Z]\s?/\s?[A-Z]\s?/\s?\d{3}(?![\w/])")
 CODE_LOT = re.compile(r"(?<![\w-])\d{2}[A-Z]\d{3,}(?![\w-])")
@@ -52,8 +58,21 @@ def _motifs() -> dict[str, re.Pattern[str]]:
         rf"|{'|'.join(re.escape(s) for s in symboles)})"
     )
     mult = rf"(?:{_alternance('donnees_sensibles', 'multiplicateur')}){APRES_MOT}"
+    # correction B6 : montants en toutes lettres (« 4,3 millions de dinars », « deux millions d'euros »,
+    # « million TND », « مليون دينار ») : multiplicateur en mot, nombre facultatif, « de / d' / of / من » facultatif
+    mult_mot = "|".join(
+        motif_terme(t)
+        for t in sorted(termes("donnees_sensibles", "multiplicateur"), key=len, reverse=True)
+        if len(t) > 3
+    )
+    lettres = _alternance("donnees_sensibles", "nombre_lettres")
+    en_lettres = (
+        rf"(?:(?:(?<![\w.,])(?:{NOMBRE})|{avant_mot()}(?:{lettres})){APRES_MOT}\s?)?{avant_mot()}(?:{mult_mot})"
+        rf"{APRES_MOT}\s?(?:(?:de|of|من){APRES_MOT}\s?|d['’]\s?)?{devise}"
+    )
     montant = (
-        rf"{devise}\s?(?:{NOMBRE})(?:\s?{mult})?"
+        rf"{en_lettres}"
+        rf"|{devise}\s?(?:{NOMBRE})(?:\s?{mult})?"
         rf"|(?<![\w.,])(?:{NOMBRE})(?:\s?{mult})?\s?{devise}(?:\s(?:HT|TTC){APRES_MOT})?"
     )
     reference = (
@@ -78,8 +97,14 @@ def _motifs() -> dict[str, re.Pattern[str]]:
             reverse=True,
         )
     )
+    unites = r"pièces|pieces|pcs|unités|units|paires|pairs|tonnes?|kg|قرص|علبة|وحدة|طن"
     return {
         "montant": re.compile(montant, re.IGNORECASE),
+        # un nombre suivi ou précédé d'une devise, d'un multiplicateur ou d'une unité n'est pas un téléphone
+        "apres_telephone": re.compile(
+            rf"\s?(?:%|(?:de\s|d['’]\s?)?(?:{mult}|{devise}|(?:{unites}){APRES_MOT}))", re.IGNORECASE
+        ),
+        "avant_telephone": re.compile(rf"{devise}\s?$"),
         "reference": re.compile(reference, re.IGNORECASE),
         "prefixe": re.compile(prefixe),
         "contexte_contrainte": re.compile(rf"{avant_mot(True)}(?:{contexte}){APRES_MOT}", re.IGNORECASE),
@@ -111,8 +136,8 @@ def regex_candidates(text: str) -> list[Candidat]:
     for x in EMAIL.finditer(text):
         out.append(Candidat(x.start(), x.end(), "DONNEE_SENSIBLE", "regex.email"))
     for x in TELEPHONE.finditer(text):
-        suite = text[x.end() : x.end() + 12]
-        if re.match(r"\s*(?:[a-zà-ÿ]|DT|TND|€|\$)", suite):  # « 12 000 000 pièces » n'est pas un numéro
+        # « 12 000 000 pièces », « 25 000 000 DT » ou « TND 25 000 000 » ne sont pas des numéros
+        if m["apres_telephone"].match(text, x.end()) or m["avant_telephone"].search(text, 0, x.start()):
             continue
         out.append(Candidat(x.start(), x.end(), "DONNEE_SENSIBLE", "regex.telephone"))
     for x in m["montant"].finditer(text):
