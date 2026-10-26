@@ -10,13 +10,15 @@ from __future__ import annotations
 
 import json
 import re
+import statistics
 from collections import defaultdict
 from typing import Any
 
 import cfdata.pools as P
+from caseforge.eval import ner_eval
 from caseforge.eval.bootstrap import paired_bootstrap
-from caseforge.eval.data import FINAL, REPORTS, RESULTS, charger_dev, ecrire_json
-from caseforge.eval.ner_metrics import INVENTE, MANQUE, evaluate, match_partial
+from caseforge.eval.data import DEV_JSONL, FINAL, REPORTS, RESULTS, charger_dev, ecrire_json
+from caseforge.eval.ner_metrics import INVENTE, MANQUE, MODES, evaluate, match_partial
 from caseforge.labels import LABELS
 from cfdata.common import read_jsonl
 from cfdata.prelabel import R_ORG, R_PER, gazetteer
@@ -91,6 +93,93 @@ def _table(entete: list[str], lignes: list[list[str]]) -> list[str]:
     ]
 
 
+def _annexe_strict_partiel(R: dict[str, Any], C: dict[str, Any], agr: dict[str, Any], pl: dict[str, Any]) -> list[str]:
+    """Annexe A : les modes strict et partiel (ancien tableau principal du rapport B1)."""
+    L = [
+        "## Annexe A — Modes strict et partiel",
+        "",
+        "Strict = bornes au caractère et étiquette exactes ; partiel = chevauchement ≥ 1 caractère et même étiquette "
+        "(diagnostic des bordures). Ces modes ne servent plus à comparer les modèles.",
+        "",
+    ]
+    lignes = []
+    for nom, res in (("Règles", R), ("CRF (train complet)", C)):
+        for mode in ("strict", "partiel"):
+            g = res[mode]["global"]
+            lignes.append(
+                [nom, mode, f(g["micro"]["p"]), f(g["micro"]["r"]), f(g["micro"]["f1"]), f(g["macro_9"]["f1"])]
+            )
+    for mode in ("strict", "partiel"):
+        a, m = agr[f"harnais_{mode}_f1_micro"], agr[f"harnais_{mode}_f1_macro_9"]
+        lignes.append(["CRF (90 % du train, 3 tirages)", mode, "—", "—", _moy_ecart(a), _moy_ecart(m)])
+    lignes.append(["Plafond tokens", "strict", "—", "—", f(pl["global"]), "—"])
+    L += _table(["Système", "Mode", "P micro", "R micro", "F1 micro", "F1 macro (9)"], lignes)
+    L += ["", "### Par étiquette", ""]
+    L += _table(
+        ["Étiquette", "Gold", "Règles strict", "Règles partiel", "CRF strict", "CRF partiel"],
+        [
+            [
+                lab,
+                str(R["strict"]["par_etiquette"][lab]["support_gold"]),
+                f(R["strict"]["par_etiquette"][lab]["f1"]),
+                f(R["partiel"]["par_etiquette"][lab]["f1"]),
+                f(C["strict"]["par_etiquette"][lab]["f1"]),
+                f(C["partiel"]["par_etiquette"][lab]["f1"]),
+            ]
+            for lab in LABELS
+        ],
+    )
+    for titre, cle, cles in (
+        ("### Par langue (`doc_lang`)", "par_langue", ("fr", "ar", "en")),
+        ("### Par source", "par_source", ("syn", "lib")),
+    ):
+        L += ["", titre, ""]
+        L += _table(
+            [
+                "Tranche",
+                "Gold",
+                "Règles strict",
+                "Règles partiel",
+                "CRF strict",
+                "CRF 90 % strict",
+                "Plafond tokens",
+                "CRF partiel",
+            ],
+            [
+                [
+                    k,
+                    str(R["strict"][cle][k]["support_gold"]),
+                    f(R["strict"][cle][k]["micro"]["f1"]),
+                    f(R["partiel"][cle][k]["micro"]["f1"]),
+                    f(C["strict"][cle][k]["micro"]["f1"]),
+                    _moy_ecart(agr[f"harnais_strict_{cle}"][k]),
+                    f(pl[cle][k]),
+                    f(C["partiel"][cle][k]["micro"]["f1"]),
+                ]
+                for k in cles
+            ],
+        )
+    return L + [""]
+
+
+def _token_sous_echantillons(gold: list[dict], graines: list[int]) -> dict[str, Any]:
+    """Mode token des CRF entraînés sur 90 % du train (prédictions déjà écrites), moyenne ± écart-type."""
+    res = [evaluate(gold, read_jsonl(RESULTS / f"b1_crf_dev_sub90_seed{g}.jsonl"))["token"] for g in graines]
+
+    def agreger(extraire: Any) -> dict[str, float]:
+        v = [extraire(r) for r in res]
+        return {"moyenne": statistics.mean(v), "ecart_type": statistics.stdev(v) if len(v) > 1 else 0.0}
+
+    return {
+        "f1_micro": agreger(lambda r: r["global"]["micro"]["f1"]),
+        "f1_macro_9": agreger(lambda r: r["global"]["macro_9"]["f1"]),
+        **{
+            cle: {k: agreger(lambda r, c=cle, k=k: r[c][k]["micro"]["f1"]) for k in res[0][cle]}
+            for cle in ("par_langue", "par_source")
+        },
+    }
+
+
 def main() -> None:  # noqa: C901 - rapport linéaire, section par section
     """Calcule toutes les comparaisons et écrit le rapport Markdown."""
     gold = charger_dev()
@@ -100,14 +189,18 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
     R, C = evaluate(gold, regles), evaluate(gold, crf)
     sous = resume_crf["sous_echantillons"]
     agr = sous["agrege"]
+    tok90 = _token_sous_echantillons(gold, sous["graines"])
     complet = resume_crf["complet"]
     deterministe = "oui" if resume_crf["deterministe"] else "non"
     pl = resume_crf["plafond_tokens"]
     cv = json.loads((RESULTS / "b1_prelabel_lib_cv.json").read_text(encoding="utf-8"))
+    ref_ner_eval = ner_eval.evaluer(
+        ner_eval.charger(str(DEV_JSONL)), ner_eval.charger(str(RESULTS / "b1_crf_dev.jsonl"))
+    )
 
     boot = {
         f"{m}_{a}": paired_bootstrap(gold, regles, crf, mode=m, average=a)
-        for m, a in (("strict", "micro"), ("partiel", "micro"), ("strict", "macro_9"))
+        for m, a in (("token", "micro"), ("token", "macro_9"), ("strict", "micro"), ("partiel", "micro"))
     }
     ecrire_json(RESULTS / "b1_bootstrap.json", boot)
 
@@ -115,47 +208,46 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         "# Lot B · B1 — Baseline par règles (`cfdata.prelabel`) et CRF sur le dev",
         "",
         f"Dev uniquement ({R['n_passages']} passages, {R['n_documents']} documents ; test gelé non lu). "
-        "Harnais `caseforge.eval.ner_metrics` : **strict** = bornes et étiquette exactes, **partiel** = "
-        "chevauchement ≥ 1 caractère et même étiquette. F1 macro (9) = moyenne sur les 9 étiquettes.",
+        "Harnais unique `caseforge.eval.ner_metrics`. **Métrique officielle de comparaison des modèles : mode "
+        "token** (décision d'équipe du 26/10/2026, `CLAUDE.md`) : gold et prédiction passent en BIO sur les mots de "
+        "`cfdata.common.tokenize` (`spans_to_bio`), puis on compare les entités exactes au niveau des mots ; c'est "
+        "la méthode de `caseforge.eval.ner_eval`, reproduite à 1e-6 près (`tests/test_mode_token.py`). Les modes "
+        "**strict** (bornes au caractère) et **partiel** (chevauchement ≥ 1 caractère, diagnostic des bordures) "
+        "sont en annexe A. F1 macro (9) = moyenne sur les 9 étiquettes.",
         "",
         "Règles : `cfdata.prelabel.predict` (`scripts/eval_prelabel.py`). CRF : `exemples/baseline_crf.py`, mêmes "
         "caractéristiques et hyperparamètres (`scripts/run_crf_baseline.py`), prédictions BIO reconverties en "
         "caractères. Plafond tokens = F1 stricte du gold lui-même passé en BIO sur les tokens de "
-        "`cfdata.common.tokenize` puis reconverti (`token_ceiling`) : le maximum atteignable par un modèle BIO.",
+        "`cfdata.common.tokenize` puis reconverti (`token_ceiling`) : le maximum atteignable en mode strict par un "
+        "modèle BIO (en mode token, ce plafond vaut 1 par construction).",
         "",
-        "## 1. Résultat global",
+        "## 1. Résultat global (mode token)",
         "",
     ]
     lignes = []
     for nom, res in (("Règles", R), ("CRF (train complet)", C)):
-        for mode in ("strict", "partiel"):
-            g = res[mode]["global"]
-            lignes.append(
-                [
-                    nom,
-                    mode,
-                    f(g["micro"]["p"]),
-                    f(g["micro"]["r"]),
-                    f(g["micro"]["f1"]),
-                    f(g["macro_9"]["f1"]),
-                    f(g["macro_presentes"]["f1"]),
-                ]
-            )
-    for mode in ("strict", "partiel"):
-        a, m = agr[f"harnais_{mode}_f1_micro"], agr[f"harnais_{mode}_f1_macro_9"]
+        g = res["token"]["global"]
         lignes.append(
             [
-                "CRF (90 % du train, 3 tirages)",
-                mode,
-                "—",
-                "—",
-                f"{f(a['moyenne'])} ± {f(a['ecart_type'])}",
-                f"{f(m['moyenne'])} ± {f(m['ecart_type'])}",
-                "—",
+                nom,
+                f(g["micro"]["p"]),
+                f(g["micro"]["r"]),
+                f(g["micro"]["f1"]),
+                f(g["macro_9"]["f1"]),
+                f(g["macro_presentes"]["f1"]),
             ]
         )
-    lignes.append(["Plafond tokens", "strict", "—", "—", f(pl["global"]), "—", "—"])
-    L += _table(["Système", "Mode", "P micro", "R micro", "F1 micro", "F1 macro (9)", "F1 macro (présentes)"], lignes)
+    lignes.append(
+        [
+            "CRF (90 % du train, 3 tirages)",
+            "—",
+            "—",
+            _moy_ecart(tok90["f1_micro"]),
+            _moy_ecart(tok90["f1_macro_9"]),
+            "—",
+        ]
+    )
+    L += _table(["Système", "P micro", "R micro", "F1 micro", "F1 macro (9)", "F1 macro (présentes)"], lignes)
     L += [
         "",
         "**Variance du CRF.** `sklearn-crfsuite` (L-BFGS) est déterministe et n'a pas de paramètre de graine (l'option "
@@ -173,17 +265,27 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         ["Mesure", "Global", "fr", "ar", "en"],
         [
             [
-                "Script d'origine (spans de tokens, gold BIO)",
+                "Script d'origine (spans de tokens, gold BIO ; ventilé par `lang`)",
                 f(complet["script_origine"]["f1_micro_spans_tokens"]),
                 *[f(complet["script_origine"]["par_langue"].get(k, 0.0)) for k in ("fr", "ar", "en")],
             ],
             [
-                "Harnais strict (spans de caractères)",
+                "`ner_eval.py` (Lot C)",
+                f(ref_ner_eval["micro"][2]),
+                *[f(ref_ner_eval[k][2]) for k in ("fr", "ar", "en")],
+            ],
+            [
+                "**Harnais, mode token** (officiel)",
+                f(C["token"]["global"]["micro"]["f1"]),
+                *[f(C["token"]["par_langue"][k]["micro"]["f1"]) for k in ("fr", "ar", "en")],
+            ],
+            [
+                "Harnais, mode strict (spans de caractères)",
                 f(C["strict"]["global"]["micro"]["f1"]),
                 *[f(C["strict"]["par_langue"][k]["micro"]["f1"]) for k in ("fr", "ar", "en")],
             ],
             [
-                "Plafond tokens : gold BIO reconverti en caractères",
+                "Plafond tokens en strict : gold BIO reconverti en caractères",
                 f(pl["global"]),
                 *[f(pl["par_langue"][k]) for k in ("fr", "ar", "en")],
             ],
@@ -191,65 +293,53 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
     )
     L += [
         "",
-        "On retrouve exactement 0,393 avec le calcul du script d'origine. L'écart avec le harnais vient de l'unité "
-        "de comparaison : le script compare des spans de **tokens** au gold BIO, le harnais compare des spans de "
-        "**caractères** au gold `dev.jsonl`. Le gold BIO est construit par chevauchement (`spans_to_bio`) : un span "
-        "qui ne tombe pas sur des frontières de tokens (proclitique arabe collé, ponctuation, mot partiel) ne peut "
-        f"pas être retrouvé exactement. Même le gold BIO reconverti n'atteint que {f(pl['global'])} "
-        "en strict : c'est le plafond de tout modèle BIO sur ces tokens. Par langue, le script d'origine ventile "
-        "selon `lang` du passage (les 4 passages mixtes sont à part), le harnais selon `doc_lang`.",
+        "Le mode token retrouve exactement la valeur de `ner_eval.py`, globale et par `doc_lang`. Le script d'origine "
+        "donne le même score global, mais il ventile par `lang` du passage (les passages mixtes à part) : d'où l'écart "
+        "en fr. Le mode strict compare des spans de **caractères** au gold `dev.jsonl` : un span qui ne tombe pas sur "
+        "des frontières de mots (proclitique arabe collé, ponctuation, mot partiel) ne peut pas y être retrouvé par "
+        f"un modèle BIO, dont le plafond strict est {f(pl['global'])} (ar : {f(pl['par_langue']['ar'])}). Le mode "
+        "token neutralise ces bordures ; c'est pourquoi il sert à comparer les modèles, et le partiel à diagnostiquer "
+        "les bordures.",
         "",
-        "## 2. Par étiquette",
+        "## 2. Par étiquette (mode token)",
         "",
     ]
     L += _table(
-        ["Étiquette", "Gold", "Règles strict", "Règles partiel", "CRF strict", "CRF partiel"],
+        ["Étiquette", "Gold", "Règles", "CRF"],
         [
             [
                 lab,
-                str(R["strict"]["par_etiquette"][lab]["support_gold"]),
-                f(R["strict"]["par_etiquette"][lab]["f1"]),
-                f(R["partiel"]["par_etiquette"][lab]["f1"]),
-                f(C["strict"]["par_etiquette"][lab]["f1"]),
-                f(C["partiel"]["par_etiquette"][lab]["f1"]),
+                str(R["token"]["par_etiquette"][lab]["support_gold"]),
+                f(R["token"]["par_etiquette"][lab]["f1"]),
+                f(C["token"]["par_etiquette"][lab]["f1"]),
             ]
             for lab in LABELS
         ],
     )
-    L += ["", "F1 par étiquette. Les règles n'ont aucune règle SITE : F1 = 0 par construction.", ""]
+    L += [
+        "",
+        "F1 par étiquette. Gold = entités au niveau des mots (deux spans gold sur les mêmes mots n'en font qu'une). "
+        "Les règles n'ont aucune règle SITE : F1 = 0 par construction.",
+        "",
+    ]
 
     for titre, cle, cles in (
-        ("## 3. Par langue (`doc_lang`)", "par_langue", ("fr", "ar", "en")),
-        ("## 4. Par source", "par_source", ("syn", "lib")),
+        ("## 3. Par langue (`doc_lang`, mode token)", "par_langue", ("fr", "ar", "en")),
+        ("## 4. Par source (mode token)", "par_source", ("syn", "lib")),
     ):
         L += [titre, ""]
         L += _table(
-            [
-                "Tranche",
-                "Passages",
-                "Gold",
-                "Règles strict",
-                "Règles partiel",
-                "Règles macro (9)",
-                "CRF strict",
-                "CRF 90 % strict",
-                "Plafond tokens",
-                "CRF partiel",
-                "CRF macro (9)",
-            ],
+            ["Tranche", "Passages", "Gold", "Règles", "Règles macro (9)", "CRF", "CRF 90 %", "CRF macro (9)"],
             [
                 [
                     k,
-                    str(R["strict"][cle][k]["n_passages"]),
-                    str(R["strict"][cle][k]["support_gold"]),
-                    f(R["strict"][cle][k]["micro"]["f1"]),
-                    f(R["partiel"][cle][k]["micro"]["f1"]),
-                    f(R["strict"][cle][k]["macro_9"]["f1"]),
-                    f(C["strict"][cle][k]["micro"]["f1"]),
-                    _moy_ecart(agr[f"harnais_strict_{cle}"][k]),
-                    f(pl[cle][k]),
-                    f(C["partiel"][cle][k]["micro"]["f1"]),
-                    f(C["strict"][cle][k]["macro_9"]["f1"]),
+                    str(R["token"][cle][k]["n_passages"]),
+                    str(R["token"][cle][k]["support_gold"]),
+                    f(R["token"][cle][k]["micro"]["f1"]),
+                    f(R["token"][cle][k]["macro_9"]["f1"]),
+                    f(C["token"][cle][k]["micro"]["f1"]),
+                    _moy_ecart(tok90[cle][k]),
+                    f(C["token"][cle][k]["macro_9"]["f1"]),
                 ]
                 for k in cles
             ],
@@ -257,7 +347,7 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         L += ["", "F1 micro sauf mention « macro (9) ».", ""]
 
     abs_ = sorted(
-        {lab for res in (R, C) for k in ("syn", "lib") for lab in res["strict"]["par_source"][k]["etiquettes_absentes"]}
+        {lab for res in (R, C) for k in ("syn", "lib") for lab in res["token"]["par_source"][k]["etiquettes_absentes"]}
     )
     if abs_:
         note = "Note : étiquettes absentes du gold et des prédictions dans au moins une tranche "
@@ -270,7 +360,8 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         f"Protocole de développement des règles sur du vrai texte (`caseforge.eval.lib_cv`) : {cv['n_plis']} plis, "
         f"un document `lib_` de train ou de dev laissé de côté par pli ({cv['n_passages']} passages ; liste des plis "
         "dans `data/lotb/lib_cv_folds.json`). Moyenne ± écart-type sur les plis ; « regroupé » = F1 micro sur toutes "
-        "les prédictions réunies. Le dev global reste la mesure de référence.",
+        "les prédictions réunies. Le dev global reste la mesure de référence. Mode token en premier ; strict et "
+        "partiel pour mémoire.",
         "",
     ]
     L += _table(
@@ -286,28 +377,33 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
                     for k in ("fr", "ar", "en")
                 ],
             ]
-            for mode in ("strict", "partiel")
+            for mode in MODES
         ],
     )
     L += [""]
     L += _table(
-        ["Étiquette", "F1 stricte (plis)", "Plis concernés"],
+        ["Étiquette", "F1 token (plis)", "Plis concernés"],
         [
-            [lab, _moy_ecart(cv["strict"]["par_etiquette"][lab]), str(cv["strict"]["par_etiquette"][lab]["n_plis"])]
+            [lab, _moy_ecart(cv["token"]["par_etiquette"][lab]), str(cv["token"]["par_etiquette"][lab]["n_plis"])]
             for lab in LABELS
         ],
     )
     L += ["", "Par étiquette : moyenne sur les plis où l'étiquette apparaît (en gold ou en prédiction).", ""]
 
-    mr, mc = R["strict"]["mixtes"], C["strict"]["mixtes"]
+    mr, mc = R["token"]["mixtes"], C["token"]["mixtes"]
     L += ["## Annexe — passages mixtes (`lang == mixte`)", ""]
     L += _table(
         ["Passages", "Gold", "Règles manqués", "Règles inventés", "CRF manqués", "CRF inventés"],
         [[str(mr["n_passages"]), str(mr["support_gold"]), str(mr["fn"]), str(mr["fp"]), str(mc["fn"]), str(mc["fp"])]],
     )
-    L += ["", f"Mode strict. n = {mr['n_passages']} < 30 : aucune conclusion sur la F1.", ""]
+    L += ["", f"Mode token. n = {mr['n_passages']} < 30 : aucune conclusion sur la F1.", ""]
 
-    L += ["## 5. Matrices de confusion (gold en ligne, prédiction en colonne)", ""]
+    L += [
+        "## 5. Matrices de confusion (gold en ligne, prédiction en colonne)",
+        "",
+        "Appariement un-pour-un par chevauchement de caractères, quelle que soit l'étiquette (diagnostic).",
+        "",
+    ]
     cols = [*LABELS, MANQUE]
     for nom, res in (("Règles", R), ("CRF", C)):
         L += [f"**{nom}**", ""]
@@ -322,7 +418,7 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         ["Mesure", "Règles", "CRF", "Δ (CRF − règles)", "IC 95 %", "p (unilatérale)"],
         [
             [
-                k.replace("_", " · "),
+                k.replace("_", " · ", 1) + ("" if b["mode"] == "token" else " (annexe)"),
                 f(b["f1_a"]),
                 f(b["f1_b"]),
                 f(b["delta"]),
@@ -336,7 +432,7 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         "",
         f"Tirage avec remise de {b0['n_documents']} documents (`doc_id`), {b0['n_resamples']} rééchantillonnages, "
         f"graine {b0['seed']}. p = (1 + #{{Δ* ≤ 0}}) / {b0['n_resamples'] + 1} : probabilité que le CRF ne soit pas "
-        "meilleur que les règles.",
+        "meilleur que les règles. Mesure officielle : token · micro.",
         "",
     ]
 
@@ -368,7 +464,7 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
 
     ecarts = []
     for nom, res in (("Règles", R), ("CRF", C)):
-        for mode in ("strict", "partiel"):
+        for mode in MODES:
             s, li = res[mode]["par_source"]["syn"]["micro"]["f1"], res[mode]["par_source"]["lib"]["micro"]["f1"]
             ecarts.append([nom, mode, f(s), f(li), f(s - li)])
 
@@ -378,15 +474,15 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
     R_syn = evaluate(_sous_ensemble(gold, ids_syn), _sous_ensemble(regles, ids_syn))
     R_lib = evaluate(_sous_ensemble(gold, ids_lib), _sous_ensemble(regles, ids_lib))
     L += _table(
-        ["Étiquette (règles, strict)", "Gold syn_", "F1 syn_", "Gold lib_", "F1 lib_", "Écart"],
+        ["Étiquette (règles, token)", "Gold syn_", "F1 syn_", "Gold lib_", "F1 lib_", "Écart"],
         [
             [
                 lab,
-                str(R_syn["strict"]["par_etiquette"][lab]["support_gold"]),
-                f(R_syn["strict"]["par_etiquette"][lab]["f1"]),
-                str(R_lib["strict"]["par_etiquette"][lab]["support_gold"]),
-                f(R_lib["strict"]["par_etiquette"][lab]["f1"]),
-                f(R_syn["strict"]["par_etiquette"][lab]["f1"] - R_lib["strict"]["par_etiquette"][lab]["f1"]),
+                str(R_syn["token"]["par_etiquette"][lab]["support_gold"]),
+                f(R_syn["token"]["par_etiquette"][lab]["f1"]),
+                str(R_lib["token"]["par_etiquette"][lab]["support_gold"]),
+                f(R_lib["token"]["par_etiquette"][lab]["f1"]),
+                f(R_syn["token"]["par_etiquette"][lab]["f1"] - R_lib["token"]["par_etiquette"][lab]["f1"]),
             ]
             for lab in LABELS
         ],
@@ -443,6 +539,7 @@ def main() -> None:  # noqa: C901 - rapport linéaire, section par section
         [[x["pid"], x["span"][2], _extrait(x["text"], *x["span"][:2])] for x in _echantillon(fns)],
     )
     L += [""]
+    L += _annexe_strict_partiel(R, C, agr, pl)
 
     (REPORTS / "lotb_baseline_regles.md").write_text("\n".join(L), encoding="utf-8")
     print(f"Rapport écrit : {REPORTS / 'lotb_baseline_regles.md'}")
@@ -455,6 +552,14 @@ def _imprimer_chiffres(
 ) -> None:
     """Affiche les chiffres clés (sans texte de passage) pour le journal des expériences."""
     for nom, res in (("règles", R), ("CRF", C)):
+        t = res["token"]
+        print(
+            f"{nom}: token {t['global']['micro']['f1']:.3f} macro9 {t['global']['macro_9']['f1']:.3f} | "
+            + " ".join(f"{k} {t['par_langue'][k]['micro']['f1']:.3f}" for k in ("fr", "ar", "en"))
+            + " | "
+            + " ".join(f"{k} {t['par_source'][k]['micro']['f1']:.3f}" for k in ("syn", "lib"))
+        )
+        print(f"{nom} par étiquette token: " + " ".join(f"{lab} {t['par_etiquette'][lab]['f1']:.3f}" for lab in LABELS))
         s = res["strict"]
         print(
             f"{nom}: strict {s['global']['micro']['f1']:.3f} macro9 {s['global']['macro_9']['f1']:.3f} "

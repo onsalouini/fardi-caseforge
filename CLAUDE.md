@@ -63,7 +63,17 @@ Tout résultat (F1, précision, rappel, taux de fuite…) est rapporté **avec t
 
 Les résultats sur le corpus externe (ORG / PERSONNE / SITE seulement) sont rapportés à part, sur le dev externe (section 2), et ne sont pas mélangés au corpus principal. Le nom du split évalué (dev, en principe) figure toujours avec le résultat.
 
-## 6. Journal des expériences
+## 6. Métriques officielles
+
+Décision d'équipe prise le 26/10/2026 avec Ghayth (Lot C) ; elle s'applique dès la fusion de la PR « Lot B · Harnais commun ».
+
+- **Un seul harnais : `caseforge/eval/ner_metrics.py`** (Lots B et C). `caseforge/eval/ner_eval.py` appartient au Lot C : Ghayth le retire ou en fait un raccourci vers le harnais. Le Lot B ne le modifie pas.
+- **Comparaison des modèles NER (règles, CRF, XLM-R) : mode `token`**. C'est la méthode de `ner_eval.py` : `spans_to_bio` de `cfdata.common`, puis entités exactes au niveau des mots ; un passage absent compte comme « aucune prédiction » (`absents_vides=True`). Le tokeniseur par défaut est `cfdata` ; `tokenizer="stanza"` est une variante, à signaler avec le résultat. `tests/test_mode_token.py` garantit l'égalité avec `ner_eval.py` à 1e-6 près.
+- **Anonymisation : métrique principale = taux de fuite** (`caseforge/eval/leak.py`, `taux_fuite`). Il se calcule à partir du masque des caractères masqués dans le texte original : une occurrence gold de `SENSITIVE_LABELS` fuit si au moins un de ses caractères non blancs reste visible. On le rapporte avec un IC 95 % (bootstrap par document), la part de fuites totales et partielles, et le sur-masquage. **Métrique secondaire : F1 stricte au caractère** sur les entités sensibles (`f1_stricte_sensibles`). Sans masque, `fuite_surface` sert seulement de contrôle de secours et donne une **borne inférieure** de la fuite.
+- **Mode `partiel` = diagnostic des bordures**. Le mode `strict` reste disponible pour l'analyse. Ni l'un ni l'autre ne sert à classer les modèles.
+- Les ventilations de la section 5 s'appliquent à toutes ces métriques.
+
+## 7. Journal des expériences
 
 Toute expérience ajoute une entrée **en tête** de `experiments.md`, juste sous la ligne « Une entrée par expérience… », au format existant :
 
@@ -76,7 +86,7 @@ Toute expérience ajoute une entrée **en tête** de `experiments.md`, juste sou
 
 Les résultats négatifs sont aussi consignés.
 
-## 7. Git et travail en équipe
+## 8. Git et travail en équipe
 
 - **Une branche par tâche**, tirée de `lot-b` : `lotb/<tache>` (ex. `lotb/b1-baseline`). Ne jamais committer directement sur `main` ni sur `lot-b`. (Git refuse `lot-b/<tache>` tant que la branche `lot-b` existe : une ref ne peut pas être à la fois une branche et un dossier.)
 - **Périmètre ruff du Lot B** : seulement les fichiers du Lot B. Ne modifier ni `caseforge/models/` ni `caseforge/retrieval/` (Lot C), même pour les mettre aux normes. `caseforge/eval/ner_eval.py` appartient aussi au Lot C : il est exclu du périmètre et n'est pas modifié.
@@ -84,7 +94,7 @@ Les résultats négatifs sont aussi consignés.
   ```bash
   LOTB="caseforge/labels.py caseforge/eval caseforge/extraction caseforge/anonymization scripts \
         tests/test_labels.py tests/test_test_gele.py tests/test_ner_metrics.py tests/test_non_regression_kappa.py \
-        tests/test_bio.py tests/test_nlp.py tests/test_lib_cv.py"
+        tests/test_bio.py tests/test_nlp.py tests/test_lib_cv.py tests/test_mode_token.py tests/test_leak.py"
   EXCL="--extend-exclude caseforge/eval/ner_eval.py"
   ruff check $EXCL $LOTB && ruff format --check $EXCL $LOTB
   ```
