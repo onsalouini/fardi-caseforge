@@ -6,14 +6,18 @@
 
 Travail en binômes, un lot après l'autre ; le lot E (audit, intégration) est partagé : chacun audite le composant d'un autre binôme.
 
-| Lot | Binôme (co-responsables) | Chef de projet pendant le lot |
+| Lot | Binôme (co-responsables) | Responsable du lot |
 |---|---|---|
-| A · Données & langue | Boutheina, Ons | Ons puis Boutheina (semaines 1-3) |
-| B · Extraction (règles, NER, anonymisation) | Ali, Ghayth | Ali puis Ghayth (semaines 4-6) |
-| C · Modèles (TF-IDF, fine-tuning) | à définir | |
-| D · LLM et RAG | à définir | |
+| A · Données & langue | Ons, Boutheina | Boutheina |
+| B · Extraction (règles, NER, anonymisation) | Boutheina, Ali | Ali |
+| C · Modèles (TF-IDF, fine-tuning) | Ghayth, Ons | Ghayth |
+| D · LLM et RAG | Ons, Boutheina | Ons |
 | E · Audit et intégration | tous | — |
 
+## 2026-10-26 · Ghayth · Lot C : analyse d'erreurs, bootstrap apparié, carte de modèle
+- 41 erreurs catégorisées (22 type de passage + 19 secteur) → `reports/erreurs_lotC.md` ; hypothèses vérifiées par les poids TF-IDF (`reports/lotC_explications.md`).
+- Bootstrap apparié (10 000 tirages, dev) : caractères − mots = +0,120, IC 95 % [+0,052 ; +0,192], p = 0,0004 ; caractères − classe majoritaire = +0,790, p < 0,0001.
+- Carte de modèle des 5 modèles du Bronze → `docs/carte_modele_lotC.md`.
 Test gelé de référence : tag `test-gele-v3` (générateur v3, après relecture et double annotation complétées le 24/10). Les tags `test-gele-v1` et `test-gele-v2` désignent l'ancien contenu de test (générateur v2) et ne doivent plus servir à évaluer.
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
