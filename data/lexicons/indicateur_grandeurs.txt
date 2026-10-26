@@ -1,0 +1,55 @@
+# Noms de grandeurs mesurées pour l'INDICATEUR (guide v2, section 2 ; cas 6 et 7 : l'indicateur et sa valeur
+# collée forment un seul span). Comparaison sans casse ; le span va de la grandeur à sa valeur.
+# Source : indicateurs usuels de performance industrielle (NF E 60-182 pour le TRS / OEE, EN 15341 pour les
+# indicateurs de maintenance MTBF / MTTR, vocabulaire logistique : taux de service, délai, lead time).
+taux
+délai
+délais
+rendement
+productivité
+disponibilité
+TRS
+TRG
+OEE
+MTBF
+MTTR
+rebut
+rebuts
+consommation
+temps de cycle
+temps d'arrêt
+niveau de service
+nombre
+quantité
+qté
+volume
+part
+pourcentage
+moyenne
+rate
+yield
+lead time
+level
+throughput
+downtime
+uptime
+scrap
+cycle time
+availability
+productivity
+consumption
+returns
+rejects
+nombre
+نسبة
+معدل
+مردود
+متوسط
+مدة
+آجال
+اجال
+كمية
+الكمية
+عدد
+حجم
+استهلاك

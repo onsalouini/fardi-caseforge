@@ -1,0 +1,357 @@
+{
+  "n_plis": 15,
+  "n_passages": 98,
+  "token": {
+    "f1_micro": {
+      "moyenne": 0.5829465595270586,
+      "ecart_type": 0.1415967152647085,
+      "n_plis": 15
+    },
+    "f1_macro_9": {
+      "moyenne": 0.5537159959382182,
+      "ecart_type": 0.16539078271528165,
+      "n_plis": 15
+    },
+    "par_etiquette": {
+      "ORG": {
+        "moyenne": 0.7777777777777778,
+        "ecart_type": 0.41147559989891175,
+        "n_plis": 15
+      },
+      "PERSONNE": {
+        "moyenne": 1.0,
+        "ecart_type": 0.0,
+        "n_plis": 15
+      },
+      "SITE": {
+        "moyenne": 0.7,
+        "ecart_type": 0.45512949491639976,
+        "n_plis": 15
+      },
+      "DONNEE_SENSIBLE": {
+        "moyenne": 0.24285714285714285,
+        "ecart_type": 0.2769634971428456,
+        "n_plis": 15
+      },
+      "PRODUIT": {
+        "moyenne": 0.28205128205128205,
+        "ecart_type": 0.44816816135765475,
+        "n_plis": 13
+      },
+      "EQUIPEMENT": {
+        "moyenne": 0.5051851851851852,
+        "ecart_type": 0.4291385626317958,
+        "n_plis": 15
+      },
+      "PROCESSUS": {
+        "moyenne": 0.41095719095719097,
+        "ecart_type": 0.2668078379482265,
+        "n_plis": 15
+      },
+      "INDICATEUR": {
+        "moyenne": 0.19333333333333333,
+        "ecart_type": 0.2906478805637338,
+        "n_plis": 15
+      },
+      "CONTRAINTE": {
+        "moyenne": 0.9088888888888889,
+        "ecart_type": 0.16641250461765694,
+        "n_plis": 15
+      }
+    },
+    "par_langue": {
+      "ar": {
+        "moyenne": 0.5289196904815566,
+        "ecart_type": 0.16719873671818855,
+        "n_plis": 5
+      },
+      "en": {
+        "moyenne": 0.6276092841610083,
+        "ecart_type": 0.08187982085168205,
+        "n_plis": 5
+      },
+      "fr": {
+        "moyenne": 0.5923107039386108,
+        "ecart_type": 0.17106225663876082,
+        "n_plis": 5
+      }
+    },
+    "regroupe_f1_micro": 0.590818363273453
+  },
+  "strict": {
+    "f1_micro": {
+      "moyenne": 0.5783488583776333,
+      "ecart_type": 0.13897984108684897,
+      "n_plis": 15
+    },
+    "f1_macro_9": {
+      "moyenne": 0.5500122922345144,
+      "ecart_type": 0.16418703714899327,
+      "n_plis": 15
+    },
+    "par_etiquette": {
+      "ORG": {
+        "moyenne": 0.7777777777777778,
+        "ecart_type": 0.41147559989891175,
+        "n_plis": 15
+      },
+      "PERSONNE": {
+        "moyenne": 1.0,
+        "ecart_type": 0.0,
+        "n_plis": 15
+      },
+      "SITE": {
+        "moyenne": 0.7,
+        "ecart_type": 0.45512949491639976,
+        "n_plis": 15
+      },
+      "DONNEE_SENSIBLE": {
+        "moyenne": 0.24285714285714285,
+        "ecart_type": 0.2769634971428456,
+        "n_plis": 15
+      },
+      "PRODUIT": {
+        "moyenne": 0.24358974358974358,
+        "ecart_type": 0.40032038451271784,
+        "n_plis": 13
+      },
+      "EQUIPEMENT": {
+        "moyenne": 0.5051851851851852,
+        "ecart_type": 0.4291385626317958,
+        "n_plis": 15
+      },
+      "PROCESSUS": {
+        "moyenne": 0.41095719095719097,
+        "ecart_type": 0.2668078379482265,
+        "n_plis": 15
+      },
+      "INDICATEUR": {
+        "moyenne": 0.19333333333333333,
+        "ecart_type": 0.2906478805637338,
+        "n_plis": 15
+      },
+      "CONTRAINTE": {
+        "moyenne": 0.9088888888888889,
+        "ecart_type": 0.16641250461765694,
+        "n_plis": 15
+      }
+    },
+    "par_langue": {
+      "ar": {
+        "moyenne": 0.5289196904815566,
+        "ecart_type": 0.16719873671818855,
+        "n_plis": 5
+      },
+      "en": {
+        "moyenne": 0.6138161807127325,
+        "ecart_type": 0.07427004906656977,
+        "n_plis": 5
+      },
+      "fr": {
+        "moyenne": 0.5923107039386108,
+        "ecart_type": 0.17106225663876082,
+        "n_plis": 5
+      }
+    },
+    "regroupe_f1_micro": 0.5868263473053892
+  },
+  "partiel": {
+    "f1_micro": {
+      "moyenne": 0.7420530278672959,
+      "ecart_type": 0.12873947090735624,
+      "n_plis": 15
+    },
+    "f1_macro_9": {
+      "moyenne": 0.6936342258564481,
+      "ecart_type": 0.1482152033532343,
+      "n_plis": 15
+    },
+    "par_etiquette": {
+      "ORG": {
+        "moyenne": 0.8444444444444444,
+        "ecart_type": 0.3533662757928731,
+        "n_plis": 15
+      },
+      "PERSONNE": {
+        "moyenne": 1.0,
+        "ecart_type": 0.0,
+        "n_plis": 15
+      },
+      "SITE": {
+        "moyenne": 0.8,
+        "ecart_type": 0.4140393356054125,
+        "n_plis": 15
+      },
+      "DONNEE_SENSIBLE": {
+        "moyenne": 0.4253968253968254,
+        "ecart_type": 0.33087855422176116,
+        "n_plis": 15
+      },
+      "PRODUIT": {
+        "moyenne": 0.3205128205128205,
+        "ecart_type": 0.4433747811741175,
+        "n_plis": 13
+      },
+      "EQUIPEMENT": {
+        "moyenne": 0.64,
+        "ecart_type": 0.38030898048155615,
+        "n_plis": 15
+      },
+      "PROCESSUS": {
+        "moyenne": 0.6058297258297258,
+        "ecart_type": 0.3122709601485761,
+        "n_plis": 15
+      },
+      "INDICATEUR": {
+        "moyenne": 0.6866666666666666,
+        "ecart_type": 0.3255764119219941,
+        "n_plis": 15
+      },
+      "CONTRAINTE": {
+        "moyenne": 0.9625925925925926,
+        "ecart_type": 0.08187794360169344,
+        "n_plis": 15
+      }
+    },
+    "par_langue": {
+      "ar": {
+        "moyenne": 0.714307715423334,
+        "ecart_type": 0.13443836898969752,
+        "n_plis": 5
+      },
+      "en": {
+        "moyenne": 0.7953373911994601,
+        "ecart_type": 0.09517881321741577,
+        "n_plis": 5
+      },
+      "fr": {
+        "moyenne": 0.7165139769790932,
+        "ecart_type": 0.15984120926074916,
+        "n_plis": 5
+      }
+    },
+    "regroupe_f1_micro": 0.7504990019960079
+  },
+  "par_pli": [
+    {
+      "pli": 0,
+      "doc_id": "lib_ar_01",
+      "doc_lang": "ar",
+      "token": 0.7222222222222222,
+      "strict": 0.7222222222222222,
+      "partiel": 0.8333333333333334
+    },
+    {
+      "pli": 1,
+      "doc_id": "lib_ar_02",
+      "doc_lang": "ar",
+      "token": 0.5925925925925926,
+      "strict": 0.5925925925925926,
+      "partiel": 0.7407407407407407
+    },
+    {
+      "pli": 2,
+      "doc_id": "lib_ar_04",
+      "doc_lang": "ar",
+      "token": 0.47058823529411764,
+      "strict": 0.47058823529411764,
+      "partiel": 0.7647058823529411
+    },
+    {
+      "pli": 3,
+      "doc_id": "lib_ar_07",
+      "doc_lang": "ar",
+      "token": 0.27586206896551724,
+      "strict": 0.27586206896551724,
+      "partiel": 0.4827586206896552
+    },
+    {
+      "pli": 4,
+      "doc_id": "lib_ar_08",
+      "doc_lang": "ar",
+      "token": 0.5833333333333334,
+      "strict": 0.5833333333333334,
+      "partiel": 0.75
+    },
+    {
+      "pli": 5,
+      "doc_id": "lib_en_01",
+      "doc_lang": "en",
+      "token": 0.6285714285714286,
+      "strict": 0.6285714285714286,
+      "partiel": 0.6857142857142857
+    },
+    {
+      "pli": 6,
+      "doc_id": "lib_en_02",
+      "doc_lang": "en",
+      "token": 0.6666666666666666,
+      "strict": 0.6666666666666666,
+      "partiel": 0.8888888888888888
+    },
+    {
+      "pli": 7,
+      "doc_id": "lib_en_03",
+      "doc_lang": "en",
+      "token": 0.6666666666666666,
+      "strict": 0.6666666666666666,
+      "partiel": 0.8717948717948718
+    },
+    {
+      "pli": 8,
+      "doc_id": "lib_en_06",
+      "doc_lang": "en",
+      "token": 0.4864864864864865,
+      "strict": 0.4864864864864865,
+      "partiel": 0.7027027027027027
+    },
+    {
+      "pli": 9,
+      "doc_id": "lib_en_08",
+      "doc_lang": "en",
+      "token": 0.6896551724137931,
+      "strict": 0.6206896551724138,
+      "partiel": 0.8275862068965517
+    },
+    {
+      "pli": 10,
+      "doc_id": "lib_fr_01",
+      "doc_lang": "fr",
+      "token": 0.6046511627906976,
+      "strict": 0.6046511627906976,
+      "partiel": 0.7441860465116279
+    },
+    {
+      "pli": 11,
+      "doc_id": "lib_fr_03",
+      "doc_lang": "fr",
+      "token": 0.7272727272727273,
+      "strict": 0.7272727272727273,
+      "partiel": 0.7272727272727273
+    },
+    {
+      "pli": 12,
+      "doc_id": "lib_fr_06",
+      "doc_lang": "fr",
+      "token": 0.2962962962962963,
+      "strict": 0.2962962962962963,
+      "partiel": 0.4444444444444444
+    },
+    {
+      "pli": 13,
+      "doc_id": "lib_fr_07",
+      "doc_lang": "fr",
+      "token": 0.6666666666666666,
+      "strict": 0.6666666666666666,
+      "partiel": 0.8333333333333334
+    },
+    {
+      "pli": 14,
+      "doc_id": "lib_fr_08",
+      "doc_lang": "fr",
+      "token": 0.6666666666666666,
+      "strict": 0.6666666666666666,
+      "partiel": 0.8333333333333334
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+# Mots qui accompagnent un nom de lieu. Format : terme<TAB>rôle.
+# « inclus » : le mot fait partie du nom du site (« ZI Ben Arous », « ولاية سوسة », « Sousse Technopark ») ;
+# « exclu » : mot générique, hors du span (« Ksar Hellal site » -> « Ksar Hellal » ; « بمدينة صفاقس » -> « صفاقس »).
+# Rôles conformes au guide v2 (section 2, cas 10, section 6 « Bordure des sites »). Source : vocabulaire de
+# l'aménagement industriel tunisien (Agence Foncière Industrielle : « zone industrielle », « ZI », « parc
+# d'activités économiques », « technopôle ») et découpage administratif (ولاية، معتمدية، منطقة).
+ZI	inclus
+Z.I.	inclus
+zone industrielle	inclus
+Zone industrielle	inclus
+Zone Industrielle	inclus
+parc d'activités	inclus
+technopôle	inclus
+Technopôle	inclus
+technopole	inclus
+Technopark	inclus
+Technopole	inclus
+industrial zone	inclus
+Industrial Zone	inclus
+industrial park	inclus
+free zone	inclus
+Free Zone	inclus
+المنطقة الصناعية	inclus
+منطقة	inclus
+ولاية	inclus
+معتمدية	inclus
+القطب التكنولوجي	inclus
+مدينة	exclu
+site	exclu
+usine	exclu
+plant	exclu
+factory	exclu
+موقع	exclu
+مصنع	exclu

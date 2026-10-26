@@ -1,0 +1,40 @@
+# Civilités et titres qui précèdent un nom de personne (fr, en, ar). Le titre fait partie du span PERSONNE
+# (guide v2, section 2 : « Dr. Nadia Mestiri » ; section 6 : un seul span, titre compris).
+# Source : usage courant du français, de l'anglais et de l'arabe administratifs (abréviations normalisées :
+# Office québécois de la langue française, « Abréviations des titres de civilité » ; Oxford Style Manual).
+# Pas de recopie de cfdata/pools.py.
+M.
+MM.
+Mme
+Mmes
+Mlle
+Monsieur
+Madame
+Mademoiselle
+Dr
+Dr.
+Docteur
+Pr
+Pr.
+Professeur
+Me
+Ing.
+Mr
+Mr.
+Mrs
+Mrs.
+Ms
+Ms.
+Miss
+Sir
+Prof.
+Eng.
+السيد
+السيدة
+الآنسة
+الدكتور
+الدكتورة
+الأستاذ
+الأستاذة
+المهندس
+المهندسة
