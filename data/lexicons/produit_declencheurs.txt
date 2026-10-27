@@ -1,4 +1,5 @@
 # Déclencheurs de PRODUIT (guide v2, section 2 ; cas 9). Format : terme<TAB>type.
+# « verbe_leger » : verbe de production trop polysémique pour la lecture de surface du B7 (« make sure »).
 # « tete » : mot-tête générique étendu à ses compléments (« gamme de jeans », « référence X ») ;
 # « champ » : libellé de champ suivi de deux-points et du produit (« Produit : », « Réf. pièce : », « Product: ») ;
 # « champ_appos » : libellé suivi du produit après « : », « , », « est » ou « هو » (« son produit principal, … ») ;
@@ -51,3 +52,68 @@ sell	verbe
 نصنع	verbe
 ننتج	verbe
 تصنع	verbe
+# B7. « libelle » : nom qui annonce le produit sans en être un (« Produit : X », « sa gamme vedette est X »,
+# « البضاعة: X ») ; il accepte des qualificatifs, un possessif devant (« son », « its ») ou suffixé en arabe
+# (« منتوجها », « منتجاتهم »). « nominalisation » : nom d'action de production suivi du produit (« fabrication de X »,
+# « manufacture of X », « صناعة X »). « verbe_b7 » : autres formes de verbes de production (« producing »,
+# « produisant », « يبيع »), lues seulement par dependencies.produit_verbe. Vocabulaire général du commerce et de
+# l'industrie (fr / en / ar).
+produit	libelle
+produits	libelle
+gamme	libelle
+gammes	libelle
+article	libelle
+articles	libelle
+marchandise	libelle
+marchandises	libelle
+product	libelle
+products	libelle
+range	libelle
+ranges	libelle
+goods	libelle
+منتوج	libelle
+منتج	libelle
+منتوجات	libelle
+منتجات	libelle
+سلعة	libelle
+سلع	libelle
+بضاعة	libelle
+بضائع	libelle
+fabrication	nominalisation
+production	nominalisation
+confection	nominalisation
+manufacture	nominalisation
+manufacturing	nominalisation
+صناعة	nominalisation
+تصنيع	nominalisation
+إنتاج	nominalisation
+صنع	nominalisation
+fabriquent	verbe_b7
+produisent	verbe_b7
+fabriquant	verbe_b7
+produisant	verbe_b7
+assemblent	verbe_b7
+confectionne	verbe_b7
+confectionnons	verbe_b7
+commercialise	verbe_b7
+commercialisons	verbe_b7
+vend	verbe_b7
+vendons	verbe_b7
+exporte	verbe_b7
+exportons	verbe_b7
+producing	verbe_b7
+manufacturing	verbe_b7
+make	verbe_leger
+makes	verbe_leger
+assembling	verbe_b7
+sells	verbe_b7
+selling	verbe_b7
+exports	verbe_b7
+exporting	verbe_b7
+يصنع	verbe_b7
+يبيع	verbe_b7
+تبيع	verbe_b7
+نبيع	verbe_b7
+يصدر	verbe_b7
+تصدر	verbe_b7
+نصدر	verbe_b7

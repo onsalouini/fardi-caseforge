@@ -1,0 +1,801 @@
+{
+  "split": "train (train.jsonl), 5 plis par doc_id (B6b, graine 42)",
+  "plis": {
+    "syn_fr_020": 0,
+    "syn_fr_001": 1,
+    "syn_ar_028": 2,
+    "syn_ar_020": 3,
+    "lib_en_08": 4,
+    "syn_en_027": 0,
+    "syn_fr_015": 1,
+    "syn_en_002": 2,
+    "syn_ar_009": 3,
+    "syn_fr_002": 4,
+    "lib_fr_03": 0,
+    "syn_en_007": 1,
+    "syn_en_001": 2,
+    "syn_ar_014": 3,
+    "syn_ar_012": 4,
+    "syn_fr_010": 0,
+    "syn_ar_018": 1,
+    "syn_en_026": 2,
+    "syn_en_025": 3,
+    "syn_fr_018": 4,
+    "syn_ar_013": 0,
+    "syn_ar_016": 1,
+    "lib_fr_08": 2,
+    "syn_en_018": 3,
+    "syn_en_022": 4,
+    "syn_fr_006": 0,
+    "syn_fr_023": 1,
+    "syn_en_020": 2,
+    "syn_ar_019": 3,
+    "syn_fr_016": 4,
+    "lib_en_02": 0,
+    "syn_en_012": 1,
+    "syn_ar_015": 2,
+    "syn_fr_009": 3,
+    "lib_fr_07": 4,
+    "lib_ar_01": 0,
+    "syn_ar_011": 1,
+    "syn_ar_025": 2,
+    "syn_fr_014": 3,
+    "syn_ar_023": 4,
+    "syn_fr_012": 0,
+    "syn_en_021": 1,
+    "syn_ar_002": 2,
+    "syn_fr_021": 3,
+    "syn_fr_004": 4,
+    "syn_en_017": 0,
+    "syn_en_003": 1,
+    "syn_fr_019": 2,
+    "syn_ar_003": 3,
+    "syn_fr_011": 4,
+    "lib_ar_04": 0,
+    "lib_ar_07": 1,
+    "syn_ar_024": 2,
+    "syn_en_016": 3,
+    "lib_en_03": 4,
+    "syn_en_010": 0,
+    "syn_fr_017": 1,
+    "syn_en_024": 2,
+    "lib_en_06": 3,
+    "syn_en_029": 4,
+    "lib_fr_01": 0,
+    "syn_fr_025": 1,
+    "syn_ar_005": 2,
+    "syn_en_011": 3,
+    "lib_ar_08": 4,
+    "syn_ar_004": 0
+  },
+  "configs": {
+    "B3": {
+      "micro": 0.8713984539704849,
+      "macro_9": 0.8722400776769287,
+      "par_etiquette": {
+        "ORG": 0.9866666666666667,
+        "PERSONNE": 0.9870967741935484,
+        "SITE": 0.8137535816618912,
+        "DONNEE_SENSIBLE": 0.9183673469387755,
+        "PRODUIT": 0.8861788617886179,
+        "EQUIPEMENT": 0.7058823529411765,
+        "PROCESSUS": 0.6857142857142857,
+        "INDICATEUR": 0.8888888888888888,
+        "CONTRAINTE": 0.9776119402985075
+      },
+      "par_langue": {
+        "ar": 0.867027027027027,
+        "en": 0.8845760980592441,
+        "fr": 0.861995753715499
+      },
+      "par_source": {
+        "lib": 0.6067961165048543,
+        "syn": 0.9161873459326212
+      },
+      "produit": {
+        "global": {
+          "support_gold": 128,
+          "support_pred": 118,
+          "tp": 109,
+          "fp": 9,
+          "fn": 19,
+          "p": 0.923728813559322,
+          "r": 0.8515625,
+          "f1": 0.8861788617886179
+        },
+        "langue:ar": {
+          "support_gold": 44,
+          "support_pred": 36,
+          "tp": 34,
+          "fp": 2,
+          "fn": 10,
+          "p": 0.9444444444444444,
+          "r": 0.7727272727272727,
+          "f1": 0.85
+        },
+        "langue:en": {
+          "support_gold": 43,
+          "support_pred": 43,
+          "tp": 41,
+          "fp": 2,
+          "fn": 2,
+          "p": 0.9534883720930233,
+          "r": 0.9534883720930233,
+          "f1": 0.9534883720930233
+        },
+        "langue:fr": {
+          "support_gold": 41,
+          "support_pred": 39,
+          "tp": 34,
+          "fp": 5,
+          "fn": 7,
+          "p": 0.8717948717948718,
+          "r": 0.8292682926829268,
+          "f1": 0.85
+        },
+        "source:lib": {
+          "support_gold": 20,
+          "support_pred": 8,
+          "tp": 6,
+          "fp": 2,
+          "fn": 14,
+          "p": 0.75,
+          "r": 0.3,
+          "f1": 0.42857142857142855
+        },
+        "source:syn": {
+          "support_gold": 108,
+          "support_pred": 110,
+          "tp": 103,
+          "fp": 7,
+          "fn": 5,
+          "p": 0.9363636363636364,
+          "r": 0.9537037037037037,
+          "f1": 0.944954128440367
+        }
+      },
+      "mixtes": {
+        "n_passages": 54,
+        "support_gold": 183,
+        "support_pred": 163,
+        "tp": 143,
+        "fp": 20,
+        "fn": 40
+      },
+      "plis": {
+        "0": {
+          "micro": 0.81195079086116,
+          "PRODUIT": 0.782608695652174
+        },
+        "1": {
+          "micro": 0.893542757417103,
+          "PRODUIT": 0.9019607843137255
+        },
+        "2": {
+          "micro": 0.8781302170283807,
+          "PRODUIT": 0.9411764705882353
+        },
+        "3": {
+          "micro": 0.9303135888501742,
+          "PRODUIT": 0.9056603773584906
+        },
+        "4": {
+          "micro": 0.839924670433145,
+          "PRODUIT": 0.8888888888888888
+        }
+      },
+      "plis_produit": {
+        "moyenne": 0.8840590433603028,
+        "ecart_type": 0.05992702001337361
+      }
+    },
+    "B3+produit_libelle": {
+      "micro": 0.8751319029194513,
+      "macro_9": 0.8771136655074572,
+      "par_etiquette": {
+        "ORG": 0.9866666666666667,
+        "PERSONNE": 0.9870967741935484,
+        "SITE": 0.8137535816618912,
+        "DONNEE_SENSIBLE": 0.9183673469387755,
+        "PRODUIT": 0.9300411522633745,
+        "EQUIPEMENT": 0.7058823529411765,
+        "PROCESSUS": 0.6857142857142857,
+        "INDICATEUR": 0.8888888888888888,
+        "CONTRAINTE": 0.9776119402985075
+      },
+      "par_langue": {
+        "ar": 0.8713513513513513,
+        "en": 0.8843398157625384,
+        "fr": 0.869287991498406
+      },
+      "par_source": {
+        "lib": 0.6082725060827251,
+        "syn": 0.9202302631578947
+      },
+      "produit": {
+        "global": {
+          "support_gold": 128,
+          "support_pred": 115,
+          "tp": 113,
+          "fp": 2,
+          "fn": 15,
+          "p": 0.9826086956521739,
+          "r": 0.8828125,
+          "f1": 0.9300411522633745
+        },
+        "langue:ar": {
+          "support_gold": 44,
+          "support_pred": 36,
+          "tp": 36,
+          "fp": 0,
+          "fn": 8,
+          "p": 1.0,
+          "r": 0.8181818181818182,
+          "f1": 0.9
+        },
+        "langue:en": {
+          "support_gold": 43,
+          "support_pred": 41,
+          "tp": 40,
+          "fp": 1,
+          "fn": 3,
+          "p": 0.975609756097561,
+          "r": 0.9302325581395349,
+          "f1": 0.9523809523809523
+        },
+        "langue:fr": {
+          "support_gold": 41,
+          "support_pred": 38,
+          "tp": 37,
+          "fp": 1,
+          "fn": 4,
+          "p": 0.9736842105263158,
+          "r": 0.9024390243902439,
+          "f1": 0.9367088607594937
+        },
+        "source:lib": {
+          "support_gold": 20,
+          "support_pred": 7,
+          "tp": 6,
+          "fp": 1,
+          "fn": 14,
+          "p": 0.8571428571428571,
+          "r": 0.3,
+          "f1": 0.4444444444444444
+        },
+        "source:syn": {
+          "support_gold": 108,
+          "support_pred": 108,
+          "tp": 107,
+          "fp": 1,
+          "fn": 1,
+          "p": 0.9907407407407407,
+          "r": 0.9907407407407407,
+          "f1": 0.9907407407407407
+        }
+      },
+      "mixtes": {
+        "n_passages": 54,
+        "support_gold": 183,
+        "support_pred": 163,
+        "tp": 143,
+        "fp": 20,
+        "fn": 40
+      },
+      "plis": {
+        "0": {
+          "micro": 0.8169014084507042,
+          "PRODUIT": 0.8444444444444444
+        },
+        "1": {
+          "micro": 0.8970331588132635,
+          "PRODUIT": 0.9411764705882353
+        },
+        "2": {
+          "micro": 0.8795986622073578,
+          "PRODUIT": 0.96
+        },
+        "3": {
+          "micro": 0.9354275741710296,
+          "PRODUIT": 0.9615384615384616
+        },
+        "4": {
+          "micro": 0.8436911487758946,
+          "PRODUIT": 0.9333333333333333
+        }
+      },
+      "plis_produit": {
+        "moyenne": 0.9280985419808949,
+        "ecart_type": 0.04830210796528831
+      }
+    },
+    "B3+produit_nominalisation": {
+      "micro": 0.872280701754386,
+      "macro_9": 0.8733313152559712,
+      "par_etiquette": {
+        "ORG": 0.9866666666666667,
+        "PERSONNE": 0.9870967741935484,
+        "SITE": 0.8137535816618912,
+        "DONNEE_SENSIBLE": 0.9183673469387755,
+        "PRODUIT": 0.896,
+        "EQUIPEMENT": 0.7058823529411765,
+        "PROCESSUS": 0.6857142857142857,
+        "INDICATEUR": 0.8888888888888888,
+        "CONTRAINTE": 0.9776119402985075
+      },
+      "par_langue": {
+        "ar": 0.8694714131607335,
+        "en": 0.8845760980592441,
+        "fr": 0.8622881355932204
+      },
+      "par_source": {
+        "lib": 0.6153846153846154,
+        "syn": 0.9161873459326212
+      },
+      "produit": {
+        "global": {
+          "support_gold": 128,
+          "support_pred": 122,
+          "tp": 112,
+          "fp": 10,
+          "fn": 16,
+          "p": 0.9180327868852459,
+          "r": 0.875,
+          "f1": 0.896
+        },
+        "langue:ar": {
+          "support_gold": 44,
+          "support_pred": 38,
+          "tp": 36,
+          "fp": 2,
+          "fn": 8,
+          "p": 0.9473684210526315,
+          "r": 0.8181818181818182,
+          "f1": 0.8780487804878049
+        },
+        "langue:en": {
+          "support_gold": 43,
+          "support_pred": 43,
+          "tp": 41,
+          "fp": 2,
+          "fn": 2,
+          "p": 0.9534883720930233,
+          "r": 0.9534883720930233,
+          "f1": 0.9534883720930233
+        },
+        "langue:fr": {
+          "support_gold": 41,
+          "support_pred": 41,
+          "tp": 35,
+          "fp": 6,
+          "fn": 6,
+          "p": 0.8536585365853658,
+          "r": 0.8536585365853658,
+          "f1": 0.8536585365853658
+        },
+        "source:lib": {
+          "support_gold": 20,
+          "support_pred": 12,
+          "tp": 9,
+          "fp": 3,
+          "fn": 11,
+          "p": 0.75,
+          "r": 0.45,
+          "f1": 0.5625
+        },
+        "source:syn": {
+          "support_gold": 108,
+          "support_pred": 110,
+          "tp": 103,
+          "fp": 7,
+          "fn": 5,
+          "p": 0.9363636363636364,
+          "r": 0.9537037037037037,
+          "f1": 0.944954128440367
+        }
+      },
+      "mixtes": {
+        "n_passages": 54,
+        "support_gold": 183,
+        "support_pred": 163,
+        "tp": 143,
+        "fp": 20,
+        "fn": 40
+      },
+      "plis": {
+        "0": {
+          "micro": 0.81195079086116,
+          "PRODUIT": 0.782608695652174
+        },
+        "1": {
+          "micro": 0.893542757417103,
+          "PRODUIT": 0.9019607843137255
+        },
+        "2": {
+          "micro": 0.8785357737104825,
+          "PRODUIT": 0.9433962264150944
+        },
+        "3": {
+          "micro": 0.9303135888501742,
+          "PRODUIT": 0.9056603773584906
+        },
+        "4": {
+          "micro": 0.8442776735459663,
+          "PRODUIT": 0.9361702127659575
+        }
+      },
+      "plis_produit": {
+        "moyenne": 0.8939592593010883,
+        "ecart_type": 0.06485689420003227
+      }
+    },
+    "B3+produit_verbe": {
+      "micro": 0.8725868725868726,
+      "macro_9": 0.8737311367642264,
+      "par_etiquette": {
+        "ORG": 0.9866666666666667,
+        "PERSONNE": 0.9870967741935484,
+        "SITE": 0.8137535816618912,
+        "DONNEE_SENSIBLE": 0.9183673469387755,
+        "PRODUIT": 0.8995983935742972,
+        "EQUIPEMENT": 0.7058823529411765,
+        "PROCESSUS": 0.6857142857142857,
+        "INDICATEUR": 0.8888888888888888,
+        "CONTRAINTE": 0.9776119402985075
+      },
+      "par_langue": {
+        "ar": 0.8706896551724138,
+        "en": 0.8845760980592441,
+        "fr": 0.861995753715499
+      },
+      "par_source": {
+        "lib": 0.6168674698795181,
+        "syn": 0.9161873459326212
+      },
+      "produit": {
+        "global": {
+          "support_gold": 128,
+          "support_pred": 121,
+          "tp": 112,
+          "fp": 9,
+          "fn": 16,
+          "p": 0.9256198347107438,
+          "r": 0.875,
+          "f1": 0.8995983935742972
+        },
+        "langue:ar": {
+          "support_gold": 44,
+          "support_pred": 39,
+          "tp": 37,
+          "fp": 2,
+          "fn": 7,
+          "p": 0.9487179487179487,
+          "r": 0.8409090909090909,
+          "f1": 0.891566265060241
+        },
+        "langue:en": {
+          "support_gold": 43,
+          "support_pred": 43,
+          "tp": 41,
+          "fp": 2,
+          "fn": 2,
+          "p": 0.9534883720930233,
+          "r": 0.9534883720930233,
+          "f1": 0.9534883720930233
+        },
+        "langue:fr": {
+          "support_gold": 41,
+          "support_pred": 39,
+          "tp": 34,
+          "fp": 5,
+          "fn": 7,
+          "p": 0.8717948717948718,
+          "r": 0.8292682926829268,
+          "f1": 0.85
+        },
+        "source:lib": {
+          "support_gold": 20,
+          "support_pred": 11,
+          "tp": 9,
+          "fp": 2,
+          "fn": 11,
+          "p": 0.8181818181818182,
+          "r": 0.45,
+          "f1": 0.5806451612903226
+        },
+        "source:syn": {
+          "support_gold": 108,
+          "support_pred": 110,
+          "tp": 103,
+          "fp": 7,
+          "fn": 5,
+          "p": 0.9363636363636364,
+          "r": 0.9537037037037037,
+          "f1": 0.944954128440367
+        }
+      },
+      "mixtes": {
+        "n_passages": 54,
+        "support_gold": 183,
+        "support_pred": 163,
+        "tp": 143,
+        "fp": 20,
+        "fn": 40
+      },
+      "plis": {
+        "0": {
+          "micro": 0.8140350877192982,
+          "PRODUIT": 0.8085106382978723
+        },
+        "1": {
+          "micro": 0.8973913043478261,
+          "PRODUIT": 0.9433962264150944
+        },
+        "2": {
+          "micro": 0.8781302170283807,
+          "PRODUIT": 0.9411764705882353
+        },
+        "3": {
+          "micro": 0.9303135888501742,
+          "PRODUIT": 0.9056603773584906
+        },
+        "4": {
+          "micro": 0.839924670433145,
+          "PRODUIT": 0.8888888888888888
+        }
+      },
+      "plis_produit": {
+        "moyenne": 0.8975265203097162,
+        "ecart_type": 0.054940749118731154
+      }
+    },
+    "B7": {
+      "micro": 0.8771929824561403,
+      "macro_9": 0.8795535374781933,
+      "par_etiquette": {
+        "ORG": 0.9866666666666667,
+        "PERSONNE": 0.9870967741935484,
+        "SITE": 0.8137535816618912,
+        "DONNEE_SENSIBLE": 0.9183673469387755,
+        "PRODUIT": 0.952,
+        "EQUIPEMENT": 0.7058823529411765,
+        "PROCESSUS": 0.6857142857142857,
+        "INDICATEUR": 0.8888888888888888,
+        "CONTRAINTE": 0.9776119402985075
+      },
+      "par_langue": {
+        "ar": 0.8774193548387097,
+        "en": 0.8843398157625384,
+        "fr": 0.8695652173913043
+      },
+      "par_source": {
+        "lib": 0.6267942583732058,
+        "syn": 0.9202302631578947
+      },
+      "produit": {
+        "global": {
+          "support_gold": 128,
+          "support_pred": 122,
+          "tp": 119,
+          "fp": 3,
+          "fn": 9,
+          "p": 0.9754098360655737,
+          "r": 0.9296875,
+          "f1": 0.952
+        },
+        "langue:ar": {
+          "support_gold": 44,
+          "support_pred": 41,
+          "tp": 41,
+          "fp": 0,
+          "fn": 3,
+          "p": 1.0,
+          "r": 0.9318181818181818,
+          "f1": 0.9647058823529412
+        },
+        "langue:en": {
+          "support_gold": 43,
+          "support_pred": 41,
+          "tp": 40,
+          "fp": 1,
+          "fn": 3,
+          "p": 0.975609756097561,
+          "r": 0.9302325581395349,
+          "f1": 0.9523809523809523
+        },
+        "langue:fr": {
+          "support_gold": 41,
+          "support_pred": 40,
+          "tp": 38,
+          "fp": 2,
+          "fn": 3,
+          "p": 0.95,
+          "r": 0.926829268292683,
+          "f1": 0.9382716049382716
+        },
+        "source:lib": {
+          "support_gold": 20,
+          "support_pred": 14,
+          "tp": 12,
+          "fp": 2,
+          "fn": 8,
+          "p": 0.8571428571428571,
+          "r": 0.6,
+          "f1": 0.7058823529411765
+        },
+        "source:syn": {
+          "support_gold": 108,
+          "support_pred": 108,
+          "tp": 107,
+          "fp": 1,
+          "fn": 1,
+          "p": 0.9907407407407407,
+          "r": 0.9907407407407407,
+          "f1": 0.9907407407407407
+        }
+      },
+      "mixtes": {
+        "n_passages": 54,
+        "support_gold": 183,
+        "support_pred": 163,
+        "tp": 143,
+        "fp": 20,
+        "fn": 40
+      },
+      "plis": {
+        "0": {
+          "micro": 0.8189806678383128,
+          "PRODUIT": 0.8695652173913043
+        },
+        "1": {
+          "micro": 0.9008695652173913,
+          "PRODUIT": 0.9811320754716981
+        },
+        "2": {
+          "micro": 0.88,
+          "PRODUIT": 0.9615384615384616
+        },
+        "3": {
+          "micro": 0.9354275741710296,
+          "PRODUIT": 0.9615384615384616
+        },
+        "4": {
+          "micro": 0.8480300187617261,
+          "PRODUIT": 0.9787234042553191
+        }
+      },
+      "plis_produit": {
+        "moyenne": 0.9504995240390489,
+        "ecart_type": 0.046176343771782376
+      }
+    }
+  },
+  "decisions": {
+    "dependencies.produit_libelle": {
+      "gain_cible": 0.04386229047475654,
+      "baisses": [],
+      "gardee": true
+    },
+    "dependencies.produit_nominalisation": {
+      "gain_cible": 0.009821138211382086,
+      "baisses": [],
+      "gardee": true
+    },
+    "dependencies.produit_verbe": {
+      "gain_cible": 0.013419531785679228,
+      "baisses": [],
+      "gardee": true
+    }
+  },
+  "decision_b7": {
+    "gain_cible": 0.06582113821138202,
+    "baisses": [],
+    "gardee": true,
+    "regles_gardees": [
+      "dependencies.produit_libelle",
+      "dependencies.produit_nominalisation",
+      "dependencies.produit_verbe"
+    ]
+  },
+  "familles": {
+    "B3": {
+      "total": {
+        "bordure_trop_court": 4,
+        "exact": 108,
+        "fp_dependencies.produit_tete": 5,
+        "fp_gold_PROCESSUS": 1,
+        "manque_EQUIPEMENT": 1,
+        "manque_apres_libelle": 3,
+        "manque_apres_sans_declencheur": 5,
+        "manque_apres_verbe_ou_nominalisation": 7
+      },
+      "ventilation": {
+        "manque_apres_sans_declencheur": {
+          "langue:ar": 3,
+          "langue:en": 2,
+          "source:lib": 5
+        },
+        "manque_apres_verbe_ou_nominalisation": {
+          "langue:ar": 5,
+          "langue:fr": 2,
+          "source:lib": 7
+        },
+        "exact": {
+          "langue:ar": 34,
+          "langue:en": 40,
+          "langue:fr": 34,
+          "mixte": 16,
+          "source:lib": 5,
+          "source:syn": 103
+        },
+        "bordure_trop_court": {
+          "langue:ar": 2,
+          "langue:en": 1,
+          "langue:fr": 1,
+          "source:lib": 2,
+          "source:syn": 2
+        },
+        "manque_EQUIPEMENT": {
+          "langue:fr": 1,
+          "source:lib": 1
+        },
+        "fp_gold_PROCESSUS": {
+          "langue:fr": 1,
+          "source:lib": 1
+        },
+        "fp_dependencies.produit_tete": {
+          "langue:en": 2,
+          "langue:fr": 3,
+          "source:syn": 5
+        },
+        "manque_apres_libelle": {
+          "langue:fr": 3,
+          "source:syn": 3
+        }
+      }
+    },
+    "B7": {
+      "total": {
+        "bordure_trop_court": 2,
+        "bordure_trop_long": 1,
+        "exact": 119,
+        "manque_EQUIPEMENT": 1,
+        "manque_apres_sans_declencheur": 4,
+        "manque_apres_verbe_ou_nominalisation": 1
+      },
+      "ventilation": {
+        "manque_apres_sans_declencheur": {
+          "langue:ar": 2,
+          "langue:en": 2,
+          "source:lib": 4
+        },
+        "exact": {
+          "langue:ar": 41,
+          "langue:en": 40,
+          "langue:fr": 38,
+          "mixte": 16,
+          "source:lib": 12,
+          "source:syn": 107
+        },
+        "manque_apres_verbe_ou_nominalisation": {
+          "langue:ar": 1,
+          "source:lib": 1
+        },
+        "bordure_trop_court": {
+          "langue:en": 1,
+          "langue:fr": 1,
+          "source:lib": 1,
+          "source:syn": 1
+        },
+        "manque_EQUIPEMENT": {
+          "langue:fr": 1,
+          "source:lib": 1
+        },
+        "bordure_trop_long": {
+          "langue:fr": 1,
+          "source:lib": 1
+        }
+      }
+    }
+  }
+}
