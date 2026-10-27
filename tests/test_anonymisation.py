@@ -22,6 +22,7 @@ from caseforge.anonymization.detect import (
 )
 from caseforge.anonymization.policy import charger_politique, sans_numero
 from caseforge.eval.leak import taux_fuite
+from caseforge.eval.plis_gabarit import decision_seuils, formats_des_plis, plis_gabarit
 from caseforge.labels import SENSITIVE_LABELS
 
 
@@ -416,3 +417,33 @@ def test_balayage_renforce_translitteration_et_nom_seul() -> None:
     assert "Ouertani" in anonymes(simple)[1] and "NordCompo" in anonymes(simple)[1]
     assert "Ouertani" not in anonymes(renforce)[1] and "NordCompo" not in anonymes(renforce)[1]
     assert anonymes(renforce)[1].count("[PERSONNE_1]") == 2
+
+
+# ---------- B6e : plis par gabarit, règle de décision ----------
+def _doc(doc_id: str, fmt: str) -> dict:
+    return {"doc_id": doc_id, "format": fmt, "passages": []}
+
+
+def test_plis_gabarit_un_format_par_pli() -> None:
+    formats = ("email", "fiche_nc", "pv_reunion")
+    docs = [_doc(f"syn_{f}_{i}", f) for f in formats for i in range(3)]
+    docs += [_doc(f"lib_fr_{i:02d}", "email") for i in range(7)]
+    pli = plis_gabarit(docs)
+    assert pli == plis_gabarit(list(reversed(docs)))  # indépendant de l'ordre d'entrée
+    for f in formats:  # un format syn_ = un pli, jamais coupé
+        assert len({pli[d["doc_id"]] for d in docs if d["doc_id"].startswith("syn_") and d["format"] == f}) == 1
+    assert len({pli[f"syn_{f}_0"] for f in formats}) == len(formats)
+    lib = [pli[d["doc_id"]] for d in docs if d["doc_id"].startswith("lib_")]
+    assert sorted(lib.count(k) for k in range(len(formats))) == [2, 2, 3]  # à tour de rôle
+    assert formats_des_plis(docs, pli) == {pli[f"syn_{f}_0"]: f for f in formats}
+    with pytest.raises(ValueError):
+        plis_gabarit([_doc("ext_1", "email")])
+
+
+def test_decision_seuils_b6e() -> None:
+    ref = {"fuite": 0.066, "sur_masquage": 0.219}
+    assert decision_seuils(ref, {"fuite": 0.075, "sur_masquage": 0.12})["retenus"]  # +0,9 pt toléré
+    assert not decision_seuils(ref, {"fuite": 0.080, "sur_masquage": 0.05})["retenus"]  # +1,4 pt
+    assert not decision_seuils(ref, {"fuite": 0.050, "sur_masquage": 0.219})["retenus"]  # sur-masquage égal
+    d = decision_seuils(ref, {"fuite": 0.066, "sur_masquage": 0.09})
+    assert d["retenus"] and d["objectif_sur_masquage_atteint"]

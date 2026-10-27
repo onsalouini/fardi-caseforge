@@ -42,6 +42,9 @@ extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombr
 # results/lotb/b6b_union_seuil_cv.json) : fuite minimale sous la contrainte sur-masquage <= 10 %. null = aucune
 # entité du CRF pour cette étiquette.
 # Résultat (27/10/2026) : minimum, à fuite égale avec moyenne (2,9 %) et sur-masquage plus faible (2,5 % contre 3,3 %).
+# B6e (27/10/2026, scripts/b6e_plis_gabarit_cv.py puis scripts/b6e_eval_dev.py) : seuils rechoisis avec des plis
+# groupés par gabarit (moyenne 0,35 / aucun / 0,70 / 0,35), NON retenus : au dev, fuite +1,9 pt et sur-masquage
+# +2,7 pt (règle : fuite <= +1 pt et sur-masquage en baisse). Seuils B6b ci-dessous inchangés.
 union_seuil:
   agregation: minimum
   seuils: {ORG: 0.35, PERSONNE: 0.8, SITE: 0.55, DONNEE_SENSIBLE: 0.3}

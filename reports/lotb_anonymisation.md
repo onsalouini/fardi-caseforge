@@ -1,7 +1,7 @@
 # Lot B · B6 — Anonymisation des documents (dev)
 
 Auteur : Ali (Lot B). Date : 26/10/2026, mis à jour le 27/10/2026 (B6b : backend `union_seuil`, extension des
-montants, annexe SITE ; B6d : sur-masquage de `union_seuil`, section 4 ter). Split évalué : **dev** (`data/final/documents_dev.jsonl`, 21 documents, 171 passages, 213
+montants, annexe SITE ; B6d : sur-masquage de `union_seuil`, section 4 ter ; B6e : plis par gabarit, section 4 quater). Split évalué : **dev** (`data/final/documents_dev.jsonl`, 21 documents, 171 passages, 213
 occurrences sensibles gold). Le test gelé n'a pas été lu. Les 20 fuites analysées et le choix des seuils de B6b
 viennent du **train**.
 
@@ -220,6 +220,60 @@ Passages mixtes (annexe) : 5 occurrences, 0 fuite avant et après (pas de conclu
 
 **Résultat négatif.** Le sur-masquage du dev reste à 21,9 %. Il vient pour l'essentiel (603 caractères sur 638) de spans des règles élargis par le CRF. Les supprimer coûte des fuites partielles de bordure tant que les spans gold SITE incluent l'article ou le mot générique. Export de la variante retenue pour le Lot D : `results/lotb/b6d_anonymisation_dev_union_seuil.jsonl`.
 
+## 4 quater. B6e · Seuils de `union_seuil` rechoisis avec des plis groupés par gabarit (résultat négatif)
+
+**Hypothèse testée** (section 4 bis) : au B6b, les plis groupés par document laissaient le même gabarit des deux côtés, d'où un sur-masquage du train (2,5 %) très inférieur à celui du dev (21,9 % au B6d), et une contrainte des 10 % jamais active.
+
+**Protocole** (`scripts/b6e_plis_gabarit_cv.py`, train seul, le dev n'est pas lu) :
+
+- plis `caseforge.eval.plis_gabarit.plis_gabarit` : les 54 documents `syn_` sont groupés par `format`, avec un format par pli (cahier_charges 9, demande_pfe 9, email 10, fiche_nc 13, pv_reunion 13). Les 12 documents `lib_` sont mélangés avec la graine 42, puis répartis à tour de rôle (3, 3, 2, 2, 2). Le CRF est réentraîné par pli (384 à 411 passages) ;
+- options B6d de `configs/anonymization.yaml` inchangées (`fusion_crf: union`, `plafonds_contrainte: true`, règles de rappel B6c), anonymiseur complet ;
+- recherche et règle de B6b, fixées avant le lancement : fuite minimale sous sur-masquage ≤ 10 % (taux poolé), puis sur-masquage minimal, puis seuils les plus hauts ;
+- règle fixée avant le dev (`decision_seuils`) : les nouveaux seuils remplacent ceux du YAML si, au dev, la fuite ne monte pas de plus de 1 point et le sur-masquage baisse. Une seule mesure (`scripts/b6e_eval_dev.py`), sans réajustement.
+
+**Train, CV par gabarit** (724 occurrences ; tableaux complets dans `results/lotb/b6e.md`) :
+
+| Point | Seuils ORG / PERSONNE / SITE / DONNEE_SENSIBLE | Fuite [IC 95 %] | Sur-masquage | F1 caractère |
+|---|---|---|---|---|
+| rules | — | 8,3 % [6,2 ; 10,7] | 0,2 % | 0,927 |
+| union (t = 0) | 0 / 0 / 0 / 0 | 3,5 % [1,6 ; 5,8] | 3,7 % | 0,853 |
+| seuils B6b (YAML) | minimum 0,35 / 0,80 / 0,55 / 0,30 | 3,5 % [1,6 ; 5,8] | 2,2 % | 0,868 |
+| **B6e** | **moyenne 0,35 / aucune entité / 0,70 / 0,35** | 3,5 % [1,6 ; 5,8] | 1,8 % | 0,907 |
+
+- Les deux agrégations donnent le même point (3,5 % / 1,8 %). La moyenne est retenue, car ses seuils sont les plus hauts (SITE 0,70 contre 0,65).
+- Par pli, `union` sans seuil reste entre 1,2 et 5,3 % de sur-masquage. **Le format tenu à part ne reproduit pas l'écart avec le dev** : la contrainte des 10 % n'est toujours pas active, et c'est encore la règle d'égalité qui fixe les seuils.
+- Ventilations (B6b → B6e) : la fuite ne change dans aucune tranche (ORG 0,5 %, PERSONNE 0,0 %, SITE 1,1 %, DONNEE_SENSIBLE 10,8 % ; ar 4,3 %, en 2,8 %, fr 3,3 % ; syn_ 0,0 %, lib_ 33,8 %). Sur-masquage : ar 2,2 → 1,5 %, en 1,4 → 1,2 %, fr 3,1 → 2,7 %, syn_ 0,9 → 0,6 %, lib_ 14,8 → 13,3 %. Passages mixtes : 71 occurrences, 2 fuites dans les deux cas.
+
+**Dev, mesure unique** :
+
+| Seuils | Fuite [IC 95 %] | Totales / partielles | Sur-masquage | F1 caractère | Fuites de noms |
+|---|---|---|---|---|---|
+| **B6b (YAML, retenus)** | **6,6 %** [3,2 ; 10,7] | 9 / 5 | **21,9 %** | **0,628** | 4 |
+| B6e | 8,5 % [4,6 ; 12,9] | 10 / 8 | 24,6 % | 0,605 | 4 |
+
+| Tranche (n) | Fuite B6b → B6e | Sur-masquage B6b → B6e | F1 caractère B6b → B6e |
+|---|---|---|---|
+| ORG (40) | 7,5 → 7,5 % | — | 0,633 → 0,608 |
+| PERSONNE (52) | 1,9 → 1,9 % | — | 0,949 → 0,929 |
+| SITE (57) | 8,8 → 15,8 % | — | 0,842 → 0,804 |
+| DONNEE_SENSIBLE (64) | 7,8 → 7,8 % | — | 0,060 → 0,060 |
+| ar (69) | 5,8 → 7,2 % | 20,7 → 24,6 % | 0,551 → 0,560 |
+| en (70) | 8,6 → 8,6 % | 18,8 → 23,3 % | 0,682 → 0,652 |
+| fr (74) | 5,4 → 9,5 % | 25,6 → 25,8 % | 0,647 → 0,602 |
+| syn_ (192) | 3,6 → 5,2 % | 22,9 → 25,0 % | 0,620 → 0,599 |
+| lib_ (21) | 33,3 → 38,1 % | 9,5 → 19,7 % | 0,703 → 0,667 |
+
+Passages mixtes (annexe) : 5 occurrences, 0 fuite dans les deux cas (pas de conclusion, n < 30).
+
+**Décision : seuils B6e non retenus** (Δ fuite +1,9 point, Δ sur-masquage +2,7 points). `configs/anonymization.yaml` garde les seuils B6b ; l'objectif de 10 % n'est pas atteint. L'export du dev (`results/lotb/b6e_anonymisation_dev_union_seuil.jsonl`) correspond donc aux seuils B6b, comme celui de B6d.
+
+**Lecture.**
+
+- Sur les 4 SITE de plus qui fuient, 3 sont des fuites partielles (SITE : 0 / 5 → 1 / 8 totales / partielles). Avec un seuil SITE plus haut, le CRF ne couvre plus l'article ou le mot générique compris dans le span gold (issue #7 du Lot A). La quatrième est une fuite totale, que le CRF masquait avec le seuil 0,55 : hors mots génériques, la fuite passe de 4,7 à 5,2 %.
+- Le sur-masquage ajouté vient de la moyenne : elle laisse passer des entités longues du CRF dont seuls quelques tokens sont sûrs. Ces entités élargissent les spans des règles (`b3+crf` : 166 → 284 caractères), ce que le minimum de B6b évitait.
+- Surtout, aucun réglage de seuil ne peut atteindre 10 % au dev. 437 des 638 caractères sur-masqués viennent de spans `b1+b3+crf`, élargis par des entités du CRF qui chevauchent une règle avec une forte confiance. Le seul levier mesuré qui agit dessus est la fusion aux bornes des règles (section 4 ter, 3,0 % de sur-masquage), désactivée pour son coût en fuite tant que l'issue #7 n'est pas corrigée.
+- L'écart entre le train et le dev ne vient donc pas du partage des formats entre plis. Les documents `syn_` du train restent à 0,0 % de fuite, même pour un format jamais vu. Une explication possible, non vérifiée, est que les documents du dev viennent d'autres gabarits ou d'autres valeurs du générateur, dans les mêmes formats. Cette information doit venir du Lot A.
+
 ## 5. Ventilations (dev, coréférence + balayage)
 
 ### Taux de fuite [IC 95 %]
@@ -361,6 +415,8 @@ Causes des 61 fuites :
 - **Coréférence** : parfaite sur les mentions gold du dev, mais la cohérence réelle dépend des bordures détectées (65 % en arabe avec les règles).
 
 ## 9. Recommandation pour la démo Bronze (mise à jour B6b, 27/10/2026)
+
+> **B6e (27/10/2026, section 4 quater)** : rechoisir les seuils avec des plis groupés par gabarit ne réduit pas le sur-masquage. Au dev, il passe à 24,6 % et la fuite à 8,5 %. Les seuils B6b restent donc dans `configs/anonymization.yaml`, et la recommandation est inchangée : `union_seuil` à 6,6 % de fuite et 21,9 % de sur-masquage au dev. Les seuils du CRF ne permettent pas d'atteindre 10 %.
 
 > **B6d (27/10/2026, section 4 ter)** : la recommandation reste `union_seuil`, dans la configuration par défaut de `configs/anonymization.yaml`, qui inclut désormais `plafonds_contrainte: true` et `fusion_crf: union`. Au dev, la fuite reste à 6,6 % [3,2 ; 10,7] et le sur-masquage passe de 24,5 à 21,9 %. Il reste au-dessus de 10 % : un cinquième des caractères masqués ne sont pas sensibles. La fusion aux bornes des règles le ramènerait à 3,0 %, mais elle coûte +2,8 points de fuite au dev (+4,6 au train). Elle est donc désactivée, conformément à la règle fixée d'avance. Pour la démo, on garde la priorité à la fuite. Si le Lot A corrige l'issue #7, la fusion aux bornes des règles pourra être réévaluée sur le train.
 
