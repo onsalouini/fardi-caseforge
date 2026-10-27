@@ -18,6 +18,14 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-10-27 · Boutheina · Lot E · E1 pipeline complet
+- Quoi : `caseforge/pipeline.py` (`traiter`) enchaîne texte brut → entités B3 → type de passage (Lot C, position) → anonymisation B9 `union_seuil` → fiche Lot D v2, au format de `docs/contrat_pipeline.md` ; `scripts/eval_pipeline.py` l'évalue ; `tests/test_pipeline.py` (18 tests, documents du train).
+- Données : dev, 21 documents reconstitués en texte brut ; test gelé non utilisé. L'option `--test` du script d'évaluation a été retirée : l'évaluation finale passe uniquement par `scripts/final_eval.py` (CLAUDE.md, section 2).
+- Résultats (dev) : type de passage macro-F1 0,906 ; fuite 6,6 % [3,2 ; 10,7] (fr 5,4 %, ar 5,8 %, en 8,6 % ; lib 33,3 %, syn 3,6 %), sur-masquage 21,9 % ; fiche F1 0,76 (fr 0,72, ar 0,69, en 0,89 ; lib 0,68, syn 0,78) contre 0,82 avec les types de passage de référence ; 1 fuite dans une fiche (nom de personne arabe non détecté par le Lot B) ; temps médian 571 ms par document.
+- Tests : 18 / 18 pour le pipeline, 246 / 246 pour tout le dépôt.
+- Rapports : `reports/lot_e_pipeline.md`, `reports/lot_e_pipeline_fiches.md`.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
+
 ## 2026-10-27 · Ons · LOT D : analyse d'erreurs, gabarit v2, tests et carte de modèle (palier Bronze clos)
 - `generation/analyser_erreurs.py` → `reports/lot_d_erreurs.md` (dev) : **100 erreurs** du gabarit d'origine, causes attribuées par des règles explicites (à relire) : extraction du Lot B propagée 43 ; donnée fixe (ERP, fiches de non-conformité) non produite 18 ; passage de suivi du projet recopié comme objectif 15 ; texte libre reformulé 13 ; choix du contexte (formulaires) 6 ; bruit OCR 3 ; fuites 2.
 - Gabarit **version 2** (`generation/gabarit.py`, `--version 1` redonne l'original) : données citées en toutes lettres reprises si le passage les mentionne ; passage « objectif » nommant un responsable non recopié. Dev, entrées de référence : F1 éléments **0,83 → 0,93** (fr 0,94 ; ar 0,89 ; en 0,96 ; syn_ 0,97 ; lib_ 0,71), citations P 0,90 / R 0,85 → 0,81, 0 fuite. **Train** (jamais vu par l'analyse) : 0,81 → 0,90, pas de sur-ajustement au dev.
