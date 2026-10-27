@@ -11,7 +11,9 @@ de la mesure (les fichiers de ``data/lexicons/`` ne changent pas) :
 - la valeur sans séparateur après un libellé arabe à pronom suffixé (« أبرز منتجاتها X »).
 
 Mesure en mode ``token`` (cfdata, ``absents_vides=True``) sur le train et le dev, avec les ventilations de
-``scripts.b7_produit_cv.scores``. Sortie : ``results/lotb/b7_sensibilite_dev.json``.
+``scripts.b7_produit_cv.scores``. Sorties : ``results/lotb/b7_sensibilite_dev.json`` et (B7b)
+``results/lotb/b3_regles_dev_sans_mots_dev.jsonl``, prédictions du dev de cette variante au format de
+``b3_regles_dev.jsonl``, pour comparer XLM-R à des règles dont aucun élément ne vient du dev.
 """
 
 from __future__ import annotations
@@ -21,7 +23,7 @@ import warnings
 from typing import Any
 
 import caseforge.extraction.rules.produit as produit
-from caseforge.eval.data import FINAL, RESULTS, charger_dev, ecrire_json
+from caseforge.eval.data import FINAL, RESULTS, charger_dev, ecrire_json, ecrire_jsonl
 from caseforge.extraction.rules import charger_config
 from cfdata.common import read_jsonl
 from scripts.b7_produit_cv import CIBLE, scores
@@ -63,9 +65,13 @@ def main() -> None:
     sans_elements_dev()
     res: dict[str, Any] = {"retires": sorted(VUS_AU_DEV) + ["« la suivante : »", "valeur arabe sans séparateur"]}
     for nom, rows in (("train", read_jsonl(FINAL / "train.jsonl")), ("dev", charger_dev())):
-        res[nom] = scores(rows, predire(rows, charger_config()))
+        pred = predire(rows, charger_config())
+        res[nom] = scores(rows, pred)
         print(f"[B7 sans éléments vus au dev · {nom}] micro {res[nom]['micro']:.3f} · "
               f"PRODUIT {res[nom]['par_etiquette'][CIBLE]:.3f}")  # fmt: skip
+        if nom == "dev":
+            n = ecrire_jsonl(RESULTS / "b3_regles_dev_sans_mots_dev.jsonl", pred)
+            print(f"b3_regles_dev_sans_mots_dev.jsonl ({n} lignes) écrit")
     ecrire_json(RESULTS / "b7_sensibilite_dev.json", res)
 
 

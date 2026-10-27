@@ -150,6 +150,7 @@ Lecture :
   - l'écart se décompose en 0,664 → 0,681 (B6, B6c et B6f : DONNEE_SENSIBLE 0,673 → 0,770, ORG 0,805 → 0,816, CONTRAINTE 0,680 → 0,694), puis 0,681 → 0,751 (B7 : PRODUIT 0,031 → 0,911).
 - Le texte de `comparer_ner.py` (« micro 0,664 contre 0,393 pour le CRF ») appartient au Lot C : il n'est pas modifié ici. Il faut le signaler à Ghayth.
 - Les autres fichiers B3 (`b3_regles_dev_sans_*.jsonl`, `b3_regles_lib_cv.json`, `b3_regles_ablation_lib_cv.json`) n'ont pas été régénérés. Ils décrivent toujours B3 avant B7.
+- **B7b, variante pour une comparaison équitable avec XLM-R** : `results/lotb/b3_regles_dev_sans_mots_dev.jsonl` (même format, 162 lignes, `scripts/b7_sensibilite_dev.py`), B7 sans les mots de libellé et de liaison tirés du dev (section 5) : micro **0,701** (P 0,754 / R 0,655), macro (9) 0,681 ; par étiquette ORG 0,816, PERSONNE 0,939, SITE 0,768, DONNEE_SENSIBLE 0,770, **PRODUIT 0,192**, EQUIPEMENT 0,475, PROCESSUS 0,585, INDICATEUR 0,889, CONTRAINTE 0,694 ; langue ar / en / fr 0,583 / 0,806 / 0,707 ; source syn / lib 0,717 / 0,574 ; passages mixtes (n = 4, 13 gold) : tp 7, fp 6, fn 6, pas de conclusion. Seul PRODUIT diffère de `b3_regles_dev.jsonl`. Pour comparer à XLM-R, ce fichier est le plus équitable : aucun élément des règles n'y vient du dev.
 
 ## 7. Limites
 

@@ -18,6 +18,13 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-10-27 · Ali · B7b · Prédictions B3 du dev sans les mots tirés du dev (comparaison équitable avec XLM-R)
+- `scripts/b7_sensibilite_dev.py` (variante B7 sans les libellés « gamme », « range », « سلعة », les copules « reste » / « remain », « (est) la suivante : » et la valeur directe après un libellé arabe suffixé) écrit en plus `results/lotb/b3_regles_dev_sans_mots_dev.jsonl`, au format de `b3_regles_dev.jsonl` (162 lignes, vérifié par `test_format_b3_regles_dev`). Dev, mode token, cfdata, `absents_vides=True` ; relancé à l'identique, `b7_sensibilite_dev.json` inchangé.
+- Micro **0,701** (P 0,754 / R 0,655), macro (9) 0,681, contre 0,751 / 0,761 pour `b3_regles_dev.jsonl`.
+- Par étiquette : ORG 0,816, PERSONNE 0,939, SITE 0,768, DONNEE_SENSIBLE 0,770, **PRODUIT 0,192** (contre 0,911), EQUIPEMENT 0,475, PROCESSUS 0,585, INDICATEUR 0,889, CONTRAINTE 0,694 ; seul PRODUIT diffère.
+- Langue (micro) ar 0,583, en 0,806, fr 0,707 ; source syn 0,717, lib 0,574 ; PRODUIT ar / en / fr 0,000 / 0,250 / 0,250, syn / lib 0,048 / 0,800 ; passages mixtes (n = 4, 13 gold) : tp 7, fp 6, fn 6, pas de conclusion.
+- Pour la comparaison avec XLM-R (Lot C), ce fichier est le plus équitable : aucun élément des règles ne vient du dev. `caseforge/models/` n'est pas modifié ; à Ghayth de choisir le fichier lu par `comparer_ner.py`.
+
 ## 2026-10-27 · Ali · B7 · Règles PRODUIT (train 5 plis, puis dev ; le dev a servi à la mise au point)
 - Code : `caseforge/extraction/rules/produit.py`, lexiques `data/lexicons/produit_declencheurs.txt` (types `libelle`, `nominalisation`, `verbe_b7`, `verbe_leger`) et `produit_contexte.txt`. Règle de décision : `caseforge/eval/decision.py`.
 - Scripts : `scripts/b7_produit_cv.py` (train), `scripts/b7_eval_dev.py` (dev), `scripts/b7_sensibilite_dev.py`. Sorties : `results/lotb/b7_produit_cv.json`, `b7_produit_dev.json`, `b7_sensibilite_dev.json`, `b7_produit.md`. Rapport : `reports/lotb_b7_produit.md`.

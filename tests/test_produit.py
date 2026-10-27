@@ -151,9 +151,10 @@ def test_decision_rejetee_sans_gain() -> None:
 
 
 # ---------- Fichier lu par le Lot C ----------
-def test_format_b3_regles_dev() -> None:
-    """``b3_regles_dev.jsonl`` garde le format de ``scripts/run_b3_regles.py`` (lu par ``comparer_ner.py``)."""
-    chemin = RESULTS / "b3_regles_dev.jsonl"
+@pytest.mark.parametrize("nom", ["b3_regles_dev.jsonl", "b3_regles_dev_sans_mots_dev.jsonl"])
+def test_format_b3_regles_dev(nom: str) -> None:
+    """Les prédictions B3 du dev gardent le format de ``scripts/run_b3_regles.py`` (lu par ``comparer_ner.py``)."""
+    chemin = RESULTS / nom
     if not chemin.exists():
         pytest.skip("prédictions B3 absentes")
     lignes = [json.loads(x) for x in chemin.read_text(encoding="utf-8").splitlines()]
