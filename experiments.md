@@ -17,6 +17,18 @@ Travail en binômes, un lot après l'autre ; le lot E (audit, intégration) est 
 Test gelé de référence : tag `test-gele-v3` (générateur v3, après relecture et double annotation complétées le 24/10). Les tags `test-gele-v1` et `test-gele-v2` désignent l'ancien contenu de test (générateur v2) et ne doivent plus servir à évaluer.
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
+## 2026-10-27 · Boutheina · LOT D : mesure avec B6c (entités v2 et anonymisation union_seuil)
+- Mêmes commandes, entrées mises à jour : `reports/predictions/lotb_dev_v2.jsonl` et `results/lotb/b6c_anonymisation_dev_union_seuil.jsonl` (dev, 21 fiches).
+- Entités B6c seules (`reports/lot_d_entites_b6c.md`) : F1 éléments 0,75 ; contraintes 0,78 → 0,80 ; fr 0,83, ar 0,60, en 0,81 ; syn 0,76, lib 0,70.
+- Bout en bout B6c (`reports/lot_d_bout_en_bout_b6c.md`) : **2 fuites dans 2 fiches** (contre 4 avec B3 + union_seuil et 5 avec B3 + rules). Les règles de rappel de B6c (sigles, ORG CamelCase, prénoms arabes) suppriment la moitié des fuites qui atteignaient la fiche ; la qualité de la fiche est inchangée.
+- Le type de passage reste celui de référence : à remplacer par les prédictions du Lot C quand elles seront publiées.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
+## 2026-10-27 · Boutheina · LOT D : branchement sur le LOT B (bout en bout)
+- `generation/gabarit.py` : options `--entites` (entités prédites) et `--anonymisation` (remplacements de l'anonymiseur) ; le texte anonymisé est reconstruit à partir des remplacements. Le gabarit lui-même est inchangé.
+- Dev, 21 fiches, fichiers officiels de `results/lotb/` : F1 éléments 0,83 (entités de référence) → **0,75** avec les entités B3 (`reports/lot_d_entites_b3.md`). Les erreurs d'extraction se propagent : contraintes 1,00 → 0,78, arabe 0,81 → 0,60, français 0,84 → 0,83.
+- Bout en bout (B3 + anonymisation B6) : **5 fuites** dans 4 fiches avec `rules` (`reports/lot_d_bout_en_bout_rules.md`), **4 fuites** dans 4 fiches avec `union_seuil` (`reports/lot_d_bout_en_bout_union_seuil.md`). Les noms non détectés (1 sigle d'entreprise, 2 personnes en arabe, 1 entreprise en anglais) passent par le contexte, qui reprend le texte anonymisé. Point de départ de l'audit B7.
+- La section « Fuites » des rapports cite des noms du dev : ne pas la lire pour concevoir des règles (protocole « dev jamais lu » du Lot B).
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
 
 ## 2026-10-27 · Ali · B7b · Prédictions B3 du dev sans les mots tirés du dev (comparaison équitable avec XLM-R)
 - `scripts/b7_sensibilite_dev.py` (variante B7 sans les libellés « gamme », « range », « سلعة », les copules « reste » / « remain », « (est) la suivante : » et la valeur directe après un libellé arabe suffixé) écrit en plus `results/lotb/b3_regles_dev_sans_mots_dev.jsonl`, au format de `b3_regles_dev.jsonl` (162 lignes, vérifié par `test_format_b3_regles_dev`). Dev, mode token, cfdata, `absents_vides=True` ; relancé à l'identique, `b7_sensibilite_dev.json` inchangé.
@@ -264,6 +276,13 @@ Une entrée par expérience ou décision qui change les données ou les résulta
   - Le noyau nombre + devise était déjà masqué à 100 % : les montants qui fuient le font par la description incluse dans le span gold.
 - **Annexe (diagnostic, issue #7)**, fuite hors article ou mot générique, dev : SITE `rules` 19,3 → 3,5 %, `union_seuil` 8,8 → 1,8 % ; global `rules` 12,2 → 8,0 %, `union_seuil` 7,5 → 5,6 %. La métrique officielle reste inchangée.
 - **Décision** : `union_seuil` remplace `union` pour la démo Bronze (même fuite, moins de sur-masquage, meilleure F1, cohérence et accord), avec relecture humaine. `rules` reste l'alternative quand la lisibilité prime.
+
+## 2026-10-26 · Boutheina · LOT D (Bronze) : fiche par gabarit et recherche TF-IDF
+- `generation/gabarit.py` : fiche générée à partir du document anonymisé (ptype et entités de référence en attendant les lots B et C). Contexte = passage `contexte` ; objectifs = phrases à trous avec l'INDICATEUR du problème et le PROCESSUS ; données = équipements et indicateurs des passages `donnee` ; contraintes = entités CONTRAINTE ; consignes, livrables et critères = textes fixes par langue. Tout élément contenant un nom sensible est retiré.
+- `generation/evaluer.py` → `reports/lot_d.md` (dev, 21 fiches) : F1 éléments 0,83 (syn 0,85 ; lib 0,71), citations P 0,90 / R 0,85, complétude 98 %, **0 fuite**. Point faible : rubrique données (rappel 0,58), éléments non annotés comme « Extractions de l'ERP ».
+- Défaut trouvé dans la référence : « Historique sur six mois » (syn_fr_022) alors que « six mois » n'apparaît pas dans la source → invention dans la fiche de référence (critère 4 de la grille).
+- `generation/recherche.py` → `reports/lot_d_recherche.md` : TF-IDF sur les termes métier, précision@5 0,20 contre 0,15 au hasard, MRR 0,37. Vocabulaire différent entre familles et changement de langue : piste d'une recherche dense multilingue au Silver.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
 
 ## 2026-10-26 · Ghayth · Lot C : analyse d'erreurs, bootstrap apparié, carte de modèle
 - 41 erreurs catégorisées (22 type de passage + 19 secteur) → `reports/erreurs_lotC.md` ; hypothèses vérifiées par les poids TF-IDF (`reports/lotC_explications.md`).
