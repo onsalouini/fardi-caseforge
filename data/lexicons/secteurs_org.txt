@@ -1,0 +1,78 @@
+# Indices d'un nom d'entreprise sans forme juridique (règle « ORG CamelCase / secteur », B6c,
+# caseforge.extraction.rules.rappel). Format : terme<TAB>type.
+# « suffixe » : mot de secteur écrit après le nom (« Delta Plast », « Sud Pharma ») ;
+# « morpheme » : élément de secteur collé dans un nom en CamelCase (« TuniPlast », « MediTex ») ;
+# « pays » : pays ou région accolé au nom d'une filiale (« X Tunisia »), inclus dans le span de l'ORG.
+# Les villes viennent de sites_tunisie.txt : elles déclenchent la règle mais restent hors du span (SITE à part).
+# Source : usage des raisons sociales en Tunisie et à l'international (abréviations sectorielles des registres de
+# commerce : -Tex textile, -Plast plasturgie, -Pharma, -Agro, -Méca, -Electro, -Compo composants), noms de pays
+# en français, anglais et arabe (norme ISO 3166, noms usuels). Aucun nom d'entreprise du corpus.
+Compo	suffixe
+Tex	suffixe
+Textile	suffixe
+Plast	suffixe
+Pharma	suffixe
+Industries	suffixe
+Industry	suffixe
+Group	suffixe
+Groupe	suffixe
+Agro	suffixe
+Food	suffixe
+Foods	suffixe
+Chem	suffixe
+Chimie	suffixe
+Méca	suffixe
+Meca	suffixe
+Electro	suffixe
+Metal	suffixe
+Métal	suffixe
+Pack	suffixe
+Packaging	suffixe
+Cables	suffixe
+Câbles	suffixe
+Steel	suffixe
+Tech	suffixe
+Technologies	suffixe
+Components	suffixe
+Composants	suffixe
+Automotive	suffixe
+Compo	morpheme
+Tex	morpheme
+Plast	morpheme
+Pharma	morpheme
+Agro	morpheme
+Chem	morpheme
+Meca	morpheme
+Méca	morpheme
+Electro	morpheme
+Metal	morpheme
+Pack	morpheme
+Food	morpheme
+Cable	morpheme
+Steel	morpheme
+Indus	morpheme
+Aero	morpheme
+Auto	morpheme
+Tunisia	pays
+Tunisie	pays
+Maghreb	pays
+Africa	pays
+Afrique	pays
+Méditerranée	pays
+Mediterranean	pays
+Med	pays
+Europe	pays
+France	pays
+Italia	pays
+Italy	pays
+Italie	pays
+Germany	pays
+Allemagne	pays
+Maroc	pays
+Morocco	pays
+Algérie	pays
+Algeria	pays
+Libya	pays
+Libye	pays
+International	pays
+تونس	pays

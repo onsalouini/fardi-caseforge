@@ -428,6 +428,9 @@ def matcher_candidates(text: str, doc: Doc | None = None, memoire: Memoire | Non
     verbes = _verbes(doc)
     out = personnes(text, ms, verbes) + orgs(text, ms, verbes) + sites(text, ms, verbes)
     out += sigles_definis(text, out)
+    from caseforge.extraction.rules.rappel import rappel_candidates  # B6c ; import circulaire évité
+
+    out += rappel_candidates(text, ms, verbes)
     if memoire is not None:
         out += reutilisations(text, memoire)
     return out

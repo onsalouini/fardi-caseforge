@@ -1,0 +1,119 @@
+# Prénoms arabes courants en Tunisie et dans le monde arabe, avec leurs translittérations latines usuelles
+# (graphies françaises et anglaises de l'état civil tunisien). Sert à la règle « prénom arabe sans civilité »
+# (caseforge.extraction.rules.rappel, B6c) : un prénom suivi d'un ou deux mots est une PERSONNE.
+# Format : prénom en arabe<TAB>type<TAB>translittérations séparées par « | ».
+# « courant » : prénom qui n'est presque jamais un nom commun ; « ambigu » : prénom qui est aussi un nom ou un
+# adjectif courant (أمل « espoir », كريم « généreux », جمال « beauté »…) : il n'est retenu qu'avec un indice en
+# plus (position de signature, apposition de fonction, nom de famille en « ال »).
+# Source : listes publiques de prénoms arabes et maghrébins — Wikipédia, « Liste de prénoms arabes »
+# (https://fr.wikipedia.org/wiki/Liste_de_pr%C3%A9noms_arabes) et Wiktionary, catégories « Arabic male given
+# names » et « Arabic female given names » —, complétées par les graphies tunisiennes usuelles ; liste établie
+# de mémoire à partir de ces sources (non recopiée), non exhaustive. Uniquement des prénoms, jamais de nom de
+# famille ni de nom vu dans les données du projet.
+أحمد	courant	Ahmed|Ahmad
+محمد	courant	Mohamed|Mohammed|Muhammad|Mohammad|Med
+محمود	courant	Mahmoud|Mahmud
+مصطفى	courant	Mustapha|Moustapha|Mostafa|Mustafa
+علي	courant	Ali
+عمر	courant	Omar|Umar
+عثمان	courant	Othman|Osman|Outhman
+يوسف	courant	Youssef|Yousef|Youssouf|Yusuf
+إبراهيم	courant	Ibrahim|Brahim
+إسماعيل	courant	Ismail|Ismaïl
+إلياس	courant	Elyes|Ilyes|Ilyas|Elias
+أيمن	courant	Aymen|Ayman
+أنيس	courant	Anis
+أسامة	courant	Oussama|Ousama|Usama
+بلال	courant	Bilel|Bilal
+بشير	courant	Bechir|Béchir|Bashir
+حاتم	courant	Hatem
+حمدي	courant	Hamdi
+حمزة	courant	Hamza
+حسام	courant	Houssem|Hossam
+حسين	courant	Hussein|Houcine|Hussain
+خالد	courant	Khaled|Khalid
+خليل	courant	Khalil
+رمزي	courant	Ramzi|Ramzy
+رياض	courant	Riadh|Riad|Riyad
+زياد	courant	Ziad|Ziyad
+سامي	courant	Sami|Samy
+سفيان	courant	Sofiane|Sofien|Soufiane|Sufyan
+سمير	courant	Samir
+شكري	courant	Chokri|Choukri|Shukri
+صابر	courant	Saber|Sabeur
+طارق	courant	Tarek|Tarak|Tariq
+عبد الله	courant	Abdallah|Abdullah|Abdellah
+عبد الرحمن	courant	Abderrahmen|Abderrahman|Abdulrahman
+عبد العزيز	courant	Abdelaziz|Abdulaziz
+عماد	courant	Imed|Imad|Emad
+عصام	courant	Issam|Essam
+فتحي	courant	Fethi|Fathi
+فيصل	courant	Faycel|Fayçal|Faisal
+قيس	courant	Kais|Kaïs|Qais
+لطفي	courant	Lotfi|Lutfi
+ماهر	courant	Maher
+مراد	courant	Mourad|Murad
+منذر	courant	Mondher|Mundhir
+منصف	courant	Moncef|Monsef
+مهدي	courant	Mehdi|Mahdi
+نبيل	courant	Nabil
+نزار	courant	Nizar
+نور الدين	courant	Noureddine|Nour Eddine|Nuruddin
+هشام	courant	Hichem|Hisham|Hicham
+وليد	courant	Walid
+وسيم	courant	Wassim|Wasim
+ياسين	courant	Yassine|Yassin|Yasin
+يحيى	courant	Yahya|Yahia
+رضا	ambigu	Ridha|Reda|Rida
+سليم	ambigu	Slim|Salim|Selim
+كريم	ambigu	Karim|Kareem
+جمال	ambigu	Jamel|Jamal|Djamel
+كمال	ambigu	Kamel|Kamal
+عادل	ambigu	Adel|Adil
+حسن	ambigu	Hassen|Hassan|Hasan
+حبيب	ambigu	Habib
+أمين	ambigu	Amine|Amin
+منير	ambigu	Mounir|Munir
+نجيب	ambigu	Najib|Nejib
+توفيق	ambigu	Taoufik|Tawfik|Toufik
+صلاح	ambigu	Salah
+فؤاد	ambigu	Fouad|Fuad
+راشد	ambigu	Rached|Rashid|Rachid
+الهادي	ambigu	Hedi|Hadi|El Hedi
+عائشة	courant	Aicha|Aïcha|Aisha
+فاطمة	courant	Fatma|Fatima
+خديجة	courant	Khadija|Khadidja
+مريم	courant	Meriem|Mariem|Maryam|Myriam
+ليلى	courant	Leila|Leïla|Layla|Laila
+سلمى	courant	Salma|Selma
+سارة	courant	Sarra|Sara|Sarah
+نادية	courant	Nadia
+سنية	courant	Sonia|Sonya
+سهام	courant	Sihem|Siham
+سوسن	courant	Sawsen|Saoussen|Sawsan
+رانية	courant	Rania
+رحمة	ambigu	Rahma
+أسماء	courant	Asma|Esma
+أميرة	courant	Amira
+آمنة	courant	Amna|Amina|Emna
+إيمان	ambigu	Imen|Iman|Imane
+إيناس	courant	Ines|Inès|Inas
+إنصاف	ambigu	Insaf|Inssaf
+ألفة	courant	Olfa|Olfat
+درة	ambigu	Dorra|Durra
+زينب	courant	Zeineb|Zaynab|Zineb
+حنان	ambigu	Hanen|Hanane|Hanan
+هالة	ambigu	Hela|Hala
+هاجر	courant	Hajer|Hajar
+هدى	ambigu	Houda|Huda|Hoda
+وفاء	ambigu	Wafa|Wafaa
+فاتن	courant	Faten
+منال	courant	Manel|Manal
+منى	ambigu	Mouna|Mona|Muna
+نجلاء	courant	Najla|Nejla
+نوال	ambigu	Naoual|Nawal
+أمل	ambigu	Amal|Amel
+سماح	ambigu	Samah
+بسمة	ambigu	Basma|Bassma
+شيماء	courant	Chaima|Chaïma|Shaima
+يسرى	courant	Yosra|Yusra|Yousra

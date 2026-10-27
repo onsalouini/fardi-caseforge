@@ -85,15 +85,28 @@ def _sensibles(ents: Iterable[dict], systeme: str, labels: frozenset[str] = SENS
 
 # ---------- Systèmes ----------
 @cache
-def _b3_passages(passages: tuple[tuple[str, str], ...]) -> list[list[dict]]:
-    """B3 sur les passages d'un document, mis en cache (``rules``, ``b3`` et ``union`` relisent les mêmes)."""
-    from caseforge.extraction.rules import extract_document  # import paresseux (spaCy, stanza)
+def _b3_passages(passages: tuple[tuple[str, str], ...], desactivees: frozenset[str] | None = None) -> list[list[dict]]:
+    """B3 sur les passages d'un document, mis en cache (``rules``, ``b3`` et ``union`` relisent les mêmes).
 
-    return extract_document(list(passages))
+    ``desactivees`` remplace ``regles_desactivees`` de ``configs/rules.yaml`` (``None`` : celles du fichier).
+    """
+    from caseforge.extraction.rules import charger_config, extract_document  # import paresseux (spaCy, stanza)
+
+    cfg = charger_config()
+    if desactivees is not None:
+        cfg["regles_desactivees"] = set(desactivees)
+    return extract_document(list(passages), cfg)
 
 
-def _b3(doc: dict) -> list[list[dict]]:
-    return _b3_passages(tuple((p["text"], lang_passage(doc, p)) for p in doc["passages"]))
+def regles_b3(rappel: Iterable[str] = (), sans: Iterable[str] = ()) -> frozenset[str]:
+    """``regles_desactivees`` de B3 avec les règles de rappel ``rappel`` actives et les règles ``sans`` coupées."""
+    from caseforge.extraction.rules import charger_config
+
+    return frozenset((charger_config()["regles_desactivees"] - set(rappel)) | set(sans))
+
+
+def _b3(doc: dict, desactivees: frozenset[str] | None = None) -> list[list[dict]]:
+    return _b3_passages(tuple((p["text"], lang_passage(doc, p)) for p in doc["passages"]), desactivees)
 
 
 def _b1(doc: dict) -> list[list[dict]]:
@@ -230,11 +243,20 @@ def etendre_montants(texte: str, entites: Sequence[dict]) -> list[dict]:
 
 # ---------- Point d'entrée ----------
 def detect_document(
-    doc: dict, backend: str, *, seuils: Seuils | None = None, agregation: str | None = None
+    doc: dict,
+    backend: str,
+    *,
+    seuils: Seuils | None = None,
+    agregation: str | None = None,
+    rappel: Iterable[str] | None = None,
+    sans: Iterable[str] = (),
 ) -> list[list[dict]]:
     """Entités sensibles de chaque passage du document : ``[{start, end, label, systemes}]`` triées et disjointes.
 
     ``seuils`` et ``agregation`` (``union_seuil`` seulement) remplacent ceux de ``configs/anonymization.yaml``.
+    ``rappel`` : règles de rappel B6c ajoutées à B3 pour ``rules``, ``union`` et ``union_seuil`` (par défaut
+    ``regles_rappel`` de ``configs/anonymization.yaml`` ; le backend ``b3`` n'en a jamais) ; ``sans`` : autres
+    ``rule_id`` de B3 à couper (mesure « avant », par exemple ``dependencies.contrainte_ar``).
     """
     if backend not in BACKENDS:
         raise ValueError(f"backend inconnu {backend!r} : {', '.join(BACKENDS)}")
@@ -242,8 +264,12 @@ def detect_document(
     jeux: list[list[list[dict]]] = []  # un jeu = une liste d'entités par passage
     if backend == "gold":
         jeux.append([_sensibles(p["entities"], "gold") for p in passages])
+    if rappel is None:
+        from caseforge.anonymization.policy import charger_politique
+
+        rappel = charger_politique().options["regles_rappel"] or ()
     if backend in ("rules", "b3", "union"):
-        b3 = _b3(doc)
+        b3 = _b3(doc, regles_b3(() if backend == "b3" else rappel, sans))
         jeux.append([_sensibles(e, "b3") for e in b3])
     if backend in ("rules", "union"):
         jeux.append([_sensibles(e, "b1", frozenset({"DONNEE_SENSIBLE"})) for e in _b1(doc)])
@@ -252,5 +278,6 @@ def detect_document(
     if backend == "union_seuil":
         s_def, a_def = parametres_union_seuil()
         crf = predire_crf([p["text"] for p in passages], marginales=True)
-        return combiner_seuil(detect_document(doc, "rules"), crf, seuils or s_def, agregation or a_def)
+        regles = detect_document(doc, "rules", rappel=rappel, sans=sans)
+        return combiner_seuil(regles, crf, seuils or s_def, agregation or a_def)
     return [fusionner(s for jeu in jeux for s in jeu[i]) for i in range(len(passages))]

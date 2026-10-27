@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import pytest
 
-from caseforge.anonymization.anonymizer import anonymize_document, remplacer
+from caseforge.anonymization.anonymizer import anonymize_document, remplacer, squelette_mot, variantes_balayage
 from caseforge.anonymization.coref_simple import Mention, cle, clusteriser, scores_coref
 from caseforge.anonymization.detect import (
     AGREGATIONS,
@@ -337,3 +337,34 @@ def test_parametres_union_seuil_du_yaml() -> None:
     seuils, agregation = parametres_union_seuil()
     assert set(seuils) == set(SENSITIVE_LABELS)
     assert agregation in AGREGATIONS
+
+
+# ---------- B6c : balayage renforcé ----------
+def test_squelette_commun_aux_deux_ecritures() -> None:
+    assert squelette_mot("الورتاني") == squelette_mot("Ouertani")
+    assert squelette_mot("صفاقس") == squelette_mot("Sfax")
+
+
+def test_variantes_balayage() -> None:
+    assert variantes_balayage("NordCompo Tunisia", "ORG") == {"NordCompo"}
+    assert variantes_balayage("la Société Delta", "ORG") == {"Société Delta"}
+    assert variantes_balayage("Salma Ouertani", "PERSONNE") == {"Ouertani"}
+
+
+def test_balayage_renforce_translitteration_et_nom_seul() -> None:
+    doc = document(
+        "syn_fr_904",
+        "fr",
+        passage(
+            "p0",
+            "Contact : سلمى الورتاني pour NordCompo Tunisia.",
+            ("سلمى الورتاني", "PERSONNE"),
+            ("NordCompo Tunisia", "ORG"),
+        ),  # fmt: skip
+        passage("p1", "Mme Salma Ouertani confirme ; NordCompo livre, Ouertani signe."),
+    )
+    simple = anonymize_document(doc, "gold", balayage_renforce=False)
+    renforce = anonymize_document(doc, "gold", balayage_renforce=True)
+    assert "Ouertani" in anonymes(simple)[1] and "NordCompo" in anonymes(simple)[1]
+    assert "Ouertani" not in anonymes(renforce)[1] and "NordCompo" not in anonymes(renforce)[1]
+    assert anonymes(renforce)[1].count("[PERSONNE_1]") == 2
