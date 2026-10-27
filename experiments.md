@@ -18,6 +18,32 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-10-27 · Ali · B6f · Bornes des CONTRAINTE arabes (résultat négatif : aucun effet au train ni au dev)
+- But : corriger les 10 erreurs de bordure des 15 CONTRAINTE arabes du dev relevées au B6c (5 au début, 5 à la fin).
+- **Analyse d'erreurs du TRAIN** (5 plis par document, mode token) : **aucune erreur de bordure**. Les 46 CONTRAINTE ar gold sont exactes : `contrainte_modal` 34, `contrainte_liste` 9, `contrainte_ar` 3 ; aucune fausse.
+- **Règles écrites d'après le guide v2**, sans exemple du train, du dev ni du test (`dependencies.bornes_ar`, `caseforge/extraction/rules/dependencies.py`, listes `intro_ar` et `fin_ar` de `data/lexicons/contrainte_modaux.txt`) :
+  - début (cas 4) : connecteurs d'introduction retirés en tête ;
+  - fin (cas 3) : arrêt avant une subordonnée de cause ou de but ;
+  - recherche sur les mots du texte, car stanza sépare les clitiques.
+- Code et sorties :
+  - diagnostic et règle de décision : `caseforge/eval/bornes.py` ;
+  - scripts : `scripts/b6f_bornes_ar_cv.py` (train) et `scripts/b6f_eval_dev.py` (dev, une seule exécution) ;
+  - résultats : `results/lotb/b6f_cv.json`, `b6f_dev.json`, `b6f.md` ;
+  - 8 tests dans `tests/test_regles.py` ; rapport `reports/lotb_b6f.md`.
+- Règle fixée avant le lancement : gardée si, au train, la F1 token CONTRAINTE ar ne baisse pas et qu'aucune autre étiquette ni langue ne baisse de plus de 0,01.
+- **Train** : toutes les F1 sont inchangées (micro 0,871, CONTRAINTE ar 1,000 dans les 5 plis, 9 étiquettes, 3 langues, 2 sources Δ = 0) → **règle gardée**, mais le critère est rempli trivialement.
+- **Dev, mesure unique, mode token** :
+  - CONTRAINTE ar **0,333 → 0,333** ; CONTRAINTE 0,694 → 0,694 ; micro 0,681 → 0,681 ;
+  - par langue : fr 0,687, ar 0,583, en 0,764 ; par source : syn_ 0,700, lib_ 0,517 ; les 9 étiquettes sont inchangées ;
+  - passages mixtes : 4 passages, fp / fn 7 / 6 inchangés (n < 30).
+- **Résultat négatif** : aucune prédiction ne change, ni au train ni au dev.
+- Le diagnostic du dev (effectifs seulement) précise l'erreur :
+  - 5 débuts trop tôt, 5 fins trop tard, jamais les deux sur le même span ;
+  - les erreurs vont par paires de même règle ;
+  - il y a aussi 5 fausses CONTRAINTE, venues de `contrainte_ar`.
+  - Hypothèse compatible avec ces effectifs, **non vérifiée** : 5 spans qui fusionnent chacun deux conditions consécutives (cas 4).
+  - Piste : couper à une coordination suivie d'un nouveau groupe verbal, à mettre au point sur des phrases construites, puis une seule mesure au dev.
+
 ## 2026-10-27 · Ali · B6e · Seuils de union_seuil rechoisis par plis de gabarit (résultat négatif, seuils non retenus)
 - But : ramener le sur-masquage de `union_seuil` au dev de 21,9 % (B6d) à 10 % au plus. Hypothèse : les plis par document du B6b laissaient le même gabarit des deux côtés.
 - Ce qui a été fait :

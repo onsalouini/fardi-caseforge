@@ -64,7 +64,8 @@ def _bruts(text: str, lang: str, cfg: dict[str, Any]) -> list[Candidat]:
     if couches["matchers"]:
         out += matcher_candidates(text, doc)
     if couches["dependencies"] and doc is not None:
-        out += dependency_candidates(doc, "dependencies.contrainte_ar" not in cfg["regles_desactivees"])
+        des = cfg["regles_desactivees"]
+        out += dependency_candidates(doc, "dependencies.contrainte_ar" not in des, "dependencies.bornes_ar" not in des)
     return [c for c in out if c.rule_id not in cfg["regles_desactivees"]]
 
 

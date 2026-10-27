@@ -121,3 +121,50 @@ Rules	entete
 على أقصى تقدير	ancre_ar
 كحد أقصى	ancre_ar
 كحد أدنى	ancre_ar
+# B6f : bornes des CONTRAINTE arabes (dependencies.bornes_ar), écrites d'après le guide v2, sans exemple du dev.
+# « intro_ar » : connecteur ou formule d'introduction en tête de proposition, jamais inclus (cas 4 : « L'introduction
+# n'est jamais incluse » ; équivalents arabes de « De plus », « In addition », « Note », « Par contre »).
+# « fin_ar » : connecteur qui ouvre une subordonnée de cause ou de but après l'ancre ; la CONTRAINTE s'arrête avant
+# (cas 3 : « toute la proposition, du sujet ou du verbe jusqu'à la valeur incluse » ; la justification est une autre
+# proposition, pas une condition à respecter). « حتى » et « وذلك » sont exclus : ils introduisent aussi une limite
+# (« حتى نهاية الموسم », « وذلك في أجل … »). Source : connecteurs logiques de l'arabe standard (cause : لأن، بسبب،
+# نظرا ل ; but : لكي، من أجل، بهدف، قصد ; addition : كذلك، أيضا، بالإضافة إلى ذلك).
+كذلك	intro_ar
+أيضا	intro_ar
+إضافة إلى ذلك	intro_ar
+بالإضافة إلى ذلك	intro_ar
+علاوة على ذلك	intro_ar
+فضلا عن ذلك	intro_ar
+زيادة على ذلك	intro_ar
+من جهة أخرى	intro_ar
+من ناحية أخرى	intro_ar
+في المقابل	intro_ar
+ثم	intro_ar
+مع العلم أن	intro_ar
+علما أن	intro_ar
+علما بأن	intro_ar
+تجدر الإشارة إلى أن	intro_ar
+نذكر أن	intro_ar
+نذكر بأن	intro_ar
+نشير إلى أن	intro_ar
+ملاحظة	intro_ar
+تنبيه	intro_ar
+لأن	fin_ar
+ذلك لأن	fin_ar
+بسبب	fin_ar
+نظرا	fin_ar
+بما أن	fin_ar
+حيث أن	fin_ar
+حيث إن	fin_ar
+لكي	fin_ar
+كي	fin_ar
+من أجل	fin_ar
+بهدف	fin_ar
+قصد	fin_ar
+بغية	fin_ar
+لتفادي	fin_ar
+لتجنب	fin_ar
+تفاديا	fin_ar
+تجنبا	fin_ar
+لضمان	fin_ar
+حرصا على	fin_ar

@@ -1,0 +1,289 @@
+{
+  "split": "train (documents_train.jsonl, train.jsonl), 5 plis par document",
+  "plis": {
+    "syn_fr_020": 0,
+    "syn_fr_001": 1,
+    "syn_ar_028": 2,
+    "syn_ar_020": 3,
+    "lib_en_08": 4,
+    "syn_en_027": 0,
+    "syn_fr_015": 1,
+    "syn_en_002": 2,
+    "syn_ar_009": 3,
+    "syn_fr_002": 4,
+    "lib_fr_03": 0,
+    "syn_en_007": 1,
+    "syn_en_001": 2,
+    "syn_ar_014": 3,
+    "syn_ar_012": 4,
+    "syn_fr_010": 0,
+    "syn_ar_018": 1,
+    "syn_en_026": 2,
+    "syn_en_025": 3,
+    "syn_fr_018": 4,
+    "syn_ar_013": 0,
+    "syn_ar_016": 1,
+    "lib_fr_08": 2,
+    "syn_en_018": 3,
+    "syn_en_022": 4,
+    "syn_fr_006": 0,
+    "syn_fr_023": 1,
+    "syn_en_020": 2,
+    "syn_ar_019": 3,
+    "syn_fr_016": 4,
+    "lib_en_02": 0,
+    "syn_en_012": 1,
+    "syn_ar_015": 2,
+    "syn_fr_009": 3,
+    "lib_fr_07": 4,
+    "lib_ar_01": 0,
+    "syn_ar_011": 1,
+    "syn_ar_025": 2,
+    "syn_fr_014": 3,
+    "syn_ar_023": 4,
+    "syn_fr_012": 0,
+    "syn_en_021": 1,
+    "syn_ar_002": 2,
+    "syn_fr_021": 3,
+    "syn_fr_004": 4,
+    "syn_en_017": 0,
+    "syn_en_003": 1,
+    "syn_fr_019": 2,
+    "syn_ar_003": 3,
+    "syn_fr_011": 4,
+    "lib_ar_04": 0,
+    "lib_ar_07": 1,
+    "syn_ar_024": 2,
+    "syn_en_016": 3,
+    "lib_en_03": 4,
+    "syn_en_010": 0,
+    "syn_fr_017": 1,
+    "syn_en_024": 2,
+    "lib_en_06": 3,
+    "syn_en_029": 4,
+    "lib_fr_01": 0,
+    "syn_fr_025": 1,
+    "syn_ar_005": 2,
+    "syn_en_011": 3,
+    "lib_ar_08": 4,
+    "syn_ar_004": 0
+  },
+  "ner": {
+    "avant": {
+      "micro": 0.8713984539704849,
+      "par_etiquette": {
+        "ORG": 0.9866666666666667,
+        "PERSONNE": 0.9870967741935484,
+        "SITE": 0.8137535816618912,
+        "DONNEE_SENSIBLE": 0.9183673469387755,
+        "PRODUIT": 0.8861788617886179,
+        "EQUIPEMENT": 0.7058823529411765,
+        "PROCESSUS": 0.6857142857142857,
+        "INDICATEUR": 0.8888888888888888,
+        "CONTRAINTE": 0.9776119402985075
+      },
+      "par_langue": {
+        "ar": 0.867027027027027,
+        "en": 0.8845760980592441,
+        "fr": 0.861995753715499
+      },
+      "par_source": {
+        "lib": 0.6067961165048543,
+        "syn": 0.9161873459326212
+      },
+      "etiquette_langue": {
+        "fr": {
+          "ORG": 0.9770992366412213,
+          "PERSONNE": 0.9803921568627451,
+          "SITE": 0.7758620689655172,
+          "DONNEE_SENSIBLE": 0.9133858267716536,
+          "PRODUIT": 0.85,
+          "EQUIPEMENT": 0.6190476190476191,
+          "PROCESSUS": 0.7956989247311828,
+          "INDICATEUR": 0.9397590361445783,
+          "CONTRAINTE": 0.9523809523809523
+        },
+        "ar": {
+          "ORG": 0.9811320754716981,
+          "PERSONNE": 0.9803921568627451,
+          "SITE": 0.8717948717948718,
+          "DONNEE_SENSIBLE": 0.916030534351145,
+          "PRODUIT": 0.85,
+          "EQUIPEMENT": 0.734375,
+          "PROCESSUS": 0.5517241379310345,
+          "INDICATEUR": 0.9024390243902439,
+          "CONTRAINTE": 1.0
+        },
+        "en": {
+          "ORG": 1.0,
+          "PERSONNE": 1.0,
+          "SITE": 0.7931034482758621,
+          "DONNEE_SENSIBLE": 0.9253731343283582,
+          "PRODUIT": 0.9534883720930233,
+          "EQUIPEMENT": 0.7666666666666667,
+          "PROCESSUS": 0.7,
+          "INDICATEUR": 0.8275862068965517,
+          "CONTRAINTE": 0.9782608695652174
+        }
+      },
+      "plis": {
+        "0": 0.81195079086116,
+        "1": 0.893542757417103,
+        "2": 0.8781302170283807,
+        "3": 0.9303135888501742,
+        "4": 0.839924670433145
+      },
+      "contrainte_ar_plis": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0
+      },
+      "mixtes": {
+        "n_passages": 54,
+        "support_gold": 183,
+        "support_pred": 163,
+        "tp": 143,
+        "fp": 20,
+        "fn": 40
+      }
+    },
+    "apres": {
+      "micro": 0.8713984539704849,
+      "par_etiquette": {
+        "ORG": 0.9866666666666667,
+        "PERSONNE": 0.9870967741935484,
+        "SITE": 0.8137535816618912,
+        "DONNEE_SENSIBLE": 0.9183673469387755,
+        "PRODUIT": 0.8861788617886179,
+        "EQUIPEMENT": 0.7058823529411765,
+        "PROCESSUS": 0.6857142857142857,
+        "INDICATEUR": 0.8888888888888888,
+        "CONTRAINTE": 0.9776119402985075
+      },
+      "par_langue": {
+        "ar": 0.867027027027027,
+        "en": 0.8845760980592441,
+        "fr": 0.861995753715499
+      },
+      "par_source": {
+        "lib": 0.6067961165048543,
+        "syn": 0.9161873459326212
+      },
+      "etiquette_langue": {
+        "fr": {
+          "ORG": 0.9770992366412213,
+          "PERSONNE": 0.9803921568627451,
+          "SITE": 0.7758620689655172,
+          "DONNEE_SENSIBLE": 0.9133858267716536,
+          "PRODUIT": 0.85,
+          "EQUIPEMENT": 0.6190476190476191,
+          "PROCESSUS": 0.7956989247311828,
+          "INDICATEUR": 0.9397590361445783,
+          "CONTRAINTE": 0.9523809523809523
+        },
+        "ar": {
+          "ORG": 0.9811320754716981,
+          "PERSONNE": 0.9803921568627451,
+          "SITE": 0.8717948717948718,
+          "DONNEE_SENSIBLE": 0.916030534351145,
+          "PRODUIT": 0.85,
+          "EQUIPEMENT": 0.734375,
+          "PROCESSUS": 0.5517241379310345,
+          "INDICATEUR": 0.9024390243902439,
+          "CONTRAINTE": 1.0
+        },
+        "en": {
+          "ORG": 1.0,
+          "PERSONNE": 1.0,
+          "SITE": 0.7931034482758621,
+          "DONNEE_SENSIBLE": 0.9253731343283582,
+          "PRODUIT": 0.9534883720930233,
+          "EQUIPEMENT": 0.7666666666666667,
+          "PROCESSUS": 0.7,
+          "INDICATEUR": 0.8275862068965517,
+          "CONTRAINTE": 0.9782608695652174
+        }
+      },
+      "plis": {
+        "0": 0.81195079086116,
+        "1": 0.893542757417103,
+        "2": 0.8781302170283807,
+        "3": 0.9303135888501742,
+        "4": 0.839924670433145
+      },
+      "contrainte_ar_plis": {
+        "0": 1.0,
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0
+      },
+      "mixtes": {
+        "n_passages": 54,
+        "support_gold": 183,
+        "support_pred": 163,
+        "tp": 143,
+        "fp": 20,
+        "fn": 40
+      }
+    }
+  },
+  "bornes_contrainte_ar": {
+    "avant": {
+      "total": {
+        "gold": 46,
+        "exacte": 46
+      },
+      "par_regle": {
+        "dependencies.contrainte_ar": {
+          "exacte": 3
+        },
+        "dependencies.contrainte_liste": {
+          "exacte": 9
+        },
+        "dependencies.contrainte_modal": {
+          "exacte": 34
+        }
+      }
+    },
+    "apres": {
+      "total": {
+        "gold": 46,
+        "exacte": 46
+      },
+      "par_regle": {
+        "dependencies.contrainte_ar": {
+          "exacte": 3
+        },
+        "dependencies.contrainte_liste": {
+          "exacte": 9
+        },
+        "dependencies.contrainte_modal": {
+          "exacte": 34
+        }
+      }
+    }
+  },
+  "decision": {
+    "delta_cible": 0.0,
+    "delta_etiquettes": {
+      "ORG": 0.0,
+      "PERSONNE": 0.0,
+      "SITE": 0.0,
+      "DONNEE_SENSIBLE": 0.0,
+      "PRODUIT": 0.0,
+      "EQUIPEMENT": 0.0,
+      "PROCESSUS": 0.0,
+      "INDICATEUR": 0.0
+    },
+    "delta_langues": {
+      "ar": 0.0,
+      "en": 0.0,
+      "fr": 0.0
+    },
+    "baisses_hors_tolerance": {},
+    "gardee": true
+  }
+}

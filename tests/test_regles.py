@@ -9,6 +9,7 @@ import importlib.util
 
 import pytest
 
+from caseforge.eval.bornes import decision_bornes, diagnostic_bornes
 from caseforge.extraction.rules import charger_config, extract_document, extract_rules
 from caseforge.extraction.rules.lexicons import LEXIQUES, charger
 from caseforge.labels import LABELS
@@ -375,3 +376,73 @@ def test_contrainte_ar_desactivable() -> None:
     cfg["regles_desactivees"].add("dependencies.contrainte_ar")
     text = "على المورد أن يسلم الدفعة الأولى في أجل لا يتعدى ثلاثة أشهر."
     assert not [e for e in extract_rules(text, "ar", cfg) if e["label"] == "CONTRAINTE"]
+
+
+# ---------- B6f : bornes des CONTRAINTE arabes (phrases inventées, guide v2 cas 3 et 4) ----------
+@pytest.mark.parametrize(
+    ("text", "attendu"),
+    [
+        (  # introduction de plusieurs mots retirée (cas 4)
+            "بالإضافة إلى ذلك يجب أن يحترم الحل المواصفة ISO 9001.",
+            ["يجب أن يحترم الحل المواصفة ISO 9001"],
+        ),
+        (  # cause après la valeur : hors de la proposition (cas 3) ; « لأن » coupé en deux tokens par stanza
+            "يجب ألا تتجاوز مدة التوقف 6 ساعات في الأسبوع لأن الطلبيات مرتفعة.",
+            ["يجب ألا تتجاوز مدة التوقف 6 ساعات في الأسبوع"],
+        ),
+        (  # but, avec la conjonction et le démonstratif qui l'annoncent
+            "علما أن الميزانية لا تتجاوز 20000 دينار وذلك بسبب الأزمة.",
+            ["الميزانية لا تتجاوز 20000 دينار"],
+        ),
+        (  # « حتى » introduit une limite : il reste dans la contrainte
+            "الشروط: يجب احترام المواصفة ISO 9001 حتى نهاية الموسم.",
+            ["يجب احترام المواصفة ISO 9001 حتى نهاية الموسم"],
+        ),
+    ],
+)
+def test_bornes_ar(text: str, attendu: list[str]) -> None:
+    assert surfaces(text, "ar", "CONTRAINTE") == attendu
+
+
+def test_bornes_ar_desactivable() -> None:
+    cfg = charger_config()
+    cfg["regles_desactivees"].add("dependencies.bornes_ar")
+    text = "يجب ألا تتجاوز مدة التوقف 6 ساعات في الأسبوع لأن الطلبيات مرتفعة."
+    ents = [text[e["start"] : e["end"]] for e in extract_rules(text, "ar", cfg) if e["label"] == "CONTRAINTE"]
+    assert ents == ["يجب ألا تتجاوز مدة التوقف 6 ساعات في الأسبوع لأن الطلبيات مرتفعة"]
+
+
+def test_bornes_ar_sans_effet_hors_arabe() -> None:
+    text = "The budget must not exceed 8000 TND because of the crisis."
+    cfg = charger_config()
+    cfg["regles_desactivees"].add("dependencies.bornes_ar")
+    assert extract_rules(text, "en", cfg) == extract_rules(text, "en")
+
+
+def _ligne(pid: str, ents: list[tuple[int, int]], lang: str = "ar", rule: str | None = None) -> dict:
+    e = [{"start": a, "end": b, "label": "CONTRAINTE"} | ({"rule_id": rule} if rule else {}) for a, b in ents]
+    return {"passage_id": pid, "doc_id": "syn_x", "doc_lang": lang, "lang": lang, "entities": e}
+
+
+def test_diagnostic_bornes() -> None:
+    gold = [_ligne("p1", [(0, 10), (20, 30), (40, 50), (60, 70)]), _ligne("p2", [(0, 5)], lang="fr")]
+    pred = [_ligne("p1", [(0, 10), (18, 30), (40, 45), (80, 90)], rule="r"), _ligne("p2", [(0, 9)])]
+    t = diagnostic_bornes(gold, pred, "CONTRAINTE", "ar")["total"]
+    assert t == {"gold": 4, "exacte": 1, "debut": 1, "debut_avant": 1, "fin": 1, "fin_avant": 1, "manquee": 1,
+                 "fausse": 1}  # fmt: skip
+    assert diagnostic_bornes(gold, pred, "CONTRAINTE")["total"]["gold"] == 5
+
+
+def test_decision_bornes() -> None:
+    base = {
+        "par_etiquette": dict.fromkeys(LABELS, 0.8),
+        "par_langue": {"fr": 0.8, "ar": 0.7, "en": 0.9},
+        "etiquette_langue": {"ar": {"CONTRAINTE": 1.0}},
+    }
+    assert decision_bornes(base, base)["gardee"]
+    pire_ar = {**base, "etiquette_langue": {"ar": {"CONTRAINTE": 0.99}}}
+    assert not decision_bornes(base, pire_ar)["gardee"]
+    org = {**base, "par_etiquette": {**base["par_etiquette"], "ORG": 0.785}}
+    assert not decision_bornes(base, org)["gardee"]  # −0,015 > 0,01
+    tolere = {**base, "par_langue": {**base["par_langue"], "fr": 0.795}}
+    assert decision_bornes(base, tolere)["gardee"]  # −0,005
