@@ -89,6 +89,7 @@ FUITES_CONNUES = {("lib_fr_06", "ORG"), ("syn_ar_022", "PERSONNE"), ("syn_fr_007
 le test : la liste doit alors être mise à jour avec une entrée de ``experiments.md``."""
 
 
+@pytest.mark.slow  # ≈ 1 min 30 : exclure avec pytest -m "not slow"
 @pytest.mark.skipif(not (FINAL / "documents_dev.jsonl").exists(), reason="documents_dev.jsonl absent")
 def test_noms_gold_du_dev_masques() -> None:
     visibles = set()

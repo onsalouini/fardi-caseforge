@@ -1,6 +1,7 @@
 # Carte de modèle — Lot B (palier Bronze)
 
-Responsable : Ali Ben Jannet · co-équipière : Boutheina Rjab · branche `lot-b`, commit de référence `89b27e0`.
+Responsable : Ali Ben Jannet · co-équipière : Boutheina Rjab · branche `lot-b`. Commit de référence `89b27e0` pour
+B1, B3 et B6 à B6c ; `0298d79` pour B6d, B6e, B6f, B8 et B9 (mise à jour du 27/10/2026).
 Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`). Tous les réglages et résultats ci-dessous sont
 mesurés sur le **dev**. **Le test gelé n'a pas encore été utilisé : ces chiffres sont des estimations sur le dev.** Il
 le sera une seule fois, à la fin du lot, avec `scripts/final_eval.py`.
@@ -15,6 +16,8 @@ d'`experiments.md` d'où il vient. Une valeur absente de `reports/` et d'`experi
 | B1 | CRF de référence (baseline apprise) et pré-annotation du Lot A | `exemples/baseline_crf.py`, `cfdata.prelabel` | `reports/lotb_baseline_regles.md` |
 | B6 | Anonymiseur (backends `rules`, `union`, `union_seuil`) | `caseforge/anonymization/` | `reports/lotb_anonymisation.md`, `reports/lotb_b6c.md` |
 | B6 | Coréférence simple (un pseudonyme par entité) | `caseforge/anonymization/coref_simple.py` | `reports/lotb_anonymisation.md` (section 6) |
+| B8 | Pipeline NLTK et ablation de tokenisation | `caseforge/extraction/nltk_pipeline.py` | `reports/lotb_b8_tokenisation.md` |
+| B9 | Interface publique d'anonymisation (Lots D et E) | `caseforge/anonymization/api.py` | `README.md` (section Lot B) |
 
 Évaluation NER commune aux lots B et C : `caseforge/eval/ner_metrics.py`, **mode token** (entités exactes au niveau
 des mots ; égal à `caseforge/eval/ner_eval.py` à 1e-6 près, `tests/test_mode_token.py`). Anonymisation :
@@ -70,6 +73,10 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 - **Résultats négatifs** :
   - **PRODUIT 0,031 sur le dev**, contre 0,886 sur le train. `produit_champ` se déclenche 107 fois au train et 1 fois au dev ; `produit_tete` a une précision nulle au train comme au dev (`experiments.md`, entrée B3 ; `reports/lotb_regles_spacy.md`, section 7).
   - **CONTRAINTE arabes mal bornées** : F1 token 0,333 → 0,333 avec B6c. Sur 15 contraintes arabes gold, aucune n'est manquée, mais 10 ont une erreur de bordure (5 au début, 5 à la fin). Les ancres ajoutées ne corrigent pas cette famille d'erreurs (`reports/lotb_b6c.md`, section 3).
+  - **B6f, bornes des CONTRAINTE arabes : aucun effet** (`reports/lotb_b6f.md`, `experiments.md`, entrée B6f).
+    - Train : aucune erreur de bordure (46 sur 46 exactes), donc règles écrites d'après le guide v2 (cas 3 et 4) : connecteurs d'introduction retirés, arrêt avant une subordonnée de cause ou de but (`dependencies.bornes_ar`, gardée par la règle fixée d'avance).
+    - Dev, mesure unique : CONTRAINTE ar 0,333 → 0,333, micro 0,681 → 0,681 ; les 9 étiquettes, les 3 langues et les 2 sources sont inchangées ; aucune prédiction ne change.
+    - Diagnostic du dev (effectifs seulement) : 5 débuts trop tôt, 5 fins trop tard, jamais les deux sur le même span, et 5 fausses CONTRAINTE de `contrainte_ar`. L'hypothèse, compatible avec ces effectifs mais **non vérifiée**, est que deux conditions consécutives sont fusionnées en un seul span (cas 4).
   - Écart train / dev : micro 0,871 au train (ensemble de conception) contre 0,681 au dev (`reports/lotb_b6c.md`).
 - **Limites** :
   - règles conçues sur le train : le train et la CV `lib_` surestiment B3 (`reports/lotb_regles_spacy.md`, section 0) ;
@@ -111,7 +118,10 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
   | `rules` | 12,2 % [7,4 ; 18,0] | 7,0 % | 0,847 | `reports/lotb_anonymisation.md`, section 4 |
   | `union` | 7,5 % [3,7 ; 12,3] | 29,7 % | 0,564 | idem |
   | `union_seuil` (B6b) | 7,5 % [3,7 ; 12,3] | 24,8 % | 0,598 | idem |
-  | **`union_seuil` (B6c, référence `89b27e0`)** | **6,6 % [3,2 ; 10,7]** | **24,5 %** | non mesuré | `reports/lotb_b6c.md`, section 3 |
+  | `union_seuil` (B6c, `89b27e0`) | 6,6 % [3,2 ; 10,7] | 24,5 % | 0,606 | `reports/lotb_b6c.md`, section 3 ; `experiments.md`, entrée B6d |
+  | **`union_seuil` (B6d, recommandé : B6c + plafonds de budget)** | **6,6 % [3,2 ; 10,7]** | **21,9 %** | **0,628** | `reports/lotb_anonymisation.md`, section 4 ter |
+  | `union_seuil` (B6d + fusion aux bornes des règles, désactivée) | 9,4 % [6,0 ; 13,5] | 3,0 % | 0,885 | idem |
+  | `union_seuil` (seuils B6e, non retenus) | 8,5 % [4,6 ; 12,9] | 24,6 % | 0,605 | `reports/lotb_anonymisation.md`, section 4 quater |
 
   - Écart apparié `rules` − `union_seuil` (B6b) : +4,7 points, IC 95 % [+2,3 ; +7,4] (`reports/lotb_anonymisation.md`, section 4). Écart apparié après B6c : non mesuré.
   - **`union_seuil` B6c**, fuite par tranche (`reports/lotb_b6c.md`) :
@@ -125,18 +135,29 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
     - fuite par étiquette : ORG 12,5 %, PERSONNE 7,7 %, SITE 19,3 %, DONNEE_SENSIBLE 9,4 % ;
     - fuite par langue : ar 11,6 %, en 10,0 %, fr 14,9 % ; par source : syn_ 7,8 %, lib_ 52,4 % ;
     - sur-masquage : ar 8,8 %, en 8,6 %, fr 3,3 %, syn_ 6,7 %, lib_ 11,3 %.
-  - **Fuites de noms restantes** (ORG + PERSONNE, `union_seuil` B6c) : 4, soit 3 ORG et 1 PERSONNE (`reports/lotb_b6c.md`).
+  - **Fuites de noms restantes** (ORG + PERSONNE, `union_seuil` B6c) : 4, soit 3 ORG et 1 PERSONNE (`reports/lotb_b6c.md`). Elles sont inchangées avec B6d. Avec l'interface B9, ce sont les noms gold visibles de `lib_fr_06`, `syn_fr_007` et `syn_fr_022` (ORG) et de `syn_ar_022` (PERSONNE) (`experiments.md`, entrée B9).
+  - **`union_seuil` B6d (configuration recommandée)**, ventilations du dev (`experiments.md`, entrée B6d) :
+    - la fuite est identique à B6c dans toutes les tranches ;
+    - sur-masquage : ar 20,7 %, en 18,8 %, fr 25,6 %, syn_ 22,9 %, lib_ 9,5 % ;
+    - F1 caractère DONNEE_SENSIBLE 0,060 ;
+    - passages mixtes : 5 occurrences, 0 fuite.
   - Diagnostic issue #7 (hors métrique officielle) : fuite SITE hors article ou mot générique, 3,5 % pour `rules` et 1,8 % pour `union_seuil` B6b (`reports/lotb_anonymisation.md`, annexe).
 - **Résultats négatifs** :
   - **Sur-masquage de 24,5 %**, au-dessus de la contrainte de 10 % fixée pour choisir les seuils. Sur le train en CV, même `union` restait à 4,9 % : la contrainte n'a jamais été active, et les gabarits `syn_`, partagés entre documents, rendent la CV optimiste (`reports/lotb_anonymisation.md`, section 4 bis).
     **Causes** : sur 752 caractères sur-masqués, 616 viennent de spans fusionnés avec le CRF (437 B1 + B3 + CRF, 166 B3 + CRF, 13 CRF seul) et 114 de B1 seul (montants plafonds de contrainte). Les règles B6c n'en sont pas la cause : Δ de 0,0, −0,1 et −0,1 point (`reports/lotb_b6c.md`, section 3).
   - L'extension des montants n'a aucun effet mesurable : rappel des montants inchangé au train comme au dev (`reports/lotb_anonymisation.md`, section 4 bis).
   - La règle des sigles non définis, le balayage renforcé et les ancres arabes ne changent pas la fuite au dev (`reports/lotb_b6c.md`).
+  - **B6d, fusion aux bornes des règles : désactivée** (règle fixée d'avance : plus de 1 point de fuite). Elle coûte +4,6 points de fuite au train (CV) et +2,8 au dev, presque tous des SITE partiels (issue #7 du Lot A). Les plafonds de budget sont gardés : 0,0 point de fuite, sur-masquage du dev 24,5 → 21,9 % (`reports/lotb_anonymisation.md`, section 4 ter).
+  - **B6e, seuils rechoisis avec des plis groupés par gabarit : non retenus** (`reports/lotb_anonymisation.md`, section 4 quater) :
+    - train : `union` sans seuil reste entre 1,2 et 5,3 % de sur-masquage selon le pli, donc la contrainte des 10 % n'est toujours pas active. Seuils B6e (moyenne 0,35 / aucune entité du CRF / 0,70 / 0,35) : fuite 3,5 %, sur-masquage 1,8 % ;
+    - dev, mesure unique : fuite 6,6 → 8,5 %, sur-masquage 21,9 → 24,6 %. SITE 8,8 → 15,8 % ; fr 5,4 → 9,5 % ; lib_ 33,3 → 38,1 % ;
+    - lecture : 437 des 638 caractères sur-masqués viennent de spans des règles élargis par des entités du CRF très sûres d'elles. Aucun seuil n'y touche, et grouper par format ne reproduit pas l'écart entre le train et le dev.
 - **Limites** :
   - source `lib_` : 3 documents au dev, fuite de 33 à 52 % selon le backend, avec des IC larges ;
-  - la F1 caractère de DONNEE_SENSIBLE tombe à 0,053 avec `union_seuil` : les spans fusionnés débordent, sans fuite, mais les bornes ne sont plus exactes (`reports/lotb_anonymisation.md`, section 4 bis).
+  - la F1 caractère de DONNEE_SENSIBLE tombe à 0,053 avec `union_seuil` : les spans fusionnés débordent, sans fuite, mais les bornes ne sont plus exactes (`reports/lotb_anonymisation.md`, section 4 bis) ;
+  - **sur-masquage de 21,9 % au dev avec B6d**, toujours au-dessus des 10 % visés : un cinquième des caractères masqués ne sont pas sensibles.
 - **Risques éthiques** :
-  - **fuites résiduelles** : 6,6 % des occurrences sensibles du dev, dont 4 noms ;
+  - **fuites résiduelles** : 6,6 % des occurrences sensibles du dev, dont 4 noms. Ce chiffre est optimiste (voir « Limites communes ») ;
   - **données sensibles sans chiffre** : 6 occurrences au dev et 14 au train fuient avec tous les backends (« valeur du contrat avec le distributeur », « marge par tonne ») ; une règle de forme ne peut pas les détecter (`reports/lotb_anonymisation.md`, section 8) ;
   - **ré-identification par le contexte** : un secteur, une ville voisine, un effectif ou un produit unique peuvent suffire à reconnaître l'entreprise, même si tous les noms sont masqués. Ce risque n'est pas mesuré ;
   - **validation humaine obligatoire** avant toute diffusion d'un texte anonymisé, surtout pour les documents libres.
@@ -160,6 +181,36 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 - **Limites** : la cohérence dépend de la détection, pas seulement de la coréférence ; aucun pronom n'est traité.
 - **Risques éthiques** : deux entités fusionnées par erreur (pureté < 100 %, 98,6 % avec `union`) brouillent le texte. Une même entité scindée entre deux pseudonymes laisse deviner qu'il y a plusieurs acteurs.
 
+## B8 · Pipeline NLTK et ablation de tokenisation
+
+- **Objectif et usage prévu** : fournir le pipeline NLTK demandé par le cahier des charges, à côté du pipeline spaCy / stanza (B2), et mesurer l'effet du tokeniseur sur l'évaluation en mode token. **cfdata reste la tokenisation de référence** pour classer les modèles (`CLAUDE.md`, section 6).
+- **Hors périmètre** : analyse syntaxique (NLTK ne sert ici qu'à segmenter) ; segmentation des proclitiques arabes.
+- **Méthode** (`caseforge/extraction/nltk_pipeline.py`, `nltk==3.9.1`, données `punkt_tab`) :
+  - fr / en : Punkt pour les phrases, `NLTKWordTokenizer` pour les mots ;
+  - ar : **repli documenté**, car NLTK n'a ni modèle Punkt ni tokeniseur de mots arabe. Punkt non entraîné avec « ؟ », plus `RegexpTokenizer` : ponctuation arabe séparée, proclitiques collés ;
+  - mixte : traitement phrase par phrase ;
+  - le harnais accepte `tokenizer="nltk"`.
+- **Résultats sur le dev, mode token, F1 micro cfdata / stanza / NLTK** (`reports/lotb_b8_tokenisation.md`, `experiments.md`, entrée B8) :
+  - B3 : 0,681 / 0,674 / 0,681. Seules EQUIPEMENT (−5,1 avec stanza), en (−2,1) et syn_ (−0,8) bougent ; avec NLTK, tout est identique ;
+  - CRF B1 : 0,393 / 0,377 / 0,393. Avec stanza : DONNEE_SENSIBLE −7,9, ar −6,1, syn_ −1,8. Avec NLTK : DONNEE_SENSIBLE +2,0, EQUIPEMENT −2,5, ar −0,9, lib_ +2,3 ;
+  - passages mixtes : 4 passages, mêmes erreurs avec les trois tokeniseurs ;
+  - plafond F1 stricte (global / ar) : cfdata 0,947 / 0,841 ; stanza 0,987 / 0,959 ; NLTK 0,960 / 0,883.
+- **Résultats négatifs** : NLTK n'apporte rien au mode token. Un tokeniseur plus fin (stanza) relève le plafond mais rend le mode token plus sévère. Mécanisme vérifié sur le dev : un mot à trait d'union coupé (« twin-screw ») et le proclitique inclus par le CRF entraîné sur cfdata.
+- **Limites** : élisions françaises non séparées (règles Treebank anglaises) ; la première regex arabe regroupait « %. », ce qui ramenait le plafond arabe à 0,814 ; elle a été corrigée pendant la mise au point, sans changer aucune F1 de système.
+- **Risques éthiques** : aucun propre au composant.
+
+## B9 · Interface publique d'anonymisation (Lots D et E)
+
+- **Objectif et usage prévu** : donner aux Lots D et E un point d'entrée stable vers l'anonymiseur B6, sans dupliquer sa logique (`caseforge/anonymization/api.py`, ré-exporté par `caseforge.anonymization`) :
+  - `anonymiser_document(passages, langue, backend="union_seuil")` : un résultat par passage ; les pseudonymes sont cohérents dans tout le document (coréférence, balayage) ;
+  - `anonymiser(texte, langue, backend)` : un document d'un seul passage.
+- **Format** : `{texte_anonymise, entites: [{start, end, label}], remplacements: [{start, end, label, pseudonyme, remplacement}]}`, avec des positions dans le texte d'origine.
+  - `remplacement` répète `pseudonyme` : c'est la clé que lit le Lot D (`generation/gabarit.py --anonymisation`, sur `origin/lot-d-rag` et pas sur `main`), qui reconstruit le texte de droite à gauche. Un test vérifie cette reconstruction.
+- **Hors périmètre** : langues autres que fr / ar / en (`ValueError`) ; backend `gold` (refusé) ; passages mixtes (pas de langue `mixte` dans l'interface).
+- **Résultats** : mêmes chiffres que `union_seuil` B6d. Sur les 21 documents du dev, 4 noms gold restent visibles (les 4 fuites de noms connues). Le test lent `test_noms_gold_du_dev_masques` vérifie que ce sont exactement ceux-là (`tests/test_api_anonymisation.py`, marqueur `slow`).
+- **Limites** : le premier appel charge spaCy, stanza et le CRF, ce qui prend quelques dizaines de secondes. Un plafond de budget dans une contrainte peut encore être masqué en `[MONTANT]` quand la CONTRAINTE n'est pas détectée.
+- **Risques éthiques** : ceux de B6. L'interface rend l'anonymisation facile à appeler ; elle ne la rend pas sûre. **Relecture humaine obligatoire.**
+
 ---
 
 ## Reproductibilité
@@ -169,14 +220,31 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
   - B1 : `python -m scripts.eval_prelabel && python -m scripts.run_crf_baseline && python -m scripts.report_b1_baseline` (variance : `python -m scripts.run_crf_baseline --seeds 13 42 2026 --fraction 0.9`) ;
   - B3 : `python -m scripts.run_b3_regles && python -m scripts.report_b3_regles` ;
   - anonymisation : `python -m scripts.b6b_union_seuil_cv` (train), `python -m scripts.eval_anonymization` (dev) ;
-  - B6c : `python -m scripts.b6c_regles_cv` (train), `python -m scripts.b6c_eval_dev` (dev).
+  - B6c : `python -m scripts.b6c_regles_cv` (train), `python -m scripts.b6c_eval_dev` (dev) ;
+  - B6d : `python -m scripts.b6d_cv` (train), `python -m scripts.b6d_eval_dev` (dev) ;
+  - B6e : `python -m scripts.b6e_plis_gabarit_cv` (train), `python -m scripts.b6e_eval_dev` (dev, refuse une seconde exécution) ;
+  - B6f : `python -m scripts.b6f_bornes_ar_cv` (train), `python -m scripts.b6f_eval_dev` (dev, refuse une seconde exécution) ;
+  - B8 : `python -m nltk.downloader punkt_tab`, puis `python -m scripts.b8_ablation_tokenisation` (dev) ;
+  - tests : `pytest` (complet), ou `pytest -m "not slow"` pour exclure le test de l'interface B9 sur le dev (≈ 1 min 30).
 - Graines : bootstrap par document, graine 42 (1 000 tirages ; 10 000 pour les comparaisons appariées de l'anonymisation) ; plis de CV groupés par document, graine 42 ; variance du CRF, graines 13, 42, 2026 ; CRF L-BFGS déterministe.
-- Résultats chiffrés : `results/lotb/*.json` ; prédictions pour le Lot D : `reports/predictions/lotb_dev_v2.jsonl` (entités) et `results/lotb/b6c_anonymisation_dev_union_seuil.jsonl` (anonymisation).
+- Résultats chiffrés : `results/lotb/*.json` ; prédictions pour le Lot D : `reports/predictions/lotb_dev_v2.jsonl` (entités, inchangées par B6f) et `results/lotb/b6d_anonymisation_dev_union_seuil.jsonl` (anonymisation, configuration recommandée ; l'export de B6e lui est identique).
 
 ## Limites communes et considérations éthiques
 
 - **Le test gelé n'a pas encore été utilisé : ces chiffres sont des estimations sur le dev.** Le dev est petit (21 documents, dont 3 `lib_`) : les intervalles de confiance sont larges et `lib_` est mal estimé.
 - Corpus principal simulé (gabarits et textes libres rédigés par IA) : les scores surestiment probablement la performance sur de vrais documents industriels ; aucune donnée partenaire n'a été utilisée.
 - Règles et seuils conçus sur le train : les mesures sur le train sont optimistes, et le dev a été réutilisé une fois pour la coréférence (section précédente).
+- **Les chiffres de fuite du dev sont optimistes.** Les corrections B6c à B6f ont été mises au point sur le train, mais elles sont **parties d'erreurs observées sur le dev** :
+  - B6c : fuites de noms et CONTRAINTE arabes relevées par le Lot D sur les sorties du dev ;
+  - B6d : origine du sur-masquage mesurée au dev ;
+  - B6e : écart de sur-masquage entre le train et le dev ;
+  - B6f : erreurs de bordure comptées au dev.
+
+  Chaque mesure du dev a été faite une seule fois, sans réajustement, mais le choix des familles d'erreurs à corriger dépend du dev. Celui-ci n'est donc plus un échantillon tenu à part pour l'anonymisation : la fuite de 6,6 % et les 4 noms visibles sous-estiment probablement la fuite réelle. B6e et B6f n'ont changé aucun chiffre retenu ; les gains viennent de B6c (fuite 7,5 → 6,6 %) et de B6d (sur-masquage 24,5 → 21,9 %). **Le vrai chiffre sera celui du test gelé**, mesuré une seule fois à la fin du lot avec `scripts/final_eval.py`.
 - L'anonymisation réduit le risque sans l'annuler : fuites résiduelles, données sensibles sans chiffre, ré-identification par le contexte. **Relecture humaine obligatoire** avant toute diffusion.
-- Prochaine étape (Silver) : bordures des CONTRAINTE arabes et règle PRODUIT, mises au point sur le train ; XLM-R comparé à B3 et au CRF ; contrainte de sur-masquage à revoir avec des plis par gabarit ; évaluation finale unique sur `test-gele-v3`.
+- Prochaine étape (Silver) :
+  - règle PRODUIT, mise au point sur le train ;
+  - CONTRAINTE arabes : séparer deux conditions coordonnées (hypothèse de B6f), sur des phrases construites d'après le cas 4 ;
+  - sur-masquage : la fusion aux bornes des règles (B6d), à réévaluer si le Lot A corrige l'issue #7 ; les plis par gabarit (B6e) n'ont pas suffi ;
+  - XLM-R comparé à B3 et au CRF ;
+  - évaluation finale unique sur `test-gele-v3`.
