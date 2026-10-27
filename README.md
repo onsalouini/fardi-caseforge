@@ -111,3 +111,16 @@ pip install -r requirements.txt
 | `cfdata.build` | assemblage, nettoyage, équilibrage, splits gelés, exports, rapports, carte de données |
 | `cfdata.public` | WikiANN (optionnel, sur Colab) |
 | `tests/simulate_human.py` | test de la chaîne uniquement (fausses annotations, ne jamais livrer) |
+
+
+
+## Lot E · Interface (E2)
+
+```
+pip install -r requirements-lote.txt
+streamlit run app/app.py
+```
+
+Sources : « Exemple factice » (contrat, sans modèle), « Pipeline local » (`caseforge.pipeline.traiter`, Lot E · E1),
+« API » (`POST /pipeline`, Lot E · E3). La fiche est une **proposition** : elle doit être validée par un enseignant ;
+chaque décision est enregistrée dans `reports/journal_validation.jsonl`.
