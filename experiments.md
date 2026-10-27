@@ -522,3 +522,9 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 ## 2026-10-19 · Équipe · Jeu de données v1 et baseline CRF
 - 114 problèmes FR/AR/EN, 864 passages, 2 486 entités ; 4 corpus publics (4 513 passages, ORG/PERSONNE/SITE).
 - Baseline CRF : train → dev 0,366, test 0,365 (avant re-gel) ; le dev donne 0,380 après re-gel.
+
+## 2026-10-XX · Lot E · E2 interface Streamlit (Ons)
+- Quoi : interface 3 colonnes (original coloré / anonymisé / fiche avec sources) + validation enseignante journalisée.
+- Données : exemple factice du contrat (document du train syn_fr_001) ; aucune donnée du dev ni du test.
+- Tests : tests/test_app.py (5 tests, échappement HTML, journal).
+- Code écrit avec l'aide d'un assistant IA (déclaré).
