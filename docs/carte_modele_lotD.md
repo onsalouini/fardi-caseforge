@@ -58,7 +58,8 @@ Tests : `tests/test_generation.py` (9 tests, documents du train).
     référence, pas la qualité pédagogique, qui demande la relecture humaine (grille, 40 fiches relues au Lot A) ;
   - une incohérence a été trouvée dans la référence (« Historique sur six mois », `syn_fr_022`, absent de la source) ;
   - le type de passage utilisé est celui de référence : à remplacer par la prédiction du Lot C (0,896 au dev) ;
-  - correspondance Jaccard ≥ 50 % : sensible au bruit OCR (tatweel arabe) et aux reformulations.
+  - correspondance Jaccard ≥ 50 % : sensible au bruit OCR (tatweel arabe) et aux reformulations ;
+  - la fiche reprend les produits et les équipements : avec le secteur, ils suffisent à reconnaître l'entreprise dans 95 % des documents du dev (audit E5, `reports/lot_e_audit_reidentification.md`).
 - **Risques éthiques** : une fuite d'un nom non détecté par le Lot B atteint la fiche (2 au dev) ; la fiche reste une
   **proposition** pédagogique : objectifs, consignes et critères exigent une validation enseignante (cahier, P7).
 - **Usage prévu** : générateur de base (palier Bronze) branché sur l'API du Lot E ; référence de comparaison pour le
