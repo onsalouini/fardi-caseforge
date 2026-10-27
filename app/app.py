@@ -94,6 +94,11 @@ if s:
     c4.metric("Temps", f"{m['temps_ms']} ms" if m.get("temps_ms") is not None else "—")
     if m.get("fuites_detectees"):
         st.warning("Un nom masqué apparaît encore dans la sortie : ne pas diffuser avant correction.")
+    for alerte in m.get("alertes", []):
+        st.warning(f"Alerte : {alerte}")
+    with st.expander("Détails du traitement (mode debug)"):
+        st.write("Passages, types et entités prédits, remplacements et fiche, tels que renvoyés par le pipeline :")
+        st.json(s, expanded=False)
 
     anon = {p["passage_id"]: p["texte"] for p in s["anonymise"]["passages"]}
     g, mil, d = st.columns(3)

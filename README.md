@@ -17,6 +17,18 @@ le **test gelé n'est évalué qu'une fois, à la fin** (procédure : `CLAUDE.md
 lot et une PR approuvée vers `main` ; la CI (`.github/workflows/tests.yml`) lance les tests à chaque PR.
 Usage d'assistants IA : déclaré dans `experiments.md` et dans les cartes de modèle.
 
+## Démo (installation et lancement)
+
+```
+pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements-lotb.txt -r requirements-lotc.txt -r requirements-api.txt -r requirements-lote.txt
+python -c "import stanza; stanza.download('ar')"
+streamlit run app/app.py
+```
+
+API seule : `uvicorn api.main:app --port 8000` (documentation : http://127.0.0.1:8000/docs). Baselines de la revue :
+`python -m scripts.baselines_bronze` ; erreurs catégorisées : `python -m scripts.export_erreurs_csv`.
+
 ## Lot A — le jeu de données
 
 Jeu de données prêt à l'entraînement, construit selon le cahier des charges du projet 7. Il contient :

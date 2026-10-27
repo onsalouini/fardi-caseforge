@@ -36,6 +36,10 @@ RACINE = Path(__file__).resolve().parents[1]
 VERSION_CONTRAT = "1.0"
 LANGUES = ("fr", "ar", "en")
 SENSIBLES = {"ORG", "PERSONNE", "SITE", "DONNEE_SENSIBLE"}
+METIER = {"PRODUIT", "EQUIPEMENT", "PROCESSUS", "INDICATEUR"}
+# arabizi : un chiffre (2, 3, 5, 7, 9) dans un mot latin en minuscules, ex. « 7aja », « ba3d », « mte3na » ;
+# il en faut au moins deux pour lever l'alerte (« L2 », « CO2 », « ISO 9001 » ne comptent pas)
+ARABIZI = re.compile(r"\b[a-z]+[23579][a-z]+\b|\b[23579][a-z]{2,}\b")
 GRAINE = 2026
 TITRES = {
     "fr": "Cas industriel : analyse et amélioration",
@@ -195,6 +199,15 @@ def traiter(
     sortie_publique = " ".join(p["texte"] for p in anonymise["passages"]) + json.dumps(fiche, ensure_ascii=False)
     fuites = sorted(n for n in noms if n.strip() and n in sortie_publique)
 
+    # 7. alertes : le système signale ce qu'il ne sait pas traiter au lieu de répondre en silence
+    alertes = []
+    if langue == "auto" and detect_lang(texte) not in LANGUES:
+        alertes.append(f"texte mixte (code-switching) : traité comme « {lang} »")
+    if len(ARABIZI.findall(texte)) >= 2:
+        alertes.append("arabizi détecté (chiffres dans les mots latins) : non pris en charge au palier Bronze")
+    if not any(e["label"] in METIER for p in passages for e in p["entities"]):
+        alertes.append("hors périmètre probable : aucune entité métier (produit, équipement, processus, indicateur)")
+
     return {
         "version_contrat": VERSION_CONTRAT,
         "doc_id": doc_id,
@@ -203,7 +216,11 @@ def traiter(
         "anonymise": anonymise,
         "fiche": fiche,
         "validation": {"statut": "a_valider", "valide_par": None, "date": None, "commentaire": ""},
-        "metriques": {"fuites_detectees": len(fuites), "temps_ms": round((time.perf_counter() - t0) * 1000)},
+        "metriques": {
+            "fuites_detectees": len(fuites),
+            "temps_ms": round((time.perf_counter() - t0) * 1000),
+            "alertes": alertes,
+        },
     }
 
 
