@@ -1,0 +1,62 @@
+{
+  "regex": {
+    "token": {
+      "f1_micro": {
+        "moyenne": 0.5646697885870638,
+        "ecart_type": 0.14158510509615255,
+        "n_plis": 15
+      },
+      "f1_macro_9": {
+        "moyenne": 0.5237689059911282,
+        "ecart_type": 0.15243305187396805,
+        "n_plis": 15
+      },
+      "regroupe_f1_micro": 0.5684647302904564
+    }
+  },
+  "matchers": {
+    "token": {
+      "f1_micro": {
+        "moyenne": 0.4445306616165869,
+        "ecart_type": 0.13769131390158834,
+        "n_plis": 15
+      },
+      "f1_macro_9": {
+        "moyenne": 0.2780781358559136,
+        "ecart_type": 0.11353176148748184,
+        "n_plis": 15
+      },
+      "regroupe_f1_micro": 0.45474613686534215
+    }
+  },
+  "dependencies": {
+    "token": {
+      "f1_micro": {
+        "moyenne": 0.31090237097091566,
+        "ecart_type": 0.08275197306229154,
+        "n_plis": 15
+      },
+      "f1_macro_9": {
+        "moyenne": 0.30599647266313934,
+        "ecart_type": 0.09046617075234895,
+        "n_plis": 15
+      },
+      "regroupe_f1_micro": 0.3154929577464789
+    }
+  },
+  "resolution": {
+    "token": {
+      "f1_micro": {
+        "moyenne": 0.4464446613873091,
+        "ecart_type": 0.14142682484547475,
+        "n_plis": 15
+      },
+      "f1_macro_9": {
+        "moyenne": 0.4324178290844958,
+        "ecart_type": 0.14321484745812635,
+        "n_plis": 15
+      },
+      "regroupe_f1_micro": 0.45471349353049906
+    }
+  }
+}

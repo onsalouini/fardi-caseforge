@@ -1,0 +1,877 @@
+{
+  "n_passages": 162,
+  "n_documents": 21,
+  "tokenizer": "cfdata",
+  "token": {
+    "global": {
+      "n_passages": 162,
+      "support_gold": 449,
+      "support_pred": 185,
+      "tp": 137,
+      "fp": 48,
+      "fn": 312,
+      "micro": {
+        "p": 0.7405405405405405,
+        "r": 0.3051224944320713,
+        "f1": 0.43217665615141954
+      },
+      "macro_9": {
+        "p": 0.4013508677759885,
+        "r": 0.29946238342977477,
+        "f1": 0.3345362514580887
+      },
+      "macro_presentes": {
+        "p": 0.4013508677759885,
+        "r": 0.29946238342977477,
+        "f1": 0.3345362514580887
+      },
+      "etiquettes_absentes": []
+    },
+    "par_etiquette": {
+      "ORG": {
+        "support_gold": 40,
+        "support_pred": 30,
+        "tp": 17,
+        "fp": 13,
+        "fn": 23,
+        "p": 0.5666666666666667,
+        "r": 0.425,
+        "f1": 0.4857142857142857
+      },
+      "PERSONNE": {
+        "support_gold": 52,
+        "support_pred": 23,
+        "tp": 20,
+        "fp": 3,
+        "fn": 32,
+        "p": 0.8695652173913043,
+        "r": 0.38461538461538464,
+        "f1": 0.5333333333333333
+      },
+      "SITE": {
+        "support_gold": 57,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 57,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "DONNEE_SENSIBLE": {
+        "support_gold": 64,
+        "support_pred": 72,
+        "tp": 58,
+        "fp": 14,
+        "fn": 6,
+        "p": 0.8055555555555556,
+        "r": 0.90625,
+        "f1": 0.8529411764705882
+      },
+      "PRODUIT": {
+        "support_gold": 41,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 41,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "EQUIPEMENT": {
+        "support_gold": 63,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 63,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "PROCESSUS": {
+        "support_gold": 44,
+        "support_pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 44,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "INDICATEUR": {
+        "support_gold": 42,
+        "support_pred": 32,
+        "tp": 32,
+        "fp": 0,
+        "fn": 10,
+        "p": 1.0,
+        "r": 0.7619047619047619,
+        "f1": 0.8648648648648649
+      },
+      "CONTRAINTE": {
+        "support_gold": 46,
+        "support_pred": 27,
+        "tp": 10,
+        "fp": 17,
+        "fn": 36,
+        "p": 0.37037037037037035,
+        "r": 0.21739130434782608,
+        "f1": 0.273972602739726
+      }
+    },
+    "par_langue": {
+      "ar": {
+        "n_passages": 54,
+        "support_gold": 145,
+        "support_pred": 69,
+        "tp": 49,
+        "fp": 20,
+        "fn": 96,
+        "micro": {
+          "p": 0.7101449275362319,
+          "r": 0.33793103448275863,
+          "f1": 0.45794392523364486
+        },
+        "macro_9": {
+          "p": 0.4175590491379965,
+          "r": 0.33941200411788647,
+          "f1": 0.36236772486772484
+        },
+        "macro_presentes": {
+          "p": 0.4175590491379965,
+          "r": 0.33941200411788647,
+          "f1": 0.36236772486772484
+        },
+        "etiquettes_absentes": []
+      },
+      "en": {
+        "n_passages": 53,
+        "support_gold": 150,
+        "support_pred": 53,
+        "tp": 38,
+        "fp": 15,
+        "fn": 112,
+        "micro": {
+          "p": 0.7169811320754716,
+          "r": 0.25333333333333335,
+          "f1": 0.37438423645320196
+        },
+        "macro_9": {
+          "p": 0.39444444444444443,
+          "r": 0.2566951566951567,
+          "f1": 0.29246572000195187
+        },
+        "macro_presentes": {
+          "p": 0.39444444444444443,
+          "r": 0.2566951566951567,
+          "f1": 0.29246572000195187
+        },
+        "etiquettes_absentes": []
+      },
+      "fr": {
+        "n_passages": 55,
+        "support_gold": 154,
+        "support_pred": 63,
+        "tp": 50,
+        "fp": 13,
+        "fn": 104,
+        "micro": {
+          "p": 0.7936507936507936,
+          "r": 0.3246753246753247,
+          "f1": 0.4608294930875576
+        },
+        "macro_9": {
+          "p": 0.4273504273504274,
+          "r": 0.3037192654839714,
+          "f1": 0.345514403292181
+        },
+        "macro_presentes": {
+          "p": 0.4273504273504274,
+          "r": 0.3037192654839714,
+          "f1": 0.345514403292181
+        },
+        "etiquettes_absentes": []
+      }
+    },
+    "par_source": {
+      "lib": {
+        "n_passages": 20,
+        "support_gold": 59,
+        "support_pred": 14,
+        "tp": 5,
+        "fp": 9,
+        "fn": 54,
+        "micro": {
+          "p": 0.35714285714285715,
+          "r": 0.0847457627118644,
+          "f1": 0.136986301369863
+        },
+        "macro_9": {
+          "p": 0.17592592592592593,
+          "r": 0.06851851851851852,
+          "f1": 0.09444444444444446
+        },
+        "macro_presentes": {
+          "p": 0.17592592592592593,
+          "r": 0.06851851851851852,
+          "f1": 0.09444444444444446
+        },
+        "etiquettes_absentes": []
+      },
+      "syn": {
+        "n_passages": 142,
+        "support_gold": 390,
+        "support_pred": 171,
+        "tp": 132,
+        "fp": 39,
+        "fn": 258,
+        "micro": {
+          "p": 0.7719298245614035,
+          "r": 0.3384615384615385,
+          "f1": 0.47058823529411764
+        },
+        "macro_9": {
+          "p": 0.4185732530560117,
+          "r": 0.33293075684380036,
+          "f1": 0.3576066023950441
+        },
+        "macro_presentes": {
+          "p": 0.4185732530560117,
+          "r": 0.33293075684380036,
+          "f1": 0.3576066023950441
+        },
+        "etiquettes_absentes": []
+      }
+    },
+    "mixtes": {
+      "n_passages": 4,
+      "support_gold": 13,
+      "support_pred": 4,
+      "tp": 4,
+      "fp": 0,
+      "fn": 9
+    }
+  },
+  "strict": {
+    "global": {
+      "n_passages": 162,
+      "support_gold": 449,
+      "support_pred": 185,
+      "tp": 137,
+      "fp": 48,
+      "fn": 312,
+      "micro": {
+        "p": 0.7405405405405405,
+        "r": 0.3051224944320713,
+        "f1": 0.43217665615141954
+      },
+      "macro_9": {
+        "p": 0.4013508677759885,
+        "r": 0.29946238342977477,
+        "f1": 0.3345362514580887
+      },
+      "macro_presentes": {
+        "p": 0.4013508677759885,
+        "r": 0.29946238342977477,
+        "f1": 0.3345362514580887
+      },
+      "etiquettes_absentes": []
+    },
+    "par_etiquette": {
+      "ORG": {
+        "support_gold": 40,
+        "support_pred": 30,
+        "tp": 17,
+        "fp": 13,
+        "fn": 23,
+        "p": 0.5666666666666667,
+        "r": 0.425,
+        "f1": 0.4857142857142857
+      },
+      "PERSONNE": {
+        "support_gold": 52,
+        "support_pred": 23,
+        "tp": 20,
+        "fp": 3,
+        "fn": 32,
+        "p": 0.8695652173913043,
+        "r": 0.38461538461538464,
+        "f1": 0.5333333333333333
+      },
+      "SITE": {
+        "support_gold": 57,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 57,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "DONNEE_SENSIBLE": {
+        "support_gold": 64,
+        "support_pred": 72,
+        "tp": 58,
+        "fp": 14,
+        "fn": 6,
+        "p": 0.8055555555555556,
+        "r": 0.90625,
+        "f1": 0.8529411764705882
+      },
+      "PRODUIT": {
+        "support_gold": 41,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 41,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "EQUIPEMENT": {
+        "support_gold": 63,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 63,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "PROCESSUS": {
+        "support_gold": 44,
+        "support_pred": 1,
+        "tp": 0,
+        "fp": 1,
+        "fn": 44,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "INDICATEUR": {
+        "support_gold": 42,
+        "support_pred": 32,
+        "tp": 32,
+        "fp": 0,
+        "fn": 10,
+        "p": 1.0,
+        "r": 0.7619047619047619,
+        "f1": 0.8648648648648649
+      },
+      "CONTRAINTE": {
+        "support_gold": 46,
+        "support_pred": 27,
+        "tp": 10,
+        "fp": 17,
+        "fn": 36,
+        "p": 0.37037037037037035,
+        "r": 0.21739130434782608,
+        "f1": 0.273972602739726
+      }
+    },
+    "par_langue": {
+      "ar": {
+        "n_passages": 54,
+        "support_gold": 145,
+        "support_pred": 69,
+        "tp": 49,
+        "fp": 20,
+        "fn": 96,
+        "micro": {
+          "p": 0.7101449275362319,
+          "r": 0.33793103448275863,
+          "f1": 0.45794392523364486
+        },
+        "macro_9": {
+          "p": 0.4175590491379965,
+          "r": 0.33941200411788647,
+          "f1": 0.36236772486772484
+        },
+        "macro_presentes": {
+          "p": 0.4175590491379965,
+          "r": 0.33941200411788647,
+          "f1": 0.36236772486772484
+        },
+        "etiquettes_absentes": []
+      },
+      "en": {
+        "n_passages": 53,
+        "support_gold": 150,
+        "support_pred": 53,
+        "tp": 38,
+        "fp": 15,
+        "fn": 112,
+        "micro": {
+          "p": 0.7169811320754716,
+          "r": 0.25333333333333335,
+          "f1": 0.37438423645320196
+        },
+        "macro_9": {
+          "p": 0.39444444444444443,
+          "r": 0.2566951566951567,
+          "f1": 0.29246572000195187
+        },
+        "macro_presentes": {
+          "p": 0.39444444444444443,
+          "r": 0.2566951566951567,
+          "f1": 0.29246572000195187
+        },
+        "etiquettes_absentes": []
+      },
+      "fr": {
+        "n_passages": 55,
+        "support_gold": 154,
+        "support_pred": 63,
+        "tp": 50,
+        "fp": 13,
+        "fn": 104,
+        "micro": {
+          "p": 0.7936507936507936,
+          "r": 0.3246753246753247,
+          "f1": 0.4608294930875576
+        },
+        "macro_9": {
+          "p": 0.4273504273504274,
+          "r": 0.3037192654839714,
+          "f1": 0.345514403292181
+        },
+        "macro_presentes": {
+          "p": 0.4273504273504274,
+          "r": 0.3037192654839714,
+          "f1": 0.345514403292181
+        },
+        "etiquettes_absentes": []
+      }
+    },
+    "par_source": {
+      "lib": {
+        "n_passages": 20,
+        "support_gold": 59,
+        "support_pred": 14,
+        "tp": 5,
+        "fp": 9,
+        "fn": 54,
+        "micro": {
+          "p": 0.35714285714285715,
+          "r": 0.0847457627118644,
+          "f1": 0.136986301369863
+        },
+        "macro_9": {
+          "p": 0.17592592592592593,
+          "r": 0.06851851851851852,
+          "f1": 0.09444444444444446
+        },
+        "macro_presentes": {
+          "p": 0.17592592592592593,
+          "r": 0.06851851851851852,
+          "f1": 0.09444444444444446
+        },
+        "etiquettes_absentes": []
+      },
+      "syn": {
+        "n_passages": 142,
+        "support_gold": 390,
+        "support_pred": 171,
+        "tp": 132,
+        "fp": 39,
+        "fn": 258,
+        "micro": {
+          "p": 0.7719298245614035,
+          "r": 0.3384615384615385,
+          "f1": 0.47058823529411764
+        },
+        "macro_9": {
+          "p": 0.4185732530560117,
+          "r": 0.33293075684380036,
+          "f1": 0.3576066023950441
+        },
+        "macro_presentes": {
+          "p": 0.4185732530560117,
+          "r": 0.33293075684380036,
+          "f1": 0.3576066023950441
+        },
+        "etiquettes_absentes": []
+      }
+    },
+    "mixtes": {
+      "n_passages": 4,
+      "support_gold": 13,
+      "support_pred": 4,
+      "tp": 4,
+      "fp": 0,
+      "fn": 9
+    }
+  },
+  "partiel": {
+    "global": {
+      "n_passages": 162,
+      "support_gold": 449,
+      "support_pred": 185,
+      "tp": 165,
+      "fp": 20,
+      "fn": 284,
+      "micro": {
+        "p": 0.8918918918918919,
+        "r": 0.3674832962138085,
+        "f1": 0.5205047318611987
+      },
+      "macro_9": {
+        "p": 0.6228395061728396,
+        "r": 0.3689051387420952,
+        "f1": 0.42233601469164184
+      },
+      "macro_presentes": {
+        "p": 0.6228395061728396,
+        "r": 0.3689051387420952,
+        "f1": 0.42233601469164184
+      },
+      "etiquettes_absentes": []
+    },
+    "par_etiquette": {
+      "ORG": {
+        "support_gold": 40,
+        "support_pred": 30,
+        "tp": 24,
+        "fp": 6,
+        "fn": 16,
+        "p": 0.8,
+        "r": 0.6,
+        "f1": 0.6857142857142857
+      },
+      "PERSONNE": {
+        "support_gold": 52,
+        "support_pred": 23,
+        "tp": 23,
+        "fp": 0,
+        "fn": 29,
+        "p": 1.0,
+        "r": 0.4423076923076923,
+        "f1": 0.6133333333333333
+      },
+      "SITE": {
+        "support_gold": 57,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 57,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "DONNEE_SENSIBLE": {
+        "support_gold": 64,
+        "support_pred": 72,
+        "tp": 58,
+        "fp": 14,
+        "fn": 6,
+        "p": 0.8055555555555556,
+        "r": 0.90625,
+        "f1": 0.8529411764705882
+      },
+      "PRODUIT": {
+        "support_gold": 41,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 41,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "EQUIPEMENT": {
+        "support_gold": 63,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 63,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "PROCESSUS": {
+        "support_gold": 44,
+        "support_pred": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 43,
+        "p": 1.0,
+        "r": 0.022727272727272728,
+        "f1": 0.044444444444444446
+      },
+      "INDICATEUR": {
+        "support_gold": 42,
+        "support_pred": 32,
+        "tp": 32,
+        "fp": 0,
+        "fn": 10,
+        "p": 1.0,
+        "r": 0.7619047619047619,
+        "f1": 0.8648648648648649
+      },
+      "CONTRAINTE": {
+        "support_gold": 46,
+        "support_pred": 27,
+        "tp": 27,
+        "fp": 0,
+        "fn": 19,
+        "p": 1.0,
+        "r": 0.5869565217391305,
+        "f1": 0.7397260273972602
+      }
+    },
+    "par_langue": {
+      "ar": {
+        "n_passages": 54,
+        "support_gold": 145,
+        "support_pred": 69,
+        "tp": 59,
+        "fp": 10,
+        "fn": 86,
+        "micro": {
+          "p": 0.855072463768116,
+          "r": 0.4068965517241379,
+          "f1": 0.5514018691588785
+        },
+        "macro_9": {
+          "p": 0.6113769271664009,
+          "r": 0.4188489070842012,
+          "f1": 0.4476851851851852
+        },
+        "macro_presentes": {
+          "p": 0.6113769271664009,
+          "r": 0.4188489070842012,
+          "f1": 0.4476851851851852
+        },
+        "etiquettes_absentes": []
+      },
+      "en": {
+        "n_passages": 53,
+        "support_gold": 150,
+        "support_pred": 53,
+        "tp": 47,
+        "fp": 6,
+        "fn": 103,
+        "micro": {
+          "p": 0.8867924528301887,
+          "r": 0.31333333333333335,
+          "f1": 0.4630541871921182
+        },
+        "macro_9": {
+          "p": 0.5277777777777778,
+          "r": 0.3245014245014245,
+          "f1": 0.3821060850046357
+        },
+        "macro_presentes": {
+          "p": 0.5277777777777778,
+          "r": 0.3245014245014245,
+          "f1": 0.3821060850046357
+        },
+        "etiquettes_absentes": []
+      },
+      "fr": {
+        "n_passages": 55,
+        "support_gold": 154,
+        "support_pred": 63,
+        "tp": 59,
+        "fp": 4,
+        "fn": 95,
+        "micro": {
+          "p": 0.9365079365079365,
+          "r": 0.38311688311688313,
+          "f1": 0.543778801843318
+        },
+        "macro_9": {
+          "p": 0.5384615384615385,
+          "r": 0.3662192654839714,
+          "f1": 0.425514403292181
+        },
+        "macro_presentes": {
+          "p": 0.5384615384615385,
+          "r": 0.3662192654839714,
+          "f1": 0.425514403292181
+        },
+        "etiquettes_absentes": []
+      }
+    },
+    "par_source": {
+      "lib": {
+        "n_passages": 20,
+        "support_gold": 59,
+        "support_pred": 14,
+        "tp": 14,
+        "fp": 0,
+        "fn": 45,
+        "micro": {
+          "p": 1.0,
+          "r": 0.23728813559322035,
+          "f1": 0.3835616438356164
+        },
+        "macro_9": {
+          "p": 0.5555555555555556,
+          "r": 0.20639730639730638,
+          "f1": 0.2796296296296296
+        },
+        "macro_presentes": {
+          "p": 0.5555555555555556,
+          "r": 0.20639730639730638,
+          "f1": 0.2796296296296296
+        },
+        "etiquettes_absentes": []
+      },
+      "syn": {
+        "n_passages": 142,
+        "support_gold": 390,
+        "support_pred": 171,
+        "tp": 151,
+        "fp": 20,
+        "fn": 239,
+        "micro": {
+          "p": 0.8830409356725146,
+          "r": 0.3871794871794872,
+          "f1": 0.5383244206773619
+        },
+        "macro_9": {
+          "p": 0.5103448275862069,
+          "r": 0.3915727321524423,
+          "f1": 0.42880168411644165
+        },
+        "macro_presentes": {
+          "p": 0.5103448275862069,
+          "r": 0.3915727321524423,
+          "f1": 0.42880168411644165
+        },
+        "etiquettes_absentes": []
+      }
+    },
+    "mixtes": {
+      "n_passages": 4,
+      "support_gold": 13,
+      "support_pred": 4,
+      "tp": 4,
+      "fp": 0,
+      "fn": 9
+    }
+  },
+  "confusion": {
+    "ORG": {
+      "ORG": 24,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 0,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 16
+    },
+    "PERSONNE": {
+      "ORG": 0,
+      "PERSONNE": 23,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 0,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 29
+    },
+    "SITE": {
+      "ORG": 0,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 0,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 57
+    },
+    "DONNEE_SENSIBLE": {
+      "ORG": 0,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 58,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 6
+    },
+    "PRODUIT": {
+      "ORG": 0,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 0,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 41
+    },
+    "EQUIPEMENT": {
+      "ORG": 0,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 0,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 63
+    },
+    "PROCESSUS": {
+      "ORG": 0,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 0,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 1,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 43
+    },
+    "INDICATEUR": {
+      "ORG": 0,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 0,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 32,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 10
+    },
+    "CONTRAINTE": {
+      "ORG": 0,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 14,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 27,
+      "MANQUÉ": 5
+    },
+    "INVENTÉ": {
+      "ORG": 6,
+      "PERSONNE": 0,
+      "SITE": 0,
+      "DONNEE_SENSIBLE": 0,
+      "PRODUIT": 0,
+      "EQUIPEMENT": 0,
+      "PROCESSUS": 0,
+      "INDICATEUR": 0,
+      "CONTRAINTE": 0,
+      "MANQUÉ": 0
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{"passage_id": "lib_ar_02_p000", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 27, "end": 48, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "lib_ar_02_p001", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 10, "end": 27, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}, {"start": 42, "end": 60, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}, {"start": 76, "end": 94, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "lib_ar_02_p002", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "lib_ar_02_p003", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "lib_ar_02_p004", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "lib_ar_02_p005", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "lib_ar_02_p006", "doc_id": "lib_ar_02", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "lib_en_01_p000", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": [{"start": 6, "end": 22, "label": "PERSONNE", "rule_id": "matchers.personne_champ"}, {"start": 24, "end": 52, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}, {"start": 58, "end": 80, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "lib_en_01_p001", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "lib_en_01_p002", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "lib_en_01_p003", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "lib_en_01_p004", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "lib_en_01_p005", "doc_id": "lib_en_01", "doc_lang": "en", "lang": "en", "entities": [{"start": 184, "end": 200, "label": "PERSONNE", "rule_id": "matchers.personne_signature"}, {"start": 233, "end": 248, "label": "DONNEE_SENSIBLE", "rule_id": "regex.telephone"}]}
+{"passage_id": "lib_fr_06_p000", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 66, "end": 75, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "lib_fr_06_p001", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 12, "end": 27, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "lib_fr_06_p002", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "lib_fr_06_p003", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "lib_fr_06_p004", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "lib_fr_06_p005", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "lib_fr_06_p006", "doc_id": "lib_fr_06", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_ar_001_p000", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_001_p001", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 5, "end": 42, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 46, "end": 77, "label": "SITE", "rule_id": "matchers.site_zone"}]}
+{"passage_id": "syn_ar_001_p002", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 103, "end": 111, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_001_p003", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 41, "end": 52, "label": "PERSONNE", "rule_id": "matchers.personne_reutilisee"}, {"start": 87, "end": 116, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 120, "end": 127, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_001_p004", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 14, "end": 32, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_ar_001_p005", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_001_p006", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_001_p007", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 32, "end": 44, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_ar_001_p008", "doc_id": "syn_ar_001", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 52, "end": 62, "label": "DONNEE_SENSIBLE", "rule_id": "regex.telephone"}, {"start": 78, "end": 95, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_ar_006_p000", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_006_p001", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 5, "end": 30, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 34, "end": 63, "label": "SITE", "rule_id": "matchers.site_zone"}]}
+{"passage_id": "syn_ar_006_p002", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 109, "end": 114, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_006_p003", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 40, "end": 52, "label": "PERSONNE", "rule_id": "matchers.personne_prenom"}, {"start": 92, "end": 109, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 113, "end": 118, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_006_p004", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_006_p005", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_006_p006", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 14, "end": 33, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_ar_006_p007", "doc_id": "syn_ar_006", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 32, "end": 44, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_ar_008_p001", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 5, "end": 42, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 46, "end": 75, "label": "SITE", "rule_id": "matchers.site_zone"}]}
+{"passage_id": "syn_ar_008_p002", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 105, "end": 110, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_008_p003", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 40, "end": 51, "label": "PERSONNE", "rule_id": "matchers.personne_reutilisee"}, {"start": 88, "end": 117, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 121, "end": 126, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_008_p004", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_008_p005", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_008_p006", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 14, "end": 32, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_ar_008_p007", "doc_id": "syn_ar_008", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 32, "end": 44, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_ar_017_p000", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_017_p001", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 5, "end": 35, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 57, "end": 63, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_017_p002", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 131, "end": 137, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_017_p003", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 40, "end": 52, "label": "PERSONNE", "rule_id": "matchers.personne_reutilisee"}, {"start": 100, "end": 121, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 125, "end": 131, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_017_p004", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 14, "end": 32, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_ar_017_p005", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_017_p006", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_017_p007", "doc_id": "syn_ar_017", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 49, "end": 59, "label": "DONNEE_SENSIBLE", "rule_id": "regex.telephone"}, {"start": 74, "end": 97, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_ar_021_p000", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_021_p001", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 15, "end": 43, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 54, "end": 58, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_021_p002", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 108, "end": 112, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_021_p003", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 92, "end": 120, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 124, "end": 128, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_021_p004", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_021_p005", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_021_p006", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 32, "end": 44, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_ar_021_p007", "doc_id": "syn_ar_021", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 48, "end": 58, "label": "DONNEE_SENSIBLE", "rule_id": "regex.telephone"}, {"start": 73, "end": 91, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_ar_022_p001", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 15, "end": 37, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 48, "end": 55, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_022_p002", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 104, "end": 111, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_022_p003", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 87, "end": 109, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 113, "end": 120, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_ar_022_p004", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_022_p005", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": []}
+{"passage_id": "syn_ar_022_p006", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 34, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 55, "end": 73, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_ar_022_p007", "doc_id": "syn_ar_022", "doc_lang": "ar", "lang": "ar", "entities": [{"start": 48, "end": 63, "label": "DONNEE_SENSIBLE", "rule_id": "regex.telephone"}, {"start": 78, "end": 103, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_en_005_p001", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 19, "end": 26, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 33, "end": 53, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_en_005_p002", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 108, "end": 115, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_005_p003", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 34, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 74, "end": 78, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 93, "end": 100, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_005_p004", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 44, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_en_005_p005", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_005_p006", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_005_p007", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 36, "end": 45, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 50, "end": 71, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_en_005_p008", "doc_id": "syn_en_005", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 34, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 65, "end": 80, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_en_006_p001", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 19, "end": 43, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 45, "end": 67, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_en_006_p002", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 120, "end": 128, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_006_p003", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 35, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 85, "end": 89, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 104, "end": 112, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_006_p004", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_006_p005", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_006_p006", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 45, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_en_006_p007", "doc_id": "syn_en_006", "doc_lang": "en", "lang": "en", "entities": [{"start": 36, "end": 45, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 50, "end": 71, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_en_008_p001", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 19, "end": 39, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 41, "end": 62, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_en_008_p002", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 114, "end": 118, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_008_p003", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 35, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 76, "end": 80, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 95, "end": 99, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_008_p004", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_008_p005", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_008_p006", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 43, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_en_008_p007", "doc_id": "syn_en_008", "doc_lang": "en", "lang": "en", "entities": [{"start": 36, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 51, "end": 72, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_en_013_p000", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_013_p001", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 15, "end": 23, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 25, "end": 45, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_en_013_p002", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 104, "end": 112, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_013_p003", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 39, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 74, "end": 78, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 93, "end": 101, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_013_p004", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 48, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_en_013_p005", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_013_p006", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_013_p007", "doc_id": "syn_en_013", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 39, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 70, "end": 90, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_en_015_p000", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_015_p001", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 15, "end": 23, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 25, "end": 66, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_en_015_p002", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 121, "end": 129, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_015_p003", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 35, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 88, "end": 93, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 108, "end": 116, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_015_p004", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 45, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_en_015_p005", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_015_p006", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_015_p007", "doc_id": "syn_en_015", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 35, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 71, "end": 89, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_en_028_p000", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_028_p001", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 15, "end": 23, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 25, "end": 44, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_en_028_p002", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 112, "end": 120, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_028_p003", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 37, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 81, "end": 85, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 100, "end": 108, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_en_028_p004", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 29, "end": 47, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_en_028_p005", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 74, "end": 78, "label": "ORG", "rule_id": "matchers.org_sigle_document"}]}
+{"passage_id": "syn_en_028_p006", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": []}
+{"passage_id": "syn_en_028_p007", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 36, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 51, "end": 72, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_en_028_p008", "doc_id": "syn_en_028", "doc_lang": "en", "lang": "en", "entities": [{"start": 26, "end": 37, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 68, "end": 86, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_fr_007_p000", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_007_p001", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 14, "end": 27, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 42, "end": 77, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_fr_007_p002", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 143, "end": 150, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_007_p003", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 115, "end": 122, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_007_p004", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_007_p005", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_007_p006", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 24, "end": 39, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_fr_007_p007", "doc_id": "syn_fr_007", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_fr_022_p000", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_022_p001", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 12, "end": 37, "label": "ORG", "rule_id": "matchers.org_forme"}, {"start": 55, "end": 61, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_022_p002", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 139, "end": 145, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_022_p003", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 111, "end": 117, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_022_p004", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_022_p005", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_022_p006", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_fr_022_p007", "doc_id": "syn_fr_022", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 29, "end": 38, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 71, "end": 87, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_fr_024_p001", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 22, "end": 26, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 41, "end": 69, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_fr_024_p002", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 155, "end": 159, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_024_p003", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 47, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}, {"start": 126, "end": 130, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 133, "end": 137, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_024_p004", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 24, "end": 40, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_fr_024_p005", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_024_p006", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_024_p007", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_fr_024_p008", "doc_id": "syn_fr_024", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 29, "end": 39, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}, {"start": 77, "end": 94, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_fr_026_p001", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 14, "end": 39, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 54, "end": 82, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_fr_026_p002", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 153, "end": 157, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_026_p003", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 118, "end": 122, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 125, "end": 129, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_026_p004", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 24, "end": 39, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_fr_026_p005", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_026_p006", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_026_p007", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_fr_026_p008", "doc_id": "syn_fr_026", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 29, "end": 38, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 76, "end": 92, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_fr_027_p001", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 14, "end": 27, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 42, "end": 81, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_fr_027_p002", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 167, "end": 174, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_027_p003", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 132, "end": 137, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 140, "end": 147, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_027_p004", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 24, "end": 39, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_fr_027_p005", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_027_p006", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_027_p007", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_fr_027_p008", "doc_id": "syn_fr_027", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 29, "end": 38, "label": "PERSONNE", "rule_id": "matchers.personne_initiale"}, {"start": 76, "end": 93, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}
+{"passage_id": "syn_fr_029_p001", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 22, "end": 30, "label": "SITE", "rule_id": "matchers.site_lexique"}, {"start": 45, "end": 76, "label": "ORG", "rule_id": "matchers.org_forme"}]}
+{"passage_id": "syn_fr_029_p002", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "mixte", "entities": [{"start": 142, "end": 150, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_029_p003", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "mixte", "entities": [{"start": 37, "end": 46, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}, {"start": 112, "end": 116, "label": "ORG", "rule_id": "matchers.org_sigle_document"}, {"start": 119, "end": 127, "label": "SITE", "rule_id": "matchers.site_lexique"}]}
+{"passage_id": "syn_fr_029_p004", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "mixte", "entities": [{"start": 24, "end": 39, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}]}
+{"passage_id": "syn_fr_029_p005", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "fr", "entities": []}
+{"passage_id": "syn_fr_029_p006", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "mixte", "entities": []}
+{"passage_id": "syn_fr_029_p007", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE", "rule_id": "regex.montant"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE", "rule_id": "regex.reference"}]}
+{"passage_id": "syn_fr_029_p008", "doc_id": "syn_fr_029", "doc_lang": "fr", "lang": "fr", "entities": [{"start": 29, "end": 38, "label": "PERSONNE", "rule_id": "matchers.personne_civilite"}, {"start": 76, "end": 92, "label": "DONNEE_SENSIBLE", "rule_id": "regex.email"}]}

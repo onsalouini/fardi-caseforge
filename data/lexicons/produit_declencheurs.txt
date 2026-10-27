@@ -1,0 +1,53 @@
+# Déclencheurs de PRODUIT (guide v2, section 2 ; cas 9). Format : terme<TAB>type.
+# « tete » : mot-tête générique étendu à ses compléments (« gamme de jeans », « référence X ») ;
+# « champ » : libellé de champ suivi de deux-points et du produit (« Produit : », « Réf. pièce : », « Product: ») ;
+# « champ_appos » : libellé suivi du produit après « : », « , », « est » ou « هو » (« son produit principal, … ») ;
+# « verbe » : verbe de production dont l'objet direct est le produit (« nous fabriquons des… », « ينتج… »).
+# Source : vocabulaire général de la production et du commerce (fr / en / ar). Pas de recopie de pools.py.
+gamme	tete
+référence	tete
+article	tete
+articles	tete
+range	tete
+Produit concerné	champ
+Produit	champ
+Produits	champ
+Products	champ
+المنتوج	champ
+المنتج	champ
+المنتوجات	champ
+Produit principal	champ_appos
+produit principal	champ_appos
+Réf. pièce	champ
+Référence	champ
+Article	champ
+Product	champ
+Product concerned	champ
+main product	champ_appos
+المنتوج المعني	champ
+المنتوج الرئيسي	champ_appos
+منتوجها الرئيسي	champ_appos
+fabriquer	verbe
+fabrique	verbe
+fabriquons	verbe
+produire	verbe
+produit	verbe
+produisons	verbe
+assembler	verbe
+assemblons	verbe
+confectionner	verbe
+conditionner	verbe
+commercialiser	verbe
+produce	verbe
+produces	verbe
+make	verbe
+makes	verbe
+manufacture	verbe
+manufactures	verbe
+assemble	verbe
+sell	verbe
+ينتج	verbe
+تنتج	verbe
+نصنع	verbe
+ننتج	verbe
+تصنع	verbe

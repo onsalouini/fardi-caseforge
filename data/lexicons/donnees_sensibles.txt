@@ -1,0 +1,147 @@
+# Vocabulaire de la DONNEE_SENSIBLE (guide v2, section 2 ; cas 5). Format : terme<TAB>type.
+# « devise » : unité monétaire (avant ou après le montant) ; « multiplicateur » : million, mille… ;
+# « reference » : mot qui introduit un numéro confidentiel (contrat, lot, facture, commande, rapport, matricule) ;
+# « prefixe » : préfixe de code interne (« NCR-0932 », « PO-77120 ») ; les codes produit (« X-200 ») en sont exclus ;
+# « montant_sensible » : nom de montant confidentiel (prix, coût, CA, marge, salaire) ;
+# « nombre_lettres » : nombre écrit en toutes lettres devant un multiplicateur (« deux millions de dinars ») ;
+# « plafond » : mot qui place un montant dans une contrainte (budget, plafond) : montant non sensible (cas 5).
+# Source : codes ISO 4217 (TND, EUR, USD), usage tunisien (DT, MDT, دينار, مليم), vocabulaire comptable et
+# des achats (bon de commande, facture, NCR = non-conformance report).
+TND	devise
+DT	devise
+MDT	devise
+mDT	devise
+dinars tunisiens	devise
+dinar tunisien	devise
+Tunisian dinars	devise
+Tunisian dinar	devise
+dinars	devise
+dinar	devise
+EUR	devise
+€	devise
+euros	devise
+euro	devise
+USD	devise
+$	devise
+dollars	devise
+دينار تونسي	devise
+دينار	devise
+دنانير	devise
+د.ت	devise
+مليم	devise
+million	multiplicateur
+millions	multiplicateur
+milliard	multiplicateur
+milliards	multiplicateur
+billion	multiplicateur
+thousand	multiplicateur
+mille	multiplicateur
+k	multiplicateur
+M	multiplicateur
+مليون	multiplicateur
+مليونا	multiplicateur
+مليوني	multiplicateur
+ملايين	multiplicateur
+مليار	multiplicateur
+ألف	multiplicateur
+آلاف	multiplicateur
+contrat	reference
+contract	reference
+العقد	reference
+عقد	reference
+facture	reference
+invoice	reference
+فاتورة	reference
+commande	reference
+order	reference
+purchase order	reference
+bon de commande	reference
+طلبية	reference
+rapport	reference
+report	reference
+تقرير	reference
+lot	reference
+batch	reference
+دفعة	reference
+matricule	reference
+matricule fiscal	reference
+CIN	reference
+dossier	reference
+NCR	prefixe
+NC	prefixe
+PO	prefixe
+BC	prefixe
+BL	prefixe
+FAC	prefixe
+INV	prefixe
+CMD	prefixe
+OF	prefixe
+RPT	prefixe
+LOT	prefixe
+prix	montant_sensible
+coût	montant_sensible
+cout	montant_sensible
+chiffre d'affaires	montant_sensible
+CA	montant_sensible
+marge	montant_sensible
+salaire	montant_sensible
+pénalité	montant_sensible
+price	montant_sensible
+cost	montant_sensible
+turnover	montant_sensible
+revenue	montant_sensible
+margin	montant_sensible
+salary	montant_sensible
+penalty	montant_sensible
+سعر	montant_sensible
+كلفة	montant_sensible
+تكلفة	montant_sensible
+رقم معاملات	montant_sensible
+هامش	montant_sensible
+أجر	montant_sensible
+منحة	montant_sensible
+un	nombre_lettres
+une	nombre_lettres
+deux	nombre_lettres
+trois	nombre_lettres
+quatre	nombre_lettres
+cinq	nombre_lettres
+six	nombre_lettres
+sept	nombre_lettres
+huit	nombre_lettres
+neuf	nombre_lettres
+dix	nombre_lettres
+cent	nombre_lettres
+quelques	nombre_lettres
+plusieurs	nombre_lettres
+a	nombre_lettres
+one	nombre_lettres
+two	nombre_lettres
+three	nombre_lettres
+four	nombre_lettres
+five	nombre_lettres
+seven	nombre_lettres
+eight	nombre_lettres
+nine	nombre_lettres
+ten	nombre_lettres
+hundred	nombre_lettres
+several	nombre_lettres
+واحد	nombre_lettres
+اثنان	nombre_lettres
+اثنين	nombre_lettres
+ثلاثة	nombre_lettres
+أربعة	nombre_lettres
+خمسة	nombre_lettres
+ستة	nombre_lettres
+سبعة	nombre_lettres
+ثمانية	nombre_lettres
+تسعة	nombre_lettres
+عشرة	nombre_lettres
+عدة	nombre_lettres
+بضعة	nombre_lettres
+a few	nombre_lettres
+budget	plafond
+plafond	plafond
+enveloppe	plafond
+ميزانية	plafond
+الميزانية	plafond

@@ -1,0 +1,91 @@
+# Marqueurs d'obligation ou d'interdiction pour la CONTRAINTE (guide v2, section 2 ; cas 3 et 4).
+# Format : terme<TAB>type. « modal » : verbe ou auxiliaire modal (lemme ou forme) qui gouverne la contrainte ;
+# « negation » : tournure d'interdiction sans modal (« aucun … n'est autorisé », « ممنوع ») ;
+# « limite » : expression de plafond (« limité à », « au maximum ») ;
+# « faible » : modal qui n'oblige qu'avec une négation ou « seulement » (« ne peut pas », « can only ») ;
+# « negateur » : négation ou restriction qui rend un modal faible contraignant ;
+# « entete » : en-tête d'une liste de contraintes (« Contraintes : », « الشروط: »), introduction jamais incluse.
+# Source : grammaire de la modalité déontique en français (Grevisse, « Le Bon Usage », §§ 819-821), en anglais
+# (Quirk et al., « A Comprehensive Grammar of the English Language », ch. 4) et en arabe standard
+# (يجب، ينبغي، لا يجوز، يمنع).
+devoir	modal
+doit	modal
+doivent	modal
+devra	modal
+devront	modal
+falloir	modal
+faut	modal
+pouvoir	faible
+peut	faible
+peuvent	faible
+must	modal
+shall	modal
+cannot	modal
+can	faible
+may	faible
+should	modal
+required	modal
+يجب	modal
+ينبغي	modal
+يجوز	faible
+يمكن	faible
+يتعين	modal
+يسمح	faible
+interdit	negation
+interdite	negation
+interdits	negation
+autorisé	negation
+autorisée	negation
+obligatoire	negation
+impose	negation
+imposé	negation
+prohibited	negation
+forbidden	negation
+allowed	negation
+compulsory	negation
+mandatory	negation
+ممنوع	negation
+يمنع	negation
+إلزامي	negation
+limité à	limite
+limitée à	limite
+limited to	limite
+au maximum	limite
+at most	limite
+not exceed	limite
+pas	negateur
+ne	negateur
+n'	negateur
+not	negateur
+n't	negateur
+never	negateur
+jamais	negateur
+only	negateur
+seulement	negateur
+que	negateur
+no	negateur
+aucun	negateur
+aucune	negateur
+لا	negateur
+لن	negateur
+ألا	negateur
+الا	negateur
+إلا	negateur
+غير	negateur
+Contraintes	entete
+Contrainte	entete
+Contraintes particulières	entete
+Conditions	entete
+Exigences	entete
+Délai	entete
+Constraints	entete
+Constraint	entete
+Requirements	entete
+Conditions	entete
+Owner's conditions	entete
+Rules	entete
+القيود	entete
+الشروط	entete
+الشروط الخاصة	entete
+ملاحظات	entete
+المتطلبات	entete

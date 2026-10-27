@@ -1,0 +1,195 @@
+# Mots-outils qui bornent un nom propre ou un groupe nominal. Format : terme<TAB>type.
+# « connecteur » : mot admis à l'intérieur d'un nom propre latin (« Ateliers Mécanique de Précision du Cap Bon ») ;
+# « debut » : mot capitalisé de début de phrase à retirer à gauche d'un nom (« The », « Chez ») ;
+# « arret_ar » : mot arabe qui termine un nom (prépositions, relatifs, verbes d'état, conjonctions) ;
+# « lien_nom_ar » : particule de filiation arabe admise dans un nom de personne (« أميرة بن صالح ») ;
+# « champ_personne », « champ_org », « champ_site » : libellés de champ suivis d'un nom (« Interlocuteur : ») ;
+# « salutation » : formule suivie d'un prénom (« Salut Ines, ») ; « cloture » : formule suivie d'une signature ;
+# « adjectif_vide » : adjectif qui ne précise rien et ne vaut pas complément d'un mot-tête (« la démarche suivante »).
+# Source : grammaire générale du français, de l'anglais et de l'arabe standard (prépositions, pronoms relatifs,
+# conjonctions) ; libellés usuels des formulaires et des courriels professionnels.
+de	connecteur
+du	connecteur
+des	connecteur
+d'	connecteur
+la	connecteur
+le	connecteur
+les	connecteur
+el	connecteur
+El	connecteur
+et	connecteur
+&	connecteur
+of	connecteur
+the	connecteur
+and	connecteur
+for	connecteur
+Ben	connecteur
+The	debut
+Le	debut
+La	debut
+Les	debut
+L'	debut
+Chez	debut
+At	debut
+Our	debut
+Notre	debut
+Nous	debut
+We	debut
+Since	debut
+Depuis	debut
+Dear	debut
+Hello	debut
+Bonjour	debut
+In	debut
+For	debut
+Item	debut
+Client	debut
+Customer	debut
+Fournisseur	debut
+Supplier	debut
+Contact	debut
+Objet	debut
+Subject	debut
+في	arret_ar
+على	arret_ar
+من	arret_ar
+إلى	arret_ar
+الى	arret_ar
+عن	arret_ar
+مع	arret_ar
+منذ	arret_ar
+بعد	arret_ar
+قبل	arret_ar
+حول	arret_ar
+خلال	arret_ar
+التي	arret_ar
+الذي	arret_ar
+الذين	arret_ar
+الكائنة	arret_ar
+الكائن	arret_ar
+الواقعة	arret_ar
+الواقع	arret_ar
+الموجهة	arret_ar
+الموجه	arret_ar
+المختصة	arret_ar
+هو	arret_ar
+هي	arret_ar
+أن	arret_ar
+ان	arret_ar
+قد	arret_ar
+كما	arret_ar
+و	arret_ar
+أو	arret_ar
+ثم	arret_ar
+حيث	arret_ar
+إذ	arret_ar
+سنة	arret_ar
+عدد	arret_ar
+رقم	arret_ar
+لدى	arret_ar
+عند	arret_ar
+أجل	arret_ar
+بن	lien_nom_ar
+بنت	lien_nom_ar
+ابن	lien_nom_ar
+أبو	lien_nom_ar
+De	champ_personne
+From	champ_personne
+Contact	champ_personne
+Interlocuteur	champ_personne
+Interlocutrice	champ_personne
+Attendees	champ_personne
+Participants	champ_personne
+Signé	champ_personne
+Signed	champ_personne
+8D owner	champ_personne
+Owner	champ_personne
+Encadrant	champ_personne
+Supervisor	champ_personne
+Contact person	champ_personne
+Émetteur	champ_personne
+من	champ_personne
+المخاطب	champ_personne
+المشرف	champ_personne
+المسؤول	champ_personne
+للاتصال	champ_personne
+للتواصل	champ_personne
+Raison sociale	champ_org
+Nom de l'entreprise	champ_org
+Entreprise	champ_org
+Société	champ_org
+Company	champ_org
+Company name	champ_org
+Employer	champ_org
+Fournisseur	champ_org
+Supplier	champ_org
+اسم المؤسسة	champ_org
+اسم الشركة	champ_org
+المؤسسة	champ_org
+الشركة	champ_org
+Ville	champ_site
+City	champ_site
+Site	champ_site
+Localisation	champ_site
+Lieu	champ_site
+Location	champ_site
+Adresse	champ_site
+Address	champ_site
+المدينة	champ_site
+الموقع	champ_site
+العنوان	champ_site
+الولاية	champ_site
+Salut	salutation
+Bonjour	salutation
+Bonsoir	salutation
+Cher	salutation
+Chère	salutation
+Hello	salutation
+Hi	salutation
+Dear	salutation
+Cordialement	cloture
+Bien cordialement	cloture
+Bien à vous	cloture
+Bonne journée	cloture
+Salutations	cloture
+Kind regards	cloture
+Best regards	cloture
+Regards	cloture
+Sincerely	cloture
+Best	cloture
+مع تحياتي	cloture
+مع خالص التحية	cloture
+وشكرا	cloture
+suivant	adjectif_vide
+suivante	adjectif_vide
+suivants	adjectif_vide
+suivantes	adjectif_vide
+précédent	adjectif_vide
+précédente	adjectif_vide
+même	adjectif_vide
+autre	adjectif_vide
+autres	adjectif_vide
+nouveau	adjectif_vide
+nouvelle	adjectif_vide
+nouveaux	adjectif_vide
+premier	adjectif_vide
+première	adjectif_vide
+dernier	adjectif_vide
+dernière	adjectif_vide
+actuel	adjectif_vide
+actuelle	adjectif_vide
+following	adjectif_vide
+same	adjectif_vide
+other	adjectif_vide
+new	adjectif_vide
+first	adjectif_vide
+last	adjectif_vide
+current	adjectif_vide
+التالية	adjectif_vide
+التالي	adjectif_vide
+نفس	adjectif_vide
+الجديدة	adjectif_vide
+الجديد	adjectif_vide
+الأولى	adjectif_vide
+الحالي	adjectif_vide
+الحالية	adjectif_vide

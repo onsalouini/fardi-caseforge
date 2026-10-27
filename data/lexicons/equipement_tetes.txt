@@ -1,0 +1,160 @@
+# Mots-têtes génériques d'EQUIPEMENT : machines, lignes, outils, installations, logiciels industriels
+# (guide v2, section 2 ; cas 8 : un logiciel ou système est un EQUIPEMENT). Le span est étendu aux compléments
+# du nom (« presse à injection 350 t », « ligne de teinture n°2 »). Format : terme<TAB>type (« champ » : libellé de champ suivi de deux-points), sans casse ;
+# « tete » : annoté seul ou étendu ; « complement » : mot trop générique seul (« la ligne »), annoté seulement
+# avec un complément.
+# Source : vocabulaire général de la production industrielle (norme NF EN ISO 12100, glossaires de maintenance
+# AFNOR X 60-000) et sigles usuels des logiciels industriels (ERP, MES, WMS, GMAO / CMMS, SCADA, PLM).
+ligne	complement
+chaîne	complement
+presse	tete
+four	tete
+fours	tete
+machine	complement
+machines	complement
+convoyeur	tete
+robot	tete
+centre d'usinage	tete
+tour	complement
+fraiseuse	tete
+rectifieuse	tete
+compresseur	tete
+chaudière	tete
+pompe	tete
+étuve	tete
+autoclave	tete
+mélangeur	tete
+broyeur	tete
+extrudeuse	tete
+injecteuse	tete
+sécheur	tete
+séchoir	tete
+pasteurisateur	tete
+stérilisateur	tete
+remplisseuse	tete
+étiqueteuse	tete
+encartonneuse	tete
+comprimeuse	tete
+turbine	tete
+dragéifieuse	tete
+rameuse	tete
+banc	complement
+banc d'essai	tete
+poste	complement
+cellule	complement
+moule	complement
+outil	complement
+outillage	complement
+gabarit	tete
+montage	complement
+caméra	tete
+capteur	tete
+automate	tete
+détecteur	tete
+scanner	tete
+onduleur	tete
+transformateur	tete
+générateur	tete
+groupe électrogène	tete
+cuve	tete
+réservoir	tete
+silo	tete
+entrepôt	tete
+logiciel	tete
+progiciel	tete
+ERP	tete
+MES	tete
+WMS	tete
+GMAO	tete
+SCADA	tete
+PLM	tete
+TMS	tete
+line	complement
+press	tete
+oven	tete
+furnace	tete
+kiln	tete
+machine	complement
+conveyor	tete
+robot	tete
+machining centre	tete
+machining center	tete
+lathe	tete
+milling machine	tete
+compressor	tete
+boiler	tete
+pump	tete
+dryer	tete
+mixer	tete
+blender	tete
+mill	complement
+extruder	tete
+pasteurizer	tete
+pasteuriser	tete
+sterilizer	tete
+filler	tete
+labeller	tete
+labeler	tete
+stenter	tete
+test bench	tete
+bench	complement
+workstation	tete
+station	complement
+cell	complement
+mould	tete
+mold	tete
+tool	complement
+fixture	tete
+jig	tete
+stencil	tete
+camera	tete
+sensor	tete
+PLC	tete
+detector	tete
+scanner	tete
+inverter	tete
+transformer	tete
+generator	tete
+tank	tete
+silo	tete
+warehouse	tete
+software	tete
+system	complement
+CMMS	tete
+dashboard	tete
+خط	complement
+آلة	complement
+الة	complement
+ماكينة	complement
+مكبس	tete
+المكبس	tete
+فرن	tete
+الفرن	tete
+جهاز	complement
+نظام	complement
+محطة	complement
+مضخة	tete
+ضاغط	tete
+مجفف	tete
+خلاط	tete
+مطحنة	tete
+روبوت	tete
+مستودع	tete
+برمجية	tete
+حاسوب	tete
+مركز التشغيل	tete
+منصة	complement
+محول	tete
+المحولات	tete
+مولد	tete
+Équipement concerné	champ
+Équipement	champ
+Equipement	champ
+Machine concernée	champ
+Equipment concerned	champ
+Equipment	champ
+Machine	champ
+المعدات المعنية	champ
+التجهيزات المعنية	champ
+المعدات	champ
+الآلة المعنية	champ

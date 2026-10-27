@@ -1,0 +1,301 @@
+{
+  "backend": "rules",
+  "split": "train",
+  "taux_fuite": {
+    "n": 724,
+    "fuites": 61,
+    "taux": 0.08425414364640885,
+    "totales": 22,
+    "partielles": 39,
+    "taux_totale": 0.03038674033149171,
+    "taux_partielle": 0.05386740331491713,
+    "ic95": [
+      0.06357560062188093,
+      0.10791755644475773
+    ]
+  },
+  "par_etiquette": {
+    "ORG": {
+      "n": 189,
+      "fuites": 3,
+      "taux": 0.015873015873015872,
+      "totales": 3,
+      "partielles": 0,
+      "taux_totale": 0.015873015873015872,
+      "taux_partielle": 0.0,
+      "ic95": [
+        0.0,
+        0.04212215029552489
+      ]
+    },
+    "PERSONNE": {
+      "n": 156,
+      "fuites": 2,
+      "taux": 0.01282051282051282,
+      "totales": 1,
+      "partielles": 1,
+      "taux_totale": 0.00641025641025641,
+      "taux_partielle": 0.00641025641025641,
+      "ic95": [
+        0.0,
+        0.032467532467532464
+      ]
+    },
+    "SITE": {
+      "n": 175,
+      "fuites": 32,
+      "taux": 0.18285714285714286,
+      "totales": 0,
+      "partielles": 32,
+      "taux_totale": 0.0,
+      "taux_partielle": 0.18285714285714286,
+      "ic95": [
+        0.14106505920958767,
+        0.22287230646448522
+      ]
+    },
+    "DONNEE_SENSIBLE": {
+      "n": 204,
+      "fuites": 24,
+      "taux": 0.11764705882352941,
+      "totales": 18,
+      "partielles": 6,
+      "taux_totale": 0.08823529411764706,
+      "taux_partielle": 0.029411764705882353,
+      "ic95": [
+        0.05796152970635102,
+        0.1875
+      ]
+    }
+  },
+  "n_fuites": 61,
+  "causes": {
+    "bordure : mention détectée mais span trop court": 39,
+    "DONNEE_SENSIBLE décrite sans chiffre (limite connue)": 14,
+    "entité jamais détectée dans le document": 5,
+    "variante non retrouvée : la même entité est masquée ailleurs dans le document": 3
+  },
+  "echantillon": [
+    {
+      "passage_id": "syn_en_017_p001",
+      "doc_lang": "en",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "the Menzel Bourguiba free zone",
+      "apres_masque": "the ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "Pharma Manufacturing (ZPZI) is based in the Menzel Bourguiba free zone and its main product, fi"
+    },
+    {
+      "passage_id": "lib_ar_07_p005",
+      "doc_lang": "ar",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "عدد العمال المسرحين سنة 2025",
+      "apres_masque": "عدد العمال المسرحين سنة 2025",
+      "totale": true,
+      "cause": "DONNEE_SENSIBLE décrite sans chiffre (limite connue)",
+      "contexte": "قيمة القرض البنكي المخصص لتجديد الفرن، وعدد العمال المسرحين سنة 2025."
+    },
+    {
+      "passage_id": "lib_ar_01_p005",
+      "doc_lang": "ar",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "قيمة العقد مع الموزع الليبي",
+      "apres_masque": "قيمة العقد مع الموزع الليبي",
+      "totale": true,
+      "cause": "DONNEE_SENSIBLE décrite sans chiffre (limite connue)",
+      "contexte": "واسم. أما سعر شراء الطماطم من الفلاحين وقيمة العقد مع الموزع الليبي فهي معطيات سرية. للتواصل"
+    },
+    {
+      "passage_id": "syn_fr_004_p001",
+      "doc_lang": "fr",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "la zone industrielle de Médenine",
+      "apres_masque": "la ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "iques Horizon (GPHO) est implantée dans la zone industrielle de Médenine. Son produit principal, "
+    },
+    {
+      "passage_id": "lib_en_08_p005",
+      "doc_lang": "en",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "name of the distributor",
+      "apres_masque": "name of the distributor",
+      "totale": true,
+      "cause": "DONNEE_SENSIBLE décrite sans chiffre (limite connue)",
+      "contexte": ": the recall cost (TND 210,000) and the name of the distributor. Kind regards, Dr. Nadia"
+    },
+    {
+      "passage_id": "lib_en_06_p006",
+      "doc_lang": "en",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "distributor's brand",
+      "apres_masque": "distributor's brand",
+      "totale": true,
+      "cause": "DONNEE_SENSIBLE décrite sans chiffre (limite connue)",
+      "contexte": "cation: the cost price per pair and the distributor's brand."
+    },
+    {
+      "passage_id": "lib_en_06_p006",
+      "doc_lang": "en",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "cost price per pair",
+      "apres_masque": "cost price per pair",
+      "totale": true,
+      "cause": "DONNEE_SENSIBLE décrite sans chiffre (limite connue)",
+      "contexte": "Not for publication: the cost price per pair and the distributor's br"
+    },
+    {
+      "passage_id": "lib_ar_08_p005",
+      "doc_lang": "ar",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "رقم المعاملات 4,3 مليون دينار",
+      "apres_masque": "رقم المعاملات ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "معطيات لا تنشر: رقم المعاملات 4,3 مليون دينار وأسماء الحرفاء في قطاع ا"
+    },
+    {
+      "passage_id": "syn_fr_017_p001",
+      "doc_lang": "fr",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "la zone industrielle de Menzel Bourguiba",
+      "apres_masque": "la ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "tique Horizon (CPHO) est implantée dans la zone industrielle de Menzel Bourguiba. Son produit principal, "
+    },
+    {
+      "passage_id": "lib_ar_07_p005",
+      "doc_lang": "ar",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "قيمة القرض البنكي المخصص لتجديد الفرن",
+      "apres_masque": "قيمة القرض البنكي المخصص لتجديد الفرن",
+      "totale": true,
+      "cause": "DONNEE_SENSIBLE décrite sans chiffre (limite connue)",
+      "contexte": "عدم ذكر: قيمة القرض البنكي المخصص لتجديد الفرن، وعدد العمال المسرحين سن"
+    },
+    {
+      "passage_id": "syn_en_027_p001",
+      "doc_lang": "en",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "the Menzel Bourguiba site",
+      "apres_masque": "the ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮ site",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "ngineering Systems (CBPECA) is based in the Menzel Bourguiba site and its main product, st"
+    },
+    {
+      "passage_id": "syn_fr_012_p001",
+      "doc_lang": "fr",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "le site de Médenine",
+      "apres_masque": "le site de ▮▮▮▮▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "s du Cap Bon (STCCA) est lmplantée dans le site de Médenine. Son produit principal, "
+    },
+    {
+      "passage_id": "syn_en_001_p001",
+      "doc_lang": "en",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "the Menzel Bourguiba site",
+      "apres_masque": "the ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮ site",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "Zitouna Foods Group (ZFZI) is based in the Menzel Bourguiba site and its main product, ex"
+    },
+    {
+      "passage_id": "lib_ar_04_p005",
+      "doc_lang": "ar",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "سعر بيع الكيلوواط ساعة",
+      "apres_masque": "سعر بيع الكيلوواط ساعة",
+      "totale": true,
+      "cause": "DONNEE_SENSIBLE décrite sans chiffre (limite connue)",
+      "contexte": ".tn). المنحة الشهرية للمتربص 500 دينار. سعر بيع الكيلوواط ساعة سري."
+    },
+    {
+      "passage_id": "syn_en_010_p001",
+      "doc_lang": "en",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "the Sfax free zone",
+      "apres_masque": "the ▮▮▮▮▮▮▮▮▮▮▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "astics Manufacturing (SPSA) is based in the Sfax free zone and its main product, pà"
+    },
+    {
+      "passage_id": "syn_ar_002_p001",
+      "doc_lang": "ar",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "مدينة صفاقس",
+      "apres_masque": "مدينة ▮▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "تمركز شركة الزيتونة للأسلاك الكهربائية بمدينة صفاقس، ومنتوجها الرئيسي هو حزم"
+    },
+    {
+      "passage_id": "lib_ar_04_p001",
+      "doc_lang": "ar",
+      "source": "lib",
+      "label": "SITE",
+      "surface": "مدينة قابس",
+      "apres_masque": "مدينة ▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": " الشركة محطة شمسية بقدرة 10 ميغاواط قرب مدينة قابس، وتبيع الكهرباء المنتجة "
+    },
+    {
+      "passage_id": "syn_fr_019_p003",
+      "doc_lang": "fr",
+      "source": "syn",
+      "label": "ORG",
+      "surface": "CASA",
+      "apres_masque": "CASA",
+      "totale": true,
+      "cause": "variante non retrouvée : la même entité est masquée ailleurs dans le document",
+      "contexte": "CASA a déjà mené une première"
+    },
+    {
+      "passage_id": "syn_fr_009_p001",
+      "doc_lang": "fr",
+      "source": "syn",
+      "label": "SITE",
+      "surface": "le site de Ben Arous",
+      "apres_masque": "le site de ▮▮▮▮▮▮▮▮▮",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "ar Chaabane (AMPDCH) est implantée dans le site de Ben Arous. Son produit principal, "
+    },
+    {
+      "passage_id": "lib_en_03_p006",
+      "doc_lang": "en",
+      "source": "lib",
+      "label": "DONNEE_SENSIBLE",
+      "surface": "penalty clause of EUR 12,000 per late shipment",
+      "apres_masque": "penalty clause of ▮▮▮▮▮▮▮▮▮▮ per late shipment",
+      "totale": false,
+      "cause": "bordure : mention détectée mais span trop court",
+      "contexte": "Internal only: penalty clause of EUR 12,000 per late shipment; purchase order PO-77120"
+    }
+  ],
+  "seed": 42
+}
