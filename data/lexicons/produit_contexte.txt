@@ -1,0 +1,44 @@
+# Mots de contexte des règles PRODUIT du B7 (caseforge.extraction.rules.produit). Format : terme<TAB>type.
+# Source : grammaire générale du français, de l'anglais et de l'arabe standard.
+# « possessif » : déterminant possessif devant un libellé de produit (« son produit principal, X, est… ») ;
+# « copule » : verbe qui relie un libellé à sa valeur (« sa gamme est X », « its main range is X ») ;
+# « suffixe_ar » : pronom possessif suffixé à un libellé arabe (« منتوجها », « منتجاتهم »).
+son	possessif
+sa	possessif
+ses	possessif
+notre	possessif
+nos	possessif
+leur	possessif
+leurs	possessif
+its	possessif
+their	possessif
+our	possessif
+his	possessif
+her	possessif
+est	copule
+sont	copule
+reste	copule
+restent	copule
+demeure	copule
+demeurent	copule
+is	copule
+are	copule
+remains	copule
+remain	copule
+هو	copule
+هي	copule
+ها	suffixe_ar
+ه	suffixe_ar
+هم	suffixe_ar
+نا	suffixe_ar
+# « reference_document » : qualificatif qui fait d'une « référence » l'identifiant d'un document et non un produit
+# (« Référence interne », « Internal reference » ; guide v2 : un n° de rapport est une DONNEE_SENSIBLE).
+interne	reference_document
+internal	reference_document
+dossier	reference_document
+document	reference_document
+rapport	reference_document
+report	reference_document
+fiche	reference_document
+الداخلي	reference_document
+الداخلية	reference_document

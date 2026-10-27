@@ -9,7 +9,8 @@ Trois modes (métriques officielles : voir ``CLAUDE.md``, section « Métriques 
 - ``token`` (comparaison des modèles NER) : gold et prédiction sont convertis en BIO sur les mots
   (``cfdata.common.spans_to_bio``), puis on compare les entités exactes au niveau des mots (premier mot, dernier
   mot, étiquette). Reproduit ``caseforge.eval.ner_eval`` ; ``tokenizer="stanza"`` remplace les mots de
-  ``cfdata.common.tokenize`` par ceux de ``caseforge.extraction.nlp.parse`` (spaCy fr / en, stanza ar) ;
+  ``cfdata.common.tokenize`` par ceux de ``caseforge.extraction.nlp.parse`` (spaCy fr / en, stanza ar) et
+  ``tokenizer="nltk"`` par ceux de ``caseforge.extraction.nltk_pipeline`` (Punkt + ``NLTKWordTokenizer``, B8) ;
 - ``strict`` : bornes au caractère et étiquette exactes, appariement un-pour-un ;
 - ``partiel`` (diagnostic des bordures) : chevauchement d'au moins 1 caractère et même étiquette ; appariement
   glouton un-pour-un par chevauchement décroissant (une prédiction ne valide qu'une seule entité gold, et
@@ -42,7 +43,7 @@ from cfdata.agreement import cohen_kappa, token_labels
 from cfdata.common import spans_to_bio, tokenize
 
 MODES: tuple[str, ...] = ("token", "strict", "partiel")
-TOKENIZERS: tuple[str, ...] = ("cfdata", "stanza")
+TOKENIZERS: tuple[str, ...] = ("cfdata", "stanza", "nltk")
 SOURCES: tuple[str, ...] = ("syn", "lib", "externe")
 MANQUE = "MANQUÉ"
 INVENTE = "INVENTÉ"
@@ -174,10 +175,11 @@ def _counts(gold: Sequence[Span], pred: Sequence[Span], mode: str) -> Counts:
 
 # ---------- Mode token (niveau mots) ----------
 def offsets_mots(text: str, lang: str, tokenizer: str = "cfdata") -> list[tuple[int, int]]:
-    """Offsets ``(début, fin)`` des mots d'un texte selon le tokeniseur ``cfdata`` ou ``stanza``.
+    """Offsets ``(début, fin)`` des mots d'un texte selon le tokeniseur ``cfdata``, ``stanza`` ou ``nltk``.
 
     ``stanza`` désigne ``caseforge.extraction.nlp.parse`` (spaCy fr / en, stanza ar, mixte par phrase, d'après
-    ``lang``), comme le tokeniseur « spacy/stanza » de la B2.
+    ``lang``), comme le tokeniseur « spacy/stanza » de la B2 ; ``nltk`` désigne
+    ``caseforge.extraction.nltk_pipeline.offsets`` (B8).
     """
     if tokenizer == "cfdata":
         return [(s, e) for _, s, e in tokenize(text)]
@@ -185,6 +187,10 @@ def offsets_mots(text: str, lang: str, tokenizer: str = "cfdata") -> list[tuple[
         from caseforge.extraction.nlp import offsets, parse  # import paresseux : charge spaCy et stanza
 
         return offsets(parse(text, lang))
+    if tokenizer == "nltk":
+        from caseforge.extraction.nltk_pipeline import offsets as offsets_nltk  # import paresseux
+
+        return offsets_nltk(text, lang)
     raise ValueError(f"tokeniseur inconnu {tokenizer!r} : {', '.join(TOKENIZERS)}")
 
 
@@ -365,8 +371,8 @@ def evaluate(
 ) -> dict[str, Any]:
     """Évalue des prédictions contre le gold, dans les modes token, strict et partiel.
 
-    ``tokenizer`` (``cfdata`` ou ``stanza``) ne concerne que le mode token. Avec ``absents_vides``, les passages
-    sont alignés comme dans ``ner_eval`` (``completer_predictions``) et les effectifs sont joints sous
+    ``tokenizer`` (``cfdata``, ``stanza`` ou ``nltk``) ne concerne que le mode token. Avec ``absents_vides``, les
+    passages sont alignés comme dans ``ner_eval`` (``completer_predictions``) et les effectifs sont joints sous
     ``passages_completes``.
 
     Pour chaque mode : bloc global (micro et macro), ventilation par étiquette, par ``doc_lang``, par source

@@ -23,6 +23,7 @@ from caseforge.extraction.nlp import parse
 from caseforge.extraction.rules.base import Candidat
 from caseforge.extraction.rules.dependencies import dependency_candidates
 from caseforge.extraction.rules.matchers import Memoire, enrichir_memoire, matcher_candidates, reutilisations
+from caseforge.extraction.rules.produit import REGLES_PRODUIT, arbitrer, produit_candidates
 from caseforge.extraction.rules.regex import regex_candidates
 from caseforge.extraction.rules.resolve import dedoublonner, resoudre
 from caseforge.labels import REPO_ROOT
@@ -66,6 +67,7 @@ def _bruts(text: str, lang: str, cfg: dict[str, Any]) -> list[Candidat]:
     if couches["dependencies"] and doc is not None:
         des = cfg["regles_desactivees"]
         out += dependency_candidates(doc, "dependencies.contrainte_ar" not in des, "dependencies.bornes_ar" not in des)
+        out = arbitrer(doc, out + produit_candidates(doc), set(REGLES_PRODUIT) - des)
     return [c for c in out if c.rule_id not in cfg["regles_desactivees"]]
 
 

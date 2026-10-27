@@ -57,6 +57,25 @@ Règles du dépôt : [`CLAUDE.md`](CLAUDE.md). Journal : [`experiments.md`](expe
 
   Non vérifié sur Colab : avec torch >= 2.6, stanza 1.6 risque de ne pas charger le modèle arabe (repli sur `spacy.blank('ar')`). Voir les notes en fin de `requirements-lotb-colab.txt`.
 
+### Anonymiser un texte (Lots D et E)
+
+`caseforge.anonymization` expose deux fonctions. `anonymiser(texte, langue)` traite un texte, et `anonymiser_document(passages, langue)` les passages d'un même document : une entreprise y garde le même pseudonyme d'un passage à l'autre.
+
+```python
+from caseforge.anonymization import anonymiser, anonymiser_document
+res = anonymiser("Contact Mr. John Carter at Delta Plastics Ltd in Sousse.", "en")
+print(res["texte_anonymise"])   # Contact [PERSONNE_1] at [ENTREPRISE_A] in [SITE_1].
+docs = anonymiser_document(["La société Delta SARL ...", "Delta SARL fournit ..."], "fr")
+print([r["remplacements"] for r in docs])   # [{start, end, label, pseudonyme, remplacement}, ...]
+```
+
+- **Langues :** `fr`, `ar` ou `en` ; une autre langue lève `ValueError`. Un texte vide est renvoyé tel quel.
+- **Backend :** `union_seuil` par défaut, avec la configuration de `configs/anonymization.yaml` ; `rules`, `b3`, `crf` et `union` sont aussi acceptés.
+- **Format de chaque résultat :** `{"texte_anonymise", "entites": [{start, end, label}], "remplacements": [{start, end, label, pseudonyme, remplacement}]}`.
+- **Positions :** elles sont dans le texte **d'origine**. `remplacement` répète `pseudonyme` : c'est la clé que lit le Lot D (`generation/gabarit.py --anonymisation`).
+- **Coût :** le premier appel charge spaCy, stanza et le CRF, ce qui prend quelques dizaines de secondes.
+- **Limite :** au dev, 6,6 % des occurrences sensibles fuient encore (B6d). Une relecture humaine reste nécessaire (`reports/lotb_anonymisation.md`, section 9).
+
 ## Lot C (modèles)
 
 ```bash

@@ -11,3 +11,5 @@ memoire_document: true
 # B6c : les règles de rappel (caseforge.extraction.rules.rappel) servent l'anonymisation, qui les active dans
 # configs/anonymization.yaml (regles_rappel) ; elles restent hors du NER par défaut (effet mesuré à part).
 regles_desactivees: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_prenom_ar]
+# B7 : règles PRODUIT (caseforge.extraction.rules.produit : produit_libelle, produit_nominalisation, produit_verbe)
+# actives, gardées au train par la règle de décision (results/lotb/b7_produit_cv.json).

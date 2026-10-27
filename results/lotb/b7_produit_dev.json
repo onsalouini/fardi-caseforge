@@ -1,0 +1,271 @@
+{
+  "split": "dev (dev.jsonl), mode token, tokeniseur cfdata",
+  "regles_gardees": [
+    "dependencies.produit_libelle",
+    "dependencies.produit_nominalisation",
+    "dependencies.produit_verbe"
+  ],
+  "B3": {
+    "micro": 0.6807511737089202,
+    "macro_9": 0.6629324139497366,
+    "par_etiquette": {
+      "ORG": 0.8157894736842105,
+      "PERSONNE": 0.9387755102040817,
+      "SITE": 0.7678571428571429,
+      "DONNEE_SENSIBLE": 0.7704918032786885,
+      "PRODUIT": 0.03076923076923077,
+      "EQUIPEMENT": 0.4745762711864407,
+      "PROCESSUS": 0.5853658536585366,
+      "INDICATEUR": 0.8888888888888888,
+      "CONTRAINTE": 0.6938775510204082
+    },
+    "par_langue": {
+      "ar": 0.5833333333333334,
+      "en": 0.7638888888888888,
+      "fr": 0.6866666666666666
+    },
+    "par_source": {
+      "lib": 0.5168539325842697,
+      "syn": 0.6998689384010485
+    },
+    "produit": {
+      "global": {
+        "support_gold": 41,
+        "support_pred": 24,
+        "tp": 1,
+        "fp": 23,
+        "fn": 40,
+        "p": 0.041666666666666664,
+        "r": 0.024390243902439025,
+        "f1": 0.03076923076923077
+      },
+      "langue:ar": {
+        "support_gold": 12,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 12,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "langue:en": {
+        "support_gold": 14,
+        "support_pred": 12,
+        "tp": 0,
+        "fp": 12,
+        "fn": 14,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "langue:fr": {
+        "support_gold": 15,
+        "support_pred": 12,
+        "tp": 1,
+        "fp": 11,
+        "fn": 14,
+        "p": 0.08333333333333333,
+        "r": 0.06666666666666667,
+        "f1": 0.07407407407407407
+      },
+      "source:lib": {
+        "support_gold": 5,
+        "support_pred": 0,
+        "tp": 0,
+        "fp": 0,
+        "fn": 5,
+        "p": 0.0,
+        "r": 0.0,
+        "f1": 0.0
+      },
+      "source:syn": {
+        "support_gold": 36,
+        "support_pred": 24,
+        "tp": 1,
+        "fp": 23,
+        "fn": 35,
+        "p": 0.041666666666666664,
+        "r": 0.027777777777777776,
+        "f1": 0.03333333333333333
+      }
+    },
+    "mixtes": {
+      "n_passages": 4,
+      "support_gold": 13,
+      "support_pred": 14,
+      "tp": 7,
+      "fp": 7,
+      "fn": 6
+    }
+  },
+  "B7": {
+    "micro": 0.7505773672055427,
+    "macro_9": 0.7607794333157432,
+    "par_etiquette": {
+      "ORG": 0.8157894736842105,
+      "PERSONNE": 0.9387755102040817,
+      "SITE": 0.7678571428571429,
+      "DONNEE_SENSIBLE": 0.7704918032786885,
+      "PRODUIT": 0.9113924050632911,
+      "EQUIPEMENT": 0.4745762711864407,
+      "PROCESSUS": 0.5853658536585366,
+      "INDICATEUR": 0.8888888888888888,
+      "CONTRAINTE": 0.6938775510204082
+    },
+    "par_langue": {
+      "ar": 0.644927536231884,
+      "en": 0.8472222222222222,
+      "fr": 0.7549668874172185
+    },
+    "par_source": {
+      "lib": 0.574468085106383,
+      "syn": 0.772020725388601
+    },
+    "produit": {
+      "global": {
+        "support_gold": 41,
+        "support_pred": 38,
+        "tp": 36,
+        "fp": 2,
+        "fn": 5,
+        "p": 0.9473684210526315,
+        "r": 0.8780487804878049,
+        "f1": 0.9113924050632911
+      },
+      "langue:ar": {
+        "support_gold": 12,
+        "support_pred": 12,
+        "tp": 12,
+        "fp": 0,
+        "fn": 0,
+        "p": 1.0,
+        "r": 1.0,
+        "f1": 1.0
+      },
+      "langue:en": {
+        "support_gold": 14,
+        "support_pred": 12,
+        "tp": 12,
+        "fp": 0,
+        "fn": 2,
+        "p": 1.0,
+        "r": 0.8571428571428571,
+        "f1": 0.9230769230769231
+      },
+      "langue:fr": {
+        "support_gold": 15,
+        "support_pred": 14,
+        "tp": 12,
+        "fp": 2,
+        "fn": 3,
+        "p": 0.8571428571428571,
+        "r": 0.8,
+        "f1": 0.8275862068965517
+      },
+      "source:lib": {
+        "support_gold": 5,
+        "support_pred": 5,
+        "tp": 4,
+        "fp": 1,
+        "fn": 1,
+        "p": 0.8,
+        "r": 0.8,
+        "f1": 0.8
+      },
+      "source:syn": {
+        "support_gold": 36,
+        "support_pred": 33,
+        "tp": 32,
+        "fp": 1,
+        "fn": 4,
+        "p": 0.9696969696969697,
+        "r": 0.8888888888888888,
+        "f1": 0.927536231884058
+      }
+    },
+    "mixtes": {
+      "n_passages": 4,
+      "support_gold": 13,
+      "support_pred": 14,
+      "tp": 8,
+      "fp": 6,
+      "fn": 5
+    }
+  },
+  "familles": {
+    "B3": {
+      "total": {
+        "exact": 1,
+        "fp_dependencies.produit_tete": 23,
+        "manque_apres_libelle": 37,
+        "manque_apres_sans_declencheur": 1,
+        "manque_apres_verbe_ou_nominalisation": 2
+      },
+      "ventilation": {
+        "manque_apres_verbe_ou_nominalisation": {
+          "langue:en": 2,
+          "source:lib": 2
+        },
+        "manque_apres_libelle": {
+          "langue:ar": 12,
+          "langue:en": 12,
+          "langue:fr": 13,
+          "mixte": 1,
+          "source:lib": 2,
+          "source:syn": 35
+        },
+        "manque_apres_sans_declencheur": {
+          "langue:fr": 1,
+          "source:lib": 1
+        },
+        "fp_dependencies.produit_tete": {
+          "langue:en": 12,
+          "langue:fr": 11,
+          "mixte": 1,
+          "source:syn": 23
+        },
+        "exact": {
+          "langue:fr": 1,
+          "source:syn": 1
+        }
+      }
+    },
+    "B7": {
+      "total": {
+        "exact": 36,
+        "fp_dependencies.produit_libelle": 1,
+        "fp_dependencies.produit_verbe": 1,
+        "manque_apres_libelle": 4,
+        "manque_apres_sans_declencheur": 1
+      },
+      "ventilation": {
+        "exact": {
+          "langue:ar": 12,
+          "langue:en": 12,
+          "langue:fr": 12,
+          "mixte": 1,
+          "source:lib": 4,
+          "source:syn": 32
+        },
+        "fp_dependencies.produit_verbe": {
+          "langue:fr": 1,
+          "source:lib": 1
+        },
+        "manque_apres_sans_declencheur": {
+          "langue:fr": 1,
+          "source:lib": 1
+        },
+        "manque_apres_libelle": {
+          "langue:en": 2,
+          "langue:fr": 2,
+          "source:syn": 4
+        },
+        "fp_dependencies.produit_libelle": {
+          "langue:fr": 1,
+          "source:syn": 1
+        }
+      }
+    }
+  }
+}

@@ -23,3 +23,5 @@ select = ["E", "F", "W", "I", "UP", "B"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+# Tests lents, lancés par défaut ; les exclure avec : pytest -m "not slow"
+markers = ["slow: test lent (plus de 30 s : pipeline complet sur les documents du dev)"]
