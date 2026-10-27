@@ -1,0 +1,41 @@
+# Mots génériques à ne jamais annoter seuls (guide v2, section 2, colonne « Ne pas annoter » et section 6,
+# « Mots génériques ») : entreprise, partenaire, service interne, fonction seule. Comparaison sans casse,
+# article compris ou non. Source : guide v2 et vocabulaire général fr / en / ar.
+entreprise
+l'entreprise
+la société
+société
+le partenaire
+partenaire
+le client
+le fournisseur
+le groupe
+l'usine
+l'atelier
+la PME
+the company
+company
+the partner
+the client
+the customer
+the supplier
+the plant
+the factory
+Quality Dept.
+Quality Dept
+Quality Department
+Service Qualité
+Service Qualité Client
+Bureau des méthodes
+المؤسسة
+مؤسسة
+الشركة
+شركة
+المصنع
+مصنع
+المجمع
+مجمع
+الشريك
+الحريف
+الحرفاء
+معامل

@@ -1,0 +1,454 @@
+{
+  "n_passages": {
+    "fr": 55,
+    "ar": 54,
+    "en": 53
+  },
+  "n_entites": {
+    "ar": 145,
+    "en": 150,
+    "fr": 154
+  },
+  "repli_ar": false,
+  "modeles": {
+    "fr": "fr_core_news_md",
+    "en": "en_core_web_md",
+    "ar": "stanza ar (UD PADT), via spacy-stanza"
+  },
+  "temps_ms_par_passage": {
+    "cfdata": {
+      "ar": 0.020375928013688985,
+      "en": 0.01880943880609746,
+      "fr": 0.021019996016878973
+    },
+    "spacy/stanza (analyse complète)": {
+      "ar": 423.4271592620105,
+      "en": 8.390116980870447,
+      "fr": 9.28998909446157
+    },
+    "stanza tokenize+mwt seul": {
+      "ar": 38.17880741014421
+    }
+  },
+  "stanza_tokenize_seul_tokens_differents": 0,
+  "spacy_stanza_texte_reecrit": 18,
+  "causes_coupure_cfdata": {
+    "début : proclitique collé": 17,
+    "fin : ponctuation arabe collée": 12,
+    "début : autre": 1
+  },
+  "plafonds": {
+    "cfdata": {
+      "global": 0.9465478841870824,
+      "par_langue": {
+        "ar": 0.8413793103448276,
+        "en": 1.0,
+        "fr": 0.9935064935064936
+      },
+      "par_source": {
+        "lib": 0.9322033898305084,
+        "syn": 0.9487179487179487
+      }
+    },
+    "cfdata+strip": {
+      "global": 0.9599109131403119,
+      "par_langue": {
+        "ar": 0.8827586206896552,
+        "en": 1.0,
+        "fr": 0.9935064935064936
+      },
+      "par_source": {
+        "lib": 0.9491525423728814,
+        "syn": 0.9615384615384616
+      }
+    },
+    "spacy/stanza": {
+      "global": 0.9866369710467706,
+      "par_langue": {
+        "ar": 0.9586206896551724,
+        "en": 1.0,
+        "fr": 1.0
+      },
+      "par_source": {
+        "lib": 1.0,
+        "syn": 0.9846153846153847
+      }
+    },
+    "stanza+strip": {
+      "global": 0.9866369710467706,
+      "par_langue": {
+        "ar": 0.9586206896551724,
+        "en": 1.0,
+        "fr": 1.0
+      },
+      "par_source": {
+        "lib": 1.0,
+        "syn": 0.9846153846153847
+      }
+    }
+  },
+  "n_tokens": {
+    "cfdata": {
+      "fr": 1495,
+      "ar": 1114,
+      "en": 1321
+    },
+    "spacy/stanza": {
+      "fr": 1492,
+      "ar": 1211,
+      "en": 1305
+    }
+  },
+  "entites_coupees": {
+    "cfdata": {
+      "ar": 23,
+      "fr": 1
+    },
+    "spacy/stanza": {
+      "ar": 6
+    }
+  },
+  "n_entites_coupees_distinctes": 24,
+  "top20_coupees_cfdata": [
+    {
+      "label": "CONTRAINTE",
+      "texte": "يجب ألا تتجاوز الميزانية المخصصة 15000 دينار",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_001_p005",
+      "bornes": {
+        "fin": 1
+      },
+      "coupee_par_stanza": 1,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 0,
+        "stanza+strip": 0
+      }
+    },
+    {
+      "label": "CONTRAINTE",
+      "texte": "يجب ألا تتجاوز الميزانية المخصصة 20000 دينار",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_021_p004",
+      "bornes": {
+        "fin": 1
+      },
+      "coupee_par_stanza": 1,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 0,
+        "stanza+strip": 0
+      }
+    },
+    {
+      "label": "CONTRAINTE",
+      "texte": "يجب ألا تتجاوز الميزانية المخصصة 50000 دينار",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_017_p005",
+      "bornes": {
+        "fin": 1
+      },
+      "coupee_par_stanza": 1,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 0,
+        "stanza+strip": 0
+      }
+    },
+    {
+      "label": "CONTRAINTE",
+      "texte": "يجب الا تتجاوز الميزانية المخصصة 30000 دينار",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_006_p004",
+      "bornes": {
+        "fin": 1
+      },
+      "coupee_par_stanza": 1,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 0,
+        "stanza+strip": 0
+      }
+    },
+    {
+      "label": "CONTRAINTE",
+      "texte": "يجب انهاء المشروع في 4 اسابيع",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_022_p004",
+      "bornes": {
+        "fin": 1
+      },
+      "coupee_par_stanza": 1,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 0,
+        "stanza+strip": 0
+      }
+    },
+    {
+      "label": "DONNEE_SENSIBLE",
+      "texte": "العقد عدد 2024-080",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_008_p007",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 1,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "DONNEE_SENSIBLE",
+      "texte": "العقد عدد 2024-115",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_022_p006",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 1,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "DONNEE_SENSIBLE",
+      "texte": "العقد عدد 2024-207",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_001_p007",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 1,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "DONNEE_SENSIBLE",
+      "texte": "العقد عدد 2025-120",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_021_p006",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 1,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "DONNEE_SENSIBLE",
+      "texte": "العقد عدد 2026-032",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_006_p007",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 1,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "DONNEE_SENSIBLE",
+      "texte": "قائمة الحرفاء في قطاع التوزيع الكبير",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "lib_ar_02_p006",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "EQUIPEMENT",
+      "texte": "آلة البثق",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_022_p002",
+      "bornes": {
+        "début+fin": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "EQUIPEMENT",
+      "texte": "آلة التثبيت",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_008_p002",
+      "bornes": {
+        "début+fin": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "EQUIPEMENT",
+      "texte": "آلة التعبئة في الاشرطة",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_017_p002",
+      "bornes": {
+        "début+fin": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "EQUIPEMENT",
+      "texte": "آلة السدّ",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_001_p002",
+      "bornes": {
+        "début+fin": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "EQUIPEMENT",
+      "texte": "آلة القص الالي",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_006_p002",
+      "bornes": {
+        "début+fin": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "EQUIPEMENT",
+      "texte": "المخرطة الرقمية",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_021_p002",
+      "bornes": {
+        "début+fin": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "PERSONNE",
+      "texte": "حاتم الغنوشي",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_017_p007",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "PERSONNE",
+      "texte": "ريم الجزيري",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_022_p007",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 0,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 1,
+        "stanza+strip": 1
+      }
+    },
+    {
+      "label": "PERSONNE",
+      "texte": "ليلى الغربي",
+      "doc_lang": "ar",
+      "occurrences_coupees": 1,
+      "exemple": "syn_ar_021_p007",
+      "bornes": {
+        "début": 1
+      },
+      "coupee_par_stanza": 1,
+      "retrouvee": {
+        "cfdata": 0,
+        "cfdata+strip": 0,
+        "spacy/stanza": 0,
+        "stanza+strip": 0
+      }
+    }
+  ]
+}
