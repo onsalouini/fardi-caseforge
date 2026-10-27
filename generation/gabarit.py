@@ -12,6 +12,7 @@ Par défaut, le texte anonymisé, ptype et entities sont ceux de référence (LO
 """
 import argparse
 import json
+import re
 from pathlib import Path
 
 SENSIBLES = {"ORG", "PERSONNE", "SITE", "DONNEE_SENSIBLE"}
@@ -29,6 +30,14 @@ PHRASES = {
            "releves": "قياسات {}"},
 }
 FIXES = ["consignes", "livrables", "criteres_evaluation"]
+# Données citées en toutes lettres dans un passage « donnee » sans être des entités (même libellé que la référence) :
+# l'élément n'est ajouté que si le passage source les mentionne (aucune invention).
+DONNEES_CITEES = {
+    "fr": [(("erp",), "Extractions de l'ERP"), (("non-conformité", "non conformité"), "Fiches de non-conformité")],
+    "en": [(("erp",), "ERP extracts"), (("non-conformity",), "Non-conformity reports")],
+    "ar": [(("نظام التصرف المندمج",), "مستخرجات من نظام التصرف المندمج"), (("عدم المطابقة",), "بطاقات عدم المطابقة")],
+}
+SUIVI = re.compile(r"\[PERSONNE_\d+\]")
 
 
 def charger(chemin):
@@ -85,7 +94,8 @@ def contient_sensible(texte, noms_sensibles):
     return any(nom and nom in texte for nom in noms_sensibles)
 
 
-def generer(doc, fixes):
+def generer(doc, fixes, version=2):
+    """version 1 : gabarit d'origine ; version 2 : corrections issues de l'analyse d'erreurs (reports/lot_d_erreurs.md)."""
     lang = doc["lang"] if doc["lang"] in PHRASES else "fr"
     P = PHRASES[lang]
     passages = doc["passages"]
@@ -105,12 +115,19 @@ def generer(doc, fixes):
     # Objectifs : indicateur du problème, démarche citée, et passages de type « objectif »
     objectifs = [element(P["analyser"].format(t), pid) for t, pid in entites("INDICATEUR", {"probleme"})[:1]]
     objectifs += [element(P["proposer"].format(t), pid) for t, pid in entites("PROCESSUS")[:1]]
-    objectifs += [element(p["text_anonymise"], p["passage_id"]) for p in passages if p["ptype"] == "objectif"]
+    # un passage « objectif » qui nomme un responsable ([PERSONNE_n]) décrit le suivi du projet, pas un objectif :
+    # sa démarche est déjà reprise ci-dessus (analyse d'erreurs, reports/lot_d_erreurs.md)
+    objectifs += [element(p["text_anonymise"], p["passage_id"]) for p in passages
+                  if p["ptype"] == "objectif" and (version == 1 or not SUIVI.search(p["text_anonymise"]))]
     fiche["objectifs"] = objectifs
 
     # Données : équipements relevés et indicateurs des passages de type « donnee »
     donnees = [element(P["releves"].format(t), pid) for t, pid in entites("EQUIPEMENT", {"donnee"})]
     donnees += [element(t, pid) for t, pid in entites("INDICATEUR", {"donnee"})]
+    for p in passages if version >= 2 else []:
+        if p["ptype"] == "donnee":
+            bas = p["text_anonymise"].lower()
+            donnees += [element(lib, p["passage_id"]) for cles, lib in DONNEES_CITEES.get(lang, []) if any(k in bas for k in cles)]
     fiche["donnees"] = donnees
 
     # Contraintes : une par entité CONTRAINTE
@@ -133,11 +150,12 @@ def main():
     ap.add_argument("--out", default="generation/sorties/fiches_dev.jsonl")
     ap.add_argument("--entites", help="entités prédites par le LOT B (à la place de la référence)")
     ap.add_argument("--anonymisation", help="remplacements de l'anonymiseur du LOT B (à la place de la référence)")
+    ap.add_argument("--version", type=int, default=2, choices=[1, 2], help="1 : gabarit d'origine ; 2 : après analyse d'erreurs")
     args = ap.parse_args()
 
     fixes = textes_fixes()
     docs = brancher_lot_b(charger(f"data/final/documents_{args.split}.jsonl"), args.entites, args.anonymisation)
-    fiches = [generer(d, fixes) for d in docs]
+    fiches = [generer(d, fixes, args.version) for d in docs]
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as f:
         for fiche in fiches:

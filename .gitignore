@@ -33,3 +33,6 @@ mlruns/
 .idea/
 .vscode/
 *.pkl
+
+# --- Lot D : fiches générées (régénérées par generation/gabarit.py) ---
+generation/sorties/
