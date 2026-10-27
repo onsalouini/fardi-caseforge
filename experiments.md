@@ -29,6 +29,125 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Bout en bout (B3 + anonymisation B6) : **5 fuites** dans 4 fiches avec `rules` (`reports/lot_d_bout_en_bout_rules.md`), **4 fuites** dans 4 fiches avec `union_seuil` (`reports/lot_d_bout_en_bout_union_seuil.md`). Les noms non détectés (1 sigle d'entreprise, 2 personnes en arabe, 1 entreprise en anglais) passent par le contexte, qui reprend le texte anonymisé. Point de départ de l'audit B7.
 - La section « Fuites » des rapports cite des noms du dev : ne pas la lire pour concevoir des règles (protocole « dev jamais lu » du Lot B).
 - Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
+
+## 2026-10-27 · Ali · B10 · Ablations de l'anonymisation sur la configuration retenue (dev, analyse)
+- `scripts/b10_ablations_anonymisation.py` (réutilise `scripts/b6d_cv.mesurer`, `scripts/eval_anonymization.coherence` et `comparaison_appariee`) → `results/lotb/b10_ablations_dev.{json,md}` ; rapport : `reports/lotb_anonymisation.md`, section 6, l'ancienne section 6 passant en annexe.
+- Dev seulement, sans aucun réglage changé dans `configs/`. Référence : `union_seuil` B6d, `configs/anonymization.yaml` tel quel. Variantes : un composant retiré à la fois, plus les repères `rules` et `union`.
+- **Référence** : fuite 6,6 % [3,2 ; 10,7] (9 totales / 5 partielles), sur-masquage 21,9 %, F1 caractère 0,628, 4 noms, cohérence 82,8 %.
+- Δ par rapport à la référence (fuite [IC 95 % apparié] / sur-masquage / F1 / noms / cohérence) :
+  - sans coréférence : 0 / 0 / 0 / 0 / **−45,3 points** ;
+  - sans balayage, sans balayage renforcé, sans extension des montants : **aucun effet** ;
+  - sans règles de rappel B6c : **+0,9 point [0,0 ; +2,4], p = 0,12** / +0,2 / −0,007 / **+2 noms** / −0,6 ;
+  - sans plafonds : 0 / **+2,6 points** / −0,022 / 0 / 0 ;
+  - `rules` : **+4,2 points [+1,9 ; +7,0]** / **−19,3** / +0,259 / +2 / +5,7 ;
+  - `union` : 0 / +5,3 / −0,035 / 0 / −1,6.
+- Ventilations de la fuite, uniquement ce qui bouge :
+  - sans règles de rappel : ORG 7,5 → 10,0 %, PERSONNE 1,9 → 3,8 % ; ar 5,8 → 7,2 %, en 8,6 → 10,0 % ; syn_ 3,6 → 4,2 %, lib_ 33,3 → 38,1 % ;
+  - `rules` : SITE 8,8 → 19,3 %, fr 5,4 → 14,9 %, lib_ 33,3 → 47,6 % ;
+  - passages mixtes : 5 occurrences, 0 fuite partout.
+- Lecture :
+  - dans la configuration retenue, seuls les règles de rappel (fuite et noms, gain non significatif), les plafonds (sur-masquage) et la coréférence (cohérence) ont un effet ;
+  - le balayage, renforcé ou non, et l'extension des montants n'apportent rien au dev mais ne coûtent rien ;
+  - le CRF achète 4,2 points de fuite au prix de 19,3 points de sur-masquage, et la F1 caractère DONNEE_SENSIBLE tombe de 0,951 à 0,060.
+
+## 2026-10-27 · Ali · Carte de modèle du Lot B mise à jour (B6d à B9), test lent marqué
+- `docs/carte_modele_lotB.md` : B6d, B6e, B6f, B8 et B9 ajoutés. Aucune nouvelle expérience : chaque chiffre est repris de ce journal ou de `reports/`.
+- Nouvelle limite : les chiffres de fuite du dev sont optimistes, car les corrections B6c à B6f sont parties d'erreurs observées sur le dev. Le vrai chiffre sera celui du test gelé, mesuré une seule fois à la fin.
+- Marqueur pytest `slow` déclaré dans `pyproject.toml` (lancé par défaut). `test_noms_gold_du_dev_masques` (B9, ≈ 1 min 30) s'exclut avec `pytest -m "not slow"`.
+
+## 2026-10-27 · Ali · B9 · Interface publique d'anonymisation pour les Lots D et E
+- `caseforge/anonymization/api.py`, ré-exporté par `caseforge.anonymization`, s'appuie sur `anonymize_document` sans dupliquer sa logique :
+  - `anonymiser_document(passages, langue, backend="union_seuil")` : un résultat par passage, pseudonymes cohérents dans tout le document ;
+  - `anonymiser(texte, langue, backend)` : un document d'un seul passage.
+- Format d'un résultat : `{texte_anonymise, entites: [{start, end, label}], remplacements: [{start, end, label, pseudonyme, remplacement}]}`, positions dans le texte d'origine.
+- Langues `fr` / `ar` / `en`, sinon `ValueError` ; backend `gold` refusé (pas de gold pour un texte libre) ; texte vide renvoyé tel quel.
+- **Format du Lot D vérifié**, sans le modifier :
+  - le lecteur `--anonymisation` n'est **pas sur `main`**, mais sur `origin/lot-d-rag` (`generation/gabarit.py`, commit `be3b426`) ;
+  - il lit `remplacements: [{start, end, remplacement}]` et reconstruit le texte de droite à gauche ;
+  - la clé `remplacement` est donc fournie en plus de `pseudonyme` (même valeur), et un test vérifie cette reconstruction.
+- Tests (`tests/test_api_anonymisation.py`, ajouté à la liste ruff de `CLAUDE.md`) : 10, sur des phrases inventées (format, positions, même entreprise = même pseudonyme, vide, langue ou backend inconnus), plus un test sur les 21 documents du dev.
+  - **Dev, `union_seuil` : 4 noms gold restent visibles** (ORG : `lib_fr_06`, `syn_fr_007`, `syn_fr_022` ; PERSONNE : `syn_ar_022`). Ce sont les 4 fuites de noms du B6d.
+  - Le test vérifie que l'ensemble des noms visibles est exactement celui-là : une nouvelle fuite, ou une fuite corrigée, le fait échouer.
+  - Il prend environ 1 min 30 (analyse stanza et CRF sur 21 documents).
+- Usage documenté dans `README.md` (section Lot B, exemple vérifié).
+
+## 2026-10-27 · Ali · B8 · Pipeline NLTK et ablation de tokenisation (cfdata / stanza / NLTK)
+- Pipeline NLTK `caseforge/extraction/nltk_pipeline.py` (`nltk==3.9.1`, données `punkt_tab`) :
+  - fr / en : Punkt pour les phrases, `NLTKWordTokenizer` pour les mots ;
+  - ar : **repli documenté**, car NLTK n'a ni Punkt ni tokeniseur de mots arabe. Punkt non entraîné avec « ؟ », plus `RegexpTokenizer` : ponctuation arabe séparée, proclitiques collés ;
+  - mixte : traitement phrase par phrase.
+- Harnais : nouvelle variante `tokenizer="nltk"` dans `caseforge/eval/ner_metrics.py`. cfdata reste la référence.
+- Script `scripts/b8_ablation_tokenisation.py` → `results/lotb/b8_tokenisation_dev.{json,md}` ; rapport `reports/lotb_b8_tokenisation.md` ; 7 tests dans `tests/test_nltk_pipeline.py` (ajouté à la liste ruff de `CLAUDE.md`).
+- **Dev, mode token, F1 micro cfdata / stanza / NLTK** :
+  - B3 : 0,681 / 0,674 / 0,681 ;
+  - CRF B1 : 0,393 / 0,377 / 0,393.
+- Ventilations (écarts à cfdata) :
+  - B3 : seules EQUIPEMENT (−5,1 avec stanza), en (−2,1) et syn_ (−0,8) bougent ; NLTK est identique partout ;
+  - CRF, par étiquette : DONNEE_SENSIBLE −7,9 (stanza) / +2,0 (NLTK) ; EQUIPEMENT −2,5 / −2,5 ;
+  - CRF, par langue : ar −6,1 / −0,9 ; en +0,8 / +0,8 ;
+  - CRF, par source : syn_ −1,8 / −0,3 ; lib_ 0,0 / +2,3 ;
+  - passages mixtes : 4 passages, mêmes erreurs avec les trois tokeniseurs.
+- **Plafond F1 stricte** (global / ar) : cfdata 0,947 / 0,841 ; stanza 0,987 / 0,959 ; NLTK 0,960 / 0,883.
+- Correction faite pendant la mise au point : la première regex arabe regroupait « %. ». Le plafond ar était alors de 0,814 ; la correction n'a changé aucune F1 de système.
+- Lecture :
+  - NLTK ≈ cfdata pour comparer les systèmes ;
+  - un tokeniseur plus fin (stanza) relève le plafond mais rend le mode token plus strict. Mécanisme vérifié : mot à trait d'union coupé (B3, « twin-screw »), proclitique inclus par le CRF entraîné sur cfdata ;
+  - **décision : cfdata reste la référence** ; stanza et NLTK sont des variantes à signaler avec le résultat.
+
+## 2026-10-27 · Ali · B6f · Bornes des CONTRAINTE arabes (résultat négatif : aucun effet au train ni au dev)
+- But : corriger les 10 erreurs de bordure des 15 CONTRAINTE arabes du dev relevées au B6c (5 au début, 5 à la fin).
+- **Analyse d'erreurs du TRAIN** (5 plis par document, mode token) : **aucune erreur de bordure**. Les 46 CONTRAINTE ar gold sont exactes : `contrainte_modal` 34, `contrainte_liste` 9, `contrainte_ar` 3 ; aucune fausse.
+- **Règles écrites d'après le guide v2**, sans exemple du train, du dev ni du test (`dependencies.bornes_ar`, `caseforge/extraction/rules/dependencies.py`, listes `intro_ar` et `fin_ar` de `data/lexicons/contrainte_modaux.txt`) :
+  - début (cas 4) : connecteurs d'introduction retirés en tête ;
+  - fin (cas 3) : arrêt avant une subordonnée de cause ou de but ;
+  - recherche sur les mots du texte, car stanza sépare les clitiques.
+- Code et sorties :
+  - diagnostic et règle de décision : `caseforge/eval/bornes.py` ;
+  - scripts : `scripts/b6f_bornes_ar_cv.py` (train) et `scripts/b6f_eval_dev.py` (dev, une seule exécution) ;
+  - résultats : `results/lotb/b6f_cv.json`, `b6f_dev.json`, `b6f.md` ;
+  - 8 tests dans `tests/test_regles.py` ; rapport `reports/lotb_b6f.md`.
+- Règle fixée avant le lancement : gardée si, au train, la F1 token CONTRAINTE ar ne baisse pas et qu'aucune autre étiquette ni langue ne baisse de plus de 0,01.
+- **Train** : toutes les F1 sont inchangées (micro 0,871, CONTRAINTE ar 1,000 dans les 5 plis, 9 étiquettes, 3 langues, 2 sources Δ = 0) → **règle gardée**, mais le critère est rempli trivialement.
+- **Dev, mesure unique, mode token** :
+  - CONTRAINTE ar **0,333 → 0,333** ; CONTRAINTE 0,694 → 0,694 ; micro 0,681 → 0,681 ;
+  - par langue : fr 0,687, ar 0,583, en 0,764 ; par source : syn_ 0,700, lib_ 0,517 ; les 9 étiquettes sont inchangées ;
+  - passages mixtes : 4 passages, fp / fn 7 / 6 inchangés (n < 30).
+- **Résultat négatif** : aucune prédiction ne change, ni au train ni au dev.
+- Le diagnostic du dev (effectifs seulement) précise l'erreur :
+  - 5 débuts trop tôt, 5 fins trop tard, jamais les deux sur le même span ;
+  - les erreurs vont par paires de même règle ;
+  - il y a aussi 5 fausses CONTRAINTE, venues de `contrainte_ar`.
+  - Hypothèse compatible avec ces effectifs, **non vérifiée** : 5 spans qui fusionnent chacun deux conditions consécutives (cas 4).
+  - Piste : couper à une coordination suivie d'un nouveau groupe verbal, à mettre au point sur des phrases construites, puis une seule mesure au dev.
+
+## 2026-10-27 · Ali · B6e · Seuils de union_seuil rechoisis par plis de gabarit (résultat négatif, seuils non retenus)
+- But : ramener le sur-masquage de `union_seuil` au dev de 21,9 % (B6d) à 10 % au plus. Hypothèse : les plis par document du B6b laissaient le même gabarit des deux côtés.
+- Ce qui a été fait :
+  - `caseforge/eval/plis_gabarit.py` : `syn_` groupés par `format`, 5 formats = 5 plis ; `lib_` répartis à tour de rôle, graine 42 ; règle `decision_seuils` ;
+  - `scripts/b6e_plis_gabarit_cv.py` (train, CRF réentraîné par pli, recherche de B6b réutilisée) → `results/lotb/b6e_cv.json` ;
+  - `scripts/b6e_eval_dev.py` (dev, une seule mesure, refuse une seconde exécution) → `results/lotb/b6e_dev.json`, `b6e.md`, `b6e_anonymisation_dev_union_seuil.jsonl` ;
+  - 2 tests dans `tests/test_anonymisation.py` ; rapport : `reports/lotb_anonymisation.md`, sections 4 quater et 9 ;
+  - options B6d inchangées (`fusion_crf: union`, `plafonds_contrainte: true`).
+- Règles fixées avant le lancement :
+  - train : celle de B6b (fuite minimale sous sur-masquage ≤ 10 %, puis sur-masquage minimal, puis seuils les plus hauts) ;
+  - dev : les seuils B6e remplacent ceux du YAML si la fuite monte d'au plus 1 point et si le sur-masquage baisse.
+- **Train, CV 5 plis par gabarit** (fuite [IC 95 %] / sur-masquage) :
+  - rules : 8,3 % [6,2 ; 10,7] / 0,2 % ;
+  - union : 3,5 % / 3,7 % ;
+  - seuils B6b : 3,5 % / 2,2 % ;
+  - **B6e, moyenne ORG 0,35 / PERSONNE aucune / SITE 0,70 / DONNEE_SENSIBLE 0,35 : 3,5 % [1,6 ; 5,8] / 1,8 %**.
+  - Le sur-masquage de `union` reste entre 1,2 et 5,3 % selon le pli : la contrainte des 10 % n'est toujours pas active.
+  - Fuite inchangée dans toutes les tranches (ORG 0,5 %, PERSONNE 0,0 %, SITE 1,1 %, DONNEE_SENSIBLE 10,8 % ; ar 4,3 %, en 2,8 %, fr 3,3 % ; syn_ 0,0 %, lib_ 33,8 %) ; passages mixtes : 71 occurrences, 2 fuites.
+- **Dev, mesure unique** :
+  - seuils B6b : 6,6 % [3,2 ; 10,7] / 21,9 % / F1 caractère 0,628 ;
+  - seuils B6e : 8,5 % [4,6 ; 12,9] / 24,6 % / 0,605.
+  - Par étiquette : SITE 8,8 → 15,8 % ; ORG, PERSONNE et DONNEE_SENSIBLE inchangés.
+  - Par langue : ar 5,8 → 7,2 %, en 8,6 → 8,6 %, fr 5,4 → 9,5 % ; sur-masquage ar 20,7 → 24,6 %, en 18,8 → 23,3 %, fr 25,6 → 25,8 %.
+  - Par source : syn_ 3,6 → 5,2 %, lib_ 33,3 → 38,1 % ; sur-masquage syn_ 22,9 → 25,0 %, lib_ 9,5 → 19,7 %.
+  - Passages mixtes : 5 occurrences, 0 fuite (n < 30).
+- **Décision : seuils B6e non retenus** (fuite +1,9 point, sur-masquage +2,7 points). `configs/anonymization.yaml` garde les seuils B6b, avec un commentaire. Objectif de 10 % non atteint.
+- **Résultat négatif.** Grouper par format ne reproduit pas l'écart entre le train et le dev. Le sur-masquage du dev vient surtout de spans des règles élargis par des entités sûres du CRF (`b1+b3+crf` : 437 caractères sur 638), et aucun seuil n'y touche. La moyenne aggrave le problème (`b3+crf` : 166 → 284 caractères). Le seul levier mesuré reste la fusion aux bornes des règles (B6d), bloquée par l'issue #7 du Lot A. Il faut demander au Lot A comment les gabarits du dev diffèrent de ceux du train.
+
 ## 2026-10-27 · Ons · Lot C : améliorations du palier Bronze (type de passage, recherche)
 - Type de passage avec le contexte du document (`caseforge/models/ptype_contexte.py` → `reports/lotC_ptype_contexte.md`, dev) : marqueur de position ajouté au texte, macro-F1 **0,896 ± 0,000** (fr 0,767 ; ar 1,000 ; en 0,903) contre 0,855 ; bootstrap apparié par document +0,041 [−0,008 ; +0,096], p = 0,048. Ablation : CRF sur la suite des passages 0,852 (aucun gain, enchaînements différents entre gabarits du train et du dev).
 - Recherche du passage source (`caseforge/retrieval/hybride.py` → `reports/lotC_retrieval_hybride.md`, dev) : dans le document de la fiche (protocole du système), BM25 MRR **0,932**, R@5 0,993, contre 0,760 sur tout le split. Fusion BM25 + caractères : résultat négatif (−0,022 et −0,009 de MRR), BM25 seul retenu.
@@ -41,45 +160,33 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Le CRF ne bat B3 que sur PRODUIT (0,370 contre 0,031). Système à battre pour XLM-R (Silver) : B3.
 - Carte de modèle (C4) mise à jour. Palier Bronze du Lot C clos.
 
-## 2026-10-26 · Boutheina · LOT D (Bronze) : fiche par gabarit et recherche TF-IDF
-- `generation/gabarit.py` : fiche générée à partir du document anonymisé (ptype et entités de référence en attendant les lots B et C). Contexte = passage `contexte` ; objectifs = phrases à trous avec l'INDICATEUR du problème et le PROCESSUS ; données = équipements et indicateurs des passages `donnee` ; contraintes = entités CONTRAINTE ; consignes, livrables et critères = textes fixes par langue. Tout élément contenant un nom sensible est retiré.
-- `generation/evaluer.py` → `reports/lot_d.md` (dev, 21 fiches) : F1 éléments 0,83 (syn 0,85 ; lib 0,71), citations P 0,90 / R 0,85, complétude 98 %, **0 fuite**. Point faible : rubrique données (rappel 0,58), éléments non annotés comme « Extractions de l'ERP ».
-- Défaut trouvé dans la référence : « Historique sur six mois » (syn_fr_022) alors que « six mois » n'apparaît pas dans la source → invention dans la fiche de référence (critère 4 de la grille).
-- `generation/recherche.py` → `reports/lot_d_recherche.md` : TF-IDF sur les termes métier, précision@5 0,20 contre 0,15 au hasard, MRR 0,37. Vocabulaire différent entre familles et changement de langue : piste d'une recherche dense multilingue au Silver.
-- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
-
-## 2026-10-26 · Ghayth · Lot C : analyse d'erreurs, bootstrap apparié, carte de modèle
-- 41 erreurs catégorisées (22 type de passage + 19 secteur) → `reports/erreurs_lotC.md` ; hypothèses vérifiées par les poids TF-IDF (`reports/lotC_explications.md`).
-- Bootstrap apparié (10 000 tirages, dev) : caractères − mots = +0,120, IC 95 % [+0,052 ; +0,192], p = 0,0004 ; caractères − classe majoritaire = +0,790, p < 0,0001.
-- Carte de modèle des 5 modèles du Bronze → `docs/carte_modele_lotC.md`.
-
-## 2026-10-26 · Ghayth · Lot C : reproduction d'un résultat publié (CRF sur ANERcorp)
-- `exemples/reproduction_anercorp.py` → `reports/lotC_reproduction_anercorp.md`. ANERcorp complet (148 563 tokens, PER/LOC/ORG/MISC), train 5/6, test 1/6 ; 21 étiquettes invalides corrigées.
-- F1 global 62,18 (IC 95 % bootstrap [59,70 ; 64,61]) ; PER 55,72 ; LOC 80,22 ; ORG 48,83 ; MISC 48,99.
-- Publié : maximum d'entropie 2007 = 54,11 ; CRF 2008 = 65,91. Reproduit à −3,7 points, au-dessus du maximum d'entropie.
-- Écart expliqué : pas de dictionnaires géographiques ni d'étiquettes morpho-syntaxiques, découpage et version du corpus différents.
-- Code écrit avec l'aide d'un assistant IA.
-
-## 2026-10-26 · Ghayth · Lot C : recherche du passage source d'un élément de fiche (BM25 / TF-IDF)
-- `caseforge/retrieval/bm25.py` → `reports/lotC_retrieval.md`. 145 requêtes (éléments de fiche), corpus de 171 passages anonymisés du dev.
-- BM25 : R@1 0,607 ; R@5 0,966 ; MRR 0,760 ; nDCG@5 0,796 (hasard : MRR 0,030). TF-IDF mots 0,754 ; TF-IDF caractères 0,702.
-- MRR par langue (BM25) : fr 0,789 ; ar 0,716 ; en 0,775. Par type : objectifs 0,859 ; contraintes 0,846 ; données 0,631.
-- Usage : contrôle des citations des fiches générées (lot D).
-- Code écrit avec l'aide d'un assistant IA.
-
-## 2026-10-26 · Ghayth · Lot C : classification du secteur (TF-IDF + régression logistique, document entier)
-- `caseforge/models/tfidf_secteur.py` → `reports/lotC_tfidf_secteur.md`. 66 documents en train, 21 en dev ; texte anonymisé ; 7 classes (6 secteurs + autre).
-- Macro-F1 dev : classe majoritaire 0,036 ; mots 0,056 ; caractères 0,026 ; mots + caractères 0,016. Niveau du hasard.
-- Résultat négatif expliqué : la séparation anti-fuite (familles A / C / B) donne au train et au dev des vocabulaires de secteur disjoints ; un modèle lexical ne peut pas généraliser à des termes jamais vus. Cela confirme que le split empêche la mémorisation.
-- Suite : refaire la tâche avec des embeddings multilingues (Silver).
-- Code écrit avec l'aide d'un assistant IA.
-
-## 2026-10-26 · Ghayth · Lot C : classification du type de passage (TF-IDF + régression logistique)
-- `caseforge/models/tfidf_classif.py` → `reports/lotC_tfidf_ptype.md`. Train 496 passages, réglage sur le dev (162) ; test gelé non utilisé.
-- Macro-F1 dev (3 graines) : classe majoritaire 0,065 ; mots 0,739 ± 0,002 ; caractères 2-5 **0,855 ± 0,000** ; mots + caractères 0,812.
-- Par langue (caractères) : fr 0,777 ; ar 0,950 ; en 0,803. Classes faibles : probleme (rappel 0,57) et objectif (0,67).
-- Écart-type quasi nul : la régression logistique est convexe, la graine change peu le résultat.
-- Code écrit avec l'aide d'un assistant IA.
+## 2026-10-27 · Ali · B6d · Sur-masquage de union_seuil : fusion aux bornes des règles (désactivée), plafonds de budget (gardés)
+- Point de départ : B6c, dev. 616 des 752 caractères sur-masqués viennent de la fusion des spans avec le CRF, 114 de plafonds de budget masqués par B1.
+- Ajouts dans `caseforge/anonymization/detect.py` :
+  - `fusionner_regles`, option `fusion_crf` : bornes des règles gardées, priorité de `caseforge.labels` sans élargir le span, le CRF n'ajoute que les entités non trouvées par les règles ;
+  - `retirer_plafonds`, option `plafonds_contrainte` (guide v2, cas 5) : montant DONNEE_SENSIBLE contenu dans une CONTRAINTE détectée par B3 non masqué ;
+  - interrupteurs dans `configs/anonymization.yaml`, 4 tests dans `tests/test_anonymisation.py` ;
+  - scripts `scripts/b6d_cv.py` (train) et `scripts/b6d_eval_dev.py` (dev) ; résultats `results/lotb/b6d_cv.json`, `b6d_dev.json`, `b6d.md` ; rapport : `reports/lotb_anonymisation.md`, sections 4, 4 ter et 9.
+- Règle fixée d'avance : une correction qui augmente la fuite de plus de 1 point est désactivée, sans réajustement sur le dev.
+- **Train, 5 plis groupés par document, CRF hors pli** (fuite [IC 95 %] / sur-masquage / F1 caractère) :
+  - avant : 2,9 % [1,2 ; 4,9] / 2,5 % / 0,861 ;
+  - + fusion : 7,5 % [5,5 ; 9,6] / 1,2 % / 0,919 ;
+  - + plafonds : 2,9 % / 2,4 % / 0,862 ;
+  - les deux : 7,5 % / 1,1 % / 0,919.
+  - **Fusion : +4,6 points de fuite → désactivée dès le train** (`fusion_crf: union`). Plafonds : 0,0 point de fuite, −0,1 point de sur-masquage → gardés.
+- **Dev, mesure unique** :
+  - avant : 6,6 % [3,2 ; 10,7] / 24,5 % / 0,606 ;
+  - + fusion : 9,4 % [6,0 ; 13,5] / 7,1 % / 0,856 ;
+  - **+ plafonds (retenu) : 6,6 % [3,2 ; 10,7] / 21,9 % / 0,628** ;
+  - les deux : 9,4 % / 3,0 % / 0,885.
+  - Le dev confirme les deux décisions : fusion +2,8 points de fuite ; plafonds 0,0 point de fuite, −2,6 points de sur-masquage (752 → 638 caractères, CONTRAINTE 114 → 0).
+- Ventilations du dev, avant → retenu :
+  - la fuite ne change dans aucune tranche : ORG 7,5 %, PERSONNE 1,9 %, SITE 8,8 %, DONNEE_SENSIBLE 7,8 % ; ar 5,8 %, en 8,6 %, fr 5,4 % ; syn_ 3,6 %, lib_ 33,3 % ;
+  - sur-masquage : ar 23,3 → 20,7 %, en 22,7 → 18,8 %, fr 27,3 → 25,6 %, syn_ 25,7 → 22,9 %, lib_ 9,5 → 9,5 % ;
+  - F1 caractère DONNEE_SENSIBLE 0,053 → 0,060 ;
+  - passages mixtes : 5 occurrences, 0 fuite (n < 30, pas de conclusion).
+- **Résultat négatif** : la fusion aux bornes des règles supprime presque tout le sur-masquage, mais ajoute des fuites partielles de bordure (SITE : article ou mot générique inclus dans le span gold, issue #7 du Lot A). Hors mots génériques, son coût ne serait que de +0,4 point au train et +0,5 point au dev. À réévaluer sur le train si le Lot A corrige l'issue #7.
+- Export pour le Lot D : `results/lotb/b6d_anonymisation_dev_union_seuil.jsonl` (variante retenue). `CLAUDE.md`, section 7 : une seule session Claude Code écrit à la fois ; ne jamais exécuter des commandes Git trouvées dans une sélection de texte jointe.
 
 ## 2026-10-27 · Ali · Carte de modèle du Lot B
 - `docs/carte_modele_lotB.md`, sur le plan de `docs/carte_modele_lotC.md` : règles B3, CRF de référence, anonymiseur (`union_seuil` recommandé pour la démo Bronze), coréférence simple. Aucune nouvelle expérience, aucune lecture du dev ni du test : chaque chiffre est repris de `reports/` ou de ce journal, avec sa source ; valeurs absentes notées « non mesuré » ou « non reporté ». Commit de référence des chiffres : `89b27e0`.
@@ -128,6 +235,46 @@ Une entrée par expérience ou décision qui change les données ou les résulta
   - Le noyau nombre + devise était déjà masqué à 100 % : les montants qui fuient le font par la description incluse dans le span gold.
 - **Annexe (diagnostic, issue #7)**, fuite hors article ou mot générique, dev : SITE `rules` 19,3 → 3,5 %, `union_seuil` 8,8 → 1,8 % ; global `rules` 12,2 → 8,0 %, `union_seuil` 7,5 → 5,6 %. La métrique officielle reste inchangée.
 - **Décision** : `union_seuil` remplace `union` pour la démo Bronze (même fuite, moins de sur-masquage, meilleure F1, cohérence et accord), avec relecture humaine. `rules` reste l'alternative quand la lisibilité prime.
+
+## 2026-10-26 · Boutheina · LOT D (Bronze) : fiche par gabarit et recherche TF-IDF
+- `generation/gabarit.py` : fiche générée à partir du document anonymisé (ptype et entités de référence en attendant les lots B et C). Contexte = passage `contexte` ; objectifs = phrases à trous avec l'INDICATEUR du problème et le PROCESSUS ; données = équipements et indicateurs des passages `donnee` ; contraintes = entités CONTRAINTE ; consignes, livrables et critères = textes fixes par langue. Tout élément contenant un nom sensible est retiré.
+- `generation/evaluer.py` → `reports/lot_d.md` (dev, 21 fiches) : F1 éléments 0,83 (syn 0,85 ; lib 0,71), citations P 0,90 / R 0,85, complétude 98 %, **0 fuite**. Point faible : rubrique données (rappel 0,58), éléments non annotés comme « Extractions de l'ERP ».
+- Défaut trouvé dans la référence : « Historique sur six mois » (syn_fr_022) alors que « six mois » n'apparaît pas dans la source → invention dans la fiche de référence (critère 4 de la grille).
+- `generation/recherche.py` → `reports/lot_d_recherche.md` : TF-IDF sur les termes métier, précision@5 0,20 contre 0,15 au hasard, MRR 0,37. Vocabulaire différent entre familles et changement de langue : piste d'une recherche dense multilingue au Silver.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
+
+## 2026-10-26 · Ghayth · Lot C : analyse d'erreurs, bootstrap apparié, carte de modèle
+- 41 erreurs catégorisées (22 type de passage + 19 secteur) → `reports/erreurs_lotC.md` ; hypothèses vérifiées par les poids TF-IDF (`reports/lotC_explications.md`).
+- Bootstrap apparié (10 000 tirages, dev) : caractères − mots = +0,120, IC 95 % [+0,052 ; +0,192], p = 0,0004 ; caractères − classe majoritaire = +0,790, p < 0,0001.
+- Carte de modèle des 5 modèles du Bronze → `docs/carte_modele_lotC.md`.
+
+## 2026-10-26 · Ghayth · Lot C : reproduction d'un résultat publié (CRF sur ANERcorp)
+- `exemples/reproduction_anercorp.py` → `reports/lotC_reproduction_anercorp.md`. ANERcorp complet (148 563 tokens, PER/LOC/ORG/MISC), train 5/6, test 1/6 ; 21 étiquettes invalides corrigées.
+- F1 global 62,18 (IC 95 % bootstrap [59,70 ; 64,61]) ; PER 55,72 ; LOC 80,22 ; ORG 48,83 ; MISC 48,99.
+- Publié : maximum d'entropie 2007 = 54,11 ; CRF 2008 = 65,91. Reproduit à −3,7 points, au-dessus du maximum d'entropie.
+- Écart expliqué : pas de dictionnaires géographiques ni d'étiquettes morpho-syntaxiques, découpage et version du corpus différents.
+- Code écrit avec l'aide d'un assistant IA.
+
+## 2026-10-26 · Ghayth · Lot C : recherche du passage source d'un élément de fiche (BM25 / TF-IDF)
+- `caseforge/retrieval/bm25.py` → `reports/lotC_retrieval.md`. 145 requêtes (éléments de fiche), corpus de 171 passages anonymisés du dev.
+- BM25 : R@1 0,607 ; R@5 0,966 ; MRR 0,760 ; nDCG@5 0,796 (hasard : MRR 0,030). TF-IDF mots 0,754 ; TF-IDF caractères 0,702.
+- MRR par langue (BM25) : fr 0,789 ; ar 0,716 ; en 0,775. Par type : objectifs 0,859 ; contraintes 0,846 ; données 0,631.
+- Usage : contrôle des citations des fiches générées (lot D).
+- Code écrit avec l'aide d'un assistant IA.
+
+## 2026-10-26 · Ghayth · Lot C : classification du secteur (TF-IDF + régression logistique, document entier)
+- `caseforge/models/tfidf_secteur.py` → `reports/lotC_tfidf_secteur.md`. 66 documents en train, 21 en dev ; texte anonymisé ; 7 classes (6 secteurs + autre).
+- Macro-F1 dev : classe majoritaire 0,036 ; mots 0,056 ; caractères 0,026 ; mots + caractères 0,016. Niveau du hasard.
+- Résultat négatif expliqué : la séparation anti-fuite (familles A / C / B) donne au train et au dev des vocabulaires de secteur disjoints ; un modèle lexical ne peut pas généraliser à des termes jamais vus. Cela confirme que le split empêche la mémorisation.
+- Suite : refaire la tâche avec des embeddings multilingues (Silver).
+- Code écrit avec l'aide d'un assistant IA.
+
+## 2026-10-26 · Ghayth · Lot C : classification du type de passage (TF-IDF + régression logistique)
+- `caseforge/models/tfidf_classif.py` → `reports/lotC_tfidf_ptype.md`. Train 496 passages, réglage sur le dev (162) ; test gelé non utilisé.
+- Macro-F1 dev (3 graines) : classe majoritaire 0,065 ; mots 0,739 ± 0,002 ; caractères 2-5 **0,855 ± 0,000** ; mots + caractères 0,812.
+- Par langue (caractères) : fr 0,777 ; ar 0,950 ; en 0,803. Classes faibles : probleme (rappel 0,57) et objectif (0,67).
+- Écart-type quasi nul : la régression logistique est convexe, la graine change peu le résultat.
+- Code écrit avec l'aide d'un assistant IA.
 
 ## 2026-10-26 · Ali · B6 · Anonymisation des documents (dev) : détection, coréférence, balayage, taux de fuite
 - Ajouts : `caseforge/anonymization/` (`detect.py`, `coref_simple.py`, `policy.py`, `anonymizer.py`), `configs/anonymization.yaml`, `scripts/eval_anonymization.py`, `tests/test_anonymisation.py` (19 tests), rapport `reports/lotb_anonymisation.md`. Résultats dans `results/lotb/b6_anonymisation_dev.{json,md}`, `b6_anonymisation_dev_<backend>.jsonl` (offsets et pseudonymes seulement) et `b6_fuites_train.json`.

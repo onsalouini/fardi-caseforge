@@ -9,7 +9,9 @@ Les ancres sont trouvées avec le ``DependencyMatcher`` de spaCy sur le ``Doc`` 
   « كما ») ; un span par conjonct coordonné qui porte son propre modal. Sans modal, un élément d'une liste
   introduite par « Contraintes : » est aussi une CONTRAINTE. B6c, en arabe (``dependencies.contrainte_ar``) :
   tournures d'obligation, d'interdiction ou de limite du lexique (``ancre_ar`` : لا بد من، يشترط، لا يتجاوز، لا يقل
-  عن، في حدود، في أجل لا يتعدى…) et « على [فاعل] أن » ; le sujet qui précède l'ancre est inclus.
+  عن، في حدود، في أجل لا يتعدى…) et « على [فاعل] أن » ; le sujet qui précède l'ancre est inclus. B6f, bornes des
+  contraintes arabes (``dependencies.bornes_ar``, ``bornes_ar``) : connecteurs d'introduction retirés en tête
+  (``intro_ar``, cas 4), arrêt avant une subordonnée de cause ou de but (``fin_ar``, cas 3).
 - INDICATEUR (cas 6 et 7) : nom de grandeur (« taux », « MTBF », « نسبة ») + valeur numérique rattachée (descendant
   syntaxique, ou à défaut la première valeur de la proposition), en un seul span, unité comprise.
 - EQUIPEMENT / PROCESSUS / PRODUIT (cas 6, 8, 9) : mots-têtes génériques étendus à leurs compléments (``nmod``,
@@ -289,6 +291,57 @@ def _debut_ar(doc: Doc, i: int) -> int:
     return next((j + 1 for j in range(i - 1, a - 1, -1) if doc[j]._.norme in _COORD), a)
 
 
+_MOT = re.compile(r"[^\s.,،;؛:!?()«»\"]+")
+
+
+def _connecteur(mots: list[tuple[int, str]], k: int, termes: Iterable[tuple[str, ...]]) -> int:
+    """Nombre de mots du plus long terme qui commence au mot ``k`` (0 sinon) ; le premier mot peut porter la
+    conjonction collée « و » ou « ف » (« ولأن »)."""
+    for t in termes:
+        if k + len(t) > len(mots) or any(mots[k + n][1] != t[n] for n in range(1, len(t))):
+            continue
+        m = mots[k][1]
+        if m == t[0] or (len(m) > 2 and m[0] in "وف" and m[1:] == t[0]):
+            return len(t)
+    return 0
+
+
+def _token_a(doc: Doc, pos: int, a: int, b: int) -> int:
+    """Premier token de ``[a, b)`` qui commence à la position ``pos`` ou après (``b`` sinon)."""
+    return next((j for j in range(a, b) if doc[j].idx >= pos), b)
+
+
+def bornes_ar(doc: Doc, a: int, b: int, ancre: int | None = None) -> tuple[int, int]:
+    """B6f : bornes ``[a, b)`` d'une CONTRAINTE arabe d'après le guide v2 (``intro_ar`` et ``fin_ar`` du lexique).
+
+    Début (cas 4, l'introduction n'est jamais incluse) : les connecteurs d'introduction en tête sont retirés, autant
+    de fois qu'il y en a. Fin (cas 3, la proposition va jusqu'à la valeur incluse) : le span s'arrête avant le premier
+    connecteur de cause ou de but qui suit l'ancre (``ancre``, sinon le premier mot). La recherche se fait sur les
+    mots du texte, pas sur les tokens : stanza sépare les clitiques (« لأن » -> « ل » + « أن »).
+    """
+    if b <= a:
+        return a, b
+    lx = _lexique_modaux()
+    intro = sorted((tuple(x.split()) for x in lx.get("intro_ar", ())), key=len, reverse=True)
+    intro += [(x,) for x in _INTRO]
+    fin = sorted((tuple(x.split()) for x in lx.get("fin_ar", ())), key=len, reverse=True)
+    debut, bout = doc[a].idx, doc[b - 1].idx + len(doc[b - 1].text)
+    mots = [(m.start() + debut, normaliser(m.group())) for m in _MOT.finditer(doc.text[debut:bout])]
+    k = 0
+    while k < len(mots) and (n := _connecteur(mots, k, intro)) and k + n < len(mots):
+        k += n
+    if k:
+        a = _token_a(doc, mots[k][0], a, b)
+    seuil = doc[ancre].idx + len(doc[ancre].text) if ancre is not None else doc[a].idx + 1
+    coupe = next((j for j, (p, _) in enumerate(mots) if p >= seuil and _connecteur(mots, j, fin)), None)
+    if coupe is None:
+        return a, b
+    # « … وذلك لأن … » : la coordination et le démonstratif qui annoncent la justification en font partie
+    while coupe > 1 and mots[coupe - 1][0] > seuil and mots[coupe - 1][1] in _COORD | {"ذلك", "وذلك"}:
+        coupe -= 1
+    return a, _token_a(doc, mots[coupe][0], a, b)
+
+
 def _ancres_ar(doc: Doc, modaux: dict[int, Token | None]) -> dict[int, int]:
     """B6c : ancres arabes (``ancre_ar`` du lexique, « على [فاعل] أن ») ajoutées à ``modaux`` ; renvoie leur début.
 
@@ -319,8 +372,13 @@ def _ancres_ar(doc: Doc, modaux: dict[int, Token | None]) -> dict[int, int]:
     return debut
 
 
-def contraintes(doc: Doc, ancres: dict[str, list[tuple[int, ...]]], ancres_ar: bool = True) -> list[Candidat]:
-    """Candidats CONTRAINTE : un par modal (ou tournure d'interdiction), découpés par conjonct."""
+def contraintes(
+    doc: Doc, ancres: dict[str, list[tuple[int, ...]]], ancres_ar: bool = True, bornes: bool = True
+) -> list[Candidat]:
+    """Candidats CONTRAINTE : un par modal (ou tournure d'interdiction), découpés par conjonct.
+
+    ``bornes`` : bornes arabes du B6f (``bornes_ar``) appliquées aux contraintes dont l'ancre est arabe.
+    """
     lx = _lexique_modaux()
     modaux: dict[int, Token | None] = {}
     for ids in ancres.get("CONTRAINTE_MODAL_VERBE", []):
@@ -366,15 +424,17 @@ def contraintes(doc: Doc, ancres: dict[str, list[tuple[int, ...]]], ancres_ar: b
             else:
                 continue  # deux ancres du même verbe (« ne doit pas ») : on garde la suivante
         a = _nettoyer_gauche(doc, a, b)
+        if bornes and _lang(doc[i]) == "ar":
+            a, b = bornes_ar(doc, a, b, i)
         regle = "dependencies.contrainte_ar" if i in debut_force else "dependencies.contrainte_modal"
         c = _span(doc, a, b, "CONTRAINTE", regle)
         if c is not None and len(doc.char_span(c.start, c.end, alignment_mode="expand") or []) >= 3:
             out.append(c)
-    out += _liste_contraintes(doc, out)
+    out += _liste_contraintes(doc, out, bornes)
     return out
 
 
-def _liste_contraintes(doc: Doc, deja: list[Candidat]) -> list[Candidat]:
+def _liste_contraintes(doc: Doc, deja: list[Candidat], bornes: bool = True) -> list[Candidat]:
     """Éléments d'une liste introduite par un en-tête de contraintes, sans modal (« Pas de nouveau logiciel »)."""
     entetes = _lexique_modaux()["entete"]
     out = []
@@ -392,7 +452,10 @@ def _liste_contraintes(doc: Doc, deja: list[Candidat]) -> list[Candidat]:
             a = max(a, j)
             if b <= a:
                 break
-            c = _span(doc, _nettoyer_gauche(doc, a, b), b, "CONTRAINTE", "dependencies.contrainte_liste")
+            a2, b2 = _nettoyer_gauche(doc, a, b), b
+            if bornes and a2 < b and _lang(doc[a2]) == "ar":
+                a2, b2 = bornes_ar(doc, a2, b)
+            c = _span(doc, a2, b2, "CONTRAINTE", "dependencies.contrainte_liste")
             if c is not None and not any(d.start < c.end and c.start < d.end for d in deja) and b - a >= 2:
                 out.append(c)
             if b >= len(doc) or "\n" in doc[b].text:
@@ -633,16 +696,17 @@ def produits(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Candida
 
 
 # ---------- Point d'entrée ----------
-def dependency_candidates(doc: Doc, ancres_ar: bool = True) -> list[Candidat]:
+def dependency_candidates(doc: Doc, ancres_ar: bool = True, bornes: bool = True) -> list[Candidat]:
     """Candidats de la couche dépendances pour un ``Doc`` analysé (``caseforge.extraction.nlp.parse``).
 
     ``ancres_ar=False`` rend le comportement d'avant B6c (sans ``dependencies.contrainte_ar`` ni l'arrêt de
-    la valeur « proche » d'un INDICATEUR à la virgule).
+    la valeur « proche » d'un INDICATEUR à la virgule). ``bornes=False`` rend celui d'avant B6f (sans
+    ``dependencies.bornes_ar``).
     """
     preparer(doc)
     ancres = _ancres(doc)
     return (
-        contraintes(doc, ancres, ancres_ar)
+        contraintes(doc, ancres, ancres_ar, bornes)
         + indicateurs(doc, ancres, ancres_ar)
         + tetes(doc)
         + champs(doc)

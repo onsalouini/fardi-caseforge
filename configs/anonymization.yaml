@@ -31,12 +31,20 @@ balayage_renforce: true
 # désactiver. Règle : désactivée si elle augmente le sur-masquage de plus de 3 points (mesure sur le dev, sans
 # réajustement).
 regles_rappel: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_prenom_ar]
+# B6d : réduction du sur-masquage de union_seuil (caseforge.anonymization.detect ; mesure : scripts/b6d_cv.py sur le
+# train, scripts/b6d_eval_dev.py sur le dev). Règle : une correction qui augmente la fuite de plus de 1 point est
+# désactivée ici, sans réajustement sur le dev.
+fusion_crf: union           # union : union des spans (B6b, B6c) ; regles : bornes des règles (B6d, désactivée : fuite train +4,6 pt)
+plafonds_contrainte: true   # montant DONNEE_SENSIBLE contenu dans une CONTRAINTE détectée -> non masqué (cas 5)
 extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombre complet + devise (detect.etendre_montants)
 # Backend union_seuil (B6b) : rules ∪ entités du CRF dont la confiance atteint le seuil de leur étiquette.
 # Choisis par validation croisée en 5 plis groupés par document sur le TRAIN (scripts/b6b_union_seuil_cv.py,
 # results/lotb/b6b_union_seuil_cv.json) : fuite minimale sous la contrainte sur-masquage <= 10 %. null = aucune
 # entité du CRF pour cette étiquette.
 # Résultat (27/10/2026) : minimum, à fuite égale avec moyenne (2,9 %) et sur-masquage plus faible (2,5 % contre 3,3 %).
+# B6e (27/10/2026, scripts/b6e_plis_gabarit_cv.py puis scripts/b6e_eval_dev.py) : seuils rechoisis avec des plis
+# groupés par gabarit (moyenne 0,35 / aucun / 0,70 / 0,35), NON retenus : au dev, fuite +1,9 pt et sur-masquage
+# +2,7 pt (règle : fuite <= +1 pt et sur-masquage en baisse). Seuils B6b ci-dessous inchangés.
 union_seuil:
   agregation: minimum
   seuils: {ORG: 0.35, PERSONNE: 0.8, SITE: 0.55, DONNEE_SENSIBLE: 0.3}
