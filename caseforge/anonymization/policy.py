@@ -36,7 +36,8 @@ class Politique:
     """Politique chargée et vérifiée.
 
     ``options`` : coreference, balayage, balayage_longueur_min, extension_montants, balayage_renforce,
-    regles_rappel (rule_id des règles de rappel ajoutées à la détection ``rules``).
+    regles_rappel (rule_id des règles de rappel ajoutées à la détection ``rules``), fusion_crf (``union`` ou
+    ``regles``) et plafonds_contrainte (B6d, ``caseforge.anonymization.detect``).
     """
 
     pseudonymes: dict[str, dict[str, str]]
@@ -92,10 +93,14 @@ def charger_politique(path: Path | str = CONFIG, **options: Any) -> Politique:
             "extension_montants",
             "balayage_renforce",
             "regles_rappel",
+            "fusion_crf",
+            "plafonds_contrainte",
         )
     }
     for k, v in options.items():
         if k not in opts:
             raise ValueError(f"option inconnue {k!r} : {', '.join(opts)}")
         opts[k] = v
+    if opts["fusion_crf"] not in ("union", "regles"):
+        raise ValueError(f"fusion_crf inconnue {opts['fusion_crf']!r} : union, regles")
     return Politique(pseudos, ds["etiquette"], ds["masques"], ds["masque_reference_lot_a"], opts)

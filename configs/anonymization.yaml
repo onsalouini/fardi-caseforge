@@ -31,6 +31,11 @@ balayage_renforce: true
 # désactiver. Règle : désactivée si elle augmente le sur-masquage de plus de 3 points (mesure sur le dev, sans
 # réajustement).
 regles_rappel: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_prenom_ar]
+# B6d : réduction du sur-masquage de union_seuil (caseforge.anonymization.detect ; mesure : scripts/b6d_cv.py sur le
+# train, scripts/b6d_eval_dev.py sur le dev). Règle : une correction qui augmente la fuite de plus de 1 point est
+# désactivée ici, sans réajustement sur le dev.
+fusion_crf: union           # union : union des spans (B6b, B6c) ; regles : bornes des règles (B6d, désactivée : fuite train +4,6 pt)
+plafonds_contrainte: true   # montant DONNEE_SENSIBLE contenu dans une CONTRAINTE détectée -> non masqué (cas 5)
 extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombre complet + devise (detect.etendre_montants)
 # Backend union_seuil (B6b) : rules ∪ entités du CRF dont la confiance atteint le seuil de leur étiquette.
 # Choisis par validation croisée en 5 plis groupés par document sur le TRAIN (scripts/b6b_union_seuil_cv.py,

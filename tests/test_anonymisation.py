@@ -12,10 +12,13 @@ from caseforge.anonymization.anonymizer import anonymize_document, remplacer, sq
 from caseforge.anonymization.coref_simple import Mention, cle, clusteriser, scores_coref
 from caseforge.anonymization.detect import (
     AGREGATIONS,
+    FUSIONS,
     combiner_seuil,
     confiance,
     etendre_montants,
+    fusionner_regles,
     parametres_union_seuil,
+    retirer_plafonds,
 )
 from caseforge.anonymization.policy import charger_politique, sans_numero
 from caseforge.eval.leak import taux_fuite
@@ -337,6 +340,51 @@ def test_parametres_union_seuil_du_yaml() -> None:
     seuils, agregation = parametres_union_seuil()
     assert set(seuils) == set(SENSITIVE_LABELS)
     assert agregation in AGREGATIONS
+
+
+# ---------- B6d : fusion aux bornes des règles, plafonds de budget ----------
+def _crf(start: int, end: int, label: str) -> dict:
+    return {"start": start, "end": end, "label": label, "confiance": {"moyenne": 1.0, "minimum": 1.0}}
+
+
+def test_fusion_regles_garde_les_bornes_des_regles() -> None:
+    regles = [[{"start": 10, "end": 15, "label": "SITE", "systemes": ["b3"]}]]
+    crf = [[_crf(4, 20, "SITE"), _crf(30, 36, "ORG")]]
+    seuils = dict.fromkeys(SENSITIVE_LABELS, 0.0)
+    union = combiner_seuil(regles, crf, seuils, "minimum", "union")[0]
+    bornes = combiner_seuil(regles, crf, seuils, "minimum", "regles")[0]
+    assert [(e["start"], e["end"]) for e in union] == [(4, 20), (30, 36)]
+    assert [(e["start"], e["end"], e["label"]) for e in bornes] == [(10, 15, "SITE"), (30, 36, "ORG")]
+    assert bornes[0]["systemes"] == ["b3"]  # le CRF n'a rien changé à ce span
+    with pytest.raises(ValueError):
+        combiner_seuil(regles, crf, seuils, "minimum", "intersection")
+
+
+def test_fusion_regles_priorite_sans_elargir() -> None:
+    regles = [{"start": 10, "end": 15, "label": "ORG", "systemes": ["b3"]}]
+    out = fusionner_regles(regles, [{"start": 8, "end": 22, "label": "PERSONNE", "systemes": ["crf"]}])
+    assert [(e["start"], e["end"], e["label"], e["systemes"]) for e in out] == [(10, 15, "PERSONNE", ["b3", "crf"])]
+    out = fusionner_regles(regles, [{"start": 8, "end": 22, "label": "SITE", "systemes": ["crf"]}])
+    assert [(e["start"], e["end"], e["label"]) for e in out] == [(10, 15, "ORG")]
+
+
+def test_plafond_de_budget_dans_une_contrainte() -> None:
+    text = "Le budget ne doit pas dépasser 50 000 DT. Le prix est de 12 000 DT."
+    plafond = _ds(text, "50 000 DT")
+    prix = _ds(text, "12 000 DT")
+    contrainte = [(text.index("Le budget"), text.index("DT.") + 2)]
+    assert retirer_plafonds(text, [plafond, prix], contrainte) == [prix]
+    assert retirer_plafonds(text, [plafond, prix], []) == [plafond, prix]
+    ref = _ds(text, "budget")  # pas un montant : gardé même dans la contrainte
+    assert retirer_plafonds(text, [ref], contrainte) == [ref]
+
+
+def test_options_b6d_du_yaml() -> None:
+    opts = charger_politique().options
+    assert opts["fusion_crf"] in FUSIONS
+    assert isinstance(opts["plafonds_contrainte"], bool)
+    with pytest.raises(ValueError):
+        charger_politique(fusion_crf="intersection")
 
 
 # ---------- B6c : balayage renforcé ----------
