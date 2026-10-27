@@ -9,6 +9,7 @@
 pytest>=8.0
 ruff>=0.6
 sklearn-crfsuite==0.5.0   # baseline CRF (B1)
+matplotlib==3.9.2         # figures des rapports (B6b : courbe fuite / sur-masquage)
 # Pipeline linguistique (B2). spacy-stanza 1.0.4 exige stanza < 1.7, et stanza 1.6 ne charge pas ses modèles
 # avec torch >= 2.6 (weights_only par défaut) : d'où torch 2.5.1.
 spacy==3.8.17
