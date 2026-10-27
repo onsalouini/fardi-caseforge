@@ -18,6 +18,13 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-10-27 · Boutheina · Lot E · E5 audit de ré-identification (indices indirects)
+- Quoi : `scripts/audit_reidentification.py` → `reports/lot_e_audit_reidentification.md`. Attaque par k-anonymat : l'attaquant connaît le profil (secteur, produits, équipements, indicateurs) des 87 entreprises du train et du dev, et cherche celles compatibles avec les indices encore visibles dans le texte anonymisé de référence de chaque document du dev (meilleur cas pour l'anonymisation). Test gelé non lu.
+- Résultats (dev, 21 documents) : ré-identifiables (k = 1) avec le secteur seul 2 / 21 (10 %) ; secteur + produits 20 / 21 (95 %) ; + équipements 21 / 21 (100 %). Par langue (secteur + produits) : fr 7 / 7, ar 6 / 7, en 7 / 7 ; syn 18 / 18, lib 2 / 3.
+- Contrôle avec le dev seul comme population : mêmes chiffres ; l'unicité ne vient pas de la séparation des familles du Lot A.
+- Conclusion : masquer les noms ne suffit pas, le produit identifie presque toujours l'entreprise. Pistes : généraliser produits et équipements avant diffusion (coût en précision de la fiche, à mesurer au Silver) ; relecture humaine obligatoire. Mesure le risque signalé comme « non mesuré » dans `docs/carte_modele_lotB.md` et « à auditer » dans `docs/carte_donnees.md`.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le script.
+
 ## 2026-10-27 · Boutheina · Lot E · E1 pipeline complet
 - Quoi : `caseforge/pipeline.py` (`traiter`) enchaîne texte brut → entités B3 → type de passage (Lot C, position) → anonymisation B9 `union_seuil` → fiche Lot D v2, au format de `docs/contrat_pipeline.md` ; `scripts/eval_pipeline.py` l'évalue ; `tests/test_pipeline.py` (18 tests, documents du train).
 - Données : dev, 21 documents reconstitués en texte brut ; test gelé non utilisé. L'option `--test` du script d'évaluation a été retirée : l'évaluation finale passe uniquement par `scripts/final_eval.py` (CLAUDE.md, section 2).
