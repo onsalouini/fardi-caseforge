@@ -18,6 +18,14 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-10-27 · Boutheina · Lot E · E6 audit croisé du Lot C
+- Quoi : `scripts/audit_lotc.py` → `reports/lot_e_audit_lotC.md`. Audit du type de passage (TF-IDF caractères + position, modèle utilisé par le pipeline E1) et des scripts du Lot C, au dev ; test gelé non lu.
+- Protocole : 7 scripts du Lot C (`crf_ner`, `ptype_contexte`, `tfidf_classif`, `tfidf_secteur`, `xlmr_ner`, `bm25`, `hybride`) peuvent lire le test gelé par une option (`--test` ou `--split test`) ; `scripts/final_eval.py` n'existe pas ; le garde-fou ne voit pas ces options. Aucune exécution sur le test n'est consignée. Recommandation : retirer ces options et créer `scripts/final_eval.py`.
+- Reproduction : macro-F1 dev 0,896 (3 graines), identique à l'annonce du Lot C.
+- Robustesse (macro-F1, écart au texte d'origine) : minuscules +0,000 ; sans accents ni diacritiques −0,018 ; bruit OCR 5 % +0,005 ; ordre des passages mélangé −0,147 (fr 0,654, ar 0,773, en 0,780). Le modèle dépend fortement de la position du passage.
+- Statistique : `reports/lotC_ptype_contexte.md` annonce IC 95 % [−0,008 ; +0,096] et p = 0,048 ; l'IC contient 0, donc le gain de la position n'est pas démontré au seuil de 5 % bilatéral (p unilatérale ou IC à corriger).
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le script.
+
 ## 2026-10-27 · Boutheina · Lot E · E5 audit de ré-identification : corrections après relecture
 - Corrections demandées à la relecture : la lecture est générée par `scripts/audit_reidentification.py` (relancer le script la met à jour) ; hypothèses de l'attaque écrites dans le rapport (6 points) ; tableau de rareté des indices ; pourcentages au format « 10 % ».
 - Rareté (87 entreprises, train + dev) : 78 % des produits (64 / 82), 79 % des équipements (72 / 91) et 72 % des indicateurs (85 / 118) ne sont portés que par une seule entreprise ; c'est ce qui rend la combinaison secteur + produits identifiante.
