@@ -8,13 +8,15 @@ faites par l'équipe.
 
 | Modèle | Tâche | Script | Rapport |
 |---|---|---|---|
-| C1 | Type de passage | `caseforge/models/tfidf_classif.py` | `reports/lotC_tfidf_ptype.md` |
+| C1 | Type de passage | `caseforge/models/tfidf_classif.py`, `ptype_contexte.py` | `reports/lotC_tfidf_ptype.md`, `lotC_ptype_contexte.md` |
 | C2 | Secteur du document | `caseforge/models/tfidf_secteur.py` | `reports/lotC_tfidf_secteur.md` |
-| C3 | Passage source d'un élément de fiche | `caseforge/retrieval/bm25.py` | `reports/lotC_retrieval.md` |
-| C4 | NER des 9 entités (baseline apprise) | `caseforge/models/crf_ner.py` | `reports/predictions/crf_dev.jsonl` |
+| C3 | Passage source d'un élément de fiche | `caseforge/retrieval/bm25.py`, `hybride.py` | `reports/lotC_retrieval.md`, `lotC_retrieval_hybride.md` |
+| C4 | NER des 9 entités (baseline apprise) | `caseforge/models/crf_ner.py`, `comparer_ner.py` | `reports/predictions/crf_dev.jsonl`, `lotC_comparaison_ner.md` |
 | C5 | Reproduction : NER arabe sur ANERcorp | `exemples/reproduction_anercorp.py` | `reports/lotC_reproduction_anercorp.md` |
 
-Évaluation NER commune aux lots B et C : `caseforge/eval/ner_eval.py` (entités exactes au niveau des mots).
+Évaluation NER : harnais officiel `caseforge/eval/ner_metrics.py` du Lot B (mode « mots » pour comparer les modèles,
+mode « caractère » et taux de fuite pour l'anonymisation) ; `caseforge/eval/ner_eval.py` donne les mêmes chiffres en mode
+mots (non-régression à 1e-6).
 Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Explications : `reports/lotC_explications.md`.
 
 ---
@@ -36,6 +38,12 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
 
   Bootstrap apparié (10 000 tirages) : caractères − mots = +0,120, IC 95 % [+0,052 ; +0,192], p = 0,0004 ;
   caractères − majoritaire = +0,790, p < 0,0001. Les deux écarts sont significatifs.
+- **Amélioration retenue — position du passage** (`caseforge/models/ptype_contexte.py` → `reports/lotC_ptype_contexte.md`) :
+  le marqueur de position du passage dans son document (début, tête, milieu, queue, fin) est ajouté au texte.
+  Macro-F1 dev **0,896 ± 0,000** (fr 0,767 ; ar 1,000 ; en 0,903), contre 0,855 pour le passage seul ; bootstrap apparié
+  par document : +0,041, IC 95 % [−0,008 ; +0,096], p = 0,048 (gain probable, à la limite de la significativité).
+  Ablation : un CRF sur la suite des passages (transitions apprises) n'apporte rien (0,852) : le dev utilise d'autres
+  variantes de gabarits que le train (séparation anti-fuite), donc d'autres enchaînements ; la position est plus stable.
 - **Limites** : classes probleme (rappel 0,57) et objectif (0,67) confondues avec donnee et contexte ; écart-type nul
   car le problème est convexe (la graine ne change presque rien) ; le corpus simulé (gabarits) facilite la tâche, le score
   sur de vrais documents sera plus bas.
@@ -67,6 +75,11 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
   | TF-IDF caractères | 0,531 | 0,938 | 0,702 | 0,746 | 0,739 | 0,650 | 0,717 |
 
   MRR par type d'élément (BM25) : objectifs 0,859 ; contraintes 0,846 ; données 0,631.
+- **Amélioration retenue — recherche dans le document de la fiche** (`caseforge/retrieval/hybride.py` →
+  `reports/lotC_retrieval_hybride.md`) : dans le système, une fiche cite les passages de son propre document ; limiter le
+  corpus à ce document (6 à 9 passages) donne avec BM25 R@1 0,876 ; R@5 0,993 ; **MRR 0,932** ; nDCG@5 0,944. Le gain vient
+  du protocole, pas du modèle : les deux protocoles sont rapportés. Résultat négatif : la fusion des rangs BM25 + n-grammes
+  de caractères baisse légèrement le MRR (−0,022 sur tout le split, −0,009 dans le document) ; BM25 seul est retenu.
 - **Limites** : les « données » ressemblent aux passages « problème » (même équipement) ; l'arabe est pénalisé par les
   clitiques collés ; le corpus est petit et propre (anonymisation de référence, pas celle du Lot B).
 - **Usage prévu** : contrôle des citations des fiches générées (Lot D) ; à refaire sur la sortie de l'anonymisation du Lot B.
@@ -84,6 +97,11 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
   d'apprentissage en plateau dès 50 % du train (Lot A). Au caractère près, le plafond atteignable en arabe n'est que de
   0,75 à 0,84 à cause des proclitiques : d'où l'évaluation au niveau des mots.
 - **Usage prévu** : baseline de comparaison pour les règles spaCy (Lot B) et XLM-R (Silver).
+- **Comparaison avec les règles du Lot B** (harnais officiel `ner_metrics.py`, mode mots, dev ;
+  `caseforge/models/comparer_ner.py` → `reports/lotC_comparaison_ner.md`) : F1 micro B1 0,432 ; **B3 0,664** ; CRF 0,393.
+  Bootstrap apparié par document (1 000 tirages) : B3 − CRF = +0,271, IC 95 % [+0,223 ; +0,317], p = 0,001 (macro (9) :
+  +0,256, p = 0,001) ; B1 − CRF = +0,039 (p = 0,12, pas de différence). Le CRF ne bat B3 que sur PRODUIT (0,370 contre
+  0,031). Le système à battre au Silver est B3, pas le CRF.
 
 ## C5 · Reproduction d'un résultat publié : NER arabe par CRF sur ANERcorp
 
