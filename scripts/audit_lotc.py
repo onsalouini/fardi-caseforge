@@ -139,7 +139,7 @@ def robustesse(train: list[dict[str, Any]], dev: list[dict[str, Any]]) -> dict[s
 def coherence_ic_p(chemin: str = "reports/lotC_ptype_contexte.md") -> str:
     """Vérifie, dans le rapport du Lot C, qu'un IC 95 % contenant 0 n'est pas présenté avec p < 0,05."""
     texte = (RACINE / chemin).read_text(encoding="utf-8")
-    m = re.search(r"IC 95 % \[([-+]?\d+\.\d+) ; ([-+]?\d+\.\d+)\], p = (\d+\.\d+)", texte)
+    m = re.search(r"IC 95 % \[([-+]?\d+\.\d+) ; ([-+]?\d+\.\d+)\], p(?: bilatérale)? = (\d+\.\d+)", texte)
     if not m:
         return f"Aucun couple IC / p-valeur trouvé dans `{chemin}`."
     bas, haut, p = (float(x) for x in m.groups())

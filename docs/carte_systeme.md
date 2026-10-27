@@ -18,7 +18,7 @@ flowchart LR
 
 | Étape | Lot | Entrée → sortie | Métrique | Données de référence |
 |---|---|---|---|---|
-| Corpus, schéma, splits gelés | A | sources → `data/final/` | kappa inter-annotateurs (0,745) | `docs/guide_annotation_v2.md`, `reports/accord.md` |
+| Corpus, schéma, splits gelés | A | sources → `data/final/` | kappa inter-annotateurs (0,758) | `docs/guide_annotation_v2.md`, `reports/accord.md` |
 | Langue, normalisation, tokenisation | A | texte → passages normalisés | exactitude de la langue par langue | `reports/etude_langue.md` |
 | NER | B (règles), C (modèle) | passage → entités | F1 par entité et par langue (baseline CRF) | `{split}.jsonl`, `hf/` |
 | Coréférence | B | entités → groupes | exactitude des liens | champ `ref` des entités |
@@ -27,6 +27,6 @@ flowchart LR
 | Recherche (RAG) | D | requête → passages | Recall@5, MRR, nDCG | champ `sources` des fiches |
 | Génération de fiche | D | passages → fiche JSON | validité du schéma, fidélité, citations exactes | `fiches_*.jsonl`, 40 fiches relues |
 | Validation | D / E | fiche → alertes | ajouts et omissions détectés | grille de relecture |
-| Interface et API | E | — | temps de correction humaine | — |
+| Interface et API | E | texte brut → sortie du contrat → décision de validation | temps de réponse de l'API ; temps de correction humaine (non mesuré au Bronze) | `docs/contrat_pipeline.md`, `reports/lot_e_pipeline.md` |
 
 Règle transversale : aucune donnée FARDI brute ne quitte la machine ; seules les versions anonymisées alimentent le RAG et la génération.

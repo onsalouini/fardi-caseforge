@@ -7,8 +7,10 @@ Le premier appel (préchauffage au démarrage) n'est pas compté. Résultat : re
 
 from __future__ import annotations
 
+import importlib.util
 import json
 import os
+import platform
 import time
 from pathlib import Path
 from statistics import median, quantiles
@@ -41,7 +43,8 @@ def main() -> None:
         "# Lot E · Temps de réponse de l'API (POST /pipeline)",
         "",
         f"{len(choix)} documents du train (5 par langue), appelés l'un après l'autre après le préchauffage ; "
-        "machine locale, CPU.",
+        f"CPU, Python {platform.python_version()}, stanza "
+        f"{'disponible' if importlib.util.find_spec('spacy_stanza') else 'absent (arabe analysé par spaCy vierge)'}.",
         "",
         f"**Médiane : {median(temps):.0f} ms · 95e centile : {p95:.0f} ms · maximum : {max(temps):.0f} ms.**",
         "",

@@ -8,7 +8,7 @@ A : marqueur de position ajouté au texte, même modèle que la tâche 1. B : CR
 | **A. + position du passage** | 0.896 ± 0.000 | 0.767 | 1.000 | 0.903 |
 | B. + suite des passages (CRF) | 0.852 ± 0.000 | 0.691 | 0.937 | 0.911 |
 
-Bootstrap apparié par document, A − passage seul (2 000 tirages) : écart +0.041, IC 95 % [-0.008 ; +0.096], p = 0.0480.
+Bootstrap apparié par document, A − passage seul (2 000 tirages) : écart +0.041, IC 95 % [-0.008 ; +0.096], p bilatérale = 0.0960.
 
 ## Détail par classe (A, position, graine 2026)
 

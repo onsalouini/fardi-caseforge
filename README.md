@@ -4,16 +4,16 @@ Transformer un document industriel FR / AR / EN en fiche pédagogique anonymisé
 
 ## État des lots (palier Bronze)
 
-| Lot | Responsable | Contenu | Carte / rapport |
-|---|---|---|---|
-| A · Données et langue | Boutheina, Ons | corpus, annotation, kappa 0,758, test gelé `test-gele-v3`, études de langue | [`docs/carte_donnees.md`](docs/carte_donnees.md) |
-| B · Extraction et anonymisation | Ali, Boutheina | règles spaCy (B3), CRF, anonymisation (fuite 6,6 % au dev), coréférence | [`docs/carte_modele_lotB.md`](docs/carte_modele_lotB.md) |
-| C · Modèles | Ghayth, Ons | type de passage (0,896), recherche (MRR 0,932), CRF, reproduction ANERcorp, comparaison B/C | [`docs/carte_modele_lotC.md`](docs/carte_modele_lotC.md) |
-| D · Génération | Ons, Boutheina | fiche par gabarit, recherche TF-IDF (branche `lot-d-rag`) | — |
-| E · Intégration | tous | pipeline, API, interface : contrat [`docs/contrat_pipeline.md`](docs/contrat_pipeline.md) | — |
+| Lot | Responsables | Contenu | Résultat clé (dev) | Carte / rapport |
+|---|---|---|---|---|
+| A · Données et langue | Ons, Boutheina | corpus, annotation, test gelé `test-gele-v3`, études de langue | kappa 0,758 ; 114 problèmes, 2 486 entités | [`docs/carte_donnees.md`](docs/carte_donnees.md) |
+| B · Extraction et anonymisation | Ali, Boutheina | règles spaCy (B3), CRF, anonymisation, coréférence | NER 0,701 (sans les mots du dev) ; fuite 6,6 % | [`docs/carte_modele_lotB.md`](docs/carte_modele_lotB.md) |
+| C · Modèles | Ghayth, Ons | type de passage, recherche du passage source, CRF, reproduction ANERcorp | type de passage 0,896 ; MRR 0,932 | [`docs/carte_modele_lotC.md`](docs/carte_modele_lotC.md) |
+| D · Génération | Ons, Boutheina | fiche par gabarit, recherche de cas similaires | fiche F1 0,93 (0,82 de bout en bout) | [`docs/carte_modele_lotD.md`](docs/carte_modele_lotD.md) |
+| E · Intégration | tous | pipeline, API, interface, audits | pipeline : fiche F1 0,76, 571 ms par document | [`reports/bronze.md`](reports/bronze.md), [`docs/contrat_pipeline.md`](docs/contrat_pipeline.md) |
 
 Journal des expériences : [`experiments.md`](experiments.md). Toutes les mesures publiées sont faites sur le **dev** ;
-le **test gelé n'est évalué qu'une fois, à la fin** (option `--test` des scripts). Le travail passe par une branche par
+le **test gelé n'est évalué qu'une fois, à la fin** (procédure : `CLAUDE.md`, section 2). Le travail passe par une branche par
 lot et une PR approuvée vers `main` ; la CI (`.github/workflows/tests.yml`) lance les tests à chaque PR.
 Usage d'assistants IA : déclaré dans `experiments.md` et dans les cartes de modèle.
 
@@ -114,6 +114,28 @@ pip install -r requirements.txt
 
 
 
+## Lot D · Génération de fiches
+
+```
+python generation/gabarit.py --split dev          # fiches par gabarit (version 2) -> generation/sorties/
+python generation/evaluer.py                       # -> reports/lot_d.md
+python generation/analyser_erreurs.py              # -> reports/lot_d_erreurs.md
+```
+
+Carte : [`docs/carte_modele_lotD.md`](docs/carte_modele_lotD.md). Le test gelé est refusé (`--split test`).
+
+## Lot E · Pipeline (E1)
+
+```python
+from caseforge.pipeline import traiter
+sortie = traiter("Objet : ...\n\nLa société ...", langue="auto")   # format : docs/contrat_pipeline.md
+```
+
+```
+python -m caseforge.pipeline --fichier mon_texte.txt --out sortie.json
+python -m scripts.eval_pipeline                    # évaluation au dev -> reports/lot_e_pipeline.md
+```
+
 ## Lot E · Interface (E2)
 
 ```
@@ -124,3 +146,26 @@ streamlit run app/app.py
 Sources : « Exemple factice » (contrat, sans modèle), « Pipeline local » (`caseforge.pipeline.traiter`, Lot E · E1),
 « API » (`POST /pipeline`, Lot E · E3). La fiche est une **proposition** : elle doit être validée par un enseignant ;
 chaque décision est enregistrée dans `reports/journal_validation.jsonl`.
+
+## Lot E · API (E3)
+
+```
+pip install -r requirements-api.txt
+uvicorn api.main:app --port 8000
+```
+
+Documentation interactive : http://127.0.0.1:8000/docs. Routes : `/sante`, `/extract`, `/anonymize`, `/generate`,
+`/pipeline`, `/validation` (contrat `docs/contrat_pipeline.md`). Mode : variable `CASEFORGE_MODE` (`auto` par défaut,
+`pipeline`, `factice`). Temps de réponse : `python -m scripts.bench_api` → `reports/lot_e_api.md`.
+
+## Lot E · Audits croisés (E5)
+
+```
+python -m scripts.audit_lotA                       # données (test gelé contrôlé par son empreinte seulement)
+python -m scripts.audit_lotB                       # extraction et anonymisation
+python -m scripts.audit_lotc                       # modèles
+python -m scripts.audit_lotD                       # génération de fiches
+python -m scripts.audit_reidentification           # ré-identification par indices indirects
+```
+
+Tableau de bord du palier : [`reports/bronze.md`](reports/bronze.md).

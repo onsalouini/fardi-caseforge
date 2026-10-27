@@ -4,7 +4,10 @@
 
 Systèmes comparés (prédictions déjà calculées, aucune donnée de test lue) :
   - B1 : pré-annotateur du Lot A (`results/lotb/b1_prelabel_dev.jsonl`, Lot B) ;
-  - B3 : règles spaCy du Lot B (`results/lotb/b3_regles_dev.jsonl`) ;
+  - B3 : règles spaCy du Lot B (`results/lotb/b3_regles_dev.jsonl`), OPTIMISTE : les règles PRODUIT (B7) ont été
+    mises au point en regardant le dev ;
+  - B3 sans les mots du dev (B7b, `results/lotb/b3_regles_dev_sans_mots_dev.jsonl`) : la référence équitable, celle
+    que XLM-R doit battre ;
   - CRF : baseline apprise du Lot C (`reports/predictions/crf_dev.jsonl`) ;
   - XLM-R : ajouté automatiquement si `reports/predictions/xlmr_dev_s*.jsonl` existe (Silver).
 Harnais : `caseforge/eval/ner_metrics.py`, mode « mots » (décision d'équipe du 26/10). Bootstrap apparié par document
@@ -23,7 +26,8 @@ from cfdata.common import read_jsonl
 
 SYSTEMES = {
     "B1 pré-annotateur (Lot B)": "results/lotb/b1_prelabel_dev.jsonl",
-    "B3 règles spaCy (Lot B)": "results/lotb/b3_regles_dev.jsonl",
+    "B3 règles spaCy (Lot B, optimiste)": "results/lotb/b3_regles_dev.jsonl",
+    "B3 sans les mots du dev (Lot B, B7b)": "results/lotb/b3_regles_dev_sans_mots_dev.jsonl",
     "CRF (Lot C)": "reports/predictions/crf_dev.jsonl",
 }
 REF = "CRF (Lot C)"
@@ -71,14 +75,22 @@ def main() -> None:
                      f"{b['p_value']:.4f} | {concl} |")
             print(f"{n:28} vs CRF {avg:8} écart {b['delta']:+.3f} IC [{b['ic95'][0]:+.3f} ; {b['ic95'][1]:+.3f}] p {b['p_value']:.4f}")
 
+    b3, b3e = "B3 règles spaCy (Lot B, optimiste)", "B3 sans les mots du dev (Lot B, B7b)"
+    mic = {n: res[n]["global"]["micro"]["f1"] for n in noms}
+    prod = {n: res[n]["par_etiquette"].get("PRODUIT", {"f1": 0.0})["f1"] for n in noms}
+    def fr(x: float) -> str:
+        return f"{x:.3f}".replace(".", ",")
+
     L += ["", "## 4. Lecture", "",
-          "- Les règles B3 du Lot B sont le meilleur système du palier Bronze (micro 0,664 contre 0,393 pour le CRF, écart "
-          "significatif) ; le CRF ne les bat que sur PRODUIT, que les règles couvrent mal. Le CRF reste la seule baseline "
-          "**apprise** et le point de départ de XLM-R.",
+          f"- Les règles du Lot B restent le meilleur système du palier Bronze. La référence **équitable** est B3 sans les "
+          f"mots tirés du dev (B7b) : micro {fr(mic[b3e])}, contre {fr(mic[REF])} pour le CRF. La version complète "
+          f"({fr(mic[b3])}, PRODUIT {fr(prod[b3])}) est optimiste : les règles PRODUIT (B7) ont été mises au point en "
+          f"regardant le dev ; sans ces mots, PRODUIT retombe à {fr(prod[b3e])}.",
+          "- Le CRF reste la seule baseline **apprise** et le point de départ de XLM-R.",
           "- Question de recherche du sujet (« un NER fine-tuné surpasse-t-il les règles ? ») : la réponse viendra de XLM-R "
-          "(Silver), qui doit battre B3, pas seulement le CRF.",
+          f"(Silver), qui doit battre B3 sans les mots du dev ({fr(mic[b3e])}), pas seulement le CRF.",
           "- Limite : 21 documents au dev ; intervalles larges. Les règles B3 ont été conçues sur le train, le CRF y a été "
-          "entraîné : même protocole, même dev."]
+          "entraîné : même protocole, même dev (sauf B7, d'où la version B7b)."]
     out = Path("reports/lotC_comparaison_ner.md")
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
     print(f"-> {out}")

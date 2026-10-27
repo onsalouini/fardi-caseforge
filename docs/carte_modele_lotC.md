@@ -41,7 +41,8 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
 - **Amélioration retenue — position du passage** (`caseforge/models/ptype_contexte.py` → `reports/lotC_ptype_contexte.md`) :
   le marqueur de position du passage dans son document (début, tête, milieu, queue, fin) est ajouté au texte.
   Macro-F1 dev **0,896 ± 0,000** (fr 0,767 ; ar 1,000 ; en 0,903), contre 0,855 pour le passage seul ; bootstrap apparié
-  par document : +0,041, IC 95 % [−0,008 ; +0,096], p = 0,048 (gain probable, à la limite de la significativité).
+  par document : +0,041, IC 95 % [−0,008 ; +0,096], p bilatérale = 0,096 : gain probable mais **non démontré** au seuil de 5 % (l'ancienne valeur 0,048 était
+  unilatérale ; constat de l'audit du Lot C, `reports/lot_e_audit_lotC.md`).
   Ablation : un CRF sur la suite des passages (transitions apprises) n'apporte rien (0,852) : le dev utilise d'autres
   variantes de gabarits que le train (séparation anti-fuite), donc d'autres enchaînements ; la position est plus stable.
 - **Limites** : classes probleme (rappel 0,57) et objectif (0,67) confondues avec donnee et contexte ; écart-type nul
@@ -98,10 +99,12 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
   0,75 à 0,84 à cause des proclitiques : d'où l'évaluation au niveau des mots.
 - **Usage prévu** : baseline de comparaison pour les règles spaCy (Lot B) et XLM-R (Silver).
 - **Comparaison avec les règles du Lot B** (harnais officiel `ner_metrics.py`, mode mots, dev ;
-  `caseforge/models/comparer_ner.py` → `reports/lotC_comparaison_ner.md`) : F1 micro B1 0,432 ; **B3 0,664** ; CRF 0,393.
-  Bootstrap apparié par document (1 000 tirages) : B3 − CRF = +0,271, IC 95 % [+0,223 ; +0,317], p = 0,001 (macro (9) :
-  +0,256, p = 0,001) ; B1 − CRF = +0,039 (p = 0,12, pas de différence). Le CRF ne bat B3 que sur PRODUIT (0,370 contre
-  0,031). Le système à battre au Silver est B3, pas le CRF.
+  `caseforge/models/comparer_ner.py` → `reports/lotC_comparaison_ner.md`, relancé le 27/10 après les règles PRODUIT
+  du Lot B) : F1 micro B1 0,432 ; B3 0,751 (**optimiste** : les règles PRODUIT B7 ont été mises au point sur le dev) ;
+  **B3 sans les mots du dev (B7b) 0,701** ; CRF 0,393. Bootstrap apparié par document (1 000 tirages) : B3 sans les mots
+  du dev − CRF = +0,308, IC 95 % [+0,252 ; +0,363], p = 0,001 (macro (9) : +0,287, p = 0,001) ; B1 − CRF = +0,039
+  (p = 0,12, pas de différence). Avant B7, le CRF battait B3 sur PRODUIT (0,370 contre 0,031) ; sans les mots du dev,
+  B3 retombe à 0,192 sur PRODUIT et le CRF (0,370) reste meilleur sur cette étiquette. Le système à battre au Silver est **B3 sans les mots du dev (0,701)**, pas le CRF.
 
 ## C5 · Reproduction d'un résultat publié : NER arabe par CRF sur ANERcorp
 

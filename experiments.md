@@ -18,6 +18,16 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-10-27 · Ons · Lot E · E4 : tableau de bord du Bronze et corrections issues des audits
+- `reports/bronze.md` : vue d'ensemble des lots A à E (chiffre clé, carte, état), exigences transversales, limites pour la démo ; README (tableau des lots, sections Lot D et pipeline) ; `docs/carte_systeme.md` (kappa 0,758, ligne Interface et API).
+- CI : `.github/workflows/tests.yml` était un YAML invalide (deux-points dans un nom d'étape, ligne 20) ; la CI n'avait jamais tourné. Corrigé.
+- Lot C, comparaison NER relancée : `reports/lotC_comparaison_ner.md` datait d'avant les règles PRODUIT du Lot B (B3 0,664) ; relancée, B3 vaut 0,751 (optimiste, règles mises au point sur le dev) ; ajout de « B3 sans les mots du dev » (B7b) : micro **0,701**, contre 0,393 pour le CRF (+0,308 [+0,252 ; +0,363], p = 0,001). Référence à battre au Silver : 0,701. Lecture générée par le script ; carte C mise à jour.
+- Lot C, type de passage avec la position (constat de l'audit du Lot C) : la p-valeur du bootstrap était unilatérale ; bilatérale, p = 0,096 (IC 95 % [−0,008 ; +0,096] inchangé) : gain de +0,041 probable mais non démontré au seuil de 5 %. `caseforge/models/ptype_contexte.py`, rapport et carte C corrigés ; `scripts/audit_lotc.py` lit le nouveau libellé.
+- Audits croisés : `scripts/audit_lotA.py` (10 contrôles OK, test gelé contrôlé par son empreinte seulement), `scripts/audit_lotB.py` (constat : `results/lotb/b6_anonymisation_dev.md` affiche 7,5 % au lieu de 6,6 % ; relancé ici sans stanza, `eval_anonymization` redonne bien 6,6 % pour `union_seuil`), `scripts/audit_lotD.py` (6 contrôles OK, rapport reproduit). Auditeurs désignés pour la relecture : A Ghayth, B Ons et Ali, D Ali.
+- API : `python -m scripts.bench_api` → `reports/lot_e_api.md` : POST /pipeline, médiane 277 ms, 95e centile 376 ms (15 documents du train, sans stanza) ; section API du README.
+- Reste : `scripts/final_eval.py` (évaluation finale unique) et retrait des options `--test` du Lot C ; mesure du temps de correction humaine.
+- Code et texte rédigés avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
+
 ## 2026-10-27 · Boutheina · Lot E · E6 audit croisé du Lot C
 - Quoi : `scripts/audit_lotc.py` → `reports/lot_e_audit_lotC.md`. Audit du type de passage (TF-IDF caractères + position, modèle utilisé par le pipeline E1) et des scripts du Lot C, au dev ; test gelé non lu.
 - Protocole : 7 scripts du Lot C (`crf_ner`, `ptype_contexte`, `tfidf_classif`, `tfidf_secteur`, `xlmr_ner`, `bm25`, `hybride`) peuvent lire le test gelé par une option (`--test` ou `--split test`) ; `scripts/final_eval.py` n'existe pas ; le garde-fou ne voit pas ces options. Aucune exécution sur le test n'est consignée. Recommandation : retirer ces options et créer `scripts/final_eval.py`.

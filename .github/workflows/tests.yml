@@ -17,14 +17,14 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-      - name: Dépendances (torch CPU, comme en local : pas de GPU dans la CI)
+      - name: "Dépendances (torch CPU comme en local, pas de GPU dans la CI)"
         run: |
           python -m pip install --upgrade pip
           pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements-lotb.txt -r requirements-lotc.txt -r requirements-api.txt
-      - name: Modèle stanza arabe (tests arabes du Lot B)
+      - name: "Modèle stanza arabe (tests arabes du Lot B)"
         run: python -c "import stanza; stanza.download('ar')"
-      - name: Garde-fou du test gelé
+      - name: "Garde-fou du test gelé"
         run: python -m pytest -q tests/test_test_gele.py
-      - name: Tous les tests
+      - name: "Tous les tests"
         run: python -m pytest -q
