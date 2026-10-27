@@ -161,7 +161,7 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 - **Risques éthiques** :
   - **fuites résiduelles** : 6,6 % des occurrences sensibles du dev, dont 4 noms. Ce chiffre est optimiste (voir « Limites communes ») ;
   - **données sensibles sans chiffre** : 6 occurrences au dev et 14 au train fuient avec tous les backends (« valeur du contrat avec le distributeur », « marge par tonne ») ; une règle de forme ne peut pas les détecter (`reports/lotb_anonymisation.md`, section 8) ;
-  - **ré-identification par le contexte** : un secteur, une ville voisine, un effectif ou un produit unique peuvent suffire à reconnaître l'entreprise, même si tous les noms sont masqués. Ce risque n'est pas mesuré ;
+  - **ré-identification par le contexte** : un secteur, une ville voisine, un effectif ou un produit unique peuvent suffire à reconnaître l'entreprise, même si tous les noms sont masqués. Ce risque est mesuré par l'audit E5 (`reports/lot_e_audit_reidentification.md`) : 95 % des documents du dev ré-identifiables par secteur + produits ;
   - **validation humaine obligatoire** avant toute diffusion d'un texte anonymisé, surtout pour les documents libres.
 
 ## B6 · Coréférence simple
