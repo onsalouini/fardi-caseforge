@@ -96,7 +96,8 @@ Une seule session Claude Code écrit dans ce dossier à la fois ; une seconde se
   ```bash
   LOTB="caseforge/labels.py caseforge/eval caseforge/extraction caseforge/anonymization scripts \
         tests/test_labels.py tests/test_test_gele.py tests/test_ner_metrics.py tests/test_non_regression_kappa.py \
-        tests/test_bio.py tests/test_nlp.py tests/test_lib_cv.py tests/test_mode_token.py tests/test_leak.py tests/test_regles.py tests/test_anonymisation.py tests/test_nltk_pipeline.py \n        tests/test_api_anonymisation.py"
+        tests/test_bio.py tests/test_nlp.py tests/test_lib_cv.py tests/test_mode_token.py tests/test_leak.py tests/test_regles.py tests/test_anonymisation.py \
+        tests/test_nltk_pipeline.py tests/test_api_anonymisation.py"
   EXCL="--extend-exclude caseforge/eval/ner_eval.py"
   ruff check $EXCL $LOTB && ruff format --check $EXCL $LOTB
   ```
