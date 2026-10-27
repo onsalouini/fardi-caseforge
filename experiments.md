@@ -26,6 +26,12 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Rapports : `reports/lot_e_pipeline.md`, `reports/lot_e_pipeline_fiches.md`.
 - Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
 
+## 2026-10-27 · Ons · Lot E · E2 : interface Streamlit
+- Quoi : interface 3 colonnes (original coloré / anonymisé / fiche avec sources) + validation enseignante journalisée.
+- Données : exemple factice du contrat (document du train syn_fr_001) ; aucune donnée du dev ni du test.
+- Tests : tests/test_app.py (5 tests, échappement HTML, journal).
+- Code écrit avec l'aide d'un assistant IA (déclaré).
+
 ## 2026-10-27 · Ons · LOT D : analyse d'erreurs, gabarit v2, tests et carte de modèle (palier Bronze clos)
 - `generation/analyser_erreurs.py` → `reports/lot_d_erreurs.md` (dev) : **100 erreurs** du gabarit d'origine, causes attribuées par des règles explicites (à relire) : extraction du Lot B propagée 43 ; donnée fixe (ERP, fiches de non-conformité) non produite 18 ; passage de suivi du projet recopié comme objectif 15 ; texte libre reformulé 13 ; choix du contexte (formulaires) 6 ; bruit OCR 3 ; fuites 2.
 - Gabarit **version 2** (`generation/gabarit.py`, `--version 1` redonne l'original) : données citées en toutes lettres reprises si le passage les mentionne ; passage « objectif » nommant un responsable non recopié. Dev, entrées de référence : F1 éléments **0,83 → 0,93** (fr 0,94 ; ar 0,89 ; en 0,96 ; syn_ 0,97 ; lib_ 0,71), citations P 0,90 / R 0,85 → 0,81, 0 fuite. **Train** (jamais vu par l'analyse) : 0,81 → 0,90, pas de sur-ajustement au dev.
@@ -530,9 +536,3 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 ## 2026-10-19 · Équipe · Jeu de données v1 et baseline CRF
 - 114 problèmes FR/AR/EN, 864 passages, 2 486 entités ; 4 corpus publics (4 513 passages, ORG/PERSONNE/SITE).
 - Baseline CRF : train → dev 0,366, test 0,365 (avant re-gel) ; le dev donne 0,380 après re-gel.
-
-## 2026-10-XX · Lot E · E2 interface Streamlit (Ons)
-- Quoi : interface 3 colonnes (original coloré / anonymisé / fiche avec sources) + validation enseignante journalisée.
-- Données : exemple factice du contrat (document du train syn_fr_001) ; aucune donnée du dev ni du test.
-- Tests : tests/test_app.py (5 tests, échappement HTML, journal).
-- Code écrit avec l'aide d'un assistant IA (déclaré).
