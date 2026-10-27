@@ -146,10 +146,11 @@ def main() -> None:
         g_ = [gold[i] for i in idx]
         diffs.append(f1_score(g_, [posi[-1][i] for i in idx], average="macro") - f1_score(g_, [seul[-1][i] for i in idx], average="macro"))
     diffs.sort()
-    p = (1 + sum(d <= 0 for d in diffs)) / (1 + len(diffs))
+    # p bilatérale (audit du Lot C, reports/lot_e_audit_lotC.md) : deux fois la plus petite queue, bornée à 1
+    p = min(1.0, 2 * min(1 + sum(d <= 0 for d in diffs), 1 + sum(d >= 0 for d in diffs)) / (1 + len(diffs)))
     ecart = sc(posi[-1])["global"] - sc(seul[-1])["global"]
     L += ["", f"Bootstrap apparié par document, A − passage seul (2 000 tirages) : écart {ecart:+.3f}, IC 95 % [{diffs[50]:+.3f} ; {diffs[1949]:+.3f}], "
-          f"p = {p:.4f}.", "", "## Détail par classe (A, position, graine 2026)", "", "```",
+          f"p bilatérale = {p:.4f}.", "", "## Détail par classe (A, position, graine 2026)", "", "```",
           classification_report(gold, posi[-1], digits=3, zero_division=0), "```", "",
           "Lecture : B (transitions apprises) n'apporte rien au global : il gagne en anglais mais perd en français, car la "
           "séparation anti-fuite donne au dev d'autres variantes de gabarits, donc d'autres enchaînements de passages que le "
