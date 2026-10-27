@@ -86,11 +86,11 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
   d'apprentissage en plateau dès 50 % du train (Lot A). Au caractère près, le plafond atteignable en arabe n'est que de
   0,75 à 0,84 à cause des proclitiques : d'où l'évaluation au niveau des mots.
 - **Usage prévu** : baseline de comparaison pour les règles spaCy (Lot B) et XLM-R (Silver).
-- **Comparaison avec les règles du Lot B** (harnais `ner_metrics.py`, `reports/lotb_baseline_regles.md`, dev) : règles
-  strict 0,432 / partiel 0,521 ; CRF strict 0,374 / partiel 0,564. Bootstrap apparié par document (CRF − règles) :
-  strict −0,058 (p = 0,946), partiel +0,043 (p = 0,038). Aucune méthode n'est meilleure partout : les règles sont fortes
-  sur DONNEE_SENSIBLE (0,85) et INDICATEUR (0,86), le CRF sur PERSONNE (0,84), SITE, PRODUIT, EQUIPEMENT et PROCESSUS,
-  où les règles sont à 0.
+- **Comparaison avec les règles du Lot B** (harnais officiel `ner_metrics.py`, mode mots, dev ;
+  `caseforge/models/comparer_ner.py` → `reports/lotC_comparaison_ner.md`) : F1 micro B1 0,432 ; **B3 0,664** ; CRF 0,393.
+  Bootstrap apparié par document (1 000 tirages) : B3 − CRF = +0,271, IC 95 % [+0,223 ; +0,317], p = 0,001 (macro (9) :
+  +0,256, p = 0,001) ; B1 − CRF = +0,039 (p = 0,12, pas de différence). Le CRF ne bat B3 que sur PRODUIT (0,370 contre
+  0,031). Le système à battre au Silver est B3, pas le CRF.
 
 ## C5 · Reproduction d'un résultat publié : NER arabe par CRF sur ANERcorp
 
