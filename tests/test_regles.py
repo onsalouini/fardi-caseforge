@@ -301,3 +301,77 @@ def test_ablation_par_couche() -> None:
     assert not any(e["label"] == "CONTRAINTE" for e in sans_dep)
     with pytest.raises(ValueError, match="couche inconnue"):
         charger_config(ner=False)
+
+
+# ---------- B6c : règles de rappel et CONTRAINTE arabes ----------
+def _rappel(text: str, lang: str) -> list[tuple[str, str, str]]:
+    cfg = charger_config()
+    cfg["regles_desactivees"] = set()
+    return [(text[e["start"] : e["end"]], e["label"], e["rule_id"]) for e in extract_rules(text, lang, cfg)]
+
+
+def test_rappel_hors_ner_par_defaut() -> None:
+    assert not [
+        e for e in extract_rules("Le partenaire STKM livre NordCompo Tunisia.", "fr") if "rappel" in e["rule_id"]
+    ]
+
+
+def test_rappel_sigle_non_defini_sauf_sigles_techniques() -> None:
+    r = _rappel("Le partenaire STKM vise un TRS de 85 % et un WIP réduit ; voir le PV et le KPI H7 II.", "fr")
+    assert ("STKM", "ORG", "rappel.org_sigle") in r
+    assert not [s for s, _, regle in r if regle == "rappel.org_sigle" and s != "STKM"]
+
+
+@pytest.mark.parametrize(
+    ("text", "lang", "attendu"),
+    [
+        ("NordCompo Tunisia fabrique des faisceaux.", "fr", "NordCompo Tunisia"),
+        ("We visited Delta Plast last week.", "en", "Delta Plast"),
+        ("Le site de MediTex emploie 200 personnes.", "fr", "MediTex"),
+    ],
+)
+def test_rappel_org_sans_forme_juridique(text: str, lang: str, attendu: str) -> None:
+    assert (attendu, "ORG", "rappel.org_camelcase") in _rappel(text, lang)
+
+
+def test_rappel_org_pas_de_titre_ni_de_ville_seule() -> None:
+    r = _rappel("Production Review Sfax. Visit Monastir.", "en")
+    assert not [x for x in r if x[2] == "rappel.org_camelcase"]
+
+
+def test_rappel_prenom_arabe_sans_civilite() -> None:
+    r = _rappel("أعدت التقرير سلمى الورتاني، مسؤولة الجودة. أمل كبير في التحسين.", "ar")
+    assert ("سلمى الورتاني", "PERSONNE", "rappel.personne_prenom_ar") in r
+    assert not [x for x in r if x[0].startswith("أمل")]  # prénom ambigu sans indice
+
+
+def test_rappel_prenom_translittere() -> None:
+    assert ("Yosra Mansour", "PERSONNE", "rappel.personne_prenom_ar") in _rappel("Best regards, Yosra Mansour", "en")
+
+
+@pytest.mark.parametrize(
+    ("text", "attendu"),
+    [
+        (
+            "الشروط: الميزانية المخصصة لا تتجاوز 20000 دينار، ولا بد من احترام المواصفة ISO 9001.",
+            ["الميزانية المخصصة لا تتجاوز 20000 دينار", "لا بد من احترام المواصفة ISO 9001"],
+        ),
+        (
+            "على المورد أن يسلم الدفعة الأولى في أجل لا يتعدى ثلاثة أشهر.",
+            ["على المورد أن يسلم الدفعة الأولى في أجل لا يتعدى ثلاثة أشهر"],
+        ),
+        (
+            "يتعين على الفريق تقديم تقرير أسبوعي، وعدد العمال لا يقل عن 12 عاملا.",
+            ["يتعين على الفريق تقديم تقرير أسبوعي", "عدد العمال لا يقل عن 12 عاملا"],
+        ),
+    ],
+)
+def test_contrainte_ar_patrons(text: str, attendu: list[str]) -> None:
+    assert surfaces(text, "ar", "CONTRAINTE") == attendu
+
+
+def test_contrainte_ar_desactivable() -> None:
+    cfg = charger_config()
+    cfg["regles_desactivees"].add("dependencies.contrainte_ar")
+    text = "على المورد أن يسلم الدفعة الأولى في أجل لا يتعدى ثلاثة أشهر."
+    assert not [e for e in extract_rules(text, "ar", cfg) if e["label"] == "CONTRAINTE"]

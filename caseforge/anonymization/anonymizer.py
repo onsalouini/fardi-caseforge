@@ -23,6 +23,7 @@ Chaque remplacement donne aussi sa position dans le texte anonymisé (``start_an
 from __future__ import annotations
 
 import re
+import unicodedata
 from collections import defaultdict
 from collections.abc import Sequence
 from typing import Any
@@ -30,7 +31,7 @@ from typing import Any
 from caseforge.anonymization.coref_simple import ETIQUETTES_COREF, Clusters, Mention, clusteriser
 from caseforge.anonymization.detect import detect_document, etendre_montants
 from caseforge.anonymization.policy import Politique, charger_politique
-from caseforge.extraction.rules.lexicons import APRES_MOT, avant_mot, motif_terme
+from caseforge.extraction.rules.lexicons import APRES_MOT, avant_mot, est_arabe, motif_terme
 
 _SIGLE_COURT = re.compile(r"[A-Z0-9&]{2,6}")
 
@@ -68,10 +69,101 @@ def formes_balayage(
     return {f: next(iter(cs)) for f, cs in candidats.items() if len(cs) == 1}
 
 
+_ARTICLE_LAT = re.compile(r"^(?:l['’]|le |la |les |the |el[ -]|al-)", re.IGNORECASE)
+_LAT_SQ = (("ch", "S"), ("sh", "S"), ("kh", "K"), ("gh", "G"), ("th", "T"), ("dh", "D"), ("dj", "j"), ("ou", "a"),
+           ("q", "k"), ("c", "k"), ("x", "ks"), ("p", "b"), ("v", "f"))  # fmt: skip
+_AR_SQ = {"ب": "b", "ت": "t", "ث": "T", "ج": "j", "ح": "h", "خ": "K", "د": "d", "ذ": "D", "ر": "r", "ز": "z", "س": "s",
+          "ش": "S", "ص": "s", "ض": "d", "ط": "t", "ظ": "D", "غ": "G", "ف": "f", "ق": "k", "ك": "k", "ل": "l", "م": "m",
+          "ن": "n", "ه": "h"}  # fmt: skip
+_MOT_LAT = re.compile(r"[A-Za-zÀ-ÖØ-öø-ÿ]+")
+_MOT_AR = re.compile(r"[ء-ي]+")
+
+
+def squelette_mot(mot: str) -> str:
+    """Squelette consonantique d'un mot, commun aux graphies arabe et latine (« الغربي », « Gharbi » -> « Grb »).
+
+    Translittération simple : article « ال » / « el- » retiré, voyelles, alif, waw, ya, ʿayn et hamza ignorés,
+    digrammes latins (ch, kh, gh, th, dh) ramenés à une consonne, lettres doublées réduites.
+    """
+    from caseforge.extraction.rules.lexicons import normaliser
+
+    n = normaliser(mot)
+    if est_arabe(n):
+        n = n[2:] if n.startswith("ال") and len(n) > 4 else n
+        sq = "".join(_AR_SQ.get(c, "") for c in n)
+    else:
+        n = "".join(c for c in unicodedata.normalize("NFD", n) if unicodedata.category(c) != "Mn")
+        n = re.sub(r"^(?:el|al)[- ]?(?=\w{3})", "", n)
+        for a, b in _LAT_SQ:
+            n = n.replace(a, b)
+        sq = re.sub(r"[^bdfhjklmnrstzSKGTD]", "", n)  # voyelles, w, y, apostrophes, tirets
+    return re.sub(r"(.)\1+", r"\1", sq)
+
+
+def variantes_balayage(forme: str, label: str) -> set[str]:
+    """Variantes d'une forme masquée cherchées par le balayage renforcé (B6c), hors translittération.
+
+    Sans article (« la Société X » -> « Société X », « الشركة » -> « شركة »), ORG sans le pays final
+    (« X Tunisia » -> « X »), nom de famille seul d'une PERSONNE de deux mots ou plus.
+    """
+    from caseforge.extraction.rules.lexicons import termes
+
+    out = set()
+    sans = _ARTICLE_LAT.sub("", forme)
+    if sans != forme:
+        out.add(sans)
+    if est_arabe(forme) and forme.startswith("ال") and len(forme.split()[0]) > 4:
+        out.add(forme[2:])
+    mots_forme = forme.split()
+    if label == "ORG" and len(mots_forme) >= 2 and mots_forme[-1] in set(termes("secteurs_org", "pays")):
+        out.add(" ".join(mots_forme[:-1]))
+    if label == "PERSONNE" and len(mots_forme) >= 2 and not mots_forme[-1].endswith("."):
+        out.add(mots_forme[-1])
+    return {v.strip() for v in out if _non_blancs(v) >= 4}
+
+
+def _translitterations(
+    textes: Sequence[str], formes: dict[str, int], label_cluster: dict[int, str]
+) -> list[tuple[int, int, int, int]]:
+    """Occurrences d'une forme ORG / PERSONNE / SITE dans l'autre écriture : ``(passage, début, fin, cluster)``."""
+    cibles: dict[tuple[str, ...], int] = {}
+    for f, c in formes.items():
+        if label_cluster[c] not in ETIQUETTES_COREF:
+            continue
+        sq = tuple(squelette_mot(w) for w in (_MOT_AR if est_arabe(f) else _MOT_LAT).findall(f))
+        if sq and all(len(x) >= 2 for x in sq) and sum(map(len, sq)) >= 4:
+            cle = ("ar" if est_arabe(f) else "lat", *sq)
+            cibles[cle] = c if cibles.get(cle, c) == c else -1  # forme ambiguë entre deux clusters : ignorée
+    out = []
+    for ip, t in enumerate(textes):
+        for ecriture, motif in (("lat", _MOT_LAT), ("ar", _MOT_AR)):
+            ms = list(motif.finditer(t))
+            autre = "ar" if ecriture == "lat" else "lat"
+            for i in range(len(ms)):
+                for n in (3, 2, 1):
+                    if i + n > len(ms):
+                        continue
+                    grp = ms[i : i + n]
+                    if ecriture == "lat" and not all(m.group()[0].isupper() for m in grp):
+                        continue
+                    if ecriture == "ar" and n == 1:
+                        continue  # un mot arabe seul a trop d'homographes (« غرب » = ouest)
+                    if any(re.search(r"[^\s\-'’]", t[a.end() : b.start()]) for a, b in zip(grp, grp[1:], strict=False)):
+                        continue
+                    c = cibles.get((autre, *(squelette_mot(m.group()) for m in grp)), -1)
+                    if c >= 0:
+                        out.append((ip, grp[0].start(), grp[-1].end(), c))
+                        break
+    return out
+
+
 def _balayer(
-    textes: Sequence[str], mentions: list[Mention], clusters: Clusters, longueur_min: int
+    textes: Sequence[str], mentions: list[Mention], clusters: Clusters, longueur_min: int, renforce: bool = False
 ) -> tuple[list[Mention], list[int]]:
-    """Mentions ajoutées par le balayage (hors spans déjà masqués) et leur cluster."""
+    """Mentions ajoutées par le balayage (hors spans déjà masqués) et leur cluster.
+
+    ``renforce`` (B6c) : cherche aussi les variantes de ``variantes_balayage`` et les translittérations simples.
+    """
     pris: dict[int, list[tuple[int, int]]] = defaultdict(list)
     for m in mentions:
         pris[m.passage].append((m.start, m.end))
@@ -79,6 +171,22 @@ def _balayer(
     ajouts: list[Mention] = []
     ids: list[int] = []
     formes = formes_balayage(textes, mentions, clusters, longueur_min)
+    if renforce:
+        trouvees: dict[str, set[int]] = defaultdict(set)  # formes translittérées, sources de variantes à leur tour
+        for ip, s, e, c in _translitterations(textes, formes, label_cluster):
+            trouvees[textes[ip][s:e]].add(c)
+            if not any(s < pe and ps < e for ps, pe in pris[ip]):
+                pris[ip].append((s, e))
+                ajouts.append(Mention(ip, s, e, label_cluster[c], textes[ip][s:e]))
+                ids.append(c)
+        variantes: dict[str, set[int]] = defaultdict(set)
+        for f, cs in [*((f, {c}) for f, c in formes.items()), *trouvees.items()]:
+            for c in cs:
+                for v in {f, *variantes_balayage(f, label_cluster[c])}:
+                    variantes[v].add(c)
+        for v, cs in variantes.items():
+            if v not in formes and len(cs) == 1:
+                formes[v] = next(iter(cs))
     for forme in sorted(formes, key=lambda f: (-len(f), f)):  # la plus longue d'abord
         motif = motif_balayage(forme)
         c = formes[forme]
@@ -142,6 +250,7 @@ def anonymize_document(
     coreference: bool | None = None,
     balayage: bool | None = None,
     extension_montants: bool | None = None,
+    balayage_renforce: bool | None = None,
 ) -> dict[str, Any]:
     """Anonymise un document : ``{doc_id, backend, options, passages, remplacements, journal}``.
 
@@ -156,6 +265,7 @@ def anonymize_document(
     coref = pol.options["coreference"] if coreference is None else coreference
     balai = pol.options["balayage"] if balayage is None else balayage
     ext = pol.options["extension_montants"] if extension_montants is None else extension_montants
+    renf = pol.options["balayage_renforce"] if balayage_renforce is None else balayage_renforce
     passages = doc["passages"]
     textes = [p["text"] for p in passages]
     dets = detections if detections is not None else detect_document(doc, backend)
@@ -181,7 +291,7 @@ def anonymize_document(
 
     ids = list(clusters.ids)
     if balai:
-        ajouts, ids_ajouts = _balayer(textes, mentions, clusters, pol.options["balayage_longueur_min"])
+        ajouts, ids_ajouts = _balayer(textes, mentions, clusters, pol.options["balayage_longueur_min"], renf)
         for m in ajouts:
             pid = passages[m.passage]["passage_id"]
             journal.append({"etape": "balayage_ajout", "passage_id": pid, "forme": m.surface, "label": m.label})
@@ -230,7 +340,7 @@ def anonymize_document(
     return {
         "doc_id": doc["doc_id"],
         "backend": backend,
-        "options": {"coreference": coref, "balayage": balai, "extension_montants": ext},
+        "options": {"coreference": coref, "balayage": balai, "extension_montants": ext, "balayage_renforce": renf},
         "passages": sortie,
         "remplacements": remplacements,
         "journal": journal,

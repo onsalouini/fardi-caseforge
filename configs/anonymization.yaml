@@ -24,6 +24,13 @@ donnee_sensible:
 coreference: true   # coref_simple : formes normalisées, sigles, nom de famille seul, initiales
 balayage: true      # second passage : formes déjà remplacées retrouvées ailleurs dans le document
 balayage_longueur_min: 3   # caractères non blancs d'une forme pour qu'elle soit recherchée (sigles : 2)
+# B6c : second passage renforcé (variantes sans article, ORG sans le pays, nom de famille seul, translittération
+# simple arabe <-> latin ; caseforge.anonymization.anonymizer.variantes_balayage, squelette_mot).
+balayage_renforce: true
+# B6c : règles de rappel ajoutées à la détection « rules » (donc à union_seuil) ; retirer une règle pour la
+# désactiver. Règle : désactivée si elle augmente le sur-masquage de plus de 3 points (mesure sur le dev, sans
+# réajustement).
+regles_rappel: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_prenom_ar]
 extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombre complet + devise (detect.etendre_montants)
 # Backend union_seuil (B6b) : rules ∪ entités du CRF dont la confiance atteint le seuil de leur étiquette.
 # Choisis par validation croisée en 5 plis groupés par document sur le TRAIN (scripts/b6b_union_seuil_cv.py,

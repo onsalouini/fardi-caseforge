@@ -35,7 +35,8 @@ def _lettres(rang: int) -> str:
 class Politique:
     """Politique chargée et vérifiée.
 
-    ``options`` : coreference, balayage, balayage_longueur_min, extension_montants.
+    ``options`` : coreference, balayage, balayage_longueur_min, extension_montants, balayage_renforce,
+    regles_rappel (rule_id des règles de rappel ajoutées à la détection ``rules``).
     """
 
     pseudonymes: dict[str, dict[str, str]]
@@ -82,7 +83,17 @@ def charger_politique(path: Path | str = CONFIG, **options: Any) -> Politique:
     for lab, p in pseudos.items():
         if p.get("numerotation") not in ("lettres", "chiffres") or not re.fullmatch(r"[A-Z]+", p.get("prefixe", "")):
             raise ValueError(f"pseudonyme mal défini pour {lab} : {p}")
-    opts = {k: cfg[k] for k in ("coreference", "balayage", "balayage_longueur_min", "extension_montants")}
+    opts = {
+        k: cfg[k]
+        for k in (
+            "coreference",
+            "balayage",
+            "balayage_longueur_min",
+            "extension_montants",
+            "balayage_renforce",
+            "regles_rappel",
+        )
+    }
     for k, v in options.items():
         if k not in opts:
             raise ValueError(f"option inconnue {k!r} : {', '.join(opts)}")

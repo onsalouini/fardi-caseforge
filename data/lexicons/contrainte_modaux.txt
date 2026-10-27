@@ -89,3 +89,35 @@ Rules	entete
 الشروط الخاصة	entete
 ملاحظات	entete
 المتطلبات	entete
+# B6c : « ancre_ar » = tournure arabe d'obligation, d'interdiction ou de limite (plusieurs mots possibles). La
+# CONTRAINTE commence au début de la proposition ou après la dernière coordination avant l'ancre (le sujet qui
+# précède est inclus : « الميزانية لا تتجاوز … »), jusqu'à la fin de la proposition. « على [فاعل] أن » est
+# traité à part (dependencies.contraintes). Source : grammaire de la modalité en arabe standard (لا بد من،
+# يشترط، يتعين، لا يتجاوز، لا يقل عن، في حدود، في أجل لا يتعدى) et guide v2, cas 3 et 4.
+يجب أن	ancre_ar
+لا يجب	ancre_ar
+لا ينبغي	ancre_ar
+ينبغي أن	ancre_ar
+لا بد من	ancre_ar
+لا بد أن	ancre_ar
+لابد من	ancre_ar
+لابد أن	ancre_ar
+يشترط	ancre_ar
+يشترط أن	ancre_ar
+يتعين	ancre_ar
+لا يتجاوز	ancre_ar
+لا تتجاوز	ancre_ar
+لا يتعدى	ancre_ar
+لا تتعدى	ancre_ar
+لا يقل عن	ancre_ar
+لا تقل عن	ancre_ar
+لا يزيد عن	ancre_ar
+لا تزيد عن	ancre_ar
+لا يزيد على	ancre_ar
+لا تزيد على	ancre_ar
+في حدود	ancre_ar
+في أجل لا يتعدى	ancre_ar
+في أجل أقصاه	ancre_ar
+على أقصى تقدير	ancre_ar
+كحد أقصى	ancre_ar
+كحد أدنى	ancre_ar

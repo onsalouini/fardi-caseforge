@@ -8,4 +8,6 @@ couches:
 # Sigles, noms d'ORG et de personnes trouvés dans un passage, réutilisés dans les autres passages du document.
 memoire_document: true
 # rule_id à ignorer, par exemple : [dependencies.produit_tete, matchers.personne_prenom]
-regles_desactivees: []
+# B6c : les règles de rappel (caseforge.extraction.rules.rappel) servent l'anonymisation, qui les active dans
+# configs/anonymization.yaml (regles_rappel) ; elles restent hors du NER par défaut (effet mesuré à part).
+regles_desactivees: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_prenom_ar]

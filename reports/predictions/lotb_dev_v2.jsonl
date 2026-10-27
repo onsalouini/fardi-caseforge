@@ -1,0 +1,162 @@
+{"passage_id": "lib_ar_02_p000", "entities": [{"start": 27, "end": 48, "label": "ORG"}]}
+{"passage_id": "lib_ar_02_p001", "entities": [{"start": 10, "end": 27, "label": "PERSONNE"}, {"start": 42, "end": 60, "label": "PERSONNE"}, {"start": 76, "end": 94, "label": "PERSONNE"}]}
+{"passage_id": "lib_ar_02_p002", "entities": [{"start": 22, "end": 90, "label": "INDICATEUR"}, {"start": 139, "end": 165, "label": "EQUIPEMENT"}]}
+{"passage_id": "lib_ar_02_p003", "entities": [{"start": 50, "end": 59, "label": "INDICATEUR"}]}
+{"passage_id": "lib_ar_02_p004", "entities": []}
+{"passage_id": "lib_ar_02_p005", "entities": [{"start": 8, "end": 53, "label": "CONTRAINTE"}, {"start": 55, "end": 91, "label": "CONTRAINTE"}, {"start": 93, "end": 140, "label": "CONTRAINTE"}]}
+{"passage_id": "lib_ar_02_p006", "entities": []}
+{"passage_id": "lib_en_01_p000", "entities": [{"start": 6, "end": 22, "label": "PERSONNE"}, {"start": 24, "end": 52, "label": "DONNEE_SENSIBLE"}, {"start": 58, "end": 80, "label": "ORG"}]}
+{"passage_id": "lib_en_01_p001", "entities": []}
+{"passage_id": "lib_en_01_p002", "entities": [{"start": 38, "end": 91, "label": "INDICATEUR"}, {"start": 139, "end": 160, "label": "PROCESSUS"}, {"start": 219, "end": 228, "label": "EQUIPEMENT"}]}
+{"passage_id": "lib_en_01_p003", "entities": [{"start": 46, "end": 65, "label": "PROCESSUS"}]}
+{"passage_id": "lib_en_01_p004", "entities": [{"start": 13, "end": 113, "label": "CONTRAINTE"}, {"start": 115, "end": 177, "label": "CONTRAINTE"}, {"start": 179, "end": 221, "label": "CONTRAINTE"}]}
+{"passage_id": "lib_en_01_p005", "entities": [{"start": 24, "end": 33, "label": "EQUIPEMENT"}, {"start": 184, "end": 200, "label": "PERSONNE"}, {"start": 233, "end": 248, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "lib_fr_06_p000", "entities": [{"start": 66, "end": 75, "label": "SITE"}]}
+{"passage_id": "lib_fr_06_p001", "entities": [{"start": 12, "end": 27, "label": "PERSONNE"}]}
+{"passage_id": "lib_fr_06_p002", "entities": [{"start": 122, "end": 170, "label": "CONTRAINTE"}]}
+{"passage_id": "lib_fr_06_p003", "entities": []}
+{"passage_id": "lib_fr_06_p004", "entities": [{"start": 106, "end": 140, "label": "PROCESSUS"}]}
+{"passage_id": "lib_fr_06_p005", "entities": [{"start": 13, "end": 68, "label": "CONTRAINTE"}, {"start": 71, "end": 106, "label": "CONTRAINTE"}, {"start": 108, "end": 176, "label": "CONTRAINTE"}]}
+{"passage_id": "lib_fr_06_p006", "entities": []}
+{"passage_id": "syn_ar_001_p000", "entities": []}
+{"passage_id": "syn_ar_001_p001", "entities": [{"start": 5, "end": 42, "label": "ORG"}, {"start": 46, "end": 77, "label": "SITE"}]}
+{"passage_id": "syn_ar_001_p002", "entities": [{"start": 23, "end": 32, "label": "EQUIPEMENT"}, {"start": 60, "end": 79, "label": "INDICATEUR"}, {"start": 103, "end": 111, "label": "SITE"}]}
+{"passage_id": "syn_ar_001_p003", "entities": [{"start": 41, "end": 52, "label": "PERSONNE"}, {"start": 57, "end": 72, "label": "EQUIPEMENT"}, {"start": 87, "end": 116, "label": "ORG"}, {"start": 120, "end": 127, "label": "SITE"}]}
+{"passage_id": "syn_ar_001_p004", "entities": [{"start": 14, "end": 32, "label": "PERSONNE"}, {"start": 40, "end": 47, "label": "PROCESSUS"}, {"start": 51, "end": 68, "label": "PROCESSUS"}]}
+{"passage_id": "syn_ar_001_p005", "entities": [{"start": 28, "end": 103, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_ar_001_p006", "entities": [{"start": 26, "end": 69, "label": "EQUIPEMENT"}, {"start": 75, "end": 94, "label": "INDICATEUR"}]}
+{"passage_id": "syn_ar_001_p007", "entities": [{"start": 0, "end": 20, "label": "CONTRAINTE"}, {"start": 32, "end": 44, "label": "DONNEE_SENSIBLE"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_ar_001_p008", "entities": [{"start": 52, "end": 62, "label": "DONNEE_SENSIBLE"}, {"start": 78, "end": 95, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_ar_006_p000", "entities": []}
+{"passage_id": "syn_ar_006_p001", "entities": [{"start": 5, "end": 30, "label": "ORG"}, {"start": 34, "end": 63, "label": "SITE"}]}
+{"passage_id": "syn_ar_006_p002", "entities": [{"start": 22, "end": 36, "label": "EQUIPEMENT"}, {"start": 64, "end": 85, "label": "INDICATEUR"}, {"start": 109, "end": 114, "label": "SITE"}]}
+{"passage_id": "syn_ar_006_p003", "entities": [{"start": 40, "end": 52, "label": "PERSONNE"}, {"start": 57, "end": 77, "label": "EQUIPEMENT"}, {"start": 92, "end": 109, "label": "ORG"}, {"start": 113, "end": 118, "label": "SITE"}]}
+{"passage_id": "syn_ar_006_p004", "entities": [{"start": 28, "end": 110, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_ar_006_p005", "entities": [{"start": 26, "end": 69, "label": "EQUIPEMENT"}, {"start": 81, "end": 101, "label": "INDICATEUR"}, {"start": 122, "end": 138, "label": "PROCESSUS"}]}
+{"passage_id": "syn_ar_006_p006", "entities": [{"start": 14, "end": 33, "label": "PERSONNE"}, {"start": 60, "end": 77, "label": "PROCESSUS"}, {"start": 81, "end": 98, "label": "PROCESSUS"}]}
+{"passage_id": "syn_ar_006_p007", "entities": [{"start": 0, "end": 20, "label": "CONTRAINTE"}, {"start": 32, "end": 44, "label": "DONNEE_SENSIBLE"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_ar_008_p001", "entities": [{"start": 5, "end": 42, "label": "ORG"}, {"start": 46, "end": 75, "label": "SITE"}]}
+{"passage_id": "syn_ar_008_p002", "entities": [{"start": 22, "end": 33, "label": "EQUIPEMENT"}, {"start": 61, "end": 81, "label": "INDICATEUR"}, {"start": 105, "end": 110, "label": "SITE"}]}
+{"passage_id": "syn_ar_008_p003", "entities": [{"start": 40, "end": 51, "label": "PERSONNE"}, {"start": 56, "end": 73, "label": "EQUIPEMENT"}, {"start": 88, "end": 117, "label": "ORG"}, {"start": 121, "end": 126, "label": "SITE"}]}
+{"passage_id": "syn_ar_008_p004", "entities": [{"start": 28, "end": 64, "label": "CONTRAINTE"}, {"start": 66, "end": 95, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_ar_008_p005", "entities": [{"start": 26, "end": 71, "label": "EQUIPEMENT"}, {"start": 77, "end": 97, "label": "INDICATEUR"}, {"start": 117, "end": 138, "label": "PROCESSUS"}]}
+{"passage_id": "syn_ar_008_p006", "entities": [{"start": 14, "end": 32, "label": "PERSONNE"}, {"start": 50, "end": 67, "label": "PROCESSUS"}, {"start": 71, "end": 92, "label": "PROCESSUS"}]}
+{"passage_id": "syn_ar_008_p007", "entities": [{"start": 0, "end": 20, "label": "CONTRAINTE"}, {"start": 32, "end": 44, "label": "DONNEE_SENSIBLE"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_ar_017_p000", "entities": []}
+{"passage_id": "syn_ar_017_p001", "entities": [{"start": 5, "end": 35, "label": "ORG"}, {"start": 57, "end": 63, "label": "SITE"}]}
+{"passage_id": "syn_ar_017_p002", "entities": [{"start": 24, "end": 35, "label": "EQUIPEMENT"}, {"start": 74, "end": 107, "label": "INDICATEUR"}, {"start": 131, "end": 137, "label": "SITE"}]}
+{"passage_id": "syn_ar_017_p003", "entities": [{"start": 40, "end": 52, "label": "PERSONNE"}, {"start": 57, "end": 68, "label": "EQUIPEMENT"}, {"start": 100, "end": 121, "label": "ORG"}, {"start": 125, "end": 131, "label": "SITE"}]}
+{"passage_id": "syn_ar_017_p004", "entities": [{"start": 14, "end": 32, "label": "PERSONNE"}, {"start": 54, "end": 71, "label": "PROCESSUS"}, {"start": 75, "end": 91, "label": "PROCESSUS"}]}
+{"passage_id": "syn_ar_017_p005", "entities": [{"start": 29, "end": 111, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_ar_017_p006", "entities": [{"start": 27, "end": 67, "label": "EQUIPEMENT"}, {"start": 91, "end": 125, "label": "INDICATEUR"}, {"start": 145, "end": 161, "label": "PROCESSUS"}]}
+{"passage_id": "syn_ar_017_p007", "entities": [{"start": 49, "end": 59, "label": "DONNEE_SENSIBLE"}, {"start": 74, "end": 97, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_ar_021_p000", "entities": []}
+{"passage_id": "syn_ar_021_p001", "entities": [{"start": 15, "end": 43, "label": "ORG"}, {"start": 54, "end": 58, "label": "SITE"}]}
+{"passage_id": "syn_ar_021_p002", "entities": [{"start": 65, "end": 84, "label": "INDICATEUR"}, {"start": 108, "end": 112, "label": "SITE"}]}
+{"passage_id": "syn_ar_021_p003", "entities": [{"start": 92, "end": 120, "label": "ORG"}, {"start": 124, "end": 128, "label": "SITE"}]}
+{"passage_id": "syn_ar_021_p004", "entities": [{"start": 28, "end": 103, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_ar_021_p005", "entities": [{"start": 26, "end": 75, "label": "EQUIPEMENT"}, {"start": 81, "end": 100, "label": "INDICATEUR"}, {"start": 120, "end": 136, "label": "PROCESSUS"}]}
+{"passage_id": "syn_ar_021_p006", "entities": [{"start": 0, "end": 20, "label": "CONTRAINTE"}, {"start": 32, "end": 44, "label": "DONNEE_SENSIBLE"}, {"start": 53, "end": 71, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_ar_021_p007", "entities": [{"start": 48, "end": 58, "label": "DONNEE_SENSIBLE"}, {"start": 73, "end": 91, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_ar_022_p001", "entities": [{"start": 15, "end": 37, "label": "ORG"}, {"start": 48, "end": 55, "label": "SITE"}, {"start": 99, "end": 108, "label": "EQUIPEMENT"}]}
+{"passage_id": "syn_ar_022_p002", "entities": [{"start": 22, "end": 31, "label": "EQUIPEMENT"}, {"start": 60, "end": 80, "label": "INDICATEUR"}, {"start": 104, "end": 111, "label": "SITE"}]}
+{"passage_id": "syn_ar_022_p003", "entities": [{"start": 57, "end": 72, "label": "EQUIPEMENT"}, {"start": 87, "end": 109, "label": "ORG"}, {"start": 113, "end": 120, "label": "SITE"}]}
+{"passage_id": "syn_ar_022_p004", "entities": [{"start": 28, "end": 97, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_ar_022_p005", "entities": [{"start": 26, "end": 70, "label": "EQUIPEMENT"}, {"start": 76, "end": 97, "label": "INDICATEUR"}]}
+{"passage_id": "syn_ar_022_p006", "entities": [{"start": 0, "end": 21, "label": "CONTRAINTE"}, {"start": 34, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 55, "end": 73, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_ar_022_p007", "entities": [{"start": 48, "end": 63, "label": "DONNEE_SENSIBLE"}, {"start": 78, "end": 103, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_en_005_p001", "entities": [{"start": 19, "end": 26, "label": "SITE"}, {"start": 33, "end": 53, "label": "ORG"}, {"start": 87, "end": 101, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_005_p002", "entities": [{"start": 28, "end": 43, "label": "EQUIPEMENT"}, {"start": 60, "end": 75, "label": "INDICATEUR"}, {"start": 108, "end": 115, "label": "SITE"}]}
+{"passage_id": "syn_en_005_p003", "entities": [{"start": 26, "end": 34, "label": "PERSONNE"}, {"start": 42, "end": 57, "label": "EQUIPEMENT"}, {"start": 74, "end": 78, "label": "ORG"}, {"start": 93, "end": 100, "label": "SITE"}, {"start": 132, "end": 146, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_005_p004", "entities": [{"start": 29, "end": 44, "label": "PERSONNE"}, {"start": 89, "end": 111, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_005_p005", "entities": [{"start": 43, "end": 87, "label": "CONTRAINTE"}, {"start": 89, "end": 124, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_en_005_p006", "entities": [{"start": 25, "end": 28, "label": "EQUIPEMENT"}, {"start": 97, "end": 112, "label": "INDICATEUR"}, {"start": 127, "end": 138, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_005_p007", "entities": [{"start": 36, "end": 45, "label": "DONNEE_SENSIBLE"}, {"start": 50, "end": 71, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_en_005_p008", "entities": [{"start": 26, "end": 34, "label": "PERSONNE"}, {"start": 38, "end": 48, "label": "DONNEE_SENSIBLE"}, {"start": 65, "end": 80, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_en_006_p001", "entities": [{"start": 19, "end": 43, "label": "SITE"}, {"start": 45, "end": 67, "label": "ORG"}, {"start": 100, "end": 114, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_006_p002", "entities": [{"start": 28, "end": 53, "label": "EQUIPEMENT"}, {"start": 70, "end": 87, "label": "INDICATEUR"}, {"start": 120, "end": 128, "label": "SITE"}]}
+{"passage_id": "syn_en_006_p003", "entities": [{"start": 26, "end": 35, "label": "PERSONNE"}, {"start": 43, "end": 68, "label": "EQUIPEMENT"}, {"start": 85, "end": 89, "label": "ORG"}, {"start": 104, "end": 112, "label": "SITE"}, {"start": 144, "end": 158, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_006_p004", "entities": [{"start": 43, "end": 79, "label": "CONTRAINTE"}, {"start": 81, "end": 125, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_en_006_p005", "entities": [{"start": 25, "end": 28, "label": "EQUIPEMENT"}, {"start": 107, "end": 123, "label": "INDICATEUR"}, {"start": 138, "end": 149, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_006_p006", "entities": [{"start": 29, "end": 45, "label": "PERSONNE"}, {"start": 89, "end": 111, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_006_p007", "entities": [{"start": 36, "end": 45, "label": "DONNEE_SENSIBLE"}, {"start": 50, "end": 71, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_en_008_p001", "entities": [{"start": 19, "end": 39, "label": "SITE"}, {"start": 41, "end": 62, "label": "ORG"}, {"start": 92, "end": 106, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_008_p002", "entities": [{"start": 28, "end": 44, "label": "EQUIPEMENT"}, {"start": 61, "end": 81, "label": "INDICATEUR"}, {"start": 114, "end": 118, "label": "SITE"}]}
+{"passage_id": "syn_en_008_p003", "entities": [{"start": 26, "end": 35, "label": "PERSONNE"}, {"start": 43, "end": 59, "label": "EQUIPEMENT"}, {"start": 76, "end": 80, "label": "ORG"}, {"start": 95, "end": 99, "label": "SITE"}, {"start": 131, "end": 145, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_008_p004", "entities": [{"start": 43, "end": 87, "label": "CONTRAINTE"}, {"start": 89, "end": 125, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_en_008_p005", "entities": [{"start": 25, "end": 28, "label": "EQUIPEMENT"}, {"start": 98, "end": 118, "label": "INDICATEUR"}]}
+{"passage_id": "syn_en_008_p006", "entities": [{"start": 29, "end": 43, "label": "PERSONNE"}, {"start": 89, "end": 108, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_008_p007", "entities": [{"start": 36, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 51, "end": 72, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_en_013_p000", "entities": []}
+{"passage_id": "syn_en_013_p001", "entities": [{"start": 15, "end": 23, "label": "SITE"}, {"start": 25, "end": 45, "label": "ORG"}, {"start": 82, "end": 96, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_013_p002", "entities": [{"start": 55, "end": 71, "label": "INDICATEUR"}, {"start": 104, "end": 112, "label": "SITE"}]}
+{"passage_id": "syn_en_013_p003", "entities": [{"start": 26, "end": 39, "label": "PERSONNE"}, {"start": 74, "end": 78, "label": "ORG"}, {"start": 93, "end": 101, "label": "SITE"}, {"start": 133, "end": 147, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_013_p004", "entities": [{"start": 29, "end": 48, "label": "PERSONNE"}, {"start": 89, "end": 97, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_013_p005", "entities": [{"start": 43, "end": 79, "label": "CONTRAINTE"}, {"start": 81, "end": 120, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_en_013_p006", "entities": [{"start": 25, "end": 28, "label": "EQUIPEMENT"}, {"start": 92, "end": 108, "label": "INDICATEUR"}, {"start": 112, "end": 120, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_013_p007", "entities": [{"start": 26, "end": 39, "label": "PERSONNE"}, {"start": 43, "end": 53, "label": "DONNEE_SENSIBLE"}, {"start": 70, "end": 90, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_en_015_p000", "entities": []}
+{"passage_id": "syn_en_015_p001", "entities": [{"start": 15, "end": 23, "label": "SITE"}, {"start": 25, "end": 66, "label": "ORG"}, {"start": 96, "end": 110, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_015_p002", "entities": [{"start": 73, "end": 88, "label": "INDICATEUR"}, {"start": 121, "end": 129, "label": "SITE"}]}
+{"passage_id": "syn_en_015_p003", "entities": [{"start": 26, "end": 35, "label": "PERSONNE"}, {"start": 43, "end": 71, "label": "EQUIPEMENT"}, {"start": 88, "end": 93, "label": "ORG"}, {"start": 108, "end": 116, "label": "SITE"}, {"start": 148, "end": 162, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_015_p004", "entities": [{"start": 29, "end": 45, "label": "PERSONNE"}, {"start": 93, "end": 115, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_015_p005", "entities": [{"start": 43, "end": 87, "label": "CONTRAINTE"}, {"start": 89, "end": 125, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_en_015_p006", "entities": [{"start": 25, "end": 28, "label": "EQUIPEMENT"}, {"start": 110, "end": 126, "label": "INDICATEUR"}, {"start": 141, "end": 152, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_015_p007", "entities": [{"start": 26, "end": 35, "label": "PERSONNE"}, {"start": 39, "end": 54, "label": "DONNEE_SENSIBLE"}, {"start": 71, "end": 89, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_en_028_p000", "entities": []}
+{"passage_id": "syn_en_028_p001", "entities": [{"start": 15, "end": 23, "label": "SITE"}, {"start": 25, "end": 44, "label": "ORG"}, {"start": 77, "end": 91, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_028_p002", "entities": [{"start": 33, "end": 47, "label": "EQUIPEMENT"}, {"start": 64, "end": 79, "label": "INDICATEUR"}, {"start": 112, "end": 120, "label": "SITE"}]}
+{"passage_id": "syn_en_028_p003", "entities": [{"start": 26, "end": 37, "label": "PERSONNE"}, {"start": 50, "end": 64, "label": "EQUIPEMENT"}, {"start": 81, "end": 85, "label": "ORG"}, {"start": 100, "end": 108, "label": "SITE"}, {"start": 140, "end": 154, "label": "PRODUIT"}]}
+{"passage_id": "syn_en_028_p004", "entities": [{"start": 29, "end": 47, "label": "PERSONNE"}, {"start": 97, "end": 118, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_028_p005", "entities": [{"start": 43, "end": 84, "label": "CONTRAINTE"}, {"start": 86, "end": 122, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_en_028_p006", "entities": [{"start": 25, "end": 28, "label": "EQUIPEMENT"}, {"start": 44, "end": 58, "label": "EQUIPEMENT"}, {"start": 101, "end": 116, "label": "INDICATEUR"}, {"start": 120, "end": 141, "label": "PROCESSUS"}]}
+{"passage_id": "syn_en_028_p007", "entities": [{"start": 36, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 51, "end": 72, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_en_028_p008", "entities": [{"start": 26, "end": 37, "label": "PERSONNE"}, {"start": 41, "end": 51, "label": "DONNEE_SENSIBLE"}, {"start": 68, "end": 86, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_007_p000", "entities": []}
+{"passage_id": "syn_fr_007_p001", "entities": [{"start": 14, "end": 27, "label": "SITE"}, {"start": 42, "end": 77, "label": "ORG"}, {"start": 128, "end": 139, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_007_p002", "entities": [{"start": 87, "end": 108, "label": "INDICATEUR"}, {"start": 143, "end": 150, "label": "SITE"}]}
+{"passage_id": "syn_fr_007_p003", "entities": [{"start": 37, "end": 46, "label": "PERSONNE"}, {"start": 115, "end": 122, "label": "SITE"}, {"start": 155, "end": 168, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_007_p004", "entities": [{"start": 0, "end": 45, "label": "CONTRAINTE"}, {"start": 48, "end": 93, "label": "CONTRAINTE"}, {"start": 96, "end": 142, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_fr_007_p005", "entities": [{"start": 43, "end": 46, "label": "EQUIPEMENT"}, {"start": 111, "end": 131, "label": "INDICATEUR"}, {"start": 147, "end": 167, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_007_p006", "entities": [{"start": 24, "end": 39, "label": "PERSONNE"}, {"start": 53, "end": 64, "label": "PROCESSUS"}, {"start": 87, "end": 107, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_007_p007", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_022_p000", "entities": []}
+{"passage_id": "syn_fr_022_p001", "entities": [{"start": 12, "end": 37, "label": "ORG"}, {"start": 55, "end": 61, "label": "SITE"}, {"start": 74, "end": 91, "label": "PRODUIT"}, {"start": 102, "end": 109, "label": "EQUIPEMENT"}]}
+{"passage_id": "syn_fr_022_p002", "entities": [{"start": 54, "end": 61, "label": "EQUIPEMENT"}, {"start": 83, "end": 104, "label": "INDICATEUR"}, {"start": 139, "end": 145, "label": "SITE"}]}
+{"passage_id": "syn_fr_022_p003", "entities": [{"start": 37, "end": 46, "label": "PERSONNE"}, {"start": 62, "end": 69, "label": "EQUIPEMENT"}, {"start": 111, "end": 117, "label": "SITE"}, {"start": 150, "end": 163, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_022_p004", "entities": [{"start": 0, "end": 45, "label": "CONTRAINTE"}, {"start": 48, "end": 94, "label": "CONTRAINTE"}, {"start": 97, "end": 142, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_fr_022_p005", "entities": [{"start": 43, "end": 46, "label": "EQUIPEMENT"}, {"start": 71, "end": 78, "label": "EQUIPEMENT"}, {"start": 107, "end": 127, "label": "INDICATEUR"}, {"start": 143, "end": 161, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_022_p006", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_022_p007", "entities": [{"start": 29, "end": 38, "label": "PERSONNE"}, {"start": 42, "end": 52, "label": "DONNEE_SENSIBLE"}, {"start": 71, "end": 87, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_024_p001", "entities": [{"start": 22, "end": 26, "label": "SITE"}, {"start": 41, "end": 69, "label": "ORG"}, {"start": 126, "end": 137, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_024_p002", "entities": [{"start": 54, "end": 82, "label": "EQUIPEMENT"}, {"start": 104, "end": 120, "label": "INDICATEUR"}, {"start": 155, "end": 159, "label": "SITE"}]}
+{"passage_id": "syn_fr_024_p003", "entities": [{"start": 37, "end": 47, "label": "PERSONNE"}, {"start": 63, "end": 91, "label": "EQUIPEMENT"}, {"start": 126, "end": 130, "label": "ORG"}, {"start": 133, "end": 137, "label": "SITE"}, {"start": 170, "end": 183, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_024_p004", "entities": [{"start": 24, "end": 40, "label": "PERSONNE"}, {"start": 78, "end": 100, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_024_p005", "entities": [{"start": 0, "end": 45, "label": "CONTRAINTE"}, {"start": 48, "end": 92, "label": "CONTRAINTE"}, {"start": 95, "end": 136, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_fr_024_p006", "entities": [{"start": 43, "end": 46, "label": "EQUIPEMENT"}, {"start": 71, "end": 99, "label": "EQUIPEMENT"}, {"start": 128, "end": 144, "label": "INDICATEUR"}, {"start": 160, "end": 182, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_024_p007", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_024_p008", "entities": [{"start": 29, "end": 39, "label": "PERSONNE"}, {"start": 43, "end": 58, "label": "DONNEE_SENSIBLE"}, {"start": 77, "end": 94, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_026_p001", "entities": [{"start": 14, "end": 39, "label": "SITE"}, {"start": 54, "end": 82, "label": "ORG"}, {"start": 139, "end": 150, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_026_p002", "entities": [{"start": 54, "end": 75, "label": "EQUIPEMENT"}, {"start": 97, "end": 118, "label": "INDICATEUR"}, {"start": 153, "end": 157, "label": "SITE"}]}
+{"passage_id": "syn_fr_026_p003", "entities": [{"start": 37, "end": 46, "label": "PERSONNE"}, {"start": 62, "end": 83, "label": "EQUIPEMENT"}, {"start": 118, "end": 122, "label": "ORG"}, {"start": 125, "end": 129, "label": "SITE"}, {"start": 162, "end": 175, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_026_p004", "entities": [{"start": 24, "end": 39, "label": "PERSONNE"}, {"start": 81, "end": 107, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_026_p005", "entities": [{"start": 0, "end": 45, "label": "CONTRAINTE"}, {"start": 48, "end": 89, "label": "CONTRAINTE"}, {"start": 92, "end": 137, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_fr_026_p006", "entities": [{"start": 43, "end": 46, "label": "EQUIPEMENT"}, {"start": 71, "end": 92, "label": "EQUIPEMENT"}, {"start": 121, "end": 141, "label": "INDICATEUR"}, {"start": 157, "end": 183, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_026_p007", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_026_p008", "entities": [{"start": 29, "end": 38, "label": "PERSONNE"}, {"start": 42, "end": 57, "label": "DONNEE_SENSIBLE"}, {"start": 76, "end": 92, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_027_p001", "entities": [{"start": 14, "end": 27, "label": "SITE"}, {"start": 42, "end": 81, "label": "ORG"}, {"start": 132, "end": 143, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_027_p002", "entities": [{"start": 111, "end": 132, "label": "INDICATEUR"}, {"start": 167, "end": 174, "label": "SITE"}]}
+{"passage_id": "syn_fr_027_p003", "entities": [{"start": 37, "end": 46, "label": "PERSONNE"}, {"start": 132, "end": 137, "label": "ORG"}, {"start": 140, "end": 147, "label": "SITE"}, {"start": 180, "end": 193, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_027_p004", "entities": [{"start": 24, "end": 39, "label": "PERSONNE"}, {"start": 76, "end": 98, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_027_p005", "entities": [{"start": 0, "end": 45, "label": "CONTRAINTE"}, {"start": 48, "end": 89, "label": "CONTRAINTE"}, {"start": 92, "end": 137, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_fr_027_p006", "entities": [{"start": 43, "end": 46, "label": "EQUIPEMENT"}, {"start": 135, "end": 155, "label": "INDICATEUR"}, {"start": 171, "end": 193, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_027_p007", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_027_p008", "entities": [{"start": 29, "end": 38, "label": "PERSONNE"}, {"start": 42, "end": 57, "label": "DONNEE_SENSIBLE"}, {"start": 76, "end": 93, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_029_p001", "entities": [{"start": 22, "end": 30, "label": "SITE"}, {"start": 45, "end": 76, "label": "ORG"}, {"start": 128, "end": 139, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_029_p002", "entities": [{"start": 64, "end": 69, "label": "EQUIPEMENT"}, {"start": 91, "end": 107, "label": "INDICATEUR"}, {"start": 142, "end": 150, "label": "SITE"}]}
+{"passage_id": "syn_fr_029_p003", "entities": [{"start": 37, "end": 46, "label": "PERSONNE"}, {"start": 72, "end": 77, "label": "EQUIPEMENT"}, {"start": 112, "end": 116, "label": "ORG"}, {"start": 119, "end": 127, "label": "SITE"}, {"start": 160, "end": 173, "label": "PRODUIT"}]}
+{"passage_id": "syn_fr_029_p004", "entities": [{"start": 24, "end": 39, "label": "PERSONNE"}, {"start": 90, "end": 101, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_029_p005", "entities": [{"start": 0, "end": 45, "label": "CONTRAINTE"}, {"start": 48, "end": 89, "label": "CONTRAINTE"}, {"start": 92, "end": 138, "label": "CONTRAINTE"}]}
+{"passage_id": "syn_fr_029_p006", "entities": [{"start": 43, "end": 46, "label": "EQUIPEMENT"}, {"start": 81, "end": 86, "label": "EQUIPEMENT"}, {"start": 115, "end": 132, "label": "INDICATEUR"}, {"start": 159, "end": 170, "label": "PROCESSUS"}]}
+{"passage_id": "syn_fr_029_p007", "entities": [{"start": 37, "end": 46, "label": "DONNEE_SENSIBLE"}, {"start": 58, "end": 77, "label": "DONNEE_SENSIBLE"}]}
+{"passage_id": "syn_fr_029_p008", "entities": [{"start": 29, "end": 38, "label": "PERSONNE"}, {"start": 42, "end": 57, "label": "DONNEE_SENSIBLE"}, {"start": 76, "end": 92, "label": "DONNEE_SENSIBLE"}]}

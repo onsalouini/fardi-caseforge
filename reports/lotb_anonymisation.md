@@ -313,6 +313,8 @@ Causes des 61 fuites :
 
 ## 9. Recommandation pour la démo Bronze (mise à jour B6b, 27/10/2026)
 
+> **B6c (27/10/2026, `reports/lotb_b6c.md`)** : avec les règles de rappel et le balayage renforcé, `union_seuil` passe au dev à 6,6 % de fuite [3,2 ; 10,7] (au lieu de 7,5 %) et à 24,5 % de sur-masquage, avec 4 fuites de noms au lieu de 6. La recommandation reste `union_seuil`, dans la configuration par défaut de `configs/anonymization.yaml`.
+
 **Backend recommandé : `union_seuil` avec coréférence, balayage et extension des montants** (configuration par défaut de `configs/anonymization.yaml`, seuils compris ; backend à passer à `anonymize_document`). Il remplace `union`.
 
 - Même fuite que `union`, la plus faible mesurée : 7,5 % [3,7 ; 12,3] au dev, avec les mêmes 16 occurrences qui fuient, significativement sous `rules` (−4,7 points, IC [−7,4 ; −2,3]). Il est le meilleur ou à égalité dans toutes les tranches : 4 étiquettes, 3 langues, 2 sources.
