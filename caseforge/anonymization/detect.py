@@ -31,6 +31,14 @@ B6d, réduction du sur-masquage de ``union_seuil`` (options ``fusion_crf`` et ``
   faisait déjà pour ses propres montants ; la correction l'étend à B1 et au CRF (backends ``rules``, ``union``,
   ``union_seuil``).
 
+B11, plafonds encore masqués (options ``plafonds_contexte`` et ``plafonds_balayage``) :
+
+- ``plafonds_contexte`` : un montant de B1 ou du CRF est aussi un plafond quand le test de contexte de B3 le place
+  dans une contrainte (``regex.montant_dans_contrainte`` : modal, « limité à », « budget »… dans la proposition qui
+  précède), même si B3 n'a pas détecté de CONTRAINTE (« le budget est plafonné à 8000 DT ») ;
+- ``plafonds_balayage`` (appliquée par l'anonymiseur) : le balayage ne réintroduit pas un montant qui est un plafond
+  (CONTRAINTE de ``zones_plafond`` ou contexte de B3) quand ce montant a été masqué ailleurs dans le document.
+
 Extension de bordure des montants (B6b, ``etendre_montants``, appliquée par l'anonymiseur) : une DONNEE_SENSIBLE
 détectée qui touche un nombre est étendue au nombre complet (séparateurs de milliers, décimales) et au montant qui le
 contient (multiplicateur, devise ou unité monétaire adjacente), avec le motif « montant » de B3, tiré du guide v2
@@ -107,16 +115,33 @@ def fusionner_regles(regles: Iterable[dict], crf: Iterable[dict]) -> list[dict]:
     return fusionner([*out, *ajouts])
 
 
-def retirer_plafonds(texte: str, ents: Iterable[dict], contraintes: Sequence[tuple[int, int]]) -> list[dict]:
-    """Retire les DONNEE_SENSIBLE de sous-type « montant » entièrement contenues dans une CONTRAINTE (cas 5)."""
+def est_plafond(
+    texte: str, e: Mapping[str, Any], contraintes: Sequence[tuple[int, int]], contexte: bool = False
+) -> bool:
+    """Vrai si ``e`` est une DONNEE_SENSIBLE de sous-type « montant » qui est un plafond de contrainte (cas 5).
+
+    Plafond : entièrement contenue dans une CONTRAINTE de ``contraintes`` ; avec ``contexte`` (B11), ou montant que
+    le test de contexte de B3 (``regex.montant_dans_contrainte``) place dans une contrainte.
+    """
     from caseforge.eval.donnees_sensibles import sous_type  # import paresseux (motifs de B3)
+    from caseforge.extraction.rules.regex import _motifs, montant_dans_contrainte
 
-    def plafond(e: dict) -> bool:
-        if e["label"] != "DONNEE_SENSIBLE" or not any(s <= e["start"] and e["end"] <= f for s, f in contraintes):
-            return False
-        return sous_type(texte[e["start"] : e["end"]]) == "montant"
+    surface = texte[e["start"] : e["end"]]
+    if e["label"] != "DONNEE_SENSIBLE" or sous_type(surface) != "montant":
+        return False
+    if any(s <= e["start"] and e["end"] <= f for s, f in contraintes):
+        return True
+    if not contexte:
+        return False
+    m = _motifs()["montant"].search(surface)
+    return montant_dans_contrainte(texte, e["start"] + (m.start() if m else 0))
 
-    return [e for e in ents if not plafond(e)]
+
+def retirer_plafonds(
+    texte: str, ents: Iterable[dict], contraintes: Sequence[tuple[int, int]], contexte: bool = False
+) -> list[dict]:
+    """Retire les DONNEE_SENSIBLE qui sont des plafonds de contrainte (``est_plafond``, cas 5)."""
+    return [e for e in ents if not est_plafond(texte, e, contraintes, contexte)]
 
 
 def _sensibles(ents: Iterable[dict], systeme: str, labels: frozenset[str] = SENSITIVE_LABELS) -> list[dict]:
@@ -156,6 +181,19 @@ def _b3(doc: dict, desactivees: frozenset[str] | None = None) -> list[list[dict]
 def _contraintes(b3: Sequence[Sequence[dict]]) -> list[list[tuple[int, int]]]:
     """Spans CONTRAINTE de B3, passage par passage."""
     return [[(e["start"], e["end"]) for e in ents if e["label"] == "CONTRAINTE"] for ents in b3]
+
+
+def zones_plafond(doc: dict, rappel: Iterable[str] | None = None) -> list[list[tuple[int, int]]]:
+    """CONTRAINTE détectées par B3 dans chaque passage : zones où un montant est un plafond (B11).
+
+    ``rappel`` : règles de rappel de la détection (par défaut ``regles_rappel`` de ``configs/anonymization.yaml``),
+    pour relire en cache le même B3 que ``detect_document``.
+    """
+    if rappel is None:
+        from caseforge.anonymization.policy import charger_politique
+
+        rappel = charger_politique().options["regles_rappel"] or ()
+    return _contraintes(_b3(doc, regles_b3(rappel)))
 
 
 def _b1(doc: dict) -> list[list[dict]]:
@@ -311,6 +349,7 @@ def detect_document(
     sans: Iterable[str] = (),
     fusion: str | None = None,
     plafonds: bool | None = None,
+    contexte: bool | None = None,
     crf: Sequence[Sequence[dict]] | None = None,
 ) -> list[list[dict]]:
     """Entités sensibles de chaque passage du document : ``[{start, end, label, systemes}]`` triées et disjointes.
@@ -322,6 +361,8 @@ def detect_document(
     ``fusion`` (``union_seuil``) et ``plafonds`` (``rules``, ``union``, ``union_seuil``) : options B6d, par défaut
     ``fusion_crf`` et ``plafonds_contrainte`` de ``configs/anonymization.yaml``. ``crf`` (``union_seuil``) :
     entités du CRF avec leur confiance, déjà prédites (prédictions hors pli d'une validation croisée).
+    ``contexte`` : option B11 ``plafonds_contexte`` (par défaut celle de ``configs/anonymization.yaml``), sans effet
+    si ``plafonds`` est faux.
     """
     if backend not in BACKENDS:
         raise ValueError(f"backend inconnu {backend!r} : {', '.join(BACKENDS)}")
@@ -330,13 +371,14 @@ def detect_document(
     jeux: list[list[list[dict]]] = []  # un jeu = une liste d'entités par passage
     if backend == "gold":
         jeux.append([_sensibles(p["entities"], "gold") for p in passages])
-    if rappel is None or fusion is None or plafonds is None:
+    if rappel is None or fusion is None or plafonds is None or contexte is None:
         from caseforge.anonymization.policy import charger_politique
 
         opts = charger_politique().options
         rappel = (opts["regles_rappel"] or ()) if rappel is None else rappel
         fusion = opts["fusion_crf"] if fusion is None else fusion
         plafonds = opts["plafonds_contrainte"] if plafonds is None else plafonds
+        contexte = opts["plafonds_contexte"] if contexte is None else contexte
     if backend in ("rules", "b3", "union"):
         b3 = _b3(doc, regles_b3(() if backend == "b3" else rappel, sans))
         jeux.append([_sensibles(e, "b3") for e in b3])
@@ -347,12 +389,15 @@ def detect_document(
     if backend == "union_seuil":
         s_def, a_def = parametres_union_seuil()
         crf = crf if crf is not None else predire_crf(textes, marginales=True)
-        regles = detect_document(doc, "rules", rappel=rappel, sans=sans, plafonds=plafonds)
+        regles = detect_document(doc, "rules", rappel=rappel, sans=sans, plafonds=plafonds, contexte=contexte)
         if plafonds:
             k = _contraintes(_b3(doc, regles_b3(rappel, sans)))
-            crf = [retirer_plafonds(t, c, kk) for t, c, kk in zip(textes, crf, k, strict=True)]
+            crf = [retirer_plafonds(t, c, kk, contexte) for t, c, kk in zip(textes, crf, k, strict=True)]
         return combiner_seuil(regles, crf, seuils or s_def, agregation or a_def, fusion)
     if plafonds and backend in ("rules", "union"):
         k = _contraintes(b3)
-        jeux = [[retirer_plafonds(t, ents, kk) for t, ents, kk in zip(textes, jeu, k, strict=True)] for jeu in jeux]
+        jeux = [
+            [retirer_plafonds(t, ents, kk, contexte) for t, ents, kk in zip(textes, jeu, k, strict=True)]
+            for jeu in jeux
+        ]
     return [fusionner(s for jeu in jeux for s in jeu[i]) for i in range(len(passages))]

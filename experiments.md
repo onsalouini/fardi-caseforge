@@ -18,6 +18,26 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-10-28 · Ali · B11 · Plafonds de budget encore masqués (train 5 plis, puis dev une fois ; résultat négatif)
+- Diagnostic sur des phrases inventées (fr / en / ar), via `caseforge.anonymization.anonymiser` et étape par étape :
+  - une phrase seule (« le budget alloué ne doit pas dépasser 8000 DT ») n'est **pas** masquée : B3 détecte la CONTRAINTE, le montant est dans son span, `plafonds_contrainte` le retire. L'API suit le même chemin que `anonymize_document` ;
+  - **cause 1, le balayage** : si le même montant est masqué ailleurs dans le document comme prix, le second passage le retrouve dans la contrainte et le masque (origine `balayage`). Le balayage ignorait les plafonds ;
+  - **cause 2, plafond sans modal** (« le budget est plafonné à 8000 DT », « not to exceed TND 15,000 ») : pas de CONTRAINTE pour B3, et son test de contexte (`regex.montant_dans_contrainte`) ne valait que pour ses propres montants ; B1 masquait le montant.
+- Corrections générales (guide v2, cas 5), chacune avec son option dans `configs/anonymization.yaml` :
+  - `plafonds_balayage` : le balayage n'ajoute pas un montant qui est un plafond (`anonymizer._sans_plafonds`) ;
+  - `plafonds_contexte` : le test de contexte de B3 s'applique aussi aux montants de B1 et du CRF (`detect.est_plafond`).
+- Tests : `tests/test_plafonds.py` (10, phrases inventées fr / en / ar ; prix, coût et CA toujours masqués), ajouté à la liste ruff de `CLAUDE.md`.
+- **Règle fixée avant le lancement** : correction gardée si, au train (5 plis par document, B6b, graine 42, CRF hors pli), la fuite n'augmente pas de plus de 1 point, seule ou retirée de `apres`. Scripts : `scripts/b11_plafonds_cv.py` → `results/lotb/b11_cv.json`, puis `scripts/b11_eval_dev.py` (refuse une seconde exécution) → `results/lotb/b11_dev.json`, `results/lotb/b11.md`.
+- **Train** : les 4 variantes sont exactement identiques : fuite 2,9 % [1,2 ; 4,9], sur-masquage 2,4 %, F1 caractère 0,862. Δ fuite +0,0 point → les deux corrections sont **gardées**. Le train ne contient que 2 montants dans une CONTRAINTE gold, aucun masqué.
+- **Dev, mesure unique, avant → après** : aucun changement, masques identiques (3 688 caractères masqués de part et d'autre) :
+  - fuite 6,6 % [3,2 ; 10,7] → 6,6 % (9 totales / 5 partielles), Δ apparié +0,0 [0,0 ; 0,0] ; sur-masquage 21,9 % → 21,9 % ; F1 caractère 0,628 → 0,628 ;
+  - par étiquette (fuite) : ORG 7,5 %, PERSONNE 1,9 %, SITE 8,8 %, DONNEE_SENSIBLE 7,8 %, inchangées ; par langue : ar 5,8 %, en 8,6 %, fr 5,4 % ; par source : syn 3,6 %, lib 33,3 % ; sur-masquage et F1 caractère inchangés dans chaque tranche ;
+  - passages mixtes : 5 occurrences, 0 fuite avant et après ; pas de conclusion ;
+  - 15 montants dans une CONTRAINTE gold au dev, **0 masqué avant comme après**.
+- **Lecture** : le défaut est réel sur des documents inventés, mais il n'apparaît ni au train ni au dev. La correction ne change aucun chiffre ; son effet n'est démontré que par les tests.
+- **Test lent B9** (`tests/test_api_anonymisation.py`) : les 4 noms visibles du dev sont les mêmes avant et après (`lib_fr_06` ORG, `syn_ar_022` PERSONNE, `syn_fr_007` ORG, `syn_fr_022` ORG) : la liste n'est **pas modifiée**. Il passe.
+- Limite restante : un plafond présenté comme un champ (« Budget maximal : 8000 DT ») reste masqué, parce que B3 lui-même l'annote DONNEE_SENSIBLE (le contexte est coupé par « : ») ; non corrigé ici. Ligne B9 de `docs/carte_modele_lotB.md` mise à jour.
+
 ## 2026-10-27 · Ali · B7b · Prédictions B3 du dev sans les mots tirés du dev (comparaison équitable avec XLM-R)
 - `scripts/b7_sensibilite_dev.py` (variante B7 sans les libellés « gamme », « range », « سلعة », les copules « reste » / « remain », « (est) la suivante : » et la valeur directe après un libellé arabe suffixé) écrit en plus `results/lotb/b3_regles_dev_sans_mots_dev.jsonl`, au format de `b3_regles_dev.jsonl` (162 lignes, vérifié par `test_format_b3_regles_dev`). Dev, mode token, cfdata, `absents_vides=True` ; relancé à l'identique, `b7_sensibilite_dev.json` inchangé.
 - Micro **0,701** (P 0,754 / R 0,655), macro (9) 0,681, contre 0,751 / 0,761 pour `b3_regles_dev.jsonl`.

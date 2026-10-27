@@ -37,7 +37,8 @@ class Politique:
 
     ``options`` : coreference, balayage, balayage_longueur_min, extension_montants, balayage_renforce,
     regles_rappel (rule_id des règles de rappel ajoutées à la détection ``rules``), fusion_crf (``union`` ou
-    ``regles``) et plafonds_contrainte (B6d, ``caseforge.anonymization.detect``).
+    ``regles``), plafonds_contrainte (B6d, ``caseforge.anonymization.detect``), plafonds_contexte et
+    plafonds_balayage (B11).
     """
 
     pseudonymes: dict[str, dict[str, str]]
@@ -95,6 +96,8 @@ def charger_politique(path: Path | str = CONFIG, **options: Any) -> Politique:
             "regles_rappel",
             "fusion_crf",
             "plafonds_contrainte",
+            "plafonds_contexte",
+            "plafonds_balayage",
         )
     }
     for k, v in options.items():

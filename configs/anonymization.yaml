@@ -36,6 +36,10 @@ regles_rappel: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_prenom_a
 # désactivée ici, sans réajustement sur le dev.
 fusion_crf: union           # union : union des spans (B6b, B6c) ; regles : bornes des règles (B6d, désactivée : fuite train +4,6 pt)
 plafonds_contrainte: true   # montant DONNEE_SENSIBLE contenu dans une CONTRAINTE détectée -> non masqué (cas 5)
+# B11 : plafonds encore masqués (scripts/b11_plafonds_cv.py sur le train, scripts/b11_eval_dev.py sur le dev).
+# Règle fixée d'avance : une correction qui augmente la fuite au train de plus de 1 point est désactivée ici.
+plafonds_contexte: true     # contexte de plafond de B3 (« budget », « limité à »…) appliqué aux montants de B1 et du CRF
+plafonds_balayage: true     # le balayage ne remasque pas un montant de plafond masqué ailleurs dans le document
 extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombre complet + devise (detect.etendre_montants)
 # Backend union_seuil (B6b) : rules ∪ entités du CRF dont la confiance atteint le seuil de leur étiquette.
 # Choisis par validation croisée en 5 plis groupés par document sur le TRAIN (scripts/b6b_union_seuil_cv.py,

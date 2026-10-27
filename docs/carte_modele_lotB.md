@@ -19,6 +19,7 @@ d'`experiments.md` d'où il vient. Une valeur absente de `reports/` et d'`experi
 | B8 | Pipeline NLTK et ablation de tokenisation | `caseforge/extraction/nltk_pipeline.py` | `reports/lotb_b8_tokenisation.md` |
 | B9 | Interface publique d'anonymisation (Lots D et E) | `caseforge/anonymization/api.py` | `README.md` (section Lot B) |
 | B7 | Règles PRODUIT (libellés, nominalisations, verbes) dans B3 : PRODUIT au dev 0,031 → 0,911, micro 0,681 → 0,751 (mode token) ; **optimiste**, le dev a servi à la mise au point, 0,192 sans les éléments vus au dev ; train 0,886 → 0,952 | `caseforge/extraction/rules/produit.py` | `reports/lotb_b7_produit.md` |
+| B11 | Plafonds de budget non masqués (cas 5) : le balayage ne remasque plus un plafond masqué ailleurs comme prix (`plafonds_balayage`), le contexte de plafond de B3 vaut pour B1 et le CRF (`plafonds_contexte`) ; aucun effet mesuré (train et dev : fuite, sur-masquage et F1 caractère identiques, 0 plafond gold masqué avant comme après) | `caseforge/anonymization/detect.py`, `anonymizer.py` | `results/lotb/b11.md`, `experiments.md` (B11) |
 
 Évaluation NER commune aux lots B et C : `caseforge/eval/ner_metrics.py`, **mode token** (entités exactes au niveau
 des mots ; égal à `caseforge/eval/ner_eval.py` à 1e-6 près, `tests/test_mode_token.py`). Anonymisation :
@@ -210,7 +211,7 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
   - `remplacement` répète `pseudonyme` : c'est la clé que lit le Lot D (`generation/gabarit.py --anonymisation`, sur `origin/lot-d-rag` et pas sur `main`), qui reconstruit le texte de droite à gauche. Un test vérifie cette reconstruction.
 - **Hors périmètre** : langues autres que fr / ar / en (`ValueError`) ; backend `gold` (refusé) ; passages mixtes (pas de langue `mixte` dans l'interface).
 - **Résultats** : mêmes chiffres que `union_seuil` B6d. Sur les 21 documents du dev, 4 noms gold restent visibles (les 4 fuites de noms connues). Le test lent `test_noms_gold_du_dev_masques` vérifie que ce sont exactement ceux-là (`tests/test_api_anonymisation.py`, marqueur `slow`).
-- **Limites** : le premier appel charge spaCy, stanza et le CRF, ce qui prend quelques dizaines de secondes. Un plafond de budget dans une contrainte peut encore être masqué en `[MONTANT]` quand la CONTRAINTE n'est pas détectée.
+- **Limites** : le premier appel charge spaCy, stanza et le CRF, ce qui prend quelques dizaines de secondes. Un plafond de budget présenté comme un champ (« Budget maximal : 8000 DT ») reste masqué en `[MONTANT]` : B3 l'annote DONNEE_SENSIBLE ; les cas du balayage et des plafonds sans modal sont corrigés au B11.
 - **Risques éthiques** : ceux de B6. L'interface rend l'anonymisation facile à appeler ; elle ne la rend pas sûre. **Relecture humaine obligatoire.**
 
 ---
