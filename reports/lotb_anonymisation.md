@@ -1,7 +1,7 @@
 # Lot B · B6 — Anonymisation des documents (dev)
 
 Auteur : Ali (Lot B). Date : 26/10/2026, mis à jour le 27/10/2026 (B6b : backend `union_seuil`, extension des
-montants, annexe SITE ; B6d : sur-masquage de `union_seuil`, section 4 ter ; B6e : plis par gabarit, section 4 quater). Split évalué : **dev** (`data/final/documents_dev.jsonl`, 21 documents, 171 passages, 213
+montants, annexe SITE ; B6d : sur-masquage de `union_seuil`, section 4 ter ; B6e : plis par gabarit, section 4 quater ; B10 : ablations de la configuration retenue, section 6, ancienne section 6 en annexe). Split évalué : **dev** (`data/final/documents_dev.jsonl`, 21 documents, 171 passages, 213
 occurrences sensibles gold). Le test gelé n'a pas été lu. Les 20 fuites analysées et le choix des seuils de B6b
 viennent du **train**.
 
@@ -339,22 +339,64 @@ Le CRF est « cohérent » parce qu'il masque peu de mentions par cluster. Avec 
 | syn_ (151) | 78,8 % | 80,1 % | 49,7 % | 54,3 % |
 | lib_ (20) | 65,0 % | 65,0 % | 60,0 % | 65,0 % |
 
-## 6. Ablations : balayage et coréférence (dev)
+## 6. Ablations sur la configuration retenue (B10, dev)
 
-Format : fuite / sur-masquage / cohérence.
+**Analyse, pas mise au point** : rien n'a changé dans `configs/`. Script : `scripts/b10_ablations_anonymisation.py`. Résultats : `results/lotb/b10_ablations_dev.json`, et tableaux complets par tranche dans `results/lotb/b10_ablations_dev.md`.
 
-| Backend | coref + balayage | coref seule | balayage seul | ni l'un ni l'autre |
-|---|---|---|---|---|
-| gold | 0,0 / 0,0 / 100,0 % | 0,0 / 0,0 / 100,0 % | 0,0 / 0,0 / 35,4 % | 0,0 / 0,0 / 35,4 % |
-| rules | 12,2 / 7,0 / 88,1 % | 13,1 / 7,0 / 88,1 % | 12,2 / 7,0 / 35,6 % | 13,1 / 7,0 / 35,6 % |
-| b3 | 17,4 / 2,8 / 88,1 % | 18,3 / 2,8 / 88,1 % | 17,4 / 2,8 / 35,6 % | 18,3 / 2,8 / 35,6 % |
-| crf | 28,2 / 29,7 / 100,0 % | 36,2 / 30,9 / 100,0 % | 28,2 / 29,7 / 70,4 % | 36,2 / 30,9 / 70,4 % |
-| union | 7,5 / 29,7 / 80,6 % | 7,5 / 29,0 / 80,6 % | 7,5 / 29,7 / 32,3 % | 7,5 / 29,0 / 32,3 % |
+- **Référence** : `union_seuil` avec `configs/anonymization.yaml` tel quel (B6d).
+- **Variantes** : un composant retiré à la fois. Deux repères s'y ajoutent, `rules` seul et `union` sans seuil, avec les mêmes options que la référence.
+- **CRF** : entraîné sur tout le train. Ses prédictions sont calculées une fois et partagées par les variantes `union_seuil`.
+- **Δ fuite** : écart à la référence, avec IC 95 % par bootstrap apparié des documents (10 000 tirages, graine 42). p = part des tirages où Δ ≤ 0.
+- **Cohérence** : part des clusters gold ORG / PERSONNE / SITE masqués par un seul pseudonyme. Elle n'est calculée que sur les clusters masqués : 64 pour la référence, 62 sans règles de rappel, 61 pour `rules`.
 
-- **Balayage** : il réduit la fuite de 0,9 point pour les règles (2 mentions ajoutées) et de 8 points pour le CRF (22 mentions ajoutées : le CRF trouve une forme une fois, puis la rate ailleurs). Il n'apporte rien à `union`, qui détecte déjà ces formes. Il ne crée presque pas de sur-masquage.
-- **Coréférence** : elle ne change pas la fuite (elle ne masque rien), mais fait passer la cohérence de 35 % à 88 % avec les règles. Sans elle, « Mme Dorra B. », « D. B. » et « B. » reçoivent trois pseudonymes.
+| Variante | Fuite [IC 95 %] | Tot. / part. | Sur-masquage | F1 car. | Noms | Cohérence | Δ fuite [IC 95 %], p | Δ sur-masquage | Δ F1 | Δ noms | Δ cohérence |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| **référence** | **6,6 %** [3,2 ; 10,7] | 9 / 5 | **21,9 %** | **0,628** | **4** | **82,8 %** | — | — | — | — | — |
+| sans coréférence | 6,6 % | 9 / 5 | 21,9 % | 0,628 | 4 | 37,5 % | 0,0 | 0,0 | 0,000 | 0 | **−45,3** |
+| sans balayage | 6,6 % | 9 / 5 | 21,9 % | 0,628 | 4 | 82,8 % | 0,0 | 0,0 | 0,000 | 0 | 0,0 |
+| sans balayage renforcé | 6,6 % | 9 / 5 | 21,9 % | 0,628 | 4 | 82,8 % | 0,0 | 0,0 | 0,000 | 0 | 0,0 |
+| sans règles de rappel B6c | 7,5 % [3,7 ; 12,3] | 11 / 5 | 22,1 % | 0,621 | 6 | 82,3 % | **+0,9** [0,0 ; +2,4], p = 0,12 | +0,2 | −0,007 | **+2** | −0,6 |
+| sans `plafonds_contrainte` | 6,6 % | 9 / 5 | 24,5 % | 0,606 | 4 | 82,8 % | 0,0 | **+2,6** | −0,022 | 0 | 0,0 |
+| sans `extension_montants` | 6,6 % | 9 / 5 | 21,9 % | 0,628 | 4 | 82,8 % | 0,0 | 0,0 | 0,000 | 0 | 0,0 |
+| *repère* `rules` | 10,8 % [6,6 ; 16,5] | 14 / 9 | 2,6 % | 0,886 | 6 | 88,5 % | **+4,2** [+1,9 ; +7,0], p < 0,001 | **−19,3** | +0,259 | +2 | +5,7 |
+| *repère* `union` | 6,6 % | 9 / 5 | 27,2 % | 0,592 | 4 | 81,2 % | 0,0 | +5,3 | −0,035 | 0 | −1,6 |
 
-**Coréférence seule** (mentions gold, comparée au champ `ref`, 149 mentions) : MUC F1 1,000 et B³ F1 1,000 avec les règles, 0,645 et 0,794 sans. Par étiquette, MUC F1 sans coréférence : ORG 0,417, PERSONNE 0,619, SITE 0,759. Les règles ORG (sigle non défini), OCR et élision (« l'usine ») ont été ajoutées après une première évaluation du dev, où MUC ORG valait 0,538. Elles ont été construites uniquement à partir des 14 clusters scindés du **train**, sans voir de texte du dev. Sur le train, MUC F1 passe de 0,978 à 0,998 (précision 1,000).
+Les variantes à 6,6 % laissent fuir exactement les mêmes occurrences que la référence : Δ apparié de 0,0, IC [0,0 ; 0,0]. Pureté : 100 % partout, sauf `union` (98,7 %).
+
+**Ventilations de la fuite** (référence → variante, seules les tranches qui bougent ; les autres sont identiques) :
+
+- sans règles de rappel : ORG 7,5 → 10,0 %, PERSONNE 1,9 → 3,8 % ; ar 5,8 → 7,2 %, en 8,6 → 10,0 % ; syn_ 3,6 → 4,2 %, lib_ 33,3 → 38,1 % ;
+- `rules` : DONNEE_SENSIBLE 7,8 → 9,4 %, ORG 7,5 → 10,0 %, PERSONNE 1,9 → 3,8 %, SITE 8,8 → 19,3 % ; ar 5,8 → 8,7 %, fr 5,4 → 14,9 % (en inchangé) ; syn_ 3,6 → 6,8 %, lib_ 33,3 → 47,6 %.
+
+**Sur-masquage par tranche** (référence ; sans plafonds ; `rules` ; `union`) :
+
+- ar : 20,7 ; 23,3 ; 4,8 ; 26,2 % ;
+- en : 18,8 ; 22,7 ; 2,5 ; 23,3 % ;
+- fr : 25,6 ; 27,3 ; 0,0 ; 31,2 % ;
+- syn_ : 22,9 ; 25,7 ; 1,9 ; 27,9 % ;
+- lib_ : 9,5 ; 9,5 ; 10,4 ; 18,4 %.
+
+Sans règles de rappel, le sur-masquage bouge de 0,3 point au plus.
+
+**F1 stricte au caractère, par étiquette** (référence / `rules`) : DONNEE_SENSIBLE 0,060 / **0,951**, ORG 0,633 / 0,831, PERSONNE 0,949 / 0,980, SITE 0,842 / 0,768. Par langue : ar 0,551 / 0,842, en 0,682 / 0,928, fr 0,647 / 0,887. Par source : syn_ 0,620 / 0,905, lib_ 0,703 / 0,667.
+
+**Cohérence par tranche** (référence / sans coréférence) : ORG 61,9 / 33,3 %, PERSONNE 100,0 / 31,8 %, SITE 85,7 / 47,6 % ; ar 68,2 / 50,0 %, en 100,0 / 28,6 %, fr 81,0 / 33,3 % ; syn_ 79,2 / 24,5 %, lib_ 100,0 / 100,0 %.
+
+**Passages mixtes** (annexe, pas de conclusion, n < 30) : 5 occurrences, 0 fuite dans les 9 variantes.
+
+**Lecture.**
+
+- **Composants utiles à la fuite ou au sur-masquage :**
+  - **règles de rappel B6c** : 2 noms gold de moins visibles (1 ORG, 1 PERSONNE) et −0,9 point de fuite. Ce gain n'est **pas significatif** sur 213 occurrences (IC [0,0 ; +2,4], p = 0,12) ;
+  - **plafonds de budget** : −2,6 points de sur-masquage, sans coût en fuite. C'est le seul composant qui agit sur le sur-masquage : 752 → 638 caractères, dont les 114 de B1 seul.
+- **Coréférence :** elle ne masque rien, mais elle porte la cohérence des pseudonymes (82,8 % contre 37,5 % sans elle). Sans elle, une même personne reçoit plusieurs pseudonymes dans un document.
+- **Sans effet mesurable dans cette configuration** : balayage, balayage renforcé et extension des montants. Le balayage aidait `rules` et le CRF seul (annexe ci-dessous, −0,9 et −8 points). Avec `union_seuil`, la détection trouve déjà les formes qu'il rattrapait. Le balayage et l'extension des montants restent des filets de sécurité gratuits : ils n'ajoutent aucun sur-masquage.
+- **Coût du CRF dans `union_seuil`** (repère `rules`) :
+  - gain : −4,2 points de fuite, significatif (IC [+1,9 ; +7,0] pour `rules` − référence), et 2 noms de moins ;
+  - coût : +19,3 points de sur-masquage et une F1 caractère qui passe de 0,886 à 0,628. DONNEE_SENSIBLE tombe de 0,951 à 0,060, parce que les spans fusionnés avec le CRF débordent ;
+  - en français, `rules` ne sur-masque rien (0,0 %), mais fuit 14,9 % au lieu de 5,4 %.
+- **`union` sans seuil** : même fuite que la référence, mais 5,3 points de sur-masquage de plus. Le seuil n'enlève que du sur-masquage.
+- **Rappel** : ces chiffres du dev sont optimistes, car les corrections B6c à B6f sont parties d'erreurs vues sur le dev (`docs/carte_modele_lotB.md`, limites communes).
 
 ## 7. Vingt fuites du TRAIN analysées par cause (`rules`, coréférence + balayage)
 
@@ -429,6 +471,25 @@ Causes des 61 fuites :
 - Limite : la contrainte de 10 % de sur-masquage, tenue sur le train, **n'est pas tenue au dev** (24,8 %), à cause de l'écart train / dev du CRF (section 4 bis). Un quart des caractères masqués ne sont pas sensibles. Le texte reste lisible pour une démo, mais pas pour une diffusion large.
 - Une relecture humaine du texte anonymisé reste nécessaire, au moins pour les données décrites sans chiffre et les documents libres (`lib_` : 38 % de fuite).
 - Si la lisibilité prime (fiches à diffuser largement), `rules` reste l'alternative : 12,2 % de fuite, dont 8,0 % identifiante ; 7,0 % de sur-masquage ; 88 % de cohérence ; et il ne demande pas de modèle entraîné.
+
+## Annexe · Ablations B6 (26/10/2026) : balayage et coréférence par backend (dev)
+
+Ancienne section 6, remplacée par le B10. Configuration de B6 (avant B6b) : sans `union_seuil`, sans règles de rappel ni plafonds.
+
+Format : fuite / sur-masquage / cohérence.
+
+| Backend | coref + balayage | coref seule | balayage seul | ni l'un ni l'autre |
+|---|---|---|---|---|
+| gold | 0,0 / 0,0 / 100,0 % | 0,0 / 0,0 / 100,0 % | 0,0 / 0,0 / 35,4 % | 0,0 / 0,0 / 35,4 % |
+| rules | 12,2 / 7,0 / 88,1 % | 13,1 / 7,0 / 88,1 % | 12,2 / 7,0 / 35,6 % | 13,1 / 7,0 / 35,6 % |
+| b3 | 17,4 / 2,8 / 88,1 % | 18,3 / 2,8 / 88,1 % | 17,4 / 2,8 / 35,6 % | 18,3 / 2,8 / 35,6 % |
+| crf | 28,2 / 29,7 / 100,0 % | 36,2 / 30,9 / 100,0 % | 28,2 / 29,7 / 70,4 % | 36,2 / 30,9 / 70,4 % |
+| union | 7,5 / 29,7 / 80,6 % | 7,5 / 29,0 / 80,6 % | 7,5 / 29,7 / 32,3 % | 7,5 / 29,0 / 32,3 % |
+
+- **Balayage** : il réduit la fuite de 0,9 point pour les règles (2 mentions ajoutées) et de 8 points pour le CRF (22 mentions ajoutées : le CRF trouve une forme une fois, puis la rate ailleurs). Il n'apporte rien à `union`, qui détecte déjà ces formes. Il ne crée presque pas de sur-masquage.
+- **Coréférence** : elle ne change pas la fuite (elle ne masque rien), mais fait passer la cohérence de 35 % à 88 % avec les règles. Sans elle, « Mme Dorra B. », « D. B. » et « B. » reçoivent trois pseudonymes.
+
+**Coréférence seule** (mentions gold, comparée au champ `ref`, 149 mentions) : MUC F1 1,000 et B³ F1 1,000 avec les règles, 0,645 et 0,794 sans. Par étiquette, MUC F1 sans coréférence : ORG 0,417, PERSONNE 0,619, SITE 0,759. Les règles ORG (sigle non défini), OCR et élision (« l'usine ») ont été ajoutées après une première évaluation du dev, où MUC ORG valait 0,538. Elles ont été construites uniquement à partir des 14 clusters scindés du **train**, sans voir de texte du dev. Sur le train, MUC F1 passe de 0,978 à 0,998 (précision 1,000).
 
 ## Annexe · Fuite hors article ou mot générique (SITE, diagnostic de l'issue #7)
 

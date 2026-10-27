@@ -15,7 +15,7 @@ d'`experiments.md` d'où il vient. Une valeur absente de `reports/` et d'`experi
 | B3 | NER des 9 entités par règles (spaCy / stanza) | `caseforge/extraction/rules/` | `reports/lotb_regles_spacy.md`, `reports/lotb_b6c.md` |
 | B1 | CRF de référence (baseline apprise) et pré-annotation du Lot A | `exemples/baseline_crf.py`, `cfdata.prelabel` | `reports/lotb_baseline_regles.md` |
 | B6 | Anonymiseur (backends `rules`, `union`, `union_seuil`) | `caseforge/anonymization/` | `reports/lotb_anonymisation.md`, `reports/lotb_b6c.md` |
-| B6 | Coréférence simple (un pseudonyme par entité) | `caseforge/anonymization/coref_simple.py` | `reports/lotb_anonymisation.md` (section 6) |
+| B6 | Coréférence simple (un pseudonyme par entité) | `caseforge/anonymization/coref_simple.py` | `reports/lotb_anonymisation.md` (annexe « Ablations B6 (26/10/2026) » ; section 6 pour B10) |
 | B8 | Pipeline NLTK et ablation de tokenisation | `caseforge/extraction/nltk_pipeline.py` | `reports/lotb_b8_tokenisation.md` |
 | B9 | Interface publique d'anonymisation (Lots D et E) | `caseforge/anonymization/api.py` | `README.md` (section Lot B) |
 
@@ -147,6 +147,7 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
     **Causes** : sur 752 caractères sur-masqués, 616 viennent de spans fusionnés avec le CRF (437 B1 + B3 + CRF, 166 B3 + CRF, 13 CRF seul) et 114 de B1 seul (montants plafonds de contrainte). Les règles B6c n'en sont pas la cause : Δ de 0,0, −0,1 et −0,1 point (`reports/lotb_b6c.md`, section 3).
   - L'extension des montants n'a aucun effet mesurable : rappel des montants inchangé au train comme au dev (`reports/lotb_anonymisation.md`, section 4 bis).
   - La règle des sigles non définis, le balayage renforcé et les ancres arabes ne changent pas la fuite au dev (`reports/lotb_b6c.md`).
+  - **B10, ablations de la configuration retenue** (dev, `reports/lotb_anonymisation.md`, section 6) : sans règles de rappel, fuite +0,9 point [0,0 ; +2,4] (p = 0,12) et 2 noms de plus ; sans plafonds, sur-masquage +2,6 points ; sans coréférence, cohérence 82,8 → 37,5 % ; le balayage (renforcé ou non) et l'extension des montants sont sans effet ; `rules` seul fuit 4,2 points de plus [+1,9 ; +7,0], avec 19,3 points de sur-masquage en moins.
   - **B6d, fusion aux bornes des règles : désactivée** (règle fixée d'avance : plus de 1 point de fuite). Elle coûte +4,6 points de fuite au train (CV) et +2,8 au dev, presque tous des SITE partiels (issue #7 du Lot A). Les plafonds de budget sont gardés : 0,0 point de fuite, sur-masquage du dev 24,5 → 21,9 % (`reports/lotb_anonymisation.md`, section 4 ter).
   - **B6e, seuils rechoisis avec des plis groupés par gabarit : non retenus** (`reports/lotb_anonymisation.md`, section 4 quater) :
     - train : `union` sans seuil reste entre 1,2 et 5,3 % de sur-masquage selon le pli, donc la contrainte des 10 % n'est toujours pas active. Seuils B6e (moyenne 0,35 / aucune entité du CRF / 0,70 / 0,35) : fuite 3,5 %, sur-masquage 1,8 % ;
@@ -166,10 +167,10 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 
 - **Objectif et usage prévu** : regrouper les mentions d'une même entité (ORG, PERSONNE, SITE) dans un document pour qu'elles reçoivent le même pseudonyme. Exemple : « Mme Dorra B. », « D. B. » et « B. » doivent devenir un seul `[PERSONNE_1]`.
 - **Hors périmètre** : pronoms et anaphores (« elle », « la société ») ; coréférence entre documents ; DONNEE_SENSIBLE (masque typé sans cluster).
-- **Données** : clusters `ref` du gold ; dev de 149 mentions (`reports/lotb_anonymisation.md`, section 6).
+- **Données** : clusters `ref` du gold ; dev de 149 mentions (`reports/lotb_anonymisation.md`, annexe « Ablations B6 (26/10/2026) »).
 - **Méthode** : clés normalisées (casse, accents, diacritiques, alif, proclitique, civilité, génériques de SITE, bruit OCR à une édition), sigle défini ou dont les initiales correspondent, nom de famille seul, initiale + nom (`reports/lotb_anonymisation.md`, section 1).
 - **Métriques** : MUC et B³ sur les mentions gold ; dans l'anonymiseur, **cohérence** (part des clusters gold aux mentions toutes masquées par un seul pseudonyme) et **pureté**.
-- **Résultats sur le dev** (`reports/lotb_anonymisation.md`, sections 4 à 6) :
+- **Résultats sur le dev** (`reports/lotb_anonymisation.md`, sections 4 et 5, et annexe « Ablations B6 (26/10/2026) ») :
   - mentions gold, avec la coréférence : MUC F1 1,000, B³ F1 1,000 ; sans : 0,645 et 0,794. MUC F1 sans coréférence par étiquette : ORG 0,417, PERSONNE 0,619, SITE 0,759 ;
   - MUC et B³ par langue et par source : non reportés dans `reports/` ;
   - cohérence dans l'anonymiseur : 88,1 % avec `rules` (35,6 % sans coréférence), 80,6 % avec `union`, 82,3 % avec `union_seuil` B6b ; pureté 100 % avec `rules` et `union_seuil` ;
