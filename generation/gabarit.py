@@ -3,10 +3,12 @@
 Entrée : un document de data/final/documents_{split}.jsonl (passages avec text_anonymise, ptype, entities).
 Sortie : une fiche au format de data/final/fiches_{split}.jsonl ; chaque élément « source » cite ses passages.
 
-Pour l'instant, ptype et entities sont ceux de référence (LOT A). Plus tard : ptype vient du LOT C,
-entities du LOT B. Le texte utilisé est toujours le texte anonymisé, jamais l'original.
+Par défaut, le texte anonymisé, ptype et entities sont ceux de référence (LOT A). Les options --entites et
+--anonymisation les remplacent par les sorties du LOT B ; le texte utilisé reste toujours le texte anonymisé.
 
     python generation/gabarit.py --split dev --out generation/sorties/fiches_dev.jsonl
+    python generation/gabarit.py --split dev --entites results/lotb/b6_b3_corrige_dev.jsonl \
+        --anonymisation results/lotb/b6_anonymisation_dev_rules.jsonl --out generation/sorties/fiches_dev_lotb.jsonl
 """
 import argparse
 import json
@@ -30,7 +32,30 @@ FIXES = ["consignes", "livrables", "criteres_evaluation"]
 
 
 def charger(chemin):
-    return [json.loads(ligne) for ligne in open(chemin, encoding="utf-8")]
+    # utf-8-sig : accepte aussi les fichiers écrits avec une marque BOM (sorties PowerShell)
+    return [json.loads(ligne) for ligne in open(chemin, encoding="utf-8-sig")]
+
+
+def brancher_lot_b(docs, chemin_entites=None, chemin_anonymisation=None):
+    """Remplace, passage par passage, les entités et le texte anonymisé de référence par ceux du LOT B.
+
+    Entités : {"passage_id", "entities": [{"start", "end", "label"}]} (positions dans le texte original).
+    Anonymisation : {"passage_id", "remplacements": [{"start", "end", "remplacement"}]} ; le texte anonymisé
+    est reconstruit en appliquant les remplacements au texte original, de droite à gauche.
+    Un passage absent d'un fichier n'a aucune entité prédite, ou aucun remplacement (son texte reste tel quel).
+    """
+    entites = {r["passage_id"]: r["entities"] for r in charger(chemin_entites)} if chemin_entites else None
+    anonym = {r["passage_id"]: r["remplacements"] for r in charger(chemin_anonymisation)} if chemin_anonymisation else None
+    for doc in docs:
+        for p in doc["passages"]:
+            if entites is not None:
+                p["entities"] = [{**e, "text": p["text"][e["start"]:e["end"]]} for e in entites.get(p["passage_id"], [])]
+            if anonym is not None:
+                texte = p["text"]
+                for r in sorted(anonym.get(p["passage_id"], []), key=lambda r: -r["start"]):
+                    texte = texte[:r["start"]] + r["remplacement"] + texte[r["end"]:]
+                p["text_anonymise"] = texte
+    return docs
 
 
 def textes_fixes():
@@ -106,10 +131,12 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="dev", choices=["train", "dev"])  # jamais le test pendant le développement
     ap.add_argument("--out", default="generation/sorties/fiches_dev.jsonl")
+    ap.add_argument("--entites", help="entités prédites par le LOT B (à la place de la référence)")
+    ap.add_argument("--anonymisation", help="remplacements de l'anonymiseur du LOT B (à la place de la référence)")
     args = ap.parse_args()
 
     fixes = textes_fixes()
-    docs = charger(f"data/final/documents_{args.split}.jsonl")
+    docs = brancher_lot_b(charger(f"data/final/documents_{args.split}.jsonl"), args.entites, args.anonymisation)
     fiches = [generer(d, fixes) for d in docs]
     Path(args.out).parent.mkdir(parents=True, exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as f:
