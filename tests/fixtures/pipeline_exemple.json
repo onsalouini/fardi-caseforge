@@ -1,0 +1,460 @@
+{
+ "version_contrat": "1.0",
+ "doc_id": "syn_fr_001",
+ "lang": "fr",
+ "passages": [
+  {
+   "passage_id": "syn_fr_001_p000",
+   "text": "Objet : demande d'accompagnement pour un projet d'amélioration industrielle",
+   "ptype": "autre",
+   "entities": []
+  },
+  {
+   "passage_id": "syn_fr_001_p001",
+   "text": "Groupe Agroalimentaire du Cap Bon (GACCA) est implantée dans la ZI de Gabès. Son produit principal, huile d'olive extra vierge, est livré à deux donneurs d'ordre italiens.",
+   "ptype": "contexte",
+   "entities": [
+    {
+     "start": 0,
+     "end": 33,
+     "label": "ORG"
+    },
+    {
+     "start": 35,
+     "end": 40,
+     "label": "ORG"
+    },
+    {
+     "start": 61,
+     "end": 75,
+     "label": "SITE"
+    },
+    {
+     "start": 100,
+     "end": 126,
+     "label": "PRODUIT"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_001_p002",
+   "text": "Depuis septembre, l'atelier constate un taux de service de 83 % sur l'équipement « pasteurisateur », loin de l'objectif fixé. Les mesures ont été faites à Gabès.",
+   "ptype": "probleme",
+   "entities": [
+    {
+     "start": 40,
+     "end": 63,
+     "label": "INDICATEUR"
+    },
+    {
+     "start": 83,
+     "end": 97,
+     "label": "EQUIPEMENT"
+    },
+    {
+     "start": 155,
+     "end": 160,
+     "label": "SITE"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_001_p003",
+   "text": "GACCA a déjà mené une première action sur l'équipement « pasteurisateur » avec l'appui de D. Ferchichi, sans amélioration durable sur Gabès. Produit concerné : huile d'olive extra vierge.",
+   "ptype": "contexte",
+   "entities": [
+    {
+     "start": 0,
+     "end": 5,
+     "label": "ORG"
+    },
+    {
+     "start": 57,
+     "end": 71,
+     "label": "EQUIPEMENT"
+    },
+    {
+     "start": 90,
+     "end": 102,
+     "label": "PERSONNE"
+    },
+    {
+     "start": 134,
+     "end": 139,
+     "label": "SITE"
+    },
+    {
+     "start": 160,
+     "end": 186,
+     "label": "PRODUIT"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_001_p004",
+   "text": "Mme Dorra Ferchichi, resp. maint., souhaite qu'un groupe d'étudiants analyse les causes du problème en s'appuyant sur la démarche suivante : maîtrise statistique des procédés.",
+   "ptype": "objectif",
+   "entities": [
+    {
+     "start": 0,
+     "end": 19,
+     "label": "PERSONNE"
+    },
+    {
+     "start": 141,
+     "end": 174,
+     "label": "PROCESSUS"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_001_p005",
+   "text": "Contraintes : les livraisons doivent être réalisées sous 3 jours. De plus, la ligne ne peut pas être arrêtée plus de 4 heures par semaine.",
+   "ptype": "contrainte",
+   "entities": [
+    {
+     "start": 14,
+     "end": 64,
+     "label": "CONTRAINTE"
+    },
+    {
+     "start": 75,
+     "end": 137,
+     "label": "CONTRAINTE"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_001_p006",
+   "text": "Données disponibles : relevés de l'équipement « pasteurisateur », historique de six mois indiquant un taux de service de 85 %, fiches de non-conformité. Le personnel a déjà été formé à la démarche suivante : maîtrise statistique des procédés.",
+   "ptype": "donnee",
+   "entities": [
+    {
+     "start": 48,
+     "end": 62,
+     "label": "EQUIPEMENT"
+    },
+    {
+     "start": 102,
+     "end": 125,
+     "label": "INDICATEUR"
+    },
+    {
+     "start": 208,
+     "end": 241,
+     "label": "PROCESSUS"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_001_p007",
+   "text": "Le chiffre d'affaires de GACCA (74,7 MDT) et le contrat n° 2026-045 restent confidentiels.",
+   "ptype": "donnee",
+   "entities": [
+    {
+     "start": 25,
+     "end": 30,
+     "label": "ORG"
+    },
+    {
+     "start": 32,
+     "end": 40,
+     "label": "DONNEE_SENSIBLE"
+    },
+    {
+     "start": 48,
+     "end": 67,
+     "label": "DONNEE_SENSIBLE"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_001_p008",
+   "text": "Contact : D. Ferchichi – d.ferchichi@gacca.tn – +216 51 121 118",
+   "ptype": "autre",
+   "entities": [
+    {
+     "start": 10,
+     "end": 22,
+     "label": "PERSONNE"
+    },
+    {
+     "start": 25,
+     "end": 45,
+     "label": "DONNEE_SENSIBLE"
+    },
+    {
+     "start": 48,
+     "end": 63,
+     "label": "DONNEE_SENSIBLE"
+    }
+   ]
+  }
+ ],
+ "anonymise": {
+  "passages": [
+   {
+    "passage_id": "syn_fr_001_p000",
+    "texte": "Objet : demande d'accompagnement pour un projet d'amélioration industrielle"
+   },
+   {
+    "passage_id": "syn_fr_001_p001",
+    "texte": "[ENTREPRISE_A] ([ENTREPRISE_A]) est implantée dans [SITE_1]. Son produit principal, huile d'olive extra vierge, est livré à deux donneurs d'ordre italiens."
+   },
+   {
+    "passage_id": "syn_fr_001_p002",
+    "texte": "Depuis septembre, l'atelier constate un taux de service de 83 % sur l'équipement « pasteurisateur », loin de l'objectif fixé. Les mesures ont été faites à [SITE_1]."
+   },
+   {
+    "passage_id": "syn_fr_001_p003",
+    "texte": "[ENTREPRISE_A] a déjà mené une première action sur l'équipement « pasteurisateur » avec l'appui de [PERSONNE_1], sans amélioration durable sur [SITE_1]. Produit concerné : huile d'olive extra vierge."
+   },
+   {
+    "passage_id": "syn_fr_001_p004",
+    "texte": "[PERSONNE_1], resp. maint., souhaite qu'un groupe d'étudiants analyse les causes du problème en s'appuyant sur la démarche suivante : maîtrise statistique des procédés."
+   },
+   {
+    "passage_id": "syn_fr_001_p005",
+    "texte": "Contraintes : les livraisons doivent être réalisées sous 3 jours. De plus, la ligne ne peut pas être arrêtée plus de 4 heures par semaine."
+   },
+   {
+    "passage_id": "syn_fr_001_p006",
+    "texte": "Données disponibles : relevés de l'équipement « pasteurisateur », historique de six mois indiquant un taux de service de 85 %, fiches de non-conformité. Le personnel a déjà été formé à la démarche suivante : maîtrise statistique des procédés."
+   },
+   {
+    "passage_id": "syn_fr_001_p007",
+    "texte": "Le chiffre d'affaires de [ENTREPRISE_A] ([DONNEE_MASQUEE]) et le [DONNEE_MASQUEE] restent confidentiels."
+   },
+   {
+    "passage_id": "syn_fr_001_p008",
+    "texte": "Contact : [PERSONNE_1] – [DONNEE_MASQUEE] – [DONNEE_MASQUEE]"
+   }
+  ],
+  "remplacements": [
+   {
+    "passage_id": "syn_fr_001_p001",
+    "start": 0,
+    "end": 33,
+    "label": "ORG",
+    "pseudonyme": "[ENTREPRISE_A]"
+   },
+   {
+    "passage_id": "syn_fr_001_p001",
+    "start": 35,
+    "end": 40,
+    "label": "ORG",
+    "pseudonyme": "[ENTREPRISE_A]"
+   },
+   {
+    "passage_id": "syn_fr_001_p001",
+    "start": 61,
+    "end": 75,
+    "label": "SITE",
+    "pseudonyme": "[SITE_1]"
+   },
+   {
+    "passage_id": "syn_fr_001_p002",
+    "start": 155,
+    "end": 160,
+    "label": "SITE",
+    "pseudonyme": "[SITE_1]"
+   },
+   {
+    "passage_id": "syn_fr_001_p003",
+    "start": 0,
+    "end": 5,
+    "label": "ORG",
+    "pseudonyme": "[ENTREPRISE_A]"
+   },
+   {
+    "passage_id": "syn_fr_001_p003",
+    "start": 90,
+    "end": 102,
+    "label": "PERSONNE",
+    "pseudonyme": "[PERSONNE_1]"
+   },
+   {
+    "passage_id": "syn_fr_001_p003",
+    "start": 134,
+    "end": 139,
+    "label": "SITE",
+    "pseudonyme": "[SITE_1]"
+   },
+   {
+    "passage_id": "syn_fr_001_p004",
+    "start": 0,
+    "end": 19,
+    "label": "PERSONNE",
+    "pseudonyme": "[PERSONNE_1]"
+   },
+   {
+    "passage_id": "syn_fr_001_p007",
+    "start": 25,
+    "end": 30,
+    "label": "ORG",
+    "pseudonyme": "[ENTREPRISE_A]"
+   },
+   {
+    "passage_id": "syn_fr_001_p007",
+    "start": 32,
+    "end": 40,
+    "label": "DONNEE_SENSIBLE",
+    "pseudonyme": "[DONNEE_MASQUEE]"
+   },
+   {
+    "passage_id": "syn_fr_001_p007",
+    "start": 48,
+    "end": 67,
+    "label": "DONNEE_SENSIBLE",
+    "pseudonyme": "[DONNEE_MASQUEE]"
+   },
+   {
+    "passage_id": "syn_fr_001_p008",
+    "start": 10,
+    "end": 22,
+    "label": "PERSONNE",
+    "pseudonyme": "[PERSONNE_1]"
+   },
+   {
+    "passage_id": "syn_fr_001_p008",
+    "start": 25,
+    "end": 45,
+    "label": "DONNEE_SENSIBLE",
+    "pseudonyme": "[DONNEE_MASQUEE]"
+   },
+   {
+    "passage_id": "syn_fr_001_p008",
+    "start": 48,
+    "end": 63,
+    "label": "DONNEE_SENSIBLE",
+    "pseudonyme": "[DONNEE_MASQUEE]"
+   }
+  ]
+ },
+ "fiche": {
+  "titre": {
+   "texte": "Cas industriel – agroalimentaire : amélioration d'un indicateur de performance",
+   "origine": "gabarit"
+  },
+  "contexte": {
+   "texte": "[ENTREPRISE_A] ([ENTREPRISE_A]) est implantée dans [SITE_1]. Son produit principal, huile d'olive extra vierge, est livré à deux donneurs d'ordre italiens.",
+   "origine": "source",
+   "sources": [
+    "syn_fr_001_p001"
+   ]
+  },
+  "objectifs": [
+   {
+    "texte": "Analyser les causes de la dégradation de l'indicateur suivant : taux de service de 83 %.",
+    "origine": "source",
+    "sources": [
+     "syn_fr_001_p002"
+    ]
+   },
+   {
+    "texte": "Proposer une solution en appliquant la démarche : maîtrise statistique des procédés.",
+    "origine": "source",
+    "sources": [
+     "syn_fr_001_p004",
+     "syn_fr_001_p006"
+    ]
+   }
+  ],
+  "donnees": [
+   {
+    "texte": "Relevés de l'équipement « pasteurisateur »",
+    "origine": "source",
+    "sources": [
+     "syn_fr_001_p006"
+    ]
+   },
+   {
+    "texte": "Historique sur six mois : taux de service de 85 %",
+    "origine": "source",
+    "sources": [
+     "syn_fr_001_p006"
+    ]
+   },
+   {
+    "texte": "Fiches de non-conformité",
+    "origine": "source",
+    "sources": [
+     "syn_fr_001_p006"
+    ]
+   }
+  ],
+  "contraintes": [
+   {
+    "texte": "les livraisons doivent être réalisées sous 3 jours",
+    "origine": "source",
+    "sources": [
+     "syn_fr_001_p005"
+    ]
+   },
+   {
+    "texte": "la ligne ne peut pas être arrêtée plus de 4 heures par semaine",
+    "origine": "source",
+    "sources": [
+     "syn_fr_001_p005"
+    ]
+   }
+  ],
+  "consignes": [
+   {
+    "texte": "Travailler en équipe de 4 à 5 étudiants.",
+    "origine": "gabarit"
+   },
+   {
+    "texte": "Justifier chaque proposition par une donnée du cas.",
+    "origine": "gabarit"
+   },
+   {
+    "texte": "Respecter toutes les contraintes listées.",
+    "origine": "gabarit"
+   }
+  ],
+  "livrables": [
+   {
+    "texte": "Rapport d'analyse (10 pages maximum)",
+    "origine": "gabarit"
+   },
+   {
+    "texte": "Plan d'action chiffré",
+    "origine": "gabarit"
+   },
+   {
+    "texte": "Présentation orale de 15 minutes",
+    "origine": "gabarit"
+   }
+  ],
+  "criteres_evaluation": [
+   {
+    "texte": "Pertinence de l'analyse des causes (30 %)",
+    "origine": "gabarit"
+   },
+   {
+    "texte": "Faisabilité et respect des contraintes (30 %)",
+    "origine": "gabarit"
+   },
+   {
+    "texte": "Qualité du chiffrage (20 %)",
+    "origine": "gabarit"
+   },
+   {
+    "texte": "Clarté de la présentation (20 %)",
+    "origine": "gabarit"
+   }
+  ]
+ },
+ "validation": {
+  "statut": "a_valider",
+  "valide_par": null,
+  "date": null,
+  "commentaire": ""
+ },
+ "metriques": {
+  "fuites_detectees": 0,
+  "temps_ms": null
+ },
+ "_source": "exemple factice construit depuis les références du train (scripts/fixture_pipeline.py)"
+}

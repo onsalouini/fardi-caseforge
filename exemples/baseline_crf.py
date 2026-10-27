@@ -2,7 +2,8 @@
 et donne le premier point de comparaison exigé (baseline classique, résultats par langue).
 
     pip install sklearn-crfsuite
-    python exemples/baseline_crf.py [--externe] [--seed 13]
+    python exemples/baseline_crf.py [--externe] [--seed 13]      # dev seulement
+    python exemples/baseline_crf.py --test                      # test gelé : UNE SEULE FOIS, à la fin
 
 --externe : ajoute externe_train à l'entraînement (ORG, PERSONNE, SITE seulement : pour ces passages, les tags
             des 6 autres étiquettes sont inconnus, ils sont donc laissés tels quels — voir README pour le masquage
@@ -68,13 +69,15 @@ def main():
     ap.add_argument("--data", default="data/final")
     ap.add_argument("--externe", action="store_true")
     ap.add_argument("--seed", type=int, default=13)
+    ap.add_argument("--test", action="store_true", help="évaluer aussi le test gelé (UNE SEULE FOIS, à la fin)")
     a = ap.parse_args()
     train = load(f"{a.data}/train.bio.jsonl") + (load(f"{a.data}/externe_train.bio.jsonl") if a.externe else [])
     X = [[feats(r["tokens"], i) for i in range(len(r["tokens"]))] for r in train]
     y = [r["ner_tags"] for r in train]
     crf = sklearn_crfsuite.CRF(algorithm="lbfgs", c1=0.1, c2=0.05, max_iterations=150, all_possible_transitions=True)
     crf.fit(X, y)
-    for split in ("dev", "test", "externe_test"):
+    # Le test gelé n'est évalué qu'avec --test, une seule fois, à la fin (exigence §2.3 du cahier).
+    for split in (("dev", "test", "externe_test") if a.test else ("dev",)):
         rows = load(f"{a.data}/{split}.bio.jsonl")
         preds = crf.predict([[feats(r["tokens"], i) for i in range(len(r["tokens"]))] for r in rows])
         if split == "externe_test":  # 3 étiquettes couvertes seulement

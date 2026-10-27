@@ -1,4 +1,23 @@
-# CaseForge — jeu de données NER métier, anonymisation et fiches pédagogiques (projet 7, Lot A)
+# CaseForge — NER métier, anonymisation et fiches pédagogiques (projet 7, FARDI CaseForge)
+
+Transformer un document industriel FR / AR / EN en fiche pédagogique anonymisée et sourcée (module NLP ESPRIM 2026-2027).
+
+## État des lots (palier Bronze)
+
+| Lot | Responsable | Contenu | Carte / rapport |
+|---|---|---|---|
+| A · Données et langue | Boutheina, Ons | corpus, annotation, kappa 0,758, test gelé `test-gele-v3`, études de langue | [`docs/carte_donnees.md`](docs/carte_donnees.md) |
+| B · Extraction et anonymisation | Ali, Boutheina | règles spaCy (B3), CRF, anonymisation (fuite 6,6 % au dev), coréférence | [`docs/carte_modele_lotB.md`](docs/carte_modele_lotB.md) |
+| C · Modèles | Ghayth, Ons | type de passage (0,896), recherche (MRR 0,932), CRF, reproduction ANERcorp, comparaison B/C | [`docs/carte_modele_lotC.md`](docs/carte_modele_lotC.md) |
+| D · Génération | Ons, Boutheina | fiche par gabarit, recherche TF-IDF (branche `lot-d-rag`) | — |
+| E · Intégration | tous | pipeline, API, interface : contrat [`docs/contrat_pipeline.md`](docs/contrat_pipeline.md) | — |
+
+Journal des expériences : [`experiments.md`](experiments.md). Toutes les mesures publiées sont faites sur le **dev** ;
+le **test gelé n'est évalué qu'une fois, à la fin** (option `--test` des scripts). Le travail passe par une branche par
+lot et une PR approuvée vers `main` ; la CI (`.github/workflows/tests.yml`) lance les tests à chaque PR.
+Usage d'assistants IA : déclaré dans `experiments.md` et dans les cartes de modèle.
+
+## Lot A — le jeu de données
 
 Jeu de données prêt à l'entraînement, construit selon le cahier des charges du projet 7. Il contient :
 - **114 problèmes industriels** FR / AR / EN : 864 passages et 2 486 entités sur les 9 étiquettes ;
@@ -21,8 +40,8 @@ ds = load_dataset("json", data_files={"train": "data/final/hf/train.jsonl",
 # labels : data/final/hf/labels.json (19 tags BIO)
 ```
 
-- Baseline CRF (testée) : `pip install sklearn-crfsuite && python exemples/baseline_crf.py`
-- Fine-tuning XLM-R avec masquage des étiquettes non couvertes : `exemples/entrainer_xlmr.py` (sur GPU)
+- Baseline CRF : `pip install sklearn-crfsuite && python exemples/baseline_crf.py` (dev ; `--test` une seule fois, à la fin)
+- Fine-tuning XLM-R : `caseforge/models/xlmr_ner.py` (Lot C, sur Colab ; instructions en tête du fichier)
 
 ## Lot B (extraction, anonymisation, évaluation)
 
@@ -37,6 +56,21 @@ Règles du dépôt : [`CLAUDE.md`](CLAUDE.md). Journal : [`experiments.md`](expe
   ```
 
   Non vérifié sur Colab : avec torch >= 2.6, stanza 1.6 risque de ne pas charger le modèle arabe (repli sur `spacy.blank('ar')`). Voir les notes en fin de `requirements-lotb-colab.txt`.
+
+## Lot C (modèles)
+
+```bash
+pip install -r requirements-lotc.txt
+python -m caseforge.models.tfidf_classif        # type de passage, passage seul
+python -m caseforge.models.ptype_contexte       # type de passage avec la position (0,896)
+python -m caseforge.models.tfidf_secteur        # secteur (résultat négatif expliqué)
+python -m caseforge.retrieval.bm25              # recherche du passage source
+python -m caseforge.retrieval.hybride           # recherche dans le document (MRR 0,932)
+python -m caseforge.models.crf_ner              # CRF NER, prédictions au format commun
+python -m caseforge.models.comparer_ner         # comparaison B1 / B3 / CRF (+ XLM-R si présent)
+python exemples/reproduction_anercorp.py        # reproduction d'un résultat publié
+```
+Tous ces scripts mesurent sur le dev ; `--test` (une seule fois, à la fin) évalue le test gelé.
 
 ## Reconstruire le jeu
 

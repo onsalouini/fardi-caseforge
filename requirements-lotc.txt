@@ -1,0 +1,9 @@
+# Dépendances du Lot C (en plus de requirements.txt) — Python 3.11
+-r requirements.txt
+scikit-learn>=1.4
+sklearn-crfsuite==0.5.0
+rank_bm25==0.2.2
+openpyxl>=3.1
+numpy>=1.26
+# XLM-R (caseforge/models/xlmr_ner.py) : sur Colab seulement, avec le torch de Colab :
+#   pip install "transformers>=4.44" accelerate
