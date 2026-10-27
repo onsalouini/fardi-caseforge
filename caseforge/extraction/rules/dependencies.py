@@ -7,7 +7,9 @@ Les ancres sont trouvées avec le ``DependencyMatcher`` de spaCy sur le ``Doc`` 
   verbe ; un modal faible (« peut », « can », « يمكن ») ne compte qu'avec une négation ou « seulement ». Le span va
   du sujet à la fin de la proposition (jusqu'à la valeur), sans l'introduction (« Contraintes : », « De plus, »,
   « كما ») ; un span par conjonct coordonné qui porte son propre modal. Sans modal, un élément d'une liste
-  introduite par « Contraintes : » est aussi une CONTRAINTE.
+  introduite par « Contraintes : » est aussi une CONTRAINTE. B6c, en arabe (``dependencies.contrainte_ar``) :
+  tournures d'obligation, d'interdiction ou de limite du lexique (``ancre_ar`` : لا بد من، يشترط، لا يتجاوز، لا يقل
+  عن، في حدود، في أجل لا يتعدى…) et « على [فاعل] أن » ; le sujet qui précède l'ancre est inclus.
 - INDICATEUR (cas 6 et 7) : nom de grandeur (« taux », « MTBF », « نسبة ») + valeur numérique rattachée (descendant
   syntaxique, ou à défaut la première valeur de la proposition), en un seul span, unité comprise.
 - EQUIPEMENT / PROCESSUS / PRODUIT (cas 6, 8, 9) : mots-têtes génériques étendus à leurs compléments (``nmod``,
@@ -281,7 +283,43 @@ def _span(doc: Doc, a: int, b: int, label: str, regle: str) -> Candidat | None:
     return Candidat(doc[a].idx, doc[b - 1].idx + len(doc[b - 1].text), label, regle)
 
 
-def contraintes(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Candidat]:
+def _debut_ar(doc: Doc, i: int) -> int:
+    """Début d'une CONTRAINTE arabe ancrée en ``i`` : après la dernière coordination, sinon début de la proposition."""
+    a, _ = proposition(doc, i)
+    return next((j + 1 for j in range(i - 1, a - 1, -1) if doc[j]._.norme in _COORD), a)
+
+
+def _ancres_ar(doc: Doc, modaux: dict[int, Token | None]) -> dict[int, int]:
+    """B6c : ancres arabes (``ancre_ar`` du lexique, « على [فاعل] أن ») ajoutées à ``modaux`` ; renvoie leur début.
+
+    Une ancre de plusieurs mots (« لا يجب », « في أجل لا يتعدى ») absorbe les ancres qu'elle contient, pour garder
+    un seul span par condition (cas 4) ; le sujet qui la précède est inclus (cas 3).
+    """
+    ancres = sorted((tuple(x.split()) for x in _lexique_modaux().get("ancre_ar", ())), key=len, reverse=True)
+    debut: dict[int, int] = {}
+    couverts: set[int] = set()
+    for t in doc:
+        if t.i in couverts or _lang(t) != "ar":
+            continue
+        mots = next((m for m in ancres if _correspond(doc, t.i, m)), None)
+        if mots is not None:
+            interieur = range(t.i + 1, t.i + len(mots))
+            verbe = next((modaux.pop(k) for k in interieur if k in modaux), None)
+            modaux[t.i] = modaux.get(t.i) or verbe
+            debut[t.i] = _debut_ar(doc, t.i)
+            couverts.update(interieur)
+            continue
+        # « على المورد أن يسلّم … » : obligation sans verbe modal, sauf si un modal la précède (« يتعين على »)
+        if t._.norme == "على" and not any(k in modaux for k in (t.i - 1, t.i - 2)):
+            fin = min(len(doc), t.i + 5)
+            an = next((k for k in range(t.i + 2, fin) if doc[k]._.norme in {"أن", "ان"}), None)
+            if an is not None and not any(_delim(doc[k]) for k in range(t.i, an)) and an + 1 < len(doc):
+                modaux.setdefault(t.i, doc[an + 1])
+                debut[t.i] = t.i
+    return debut
+
+
+def contraintes(doc: Doc, ancres: dict[str, list[tuple[int, ...]]], ancres_ar: bool = True) -> list[Candidat]:
     """Candidats CONTRAINTE : un par modal (ou tournure d'interdiction), découpés par conjonct."""
     lx = _lexique_modaux()
     modaux: dict[int, Token | None] = {}
@@ -295,17 +333,18 @@ def contraintes(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Cand
     for t in doc:
         if t._.norme in lx["negation"] or any(_correspond(doc, t.i, tuple(x.split())) for x in lx["limite"]):
             modaux.setdefault(t.i, None)
+    debut_force = _ancres_ar(doc, modaux) if ancres_ar else {}
     valides = {}
     for i, verbe in modaux.items():
         a, _ = proposition(doc, i)
-        if doc[i]._.norme in lx["faible"] and not _faible_valide(doc, doc[i], a):
+        if i not in debut_force and doc[i]._.norme in lx["faible"] and not _faible_valide(doc, doc[i], a):
             continue
         valides[i] = verbe
     out = []
     ordre = sorted(valides)
     for k, i in enumerate(ordre):
         a, b = proposition(doc, i)
-        gauche = _sujet_gauche(doc, doc[i], valides[i])
+        gauche = debut_force.get(i, _sujet_gauche(doc, doc[i], valides[i]))
         gauche = max(a, min(gauche, i))
         # coordination ou virgule entre le début de la proposition et le sujet : la contrainte commence après
         for j in range(gauche - 1, a - 1, -1):
@@ -315,7 +354,10 @@ def contraintes(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Cand
         # ancre suivante dans la même proposition : on coupe avant sa coordination (un span par conjonct)
         suivante = next((x for x in ordre[k + 1 :] if proposition(doc, x)[0] == proposition(doc, i)[0]), None)
         if suivante is not None:
-            g2 = max(proposition(doc, suivante)[0], _sujet_gauche(doc, doc[suivante], valides[suivante]))
+            g2 = max(
+                proposition(doc, suivante)[0],
+                debut_force.get(suivante, _sujet_gauche(doc, doc[suivante], valides[suivante])),
+            )
             coupe = next((j for j in range(g2 - 1, i, -1) if doc[j]._.norme in _COORD), None)
             if coupe is not None:
                 b = coupe
@@ -324,7 +366,8 @@ def contraintes(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Cand
             else:
                 continue  # deux ancres du même verbe (« ne doit pas ») : on garde la suivante
         a = _nettoyer_gauche(doc, a, b)
-        c = _span(doc, a, b, "CONTRAINTE", "dependencies.contrainte_modal")
+        regle = "dependencies.contrainte_ar" if i in debut_force else "dependencies.contrainte_modal"
+        c = _span(doc, a, b, "CONTRAINTE", regle)
         if c is not None and len(doc.char_span(c.start, c.end, alignment_mode="expand") or []) >= 3:
             out.append(c)
     out += _liste_contraintes(doc, out)
@@ -364,7 +407,7 @@ def _valeur_valide(t: Token) -> bool:
     return bool(re.match(r"\d", t.text)) and not _ANNEE.fullmatch(t.text)
 
 
-def indicateurs(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Candidat]:
+def indicateurs(doc: Doc, ancres: dict[str, list[tuple[int, ...]]], b6c: bool = True) -> list[Candidat]:
     """Candidats INDICATEUR : grandeur + valeur rattachée, un seul span (cas 7)."""
     lien: dict[int, int] = {}
     for g, v in ancres.get("INDICATEUR_VALEUR", []):
@@ -380,7 +423,9 @@ def indicateurs(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Cand
         a, b = proposition(doc, t.i)
         v, regle = lien.get(t.i), "dependencies.indicateur_dep"
         if v is None or v >= b or v - t.i > 12:
-            v = next((k for k in range(t.i + len(mots), min(b, t.i + 13)) if _valeur_valide(doc[k])), None)
+            # B6c : la valeur « proche » ne se cherche pas au-delà d'une virgule (autre conjonct, autre condition)
+            virgule = next((k for k in range(t.i + len(mots), b) if b6c and doc[k].text in {",", "،"}), b)
+            v = next((k for k in range(t.i + len(mots), min(virgule, t.i + 13)) if _valeur_valide(doc[k])), None)
             regle = "dependencies.indicateur_proche"
         if v is None or any(doc[k]._.norme in modaux for k in range(t.i, v)):
             continue
@@ -588,11 +633,21 @@ def produits(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Candida
 
 
 # ---------- Point d'entrée ----------
-def dependency_candidates(doc: Doc) -> list[Candidat]:
-    """Candidats de la couche dépendances pour un ``Doc`` analysé (``caseforge.extraction.nlp.parse``)."""
+def dependency_candidates(doc: Doc, ancres_ar: bool = True) -> list[Candidat]:
+    """Candidats de la couche dépendances pour un ``Doc`` analysé (``caseforge.extraction.nlp.parse``).
+
+    ``ancres_ar=False`` rend le comportement d'avant B6c (sans ``dependencies.contrainte_ar`` ni l'arrêt de
+    la valeur « proche » d'un INDICATEUR à la virgule).
+    """
     preparer(doc)
     ancres = _ancres(doc)
-    return contraintes(doc, ancres) + indicateurs(doc, ancres) + tetes(doc) + champs(doc) + produits(doc, ancres)
+    return (
+        contraintes(doc, ancres, ancres_ar)
+        + indicateurs(doc, ancres, ancres_ar)
+        + tetes(doc)
+        + champs(doc)
+        + produits(doc, ancres)
+    )
 
 
 def spans_tokens(doc: Doc, cands: Iterable[Candidat]) -> list[Span]:
