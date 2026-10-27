@@ -7,7 +7,7 @@
 Étapes :
 
 1. **détection** des mentions sensibles (``detect.detect_document``, backend ``gold``, ``rules``, ``b3``, ``crf`` ou
-   ``union``) ;
+   ``union``, ``union_seuil``), puis extension des DONNEE_SENSIBLE au montant complet (``etendre_montants``) ;
 2. **coréférence** (``coref_simple``) : un cluster = un pseudonyme dans tout le document, numéroté par ordre de
    première apparition (``policy``) ; une DONNEE_SENSIBLE reçoit un masque typé ;
 3. **balayage** : second passage qui cherche dans tout le document les formes déjà remplacées ailleurs (forme
@@ -28,7 +28,7 @@ from collections.abc import Sequence
 from typing import Any
 
 from caseforge.anonymization.coref_simple import ETIQUETTES_COREF, Clusters, Mention, clusteriser
-from caseforge.anonymization.detect import detect_document
+from caseforge.anonymization.detect import detect_document, etendre_montants
 from caseforge.anonymization.policy import Politique, charger_politique
 from caseforge.extraction.rules.lexicons import APRES_MOT, avant_mot, motif_terme
 
@@ -141,6 +141,7 @@ def anonymize_document(
     detections: list[list[dict]] | None = None,
     coreference: bool | None = None,
     balayage: bool | None = None,
+    extension_montants: bool | None = None,
 ) -> dict[str, Any]:
     """Anonymise un document : ``{doc_id, backend, options, passages, remplacements, journal}``.
 
@@ -148,13 +149,18 @@ def anonymize_document(
     mention remplacée (``original``, ``remplacement``, ``label``, ``passage_id``, ``start``, ``end``,
     ``start_anonymise``, ``end_anonymise``, ``cluster``, ``origine`` = ``detection`` ou ``balayage``).
     ``detections`` (sortie de ``detect_document``) évite de relancer la détection pour les ablations.
+    ``extension_montants`` étend les DONNEE_SENSIBLE détectées au montant complet (``etendre_montants``), sauf pour
+    le backend ``gold``, qui reste la borne haute.
     """
     pol = politique or charger_politique()
     coref = pol.options["coreference"] if coreference is None else coreference
     balai = pol.options["balayage"] if balayage is None else balayage
+    ext = pol.options["extension_montants"] if extension_montants is None else extension_montants
     passages = doc["passages"]
     textes = [p["text"] for p in passages]
     dets = detections if detections is not None else detect_document(doc, backend)
+    if ext and backend != "gold":
+        dets = [etendre_montants(t, ds) for t, ds in zip(textes, dets, strict=True)]
     journal: list[dict[str, Any]] = []
 
     mentions = [
@@ -224,7 +230,7 @@ def anonymize_document(
     return {
         "doc_id": doc["doc_id"],
         "backend": backend,
-        "options": {"coreference": coref, "balayage": balai},
+        "options": {"coreference": coref, "balayage": balai, "extension_montants": ext},
         "passages": sortie,
         "remplacements": remplacements,
         "journal": journal,

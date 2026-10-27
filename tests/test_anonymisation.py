@@ -1,4 +1,4 @@
-"""Anonymisation : pseudonymes cohérents, offsets, arabe avec proclitique, balayage, sigles.
+"""Anonymisation : pseudonymes cohérents, offsets, arabe avec proclitique, balayage, sigles, union_seuil, montants.
 
 Tous les documents sont inventés pour les tests (ni dev, ni test, ni kappa). Le backend ``gold`` isole la
 coréférence, la politique et le balayage de la détection.
@@ -10,6 +10,13 @@ import pytest
 
 from caseforge.anonymization.anonymizer import anonymize_document, remplacer
 from caseforge.anonymization.coref_simple import Mention, cle, clusteriser, scores_coref
+from caseforge.anonymization.detect import (
+    AGREGATIONS,
+    combiner_seuil,
+    confiance,
+    etendre_montants,
+    parametres_union_seuil,
+)
 from caseforge.anonymization.policy import charger_politique, sans_numero
 from caseforge.eval.leak import taux_fuite
 from caseforge.labels import SENSITIVE_LABELS
@@ -265,3 +272,68 @@ def test_sigle_jamais_defini_et_bruit_ocr() -> None:
     assert ids[0] == ids[1] != ids[2]
     assert ids[3] == ids[4]
     assert ids[5] == ids[6] != ids[7]  # « Sassi » / « Saidi » : deux éditions, personnes distinctes
+
+
+# ---------- B6b : union_seuil et extension des montants ----------
+def _ds(text: str, surface: str) -> dict:
+    s = text.index(surface)
+    return {"start": s, "end": s + len(surface), "label": "DONNEE_SENSIBLE", "systemes": ["test"]}
+
+
+@pytest.mark.parametrize(
+    ("text", "touche", "attendu"),
+    [
+        ("Le prix est de 12 000,50 DT HT par lot.", "12", "12 000,50 DT HT"),
+        ("CA : 4,3 مليون دينار تونسي سنة 2024", "4,3", "4,3 مليون دينار تونسي"),
+        ("The recall cost (TND 210,000) is internal.", "210", "TND 210,000"),
+        ("Coût unitaire : 0,145 € la minute.", "0,1", "0,145 €"),
+    ],
+)
+def test_extension_au_montant_complet(text: str, touche: str, attendu: str) -> None:
+    (e,) = etendre_montants(text, [_ds(text, touche)])
+    assert text[e["start"] : e["end"]] == attendu
+
+
+def test_extension_sans_effet_hors_montant() -> None:
+    text = "Contrat n° 2024-189 signé à Sfax ; 3 machines."
+    ents = [_ds(text, "n° 2024-189"), {"start": 28, "end": 32, "label": "SITE", "systemes": ["test"]}]
+    assert [(e["start"], e["end"]) for e in etendre_montants(text, ents)] == [(8, 19), (28, 32)]
+
+
+def test_extension_ignoree_pour_le_gold() -> None:
+    text = "Le prix est de 12 000 DT."
+    doc = document("syn_fr_903", "fr", {"passage_id": "p0", "text": text, "entities": []})
+    dets = [[_ds(text, "12 000")]]
+    gold = anonymize_document(doc, "gold", detections=dets, extension_montants=True)
+    rules = anonymize_document(doc, "rules", detections=dets, extension_montants=True)
+    assert gold["passages"][0]["text_anonymise"] == "Le prix est de [REFERENCE] DT."  # sans devise : pas un montant
+    assert rules["passages"][0]["text_anonymise"] == "Le prix est de [MONTANT]."
+
+
+def test_confiance_moyenne_et_minimum() -> None:
+    marg = [{"B-ORG": 0.9, "O": 0.1}, {"I-ORG": 0.5, "B-ORG": 0.1, "O": 0.4}]
+    assert confiance(marg, 0, 2, "ORG") == pytest.approx({"moyenne": 0.75, "minimum": 0.6})
+
+
+def test_union_seuil_filtre_par_etiquette() -> None:
+    regles = [[{"start": 0, "end": 4, "label": "ORG", "systemes": ["b3"]}]]
+    crf = [
+        [
+            {"start": 10, "end": 15, "label": "SITE", "confiance": {"moyenne": 0.8, "minimum": 0.4}},
+            {"start": 20, "end": 25, "label": "PERSONNE", "confiance": {"moyenne": 0.9, "minimum": 0.9}},
+            {"start": 30, "end": 35, "label": "PRODUIT", "confiance": {"moyenne": 1.0, "minimum": 1.0}},
+        ]
+    ]
+    seuils = {"ORG": 0.5, "SITE": 0.5, "PERSONNE": None, "DONNEE_SENSIBLE": 0.5}
+    moy = combiner_seuil(regles, crf, seuils, "moyenne")[0]
+    mini = combiner_seuil(regles, crf, seuils, "minimum")[0]
+    assert [(e["start"], e["label"]) for e in moy] == [(0, "ORG"), (10, "SITE")]
+    assert [(e["start"], e["label"]) for e in mini] == [(0, "ORG")]
+    with pytest.raises(ValueError):
+        combiner_seuil(regles, crf, seuils, "max")
+
+
+def test_parametres_union_seuil_du_yaml() -> None:
+    seuils, agregation = parametres_union_seuil()
+    assert set(seuils) == set(SENSITIVE_LABELS)
+    assert agregation in AGREGATIONS

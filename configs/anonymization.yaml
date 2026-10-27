@@ -24,3 +24,12 @@ donnee_sensible:
 coreference: true   # coref_simple : formes normalisées, sigles, nom de famille seul, initiales
 balayage: true      # second passage : formes déjà remplacées retrouvées ailleurs dans le document
 balayage_longueur_min: 3   # caractères non blancs d'une forme pour qu'elle soit recherchée (sigles : 2)
+extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombre complet + devise (detect.etendre_montants)
+# Backend union_seuil (B6b) : rules ∪ entités du CRF dont la confiance atteint le seuil de leur étiquette.
+# Choisis par validation croisée en 5 plis groupés par document sur le TRAIN (scripts/b6b_union_seuil_cv.py,
+# results/lotb/b6b_union_seuil_cv.json) : fuite minimale sous la contrainte sur-masquage <= 10 %. null = aucune
+# entité du CRF pour cette étiquette.
+# Résultat (27/10/2026) : minimum, à fuite égale avec moyenne (2,9 %) et sur-masquage plus faible (2,5 % contre 3,3 %).
+union_seuil:
+  agregation: minimum
+  seuils: {ORG: 0.35, PERSONNE: 0.8, SITE: 0.55, DONNEE_SENSIBLE: 0.3}

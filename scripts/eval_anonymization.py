@@ -2,8 +2,8 @@
 
     python -m scripts.eval_anonymization
 
-Jamais le test. Pour chaque backend (``gold``, ``rules``, ``b3``, ``crf``, ``union``), avec et sans balayage, avec
-et sans coréférence :
+Jamais le test. Pour chaque backend (``gold``, ``rules``, ``b3``, ``crf``, ``union``, ``union_seuil``), avec et sans
+balayage, avec et sans coréférence (extension des montants active, ``configs/anonymization.yaml``) :
 
 - **taux de fuite** (métrique principale, ``caseforge.eval.leak.taux_fuite``) : IC 95 % par bootstrap des
   documents, fuites totales et partielles, ventilé par étiquette, ``doc_lang`` et source ; **sur-masquage** ;
@@ -11,7 +11,10 @@ et sans coréférence :
 - **cohérence** : part des clusters gold (``ref``) dont les mentions masquées ont toutes le même pseudonyme, et
   **pureté** : part des pseudonymes qui ne couvrent qu'un cluster gold ;
 - **accord** avec le ``text_anonymise`` de référence du Lot A (masques typés ramenés à ``[DONNEE_MASQUEE]``) :
-  passages identiques, identiques sans la numérotation des pseudonymes, similarité moyenne (``difflib``).
+  passages identiques, identiques sans la numérotation des pseudonymes, similarité moyenne (``difflib``) ;
+- B6b : **rappel des montants** (``rappel_montants``) avec et sans extension des montants, et en annexe la **fuite
+  hors article ou mot générique** (diagnostic de l'issue #7, ``fuite_hors_generiques``), qui ne remplace pas la
+  métrique officielle.
 
 La coréférence seule est évaluée sur les mentions gold (MUC, B³). Les 20 fuites analysées par cause viennent du
 TRAIN (``--backend-train``), jamais du dev. Le texte du dev n'est pas affiché ; les sorties ne gardent que des
@@ -31,16 +34,24 @@ import time
 import warnings
 from collections import defaultdict
 from collections.abc import Callable, Iterable
+from dataclasses import replace
 from functools import cache
 from typing import Any
 
 from caseforge.anonymization.anonymizer import anonymize_document
 from caseforge.anonymization.coref_simple import ARTICLES, ETIQUETTES_COREF, evaluer, mots_normalises
-from caseforge.anonymization.detect import BACKENDS, detect_document
+from caseforge.anonymization.detect import BACKENDS, detect_document, parametres_union_seuil
 from caseforge.anonymization.policy import Politique, charger_politique, sans_numero
 from caseforge.eval.data import FINAL, RESULTS, ecrire_json, ecrire_jsonl
 from caseforge.eval.donnees_sensibles import sous_type
-from caseforge.eval.leak import ETIQUETTES_SENSIBLES, f1_stricte_sensibles, occurrences_masque, taux_fuite, to_markdown
+from caseforge.eval.leak import (
+    ETIQUETTES_SENSIBLES,
+    agreger,
+    f1_stricte_sensibles,
+    occurrences_masque,
+    taux_fuite,
+    to_markdown,
+)
 from caseforge.eval.ner_metrics import source_of
 from caseforge.extraction.rules.lexicons import normaliser, termes
 from caseforge.labels import SENSITIVE_LABELS
@@ -217,6 +228,65 @@ def diagnostic_fuites(gold: list[dict], m: dict[str, list[int]]) -> dict[str, An
     return {k: {"partielles": v[1], "dont_mots_generiques": v[0]} for k, v in par.items()}
 
 
+def rappel_montants(gold: list[dict], m: dict[str, list[int]]) -> dict[str, Any]:
+    """Rappel des montants : DONNEE_SENSIBLE gold de sous-type « montant », par langue et par source.
+
+    ``entieres`` : part des occurrences entièrement masquées (aucune fuite) ; ``caractere`` : part de leurs
+    caractères non blancs masqués ; ``noyau`` : part des occurrences dont le nombre et la devise (motif « montant »
+    ou nombre complet, à l'intérieur du span gold) sont entièrement masqués, même si la description autour reste
+    visible.
+    """
+    from caseforge.anonymization.detect import _motifs_montant
+
+    comptes: dict[tuple[str, str], list[int]] = defaultdict(lambda: [0, 0, 0, 0, 0])
+    for g in gold:
+        masque = set(m.get(g["passage_id"], []))
+        for e in g["entities"]:
+            surface = g["text"][e["start"] : e["end"]]
+            if e["label"] != "DONNEE_SENSIBLE" or sous_type(surface) != "montant":
+                continue
+            car = [i for i in range(e["start"], e["end"]) if not g["text"][i].isspace()]
+            noyau = {
+                i
+                for motif in _motifs_montant()
+                for x in motif.finditer(surface)
+                for i in range(e["start"] + x.start(), e["start"] + x.end())
+                if not g["text"][i].isspace()
+            }
+            for k in _axes({"lang": g["doc_lang"], "doc_id": g["doc_id"]}):
+                c = comptes[k]
+                c[0] += 1
+                c[1] += all(i in masque for i in car)
+                c[2] += sum(i in masque for i in car)
+                c[3] += len(car)
+                c[4] += bool(noyau) and noyau <= masque
+
+    def bloc(v: list[int]) -> dict[str, float]:
+        return {"n": v[0], "entieres": v[1] / v[0], "caractere": v[2] / v[3], "noyau": v[4] / v[0]}
+
+    out = _ranger(comptes, bloc)
+    del out["par_etiquette"]
+    return out
+
+
+def fuite_hors_generiques(gold: list[dict], m: dict[str, list[int]]) -> dict[str, Any]:
+    """Taux de fuite où une fuite partielle ne laissant voir que des mots génériques ne compte pas (diagnostic #7).
+
+    Même ventilation et même IC que ``taux_fuite`` ; ne remplace pas la métrique officielle.
+    """
+    textes = {g["passage_id"]: g["text"] for g in gold}
+    ms = {k: set(v) for k, v in m.items()}
+    occs = []
+    for o in occurrences_masque(gold, m):
+        if o.fuite and not o.totale:
+            t, masque = textes[o.passage_id], ms.get(o.passage_id, set())
+            visible = "".join(c if i not in masque else " " for i, c in enumerate(t[o.start : o.end], o.start))
+            if set(mots_normalises(normaliser(visible))) <= _mots_generiques():
+                o = replace(o, fuite=False)
+        occs.append(o)
+    return agreger(occs, details=False)
+
+
 def sur_masquage_par_etiquette(gold: list[dict], m: dict[str, list[int]]) -> dict[str, int]:
     """Caractères masqués hors entités sensibles, selon l'étiquette gold qu'ils recouvrent (``O`` : aucune)."""
     out: dict[str, int] = defaultdict(int)
@@ -235,6 +305,8 @@ def evaluer_config(docs: list[dict], gold: list[dict], sorties: list[dict], pol:
     return {
         "fuite": taux_fuite(gold, m),
         "fuites_partielles_generiques": diagnostic_fuites(gold, m),
+        "fuite_hors_generiques": fuite_hors_generiques(gold, m),
+        "rappel_montants": rappel_montants(gold, m),
         "sur_masquage_par_etiquette_gold": sur_masquage_par_etiquette(gold, m),
         "f1_caractere": f1_stricte_sensibles(gold, lignes_predites(docs, sorties)),
         **coherence(docs, sorties),
@@ -272,10 +344,18 @@ def comparaison_appariee(
 
 
 def anonymiser_tout(
-    docs: list[dict], backend: str, pol: Politique, detections: list[list[list[dict]]], coref: bool, balai: bool
+    docs: list[dict],
+    backend: str,
+    pol: Politique,
+    detections: list[list[list[dict]]],
+    coref: bool,
+    balai: bool,
+    extension: bool | None = None,
 ) -> list[dict]:
     return [
-        anonymize_document(d, backend, politique=pol, detections=det, coreference=coref, balayage=balai)
+        anonymize_document(
+            d, backend, politique=pol, detections=det, coreference=coref, balayage=balai, extension_montants=extension
+        )
         for d, det in zip(docs, detections, strict=True)
     ]
 
@@ -473,6 +553,43 @@ def markdown(res: dict[str, Any]) -> str:
         fp = r["fuites_partielles_generiques"].get("global", {"partielles": 0, "dont_mots_generiques": 0})
         sm = ", ".join(f"{k} {v}" for k, v in r["sur_masquage_par_etiquette_gold"].items()) or "—"
         L.append(f"| {b} | {fp['partielles']} | {fp['dont_mots_generiques']} | {sm} |")
+    L += ["", "## B6b · Extension des montants : avant / après (coréférence + balayage)", ""]
+    L += [
+        "| Backend | Fuite avant → après | Sur-masquage avant → après | Montants (n) entiers avant → après "
+        "| caractère avant → après | noyau avant → après |",
+        "|---|---|---|---|---|---|",
+    ]
+    for b, av in res["sans_extension"].items():
+        ap = res["configs"][b]["coref+balayage"]
+        ra, rb = av["rappel_montants"]["global"], ap["rappel_montants"]["global"]
+        L.append(
+            f"| {b} | {_pct(av['fuite']['global']['taux'])} → {_pct(ap['fuite']['global']['taux'])} "
+            f"| {_pct(av['fuite']['sur_masquage']['global']['taux'])} → "
+            f"{_pct(ap['fuite']['sur_masquage']['global']['taux'])} "
+            f"| ({ra['n']}) {_pct(ra['entieres'])} → {_pct(rb['entieres'])} "
+            f"| {_pct(ra['caractere'])} → {_pct(rb['caractere'])} | {_pct(ra['noyau'])} → {_pct(rb['noyau'])} |"
+        )
+    L += ["", "Rappel des montants après extension, par langue et source (entiers / caractère / noyau) :", ""]
+    m0 = res["configs"][res["backends"][0]]["coref+balayage"]["rappel_montants"]
+    L += ["| Tranche (n) | " + " | ".join(res["backends"]) + " |", "|---|" + "---|" * len(res["backends"])]
+    for axe in ("par_langue", "par_source"):
+        for k in m0[axe]:
+            cells = []
+            for b in res["backends"]:
+                x = res["configs"][b]["coref+balayage"]["rappel_montants"][axe][k]
+                cells.append(f"{_pct(x['entieres'])} / {_pct(x['caractere'])} / {_pct(x['noyau'])}")
+            L.append(f"| {k} ({m0[axe][k]['n']}) | " + " | ".join(cells) + " |")
+    L += ["", "## Annexe (diagnostic, issue #7) · Fuite hors article ou mot générique", ""]
+    h0 = res["configs"][res["backends"][0]]["coref+balayage"]["fuite_hors_generiques"]
+    tr = [("global", None)] + [("par_etiquette", k) for k in ETIQUETTES_SENSIBLES]
+    tr += [("par_langue", k) for k in h0["par_langue"]] + [("par_source", k) for k in h0["par_source"]]
+    L += ["| Tranche | " + " | ".join(res["backends"]) + " |", "|---|" + "---|" * len(res["backends"])]
+    for axe, k in tr:
+        cells = []
+        for b in res["backends"]:
+            h = res["configs"][b]["coref+balayage"]["fuite_hors_generiques"]
+            cells.append(_ic(h[axe] if k is None else h[axe][k]))
+        L.append(f"| {k or 'global'} | " + " | ".join(cells) + " |")
     L += ["", "## Détail par backend (coréférence + balayage)", ""]
     for b in res["backends"]:
         L += [f"### {b}", "", to_markdown(res["configs"][b]["coref+balayage"]["fuite"])]
@@ -491,7 +608,13 @@ def main() -> None:
     pol = charger_politique()
     docs = charger_documents("dev")
     gold = lignes_gold(docs)
-    res: dict[str, Any] = {"split": "dev (documents_dev.jsonl)", "backends": args.backends, "configs": {}}
+    res: dict[str, Any] = {
+        "split": "dev (documents_dev.jsonl)",
+        "backends": args.backends,
+        "union_seuil": dict(zip(("seuils", "agregation"), parametres_union_seuil(), strict=True)),
+        "configs": {},
+        "sans_extension": {},
+    }
     m_defaut: dict[str, dict[str, list[int]]] = {}
     for b in args.backends:
         t0 = time.perf_counter()
@@ -519,6 +642,12 @@ def main() -> None:
                         for p in s["passages"]
                     ),
                 )
+        if b != "gold":  # B6b : même configuration sans l'extension des montants (avant / après)
+            m_sans = masques(anonymiser_tout(docs, b, pol, dets, True, True, extension=False))
+            res["sans_extension"][b] = {
+                "fuite": taux_fuite(gold, m_sans),
+                "rappel_montants": rappel_montants(gold, m_sans),
+            }
         r = res["configs"][b]["coref+balayage"]
         print(
             f"[{b} · dev] fuite {_ic(r['fuite']['global'])} · sur-masquage "
@@ -528,7 +657,13 @@ def main() -> None:
     res["coreference"] = {"avec": evaluer(docs, True), "sans": evaluer(docs, False)}
     res["comparaisons_appariees"] = {
         f"{a} - {b}": comparaison_appariee(gold, m_defaut[a], m_defaut[b])
-        for a, b in (("rules", "union"), ("b3", "rules"), ("crf", "union"))
+        for a, b in (
+            ("rules", "union"),
+            ("b3", "rules"),
+            ("crf", "union"),
+            ("rules", "union_seuil"),
+            ("union_seuil", "union"),
+        )
         if a in m_defaut and b in m_defaut
     }
     for k, v in res["comparaisons_appariees"].items():
