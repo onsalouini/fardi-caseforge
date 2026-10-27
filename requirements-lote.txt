@@ -1,0 +1,4 @@
+# Lot E (en plus de requirements-lotb.txt et requirements-lotc.txt) — Python 3.11
+#     pip install -r requirements-lote.txt
+# E2 · interface : streamlit run app/app.py
+streamlit>=1.39,<2
