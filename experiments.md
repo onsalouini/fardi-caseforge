@@ -17,6 +17,15 @@ Travail en binômes, un lot après l'autre ; le lot E (audit, intégration) est 
 Test gelé de référence : tag `test-gele-v3` (générateur v3, après relecture et double annotation complétées le 24/10). Les tags `test-gele-v1` et `test-gele-v2` désignent l'ancien contenu de test (générateur v2) et ne doivent plus servir à évaluer.
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
+## 2026-11-12 · Boutheina · Lot E (Silver) : recherche dense multilingue des cas similaires
+- `generation/recherche_dense.py` → `reports/lot_e_recherche_dense.md` (e5-small) et `reports/lot_e_recherche_dense_labse.md` (LaBSE). Dev : 66 documents du train indexés, 21 documents du dev en requête (19 avec au moins un cas du même secteur) ; pertinent = même secteur. Méthodes : TF-IDF (référence Bronze), dense, hybride (alpha = 0,5 fixé à l'avance) ; représentations : termes métier ou texte complet (entités sensibles masquées).
+- Référence Bronze reproduite : TF-IDF termes métier P@5 0,20, MRR 0,37 (hasard 0,15).
+- **LaBSE, termes métier : P@5 0,36, MRR 0,60** ; ar 0,34 (TF-IDF 0,14), en 0,30 (0,17), fr 0,43 (0,30) ; syn 0,36 (18 requêtes) ; lib 1 requête, pas de conclusion.
+- e5-small, termes métier : P@5 0,27, MRR 0,53.
+- **Résultats négatifs** : l'hybride fait moins bien que le dense seul (LaBSE 0,22 contre 0,36) ; le texte complet fait moins bien que les termes métier (LaBSE 0,28 contre 0,36).
+- Limites : 19 requêtes, groupes par langue de 6 ou 7 requêtes (pas de conclusion par langue) ; LaBSE choisi parmi 12 configurations évaluées au dev, chiffre optimiste ; IC bootstrap à ajouter.
+- Décision : LaBSE sur les termes métier remplace le TF-IDF pour la recherche de cas similaires du pipeline Silver.
+- Dépendances : `transformers>=4.44,<4.50` et `sentence-transformers>=3.0,<4.0` ajoutés à `requirements-lotb.txt` (compatibles avec torch 2.5.1).
 
 ## 2026-10-27 · Ons · Lot E · E4 : tableau de bord du Bronze et corrections issues des audits
 - `reports/bronze.md` : vue d'ensemble des lots A à E (chiffre clé, carte, état), exigences transversales, limites pour la démo ; README (tableau des lots, sections Lot D et pipeline) ; `docs/carte_systeme.md` (kappa 0,758, ligne Interface et API).
