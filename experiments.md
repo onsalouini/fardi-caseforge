@@ -18,6 +18,13 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-12 · Ghayth · Lot C Silver · embeddings multilingues (type de passage, passage source)
+- Quoi : `python -m caseforge.models.embeddings_lotc` → `reports/lotC_embeddings.md`. Encodeur gelé `intfloat/multilingual-e5-small` (moyenne des états cachés, préfixes e5), têtes apprises sur le train, dev seulement ; test gelé non lu, pas d'option `--test` (audit E6).
+- Type de passage (macro-F1, 3 graines, régression logistique de la tâche 1) : TF-IDF caractères 0,855 ; + position (A, Bronze) 0,896 ; e5 seul 0,922 ; e5 ⊕ TF-IDF caractères 0,900 ; **e5 ⊕ TF-IDF caractères + position 0,948**, soit +0,052 contre le Bronze, IC 95 % [+0,022 ; +0,088], p bilatérale 0,001 (bootstrap par document). Écart-type nul : la régression logistique converge vers la même solution pour les 3 graines (déjà le cas au Bronze).
+- Passage source (MRR, 145 requêtes) : résultat **négatif**. Dans le document : BM25 0,932, e5 0,887 (−0,045, p 0,001), fusion RRF 0,920 (−0,011, p 0,039). Tout le split : BM25 0,760, e5 0,659, fusion 0,748 (p 0,50). On garde BM25 dans le document pour le contrôle des citations.
+- Décision proposée : e5 ⊕ TF-IDF caractères + position devient le candidat Silver pour le type de passage (à brancher dans le pipeline par Boutheina) ; évaluation sur le test seulement dans `scripts/final_eval.py`.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le script.
+
 ## 2026-10-27 · Ons · Lot E · E4 : tableau de bord du Bronze et corrections issues des audits
 - `reports/bronze.md` : vue d'ensemble des lots A à E (chiffre clé, carte, état), exigences transversales, limites pour la démo ; README (tableau des lots, sections Lot D et pipeline) ; `docs/carte_systeme.md` (kappa 0,758, ligne Interface et API).
 - CI : `.github/workflows/tests.yml` était un YAML invalide (deux-points dans un nom d'étape, ligne 20) ; la CI n'avait jamais tourné. Corrigé.

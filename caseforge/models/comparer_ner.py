@@ -38,7 +38,7 @@ def main() -> None:
     gold = charger_dev()
     systemes = dict(SYSTEMES)
     for f in sorted(Path("reports/predictions").glob("xlmr_dev_s*.jsonl")):
-        systemes[f"XLM-R {f.stem.split('_')[-1]} (Lot C)"] = str(f)
+        systemes[f"XLM-R {f.stem.removeprefix('xlmr_dev_')} (Lot C)"] = str(f)
     preds = {nom: completer_predictions(gold, read_jsonl(p))[0] for nom, p in systemes.items() if Path(p).exists()}
     res = {nom: evaluate(gold, p, absents_vides=True)["token"] for nom, p in preds.items()}
     noms = list(res)
@@ -76,6 +76,18 @@ def main() -> None:
             print(f"{n:28} vs CRF {avg:8} écart {b['delta']:+.3f} IC [{b['ic95'][0]:+.3f} ; {b['ic95'][1]:+.3f}] p {b['p_value']:.4f}")
 
     b3, b3e = "B3 règles spaCy (Lot B, optimiste)", "B3 sans les mots du dev (Lot B, B7b)"
+    xlmr = [n for n in noms if n.startswith("XLM-R")]
+    if xlmr and b3e in preds:
+        L += ["", f"## 3 bis. Bootstrap apparié XLM-R contre {b3e} (référence équitable)", "",
+              "Même protocole ; écart = F1(XLM-R) − F1(B3 B7b) ; p = probabilité que XLM-R ne soit pas meilleur.", "",
+              "| Comparaison | Moyenne | Écart | IC 95 % | p | Conclusion |", "|---|---|---|---|---|---|"]
+        for n in xlmr:
+            for avg in ("micro", "macro_9"):
+                b = paired_bootstrap(gold, preds[b3e], preds[n], mode="token", average=avg)
+                concl = ("meilleur que B3" if b["p_value"] < 0.05 else
+                         "moins bon que B3" if b["ic95"][1] < 0 else "pas de différence démontrée")
+                L.append(f"| {n} vs B3 B7b | {avg} | {b['delta']:+.3f} | [{b['ic95'][0]:+.3f} ; {b['ic95'][1]:+.3f}] | "
+                         f"{b['p_value']:.4f} | {concl} |")
     mic = {n: res[n]["global"]["micro"]["f1"] for n in noms}
     prod = {n: res[n]["par_etiquette"].get("PRODUIT", {"f1": 0.0})["f1"] for n in noms}
     def fr(x: float) -> str:

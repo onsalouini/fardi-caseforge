@@ -124,8 +124,8 @@ def entrainer(a) -> None:
     base = DataCollatorForTokenClassification(tok)
 
     def collate(features):
-        tm = torch.tensor([f.pop("tag_mask") for f in features])
-        batch = base(features)
+        tm = torch.tensor([f["tag_mask"] for f in features])  # sans pop : les exemples sont réutilisés à chaque époque
+        batch = base([{k: v for k, v in f.items() if k != "tag_mask"} for f in features])
         batch["tag_mask"] = tm
         return batch
 
