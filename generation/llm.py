@@ -336,13 +336,16 @@ def moteur_transformers(modele: str = MODELE_DEFAUT, temperature: float = 0.0, m
 
     def appeler(messages: list[dict], graine: int) -> str:
         torch.manual_seed(graine)
-        entree = tok.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt").to(llm.device)
+        # return_dict=True : même format (input_ids + attention_mask) quelle que soit la version de transformers
+        entree = tok.apply_chat_template(
+            messages, add_generation_prompt=True, return_tensors="pt", return_dict=True
+        ).to(llm.device)
         options = (
             {"do_sample": True, "temperature": temperature, "top_p": 0.9} if temperature > 0 else {"do_sample": False}
         )
         with torch.no_grad():
-            sortie = llm.generate(entree, max_new_tokens=max_tokens, pad_token_id=tok.eos_token_id, **options)
-        return tok.decode(sortie[0, entree.shape[1] :], skip_special_tokens=True)
+            sortie = llm.generate(**entree, max_new_tokens=max_tokens, pad_token_id=tok.eos_token_id, **options)
+        return tok.decode(sortie[0, entree["input_ids"].shape[1] :], skip_special_tokens=True)
 
     return appeler
 
