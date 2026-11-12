@@ -18,6 +18,18 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-12 · Ali · Lot B Silver · point de départ
+- Étape 0 du Silver, branche `lot-b-silver` (depuis `main`, `23dd18f`). Environnement `.venv` (Python 3.11.9, `requirements-lotb.txt`, stanza arabe présent) ; `pytest -m "not slow"` : 263 réussis, 1 exclu.
+- Anonymisation re-mesurée sur le **dev** avec `scripts/eval_anonymization.py` non modifié (sorties redirigées vers `results/lotb_silver/point_de_depart/` pour ne pas écraser `results/lotb/`), configuration Bronze de `configs/anonymization.yaml`. Synthèse : `results/lotb_silver/point_de_depart.md`.
+- Résultats (dev, coréférence + balayage) : `rules` fuite 10,8 % [6,6 ; 16,5] (14 totales / 9 partielles), sur-masquage 2,6 %, F1 caractère 0,886 ; `union` 6,6 % [3,2 ; 10,7], 27,2 %, 0,592 ; **`union_seuil` 6,6 % [3,2 ; 10,7] (9 / 5), 21,9 %, 0,628** : chiffres du Bronze retrouvés à l'identique. Écart apparié `rules` − `union_seuil` +4,2 points [+1,9 ; +7,0].
+  - par étiquette (`union_seuil`) : ORG 7,5 %, PERSONNE 1,9 %, SITE 8,8 % (5 partielles), DONNEE_SENSIBLE 7,8 % (F1 caractère 0,060) ;
+  - par langue : fr 5,4 %, ar 5,8 %, en 8,6 % ; sur-masquage fr 25,6 %, ar 20,7 %, en 18,8 % ;
+  - par source : syn_ 3,6 %, lib_ 33,3 % (3 documents) ; sur-masquage syn_ 22,9 %, lib_ 9,5 % ;
+  - passages mixtes : 4 passages, 5 occurrences, 0 fuite pour les trois backends (n < 30).
+- Audit de ré-identification (`python -m scripts.audit_reidentification`, dev, 21 documents, texte de référence) : N1 2 / 21, N2 20 / 21, N3 21 / 21, N4 21 / 21 ré-identifiables (k = 1). `reports/lot_e_audit_reidentification.md` réécrit à l'identique. Sous Windows, le `print` final plante sans `PYTHONIOENCODING=utf-8` (flèche absente de cp1252).
+- Origine des chiffres Bronze : fuite 6,6 % et sur-masquage 21,9 % = `union_seuil` B6d au **dev** (`reports/lotb_anonymisation.md`, section 4 ter) ; 2,9 % / 2,5 % de `configs/anonymization.yaml` = CV 5 plis par `doc_id` sur le **train** (B6b, section 4 bis), pas le dev. Les lignes `rules` (12,2 %) et `union` (7,5 %) du tableau B6 de la carte datent d'avant B6c / B6d ; les valeurs actuelles sont les repères de B10.
+- Décision : référence du Silver = `union_seuil`, 6,6 % de fuite et 21,9 % de sur-masquage au dev.
+
 ## 2026-10-27 · Ons · Lot E · E4 : tableau de bord du Bronze et corrections issues des audits
 - `reports/bronze.md` : vue d'ensemble des lots A à E (chiffre clé, carte, état), exigences transversales, limites pour la démo ; README (tableau des lots, sections Lot D et pipeline) ; `docs/carte_systeme.md` (kappa 0,758, ligne Interface et API).
 - CI : `.github/workflows/tests.yml` était un YAML invalide (deux-points dans un nom d'étape, ligne 20) ; la CI n'avait jamais tourné. Corrigé.
