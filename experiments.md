@@ -23,7 +23,9 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - **LaBSE, termes métier : P@5 0,36, MRR 0,60** ; ar 0,34 (TF-IDF 0,14), en 0,30 (0,17), fr 0,43 (0,30) ; syn 0,36 (18 requêtes) ; lib 1 requête, pas de conclusion.
 - e5-small, termes métier : P@5 0,27, MRR 0,53.
 - **Résultats négatifs** : l'hybride fait moins bien que le dense seul (LaBSE 0,22 contre 0,36) ; le texte complet fait moins bien que les termes métier (LaBSE 0,28 contre 0,36).
-- Limites : 19 requêtes, groupes par langue de 6 ou 7 requêtes (pas de conclusion par langue) ; LaBSE choisi parmi 12 configurations évaluées au dev, chiffre optimiste ; IC bootstrap à ajouter.
+- - **IC 95 %, bootstrap apparié sur les 19 requêtes** (10 000 tirages, graine 42), contre TF-IDF termes métier : LaBSE termes métier Δ P@5 **+0,16 [+0,04 ; +0,27]**, p = 0,004 (tient après correction de Bonferroni pour 10 comparaisons, seuil 0,005) ; Δ MRR +0,23 [+0,02 ; +0,44], p = 0,017. Hybride : Δ P@5 +0,02 [−0,05 ; +0,08], non significatif ; texte complet : +0,08 [−0,05 ; +0,23], non significatif.
+-  **IC 95 %, bootstrap apparié sur les 19 requêtes** (10 000 tirages, graine 42), contre TF-IDF termes métier : LaBSE termes métier Δ P@5 **+0,16 [+0,04 ; +0,27]**, p = 0,004 (tient après correction de Bonferroni pour 10 comparaisons, seuil 0,005) ; Δ MRR +0,23 [+0,02 ; +0,44], p = 0,017. Hybride : Δ P@5 +0,02 [−0,05 ; +0,08], non significatif ; texte complet : +0,08 [−0,05 ; +0,23], non significatif.
+
 - Décision : LaBSE sur les termes métier remplace le TF-IDF pour la recherche de cas similaires du pipeline Silver.
 - Dépendances : `transformers>=4.44,<4.50` et `sentence-transformers>=3.0,<4.0` ajoutés à `requirements-lotb.txt` (compatibles avec torch 2.5.1).
 
