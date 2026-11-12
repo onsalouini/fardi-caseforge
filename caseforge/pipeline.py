@@ -12,8 +12,16 @@
      (`caseforge.models.ptype_contexte`, 0,896 au dev), entraîné sur le TRAIN au premier appel puis gardé en mémoire ;
   4. anonymisation : Lot B (B9, `caseforge.anonymization.anonymiser_document`, backend `union_seuil`) ;
   5. fiche : Lot D (`generation/gabarit.py`, version 2), construite à partir du texte ANONYMISÉ seulement ;
-  6. contrôle des fuites et temps de traitement.
+  6. contrôle des fuites et temps de traitement ;
+  7. (option Silver) cas similaires du train : recherche dense LaBSE sur les termes métier (Lot E, P@5 0,36 au dev).
 Le dev et le test gelé ne sont jamais lus.
+
+Options Silver (le Bronze reste le défaut, la sortie par défaut ne change pas) :
+  - ``ner`` : nom d'un extracteur de NER ; ``"b3"`` par défaut. Un lot ajoute le sien avec ``enregistrer_ner``.
+  - ``backend`` : backend d'anonymisation (``caseforge.anonymization``), ``"union_seuil"`` par défaut.
+  - ``fiche`` : nom d'un générateur de fiche ; ``"gabarit"`` (version 2) par défaut. Ajout avec ``enregistrer_fiche``.
+  - ``recherche`` : ``None`` (défaut, pas de cas similaires), ``"dense"`` (LaBSE) ou ``"tfidf"`` (Bronze) ; ajoute la
+    clé ``cas_similaires`` à la sortie.
 """
 
 from __future__ import annotations
@@ -24,6 +32,7 @@ import json
 import re
 import sys
 import time
+from collections.abc import Callable
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
@@ -45,6 +54,28 @@ TITRES = {
 
 sys.path.insert(0, str(RACINE / "generation"))
 import gabarit  # noqa: E402  (generation/ n'est pas un paquet Python)
+
+# un extracteur reçoit [(texte du passage, langue)] et renvoie, par passage, une liste {start, end, label}
+Extracteur = Callable[[list[tuple[str, str]]], list[list[dict[str, Any]]]]
+# un générateur reçoit le document anonymisé (format de generation/gabarit.py) et renvoie la fiche brute
+Generateur = Callable[[dict[str, Any]], dict[str, Any]]
+
+EXTRACTEURS: dict[str, Extracteur] = {}
+GENERATEURS: dict[str, Generateur] = {}
+RECHERCHES = ("dense", "tfidf")
+MODELE_DENSE = "sentence-transformers/LaBSE"
+K_SIMILAIRES = 3
+
+
+def enregistrer_ner(nom: str, extracteur: Extracteur) -> None:
+    """Rend un extracteur disponible sous ``traiter(..., ner=nom)`` (ex. XLM-R du Lot C)."""
+    EXTRACTEURS[nom] = extracteur
+
+
+def enregistrer_fiche(nom: str, generateur: Generateur) -> None:
+    """Rend un générateur de fiche disponible sous ``traiter(..., fiche=nom)`` (ex. LLM du Lot D)."""
+    GENERATEURS[nom] = generateur
+
 
 # ---------- 1. Découpage et langue ----------
 
@@ -101,22 +132,90 @@ def textes_fixes() -> dict:
     return fixes
 
 
+def _fiche_gabarit(doc: dict[str, Any]) -> dict[str, Any]:
+    """Fiche du Bronze : gabarit version 2 du Lot D."""
+    return gabarit.generer(doc, textes_fixes(), version=2)
+
+
+enregistrer_ner("b3", extract_document)
+enregistrer_fiche("gabarit", _fiche_gabarit)
+
+
+# ---------- 7. Cas similaires (Lot E, Silver) ----------
+
+
+@lru_cache(maxsize=1)
+def index_train() -> tuple[list[dict[str, Any]], list[str]]:
+    """Documents du train (doc_id, secteur, langue) et leurs termes métier gold, comme generation/recherche_dense.py."""
+    import recherche_dense  # generation/ est déjà dans sys.path
+
+    docs = [json.loads(ligne) for ligne in open(RACINE / "data/final/documents_train.jsonl", encoding="utf-8")]
+    meta = [{"doc_id": d["doc_id"], "secteur": d["secteur"], "lang": d["lang"]} for d in docs]
+    return meta, [recherche_dense.texte_metier(d) for d in docs]
+
+
+@lru_cache(maxsize=1)
+def index_dense() -> tuple[Any, Any]:
+    """Modèle LaBSE et embeddings normalisés du train, calculés une fois par processus."""
+    from sentence_transformers import SentenceTransformer
+
+    modele = SentenceTransformer(MODELE_DENSE)
+    return modele, modele.encode(index_train()[1], normalize_embeddings=True, show_progress_bar=False)
+
+
+def cas_similaires(passages: list[dict[str, Any]], methode: str) -> list[dict[str, Any]]:
+    """Les K cas du train les plus proches, d'après les termes métier PRÉDITS du document (aucune référence)."""
+    import recherche_dense
+
+    if methode not in RECHERCHES:
+        raise ValueError(f"recherche inconnue « {methode} » : {', '.join(RECHERCHES)}")
+    requete = " ".join(
+        p["text"][e["start"] : e["end"]]
+        for p in passages
+        for e in p["entities"]
+        if e["label"] in recherche_dense.METIER
+    )
+    meta, textes = index_train()
+    if not requete.strip():
+        return []
+    if methode == "dense":
+        modele, emb = index_dense()
+        scores = (modele.encode([requete], normalize_embeddings=True, show_progress_bar=False) @ emb.T)[0]
+    else:
+        scores = recherche_dense.scores_tfidf([requete], textes)[0]
+    ordre = sorted(range(len(meta)), key=lambda j: -float(scores[j]))[:K_SIMILAIRES]
+    return [{**meta[j], "score": round(float(scores[j]), 3)} for j in ordre]
+
+
 # ---------- Pipeline complet ----------
 
 
 def traiter(
-    texte: str, langue: str = "auto", doc_id: str | None = None, backend: str = "union_seuil"
+    texte: str,
+    langue: str = "auto",
+    doc_id: str | None = None,
+    backend: str = "union_seuil",
+    ner: str = "b3",
+    fiche: str = "gabarit",
+    recherche: str | None = None,
 ) -> dict[str, Any]:
-    """Texte brut -> sortie complète du contrat (§2). ``ValueError`` si le texte est vide ou la langue inconnue."""
+    """Texte brut -> sortie complète du contrat (§2). ``ValueError`` si le texte est vide, la langue ou une option
+    inconnue. Options Silver : voir l'en-tête du module."""
     t0 = time.perf_counter()
     if not texte or not texte.strip():
         raise ValueError("le texte est vide")
+    if ner not in EXTRACTEURS:
+        raise ValueError(f"ner inconnu « {ner} » : {', '.join(EXTRACTEURS)}")
+    if fiche not in GENERATEURS:
+        raise ValueError(f"fiche inconnue « {fiche} » : {', '.join(GENERATEURS)}")
+    if recherche is not None and recherche not in RECHERCHES:
+        raise ValueError(f"recherche inconnue « {recherche} » : {', '.join(RECHERCHES)}")
     lang = choisir_langue(texte, langue)
     doc_id = doc_id or "doc_" + hashlib.sha1(texte.encode("utf-8")).hexdigest()[:8]
     blocs = decouper(texte)
 
-    # 2. entités (B3) ; positions dans le texte original de chaque passage
-    entites = extract_document([(b, lang) for b in blocs])
+    # 2. entités (B3 par défaut) ; positions dans le texte original de chaque passage
+    entites = EXTRACTEURS[ner]([(b, lang) for b in blocs])
     passages = [
         {
             "passage_id": f"{doc_id}_p{i:03d}",
@@ -168,7 +267,7 @@ def traiter(
             for p, a in zip(passages, anon, strict=True)
         ],
     }
-    brute = gabarit.generer(doc_d, textes_fixes(), version=2)
+    brute = GENERATEURS[fiche](doc_d)
     fiche = {
         "titre": {"texte": TITRES[lang], "origine": "gabarit"},
         **{
@@ -195,7 +294,7 @@ def traiter(
     sortie_publique = " ".join(p["texte"] for p in anonymise["passages"]) + json.dumps(fiche, ensure_ascii=False)
     fuites = sorted(n for n in noms if n.strip() and n in sortie_publique)
 
-    return {
+    sortie = {
         "version_contrat": VERSION_CONTRAT,
         "doc_id": doc_id,
         "lang": lang,
@@ -203,8 +302,12 @@ def traiter(
         "anonymise": anonymise,
         "fiche": fiche,
         "validation": {"statut": "a_valider", "valide_par": None, "date": None, "commentaire": ""},
-        "metriques": {"fuites_detectees": len(fuites), "temps_ms": round((time.perf_counter() - t0) * 1000)},
+        "metriques": {"fuites_detectees": len(fuites), "temps_ms": 0},
     }
+    if recherche is not None:
+        sortie["cas_similaires"] = cas_similaires(passages, recherche)
+    sortie["metriques"]["temps_ms"] = round((time.perf_counter() - t0) * 1000)
+    return sortie
 
 
 def main() -> None:
@@ -212,8 +315,19 @@ def main() -> None:
     ap.add_argument("--fichier", required=True, help="fichier texte UTF-8 (paragraphes séparés par une ligne vide)")
     ap.add_argument("--langue", default="auto", choices=["auto", *LANGUES])
     ap.add_argument("--out", default=None, help="fichier JSON de sortie (sinon : affichage)")
+    ap.add_argument("--ner", default="b3", help=f"extracteur : {', '.join(EXTRACTEURS)}")
+    ap.add_argument("--backend", default="union_seuil", help="backend d'anonymisation")
+    ap.add_argument("--fiche", default="gabarit", help=f"générateur de fiche : {', '.join(GENERATEURS)}")
+    ap.add_argument("--recherche", default=None, choices=RECHERCHES, help="ajoute les cas similaires du train")
     a = ap.parse_args()
-    sortie = traiter(Path(a.fichier).read_text(encoding="utf-8-sig"), a.langue)
+    sortie = traiter(
+        Path(a.fichier).read_text(encoding="utf-8-sig"),
+        a.langue,
+        backend=a.backend,
+        ner=a.ner,
+        fiche=a.fiche,
+        recherche=a.recherche,
+    )
     js = json.dumps(sortie, ensure_ascii=False, indent=1)
     if a.out:
         Path(a.out).write_text(js, encoding="utf-8")

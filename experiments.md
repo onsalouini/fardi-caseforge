@@ -17,6 +17,10 @@ Travail en binômes, un lot après l'autre ; le lot E (audit, intégration) est 
 Test gelé de référence : tag `test-gele-v3` (générateur v3, après relecture et double annotation complétées le 24/10). Les tags `test-gele-v1` et `test-gele-v2` désignent l'ancien contenu de test (générateur v2) et ne doivent plus servir à évaluer.
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
+## 2026-11-12 · Boutheina · Lot E (Silver) : options du pipeline et évaluation finale
+- `caseforge/pipeline.py` : options `ner`, `backend`, `fiche`, `recherche` (Bronze par défaut, sortie inchangée) ; `enregistrer_ner` et `enregistrer_fiche` pour brancher XLM-R (Lot C) et le LLM (Lot D) ; `recherche="dense"` ajoute `cas_similaires` (LaBSE, termes métier prédits, 3 cas du train). Contrat : `docs/contrat_pipeline.md` §5. Tests : `tests/test_pipeline_silver.py`.
+- `scripts/final_eval.py` : seul script autorisé à lire le test gelé ; refuse sans `--i-know-this-is-the-frozen-test`, avec un dépôt modifié, avec des empreintes différentes du manifeste, ou si une évaluation a déjà eu lieu ; consigne chaque exécution ici et dans `reports/final/journal.jsonl`. Pas encore exécuté. Tests : `tests/test_final_eval.py`.
+- Aucune nouvelle mesure.
 ## 2026-11-12 · Boutheina · Lot E (Silver) : recherche dense multilingue des cas similaires
 - `generation/recherche_dense.py` → `reports/lot_e_recherche_dense.md` (e5-small) et `reports/lot_e_recherche_dense_labse.md` (LaBSE). Dev : 66 documents du train indexés, 21 documents du dev en requête (19 avec au moins un cas du même secteur) ; pertinent = même secteur. Méthodes : TF-IDF (référence Bronze), dense, hybride (alpha = 0,5 fixé à l'avance) ; représentations : termes métier ou texte complet (entités sensibles masquées).
 - Référence Bronze reproduite : TF-IDF termes métier P@5 0,20, MRR 0,37 (hasard 0,15).
