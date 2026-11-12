@@ -50,6 +50,11 @@ extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombr
 # B6e (27/10/2026, scripts/b6e_plis_gabarit_cv.py puis scripts/b6e_eval_dev.py) : seuils rechoisis avec des plis
 # groupés par gabarit (moyenne 0,35 / aucun / 0,70 / 0,35), NON retenus : au dev, fuite +1,9 pt et sur-masquage
 # +2,7 pt (règle : fuite <= +1 pt et sur-masquage en baisse). Seuils B6b ci-dessous inchangés.
+# B13 (Silver) : backends « fichier » et « union_fichier » (caseforge.anonymization.detect). Fichier de prédictions
+# JSONL {passage_id, entities: [{start, end, label}]} ; seules les étiquettes sensibles sont gardées ; chemin relatif
+# à la racine du dépôt, surchargeable par l'argument fichier / fichier_predictions. Un passage absent du fichier n'a
+# aucune prédiction (avertissement et compteur detect.passages_absents).
+fichier_predictions: reports/predictions/crf_dev.jsonl
 union_seuil:
   agregation: minimum
   seuils: {ORG: 0.35, PERSONNE: 0.8, SITE: 0.55, DONNEE_SENSIBLE: 0.3}

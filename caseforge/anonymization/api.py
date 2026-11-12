@@ -29,7 +29,9 @@ from caseforge.anonymization.detect import BACKENDS
 
 LANGUES: tuple[str, ...] = ("fr", "ar", "en")
 BACKENDS_PUBLICS: tuple[str, ...] = tuple(b for b in BACKENDS if b != "gold")
-"""Backends utilisables sur un texte libre (``gold`` demande des entités annotées)."""
+"""Backends utilisables sur un texte libre (``gold`` demande des entités annotées). Avec ``fichier`` et
+``union_fichier``, les passages d'un texte libre (``0``, ``1``…) sont absents du fichier de prédictions : aucune
+prédiction du fichier (avertissement), ``union_fichier`` revient alors à ``rules``."""
 
 
 def _vide(texte: str) -> dict[str, Any]:

@@ -33,6 +33,7 @@ import re
 import unicodedata
 from collections import defaultdict
 from collections.abc import Sequence
+from pathlib import Path
 from typing import Any
 
 from caseforge.anonymization.coref_simple import ETIQUETTES_COREF, Clusters, Mention, clusteriser
@@ -263,6 +264,7 @@ def anonymize_document(
     balayage_renforce: bool | None = None,
     generaliser: bool | None = None,
     detections_generalisables: list[list[dict]] | None = None,
+    fichier_predictions: str | Path | None = None,
 ) -> dict[str, Any]:
     """Anonymise un document : ``{doc_id, backend, options, passages, remplacements, journal}``.
 
@@ -276,6 +278,8 @@ def anonymize_document(
     ``detections_generalisables`` (sortie de ``detect_generalisables``) évite de relancer leur détection. Option
     active : ``options["generaliser"]``, ``generalise_offsets`` par passage et une étape ``generalisation`` au
     journal ; option inactive : aucune de ces clés.
+    ``fichier_predictions`` (backends ``fichier`` et ``union_fichier``, B13) remplace la clé
+    ``fichier_predictions`` de ``configs/anonymization.yaml``.
     """
     pol = politique or charger_politique()
     coref = pol.options["coreference"] if coreference is None else coreference
@@ -285,7 +289,7 @@ def anonymize_document(
     gen = pol.options.get("generaliser", False) if generaliser is None else generaliser
     passages = doc["passages"]
     textes = [p["text"] for p in passages]
-    dets = detections if detections is not None else detect_document(doc, backend)
+    dets = detections if detections is not None else detect_document(doc, backend, fichier=fichier_predictions)
     if ext and backend != "gold":
         dets = [etendre_montants(t, ds) for t, ds in zip(textes, dets, strict=True)]
     journal: list[dict[str, Any]] = []
@@ -303,7 +307,9 @@ def anonymize_document(
     journal.append({"etape": "detection", "backend": backend, "mentions": dict(sorted(compte.items()))})
     if gen:
         gdets = (
-            detections_generalisables if detections_generalisables is not None else detect_generalisables(doc, backend)
+            detections_generalisables
+            if detections_generalisables is not None
+            else detect_generalisables(doc, backend, fichier=fichier_predictions)
         )
         compte_gen: dict[str, int] = defaultdict(int)
         for ip, ds in enumerate(gdets):
