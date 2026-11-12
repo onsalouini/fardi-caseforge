@@ -14,6 +14,7 @@ Représentations : `metier` (termes PRODUIT / EQUIPEMENT / PROCESSUS / INDICATEU
     python generation/recherche_dense.py                                   # tous les résultats -> reports/lot_e_recherche_dense.md
     python generation/recherche_dense.py --modele sentence-transformers/LaBSE
 """
+
 from __future__ import annotations
 
 import argparse
@@ -39,7 +40,12 @@ def charger(chemin: str) -> list[dict[str, Any]]:
 
 def texte_metier(doc: dict[str, Any]) -> str:
     """Termes métier du document (même représentation que le Bronze)."""
-    return " ".join(e["text"] for p in doc["passages"] for e in p["entities"] if e["label"] in METIER)
+    return " ".join(
+        e["text"]
+        for p in doc["passages"]
+        for e in p["entities"]
+        if e["label"] in METIER
+    )
 
 
 def texte_masque(doc: dict[str, Any]) -> str:
@@ -68,8 +74,12 @@ def scores_dense(req: list[str], idx: list[str], modele: str) -> np.ndarray:
     m = SentenceTransformer(modele)
     # les modèles e5 attendent un préfixe ; sans effet gênant pour les autres
     pref = "query: " if "e5" in modele else ""
-    e_req = m.encode([pref + t for t in req], normalize_embeddings=True, show_progress_bar=False)
-    e_idx = m.encode([pref + t for t in idx], normalize_embeddings=True, show_progress_bar=False)
+    e_req = m.encode(
+        [pref + t for t in req], normalize_embeddings=True, show_progress_bar=False
+    )
+    e_idx = m.encode(
+        [pref + t for t in idx], normalize_embeddings=True, show_progress_bar=False
+    )
     return e_req @ e_idx.T
 
 
@@ -80,9 +90,43 @@ def normaliser(s: np.ndarray) -> np.ndarray:
     return (s - mn) / np.where(mx - mn == 0, 1, mx - mn)
 
 
-def evaluer(scores: np.ndarray, dev: list[dict[str, Any]], train: list[dict[str, Any]]) -> dict[str, list[float]]:
+def par_requete(
+    scores: np.ndarray, dev: list[dict[str, Any]], train: list[dict[str, Any]]
+) -> tuple[np.ndarray, np.ndarray]:
+    """P@K et rang réciproque de chaque requête qui a au moins un cas pertinent (même ordre pour toutes les méthodes)."""
+    p, rr = [], []
+    for i, d in enumerate(dev):
+        pertinents = {j for j, t in enumerate(train) if t["secteur"] == d["secteur"]}
+        if not pertinents:
+            continue
+        classement = list(np.argsort(-scores[i]))
+        p.append(len(pertinents & set(classement[:K])) / K)
+        rr.append(1 / next(r for r, j in enumerate(classement, 1) if j in pertinents))
+    return np.array(p), np.array(rr)
+
+
+def bootstrap_apparie(
+    a: np.ndarray, b: np.ndarray, n: int = 10000, graine: int = 42
+) -> tuple[float, float, float, float]:
+    """Différence moyenne a - b, IC 95 % (bootstrap apparié sur les requêtes) et p unilatérale P(diff <= 0)."""
+    rng = np.random.default_rng(graine)
+    idx = rng.integers(0, len(a), size=(n, len(a)))
+    diffs = (a[idx] - b[idx]).mean(axis=1)
+    return (
+        float((a - b).mean()),
+        float(np.percentile(diffs, 2.5)),
+        float(np.percentile(diffs, 97.5)),
+        float((diffs <= 0).mean()),
+    )
+
+
+def evaluer(
+    scores: np.ndarray, dev: list[dict[str, Any]], train: list[dict[str, Any]]
+) -> dict[str, list[float]]:
     """P@K, R@K, MRR par groupe (global, langue, source) ; renvoie aussi le hasard."""
-    res: dict[str, list[float]] = defaultdict(lambda: [0.0, 0.0, 0.0, 0.0, 0.0])  # p, r, mrr, hasard, n
+    res: dict[str, list[float]] = defaultdict(
+        lambda: [0.0, 0.0, 0.0, 0.0, 0.0]
+    )  # p, r, mrr, hasard, n
     for i, d in enumerate(dev):
         pertinents = {j for j, t in enumerate(train) if t["secteur"] == d["secteur"]}
         if not pertinents:
@@ -113,25 +157,56 @@ def main() -> None:
     lignes = [
         "# LOT E (Silver) : recherche de cas similaires, TF-IDF contre embeddings multilingues (dev)",
         "",
-        f"Script : `generation/recherche_dense.py`. Modèle dense : `{args.modele}`. Index : {len(train)} documents du "
-        f"train ; requêtes : {len(dev)} documents du dev ; pertinent = même secteur. Hybride : alpha = 0,5 fixé "
-        "à l'avance (non réglé sur le dev).",
+        (
+            f"Script : `generation/recherche_dense.py`. Modèle dense : `{args.modele}`. Index : {len(train)} documents du "
+            f"train ; requêtes : {len(dev)} documents du dev ; pertinent = même secteur. Hybride : alpha = 0,5 fixé "
+            "à l'avance (non réglé sur le dev)."
+        ),
         "",
         f"| Représentation | Méthode | Groupe | P@{K} | Hasard | R@{K} | MRR | Requêtes |",
         "|---|---|---|---|---|---|---|---|",
     ]
+    tous: dict[str, np.ndarray] = {}
     for nom_rep, rep in (("metier", texte_metier), ("texte", texte_masque)):
         req, idx = [rep(d) for d in dev], [rep(d) for d in train]
         s_t = scores_tfidf(req, idx)
         s_d = scores_dense(req, idx, args.modele)
         s_h = 0.5 * normaliser(s_t) + 0.5 * normaliser(s_d)
         for nom_m, s in (("tfidf", s_t), ("dense", s_d), ("hybride", s_h)):
+            tous[f"{nom_rep}/{nom_m}"] = s
             for cle, (p, r, m, h, n) in sorted(evaluer(s, dev, train).items()):
                 n_int = int(n)
                 lignes.append(
                     f"| {nom_rep} | {nom_m} | {cle} | {p / n:.2f} | {h / n:.2f} | {r / n:.2f} | {m / n:.2f} | {n_int} |"
                 )
-    lignes += ["", "Peu de requêtes par groupe : pas de conclusion pour un groupe de moins de 30 requêtes."]
+    ref_p, ref_rr = par_requete(tous["metier/tfidf"], dev, train)
+    lignes += [
+        "",
+        "## Comparaison à la référence Bronze (metier/tfidf), bootstrap apparié sur les requêtes (10 000 tirages, graine 42)",
+        "",
+        "| Configuration | Δ P@5 [IC 95 %] | p (P@5) | Δ MRR [IC 95 %] | p (MRR) |",
+        "|---|---|---|---|---|",
+    ]
+    for nom, s in tous.items():
+        if nom == "metier/tfidf":
+            continue
+        p, rr = par_requete(s, dev, train)
+        dp, lp, hp, pp = bootstrap_apparie(p, ref_p)
+        dm, lm, hm, pm = bootstrap_apparie(rr, ref_rr)
+        lignes.append(
+            f"| {nom} | {dp:+.2f} [{lp:+.2f} ; {hp:+.2f}] | {pp:.3f} | {dm:+.2f} [{lm:+.2f} ; {hm:+.2f}] | {pm:.3f} |"
+        )
+    lignes += [
+        "",
+        (
+            "p = part des tirages où la configuration ne fait pas mieux que la référence (unilatérale). Plusieurs "
+            "configurations sont comparées au dev : une p proche de 0,05 ne suffit pas à conclure."
+        ),
+    ]
+    lignes += [
+        "",
+        "Peu de requêtes par groupe : pas de conclusion pour un groupe de moins de 30 requêtes.",
+    ]
     Path(args.out).write_text("\n".join(lignes) + "\n", encoding="utf-8")
     print("\n".join(lignes))
 

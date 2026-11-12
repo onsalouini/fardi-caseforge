@@ -41,4 +41,16 @@ Script : `generation/recherche_dense.py`. Modèle dense : `sentence-transformers
 | texte | hybride | source=lib | 0.60 | 0.14 | 0.33 | 0.50 | 1 |
 | texte | hybride | source=syn | 0.19 | 0.15 | 0.10 | 0.44 | 18 |
 
+## Comparaison à la référence Bronze (metier/tfidf), bootstrap apparié sur les requêtes (10 000 tirages, graine 42)
+
+| Configuration | Δ P@5 [IC 95 %] | p (P@5) | Δ MRR [IC 95 %] | p (MRR) |
+|---|---|---|---|---|
+| metier/dense | +0.16 [+0.04 ; +0.27] | 0.004 | +0.23 [+0.02 ; +0.44] | 0.017 |
+| metier/hybride | +0.02 [-0.05 ; +0.08] | 0.291 | +0.16 [+0.07 ; +0.26] | 0.000 |
+| texte/tfidf | -0.05 [-0.17 ; +0.04] | 0.822 | -0.04 [-0.16 ; +0.08] | 0.725 |
+| texte/dense | +0.08 [-0.05 ; +0.23] | 0.119 | +0.05 [-0.16 ; +0.25] | 0.329 |
+| texte/hybride | +0.01 [-0.12 ; +0.13] | 0.435 | +0.08 [-0.10 ; +0.27] | 0.211 |
+
+p = part des tirages où la configuration ne fait pas mieux que la référence (unilatérale). Plusieurs configurations sont comparées au dev : une p proche de 0,05 ne suffit pas à conclure.
+
 Peu de requêtes par groupe : pas de conclusion pour un groupe de moins de 30 requêtes.
