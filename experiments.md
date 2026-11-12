@@ -18,6 +18,14 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-12 · Ons · Lot D · Silver étape 1 : fiche par LLM extractif (Qwen2.5-7B-Instruct 4 bits), résultat négatif
+- `generation/llm.py` (commit `db993fa`), Colab T4, **dev**, graine 42, décodage glouton, 3 exemples du train (même langue / format), guidage par entités métier non sensibles, contrôle d'ancrage (≥ 80 % des mots dans le passage cité), sans complétion ; entrées de référence (comme le gabarit à 0,93). Sortie `generation/sorties/llm_dev_s42.jsonl` (non versionnée), évaluée par `generation/evaluer.py`.
+- Éléments P 0,83 ; R 0,60 ; **F1 0,70** (gabarit v2 : 0,93) ; citations 0,94 / 0,61 ; complétude 85 % ; 0 fuite. Par langue : fr 0,67 ; ar 0,75 ; en 0,67. Par source : syn_ 0,67 ; **lib_ 0,86** (gabarit v2 : 0,71). Par rubrique : contexte 1,00 ; contraintes 1,00 ; données 0,57 ; **objectifs 0,13** (R 0,08).
+- Journal : 0 repli sur le gabarit, 0 nouvel essai JSON, 25 éléments retirés par le contrôle d'ancrage, 0 citation corrigée, 0 nom sensible retiré ; 38,4 s par document.
+- Cause mesurée sur les références du dev : seuls **3 objectifs sur 39** et 28 données sur 60 sont recopiés de la source (support ≥ 0,8) ; les autres sont des phrases du générateur du Lot A (« Analyser les causes de la dégradation de l'indicateur suivant : … », « Relevés de l'équipement … », « Historique sur six mois : … »). Un LLM purement extractif ne peut pas les produire, et le contrôle d'ancrage retire celles qu'il imite. Contexte et contraintes, réellement extractifs, sont parfaits ; le LLM est meilleur que le gabarit sur le texte libre (lib_, 3 documents : à confirmer sur 3 graines).
+- Décision : étape 2, le LLM remplit des champs extraits du texte (indicateur du problème, démarche, équipements relevés, mesures) et le code compose les phrases ; le contrôle d'ancrage porte sur les champs, pas sur la phrase composée.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le notebook.
+
 ## 2026-10-27 · Ons · Lot E · E4 : tableau de bord du Bronze et corrections issues des audits
 - `reports/bronze.md` : vue d'ensemble des lots A à E (chiffre clé, carte, état), exigences transversales, limites pour la démo ; README (tableau des lots, sections Lot D et pipeline) ; `docs/carte_systeme.md` (kappa 0,758, ligne Interface et API).
 - CI : `.github/workflows/tests.yml` était un YAML invalide (deux-points dans un nom d'étape, ligne 20) ; la CI n'avait jamais tourné. Corrigé.
