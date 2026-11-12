@@ -1,15 +1,22 @@
 """LOT D (Silver) : génération d'une fiche pédagogique par un LLM ouvert, contrôlée par ancrage dans les sources.
 
-Principe : les fiches de référence sont extractives (chaque élément recopie un morceau d'un passage source). Le LLM
-CHOISIT et RECOPIE les morceaux utiles (contexte, objectifs, données, contraintes) et cite leurs passages ; il ne
-rédige pas. Chaque élément produit est ensuite vérifié contre le texte du passage cité :
+Principe : le LLM ne rédige pas. Il EXTRAIT des valeurs recopiées du texte et cite leurs passages ; chaque valeur est
+vérifiée contre le texte du passage cité, puis le code compose la fiche.
+
+Deux schémas de réponse (--schema) :
+  - champs (défaut, étape 2) : contexte, indicateur du problème, démarche, objectifs explicites, équipements relevés,
+    historiques, autres données, contraintes ; les phrases sont composées avec les formulations du gabarit
+    (« Analyser les causes… : X », « Relevés de l'équipement « X » », « Historique sur six mois : X » seulement si
+    le passage parle de six mois) ;
+  - extractif (étape 1) : le LLM recopie directement les éléments des quatre rubriques.
 
   1. entrée : texte ANONYMISÉ des passages + entités métier non sensibles (guidage) ;
-  2. exemples : k couples document -> fiche de référence du TRAIN, même langue, même format de préférence ;
+  2. exemples : k couples document -> fiche de référence du TRAIN (décomposée en champs), même langue, même format
+     de préférence ;
   3. génération JSON (Qwen2.5-7B-Instruct quantifié 4 bits sur Colab) ; JSON invalide -> nouvel essai, puis repli
      sur le gabarit v2 ;
-  4. ancrage : élément gardé si ≥ 80 % de ses mots sont dans un passage cité ; sinon citation corrigée vers le
-     passage qui le contient ; sinon élément retiré (ajout) ;
+  4. ancrage de chaque valeur : gardée si ≥ 80 % de ses mots sont dans un passage cité ; sinon citation corrigée
+     vers le passage qui la contient ; sinon retirée (ajout) ;
   5. complétion (option) : contraintes et indicateurs « donnee » non couverts ajoutés depuis la source ;
   6. sécurité : tout élément contenant un nom sensible du document est retiré.
 
@@ -24,6 +31,7 @@ Le test gelé n'est jamais utilisé (--split train|dev). Exemples :
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import random
 import re
@@ -47,6 +55,48 @@ ESSAIS_JSON = 3
 
 # Un moteur reçoit la liste des messages (format chat) et une graine, et renvoie le texte généré.
 Moteur = Callable[[list[dict], int], str]
+
+SCHEMAS = ["champs", "extractif"]
+
+# Schéma « champs » (étape 2) : le LLM extrait des valeurs recopiées du texte, le code compose les phrases de la fiche
+# avec les formulations du gabarit (celles de la référence du Lot A). Clés de la réponse du LLM :
+CHAMPS_UNIQUES = ["contexte", "indicateur_probleme", "demarche"]
+CHAMPS_LISTES = ["objectifs", "equipements_releves", "historiques", "donnees", "contraintes"]
+HISTORIQUE = {"fr": "Historique sur six mois : {}", "en": "Six-month history: {}", "ar": "سجل لمدة ستة أشهر: {}"}
+# « Historique sur six mois » n'est composé que si le passage cité parle bien de six mois (aucune durée inventée).
+SIX_MOIS = re.compile(r"\bsix\b|six-month|ستة", re.IGNORECASE)
+
+CONSIGNES_CHAMPS = """Tu prépares une fiche pédagogique à partir d'un document industriel déjà anonymisé.
+Tu ne rédiges rien : tu EXTRAIS des valeurs recopiées mot pour mot du document, dans sa langue, et tu cites le passage
+d'où vient chaque valeur. Les phrases de la fiche sont composées ensuite à partir de tes valeurs.
+
+Champs :
+- contexte : UN morceau qui présente l'entreprise et la situation industrielle (ou null) ;
+- indicateur_probleme : l'indicateur dégradé qui pose problème, avec sa valeur (ex. « taux de rebut de 11 % ») ;
+- demarche : la méthode ou démarche demandée pour traiter le problème (ex. « diagramme d'Ishikawa ») ;
+- objectifs : demandes explicites recopiées seulement si le document les formule autrement que par
+  indicateur + démarche (fréquent dans les courriels et comptes rendus libres) ; sinon liste vide ;
+- equipements_releves : équipements dont les relevés sont disponibles (nom de l'équipement seul) ;
+- historiques : indicateurs donnés par un historique (ex. « taux de rebut de 7 % ») ;
+- donnees : autres faits mesurés ou chiffrés disponibles ; UN fait par élément ;
+- contraintes : exigences, interdictions, limites de budget, de délai ou de norme ; UNE contrainte par élément
+  (sépare les contraintes coordonnées).
+
+Règles strictes :
+- chaque "texte" est recopié tel quel depuis un passage cité dans "sources" (identifiant entre crochets) ; cite tous
+  les passages qui contiennent la valeur ;
+- n'invente aucun fait, aucun chiffre, aucune démarche ; un champ absent du document vaut null ou [] ;
+- garde les pseudonymes ([PERSONNE_1], [ENTREPRISE_A], ...) tels quels ;
+- ignore le suivi administratif (responsable du projet, signatures, coordonnées, en-têtes de courriel) ;
+- réponds UNIQUEMENT avec un objet JSON de la forme :
+{"contexte": {"texte": "...", "sources": ["id"]} | null,
+ "indicateur_probleme": {"texte": "...", "sources": ["id"]} | null,
+ "demarche": {"texte": "...", "sources": ["id"]} | null,
+ "objectifs": [{"texte": "...", "sources": ["id"]}],
+ "equipements_releves": [{"texte": "...", "sources": ["id"]}],
+ "historiques": [{"texte": "...", "sources": ["id"]}],
+ "donnees": [{"texte": "...", "sources": ["id"]}],
+ "contraintes": [{"texte": "...", "sources": ["id"]}]}"""
 
 CONSIGNES = """Tu prépares une fiche pédagogique à partir d'un document industriel déjà anonymisé.
 Tu ne rédiges rien : tu RECOPIES mot pour mot des morceaux du document, dans sa langue, et tu cites le passage d'où
@@ -104,8 +154,54 @@ def formater_document(doc: dict, avec_entites: bool = True) -> str:
     return "\n".join(blocs)
 
 
-def fiche_cible(fiche: dict) -> str:
-    """Partie extractive d'une fiche de référence, au format de réponse attendu du LLM."""
+def langue_phrases(lang: str) -> str:
+    return lang if lang in gabarit.PHRASES else "fr"
+
+
+def motif(phrase: str) -> re.Pattern[str]:
+    """Expression régulière qui retrouve la valeur insérée dans une phrase à trous du gabarit."""
+    return re.compile("^" + re.escape(phrase).replace(re.escape("{}"), "(.+?)") + "$", re.DOTALL)
+
+
+def champs_de_reference(fiche: dict) -> dict:
+    """Décompose une fiche de référence en champs (exemples du prompt) : inverse de `composer`."""
+    lang = langue_phrases(fiche["lang"])
+    P = gabarit.PHRASES[lang]
+    motifs = {
+        "indicateur_probleme": motif(P["analyser"]),
+        "demarche": motif(P["proposer"]),
+        "equipements_releves": motif(P["releves"]),
+        "historiques": motif(HISTORIQUE[lang]),
+    }
+    cites = {lib for _, lib in gabarit.DONNEES_CITEES.get(lang, [])}  # ajoutées par la règle du gabarit v2
+    champs: dict = {c: None for c in CHAMPS_UNIQUES} | {c: [] for c in CHAMPS_LISTES}
+    ctx = fiche.get("contexte")
+    champs["contexte"] = {"texte": ctx["texte"], "sources": ctx.get("sources", [])} if ctx else None
+    for rubrique in ["objectifs", "donnees"]:
+        for e in fiche.get(rubrique) or []:
+            if e["texte"] in cites:
+                continue
+            cle, valeur = rubrique, e["texte"]
+            for nom in ["indicateur_probleme", "demarche"] if rubrique == "objectifs" else list(motifs)[2:]:
+                m = motifs[nom].match(e["texte"])
+                if m:
+                    cle, valeur = nom, m.group(1)
+                    break
+            el = {"texte": valeur, "sources": e.get("sources", [])}
+            if cle in CHAMPS_UNIQUES:
+                champs[cle] = champs[cle] or el
+            else:
+                champs[cle].append(el)
+    champs["contraintes"] = [
+        {"texte": e["texte"], "sources": e.get("sources", [])} for e in fiche.get("contraintes") or []
+    ]
+    return champs
+
+
+def fiche_cible(fiche: dict, schema: str = "champs") -> str:
+    """Réponse attendue du LLM pour une fiche de référence (exemple du prompt)."""
+    if schema == "champs":
+        return json.dumps(champs_de_reference(fiche), ensure_ascii=False)
 
     def el(e: dict) -> dict:
         return {"texte": e["texte"], "sources": e.get("sources", [])}
@@ -127,12 +223,14 @@ def choisir_exemples(doc: dict, banque: list[tuple[dict, dict]], k: int, graine:
     return candidats[:k]
 
 
-def construire_messages(doc: dict, exemples: list[tuple[dict, dict]], avec_entites: bool = True) -> list[dict]:
+def construire_messages(
+    doc: dict, exemples: list[tuple[dict, dict]], avec_entites: bool = True, schema: str = "champs"
+) -> list[dict]:
     """Messages au format chat : consignes, exemples (tour utilisateur / tour assistant), puis le document."""
-    messages = [{"role": "system", "content": CONSIGNES}]
+    messages = [{"role": "system", "content": CONSIGNES_CHAMPS if schema == "champs" else CONSIGNES}]
     for d, f in exemples:
         messages.append({"role": "user", "content": "Document :\n" + formater_document(d, avec_entites)})
-        messages.append({"role": "assistant", "content": fiche_cible(f)})
+        messages.append({"role": "assistant", "content": fiche_cible(f, schema)})
     messages.append({"role": "user", "content": "Document :\n" + formater_document(doc, avec_entites)})
     return messages
 
@@ -140,6 +238,11 @@ def construire_messages(doc: dict, exemples: list[tuple[dict, dict]], avec_entit
 # --------------------------------------------------------------------------------------------------------------------
 # Lecture de la réponse et contrôles
 # --------------------------------------------------------------------------------------------------------------------
+
+
+def empreinte(messages: list[dict]) -> str:
+    """Empreinte SHA-256 du prompt complet : identifie une réponse enregistrée pour la rejouer (--rejouer)."""
+    return hashlib.sha256(json.dumps(messages, ensure_ascii=False).encode("utf-8")).hexdigest()
 
 
 def lire_json(reponse: str) -> dict | None:
@@ -171,8 +274,18 @@ def elements_bruts(valeur: object) -> list[dict]:
     return sortie
 
 
+TATWEEL = "ـ"
+DIACRITIQUES = re.compile(r"[ً-ْٰ]")
+ALIFS = str.maketrans({"أ": "ا", "إ": "ا", "آ": "ا", "ٱ": "ا", "ى": "ي"})
+
+
+def normaliser(texte: str) -> str:
+    """Normalisation pour comparer à la source malgré le bruit OCR arabe : tatweel, diacritiques, hamza sur alif, ى."""
+    return DIACRITIQUES.sub("", texte.replace(TATWEEL, "")).translate(ALIFS).lower()
+
+
 def mots(texte: str) -> list[str]:
-    return re.findall(r"\w+", texte.lower())
+    return re.findall(r"\w+", normaliser(texte))
 
 
 def support(texte: str, passage: str) -> float:
@@ -218,8 +331,42 @@ def completer(fiche: dict, doc: dict, journal: dict) -> None:
                 journal["completes"].append({"rubrique": rubrique, "texte": texte, "source": p["passage_id"]})
 
 
+def valeur(texte: str) -> str:
+    """Valeur d'un champ prête à insérer dans une phrase : sans guillemets ni point final."""
+    return texte.replace(TATWEEL, "").strip("«»\"'  .").strip()
+
+
+def composer(champs: dict[str, list[dict]], doc: dict) -> dict[str, list[dict]]:
+    """Objectifs, données et contraintes de la fiche, composés à partir des champs déjà ancrés dans la source."""
+    lang = langue_phrases(doc["lang"])
+    P = gabarit.PHRASES[lang]
+    textes = {p["passage_id"]: p["text_anonymise"] for p in doc["passages"]}
+
+    def phrase(modele: str, e: dict) -> dict:
+        return gabarit.element(modele.format(valeur(e["texte"])), *e["sources"])
+
+    objectifs = [phrase(P["analyser"], e) for e in champs["indicateur_probleme"]]
+    objectifs += [phrase(P["proposer"], e) for e in champs["demarche"]]
+    objectifs += champs["objectifs"]
+    donnees = [phrase(P["releves"], e) for e in champs["equipements_releves"]]
+    for e in champs["historiques"]:
+        six = any(SIX_MOIS.search(textes.get(s, "")) for s in e["sources"])
+        donnees.append(phrase(HISTORIQUE[lang], e) if six else e)
+    donnees += champs["donnees"]
+    # données citées en toutes lettres (ERP, fiches de non-conformité) : même règle que le gabarit v2
+    for p in doc["passages"]:
+        if p.get("ptype") == "donnee":
+            bas = p["text_anonymise"].lower()
+            donnees += [
+                gabarit.element(lib, p["passage_id"])
+                for cles, lib in gabarit.DONNEES_CITEES.get(lang, [])
+                if any(k in bas for k in cles)
+            ]
+    return {"objectifs": objectifs, "donnees": donnees, "contraintes": champs["contraintes"]}
+
+
 def assembler(
-    reponse: dict, doc: dict, fixes: dict, controle: bool = True, complete: bool = False
+    reponse: dict, doc: dict, fixes: dict, controle: bool = True, complete: bool = False, schema: str = "champs"
 ) -> tuple[dict, dict]:
     """Fiche finale (format de data/final/fiches_*.jsonl) et journal des contrôles."""
     journal: dict = {
@@ -240,8 +387,13 @@ def assembler(
 
     contexte = traiter(elements_bruts(reponse.get("contexte"))[:1])
     fiche["contexte"] = contexte[0] if contexte else None
-    for r in RUBRIQUES:
-        fiche[r] = traiter(elements_bruts(reponse.get(r)))
+    if schema == "champs":
+        champs = {c: traiter(elements_bruts(reponse.get(c))[:1]) for c in CHAMPS_UNIQUES[1:]}
+        champs |= {c: traiter(elements_bruts(reponse.get(c))) for c in CHAMPS_LISTES}
+        fiche.update(composer(champs, doc))
+    else:
+        for r in RUBRIQUES:
+            fiche[r] = traiter(elements_bruts(reponse.get(r)))
     if complete:
         completer(fiche, doc, journal)
     fiche.update(fixes[lang])
@@ -267,16 +419,17 @@ def generer(
     avec_entites: bool = True,
     controle: bool = True,
     complete: bool = False,
+    schema: str = "champs",
 ) -> tuple[dict, dict]:
     """Fiche d'un document par le LLM ; repli sur le gabarit v2 sans JSON valide après ESSAIS_JSON essais."""
-    messages = construire_messages(doc, choisir_exemples(doc, banque, k, graine), avec_entites)
+    messages = construire_messages(doc, choisir_exemples(doc, banque, k, graine), avec_entites, schema)
     debut = time.perf_counter()
     reponses = []
     for essai in range(ESSAIS_JSON):
         reponses.append(moteur(messages, graine + 1000 * essai))
         objet = lire_json(reponses[-1])
         if objet is not None:
-            fiche, journal = assembler(objet, doc, fixes, controle, complete)
+            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema)
             break
     else:
         fiche = gabarit.generer(doc, fixes, version=2)
@@ -285,6 +438,7 @@ def generer(
         {
             "doc_id": doc["doc_id"],
             "essais": len(reponses),
+            "prompt_sha": empreinte(messages),
             "reponses": reponses,
             "temps_s": round(time.perf_counter() - debut, 2),
             "repli_gabarit": journal.get("repli_gabarit", False),
@@ -299,7 +453,7 @@ def generer(
 
 
 def moteur_fictif(messages: list[dict], graine: int) -> str:
-    """Moteur de test sans GPU : recopie le premier passage de chaque type utile du document."""
+    """Moteur de test sans GPU : premier passage de chaque type utile, ou premières entités (schéma « champs »)."""
     lignes = messages[-1]["content"].splitlines()
     passages = [re.match(r"\[(\S+)\] \((\w+)\) (.*)", ligne) for ligne in lignes]
     passages = [m for m in passages if m]
@@ -308,6 +462,34 @@ def moteur_fictif(messages: list[dict], graine: int) -> str:
         return [{"texte": m.group(3), "sources": [m.group(1)]} for m in passages if m.group(2) == ptype][:1]
 
     ctx = premier("contexte")
+    if "indicateur_probleme" in messages[0]["content"]:
+        entites: list[tuple[str, str, str, str]] = []  # (label, texte, passage_id, ptype)
+        courant = None
+        for ligne in lignes:
+            m = re.match(r"\[(\S+)\] \((\w+)\) ", ligne)
+            if m:
+                courant = m
+            elif courant and ligne.startswith("  entités : "):
+                for paire in ligne[len("  entités : ") :].split(" ; "):
+                    lab, _, txt = paire.partition("=")
+                    entites.append((lab, txt, courant.group(1), courant.group(2)))
+
+        def ents(label: str, ptype: str | None = None) -> list[dict]:
+            return [{"texte": t, "sources": [p]} for lab, t, p, pt in entites if lab == label and ptype in (None, pt)]
+
+        return json.dumps(
+            {
+                "contexte": ctx[0] if ctx else None,
+                "indicateur_probleme": (ents("INDICATEUR", "probleme") or [None])[0],
+                "demarche": (ents("PROCESSUS") or [None])[0],
+                "objectifs": [],
+                "equipements_releves": ents("EQUIPEMENT", "donnee"),
+                "historiques": ents("INDICATEUR", "donnee"),
+                "donnees": [],
+                "contraintes": ents("CONTRAINTE"),
+            },
+            ensure_ascii=False,
+        )
     return json.dumps(
         {
             "contexte": ctx[0] if ctx else None,
@@ -355,6 +537,22 @@ def moteur_transformers(modele: str = MODELE_DEFAUT, temperature: float = 0.0, m
 # --------------------------------------------------------------------------------------------------------------------
 
 
+def moteur_rejeu(chemin_journal: str) -> Moteur:
+    """Rejoue les réponses enregistrées dans un journal : le prompt (sans doc_id) est retrouvé par son contenu."""
+    reponses: dict[str, list[str]] = {}
+    for j in gabarit.charger(chemin_journal):
+        if j.get("prompt_sha") and j.get("reponses"):
+            reponses[j["prompt_sha"]] = list(j["reponses"])
+
+    def appeler(messages: list[dict], graine: int) -> str:
+        restantes = reponses.get(empreinte(messages))
+        if not restantes:
+            raise KeyError("prompt absent du journal rejoué : options différentes de l'exécution d'origine ?")
+        return restantes.pop(0)
+
+    return appeler
+
+
 def banque_exemples() -> list[tuple[dict, dict]]:
     """Couples (document, fiche de référence) du TRAIN : seule source des exemples du prompt."""
     fiches = {f["doc_id"]: f for f in gabarit.charger("data/final/fiches_train.jsonl")}
@@ -378,12 +576,25 @@ def main() -> None:
     ap.add_argument("--sans-entites", action="store_true", help="ablation : pas de guidage par les entités")
     ap.add_argument("--sans-controle", action="store_true", help="ablation : pas de contrôle d'ancrage des éléments")
     ap.add_argument("--completer", action="store_true", help="ajoute les contraintes / indicateurs non couverts")
+    ap.add_argument(
+        "--schema", default="champs", choices=SCHEMAS, help="champs (étape 2, phrases composées) ou extractif (étape 1)"
+    )
     ap.add_argument("--entites", help="entités prédites par le LOT B (à la place de la référence)")
     ap.add_argument("--anonymisation", help="remplacements de l'anonymiseur du LOT B (à la place de la référence)")
     ap.add_argument("--limite", type=int, help="ne traiter que les n premiers documents (essai rapide)")
+    ap.add_argument(
+        "--rejouer",
+        help="journal d'une exécution précédente : réutilise ses réponses du LLM sans GPU (ablations --completer, "
+        "--sans-controle ; même prompt requis : même schéma, exemples, entités et graine)",
+    )
     args = ap.parse_args()
 
-    moteur = moteur_fictif if args.moteur == "fictif" else moteur_transformers(args.modele, args.temperature)
+    if args.rejouer:
+        moteur = moteur_rejeu(args.rejouer)
+    elif args.moteur == "fictif":
+        moteur = moteur_fictif
+    else:
+        moteur = moteur_transformers(args.modele, args.temperature)
     docs = gabarit.brancher_lot_b(
         gabarit.charger(f"data/final/documents_{args.split}.jsonl"), args.entites, args.anonymisation
     )[: args.limite]
@@ -403,6 +614,7 @@ def main() -> None:
                 not args.sans_entites,
                 not args.sans_controle,
                 args.completer,
+                args.schema,
             )
             journal["config"] = {k: v for k, v in vars(args).items() if k not in {"out", "journal"}}
             f_out.write(json.dumps(fiche, ensure_ascii=False) + "\n")

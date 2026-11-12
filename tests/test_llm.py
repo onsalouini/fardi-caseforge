@@ -11,6 +11,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "generation"))
 import llm  # noqa: E402
+from evaluer import apparier  # noqa: E402
 
 
 @pytest.fixture(scope="module")
@@ -107,3 +108,76 @@ def test_json_invalide_repli_sur_le_gabarit(doc, banque, fixes):
 def test_lire_json_tolere_un_bloc_markdown():
     assert llm.lire_json('```json\n{"objectifs": []}\n```') == {"objectifs": []}
     assert llm.lire_json('{"objectifs": [') is None
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Étape 2 : schéma « champs » (le LLM extrait des valeurs, le code compose les phrases)
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def test_recomposition_des_references_du_train(banque, fixes):
+    """Décomposer une fiche de référence en champs puis la recomposer redonne la référence (plafond de l'approche)."""
+    apparies = total = 0
+    for d, f in banque:
+        fiche, _ = llm.assembler(llm.champs_de_reference(f), d, fixes)
+        for r in llm.RUBRIQUES:
+            apparies += apparier(fiche[r], f[r])
+            total += max(len(fiche[r]), len(f[r]))
+    assert apparies / total >= 0.97
+
+
+def test_phrases_composees_dans_les_trois_langues(banque, fixes):
+    for lang in ["fr", "en", "ar"]:
+        d, f = next((d, f) for d, f in banque if d["lang"] == lang and d["doc_id"].startswith("syn_"))
+        champs = llm.champs_de_reference(f)
+        assert champs["indicateur_probleme"] and champs["demarche"] and champs["equipements_releves"], lang
+        fiche, _ = llm.assembler(champs, d, fixes)
+        attendu = llm.gabarit.PHRASES[lang]["analyser"].format(llm.valeur(champs["indicateur_probleme"]["texte"]))
+        assert fiche["objectifs"][0]["texte"] == attendu
+
+
+def test_demarche_inventee_retiree(doc, fixes):
+    reponse = {
+        "demarche": {"texte": "méthode Kaizen Blitz à la japonaise", "sources": [doc["passages"][0]["passage_id"]]}
+    }
+    fiche, journal = llm.assembler(reponse, doc, fixes)
+    assert not [e for e in fiche["objectifs"] if "Kaizen" in e["texte"]] and len(journal["retires_non_ancres"]) == 1
+
+
+def test_historique_compose_seulement_si_six_mois(doc, fixes):
+    d = copy.deepcopy(doc)
+    p = d["passages"][1]
+    p["text_anonymise"] = "Historique de trois mois : taux de rebut de 9 %."
+    reponse = {"historiques": [{"texte": "taux de rebut de 9 %", "sources": [p["passage_id"]]}]}
+    fiche, _ = llm.assembler(reponse, d, fixes)
+    assert fiche["donnees"][0]["texte"] == "taux de rebut de 9 %"  # pas de « six mois » inventé
+    p["text_anonymise"] = "Historique de six mois : taux de rebut de 9 %."
+    fiche, _ = llm.assembler(reponse, d, fixes)
+    assert fiche["donnees"][0]["texte"] == "Historique sur six mois : taux de rebut de 9 %"
+
+
+def test_normalisation_du_bruit_ocr_arabe():
+    assert llm.support("آلة البثق", "قياسات الة البـثق") == 1.0
+    assert llm.support("يجب إنهاء المشروع في 4 أسابيع", "يجب انهاء المشروع في 4 اسابيع") == 1.0
+    assert llm.valeur("«البـثق».") == "البثق"
+
+
+@pytest.mark.parametrize("schema", llm.SCHEMAS)
+def test_les_deux_schemas_produisent_une_fiche(schema, doc, banque, fixes):
+    fiche, journal = llm.generer(doc, llm.moteur_fictif, banque, fixes, graine=42, schema=schema)
+    assert not journal["repli_gabarit"] and fiche["contexte"] and fiche["contraintes"]
+
+
+def test_rejeu_d_un_journal_redonne_les_memes_fiches(tmp_path, banque, fixes):
+    docs = [d for d, _ in banque[:4]]
+    chemin = tmp_path / "journal.jsonl"
+    fiches = []
+    with open(chemin, "w", encoding="utf-8") as f:
+        for d in docs:
+            fiche, journal = llm.generer(d, llm.moteur_fictif, banque, fixes, graine=13)
+            fiches.append(fiche)
+            f.write(json.dumps(journal, ensure_ascii=False) + "\n")
+    rejeu = llm.moteur_rejeu(str(chemin))
+    assert [llm.generer(d, rejeu, banque, fixes, graine=13)[0] for d in docs] == fiches
+    with pytest.raises(KeyError):
+        llm.generer(docs[0], llm.moteur_rejeu(str(chemin)), banque, fixes, graine=99)  # autres exemples -> autre prompt
