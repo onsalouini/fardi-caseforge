@@ -79,15 +79,17 @@ def main() -> None:
     xlmr = [n for n in noms if n.startswith("XLM-R")]
     if xlmr and b3e in preds:
         L += ["", f"## 3 bis. Bootstrap apparié XLM-R contre {b3e} (référence équitable)", "",
-              "Même protocole ; écart = F1(XLM-R) − F1(B3 B7b) ; p = probabilité que XLM-R ne soit pas meilleur.", "",
+              "Même protocole ; écart = F1(XLM-R) − F1(B3 B7b) ; p bilatérale (deux fois la plus petite queue) ; "
+              "conclusion tirée de l'IC 95 %.", "",
               "| Comparaison | Moyenne | Écart | IC 95 % | p | Conclusion |", "|---|---|---|---|---|---|"]
         for n in xlmr:
             for avg in ("micro", "macro_9"):
                 b = paired_bootstrap(gold, preds[b3e], preds[n], mode="token", average=avg)
-                concl = ("meilleur que B3" if b["p_value"] < 0.05 else
+                p_bi = min(1.0, 2 * min(b["p_value"], 1 - b["p_value"]))
+                concl = ("meilleur que B3" if b["ic95"][0] > 0 else
                          "moins bon que B3" if b["ic95"][1] < 0 else "pas de différence démontrée")
                 L.append(f"| {n} vs B3 B7b | {avg} | {b['delta']:+.3f} | [{b['ic95'][0]:+.3f} ; {b['ic95'][1]:+.3f}] | "
-                         f"{b['p_value']:.4f} | {concl} |")
+                         f"{p_bi:.4f} | {concl} |")
     mic = {n: res[n]["global"]["micro"]["f1"] for n in noms}
     prod = {n: res[n]["par_etiquette"].get("PRODUIT", {"f1": 0.0})["f1"] for n in noms}
     def fr(x: float) -> str:
