@@ -49,7 +49,7 @@ from typing import Any
 
 import yaml
 
-from caseforge.labels import REPO_ROOT, SENSITIVE_LABELS, rang_priorite
+from caseforge.labels import GENERALISABLE_LABELS, REPO_ROOT, SENSITIVE_LABELS, rang_priorite
 
 BACKENDS: tuple[str, ...] = ("gold", "rules", "b3", "crf", "union", "union_seuil")
 AGREGATIONS: tuple[str, ...] = ("moyenne", "minimum")
@@ -298,6 +298,36 @@ def etendre_montants(texte: str, entites: Sequence[dict]) -> list[dict]:
                         e["start"], e["end"], change = min(s, e["start"]), max(f, e["end"]), True
         out.append(e)
     return fusionner(out)
+
+
+# ---------- Indices à généraliser (B12) ----------
+def detect_generalisables(
+    doc: dict, backend: str, *, rappel: Iterable[str] | None = None, sans: Iterable[str] = ()
+) -> list[list[dict]]:
+    """Spans PRODUIT et EQUIPEMENT de chaque passage, pour la généralisation (option ``generaliser``, B12).
+
+    ``gold`` : entités annotées ; ``crf`` : CRF B1 ; ``union`` : B3 ∪ CRF ; ``rules``, ``b3`` et ``union_seuil`` :
+    B3 (le seuil de confiance de ``union_seuil`` ne porte que sur les étiquettes sensibles). B3 tourne avec les
+    mêmes règles que la détection sensible (``rappel``, ``sans``), donc depuis le même cache. Spans fusionnés comme
+    les spans sensibles (``fusionner``, étiquette la plus prioritaire).
+    """
+    if backend not in BACKENDS:
+        raise ValueError(f"backend inconnu {backend!r} : {', '.join(BACKENDS)}")
+    passages = doc["passages"]
+    if backend == "gold":
+        return [fusionner(_sensibles(p["entities"], "gold", GENERALISABLE_LABELS)) for p in passages]
+    jeux: list[list[list[dict]]] = []
+    if backend != "crf":
+        if rappel is None:
+            from caseforge.anonymization.policy import charger_politique
+
+            rappel = charger_politique().options["regles_rappel"] or ()
+        b3 = _b3(doc, regles_b3(() if backend == "b3" else rappel, sans))
+        jeux.append([_sensibles(e, "b3", GENERALISABLE_LABELS) for e in b3])
+    if backend in ("crf", "union"):
+        crf = predire_crf([p["text"] for p in passages])
+        jeux.append([_sensibles(e, "crf", GENERALISABLE_LABELS) for e in crf])
+    return [fusionner(s for jeu in jeux for s in jeu[i]) for i in range(len(passages))]
 
 
 # ---------- Point d'entrée ----------

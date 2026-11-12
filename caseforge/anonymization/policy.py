@@ -37,7 +37,8 @@ class Politique:
 
     ``options`` : coreference, balayage, balayage_longueur_min, extension_montants, balayage_renforce,
     regles_rappel (rule_id des règles de rappel ajoutées à la détection ``rules``), fusion_crf (``union`` ou
-    ``regles``) et plafonds_contrainte (B6d, ``caseforge.anonymization.detect``).
+    ``regles``), plafonds_contrainte (B6d, ``caseforge.anonymization.detect``) et generaliser (B12 : PRODUIT et
+    EQUIPEMENT remplacés par leur famille, ``caseforge.anonymization.generalisation`` ; faux si la clé manque).
     """
 
     pseudonymes: dict[str, dict[str, str]]
@@ -97,10 +98,13 @@ def charger_politique(path: Path | str = CONFIG, **options: Any) -> Politique:
             "plafonds_contrainte",
         )
     }
+    opts["generaliser"] = cfg.get("generaliser", False)
     for k, v in options.items():
         if k not in opts:
             raise ValueError(f"option inconnue {k!r} : {', '.join(opts)}")
         opts[k] = v
+    if not isinstance(opts["generaliser"], bool):
+        raise ValueError(f"generaliser doit être un booléen : {opts['generaliser']!r}")
     if opts["fusion_crf"] not in ("union", "regles"):
         raise ValueError(f"fusion_crf inconnue {opts['fusion_crf']!r} : union, regles")
     return Politique(pseudos, ds["etiquette"], ds["masques"], ds["masque_reference_lot_a"], opts)

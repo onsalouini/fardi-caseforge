@@ -1,0 +1,179 @@
+# Familles de produits (B12, généralisation des PRODUIT) : forme<TAB>famille<TAB>langue.
+# Source : entités gold PRODUIT / EQUIPEMENT du TRAIN (data/final/train.jsonl), têtes d'equipement_tetes.
+# Fichier GÉNÉRÉ par scripts/b12_lexiques.py ;
+# ne pas l'éditer à la main : modifier les tables du script puis le relancer. Formes sans référence, code ni
+# marque, têtes nominales et noms de familles ; famille écrite dans la langue de la forme. Lecture :
+# caseforge.anonymization.generalisation (forme entière, puis tête, sinon famille générique « [ÉTIQUETTE] »).
+أدوية	أدوية	ar
+الأقراص	أدوية	ar
+الأقراص المغلفة	أدوية	ar
+الكبسولات	أدوية	ar
+الكهرباء	طاقة	ar
+الكهرباء المنتجة	طاقة	ar
+طاقة	طاقة	ar
+أسلاك الحديد	قطع معدنية	ar
+الخردة	قطع معدنية	ar
+الشفاه	قطع معدنية	ar
+الشفاه الفولاذية	قطع معدنية	ar
+القطع	قطع معدنية	ar
+القطع المصنعة من الالومنيوم	قطع معدنية	ar
+حديد	قطع معدنية	ar
+حديد التسليح	قطع معدنية	ar
+قطع معدنية	قطع معدنية	ar
+حزم	مكونات كهربائية	ar
+حزم أسلاك المحرك	مكونات كهربائية	ar
+حزم الأسلاك	مكونات كهربائية	ar
+كابلات	مكونات كهربائية	ar
+مكثفات	مكونات كهربائية	ar
+مكونات كهربائية	مكونات كهربائية	ar
+أحذية	ملابس	ar
+سراويل	ملابس	ar
+سراويل الجينز	ملابس	ar
+سروال	ملابس	ar
+قمصان	ملابس	ar
+ملابس	ملابس	ar
+ملابس العمل	ملابس	ar
+التمور	منتجات غذائية	ar
+التمور المعلبة	منتجات غذائية	ar
+زيت	منتجات غذائية	ar
+زيت الزيتون	منتجات غذائية	ar
+زيت الزيتون البكر الممتاز	منتجات غذائية	ar
+سميد	منتجات غذائية	ar
+معجون	منتجات غذائية	ar
+معجون الطماطم	منتجات غذائية	ar
+معجون الطماطم المركز	منتجات غذائية	ar
+منتجات غذائية	منتجات غذائية	ar
+أغشية	مواد تغليف	ar
+أغشية التغليف	مواد تغليف	ar
+أغلفة	مواد تغليف	ar
+أغلفة القوارير	مواد تغليف	ar
+أكياس	مواد تغليف	ar
+الصناديق الكرتونية المموجة	مواد تغليف	ar
+صناديق	مواد تغليف	ar
+علب	مواد تغليف	ar
+علب من الحديد الأبيض	مواد تغليف	ar
+قوارير	مواد تغليف	ar
+قوارير البلاستيك	مواد تغليف	ar
+مواد تغليف	مواد تغليف	ar
+apparel	apparel	en
+boots	apparel	en
+clothing	apparel	en
+garment	apparel	en
+jacket	apparel	en
+jeans	apparel	en
+leather safety shoes	apparel	en
+shirt	apparel	en
+shoes	apparel	en
+stretch jeans	apparel	en
+trousers	apparel	en
+work boots	apparel	en
+workwear	apparel	en
+workwear garments	apparel	en
+cable harnesses	electrical components	en
+cables	electrical components	en
+capacitors	electrical components	en
+electrical components	electrical components	en
+enginc harnesses	electrical components	en
+engine harnesses	electrical components	en
+harnesses	electrical components	en
+inverter	electrical components	en
+main board	electrical components	en
+smart meter main board	electrical components	en
+solar kits	electrical components	en
+electricity	energy	en
+energy	energy	en
+power	energy	en
+dates	food products	en
+extra virgin olive oil	food products	en
+extrà virgin olivc oil	food products	en
+food products	food products	en
+oil	food products	en
+olive oil	food products	en
+semolina	food products	en
+semolina bags	food products	en
+tomato paste	food products	en
+brackets	metal parts	en
+flanges	metal parts	en
+machined parts	metal parts	en
+metal parts	metal parts	en
+parts	metal parts	en
+scrap	metal parts	en
+steel	metal parts	en
+steel flanges	metal parts	en
+bags	packaging	en
+bottles	packaging	en
+cans	packaging	en
+cartons	packaging	en
+films	packaging	en
+packaging	packaging	en
+packaging films	packaging	en
+PET bottles	packaging	en
+amoxicillin capsules	pharmaceutical products	en
+capsules	pharmaceutical products	en
+drugs	pharmaceutical products	en
+film-coated metformin tablets	pharmaceutical products	en
+film-coated tablets	pharmaceutical products	en
+pharmaceutical products	pharmaceutical products	en
+syrup	pharmaceutical products	en
+tablets	pharmaceutical products	en
+articles d'habillement	articles d'habillement	fr
+botte	articles d'habillement	fr
+chaussure	articles d'habillement	fr
+chemise	articles d'habillement	fr
+jeans	articles d'habillement	fr
+jeans stretch	articles d'habillement	fr
+pantalon	articles d'habillement	fr
+pantalons chino	articles d'habillement	fr
+tenue	articles d'habillement	fr
+veste	articles d'habillement	fr
+vestes de travail	articles d'habillement	fr
+vêtement	articles d'habillement	fr
+vêtements de travail	articles d'habillement	fr
+carte électronique	composants électriques	fr
+composants électriques	composants électriques	fr
+composants électroniques	composants électriques	fr
+condensateurs	composants électriques	fr
+câbles	composants électriques	fr
+faisceaux	composants électriques	fr
+faisceaux de câbles	composants électriques	fr
+faisceaux moteur	composants électriques	fr
+kits photovoltaïques	composants électriques	fr
+kits photovoltaïques pour toitures	composants électriques	fr
+onduleur	composants électriques	fr
+onduleur hybride	composants électriques	fr
+bouteilles	emballages	fr
+boîtes	emballages	fr
+cartons	emballages	fr
+emballage	emballages	fr
+film	emballages	fr
+films d'emballage	emballages	fr
+flacons	emballages	fr
+sacs	emballages	fr
+comprimés	médicaments	fr
+comprimés pelliculés	médicaments	fr
+gélules	médicaments	fr
+médicaments	médicaments	fr
+sirop	médicaments	fr
+acier	pièces métalliques	fr
+brides	pièces métalliques	fr
+brides en acier	pièces métalliques	fr
+ferraille	pièces métalliques	fr
+pièces	pièces métalliques	fr
+pièces métalliques	pièces métalliques	fr
+pièces usinées	pièces métalliques	fr
+pièces usinées en a1uminium	pièces métalliques	fr
+pièces usinées en aluminium	pièces métalliques	fr
+support	pièces métalliques	fr
+support moteur	pièces métalliques	fr
+tôles	pièces métalliques	fr
+concentré de tomate	produits alimentaires	fr
+conserves	produits alimentaires	fr
+dattes	produits alimentaires	fr
+dattes conditionnées	produits alimentaires	fr
+huile	produits alimentaires	fr
+huile d'olive	produits alimentaires	fr
+huile d'olive extra vierge	produits alimentaires	fr
+produits alimentaires	produits alimentaires	fr
+semoule	produits alimentaires	fr
+électricité	énergie	fr
+énergie	énergie	fr

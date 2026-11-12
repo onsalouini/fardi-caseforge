@@ -16,6 +16,13 @@
 4. **remplacement** de droite à gauche dans chaque passage, pour que les offsets des mentions situées à gauche
    restent valides.
 
+Option ``generaliser`` (B12, ``configs/anonymization.yaml``, fausse par défaut) : les PRODUIT et EQUIPEMENT détectés
+(``detect.detect_generalisables``) qui ne chevauchent aucune mention sensible sont remplacés par leur famille
+(``generalisation.famille`` : « presse hydraulique 200 t » -> « presse », forme inconnue -> « [PRODUIT] ») ; même
+forme normalisée = même cluster (``generalisation.regrouper``), et le balayage cherche aussi ces formes, après les
+formes sensibles. Leurs caractères vont dans ``generalise_offsets``, pas dans ``masque_offsets`` : le taux de fuite
+et le sur-masquage gardent leur définition. Option fausse : sortie identique au Bronze (mêmes clés).
+
 ``masque_offsets`` (offsets des caractères masqués dans le texte ORIGINAL) alimente ``caseforge.eval.leak``.
 Chaque remplacement donne aussi sa position dans le texte anonymisé (``start_anonymise``, ``end_anonymise``).
 """
@@ -29,9 +36,11 @@ from collections.abc import Sequence
 from typing import Any
 
 from caseforge.anonymization.coref_simple import ETIQUETTES_COREF, Clusters, Mention, clusteriser
-from caseforge.anonymization.detect import detect_document, etendre_montants
+from caseforge.anonymization.detect import detect_document, detect_generalisables, etendre_montants, lang_passage
+from caseforge.anonymization.generalisation import accorder_casse, famille, regrouper
 from caseforge.anonymization.policy import Politique, charger_politique
 from caseforge.extraction.rules.lexicons import APRES_MOT, avant_mot, est_arabe, motif_terme
+from caseforge.labels import GENERALISABLE_LABELS
 
 _SIGLE_COURT = re.compile(r"[A-Z0-9&]{2,6}")
 
@@ -187,7 +196,8 @@ def _balayer(
         for v, cs in variantes.items():
             if v not in formes and len(cs) == 1:
                 formes[v] = next(iter(cs))
-    for forme in sorted(formes, key=lambda f: (-len(f), f)):  # la plus longue d'abord
+    # la plus longue d'abord ; formes généralisables (B12) après les formes sensibles, qui gardent la priorité
+    for forme in sorted(formes, key=lambda f: (label_cluster[formes[f]] in GENERALISABLE_LABELS, -len(f), f)):
         motif = motif_balayage(forme)
         c = formes[forme]
         for ip, t in enumerate(textes):
@@ -251,6 +261,8 @@ def anonymize_document(
     balayage: bool | None = None,
     extension_montants: bool | None = None,
     balayage_renforce: bool | None = None,
+    generaliser: bool | None = None,
+    detections_generalisables: list[list[dict]] | None = None,
 ) -> dict[str, Any]:
     """Anonymise un document : ``{doc_id, backend, options, passages, remplacements, journal}``.
 
@@ -260,12 +272,17 @@ def anonymize_document(
     ``detections`` (sortie de ``detect_document``) évite de relancer la détection pour les ablations.
     ``extension_montants`` étend les DONNEE_SENSIBLE détectées au montant complet (``etendre_montants``), sauf pour
     le backend ``gold``, qui reste la borne haute.
+    ``generaliser`` (B12, par défaut l'option de la politique) remplace les PRODUIT et EQUIPEMENT par leur famille ;
+    ``detections_generalisables`` (sortie de ``detect_generalisables``) évite de relancer leur détection. Option
+    active : ``options["generaliser"]``, ``generalise_offsets`` par passage et une étape ``generalisation`` au
+    journal ; option inactive : aucune de ces clés.
     """
     pol = politique or charger_politique()
     coref = pol.options["coreference"] if coreference is None else coreference
     balai = pol.options["balayage"] if balayage is None else balayage
     ext = pol.options["extension_montants"] if extension_montants is None else extension_montants
     renf = pol.options["balayage_renforce"] if balayage_renforce is None else balayage_renforce
+    gen = pol.options.get("generaliser", False) if generaliser is None else generaliser
     passages = doc["passages"]
     textes = [p["text"] for p in passages]
     dets = detections if detections is not None else detect_document(doc, backend)
@@ -284,8 +301,24 @@ def anonymize_document(
     for m in mentions:
         compte[m.label] += 1
     journal.append({"etape": "detection", "backend": backend, "mentions": dict(sorted(compte.items()))})
+    if gen:
+        gdets = (
+            detections_generalisables if detections_generalisables is not None else detect_generalisables(doc, backend)
+        )
+        compte_gen: dict[str, int] = defaultdict(int)
+        for ip, ds in enumerate(gdets):
+            for d in ds:
+                if any(d["start"] < s["end"] and s["start"] < d["end"] for s in dets[ip]):
+                    continue  # chevauche une mention sensible : le pseudonyme ou le masque l'emporte
+                mentions.append(Mention(ip, d["start"], d["end"], d["label"], textes[ip][d["start"] : d["end"]]))
+                systemes.append(d.get("systemes", []))
+                origines.append("detection")
+                compte_gen[d["label"]] += 1
+        journal.append({"etape": "generalisation", "mentions": dict(sorted(compte_gen.items()))})
 
     clusters = clusteriser(textes, mentions, coref)
+    if gen:
+        clusters = Clusters(regrouper(mentions, clusters.ids), clusters.sigles)
     n_clusters = len({c for m, c in zip(mentions, clusters.ids, strict=True) if m.label in ETIQUETTES_COREF})
     journal.append({"etape": "coreference", "active": coref, "clusters": n_clusters, "sigles": len(clusters.sigles)})
 
@@ -302,6 +335,10 @@ def anonymize_document(
     journal.append({"etape": "balayage", "active": balai, "ajouts": origines.count("balayage")})
 
     pseudos = _pseudonymes(mentions, ids, pol, ETIQUETTES_COREF)
+    familles: dict[int, str] = {}  # cluster généralisable -> famille, d'après sa première mention détectée
+    for m, c in zip(mentions, ids, strict=True):
+        if m.label in GENERALISABLE_LABELS and c not in familles:
+            familles[c] = famille(m.label, m.surface, lang_passage(doc, passages[m.passage]))
     par_passage: dict[int, list[int]] = defaultdict(list)
     for i, m in enumerate(mentions):
         par_passage[m.passage].append(i)
@@ -310,17 +347,32 @@ def anonymize_document(
     for ip, p in enumerate(passages):
         idx = sorted(par_passage.get(ip, []), key=lambda i: mentions[i].start)
         spans = [
-            (m.start, m.end, pseudos.get(ids[i]) or pol.masque_donnee(m.surface)) for i in idx for m in (mentions[i],)
+            (
+                m.start,
+                m.end,
+                accorder_casse(m.surface, familles[ids[i]])
+                if m.label in GENERALISABLE_LABELS
+                else pseudos.get(ids[i]) or pol.masque_donnee(m.surface),
+            )
+            for i in idx
+            for m in (mentions[i],)
         ]
         texte, positions = remplacer(p["text"], spans)
+        generalise = [mentions[i].label in GENERALISABLE_LABELS for i in idx]
         sortie.append(
             {
                 "passage_id": p["passage_id"],
                 "text": p["text"],
                 "text_anonymise": texte,
-                "masque_offsets": sorted({k for s, e, _ in spans for k in range(s, e)}),
+                "masque_offsets": sorted(
+                    {k for (s, e, _), g in zip(spans, generalise, strict=True) if not g for k in range(s, e)}
+                ),  # fmt: skip
             }
         )
+        if gen:
+            sortie[-1]["generalise_offsets"] = sorted(
+                {k for (s, e, _), g in zip(spans, generalise, strict=True) if g for k in range(s, e)}
+            )
         for i, (s, e, r), (ns, ne) in zip(idx, spans, positions, strict=True):
             remplacements.append(
                 {
@@ -337,10 +389,18 @@ def anonymize_document(
                     "systemes": systemes[i],
                 }
             )
+    options: dict[str, bool] = {
+        "coreference": coref,
+        "balayage": balai,
+        "extension_montants": ext,
+        "balayage_renforce": renf,
+    }
+    if gen:
+        options["generaliser"] = True
     return {
         "doc_id": doc["doc_id"],
         "backend": backend,
-        "options": {"coreference": coref, "balayage": balai, "extension_montants": ext, "balayage_renforce": renf},
+        "options": options,
         "passages": sortie,
         "remplacements": remplacements,
         "journal": journal,

@@ -1,0 +1,313 @@
+{
+ "fr": {
+  "doc_id": "syn_fr_b12",
+  "backend": "gold",
+  "options": {
+   "coreference": true,
+   "balayage": true,
+   "extension_montants": true,
+   "balayage_renforce": true
+  },
+  "passages": [
+   {
+    "passage_id": "syn_fr_b12_p000",
+    "text": "Zitex Textiles Group exploite une presse hydraulique 200 t et une rameuse sur son site de Gabès.",
+    "text_anonymise": "[ENTREPRISE_A] exploite une presse hydraulique 200 t et une rameuse sur son site de [SITE_1].",
+    "masque_offsets": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     90,
+     91,
+     92,
+     93,
+     94
+    ]
+   },
+   {
+    "passage_id": "syn_fr_b12_p001",
+    "text": "La presse hydraulique 200 t tombe en panne ; Mme Dorra Belhadj suit les jeans stretch et le gyrobroyeur.",
+    "text_anonymise": "La presse hydraulique 200 t tombe en panne ; [PERSONNE_1] suit les jeans stretch et le gyrobroyeur.",
+    "masque_offsets": [
+     45,
+     46,
+     47,
+     48,
+     49,
+     50,
+     51,
+     52,
+     53,
+     54,
+     55,
+     56,
+     57,
+     58,
+     59,
+     60,
+     61
+    ]
+   }
+  ],
+  "remplacements": [
+   {
+    "passage_id": "syn_fr_b12_p000",
+    "original": "Zitex Textiles Group",
+    "remplacement": "[ENTREPRISE_A]",
+    "label": "ORG",
+    "start": 0,
+    "end": 20,
+    "start_anonymise": 0,
+    "end_anonymise": 14,
+    "cluster": 0,
+    "origine": "detection",
+    "systemes": [
+     "gold"
+    ]
+   },
+   {
+    "passage_id": "syn_fr_b12_p000",
+    "original": "Gabès",
+    "remplacement": "[SITE_1]",
+    "label": "SITE",
+    "start": 90,
+    "end": 95,
+    "start_anonymise": 84,
+    "end_anonymise": 92,
+    "cluster": 1,
+    "origine": "detection",
+    "systemes": [
+     "gold"
+    ]
+   },
+   {
+    "passage_id": "syn_fr_b12_p001",
+    "original": "Mme Dorra Belhadj",
+    "remplacement": "[PERSONNE_1]",
+    "label": "PERSONNE",
+    "start": 45,
+    "end": 62,
+    "start_anonymise": 45,
+    "end_anonymise": 57,
+    "cluster": 2,
+    "origine": "detection",
+    "systemes": [
+     "gold"
+    ]
+   }
+  ],
+  "journal": [
+   {
+    "etape": "detection",
+    "backend": "gold",
+    "mentions": {
+     "ORG": 1,
+     "PERSONNE": 1,
+     "SITE": 1
+    }
+   },
+   {
+    "etape": "coreference",
+    "active": true,
+    "clusters": 3,
+    "sigles": 0
+   },
+   {
+    "etape": "balayage",
+    "active": true,
+    "ajouts": 0
+   }
+  ]
+ },
+ "ar": {
+  "doc_id": "syn_ar_b12",
+  "backend": "gold",
+  "options": {
+   "coreference": true,
+   "balayage": true,
+   "extension_montants": true,
+   "balayage_renforce": true
+  },
+  "passages": [
+   {
+    "passage_id": "syn_ar_b12_p000",
+    "text": "تستعمل شركة الساحل للبلاستيك آلة الحقن 350 طن لإنتاج قوارير البلاستيك في مصنع صفاقس.",
+    "text_anonymise": "تستعمل [ENTREPRISE_A] آلة الحقن 350 طن لإنتاج قوارير البلاستيك في مصنع [SITE_1].",
+    "masque_offsets": [
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     78,
+     79,
+     80,
+     81,
+     82
+    ]
+   },
+   {
+    "passage_id": "syn_ar_b12_p001",
+    "text": "وتعطلت آلة الحقن 350 طن مرتين هذا الشهر.",
+    "text_anonymise": "وتعطلت آلة الحقن 350 طن مرتين هذا الشهر.",
+    "masque_offsets": []
+   }
+  ],
+  "remplacements": [
+   {
+    "passage_id": "syn_ar_b12_p000",
+    "original": "شركة الساحل للبلاستيك",
+    "remplacement": "[ENTREPRISE_A]",
+    "label": "ORG",
+    "start": 7,
+    "end": 28,
+    "start_anonymise": 7,
+    "end_anonymise": 21,
+    "cluster": 0,
+    "origine": "detection",
+    "systemes": [
+     "gold"
+    ]
+   },
+   {
+    "passage_id": "syn_ar_b12_p000",
+    "original": "صفاقس",
+    "remplacement": "[SITE_1]",
+    "label": "SITE",
+    "start": 78,
+    "end": 83,
+    "start_anonymise": 71,
+    "end_anonymise": 79,
+    "cluster": 1,
+    "origine": "detection",
+    "systemes": [
+     "gold"
+    ]
+   }
+  ],
+  "journal": [
+   {
+    "etape": "detection",
+    "backend": "gold",
+    "mentions": {
+     "ORG": 1,
+     "SITE": 1
+    }
+   },
+   {
+    "etape": "coreference",
+    "active": true,
+    "clusters": 2,
+    "sigles": 0
+   },
+   {
+    "etape": "balayage",
+    "active": true,
+    "ajouts": 0
+   }
+  ]
+ },
+ "en": {
+  "doc_id": "lib_en_b12",
+  "backend": "gold",
+  "options": {
+   "coreference": true,
+   "balayage": true,
+   "extension_montants": true,
+   "balayage_renforce": true
+  },
+  "passages": [
+   {
+    "passage_id": "lib_en_b12_p000",
+    "text": "Sahel Plastics runs a 200 t hydraulic press and a blow moulder to make PET bottles and scented soaps.",
+    "text_anonymise": "[ENTREPRISE_A] runs a 200 t hydraulic press and a blow moulder to make PET bottles and scented soaps.",
+    "masque_offsets": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13
+    ]
+   }
+  ],
+  "remplacements": [
+   {
+    "passage_id": "lib_en_b12_p000",
+    "original": "Sahel Plastics",
+    "remplacement": "[ENTREPRISE_A]",
+    "label": "ORG",
+    "start": 0,
+    "end": 14,
+    "start_anonymise": 0,
+    "end_anonymise": 14,
+    "cluster": 0,
+    "origine": "detection",
+    "systemes": [
+     "gold"
+    ]
+   }
+  ],
+  "journal": [
+   {
+    "etape": "detection",
+    "backend": "gold",
+    "mentions": {
+     "ORG": 1
+    }
+   },
+   {
+    "etape": "coreference",
+    "active": true,
+    "clusters": 1,
+    "sigles": 0
+   },
+   {
+    "etape": "balayage",
+    "active": true,
+    "ajouts": 0
+   }
+  ]
+ }
+}

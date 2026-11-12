@@ -24,6 +24,11 @@ donnee_sensible:
 coreference: true   # coref_simple : formes normalisées, sigles, nom de famille seul, initiales
 balayage: true      # second passage : formes déjà remplacées retrouvées ailleurs dans le document
 balayage_longueur_min: 3   # caractères non blancs d'une forme pour qu'elle soit recherchée (sigles : 2)
+# B12 (Silver) : généralisation des indices rares. Vrai : les PRODUIT et EQUIPEMENT détectés sont remplacés par leur
+# famille (data/lexicons/familles_produits.txt, categories_equipements.txt, générés depuis le train par
+# scripts/b12_lexiques.py ; forme inconnue -> [PRODUIT] / [EQUIPEMENT]), avec coréférence et balayage.
+# Faux par défaut : sortie identique au Bronze. Non mesuré sur le dev à ce stade.
+generaliser: false
 # B6c : second passage renforcé (variantes sans article, ORG sans le pays, nom de famille seul, translittération
 # simple arabe <-> latin ; caseforge.anonymization.anonymizer.variantes_balayage, squelette_mot).
 balayage_renforce: true
