@@ -18,6 +18,15 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-13 · Ons · Lot D · Silver étape 2 : schéma « champs » (le LLM extrait, le code compose)
+- `generation/llm.py --schema champs` (commit `b125fd9`), Colab T4, **dev**, graine 42, glouton, 3 exemples du train (même langue / format), entités de référence, contrôle d'ancrage, sans complétion. Sortie `generation/sorties/llm_champs_dev_s42.jsonl` + journal (non versionnés) ; évaluation reproduite en local à l'identique.
+- Plafond de l'approche (champs extraits des références puis recomposés, sans LLM) : F1 1,00 au dev, 1,00 au train (après normalisation du bruit OCR arabe dans le contrôle d'ancrage ; 0,98 sans).
+- Résultat : éléments P 0,82 ; R 0,93 ; **F1 0,88** (étape 1 : 0,70 ; gabarit v2 : **0,93**) ; citations 0,85 / 0,92 (gabarit 0,90 / 0,81) ; complétude 99 % ; 0 fuite. Par langue : fr 0,84 ; ar 0,86 ; en 0,93. Par source : syn_ 0,91 (gabarit 0,97) ; lib_ 0,67 (gabarit 0,71 ; étape 1 : 0,86). Par rubrique : contexte 0,98 ; objectifs 0,86 ; données 0,77 ; contraintes 1,00.
+- Journal : 0 repli, 0 nouvel essai, 3 valeurs retirées (non ancrées), 4 citations corrigées, 45,3 s par document.
+- Analyse des 44 erreurs (classement manuel) : textes libres forcés dans le moule du gabarit 15 (les 3 exemples choisis par format sont des documents simulés) ; doublons d'une donnée déjà composée 12 (« extractions de l'ERP » 6, « relevés du poste… » 6) ; suivi du projet recopié comme objectif (« Le projet est suivi par [PERSONNE_1] ») 7 ; historique rangé dans les données 3 ; phrase de données entière recopiée 2 ; formation déjà suivie recopiée 2 ; démarche manquée (citée seulement dans la phrase de formation) 2 ; ERP omis 1.
+- Décision : étape 3 = nettoyages déterministes mesurés par rejeu (sans GPU), puis exemples choisis par similarité de texte pour que les textes libres reçoivent des exemples libres.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le notebook.
+
 ## 2026-11-12 · Ons · Lot D · Silver étape 1 : fiche par LLM extractif (Qwen2.5-7B-Instruct 4 bits), résultat négatif
 - `generation/llm.py` (commit `db993fa`), Colab T4, **dev**, graine 42, décodage glouton, 3 exemples du train (même langue / format), guidage par entités métier non sensibles, contrôle d'ancrage (≥ 80 % des mots dans le passage cité), sans complétion ; entrées de référence (comme le gabarit à 0,93). Sortie `generation/sorties/llm_dev_s42.jsonl` (non versionnée), évaluée par `generation/evaluer.py`.
 - Éléments P 0,83 ; R 0,60 ; **F1 0,70** (gabarit v2 : 0,93) ; citations 0,94 / 0,61 ; complétude 85 % ; 0 fuite. Par langue : fr 0,67 ; ar 0,75 ; en 0,67. Par source : syn_ 0,67 ; **lib_ 0,86** (gabarit v2 : 0,71). Par rubrique : contexte 1,00 ; contraintes 1,00 ; données 0,57 ; **objectifs 0,13** (R 0,08).
