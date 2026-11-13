@@ -75,6 +75,10 @@ def spans_depuis_sous_mots(texte: str, offsets: list[tuple[int, int]], tags: lis
     return [sp for sp in spans if sp["start"] < sp["end"]]
 
 
+def suffixe(a) -> str:
+    return ("_ext" if a.externe else "") + ("_gel" if a.geler_embeddings else "")
+
+
 def charger(split: str, externe: bool = False) -> list[dict]:
     rows = [json.loads(l) for l in open(f"data/final/{split}.jsonl", encoding="utf-8")]
     if externe:
@@ -112,6 +116,8 @@ def entrainer(a) -> None:
     ds_train, ds_dev = encoder(train), encoder(dev)
     model = AutoModelForTokenClassification.from_pretrained(
         a.model, num_labels=len(TAGS), id2label=dict(enumerate(TAGS)), label2id=T2I, use_safetensors=True)
+    if a.geler_embeddings:  # 192 M des 278 M paramètres : permet l'entraînement sur un GPU de 4 Go
+        model.base_model.embeddings.word_embeddings.weight.requires_grad_(False)
 
     class MaskedTrainer(Trainer):
         def compute_loss(self, model, inputs, return_outputs=False, **kw):
@@ -124,8 +130,8 @@ def entrainer(a) -> None:
     base = DataCollatorForTokenClassification(tok)
 
     def collate(features):
-        tm = torch.tensor([f.pop("tag_mask") for f in features])
-        batch = base(features)
+        tm = torch.tensor([f["tag_mask"] for f in features])  # sans pop : les exemples sont réutilisés à chaque époque
+        batch = base([{k: v for k, v in f.items() if k != "tag_mask"} for f in features])
         batch["tag_mask"] = tm
         return batch
 
@@ -137,7 +143,7 @@ def entrainer(a) -> None:
         fn = ((lab != 0) & (pred != lab) & m).sum()
         return {"f1": float(2 * tp / max(2 * tp + fp + fn, 1))}
 
-    sortie = f"runs/xlmr_s{a.seed}{'_ext' if a.externe else ''}"
+    sortie = f"runs/xlmr_s{a.seed}{suffixe(a)}"
     args = TrainingArguments(output_dir=sortie, learning_rate=a.lr, per_device_train_batch_size=16,
                              per_device_eval_batch_size=32, num_train_epochs=a.epochs, warmup_ratio=0.1,
                              weight_decay=0.01, eval_strategy="epoch", save_strategy="epoch", save_total_limit=1,
@@ -159,7 +165,7 @@ def entrainer(a) -> None:
         tags = [TAGS[i] for i in logits.argmax(-1).tolist()]
         lignes.append({"passage_id": r["passage_id"], "entities": spans_depuis_sous_mots(r["text"], off, tags)})
     SORTIE.mkdir(parents=True, exist_ok=True)
-    f = SORTIE / f"xlmr_{split}_s{a.seed}{'_ext' if a.externe else ''}.jsonl"
+    f = SORTIE / f"xlmr_{split}_s{a.seed}{suffixe(a)}.jsonl"
     f.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in lignes), encoding="utf-8")
     print(f"-> {f}")
     from caseforge.eval.ner_eval import charger as ch, evaluer
@@ -171,18 +177,19 @@ def entrainer(a) -> None:
 def resumer(a) -> None:
     from caseforge.eval.ner_eval import charger as ch, evaluer
     gold = ch(f"data/final/{a.split}.jsonl")
-    suffixe = "_ext" if a.externe else ""
-    fichiers = [SORTIE / f"xlmr_{a.split}_s{g}{suffixe}.jsonl" for g in (13, 42, 2026)]
+    suf = suffixe(a)
+    fichiers = [SORTIE / f"xlmr_{a.split}_s{g}{suf}.jsonl" for g in (13, 42, 2026)]
     fichiers = [f for f in fichiers if f.exists()]
     runs = [evaluer(gold, ch(str(f))) for f in fichiers]
     cles = ["micro", "fr", "ar", "en", *LABELS]
-    L = [f"# Lot C · XLM-R, NER des 9 entités ({a.split}{', avec corpus externes' if a.externe else ''})", "",
+    L = [f"# Lot C · XLM-R, NER des 9 entités ({a.split}{', avec corpus externes' if a.externe else ''}"
+         f"{', embeddings des mots gelés' if a.geler_embeddings else ''})", "",
          f"{len(runs)} graines ({', '.join(f.name for f in fichiers)}) ; F1 sur entités exactes au niveau des mots "
          "(harnais commun) ; moyenne ± écart-type.", "", "| | F1 |", "|---|---|"]
     for k in cles:
         v = [r.get(k, (0, 0, 0))[2] for r in runs]
         L.append(f"| {k} | {mean(v):.3f} ± {pstdev(v):.3f} |")
-    out = Path(f"reports/lotC_xlmr_{a.split}{suffixe}.md")
+    out = Path(f"reports/lotC_xlmr_{a.split}{suf}.md")
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     print(f"-> {out}")
@@ -195,6 +202,7 @@ def main() -> None:
     ap.add_argument("--epochs", type=float, default=10)
     ap.add_argument("--lr", type=float, default=3e-5)
     ap.add_argument("--externe", action="store_true")
+    ap.add_argument("--geler-embeddings", action="store_true", help="gèle les embeddings des mots (GPU de 4 Go)")
     ap.add_argument("--split", default="dev", choices=["dev", "test"], help="test : UNE SEULE FOIS, à la fin du lot")
     ap.add_argument("--resume", action="store_true", help="résumer les 3 graines déjà calculées")
     a = ap.parse_args()

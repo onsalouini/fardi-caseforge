@@ -38,7 +38,7 @@ def main() -> None:
     gold = charger_dev()
     systemes = dict(SYSTEMES)
     for f in sorted(Path("reports/predictions").glob("xlmr_dev_s*.jsonl")):
-        systemes[f"XLM-R {f.stem.split('_')[-1]} (Lot C)"] = str(f)
+        systemes[f"XLM-R {f.stem.removeprefix('xlmr_dev_')} (Lot C)"] = str(f)
     preds = {nom: completer_predictions(gold, read_jsonl(p))[0] for nom, p in systemes.items() if Path(p).exists()}
     res = {nom: evaluate(gold, p, absents_vides=True)["token"] for nom, p in preds.items()}
     noms = list(res)
@@ -76,6 +76,35 @@ def main() -> None:
             print(f"{n:28} vs CRF {avg:8} écart {b['delta']:+.3f} IC [{b['ic95'][0]:+.3f} ; {b['ic95'][1]:+.3f}] p {b['p_value']:.4f}")
 
     b3, b3e = "B3 règles spaCy (Lot B, optimiste)", "B3 sans les mots du dev (Lot B, B7b)"
+    xlmr = [n for n in noms if n.startswith("XLM-R")]
+    if xlmr and b3e in preds:
+        L += ["", f"## 3 bis. Bootstrap apparié XLM-R contre {b3e} (référence équitable)", "",
+              "Même protocole ; écart = F1(XLM-R) − F1(B3 B7b) ; p bilatérale (deux fois la plus petite queue) ; "
+              "conclusion tirée de l'IC 95 %.", "",
+              "| Comparaison | Moyenne | Écart | IC 95 % | p | Conclusion |", "|---|---|---|---|---|---|"]
+        for n in xlmr:
+            for avg in ("micro", "macro_9"):
+                b = paired_bootstrap(gold, preds[b3e], preds[n], mode="token", average=avg)
+                p_bi = min(1.0, 2 * min(b["p_value"], 1 - b["p_value"]))
+                concl = ("meilleur que B3" if b["ic95"][0] > 0 else
+                         "moins bon que B3" if b["ic95"][1] < 0 else "pas de différence démontrée")
+                L.append(f"| {n} vs B3 B7b | {avg} | {b['delta']:+.3f} | [{b['ic95'][0]:+.3f} ; {b['ic95'][1]:+.3f}] | "
+                         f"{p_bi:.4f} | {concl} |")
+    paires = [(f"XLM-R s{g} (Lot C)", f"XLM-R s{g}_gel (Lot C)", "gelé vs complet") for g in (13, 42, 2026)]
+    paires += [(f"XLM-R s{g}_gel (Lot C)", f"XLM-R s{g}_ext_gel (Lot C)", "+ corpus externes") for g in (13, 42, 2026)]
+    paires = [p for p in paires if p[0] in preds and p[1] in preds]
+    if paires:
+        L += ["", "## 3 ter. Ablations XLM-R (bootstrap apparié, même graine)", "",
+              "Écart = F1(variante) − F1(référence) ; p bilatérale ; conclusion tirée de l'IC 95 %.", "",
+              "| Ablation | Variante vs référence | Moyenne | Écart | IC 95 % | p bilatérale | Conclusion |",
+              "|---|---|---|---|---|---|---|"]
+        for ref, var, lib in paires:
+            for avg in ("micro", "macro_9"):
+                b = paired_bootstrap(gold, preds[ref], preds[var], mode="token", average=avg)
+                p_bi = min(1.0, 2 * min(b["p_value"], 1 - b["p_value"]))
+                concl = ("gain" if b["ic95"][0] > 0 else "perte" if b["ic95"][1] < 0 else "pas de différence démontrée")
+                L.append(f"| {lib} | {var} vs {ref} | {avg} | {b['delta']:+.3f} | "
+                         f"[{b['ic95'][0]:+.3f} ; {b['ic95'][1]:+.3f}] | {p_bi:.4f} | {concl} |")
     mic = {n: res[n]["global"]["micro"]["f1"] for n in noms}
     prod = {n: res[n]["par_etiquette"].get("PRODUIT", {"f1": 0.0})["f1"] for n in noms}
     def fr(x: float) -> str:
