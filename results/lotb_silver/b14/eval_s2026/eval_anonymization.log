@@ -1,0 +1,4 @@
+[fichier · dev] fuite 3.8 % [1.3 % ; 6.8 %] · sur-masquage 11.5 % · F1 car. 0.767 · cohérence 87.7 % (3 s)
+[union_fichier · dev] fuite 3.3 % [0.9 % ; 5.7 %] · sur-masquage 13.3 % · F1 car. 0.745 · cohérence 78.5 % (3 s)
+[rules · train] 60 fuites · causes {'bordure : mention détectée mais span trop court': 39, 'DONNEE_SENSIBLE décrite sans chiffre (limite connue)': 14, 'entité jamais détectée dans le document': 5, 'variante non retrouvée : la même entité est masquée ailleurs dans le document': 2}
+Terminé en 9 s

@@ -18,6 +18,34 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-13 · Ali · Lot B Silver · B14 anonymisation avec XLM-R du Lot C (étape 3)
+- `python -m scripts.b14_xlmr` (nouveau) → `results/lotb_silver/b14_xlmr.md`, `results/lotb_silver/b14/b14_xlmr_dev.json`. **Split : dev** (21 documents, 171 passages, 213 occurrences sensibles) ; test gelé non lu. Harnais officiel `scripts/eval_anonymization.py` non modifié, sorties redirigées vers `results/lotb_silver/b14/eval_references/` (`rules`, `union`, `union_seuil`) et `eval_s13/`, `eval_s42/`, `eval_s2026/` (`fichier`, `union_fichier`) ; rien dans `results/lotb/`. Configuration Bronze inchangée ; seul le fichier de prédictions change (argument `fichier`).
+- Prédictions XLM-R (Lot C, non modifiées) : les **3 graines officielles** de `origin/lot-c-silver` (commit 9096adf ; même `caseforge/models/xlmr_ner.py` aux commits 87ead41 et 1c6901e, donc une même version du modèle). s42 = `reports/predictions/xlmr_dev_s42.jsonl`, committé tel quel, sha256 `0579350b17fbf3564bd9c55674a9d4774eada84d4b46f8d96cf2df8347998aa2` (copie de travail en CRLF ; contenu LF = blob Git du Lot C : `eea35a7570a2fcbcf97b3c1e0e9abd200804f89f082ee1eb401a99e48146893a`) ; s13 et s2026 copiés à l'identique (mêmes blobs Git) dans `results/lotb_silver/b14/lotc_9096adf/`, sha256 `7b7f45f564673453b24f7a3f592d737b4fee2cee9a5c390592f52b922eec57bf` et `f5557ff7d324c91e48dddbe289d2e75cb21091343deeef8ee8fa16f30105e27f`. Journal du Lot C (lecture seule) : point de contrôle choisi sur le dev pour chaque graine ; aucune version antérieure des prédictions mentionnée.
+- Contrôle des fichiers : 162 lignes, mêmes `passage_id` et même ordre que `crf_dev.jsonl`, même format, 0 entité hors texte ou d'étiquette inconnue ; entités sensibles 230 / 225 / 220 (s13 / s42 / s2026) ; entités d'un caractère 12 (8 sensibles) / 6 (1) / 6 (0) ; 1 chevauchement avec une entité sensible dans s13. F1 NER (mode token) 0,716 / 0,757 / 0,756, égale aux chiffres publiés par le Lot C. Les 9 passages dédoublonnés de `documents_dev.jsonl`, absents des fichiers, n'ont aucune entité sensible gold.
+- Correctif Lot B : une apostrophe étiquetée PERSONNE dans s13 donnait une clé de coréférence vide et faisait planter `coref_simple.clusteriser` (`IndexError`). Condition réordonnée (`len(c) >= 2 and _initiale(c[0])`), même résultat pour toute clé non vide ; test `test_clusteriser_personne_cle_vide`. Après le correctif, `rules`, `union` et `union_seuil` redonnent **exactement** l'étape 0 : 0 / 171 passage au masque différent ; `rules` 10,8 % / 2,6 % / 0,886, `union_seuil` 6,6 % / 21,9 % / 0,628, `union` 6,6 % / 27,2 % / 0,592.
+- **Résultat principal (3 graines, moyenne ± écart-type de population)** :
+  - `union_fichier(xlmr)` : fuite **2,5 ± 0,6 %** (s13 1,9 % [0,0 ; 4,1], s42 2,3 % [0,0 ; 5,2], s2026 3,3 % [0,9 ; 5,7]) ; totales / partielles 2,0 / 3,3 ; sur-masquage **14,7 ± 1,1 %** ; F1 caractère 0,706 ± 0,028.
+  - `fichier(xlmr)` seul : fuite 3,6 ± 0,2 %, sur-masquage 13,0 ± 1,1 %, F1 caractère 0,712 ± 0,042.
+  - Références : `union_seuil` 6,6 % / 21,9 % / 0,628 ; `union` 6,6 % / 27,2 % / 0,592.
+- Sur-masquage : `union_fichier` n'a pas de filtrage par seuil (les fichiers XLM-R n'ont pas de confiance), donc la comparaison juste est avec `union` (27,2 %) ; elle est donnée aussi avec `union_seuil` (21,9 %).
+- Bootstrap apparié par document (10 000 tirages, p bilatérale), `union_fichier` − référence :
+  - fuite : −4,7 / −4,2 / −3,3 points (s13 / s42 / s2026), mêmes valeurs contre `union_seuil` et contre `union` ; IC 95 % sous 0 pour les 3 graines (s2026 : [−6,9 ; −0,5]) ;
+  - sur-masquage contre `union_seuil` : −6,0 / −7,0 / −8,6 points ; contre `union` : −11,3 / −12,3 / −13,9 points ; tous les IC sous 0.
+- Ventilations de la fuite de `union_fichier`, moyenne sur les 3 graines :
+  - par étiquette : ORG 0,0 % (`rules` 10,0 %), PERSONNE 1,3 %, SITE 2,3 %, DONNEE_SENSIBLE 5,2 % (`rules` 9,4 %) ;
+  - par langue : fr 0,0 %, ar 3,9 %, en 3,8 % ;
+  - par source : syn 1,0 %, **lib 15,9 ± 2,2 %** (3 / 4 / 3 fuites sur 21, contre 7 pour `union_seuil` ; 3 documents : tendance seulement) ;
+  - passages mixtes : 5 occurrences, 0 fuite (n < 30).
+- Sur-masquage de `union_fichier` par langue et par source : fr 15,5 %, ar 12,2 %, en 16,4 % ; syn 15,2 %, lib 11,4 %. F1 au caractère : fr 0,799, ar 0,626, en 0,686 ; syn 0,714, lib 0,642.
+- Indice du Lot C vérifié :
+  - ORG : 0 / 0 / 0 fuite, contre 4 pour `rules` (40 occurrences, écart non testé seul) ;
+  - DONNEE_SENSIBLE : 3 / 4 / 3 fuites, contre 6 pour `rules`, et ce sont exactement celles de `fichier` seul (les règles n'en rattrapent aucune) ;
+  - F1 au caractère DONNEE_SENSIBLE : `union_fichier` 0,593 contre 0,951 pour `rules` (`union_seuil` 0,060) : les spans fusionnés dégradent les bornes exactes des règles.
+- s42 seule, à part et **optimiste** (graine de meilleure F1 au dev, point de contrôle choisi sur le dev) : `union_fichier` 2,3 % / 14,9 % / 0,684.
+- Fichiers reçus avant la publication (`results/lotb_silver/b14/xlmr_dev_s13_recu.jsonl`, sha256 `e4041ebc9d1f61a9992b796d5849ea58b3a4ab1c0c2a630e58fc02e4c761eab6` ; `xlmr_dev_s42_recu.jsonl`, sha256 `e43cfbd76de6a57d74ef1f1698fabc7d6142a81f8372b404883a81dd8fc3d14b`) : **écartés**, provenance non établie. Ils ne correspondent à aucun des 9 fichiers XLM-R du Lot C (le plus proche diffère sur 65 et 62 passages sur 162) ; aucune conclusion n'en est tirée.
+- Conclusion : sur le dev, `union_fichier(xlmr)` baisse à la fois la fuite et le sur-masquage par rapport à `union_seuil` et à `union`, pour les 3 graines. Limites : 21 documents, points de contrôle choisis sur le dev par le Lot C, F1 au caractère DONNEE_SENSIBLE dégradée. Le défaut reste `union_seuil` : aucune décision de changement n'est prise ici.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts et les tests.
+
 ## 2026-11-13 · Ali · Lot B Silver · B15 règles PRODUIT et CONTRAINTE arabes mises au point sur le train (étape 4) — résultat négatif au dev
 - Mise au point et décisions sur le **train** seulement (5 plis groupés par `doc_id`, graine 42). Dev mesuré **une fois**, règles figées ; test gelé non lu. Rapport : `results/lotb_silver/b15_regles_train.md` ; sorties : `results/lotb_silver/b15/`. Scripts : `scripts/b15_regles_train.py`, `scripts/b15_eval_dev.py`, `scripts/b15_anonymisation_dev.py`. Mode `token` de `ner_metrics` (cfdata, `absents_vides=True`).
 - Analyse d'erreurs du train, montrée avant tout changement. Référence B7b (B7 sans les éléments vus au dev), identique à B7 au train. PRODUIT 0,952 : 9 manqués sur 128, dont 8 en `lib_` et 1 en `syn_` (apposition coupée par une faute d'OCR). CONTRAINTE arabes : 46 / 46 exactes ; aucun cas « و / أو / ثم + verbe ou أن » au train.

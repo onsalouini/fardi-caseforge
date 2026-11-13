@@ -223,7 +223,7 @@ def clusteriser(textes: Sequence[str], mentions: Sequence[Mention], actif: bool 
         if mentions[i].label != "PERSONNE":
             continue
         c = cles[i]
-        if _initiale(c[0]) and len(c) >= 2:
+        if len(c) >= 2 and _initiale(c[0]):  # clé vide possible (mention réduite à une ponctuation, B14)
             cands = {uf.find(j) for j in complets if proches(cles[j][1:], c[1:]) and cles[j][0].startswith(c[0])}
         elif c and not _initiale(c[0]):
             cands = {uf.find(j) for j in complets if j != i and (proches(cles[j][1:], c) or proches(cles[j][-1:], c))}
