@@ -101,13 +101,16 @@ portent une valeur. Contrôle de sur-ajustement des règles de nettoyage (étape
 |---|---|---|---|---|---|
 | Hasard, même format d'abord (3 graines) | 0,06 | 0,79 | **0,79** | **0,944 ± 0,003** | – |
 | **RAG dense** (LaBSE, texte anonymisé) | **0,29** | **0,90** | 0,25 | 0,934 | −0,010 [−0,028 ; +0,003] |
+| **RAG dense + reranking** (cross-encoder mMiniLM, 10 candidats) | 0,11 | 0,86 | 0,35 | **0,945** | +0,001 [−0,009 ; +0,011] |
 
 Les trois premières colonnes donnent la part des 3 exemples qui partagent la propriété du document (métriques de
 retrieval). Par langue (RAG) : fr 0,930 ; ar 0,909 ; en 0,964 ; par source : syn_ 0,972 ; lib_ 0,682 ; 0 fuite. Le
 retrieval dense trouve des cas plus proches **par le sujet** (5 fois plus du même secteur, davantage de textes libres pour
 les textes libres) mais perd la proximité **de forme** (courriel, PV, formulaire), qui guide davantage l'extraction
-structurée : **pas de gain**, résultat négatif. La configuration principale garde les exemples « format » ; le reranking
-par cross-encoder est codé et testé mais n'a pas été exécuté (hors exigences du Silver).
+structurée : **pas de gain**, résultat négatif. Le reranking par cross-encoder rapproche à nouveau la forme (0,35) et
+remonte la F1 à 0,945 (+0,011 contre le RAG dense, IC [−0,003 ; +0,028]), sans dépasser le tirage par format. Par langue
+(reranking) : fr 0,956 ; ar 0,907 ; en 0,972 ; par source : syn_ 0,983 ; lib_ 0,698 ; 0 fuite. Aucun écart n'est
+significatif sur 21 documents : la configuration principale garde les exemples « format ».
 
 ## 3. Ablations (dev, graine 42)
 
@@ -115,6 +118,7 @@ par cross-encoder est codé et testé mais n'a pas été exécuté (hors exigenc
 |---|---|---|---|
 | **Version finale** (entrées de référence) | **0,940** | – | |
 | Exemples retrouvés par RAG dense au lieu du hasard (`--choix-exemples dense`, génération GPU) | 0,934 | −0,006 (IC [−0,021 ; +0,006]) | pas de gain : le retrieval privilégie le sujet, pas la forme (section 2.4) |
+| RAG dense + reranking (`--choix-exemples dense_rerank`, génération GPU) | 0,945 | +0,005 | au niveau du hasard (section 2.4) |
 | Sans guidage par les entités (`--sans-entites`, génération GPU) | 0,936 | −0,004 (IC [−0,024 ; +0,034], p = 0,38) | **aucun apport mesurable** du guidage avec les entités de référence ; en : 0,991 sans contre 0,955 avec ; fr : 0,927 contre 0,956 |
 | Entrées du pipeline au lieu de la référence (génération GPU) | 0,874 | −0,066 (IC [−0,105 ; −0,033], p < 0,001) | coût de l'extraction et de l'anonymisation du Lot B |
 | Sans nettoyage (`--sans-nettoyage`, rejeu) | 0,86 | −0,08 | le nettoyage est la pièce clé (précision 0,80 → 0,93) |

@@ -110,8 +110,8 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
   0,90 ; contraintes 1,00. Rappel des citations 0,91 (gabarit 0,81).
 - **RAG dense** (ablation de retrieval, `--choix-exemples dense`) : exemples du prompt retrouvés par LaBSE sur le texte
   anonymisé au lieu du hasard : 0,934 contre 0,944 ± 0,003 (Δ −0,010, IC [−0,028 ; +0,003]) ; même secteur 0,29 contre
-  0,06, mais même format 0,25 contre 0,79 : pas de gain, configuration principale inchangée. Reranking par cross-encoder
-  codé, non exécuté.
+  0,06, mais même format 0,25 contre 0,79 : pas de gain. Avec reranking par cross-encoder : 0,945 (au niveau du hasard,
+  +0,011 contre le RAG dense, non significatif). Configuration principale inchangée.
 - **Ablations** : sans guidage par les entités 0,936 (pas d'apport mesurable, p = 0,38) ; entrées du pipeline 0,874
   (−0,066) ; sans nettoyage 0,86 ; sans démarche guidée 0,93 ; sans contrôle d'ancrage 0,94 (même F1 : le contrôle sert la
   fidélité). Contrôle sur le train (66 documents) : 0,94 contre 0,90 pour le gabarit.
