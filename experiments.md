@@ -18,6 +18,13 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-13 · Ons · Lot D · Silver étape 3a : nettoyage des doublons et du suivi (rejeu, sans GPU)
+- `generation/llm.py` (commit `aa65fc8`) rejoué sur les réponses du LLM de l'étape 2 (`--rejouer`, mêmes prompts), **dev**, graine 42. Deux règles générales : objectif recopié qui nomme un responsable (`[PERSONNE_n]`) retiré (règle du gabarit v2) ; donnée recopiée qui répète une donnée déjà composée (équipement relevé, valeur d'historique, mot-clé ERP / non-conformité) retirée.
+- F1 éléments : sans nettoyage 0,88 → **avec nettoyage 0,93** (P 0,93 ; R 0,93), égal au gabarit v2 (0,93) ; citations 0,85 / **0,92** (gabarit 0,90 / 0,81) ; 0 fuite. Par langue : fr 0,93 ; ar 0,91 (gabarit 0,89) ; en 0,96. Par source : syn_ 0,97 (gabarit 0,97) ; lib_ 0,68 (gabarit 0,71). Par rubrique : objectifs 0,86 → 0,94 ; données 0,77 → 0,87.
+- Complétion (`--completer`) sur les mêmes réponses : 0,93, une contrainte ajoutée à tort (contraintes 0,99) : **écartée**.
+- Les règles viennent d'erreurs du dev : contrôle prévu sur le train à l'étape 3b (gabarit v2 au train : 0,90).
+- Essai d'aiguillage texte libre / document au canevas par similarité TF-IDF avec les documents simulés du train : séparation parfaite au train (libres ≤ 0,105, simulés ≥ 0,275) mais chevauchement au dev (simulés dès 0,146, libres jusqu'à 0,26) : **abandonné** au profit d'exemples mixtes (un texte libre parmi les 3 exemples, étape 3b).
+
 ## 2026-11-13 · Ons · Lot D · Silver étape 2 : schéma « champs » (le LLM extrait, le code compose)
 - `generation/llm.py --schema champs` (commit `b125fd9`), Colab T4, **dev**, graine 42, glouton, 3 exemples du train (même langue / format), entités de référence, contrôle d'ancrage, sans complétion. Sortie `generation/sorties/llm_champs_dev_s42.jsonl` + journal (non versionnés) ; évaluation reproduite en local à l'identique.
 - Plafond de l'approche (champs extraits des références puis recomposés, sans LLM) : F1 1,00 au dev, 1,00 au train (après normalisation du bruit OCR arabe dans le contrôle d'ancrage ; 0,98 sans).
