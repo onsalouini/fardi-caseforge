@@ -41,7 +41,7 @@ Script : `generation/recherche_dense.py`. Modèle dense : `sentence-transformers
 | texte | hybride | source=lib | 0.60 | 0.14 | 0.33 | 0.50 | 1 |
 | texte | hybride | source=syn | 0.19 | 0.15 | 0.10 | 0.44 | 18 |
 
-## Comparaison à la référence Bronze (metier/tfidf), bootstrap apparié sur les requêtes (10 000 tirages, graine 42)
+## Comparaison à la référence Bronze (metier/tfidf), bootstrap apparié (10 000 tirages, graine 42)
 
 | Configuration | Δ P@5 [IC 95 %] | p (P@5) | Δ MRR [IC 95 %] | p (MRR) |
 |---|---|---|---|---|

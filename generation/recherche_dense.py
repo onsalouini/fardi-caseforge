@@ -11,7 +11,7 @@ Représentations : `metier` (termes PRODUIT / EQUIPEMENT / PROCESSUS / INDICATEU
 (texte complet des passages, avec les entités sensibles remplacées par leur étiquette).
 
     pip install sentence-transformers
-    python generation/recherche_dense.py                                   # tous les résultats -> reports/lot_e_recherche_dense.md
+    python generation/recherche_dense.py            # -> reports/lot_e_recherche_dense.md
     python generation/recherche_dense.py --modele sentence-transformers/LaBSE
 """
 
@@ -40,12 +40,7 @@ def charger(chemin: str) -> list[dict[str, Any]]:
 
 def texte_metier(doc: dict[str, Any]) -> str:
     """Termes métier du document (même représentation que le Bronze)."""
-    return " ".join(
-        e["text"]
-        for p in doc["passages"]
-        for e in p["entities"]
-        if e["label"] in METIER
-    )
+    return " ".join(e["text"] for p in doc["passages"] for e in p["entities"] if e["label"] in METIER)
 
 
 def texte_masque(doc: dict[str, Any]) -> str:
@@ -74,12 +69,8 @@ def scores_dense(req: list[str], idx: list[str], modele: str) -> np.ndarray:
     m = SentenceTransformer(modele)
     # les modèles e5 attendent un préfixe ; sans effet gênant pour les autres
     pref = "query: " if "e5" in modele else ""
-    e_req = m.encode(
-        [pref + t for t in req], normalize_embeddings=True, show_progress_bar=False
-    )
-    e_idx = m.encode(
-        [pref + t for t in idx], normalize_embeddings=True, show_progress_bar=False
-    )
+    e_req = m.encode([pref + t for t in req], normalize_embeddings=True, show_progress_bar=False)
+    e_idx = m.encode([pref + t for t in idx], normalize_embeddings=True, show_progress_bar=False)
     return e_req @ e_idx.T
 
 
@@ -93,7 +84,7 @@ def normaliser(s: np.ndarray) -> np.ndarray:
 def par_requete(
     scores: np.ndarray, dev: list[dict[str, Any]], train: list[dict[str, Any]]
 ) -> tuple[np.ndarray, np.ndarray]:
-    """P@K et rang réciproque de chaque requête qui a au moins un cas pertinent (même ordre pour toutes les méthodes)."""
+    """P@K et rang réciproque de chaque requête ayant un cas pertinent (même ordre pour toutes les méthodes)."""
     p, rr = [], []
     for i, d in enumerate(dev):
         pertinents = {j for j, t in enumerate(train) if t["secteur"] == d["secteur"]}
@@ -120,13 +111,9 @@ def bootstrap_apparie(
     )
 
 
-def evaluer(
-    scores: np.ndarray, dev: list[dict[str, Any]], train: list[dict[str, Any]]
-) -> dict[str, list[float]]:
+def evaluer(scores: np.ndarray, dev: list[dict[str, Any]], train: list[dict[str, Any]]) -> dict[str, list[float]]:
     """P@K, R@K, MRR par groupe (global, langue, source) ; renvoie aussi le hasard."""
-    res: dict[str, list[float]] = defaultdict(
-        lambda: [0.0, 0.0, 0.0, 0.0, 0.0]
-    )  # p, r, mrr, hasard, n
+    res: dict[str, list[float]] = defaultdict(lambda: [0.0, 0.0, 0.0, 0.0, 0.0])  # p, r, mrr, hasard, n
     for i, d in enumerate(dev):
         pertinents = {j for j, t in enumerate(train) if t["secteur"] == d["secteur"]}
         if not pertinents:
@@ -145,21 +132,14 @@ def evaluer(
     return res
 
 
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--modele", default="intfloat/multilingual-e5-small")
-    ap.add_argument("--out", default="reports/lot_e_recherche_dense.md")
-    args = ap.parse_args()
-
-    train = charger("data/final/documents_train.jsonl")
-    dev = charger("data/final/documents_dev.jsonl")
-
+def rapport(train: list[dict[str, Any]], dev: list[dict[str, Any]], modele: str, nom: str = "dev") -> list[str]:
+    """Compare TF-IDF, dense et hybride ; renvoie les lignes du rapport. `nom` : split des requêtes (dev)."""
     lignes = [
-        "# LOT E (Silver) : recherche de cas similaires, TF-IDF contre embeddings multilingues (dev)",
+        f"# LOT E (Silver) : recherche de cas similaires, TF-IDF contre embeddings multilingues ({nom})",
         "",
         (
-            f"Script : `generation/recherche_dense.py`. Modèle dense : `{args.modele}`. Index : {len(train)} documents du "
-            f"train ; requêtes : {len(dev)} documents du dev ; pertinent = même secteur. Hybride : alpha = 0,5 fixé "
+            f"Script : `generation/recherche_dense.py`. Modèle dense : `{modele}`. Index : {len(train)} documents du "
+            f"train ; requêtes : {len(dev)} documents du {nom} ; pertinent = même secteur. Hybride : alpha = 0,5 fixé "
             "à l'avance (non réglé sur le dev)."
         ),
         "",
@@ -170,7 +150,7 @@ def main() -> None:
     for nom_rep, rep in (("metier", texte_metier), ("texte", texte_masque)):
         req, idx = [rep(d) for d in dev], [rep(d) for d in train]
         s_t = scores_tfidf(req, idx)
-        s_d = scores_dense(req, idx, args.modele)
+        s_d = scores_dense(req, idx, modele)
         s_h = 0.5 * normaliser(s_t) + 0.5 * normaliser(s_d)
         for nom_m, s in (("tfidf", s_t), ("dense", s_d), ("hybride", s_h)):
             tous[f"{nom_rep}/{nom_m}"] = s
@@ -182,7 +162,7 @@ def main() -> None:
     ref_p, ref_rr = par_requete(tous["metier/tfidf"], dev, train)
     lignes += [
         "",
-        "## Comparaison à la référence Bronze (metier/tfidf), bootstrap apparié sur les requêtes (10 000 tirages, graine 42)",
+        "## Comparaison à la référence Bronze (metier/tfidf), bootstrap apparié (10 000 tirages, graine 42)",
         "",
         "| Configuration | Δ P@5 [IC 95 %] | p (P@5) | Δ MRR [IC 95 %] | p (MRR) |",
         "|---|---|---|---|---|",
@@ -207,6 +187,17 @@ def main() -> None:
         "",
         "Peu de requêtes par groupe : pas de conclusion pour un groupe de moins de 30 requêtes.",
     ]
+    return lignes
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--modele", default="intfloat/multilingual-e5-small")
+    ap.add_argument("--out", default="reports/lot_e_recherche_dense.md")
+    args = ap.parse_args()
+    train = charger("data/final/documents_train.jsonl")
+    dev = charger("data/final/documents_dev.jsonl")  # le test gelé passe uniquement par scripts/final_eval.py
+    lignes = rapport(train, dev, args.modele)
     Path(args.out).write_text("\n".join(lignes) + "\n", encoding="utf-8")
     print("\n".join(lignes))
 

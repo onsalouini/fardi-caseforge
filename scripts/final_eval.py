@@ -12,8 +12,9 @@ Chaque exécution est inscrite dans `reports/final/journal.jsonl` et en tête d'
 
 Évaluations lancées (toutes figées au dev avant ce script) :
   - pipeline complet (`scripts.eval_pipeline.evaluer_pipeline`) : type de passage, fuite au caractère, sur-masquage,
-    fiche, temps -> `reports/final/pipeline_test.md` et `reports/final/pipeline_test_fiches.md`.
-Les briques du Silver (XLM-R, anonymisation Silver, fiche LLM, recherche dense) s'ajoutent à EVALUATIONS une fois
+    fiche, temps -> `reports/final/pipeline_test.md` et `reports/final/pipeline_test_fiches.md` ;
+  - recherche de cas similaires (LaBSE sur les termes métier, contre TF-IDF) -> `reports/final/recherche_test.md`.
+Les autres briques du Silver (XLM-R, anonymisation Silver, fiche LLM) s'ajoutent à EVALUATIONS une fois
 leurs choix figés au dev.
 """
 
@@ -95,9 +96,23 @@ def eval_pipeline() -> list[str]:
     return [ligne for ligne in lignes if ligne.startswith("| ") and not ligne.startswith("|---")]
 
 
+def eval_recherche() -> list[str]:
+    """Recherche de cas similaires (Lot E Silver, LaBSE sur les termes métier, choix figé au dev) sur le test gelé."""
+    sys.path.insert(0, str(REPO_ROOT / "generation"))
+    import recherche_dense
+
+    train = recherche_dense.charger(str(DATA / "documents_train.jsonl"))
+    test = recherche_dense.charger(str(DATA / "documents_test.jsonl"))
+    lignes = recherche_dense.rapport(train, test, "sentence-transformers/LaBSE", nom="test gelé")
+    (SORTIE / "recherche_test.md").write_text("\n".join(lignes) + "\n", encoding="utf-8")
+    cles = ("| metier | tfidf | global |", "| metier | dense | global |", "| metier/dense |")
+    return [ligne for ligne in lignes if ligne.startswith(cles)]
+
+
 # nom -> fonction ; chaque fonction écrit son rapport dans reports/final/ et renvoie les lignes clés du résumé
 EVALUATIONS: dict[str, Callable[[], list[str]]] = {
     "pipeline": eval_pipeline,
+    "recherche de cas similaires (LaBSE)": eval_recherche,
 }
 
 
