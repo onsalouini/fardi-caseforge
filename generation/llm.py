@@ -444,6 +444,25 @@ def composer(
     return {"objectifs": objectifs, "donnees": donnees, "contraintes": champs["contraintes"]}
 
 
+# Passage qui s'annonce confidentiel (formulations relevées sur le TRAIN : « Confidential: », « Internal only: »,
+# « Not for publication: », « Informations confidentielles (ne pas publier) », « ne pas diffuser », « معطيات سرية »,
+# « معطيات لا تنشر », « عدم ذكر: »…). Comparé au texte normalisé. « Référence interne » (en-tête de formulaire)
+# et « لا يسمح بنشر » (contrainte) ne sont volontairement pas couverts.
+CONFIDENTIEL = re.compile(
+    r"confidenti|ne pas (?:diffuser|publier)|internal only|not for publication|(?<!\w)سري(?:ة)?(?!\w)|لا تنشر|عدم ذكر"
+)
+
+
+def passages_confidentiels(doc: dict) -> set[str]:
+    """Passages qui s'annoncent comme confidentiels : aucun élément de la fiche ne doit en venir.
+
+    Garde-fou contre les oublis de l'anonymiseur (étape 4b) : au dev, « معطيات سرية: » suivi d'une marge et d'une
+    liste de clients non masquées par B6c avait été recopié en donnée. Les fiches de référence ne citent jamais ces
+    passages (0 élément au train comme au dev).
+    """
+    return {p["passage_id"] for p in doc["passages"] if CONFIDENTIEL.search(normaliser(p["text_anonymise"]))}
+
+
 def sans_doublons_normalises(elements: list[dict]) -> list[dict]:
     """Comme gabarit.sans_doublons, mais deux textes égaux au bruit OCR près (« الالي » / « الآلي ») ne font qu'un."""
     vus: dict[str, dict] = {}
@@ -496,13 +515,24 @@ def assembler(
         completer(fiche, doc, journal)
     fiche.update(fixes[lang])
 
+    # Sécurité, indépendante de l'anonymiseur : ni nom sensible connu, ni élément tiré d'un passage confidentiel
     noms = noms_sensibles(doc)
+    confidentiels = passages_confidentiels(doc)
+    journal["retires_confidentiels"] = []
+
+    def sur(e: dict) -> bool:
+        if set(e["sources"]) & confidentiels:
+            journal["retires_confidentiels"].append(e["texte"])
+            return False
+        if gabarit.contient_sensible(e["texte"], noms):
+            journal["retires_sensibles"].append(e["texte"])
+            return False
+        return True
+
     for r in RUBRIQUES:
-        garde = [e for e in fiche[r] if not gabarit.contient_sensible(e["texte"], noms)]
-        journal["retires_sensibles"] += [e["texte"] for e in fiche[r] if e not in garde]
+        garde = [e for e in fiche[r] if sur(e)]
         fiche[r] = sans_doublons_normalises(garde) if nettoyage else gabarit.sans_doublons(garde)
-    if fiche["contexte"] and gabarit.contient_sensible(fiche["contexte"]["texte"], noms):
-        journal["retires_sensibles"].append(fiche["contexte"]["texte"])
+    if fiche["contexte"] and not sur(fiche["contexte"]):
         fiche["contexte"] = None
     return fiche, journal
 

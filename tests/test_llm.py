@@ -308,3 +308,41 @@ def test_comparer_meme_f1_que_evaluer(tmp_path, banque, fixes):
     assert comparer.f1([comptes], docs) == pytest.approx(2 * p * rr / (p + rr))
     assert comparer.f1([comptes, comptes], docs) == pytest.approx(comparer.f1([comptes], docs))  # graines identiques
     assert comparer.systeme("llm=a.jsonl,b.jsonl") == ("llm", ["a.jsonl", "b.jsonl"])
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Étape 4b : aucun élément tiré d'un passage confidentiel (garde-fou contre les oublis de l'anonymiseur)
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def test_passage_confidentiel_jamais_recopie(banque, fixes):
+    d = copy.deepcopy(next(d for d, _ in banque if d["doc_id"] == "lib_en_02"))
+    p = next(p for p in d["passages"] if "Confidential" in p["text_anonymise"])
+    p["text_anonymise"] = "Confidential: margin of 12 % on the main product and the list of key accounts."
+    fuite = {"texte": "margin of 12 % on the main product", "sources": [p["passage_id"]]}
+    fiche, journal = llm.assembler({"donnees": [fuite], "contexte": fuite}, d, fixes)
+    assert "margin" not in json.dumps(fiche) and len(journal["retires_confidentiels"]) == 2
+
+
+def test_marqueurs_de_confidentialite():
+    def conf(texte: str) -> bool:
+        doc = {"passages": [{"passage_id": "p", "text_anonymise": texte}]}
+        return llm.passages_confidentiels(doc) == {"p"}
+
+    for texte in [
+        "Informations confidentielles (ne pas publier) : marge",
+        "À ne pas diffuser : prix de vente",
+        "Internal only: unit cost",
+        "معطيات سرية: هامش الربح",
+        "معطيات لا تنشر: الاسعار",
+    ]:
+        assert conf(texte), texte
+    for texte in ["Fiche de non-conformité – Référence interne à compléter", "لا يسمح بنشر أي صورة للمصنع"]:
+        assert not conf(texte), texte
+
+
+def test_aucune_reference_ne_cite_un_passage_confidentiel(banque):
+    for d, f in banque:
+        confidentiels = llm.passages_confidentiels(d)
+        elements = [e for r in llm.RUBRIQUES for e in f[r]] + ([f["contexte"]] if f["contexte"] else [])
+        assert not [e for e in elements if set(e["sources"]) & confidentiels], d["doc_id"]
