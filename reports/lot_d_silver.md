@@ -10,7 +10,8 @@ du 2026-11-12 au 2026-11-13. Code écrit avec l'aide d'un assistant IA (déclar�
 | Élément | Choix | Fichier |
 |---|---|---|
 | Entrée | document **anonymisé** en passages (identifiant, type, texte) + entités métier non sensibles (guidage) | `generation/llm.py` |
-| Prompt | consignes + **3 exemples du train** de la même langue (la graine choisit les exemples) | `construire_messages` |
+| Prompt | consignes + **3 exemples du train** de la même langue, même format d'abord (la graine choisit les exemples) | `construire_messages` |
+| RAG (ablation de retrieval) | variante : les 3 cas du train les plus proches (LaBSE sur le texte anonymisé, même langue), reranking facultatif par cross-encoder | `Retrieveur`, `--choix-exemples dense` |
 | Sortie du LLM | JSON à **champs** : contexte, indicateur du problème, démarche, objectifs, équipements relevés, historiques, données, contraintes ; chaque valeur recopiée de la source avec ses passages cités | `CONSIGNES_CHAMPS` |
 | Composition | le code compose les phrases de la fiche (« Analyser les causes… », « Relevés de l'équipement… », « Historique sur six mois… » seulement si la source le dit) | `composer` |
 | Contrôle des ajouts et des citations | chaque valeur doit être portée à ≥ 80 % de ses mots par un passage cité (bruit OCR arabe normalisé) ; sinon citation corrigée vers le meilleur passage, ou valeur retirée | `ancrer` |
@@ -94,11 +95,26 @@ Rappel des citations : 0,91 contre 0,81 pour le gabarit v2 (entrées de référe
 portent une valeur. Contrôle de sur-ajustement des règles de nettoyage (étape 3b, sur le **train**, 66 documents) : LLM
 0,93 contre gabarit 0,90 ; 0,94 après l'étape 3c (le train a servi à l'analyse de la règle de démarche guidée).
 
+### 2.4 RAG dense : ablation de retrieval (étape 5)
+
+| Exemples du prompt | Même secteur | Même type de source | Même format | F1 éléments | Δ contre le hasard (IC 95 %) |
+|---|---|---|---|---|---|
+| Hasard, même format d'abord (3 graines) | 0,06 | 0,79 | **0,79** | **0,944 ± 0,003** | – |
+| **RAG dense** (LaBSE, texte anonymisé) | **0,29** | **0,90** | 0,25 | 0,934 | −0,010 [−0,028 ; +0,003] |
+
+Les trois premières colonnes donnent la part des 3 exemples qui partagent la propriété du document (métriques de
+retrieval). Par langue (RAG) : fr 0,930 ; ar 0,909 ; en 0,964 ; par source : syn_ 0,972 ; lib_ 0,682 ; 0 fuite. Le
+retrieval dense trouve des cas plus proches **par le sujet** (5 fois plus du même secteur, davantage de textes libres pour
+les textes libres) mais perd la proximité **de forme** (courriel, PV, formulaire), qui guide davantage l'extraction
+structurée : **pas de gain**, résultat négatif. La configuration principale garde les exemples « format » ; le reranking
+par cross-encoder est codé et testé mais n'a pas été exécuté (hors exigences du Silver).
+
 ## 3. Ablations (dev, graine 42)
 
 | Configuration | F1 | Δ contre la version finale | Lecture |
 |---|---|---|---|
 | **Version finale** (entrées de référence) | **0,940** | – | |
+| Exemples retrouvés par RAG dense au lieu du hasard (`--choix-exemples dense`, génération GPU) | 0,934 | −0,006 (IC [−0,021 ; +0,006]) | pas de gain : le retrieval privilégie le sujet, pas la forme (section 2.4) |
 | Sans guidage par les entités (`--sans-entites`, génération GPU) | 0,936 | −0,004 (IC [−0,024 ; +0,034], p = 0,38) | **aucun apport mesurable** du guidage avec les entités de référence ; en : 0,991 sans contre 0,955 avec ; fr : 0,927 contre 0,956 |
 | Entrées du pipeline au lieu de la référence (génération GPU) | 0,874 | −0,066 (IC [−0,105 ; −0,033], p < 0,001) | coût de l'extraction et de l'anonymisation du Lot B |
 | Sans nettoyage (`--sans-nettoyage`, rejeu) | 0,86 | −0,08 | le nettoyage est la pièce clé (précision 0,80 → 0,93) |
@@ -166,6 +182,9 @@ python generation/evaluer.py --gen generation/sorties/llm_silver_dev_s42.jsonl -
 python generation/comparer.py --split dev --a llm=generation/sorties/llm_silver_dev_s42.jsonl \
     --b gabarit=generation/sorties/gabarit_v2_dev.jsonl
 python generation/analyser_erreurs_llm.py
+# RAG dense (GPU) : notebooks/lot_d_llm_kaggle_rag.ipynb
+python generation/llm.py --split dev --graine 42 --choix-exemples dense --out generation/sorties/llm_e5_dev_dense.jsonl
+# Dans le pipeline (GPU) : caseforge.pipeline.traiter(texte, fiche="llm")
 ```
 
 Les sorties (`generation/sorties/`) ne sont pas versionnées ; les journaux du LLM permettent de tout recalculer sans GPU.

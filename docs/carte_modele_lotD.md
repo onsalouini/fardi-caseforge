@@ -14,6 +14,7 @@ Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en ex
 | D2 | Recherche de cas similaires (TF-IDF) | `generation/recherche.py` | `reports/lot_d_recherche.md` |
 | D3 (Silver) | Fiche par LLM ouvert à sortie structurée | `generation/llm.py` | `reports/lot_d_silver.md` |
 | D3 (Silver) | Comparaison sur plusieurs graines, bootstrap apparié | `generation/comparer.py` | `reports/lot_d_silver.md` |
+| D3 (Silver) | RAG dense des exemples du prompt (ablation de retrieval) | `generation/llm.py --choix-exemples dense` | `reports/lot_d_silver.md` §2.4 |
 | D3 (Silver) | Analyse d'erreurs du LLM (61 erreurs) | `generation/analyser_erreurs_llm.py` | `reports/lot_d_erreurs_llm.md` |
 
 Tests : `tests/test_generation.py` (9 tests, Bronze) et `tests/test_llm.py` (Silver, moteur fictif, documents du train).
@@ -107,6 +108,10 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
   Par langue (référence, 3 graines) : fr 0,956 ; ar 0,915 ; en 0,961 ; (pipeline) fr 0,919 ; ar 0,815 ; en 0,887. Par
   source (référence) : syn_ 0,983 ; lib_ 0,687. Par rubrique (graine 42) : contexte 0,93 ; objectifs 0,94 ; données
   0,90 ; contraintes 1,00. Rappel des citations 0,91 (gabarit 0,81).
+- **RAG dense** (ablation de retrieval, `--choix-exemples dense`) : exemples du prompt retrouvés par LaBSE sur le texte
+  anonymisé au lieu du hasard : 0,934 contre 0,944 ± 0,003 (Δ −0,010, IC [−0,028 ; +0,003]) ; même secteur 0,29 contre
+  0,06, mais même format 0,25 contre 0,79 : pas de gain, configuration principale inchangée. Reranking par cross-encoder
+  codé, non exécuté.
 - **Ablations** : sans guidage par les entités 0,936 (pas d'apport mesurable, p = 0,38) ; entrées du pipeline 0,874
   (−0,066) ; sans nettoyage 0,86 ; sans démarche guidée 0,93 ; sans contrôle d'ancrage 0,94 (même F1 : le contrôle sert la
   fidélité). Contrôle sur le train (66 documents) : 0,94 contre 0,90 pour le gabarit.
@@ -121,7 +126,8 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
   gabarit) ; le LLM recopie des passages entiers et peut donc reprendre une donnée confidentielle que rien n'annonce ; la
   fiche reste une **proposition** à valider par un enseignant.
 - **Usage prévu** : générateur du palier Silver, avec le gabarit v2 comme repli et comme référence de comparaison ; à
-  préférer au gabarit sur les entrées réelles du pipeline.
+  préférer au gabarit sur les entrées réelles du pipeline. Branché dans le pipeline : `traiter(..., fiche="llm")`
+  (GPU nécessaire ; le gabarit reste la valeur par défaut).
 
 ---
 
@@ -131,8 +137,7 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
   (`syn_ar_022`).
 - Textes libres : exemples et consignes dédiés, ou relecture humaine ciblée.
 - Utiliser le type de passage prédit par le Lot C.
-- Brancher le LLM dans le pipeline du Lot E (`caseforge/pipeline.py` sur `main` : `enregistrer_fiche`, contrat §5),
-  après intégration de `main` dans `lot-d-silver`.
+- Exposer `fiche="llm"` dans l'API et l'interface (Lot E).
 - Recherche de cas similaires : la recherche dense LaBSE a été faite au Lot E (`generation/recherche_dense.py` sur
   `main`, P@5 0,36 contre 0,20 pour le TF-IDF de D2).
 - Évaluation finale unique sur `test-gele-v3`, seulement par `scripts/final_eval.py` et sur décision de l'équipe.

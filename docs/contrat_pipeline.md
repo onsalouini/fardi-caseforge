@@ -63,7 +63,7 @@ Avec les valeurs par défaut, la sortie est exactement celle du §2.
 |---|---|---|
 | `ner` | `"b3"` (règles du Lot B) | `enregistrer_ner(nom, f)` ; `f([(texte, langue), ...])` renvoie, par passage, une liste `{start, end, label}` (positions dans le texte du passage, étiquettes de `caseforge.labels`) |
 | `backend` | backends de `caseforge.anonymization` | ajouter le backend dans `caseforge/anonymization/` (Lot B) |
-| `fiche` | `"gabarit"` (version 2 du Lot D) | `enregistrer_fiche(nom, f)` ; `f(doc)` reçoit le document au format de `generation/gabarit.py` (texte anonymisé, entités) et renvoie les champs de la fiche (`contexte`, `objectifs`, `donnees`, `contraintes`, `consignes`, `livrables`, `criteres_evaluation`) |
+| `fiche` | `"gabarit"` (version 2 du Lot D, par défaut), `"llm"` (LLM du Lot D, Silver ; GPU nécessaire) | `enregistrer_fiche(nom, f)` ; `f(doc)` reçoit le document au format de `generation/gabarit.py` (texte anonymisé, entités) et renvoie les champs de la fiche (`contexte`, `objectifs`, `donnees`, `contraintes`, `consignes`, `livrables`, `criteres_evaluation`) |
 | `recherche` | `None`, `"dense"` (LaBSE), `"tfidf"` | — |
 
 Avec `recherche`, la sortie gagne une clé optionnelle :
