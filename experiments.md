@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-13 · Boutheina · Lot E (Silver) : fusion de `lot-e-revue` (Ons), une seule évaluation finale
+- `scripts/final_eval.py` : version d'Ons comme base (6 composants contre baselines triviales, `--essai-dev`), avec les garde-fous de `lot-e-silver` réservés à l'exécution sur le test (`--auteur`, dépôt propre, empreintes du manifeste, journal `reports/final/journal.jsonl`, `--nouvelle-execution` qui n'écrase pas le premier rapport) et un 7e composant : cas similaires LaBSE contre TF-IDF (P@5, MRR, IC bootstrap). `--essai-dev` ne lit jamais le test et ne consigne rien. Tests : `tests/test_final_eval.py` (11 cas, dont `--essai-dev`). Pas encore exécuté sur le test.
+- Repris de `lot-e-revue` (jamais fusionné) : `scripts/baselines_bronze.py`, `scripts/export_erreurs_csv.py`, alertes du pipeline (`metriques.alertes` : hors périmètre, arabizi, code-switching) combinées avec les options Silver, README, `app/app.py`, tests du pipeline.
+- `scripts/eval_pipeline.py` : retour à la version de `main` (la fonction `evaluer_pipeline` n'est plus utilisée).
+
 ## 2026-11-12 · Boutheina · Lot E (Silver) : options du pipeline et évaluation finale
 - `caseforge/pipeline.py` : options `ner`, `backend`, `fiche`, `recherche` (Bronze par défaut, sortie inchangée) ; `enregistrer_ner` et `enregistrer_fiche` pour brancher XLM-R (Lot C) et le LLM (Lot D) ; `recherche="dense"` ajoute `cas_similaires` (LaBSE, termes métier prédits, 3 cas du train). Contrat : `docs/contrat_pipeline.md` §5. Tests : `tests/test_pipeline_silver.py`.
 - `scripts/final_eval.py` : seul script autorisé à lire le test gelé ; refuse sans `--i-know-this-is-the-frozen-test`, avec un dépôt modifié, avec des empreintes différentes du manifeste, ou si une évaluation a déjà eu lieu ; consigne chaque exécution ici et dans `reports/final/journal.jsonl`. Évalue le pipeline et la recherche de cas similaires (LaBSE, choix figé au dev) ; pas encore exécuté. Tests : `tests/test_final_eval.py`.
@@ -33,6 +38,13 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Limites : 19 requêtes, groupes par langue de 6 ou 7 requêtes (pas de conclusion par langue) ; LaBSE choisi parmi 12 configurations évaluées au dev, chiffre optimiste ; le vrai chiffre sera celui du test gelé.
 - Décision : LaBSE sur les termes métier remplace le TF-IDF pour la recherche de cas similaires du pipeline Silver.
 - Dépendances : `transformers>=4.44,<4.50` et `sentence-transformers>=3.0,<4.0` ajoutés à `requirements-lotb.txt` (compatibles avec torch 2.5.1).
+
+## 2026-10-27 · Ons · Revue Bronze : baselines triviales, alertes du pipeline, CSV des erreurs
+- Baselines (`scripts/baselines_bronze.py` → `reports/baselines_bronze.md`, dev) : type de passage, classe majoritaire du train (`donnee`) macro-F1 **0,065** (fr 0,068 ; ar 0,069 ; en 0,057) contre 0,896 ; anonymisation sans masquage, fuite **100 %** (213 / 213) contre 6,6 % ; fiche « copie de la source », F1 des éléments **0,08** (fr 0,07 ; ar 0,09 ; en 0,09 ; syn 0,06 ; lib 0,21) contre 0,93. Rappels : NER B1 0,432 ; recherche du passage source au hasard MRR 0,030 ; cas similaires au hasard P@5 0,15 ; secteur, classe majoritaire 0,036.
+- Pipeline (`caseforge/pipeline.py`) : `metriques.alertes` signale un texte hors périmètre (aucune entité métier), l'arabizi (au moins deux mots latins avec chiffres 2, 3, 5, 7, 9) et le code-switching ; affichées dans l'interface, avec un panneau « Détails du traitement » (mode debug). Tests : `tests/test_pipeline.py` (19).
+- `scripts/export_erreurs_csv.py` → `reports/erreurs_bronze.csv` : 198 erreurs catégorisées (D fiche 100, C type de passage 22, C secteur 19, C recherche 57).
+- `scripts/final_eval.py` : évaluation finale unique sur le test gelé (option `--i-know-this-is-the-frozen-test`, refuse une seconde exécution, consigne l'exécution ici) ; répétition sur le dev avec `--essai-dev` (aucun fichier de test lu) : elle redonne les chiffres du dev des lots B à E.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts. Test gelé non utilisé.
 
 ## 2026-10-27 · Ons · Lot E · E4 : tableau de bord du Bronze et corrections issues des audits
 - `reports/bronze.md` : vue d'ensemble des lots A à E (chiffre clé, carte, état), exigences transversales, limites pour la démo ; README (tableau des lots, sections Lot D et pipeline) ; `docs/carte_systeme.md` (kappa 0,758, ligne Interface et API).

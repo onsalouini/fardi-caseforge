@@ -26,16 +26,9 @@ from caseforge.eval.leak import taux_fuite
 from caseforge.pipeline import traiter
 
 
-def evaluer_pipeline(
-    split: str = "dev",
-    rapport: str = "reports/lot_e_pipeline.md",
-    rapport_fiches: str = "reports/lot_e_pipeline_fiches.md",
-) -> list[str]:
-    """Évalue le pipeline sur un split et écrit les rapports ; renvoie les lignes du rapport principal.
-
-    `split` vaut "dev" pour toute mise au point. Seul `scripts/final_eval.py` l'appelle avec le test gelé.
-    """
-    nom = split
+def main() -> None:
+    argparse.ArgumentParser(description="Évaluation du pipeline complet, au dev uniquement").parse_args()
+    split, nom = "dev", "dev"
     docs = [json.loads(ligne) for ligne in open(f"data/final/documents_{split}.jsonl", encoding="utf-8")]
     gold_rows = [json.loads(ligne) for ligne in open(f"data/final/{split}.jsonl", encoding="utf-8")]
 
@@ -67,6 +60,7 @@ def evaluer_pipeline(
     Path("generation/sorties").mkdir(parents=True, exist_ok=True)
     gen = f"generation/sorties/fiches_pipeline_{split}.jsonl"
     Path(gen).write_text("".join(json.dumps(f, ensure_ascii=False) + "\n" for f in sorties), encoding="utf-8")
+    rapport_fiches = "reports/lot_e_pipeline_fiches.md"
     subprocess.run(
         [
             sys.executable,
@@ -112,15 +106,10 @@ def evaluer_pipeline(
         "## Écarts de découpage ou de langue",
         "",
     ] + ([f"- {e}" for e in ecarts] or ["Aucun."])
-    Path(rapport).write_text("\n".join(L) + "\n", encoding="utf-8")
-    return L
-
-
-def main() -> None:
-    argparse.ArgumentParser(description="Évaluation du pipeline complet, au dev uniquement").parse_args()
-    lignes = evaluer_pipeline("dev")
-    print("\n".join(lignes[5:]))
-    print("-> reports/lot_e_pipeline.md")
+    out = "reports/lot_e_pipeline.md"
+    Path(out).write_text("\n".join(L) + "\n", encoding="utf-8")
+    print("\n".join(L[5:]))
+    print(f"-> {out}")
 
 
 if __name__ == "__main__":
