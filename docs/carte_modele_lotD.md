@@ -131,5 +131,8 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
   (`syn_ar_022`).
 - Textes libres : exemples et consignes dédiés, ou relecture humaine ciblée.
 - Utiliser le type de passage prédit par le Lot C.
-- Recherche de cas similaires dense ou hybride (D2, toujours au niveau TF-IDF du Bronze).
+- Brancher le LLM dans le pipeline du Lot E (`caseforge/pipeline.py` sur `main` : `enregistrer_fiche`, contrat §5),
+  après intégration de `main` dans `lot-d-silver`.
+- Recherche de cas similaires : la recherche dense LaBSE a été faite au Lot E (`generation/recherche_dense.py` sur
+  `main`, P@5 0,36 contre 0,20 pour le TF-IDF de D2).
 - Évaluation finale unique sur `test-gele-v3`, seulement par `scripts/final_eval.py` et sur décision de l'équipe.
