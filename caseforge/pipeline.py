@@ -141,8 +141,16 @@ def _fiche_gabarit(doc: dict[str, Any]) -> dict[str, Any]:
     return gabarit.generer(doc, textes_fixes(), version=2)
 
 
+def _fiche_llm(doc: dict[str, Any]) -> dict[str, Any]:
+    """Fiche du Silver : LLM du Lot D (generation/llm.py), chargé à la première demande (GPU nécessaire)."""
+    import llm  # noqa: PLC0415  (import tardif : transformers et le modèle ne sont chargés que si on les demande)
+
+    return llm.fiche_pipeline(doc, textes_fixes())
+
+
 enregistrer_ner("b3", extract_document)
 enregistrer_fiche("gabarit", _fiche_gabarit)
+enregistrer_fiche("llm", _fiche_llm)
 
 
 # ---------- 7. Cas similaires (Lot E, Silver) ----------
