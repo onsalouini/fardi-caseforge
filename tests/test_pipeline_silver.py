@@ -36,7 +36,9 @@ def leger(monkeypatch: pytest.MonkeyPatch) -> None:
         return [{"texte_anonymise": b, "entites": [], "remplacements": []} for b in blocs]
 
     monkeypatch.setattr(pipeline, "anonymiser_document", anonymiser_factice)
-    monkeypatch.setattr(pipeline, "predire_ptypes", lambda doc_id, passages: ["contexte"] * len(passages))
+    monkeypatch.setattr(
+        pipeline, "predire_ptypes", lambda doc_id, passages, methode="tfidf": [f"contexte_{methode}"] * len(passages)
+    )
     monkeypatch.setitem(pipeline.EXTRACTEURS, "factice", _ner_factice)
     champs = ("contexte", "objectifs", "donnees", "contraintes", "consignes", "livrables", "criteres_evaluation")
     monkeypatch.setitem(pipeline.GENERATEURS, "vide", lambda doc: {k: [] for k in champs})
@@ -50,7 +52,9 @@ def test_extracteur_et_generateur_branches(leger: None) -> None:
     assert "cas_similaires" not in s  # sortie par défaut inchangée (contrat 1.0)
 
 
-@pytest.mark.parametrize(("option", "valeur"), [("ner", "inconnu"), ("fiche", "inconnue"), ("recherche", "bm25")])
+@pytest.mark.parametrize(
+    ("option", "valeur"), [("ner", "inconnu"), ("fiche", "inconnue"), ("recherche", "bm25"), ("ptype", "bert")]
+)
 def test_option_inconnue(leger: None, option: str, valeur: str) -> None:
     with pytest.raises(ValueError, match="inconnu"):
         pipeline.traiter(TEXTE, langue="fr", **{option: valeur})
@@ -69,3 +73,10 @@ def test_cas_similaires_tfidf(leger: None) -> None:
 def test_cas_similaires_sans_terme_metier(leger: None) -> None:
     s = pipeline.traiter("Bonjour.", langue="fr", ner="factice", fiche="vide", recherche="tfidf")
     assert s["cas_similaires"] == []
+
+
+def test_ptype_transmis(leger: None) -> None:
+    defaut = pipeline.traiter(TEXTE, langue="fr", ner="factice", fiche="vide")
+    silver = pipeline.traiter(TEXTE, langue="fr", ner="factice", fiche="vide", ptype="e5")
+    assert {p["ptype"] for p in defaut["passages"]} == {"contexte_tfidf"}  # Bronze par défaut
+    assert {p["ptype"] for p in silver["passages"]} == {"contexte_e5"}
