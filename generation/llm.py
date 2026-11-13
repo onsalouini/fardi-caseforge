@@ -446,10 +446,12 @@ def composer(
 
 # Passage qui s'annonce confidentiel (formulations relevées sur le TRAIN : « Confidential: », « Internal only: »,
 # « Not for publication: », « Informations confidentielles (ne pas publier) », « ne pas diffuser », « معطيات سرية »,
-# « معطيات لا تنشر », « عدم ذكر: »…). Comparé au texte normalisé. « Référence interne » (en-tête de formulaire)
+# « معطيات لا تنشر », « عدم ذكر: »…), plus la variante « لا يجب نشرها » vue à l'analyse d'erreurs du DEV (même verbe
+# que « لا تنشر »). Comparé au texte normalisé. « Référence interne » (en-tête de formulaire)
 # et « لا يسمح بنشر » (contrainte) ne sont volontairement pas couverts.
 CONFIDENTIEL = re.compile(
-    r"confidenti|ne pas (?:diffuser|publier)|internal only|not for publication|(?<!\w)سري(?:ة)?(?!\w)|لا تنشر|عدم ذكر"
+    r"confidenti|ne pas (?:diffuser|publier)|internal only|not for publication"
+    r"|(?<!\w)سري(?:ة)?(?!\w)|لا تنشر|لا يجب نشر|عدم ذكر"
 )
 
 

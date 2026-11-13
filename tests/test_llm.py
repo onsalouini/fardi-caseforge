@@ -335,6 +335,7 @@ def test_marqueurs_de_confidentialite():
         "Internal only: unit cost",
         "معطيات سرية: هامش الربح",
         "معطيات لا تنشر: الاسعار",
+        "معلومات لا يجب نشرها: سعر البيع",
     ]:
         assert conf(texte), texte
     for texte in ["Fiche de non-conformité – Référence interne à compléter", "لا يسمح بنشر أي صورة للمصنع"]:

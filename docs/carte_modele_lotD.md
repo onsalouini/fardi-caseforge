@@ -1,6 +1,7 @@
-# Carte de modèle — Lot D (palier Bronze)
+# Carte de modèle — Lot D (paliers Bronze et Silver)
 
-Binôme : Ons Alouini, Boutheina Rjab (responsable du lot : Ons ; code du palier Bronze écrit par Boutheina).
+Binôme : Ons Alouini, Boutheina Rjab (responsable du lot : Ons ; code du palier Bronze écrit par Boutheina, palier Silver
+(D3) par Ons).
 Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`). Toutes les mesures sont faites sur le **dev**
 (21 documents) ; le **test gelé n'a pas été utilisé** (`generation/gabarit.py` refuse `--split test`).
 Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts.
@@ -11,8 +12,12 @@ Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en ex
 | D1 | Évaluation des fiches | `generation/evaluer.py` | `reports/lot_d*.md` |
 | D1 | Analyse d'erreurs (100 erreurs) | `generation/analyser_erreurs.py` | `reports/lot_d_erreurs.md` |
 | D2 | Recherche de cas similaires (TF-IDF) | `generation/recherche.py` | `reports/lot_d_recherche.md` |
+| D3 (Silver) | Fiche par LLM ouvert à sortie structurée | `generation/llm.py` | `reports/lot_d_silver.md` |
+| D3 (Silver) | Comparaison sur plusieurs graines, bootstrap apparié | `generation/comparer.py` | `reports/lot_d_silver.md` |
+| D3 (Silver) | Analyse d'erreurs du LLM (61 erreurs) | `generation/analyser_erreurs_llm.py` | `reports/lot_d_erreurs_llm.md` |
 
-Tests : `tests/test_generation.py` (9 tests, documents du train).
+Tests : `tests/test_generation.py` (9 tests, Bronze) et `tests/test_llm.py` (Silver, moteur fictif, documents du train).
+GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
 
 ---
 
@@ -79,10 +84,52 @@ Tests : `tests/test_generation.py` (9 tests, documents du train).
   n'ont qu'un document au train. Même constat qu'au Lot C (secteur : séparation anti-fuite des vocabulaires).
 - **Usage prévu** : baseline ; à remplacer au Silver par une recherche dense multilingue.
 
+## D3 · Fiche par LLM ouvert à sortie structurée (palier Silver)
+
+- **Modèle** : `Qwen/Qwen2.5-7B-Instruct` (7,6 milliards de paramètres, licence Apache 2.0), quantifié en **4 bits**
+  (NF4, bitsandbytes), décodage glouton ; GPU T4 (Colab, Kaggle), environ 50 s par document.
+- **Entrée → sortie** : le même document anonymisé que D1 → une fiche au même format. Le LLM ne rédige pas la fiche : il
+  remplit un JSON à **champs** (contexte, indicateur du problème, démarche, objectifs, équipements relevés, historiques,
+  données, contraintes) en **recopiant** des valeurs de la source avec les passages cités ; le code compose les phrases
+  de la fiche. Prompt : consignes + 3 exemples du train dans la même langue ; guidage par les entités métier non
+  sensibles. Le texte original des entités sensibles n'entre jamais dans le prompt.
+- **Contrôle automatique** : chaque valeur doit être portée à ≥ 80 % de ses mots par un passage cité (bruit OCR arabe
+  normalisé), sinon la citation est corrigée ou la valeur retirée (ajout) ; omissions et ajouts mesurés par
+  `generation/evaluer.py` ; nettoyage du suivi de projet et des doublons ; aucun nom sensible ni élément tiré d'un passage
+  qui s'annonce confidentiel ; repli sur le gabarit v2 si le JSON reste invalide (jamais déclenché sur 105 générations).
+- **Résultats (dev)** :
+
+  | Configuration | F1 éléments | Gabarit v2 | Δ (IC 95 %, bootstrap apparié) | Fuites LLM / gabarit |
+  |---|---|---|---|---|
+  | Entrées de référence, 3 graines | **0,944 ± 0,003** | 0,931 | +0,013 [−0,010 ; +0,036], p = 0,14 | 0 / 0 |
+  | Entrées du pipeline (Lot B, B6c) | **0,874** | 0,815 | **+0,059 [+0,011 ; +0,105], p = 0,006** | **1 / 2** |
+
+  Par langue (référence, 3 graines) : fr 0,956 ; ar 0,915 ; en 0,961 ; (pipeline) fr 0,919 ; ar 0,815 ; en 0,887. Par
+  source (référence) : syn_ 0,983 ; lib_ 0,687. Par rubrique (graine 42) : contexte 0,93 ; objectifs 0,94 ; données
+  0,90 ; contraintes 1,00. Rappel des citations 0,91 (gabarit 0,81).
+- **Ablations** : sans guidage par les entités 0,936 (pas d'apport mesurable, p = 0,38) ; entrées du pipeline 0,874
+  (−0,066) ; sans nettoyage 0,86 ; sans démarche guidée 0,93 ; sans contrôle d'ancrage 0,94 (même F1 : le contrôle sert la
+  fidélité). Contrôle sur le train (66 documents) : 0,94 contre 0,90 pour le gabarit.
+- **Analyse d'erreurs** (`reports/lot_d_erreurs_llm.md`, 61 erreurs, causes attribuées par règles et relues) : avec les
+  entrées de référence, 13 erreurs sur 20 viennent des 3 textes libres (moule du canevas) ; avec le pipeline, 25 sur 41
+  viennent des entrées du Lot B, dont 8 du sur-masquage des budgets (`[MONTANT]`).
+- **Limites** : 21 documents au dev (écarts de quelques centièmes non significatifs) ; textes libres sous le gabarit
+  (0,69 contre 0,71) alors que les documents réels leur ressemblent ; référence produite par le générateur du Lot A ; type
+  de passage de référence ; filtre de confidentialité fondé sur des marqueurs explicites (une variante arabe ajoutée
+  après l'analyse du dev) ; GPU nécessaire.
+- **Risques éthiques** : une fuite d'un nom non masqué par le Lot B atteint encore la fiche (1 au dev, commune avec le
+  gabarit) ; le LLM recopie des passages entiers et peut donc reprendre une donnée confidentielle que rien n'annonce ; la
+  fiche reste une **proposition** à valider par un enseignant.
+- **Usage prévu** : générateur du palier Silver, avec le gabarit v2 comme repli et comme référence de comparaison ; à
+  préférer au gabarit sur les entrées réelles du pipeline.
+
 ---
 
-## Prochaines étapes (Silver)
+## Prochaines étapes
 
-LLM ouvert (≤ 8 milliards de paramètres, quantifié) à sortie structurée selon le schéma de la fiche, avec la fiche par
-gabarit en comparaison ; contrôle automatique des ajouts, omissions et citations ; recherche dense ou hybride ;
-évaluation finale unique sur `test-gele-v3`.
+- Remonter au Lot B le sur-masquage des montants de budget (8 erreurs du pipeline) et le nom arabe non masqué
+  (`syn_ar_022`).
+- Textes libres : exemples et consignes dédiés, ou relecture humaine ciblée.
+- Utiliser le type de passage prédit par le Lot C.
+- Recherche de cas similaires dense ou hybride (D2, toujours au niveau TF-IDF du Bronze).
+- Évaluation finale unique sur `test-gele-v3`, seulement par `scripts/final_eval.py` et sur décision de l'équipe.
