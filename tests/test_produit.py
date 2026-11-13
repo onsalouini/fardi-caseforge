@@ -1,7 +1,8 @@
 """Règles PRODUIT du B7 (``caseforge.extraction.rules.produit``) et règle de décision (``caseforge.eval.decision``).
 
 Toutes les phrases sont inventées pour les tests (ni dev, ni test, ni kappa) ; aucun nom de produit n'est repris
-des données.
+des données. B15 (Silver) : les éléments choisis au dev sont coupés par défaut (``elements_vus_au_dev: false``) ; les
+tests du B7 qui en dépendent passent la configuration B7 (``cfg_b7``).
 """
 
 from __future__ import annotations
@@ -10,11 +11,16 @@ import importlib.util
 import json
 
 import pytest
+from spacy.tokens import Doc
+from spacy.vocab import Vocab
 
 from caseforge.eval.data import DEV_JSONL, RESULTS
 from caseforge.eval.decision import TOLERANCE, decision_regle
 from caseforge.extraction.rules import charger_config, extract_rules
-from caseforge.extraction.rules.produit import REGLES_PRODUIT
+from caseforge.extraction.rules.base import Candidat
+from caseforge.extraction.rules.dependencies import preparer
+from caseforge.extraction.rules.produit import DEFAUT, ELEMENTS_DEV, REGLES_B15, REGLES_PRODUIT, OptionsProduit, valeurs
+from caseforge.extraction.rules.produit_lexique import apprendre, combler, ecrire, tete
 from caseforge.labels import LABELS
 from cfdata.common import read_jsonl
 
@@ -27,6 +33,21 @@ modeles = pytest.mark.skipif(
 def produits(text: str, lang: str, config: dict | None = None) -> list[str]:
     """Surfaces des PRODUIT extraits d'un passage."""
     return [text[e["start"] : e["end"]] for e in extract_rules(text, lang, config) if e["label"] == "PRODUIT"]
+
+
+def cfg_b7() -> dict:
+    """Configuration du B7 : éléments choisis au dev actifs, règles B15 coupées."""
+    cfg = charger_config()
+    cfg["elements_vus_au_dev"] = True
+    cfg["regles_desactivees"] = cfg["regles_desactivees"] | set(REGLES_B15)
+    return cfg
+
+
+def cfg_sans(*regles: str) -> dict:
+    """Configuration par défaut avec ``regles`` coupées."""
+    cfg = charger_config()
+    cfg["regles_desactivees"] = cfg["regles_desactivees"] | set(regles)
+    return cfg
 
 
 # ---------- Libellés ----------
@@ -43,19 +64,19 @@ def produits(text: str, lang: str, config: dict | None = None) -> list[str]:
     ],
 )  # fmt: skip
 def test_libelle_valeur(texte: str, lang: str, attendu: str) -> None:
-    assert attendu in produits(texte, lang)
+    assert attendu in produits(texte, lang, cfg_b7())
 
 
 @modeles
 def test_libelle_apposition() -> None:
     texte = "Son produit principal, tapis tissés, est vendu en Europe."
-    assert produits(texte, "fr") == ["tapis tissés"]
+    assert produits(texte, "fr") == produits(texte, "fr", cfg_b7()) == ["tapis tissés"]
 
 
 @modeles
 def test_libelle_suffixe_arabe_sans_separateur() -> None:
     texte = "تتمركز الشركة في صفاقس، وأبرز منتجاتها الزيوت النباتية."
-    assert "الزيوت النباتية" in produits(texte, "ar")
+    assert "الزيوت النباتية" in produits(texte, "ar", cfg_b7())
 
 
 @modeles
@@ -65,7 +86,7 @@ def test_libelle_pas_produit() -> None:
         ("Sa gamme vedette est la suivante : savons au miel.", "fr"),
         ("Its signature range is woollen scarves.", "en"),
     ):
-        ps = produits(texte, lang)
+        ps = produits(texte, lang, cfg_b7())
         assert not any("gamme" in p or "range" in p for p in ps), ps
 
 
@@ -125,7 +146,121 @@ def test_equipement_reste_equipement() -> None:
 def test_regles_desactivables() -> None:
     cfg = charger_config()
     cfg["regles_desactivees"] = cfg["regles_desactivees"] | set(REGLES_PRODUIT)
+    cfg["elements_vus_au_dev"] = True  # « Gamme » : libellé vu au dev (B7)
+    assert produits("Gamme concernée : tuyaux en cuivre.", "fr", cfg_b7()) == ["tuyaux en cuivre"]
     assert produits("Gamme concernée : tuyaux en cuivre.", "fr", cfg) != ["tuyaux en cuivre"]
+
+
+# ---------- B15 : éléments choisis au dev coupés par défaut ----------
+def test_elements_dev_coupes_par_defaut() -> None:
+    assert charger_config()["elements_vus_au_dev"] is False
+    assert DEFAUT == OptionsProduit(elements_dev=False, apposition=True, mode_production=True)
+    assert {"gamme", "range", "سلعة", "demeure", "remains"} <= ELEMENTS_DEV
+
+
+@modeles
+@pytest.mark.parametrize(
+    ("texte", "lang", "attendu"),
+    [
+        ("Sa gamme reste la suivante : jeans délavés.", "fr", "jeans délavés"),
+        ("Its signature range remains woollen scarves.", "en", "woollen scarves"),
+        ("تتمركز الشركة في صفاقس، وأبرز منتجاتها الزيوت النباتية.", "ar", "الزيوت النباتية"),
+    ],
+)
+def test_elements_dev_selon_drapeau(texte: str, lang: str, attendu: str) -> None:
+    """Valeur lue grâce à un élément vu au dev : trouvée avec le drapeau (B7), pas sans (B7b, Silver)."""
+    assert attendu in produits(texte, lang, cfg_b7())
+    assert attendu not in produits(texte, lang)
+
+
+# ---------- B15 : apposition ----------
+def _doc_en(mots: list[str], pos: list[str]) -> Doc:
+    doc = preparer(Doc(Vocab(), words=mots, pos=pos))
+    for t in doc:
+        t._.lang = "en"
+    return doc
+
+
+def test_apposition_bornee_par_la_virgule() -> None:
+    """Un mot pris pour un verbe (faute d'OCR) n'arrête plus la valeur en apposition, bornée par la virgule."""
+    mots = ["its", "main", "product", ",", "crude", "palm", "oilx", "blend", ",", "is", "sold", "abroad"]
+    pos = ["PRON", "ADJ", "NOUN", "PUNCT", "ADJ", "NOUN", "VERB", "NOUN", "PUNCT", "AUX", "VERB", "ADV"]
+    doc = _doc_en(mots, pos)
+    avec = valeurs(doc, 4, "r", apposition=True)
+    sans = valeurs(doc, 4, "r", apposition=True, o=OptionsProduit(apposition=False))
+    assert [doc.text[c.start : c.end] for c in avec] == ["crude palm oilx blend"]
+    assert [doc.text[c.start : c.end] for c in sans] == ["crude palm"]
+
+
+def test_apposition_sans_virgule_fermante() -> None:
+    """Sans virgule qui ferme la valeur, le verbe l'arrête comme avant (« … oil is sold »)."""
+    doc = _doc_en(["crude", "palm", "oil", "is", "sold", "abroad"], ["ADJ", "NOUN", "NOUN", "AUX", "VERB", "ADV"])
+    assert [doc.text[c.start : c.end] for c in valeurs(doc, 0, "r", apposition=True)] == ["crude palm oil"]
+
+
+# ---------- B15 : mode de production ----------
+@modeles
+@pytest.mark.parametrize(
+    ("texte", "lang", "attendu", "avant"),
+    [
+        ("Activité : fabrication de vestes de cuisine en sous-traitance.", "fr", "vestes de cuisine",
+         "vestes de cuisine en sous-traitance"),
+        ("Business: manufacture of cotton shirts under subcontract.", "en", "cotton shirts",
+         "cotton shirts under subcontract"),
+        ("تنشط الشركة في صناعة الأحذية الجلدية بالمناولة.", "ar", "الأحذية الجلدية", "الأحذية الجلدية بالمناولة"),
+    ],
+)  # fmt: skip
+def test_arret_avant_mode_production(texte: str, lang: str, attendu: str, avant: str) -> None:
+    assert produits(texte, lang) == [attendu]
+    assert produits(texte, lang, cfg_sans("dependencies.produit_mode_production")) == [avant]
+
+
+# ---------- B15 : lexique des têtes appris (rejeté au train, gardé en option) ----------
+def test_tete_selon_langue() -> None:
+    assert tete("chemises brodées", "fr") == "chemises"
+    assert tete("wicker baskets", "en") == "baskets"
+    assert tete("السجاد اليدوي", "ar") == "سجاد"
+    assert tete("12", "fr") is None
+    assert tete("l'entreprise", "fr") is None  # mot générique
+
+
+def test_apprendre_et_ecrire(tmp_path) -> None:
+    rows = [
+        {"text": "Nous vendons des chemises brodées.", "lang": "fr", "doc_lang": "fr",
+         "entities": [{"start": 17, "end": 33, "label": "PRODUIT"}, {"start": 0, "end": 4, "label": "ORG"}]},
+        {"text": "We sell wicker baskets.", "lang": "en", "doc_lang": "en",
+         "entities": [{"start": 8, "end": 22, "label": "PRODUIT"}]},
+    ]  # fmt: skip
+    tetes = apprendre(rows)
+    assert tetes == {("fr", "chemises"), ("en", "baskets")}
+    chemin = tmp_path / "tetes.txt"
+    assert ecrire(tetes, chemin) == 2
+    assert chemin.read_text(encoding="utf-8").splitlines()[-2:] == ["baskets\ten", "chemises\tfr"]
+
+
+def test_combler_ne_chevauche_pas() -> None:
+    deja = [Candidat(0, 10, "EQUIPEMENT", "x")]
+    nouveaux = [Candidat(5, 15, "PRODUIT", "l"), Candidat(20, 30, "PRODUIT", "l"), Candidat(25, 35, "PRODUIT", "l")]
+    assert [(c.start, c.end) for c in combler(deja, nouveaux)] == [(0, 10), (20, 30)]
+
+
+@modeles
+def test_lexique_extraction() -> None:
+    cfg = charger_config()
+    cfg["regles_desactivees"] = cfg["regles_desactivees"] - {"dependencies.produit_lexique"}
+    cfg["lexique_produit"] = frozenset({("fr", "chemises"), ("en", "baskets"), ("ar", "سجاد"), ("en", "oil")})
+    assert produits("Les clients achètent surtout nos chemises brodées.", "fr", cfg) == ["chemises brodées"]
+    assert produits("Customers mostly buy our large wicker baskets.", "en", cfg) == ["large wicker baskets"]
+    assert produits("يفضل الحرفاء السجاد اليدوي التقليدي.", "ar", cfg) == ["السجاد اليدوي التقليدي"]
+    assert produits("The oil change is done every month.", "en", cfg) == []  # modifieur, pas une tête
+    assert produits("Les clients achètent surtout nos chemises brodées.", "fr") == []  # règle rejetée au train
+
+
+def test_decisions_b15_dans_la_config() -> None:
+    """Décisions du B15 au train : apposition et mode de production gardés, lexique rejeté."""
+    des = charger_config()["regles_desactivees"]
+    assert "dependencies.produit_lexique" in des
+    assert not {"dependencies.produit_apposition", "dependencies.produit_mode_production"} & des
 
 
 # ---------- Règle de décision ----------

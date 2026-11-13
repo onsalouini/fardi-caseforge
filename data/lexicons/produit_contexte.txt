@@ -42,3 +42,20 @@ report	reference_document
 fiche	reference_document
 الداخلي	reference_document
 الداخلية	reference_document
+# B15 (Silver). « mode_production » : mode de fabrication qui suit le produit sans en faire partie (« vestes de
+# travail en sous-traitance », « parts made under subcontract ») ; la valeur s'arrête devant. Vocabulaire général de
+# la production (fr / en / ar).
+en sous-traitance	mode_production
+en sous traitance	mode_production
+sous-traitance	mode_production
+à façon	mode_production
+en façon	mode_production
+pour compte de tiers	mode_production
+under subcontract	mode_production
+on a subcontracting basis	mode_production
+on subcontract	mode_production
+as a subcontractor	mode_production
+for third parties	mode_production
+بالمناولة	mode_production
+في إطار المناولة	mode_production
+لفائدة الغير	mode_production

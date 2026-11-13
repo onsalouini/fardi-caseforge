@@ -23,7 +23,9 @@ from caseforge.extraction.nlp import parse
 from caseforge.extraction.rules.base import Candidat
 from caseforge.extraction.rules.dependencies import dependency_candidates
 from caseforge.extraction.rules.matchers import Memoire, enrichir_memoire, matcher_candidates, reutilisations
-from caseforge.extraction.rules.produit import REGLES_PRODUIT, arbitrer, produit_candidates
+from caseforge.extraction.rules.produit import REGLES_PRODUIT, OptionsProduit, arbitrer, produit_candidates
+from caseforge.extraction.rules.produit_lexique import REGLE as REGLE_LEXIQUE
+from caseforge.extraction.rules.produit_lexique import combler, lexique_candidates, tetes_config
 from caseforge.extraction.rules.regex import regex_candidates
 from caseforge.extraction.rules.resolve import dedoublonner, resoudre
 from caseforge.labels import REPO_ROOT
@@ -31,7 +33,7 @@ from caseforge.labels import REPO_ROOT
 CONFIG = REPO_ROOT / "configs" / "rules.yaml"
 COUCHES = ("regex", "matchers", "dependencies", "resolution")
 
-__all__ = ["CONFIG", "COUCHES", "charger_config", "extract_document", "extract_rules"]
+__all__ = ["CONFIG", "COUCHES", "charger_config", "extract_document", "extract_rules", "options_produit"]
 
 
 def charger_config(path: Path | str = CONFIG, **surcharges: bool) -> dict[str, Any]:
@@ -45,6 +47,7 @@ def charger_config(path: Path | str = CONFIG, **surcharges: bool) -> dict[str, A
             raise ValueError(f"couche inconnue {k!r} : {', '.join(COUCHES)}")
         cfg["couches"][k] = v
     cfg.setdefault("memoire_document", True)
+    cfg.setdefault("elements_vus_au_dev", False)
     cfg["regles_desactivees"] = set(cfg.get("regles_desactivees") or [])
     return cfg
 
@@ -53,6 +56,16 @@ def charger_config(path: Path | str = CONFIG, **surcharges: bool) -> dict[str, A
 def _doc(text: str, lang: str) -> Doc:
     """Analyse mise en cache (les ablations relisent les mêmes passages)."""
     return parse(text, lang)
+
+
+def options_produit(cfg: dict[str, Any]) -> OptionsProduit:
+    """Options des règles PRODUIT (B15) d'après la configuration."""
+    des = cfg["regles_desactivees"]
+    return OptionsProduit(
+        elements_dev=bool(cfg.get("elements_vus_au_dev", False)),
+        apposition="dependencies.produit_apposition" not in des,
+        mode_production="dependencies.produit_mode_production" not in des,
+    )
 
 
 def _bruts(text: str, lang: str, cfg: dict[str, Any]) -> list[Candidat]:
@@ -66,8 +79,16 @@ def _bruts(text: str, lang: str, cfg: dict[str, Any]) -> list[Candidat]:
         out += matcher_candidates(text, doc)
     if couches["dependencies"] and doc is not None:
         des = cfg["regles_desactivees"]
-        out += dependency_candidates(doc, "dependencies.contrainte_ar" not in des, "dependencies.bornes_ar" not in des)
-        out = arbitrer(doc, out + produit_candidates(doc), set(REGLES_PRODUIT) - des)
+        o = options_produit(cfg)
+        out += dependency_candidates(
+            doc,
+            "dependencies.contrainte_ar" not in des,
+            "dependencies.bornes_ar" not in des,
+            "dependencies.contrainte_coord_ar" not in des,
+        )
+        out = arbitrer(doc, out + produit_candidates(doc, o), set(REGLES_PRODUIT) - des, o)
+        if REGLE_LEXIQUE not in des:
+            out = combler(out, lexique_candidates(doc, tetes_config(cfg), o))
     return [c for c in out if c.rule_id not in cfg["regles_desactivees"]]
 
 

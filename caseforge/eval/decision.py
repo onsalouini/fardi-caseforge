@@ -47,3 +47,22 @@ def decision_regle(
             if delta < -tolerance - 1e-12:
                 baisses.append((v, k, delta))
     return {"gain_cible": gain, "baisses": baisses, "gardee": gain > 1e-12 and not baisses}
+
+
+def decision_non_regression(
+    reference: Mapping[str, Mapping[str, float]],
+    nouveau: Mapping[str, Mapping[str, float]],
+    tolerance: float = TOLERANCE,
+) -> dict[str, Any]:
+    """B15 : règle de non-régression, pour une règle qui ne peut pas montrer de gain au train (cas absent du train,
+    règle écrite d'après le guide) : gardée si aucune étiquette, langue ni source ne baisse de plus de ``tolerance``.
+
+    La seconde condition de la décision (tests unitaires écrits d'après le guide) se vérifie à part, avec ``pytest``.
+    """
+    baisses = []
+    for v in VENTILATIONS:
+        for k, ref in reference[v].items():
+            delta = nouveau[v].get(k, 0.0) - ref
+            if delta < -tolerance - 1e-12:
+                baisses.append((v, k, delta))
+    return {"baisses": baisses, "gardee": not baisses}

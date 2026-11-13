@@ -372,12 +372,43 @@ def _ancres_ar(doc: Doc, modaux: dict[int, Token | None]) -> dict[int, int]:
     return debut
 
 
+_COORD_AR = {"و", "او", "ثم"}
+_AN_AR = {"ان", "الا"}
+
+
+def coupes_coord_ar(doc: Doc, a: int, b: int, ancre: int) -> list[tuple[int, int]]:
+    """B15 : découpe une CONTRAINTE arabe ``[a, b)`` en conditions coordonnées (guide v2, cas 4 : une CONTRAINTE
+    par condition, séparées par « et »).
+
+    Point de coupe : après l'ancre, « و », « أو » ou « ثم » suivi de « أن » / « ألا » ou d'un verbe
+    (« يجب أن يسلّم المورد … وأن يحترم … »). La conjonction n'appartient à aucun des deux spans ; la seconde condition
+    commence à « أن » ou au verbe. Une coordination de noms (« تركيب الآلة أو تعويضها ») ne coupe pas. Une coupe qui
+    laisserait un morceau de moins de 3 tokens est ignorée.
+    """
+    morceaux = [(a, b)]
+    for j in range(max(a, ancre + 1), b - 1):
+        if doc[j]._.norme not in _COORD_AR:
+            continue
+        nxt = doc[j + 1]
+        if not (nxt._.norme in _AN_AR or nxt.pos_ in {"VERB", "AUX"}):
+            continue
+        debut, fin = morceaux[-1]
+        if j - debut >= 3 and fin - (j + 1) >= 3:
+            morceaux[-1:] = [(debut, j), (j + 1, fin)]
+    return morceaux
+
+
 def contraintes(
-    doc: Doc, ancres: dict[str, list[tuple[int, ...]]], ancres_ar: bool = True, bornes: bool = True
+    doc: Doc,
+    ancres: dict[str, list[tuple[int, ...]]],
+    ancres_ar: bool = True,
+    bornes: bool = True,
+    coord_ar: bool = True,
 ) -> list[Candidat]:
     """Candidats CONTRAINTE : un par modal (ou tournure d'interdiction), découpés par conjonct.
 
     ``bornes`` : bornes arabes du B6f (``bornes_ar``) appliquées aux contraintes dont l'ancre est arabe.
+    ``coord_ar`` : B15, conditions arabes coordonnées sans modal propre découpées (``coupes_coord_ar``).
     """
     lx = _lexique_modaux()
     modaux: dict[int, Token | None] = {}
@@ -427,9 +458,11 @@ def contraintes(
         if bornes and _lang(doc[i]) == "ar":
             a, b = bornes_ar(doc, a, b, i)
         regle = "dependencies.contrainte_ar" if i in debut_force else "dependencies.contrainte_modal"
-        c = _span(doc, a, b, "CONTRAINTE", regle)
-        if c is not None and len(doc.char_span(c.start, c.end, alignment_mode="expand") or []) >= 3:
-            out.append(c)
+        morceaux = coupes_coord_ar(doc, a, b, i) if coord_ar and _lang(doc[i]) == "ar" else [(a, b)]
+        for n, (a1, b1) in enumerate(morceaux):
+            c = _span(doc, a1, b1, "CONTRAINTE", regle if n == 0 else "dependencies.contrainte_coord_ar")
+            if c is not None and len(doc.char_span(c.start, c.end, alignment_mode="expand") or []) >= 3:
+                out.append(c)
     out += _liste_contraintes(doc, out, bornes)
     return out
 
@@ -696,17 +729,19 @@ def produits(doc: Doc, ancres: dict[str, list[tuple[int, ...]]]) -> list[Candida
 
 
 # ---------- Point d'entrée ----------
-def dependency_candidates(doc: Doc, ancres_ar: bool = True, bornes: bool = True) -> list[Candidat]:
+def dependency_candidates(
+    doc: Doc, ancres_ar: bool = True, bornes: bool = True, coord_ar: bool = True
+) -> list[Candidat]:
     """Candidats de la couche dépendances pour un ``Doc`` analysé (``caseforge.extraction.nlp.parse``).
 
     ``ancres_ar=False`` rend le comportement d'avant B6c (sans ``dependencies.contrainte_ar`` ni l'arrêt de
     la valeur « proche » d'un INDICATEUR à la virgule). ``bornes=False`` rend celui d'avant B6f (sans
-    ``dependencies.bornes_ar``).
+    ``dependencies.bornes_ar``). ``coord_ar=False`` rend celui d'avant B15 (sans ``dependencies.contrainte_coord_ar``).
     """
     preparer(doc)
     ancres = _ancres(doc)
     return (
-        contraintes(doc, ancres, ancres_ar, bornes)
+        contraintes(doc, ancres, ancres_ar, bornes, coord_ar)
         + indicateurs(doc, ancres, ancres_ar)
         + tetes(doc)
         + champs(doc)
