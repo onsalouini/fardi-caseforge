@@ -8,9 +8,10 @@ Composants et baselines triviales (même protocole que le dev) :
   1. entités (Lot B, règles B3) contre le pré-annotateur B1 : F1 micro, mode token, harnais officiel ;
   2. anonymisation (Lot B, `union_seuil`) contre « aucun masquage » : taux de fuite officiel ;
   3. type de passage (Lot C, TF-IDF caractères + position) contre la classe majoritaire du train : macro-F1 ;
+     3 bis. Silver : e5 ⊕ TF-IDF + position contre le Bronze, IC bootstrap par document ;
   4. recherche du passage source (Lot C, BM25) contre le hasard : MRR, rappel@5 ;
   5. fiche par gabarit (Lot D, version 2, entrées de référence) contre « copie de la source » : F1 des éléments ;
-  6. pipeline complet (Lot E, texte brut) : type de passage, fiche, fuite ;
+  6. pipeline complet (Lot E, texte brut) : type de passage, fiche, fuite ; 6 bis. pipeline Silver (ptype e5) ;
   7. cas similaires (Lot E, Silver) : LaBSE sur les termes métier contre TF-IDF (Bronze) : P@5, MRR, IC bootstrap.
 Les autres briques du Silver s'ajoutent ici une fois leurs choix figés au dev.
 
@@ -167,14 +168,41 @@ def evaluer_fiches(fiches: list[dict], split: str) -> dict[str, str]:
         return out
 
 
+def bootstrap_documents(
+    rows: list[dict], vrai: list[str], ref: list[str], autre: list[str], n: int = 2000, graine: int = GRAINE
+) -> tuple[float, float, float]:
+    """Écart de macro-F1 (autre − ref) et IC 95 % par bootstrap apparié sur les documents (comme le Lot C)."""
+    import random
+
+    from sklearn.metrics import f1_score
+
+    par_doc: dict[str, list[int]] = {}
+    for i, r in enumerate(rows):
+        par_doc.setdefault(r["doc_id"], []).append(i)
+    docs = sorted(par_doc)
+    rng = random.Random(graine)
+    diffs = []
+    for _ in range(n):
+        idx = [i for d in rng.choices(docs, k=len(docs)) for i in par_doc[d]]
+        v = [vrai[i] for i in idx]
+        diffs.append(
+            f1_score(v, [autre[i] for i in idx], average="macro") - f1_score(v, [ref[i] for i in idx], average="macro")
+        )
+    diffs.sort()
+    ecart = f1_score(vrai, autre, average="macro") - f1_score(vrai, ref, average="macro")
+    return ecart, diffs[int(0.025 * n)], diffs[int(0.975 * n) - 1]
+
+
 def evaluer(split: str) -> list[str]:
     """Évalue les 7 composants sur `split` ; renvoie les lignes du rapport. Imports lourds faits ici seulement."""
+    __import__("torch")  # avant sklearn/scipy : sinon c10.dll peut échouer sous Windows (conflit OpenMP, Lot C)
     import random
     from collections import Counter
     from statistics import mean
 
     import gabarit
     from rank_bm25 import BM25Okapi
+    from scipy.sparse import csr_matrix, hstack
     from sklearn.metrics import f1_score
 
     from caseforge.anonymization.anonymizer import anonymize_document
@@ -269,6 +297,27 @@ def evaluer(split: str) -> list[str]:
     )
     print(f"[3] type de passage {ptype:.3f}")
 
+    # 3 bis. type de passage Silver (Lot C) : e5 gelé ⊕ TF-IDF car. + position, contre le Bronze ci-dessus
+    from caseforge.pipeline import classifieur_ptype_e5
+
+    enc, vect, tete_e5 = classifieur_ptype_e5()
+    X_e5 = hstack([vect.transform(avec_position(gold)), csr_matrix(enc([g["text"] for g in gold], "query: "))])
+    pred_e5 = [str(t) for t in tete_e5.predict(X_e5.tocsr())]
+    ptype_e5 = f1_score(vrai, pred_e5, average="macro")
+    d_e5, b_e5, h_e5 = bootstrap_documents(gold, vrai, pred, pred_e5)
+    lignes.append(
+        "| Type de passage (Silver) | C | e5 ⊕ TF-IDF car. + position | TF-IDF car. + position (Bronze) | macro-F1 ↑ | "
+        f"{fr(ptype)} | **{fr(ptype_e5)}** (Δ {d_e5:+.3f} [{b_e5:+.3f} ; {h_e5:+.3f}]) | {len(gold)} passages |"
+    )
+    langues.append(
+        "| Type de passage (e5) | macro-F1 | "
+        + " | ".join(
+            fr(f1_score([vrai[i] for i in idx[lg]], [pred_e5[i] for i in idx[lg]], average="macro")) for lg in LANGS
+        )
+        + " |"
+    )
+    print(f"[3 bis] type de passage e5 {ptype_e5:.3f} (Bronze {ptype:.3f})")
+
     # 4. recherche du passage source : BM25 contre hasard
     passages, requetes, _ = charger_recherche(split)
     bm25 = BM25Okapi([mots(p["texte"]) for p in passages])
@@ -341,6 +390,24 @@ def evaluer(split: str) -> list[str]:
     )
     langues.append("| Pipeline complet | fiche F1 | " + " | ".join(fp.get(f"langue={lg}", "-") for lg in LANGS) + " |")
     print(f"[6] pipeline fiche {fp['global']}")
+
+    # 6 bis. pipeline Silver : mêmes documents, type de passage e5 (les autres briques Silver s'ajoutent ici)
+    s_vrai, s_pred, s_fiches = [], [], []
+    for d in docs:
+        ps = [p for p in d["passages"] if p["text"].strip()]
+        s = traiter("\n\n".join(p["text"].strip() for p in ps), langue="auto", doc_id=d["doc_id"], ptype="e5")
+        if len(s["passages"]) == len(ps):
+            s_vrai += [p["ptype"] for p in ps]
+            s_pred += [p["ptype"] for p in s["passages"]]
+        s_fiches.append({"doc_id": d["doc_id"], "lang": s["lang"], **s["fiche"]})
+    fs = evaluer_fiches(s_fiches, split)
+    lignes.append(
+        f"| Pipeline Silver (E) | E | B3 + C (e5) + B9 + D | pipeline Bronze | fiche F1 ↑ | {fp['global']} | "
+        f"**{fs['global']}** (type de passage {fr(f1_score(s_vrai, s_pred, average='macro'))}, "
+        f"{fs['fuites']} fuite(s)) | {len(docs)} documents |"
+    )
+    langues.append("| Pipeline Silver | fiche F1 | " + " | ".join(fs.get(f"langue={lg}", "-") for lg in LANGS) + " |")
+    print(f"[6 bis] pipeline Silver fiche {fs['global']} (Bronze {fp['global']})")
 
     # 7. cas similaires (Lot E, Silver) : LaBSE sur les termes métier contre TF-IDF (Bronze)
     import recherche_dense as rd

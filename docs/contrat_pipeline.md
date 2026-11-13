@@ -56,7 +56,7 @@ caseforge.anonymization.anonymiser_document(passages: list[dict], langue: str, b
 
 ## 5. Options Silver (ajout compatible, la version 1.0 reste valable)
 
-`caseforge.pipeline.traiter(texte, langue, doc_id, backend="union_seuil", ner="b3", fiche="gabarit", recherche=None)`.
+`caseforge.pipeline.traiter(texte, langue, doc_id, backend="union_seuil", ner="b3", fiche="gabarit", recherche=None, ptype="tfidf")`.
 Avec les valeurs par défaut, la sortie est exactement celle du §2.
 
 | Option | Valeurs | Brancher une nouvelle brique |
@@ -65,6 +65,7 @@ Avec les valeurs par défaut, la sortie est exactement celle du §2.
 | `backend` | backends de `caseforge.anonymization` | ajouter le backend dans `caseforge/anonymization/` (Lot B) |
 | `fiche` | `"gabarit"` (version 2 du Lot D) | `enregistrer_fiche(nom, f)` ; `f(doc)` reçoit le document au format de `generation/gabarit.py` (texte anonymisé, entités) et renvoie les champs de la fiche (`contexte`, `objectifs`, `donnees`, `contraintes`, `consignes`, `livrables`, `criteres_evaluation`) |
 | `recherche` | `None`, `"dense"` (LaBSE), `"tfidf"` | — |
+| `ptype` | `"tfidf"` (Bronze), `"e5"` (Silver, Lot C : e5 gelé ⊕ TF-IDF + position, macro-F1 0,948 au dev) | — |
 
 Avec `recherche`, la sortie gagne une clé optionnelle :
 
