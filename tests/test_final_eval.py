@@ -121,3 +121,12 @@ def test_empreinte_crlf(tmp_path: Path) -> None:
     lf.write_bytes(b"a\nb\n")
     crlf.write_bytes(b"a\r\nb\r\n")
     assert fe.empreinte(lf)[0] in fe.empreinte(crlf)
+
+
+def test_bootstrap_documents() -> None:
+    rows = [{"doc_id": f"d{i // 2}"} for i in range(8)]
+    vrai = ["a", "b"] * 4
+    ref = ["a", "a"] * 4  # se trompe sur tous les « b »
+    ecart, bas, haut = fe.bootstrap_documents(rows, vrai, ref, vrai, n=200)
+    assert ecart > 0 and bas <= ecart <= haut
+    assert fe.bootstrap_documents(rows, vrai, vrai, vrai, n=50) == (0.0, 0.0, 0.0)

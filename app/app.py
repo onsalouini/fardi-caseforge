@@ -3,7 +3,8 @@
     streamlit run app/app.py
 
 Trois colonnes : texte original (entités colorées), texte anonymisé, fiche pédagogique ; puis validation par
-l'enseignant, enregistrée dans reports/journal_validation.jsonl. Trois sources possibles pour la sortie :
+l'enseignant, enregistrée dans reports/journal_validation.jsonl. Palier Bronze ou Silver (pipeline local) : type de
+passage e5 (Lot C), cas similaires LaBSE (Lot E), comparaison Bronze / Silver. Trois sources possibles :
   - « Exemple factice » : tests/fixtures/pipeline_exemple.json (contrat), pour développer sans le pipeline ;
   - « Pipeline local » : caseforge.pipeline.traiter (Lot E · E1) ;
   - « API » : POST {url}/pipeline (Lot E · E3), même format.
@@ -22,6 +23,8 @@ RACINE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RACINE))
 from app.rendu import (  # noqa: E402
     bloc,
+    cas_similaires_markdown,
+    comparaison_ptypes,
     entree_journal,
     fiche_markdown,
     journaliser,
@@ -41,6 +44,16 @@ with st.sidebar:
     source = st.radio("Source", ["Exemple factice", "Pipeline local", "API"], index=0)
     url = st.text_input("Adresse de l'API", "http://127.0.0.1:8000", disabled=source != "API")
     langue = st.selectbox("Langue", ["auto", "fr", "ar", "en"])
+    st.subheader("Palier")
+    palier = st.radio("Palier", ["Bronze", "Silver"], index=1, horizontal=True, disabled=source != "Pipeline local")
+    silver = source == "Pipeline local" and palier == "Silver"
+    ptype_e5 = st.checkbox("Type de passage e5 (Lot C, 0,948)", value=True, disabled=not silver)
+    similaires = st.checkbox("Cas similaires LaBSE (Lot E, P@5 0,36)", value=True, disabled=not silver)
+    comparer = st.checkbox("Comparer avec le Bronze", value=True, disabled=not silver)
+    st.caption(
+        "Silver disponible avec le pipeline local. Fiche LLM (Lot D) et anonymisation XLM-R (Lot B) : GPU, "
+        "démontrées dans leurs notebooks."
+    )
     st.markdown("**Légende**", unsafe_allow_html=True)
     st.markdown(legende(), unsafe_allow_html=True)
 
@@ -56,7 +69,14 @@ def lancer(texte: str) -> dict:
     if source == "Pipeline local":
         from caseforge.pipeline import traiter
 
-        return traiter(texte, langue)
+        if not silver:
+            return traiter(texte, langue)
+        options = {"ptype": "e5" if ptype_e5 else "tfidf", "recherche": "dense" if similaires else None}
+        sortie = traiter(texte, langue, **options)
+        sortie["palier"] = "Silver"
+        if comparer:
+            sortie["bronze"] = traiter(texte, langue)
+        return sortie
     req = urllib.request.Request(
         f"{url.rstrip('/')}/pipeline",
         method="POST",
@@ -87,7 +107,8 @@ if st.button("Analyser", type="primary"):
 s = st.session_state.get("sortie")
 if s:
     m = s.get("metriques", {})
-    c1, c2, c3, c4 = st.columns(4)
+    c0, c1, c2, c3, c4 = st.columns(5)
+    c0.metric("Palier", s.get("palier", "Bronze"))
     c1.metric("Langue", s["lang"])
     c2.metric("Passages", len(s["passages"]))
     c3.metric("Fuites détectées", m.get("fuites_detectees", "—"))
@@ -99,6 +120,17 @@ if s:
     with st.expander("Détails du traitement (mode debug)"):
         st.write("Passages, types et entités prédits, remplacements et fiche, tels que renvoyés par le pipeline :")
         st.json(s, expanded=False)
+
+    if "bronze" in s:
+        tableau, changes = comparaison_ptypes(s["bronze"], s)
+        fb, fs = s["bronze"]["metriques"].get("fuites_detectees", 0), m.get("fuites_detectees", 0)
+        with st.expander(
+            f"Bronze / Silver : {changes} type(s) de passage changé(s), fuites {fb} → {fs}", expanded=True
+        ):
+            st.markdown(tableau)
+    if "cas_similaires" in s:
+        with st.expander("Cas similaires du train (recherche dense LaBSE sur les termes métier)", expanded=True):
+            st.markdown(cas_similaires_markdown(s["cas_similaires"]))
 
     anon = {p["passage_id"]: p["texte"] for p in s["anonymise"]["passages"]}
     g, mil, d = st.columns(3)

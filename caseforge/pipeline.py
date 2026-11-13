@@ -20,6 +20,7 @@ Options Silver (le Bronze reste le défaut, la sortie par défaut ne change pas)
   - ``ner`` : nom d'un extracteur de NER ; ``"b3"`` par défaut. Un lot ajoute le sien avec ``enregistrer_ner``.
   - ``backend`` : backend d'anonymisation (``caseforge.anonymization``), ``"union_seuil"`` par défaut.
   - ``fiche`` : nom d'un générateur de fiche ; ``"gabarit"`` (version 2) par défaut. Ajout avec ``enregistrer_fiche``.
+  - ``ptype`` : ``"tfidf"`` (Bronze, défaut) ou ``"e5"`` (Silver, Lot C : e5 ⊕ TF-IDF + position, 0,948 au dev).
   - ``recherche`` : ``None`` (défaut, pas de cas similaires), ``"dense"`` (LaBSE) ou ``"tfidf"`` (Bronze) ; ajoute la
     clé ``cas_similaires`` à la sortie.
 """
@@ -67,6 +68,7 @@ Generateur = Callable[[dict[str, Any]], dict[str, Any]]
 EXTRACTEURS: dict[str, Extracteur] = {}
 GENERATEURS: dict[str, Generateur] = {}
 RECHERCHES = ("dense", "tfidf")
+PTYPES = ("tfidf", "e5")
 MODELE_DENSE = "sentence-transformers/LaBSE"
 K_SIMILAIRES = 3
 
@@ -116,10 +118,34 @@ def classifieur_ptype():
     return modele("caracteres", GRAINE).fit(avec_position(train), [r["ptype"] for r in train])
 
 
-def predire_ptypes(doc_id: str, passages: list[dict]) -> list[str]:
+@lru_cache(maxsize=1)
+def classifieur_ptype_e5() -> tuple[Any, Any, Any]:
+    """Silver (Lot C, `caseforge/models/embeddings_lotc.py`) : e5 gelé ⊕ TF-IDF caractères + position, entraîné sur le
+    train seul. Macro-F1 au dev 0,948 contre 0,896 (Bronze). Renvoie (encodeur, vectoriseur, tête)."""
+    from scipy.sparse import csr_matrix, hstack
+
+    from caseforge.models.embeddings_lotc import encodeur, tete
+    from caseforge.models.ptype_contexte import avec_position
+    from caseforge.models.tfidf_classif import vectoriseur
+
+    train = [json.loads(ligne) for ligne in open(RACINE / "data/final/train.jsonl", encoding="utf-8")]
+    enc = encodeur()
+    vect = vectoriseur("caracteres").fit(avec_position(train))
+    X = hstack([vect.transform(avec_position(train)), csr_matrix(enc([r["text"] for r in train], "query: "))]).tocsr()
+    return enc, vect, tete(GRAINE).fit(X, [r["ptype"] for r in train])
+
+
+def predire_ptypes(doc_id: str, passages: list[dict], methode: str = "tfidf") -> list[str]:
+    """Type de chaque passage : ``"tfidf"`` (Bronze, TF-IDF + position) ou ``"e5"`` (Silver)."""
     from caseforge.models.ptype_contexte import avec_position
 
     rows = [{"doc_id": doc_id, "passage_id": p["passage_id"], "text": p["text"]} for p in passages]
+    if methode == "e5":
+        from scipy.sparse import csr_matrix, hstack
+
+        enc, vect, clf = classifieur_ptype_e5()
+        X = hstack([vect.transform(avec_position(rows)), csr_matrix(enc([r["text"] for r in rows], "query: "))])
+        return [str(t) for t in clf.predict(X.tocsr())]
     return [str(t) for t in classifieur_ptype().predict(avec_position(rows))]
 
 
@@ -210,6 +236,7 @@ def traiter(
     ner: str = "b3",
     fiche: str = "gabarit",
     recherche: str | None = None,
+    ptype: str = "tfidf",
 ) -> dict[str, Any]:
     """Texte brut -> sortie complète du contrat (§2). ``ValueError`` si le texte est vide, la langue ou une option
     inconnue. Options Silver : voir l'en-tête du module."""
@@ -220,6 +247,8 @@ def traiter(
         raise ValueError(f"ner inconnu « {ner} » : {', '.join(EXTRACTEURS)}")
     if fiche not in GENERATEURS:
         raise ValueError(f"fiche inconnue « {fiche} » : {', '.join(GENERATEURS)}")
+    if ptype not in PTYPES:
+        raise ValueError(f"ptype inconnu « {ptype} » : {', '.join(PTYPES)}")
     if recherche is not None and recherche not in RECHERCHES:
         raise ValueError(f"recherche inconnue « {recherche} » : {', '.join(RECHERCHES)}")
     lang = choisir_langue(texte, langue)
@@ -238,7 +267,7 @@ def traiter(
     ]
 
     # 3. type de passage (C)
-    for p, t in zip(passages, predire_ptypes(doc_id, passages), strict=True):
+    for p, t in zip(passages, predire_ptypes(doc_id, passages, ptype), strict=True):
         p["ptype"] = t
     passages = [{k: p[k] for k in ("passage_id", "text", "ptype", "entities")} for p in passages]
 
@@ -340,6 +369,7 @@ def main() -> None:
     ap.add_argument("--backend", default="union_seuil", help="backend d'anonymisation")
     ap.add_argument("--fiche", default="gabarit", help=f"générateur de fiche : {', '.join(GENERATEURS)}")
     ap.add_argument("--recherche", default=None, choices=RECHERCHES, help="ajoute les cas similaires du train")
+    ap.add_argument("--ptype", default="tfidf", choices=PTYPES, help="type de passage : tfidf (Bronze) ou e5 (Silver)")
     a = ap.parse_args()
     sortie = traiter(
         Path(a.fichier).read_text(encoding="utf-8-sig"),
@@ -348,6 +378,7 @@ def main() -> None:
         ner=a.ner,
         fiche=a.fiche,
         recherche=a.recherche,
+        ptype=a.ptype,
     )
     js = json.dumps(sortie, ensure_ascii=False, indent=1)
     if a.out:
