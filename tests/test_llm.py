@@ -284,3 +284,27 @@ def test_doublons_et_mots_cles_au_bruit_ocr_pres():
     vide = {c: [] for c in llm.CHAMPS_UNIQUES[1:] + llm.CHAMPS_LISTES}
     donnees = llm.composer(vide, doc)["donnees"]
     assert [e["texte"] for e in donnees] == ["مستخرجات من نظام التصرف المندمج"]
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Étape 4 : comparaison sur plusieurs graines (generation/comparer.py)
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def test_comparer_meme_f1_que_evaluer(tmp_path, banque, fixes):
+    import comparer
+
+    refs = {f["doc_id"]: f for _, f in banque}
+    gen = tmp_path / "gen.jsonl"
+    with open(gen, "w", encoding="utf-8") as f:
+        for d, _ in banque[:10]:
+            f.write(json.dumps(llm.gabarit.generer(d, fixes, version=2), ensure_ascii=False) + "\n")
+    comptes = comparer.comptes_par_document(str(gen), refs)
+    docs = sorted(comptes)
+    a = sum(c[0] for c in comptes.values())
+    g = sum(c[1] for c in comptes.values())
+    r = sum(c[2] for c in comptes.values())
+    p, rr = a / g, a / r
+    assert comparer.f1([comptes], docs) == pytest.approx(2 * p * rr / (p + rr))
+    assert comparer.f1([comptes, comptes], docs) == pytest.approx(comparer.f1([comptes], docs))  # graines identiques
+    assert comparer.systeme("llm=a.jsonl,b.jsonl") == ("llm", ["a.jsonl", "b.jsonl"])
