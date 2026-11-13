@@ -26,8 +26,9 @@ produits. En arabe, « من » + un seul nom (matière : « من النحاس »
 B15 (Silver, mis au point sur le train seulement ; options de ``OptionsProduit``) :
 
 - ``elements_dev`` : éléments du B7 choisis après lecture du dev (``ELEMENTS_DEV``, la tournure « (est) la
-  suivante : » et la valeur sans séparateur après un libellé arabe à pronom suffixé). Coupés par défaut au Silver
-  (``elements_vus_au_dev: false`` de ``configs/rules.yaml``) : comportement de B7b (``scripts/b7_sensibilite_dev.py``).
+  suivante : » et la valeur sans séparateur après un libellé arabe à pronom suffixé). Gardés par défaut
+  (``elements_vus_au_dev: true`` de ``configs/rules.yaml``, comportement du B7) ; ``false`` donne B7b
+  (``scripts/b7_sensibilite_dev.py``), pour la seule mesure propre « B7b + Silver ».
 - ``apposition`` (``dependencies.produit_apposition``) : une valeur en apposition est bornée par la virgule qui la
   ferme ; un mot pris pour un verbe par l'analyseur à l'intérieur (faute d'OCR) ne l'arrête plus.
 - ``mode_production`` (``dependencies.produit_mode_production``) : la valeur s'arrête devant un mode de fabrication
@@ -82,9 +83,9 @@ _SUFFIXE_SANS_SEPARATEUR = re.compile(r"(?:منتوج|منتج)\w*\s*$")
 
 @dataclass(frozen=True)
 class OptionsProduit:
-    """Options des règles PRODUIT (B15). Par défaut : configuration du Silver."""
+    """Options des règles PRODUIT (B15). Par défaut : configuration du Silver (B7 + règles B15 gardées)."""
 
-    elements_dev: bool = False
+    elements_dev: bool = True
     apposition: bool = True
     mode_production: bool = True
 

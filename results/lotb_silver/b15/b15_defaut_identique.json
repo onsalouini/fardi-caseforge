@@ -1,0 +1,32 @@
+{
+  "config": {
+    "elements_vus_au_dev": true,
+    "regles_desactivees": [
+      "dependencies.produit_lexique",
+      "rappel.org_camelcase",
+      "rappel.org_sigle",
+      "rappel.personne_prenom_ar"
+    ]
+  },
+  "splits": {
+    "dev": {
+      "n_pred": 162,
+      "n_ref": 162,
+      "meme_ordre": true,
+      "passages_differents": [],
+      "identique": true,
+      "reference": "results/lotb/b3_regles_dev.jsonl"
+    },
+    "train": {
+      "n_pred": 496,
+      "n_ref": 496,
+      "meme_ordre": true,
+      "passages_differents": [
+        "lib_fr_08_p001",
+        "syn_en_025_p001"
+      ],
+      "identique": false,
+      "reference": "results/lotb/b3_regles_train.jsonl"
+    }
+  }
+}

@@ -47,7 +47,7 @@ def charger_config(path: Path | str = CONFIG, **surcharges: bool) -> dict[str, A
             raise ValueError(f"couche inconnue {k!r} : {', '.join(COUCHES)}")
         cfg["couches"][k] = v
     cfg.setdefault("memoire_document", True)
-    cfg.setdefault("elements_vus_au_dev", False)
+    cfg.setdefault("elements_vus_au_dev", True)
     cfg["regles_desactivees"] = set(cfg.get("regles_desactivees") or [])
     return cfg
 
@@ -62,7 +62,7 @@ def options_produit(cfg: dict[str, Any]) -> OptionsProduit:
     """Options des règles PRODUIT (B15) d'après la configuration."""
     des = cfg["regles_desactivees"]
     return OptionsProduit(
-        elements_dev=bool(cfg.get("elements_vus_au_dev", False)),
+        elements_dev=bool(cfg.get("elements_vus_au_dev", True)),
         apposition="dependencies.produit_apposition" not in des,
         mode_production="dependencies.produit_mode_production" not in des,
     )

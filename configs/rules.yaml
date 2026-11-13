@@ -15,8 +15,9 @@ regles_desactivees: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_pre
 # actives, gardées au train par la règle de décision (results/lotb/b7_produit_cv.json).
 # B15 (Silver) : éléments des règles PRODUIT choisis après lecture du dev au B7 (gamme(s), range(s), سلعة، سلع, les
 # copules reste(nt) / demeure(nt) / remain(s), « la suivante : », valeur sans séparateur après « منتوجها » ; liste
-# dans caseforge.extraction.rules.produit.ELEMENTS_DEV). Coupés par défaut au Silver (mise au point sur le train) :
-# comportement de B7b. true rend le B7.
-elements_vus_au_dev: false
+# dans caseforge.extraction.rules.produit.ELEMENTS_DEV). Gardés par défaut (true, comportement du Bronze B7) pour que
+# rien ne change pour les Lots C, D et E (décision du 13/11/2026). false ne sert qu'à la mesure propre « B7b + Silver »
+# (PRODUIT 0,192 au dev, results/lotb_silver/b15_regles_train.md), jamais comme configuration de production.
+elements_vus_au_dev: true
 # B15 : dependencies.produit_apposition, dependencies.produit_mode_production, dependencies.produit_lexique (PRODUIT) et
 # dependencies.contrainte_coord_ar (CONTRAINTE arabes coordonnées) ; décision au train : results/lotb_silver/b15/.

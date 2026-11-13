@@ -6,9 +6,10 @@ Règles figées avant cette mesure (décisions de ``results/lotb_silver/b15/b15_
 ``configs/rules.yaml``). Mode ``token`` de ``caseforge.eval.ner_metrics`` (tokeniseur ``cfdata``,
 ``absents_vides=True``). Deux variantes, mesurées une fois chacune :
 
-- ``B7b + Silver`` : configuration par défaut (``elements_vus_au_dev: false``) ; comparaison propre avec le Bronze
+- ``B7b + Silver`` : ``elements_vus_au_dev: false`` ; comparaison propre avec le Bronze
   B7b (PRODUIT 0,192 au dev, ``results/lotb/b3_regles_dev_sans_mots_dev.jsonl``) ;
-- ``B7 + Silver`` (pour information) : éléments choisis au dev actifs ; comparée au B7
+- ``B7 + Silver`` (pour information ; configuration par défaut depuis le 13/11) : éléments choisis au dev
+  actifs ; comparée au B7
   (``results/lotb/b3_regles_dev.jsonl``), optimiste par construction.
 
 Les deux fichiers du Bronze sont réévalués avec le même harnais (aucune règle n'est exécutée pour eux). Ventilations :

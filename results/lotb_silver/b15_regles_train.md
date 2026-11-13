@@ -11,6 +11,11 @@ donc PRODUIT **0,192** (B7b + Silver = Bronze B7b), sur un écart de 0 passage m
 à y apprendre, et ce qui reste ne ressemble pas aux erreurs du dev (32 PRODUIT du dev sur 41 sont manqués sans aucun
 déclencheur).
 
+**Configuration par défaut (décision du 13/11/2026, après la mesure)** : **B7 + Silver**, c'est-à-dire les éléments
+choisis au dev gardés (`elements_vus_au_dev: true`) et les trois règles B15 gardées actives. Ainsi, rien ne change
+pour les Lots C, D et E : au dev, les prédictions par défaut sont **identiques** à `results/lotb/b3_regles_dev.jsonl`
+(section 6). Le drapeau à `false` ne sert qu'à la mesure propre « B7b + Silver » (0,192).
+
 ## 1. Analyse d'erreurs du train, avant tout changement
 
 Référence `B7b` : B7 sans les éléments choisis après lecture du dev. Au train, elle donne exactement les mêmes
@@ -36,11 +41,11 @@ Décisions validées avant le code :
 ## 2. Code
 
 - `caseforge/extraction/rules/produit.py` : `OptionsProduit` (frozen) et `ELEMENTS_DEV`.
-  - Drapeau `elements_vus_au_dev` de `configs/rules.yaml`, **`false` par défaut au Silver**. Il reproduit B7b à
-    l'identique : contrôlé sur 18 phrases inventées contre l'ancien remplacement à la volée de
-    `b7_sensibilite_dev.py`, puis sur le dev, où les 162 passages sont identiques à
-    `results/lotb/b3_regles_dev_sans_mots_dev.jsonl`.
-  - `true` rend B7, identique à `b3_regles_dev.jsonl`.
+  - Drapeau `elements_vus_au_dev` de `configs/rules.yaml`, **`true` par défaut** (B7, décision du 13/11 ; d'abord
+    `false` pendant la mise au point). À `false`, il reproduit B7b à l'identique : contrôlé sur 18 phrases
+    inventées contre l'ancien remplacement à la volée de `b7_sensibilite_dev.py`, puis sur le dev, où les 162
+    passages sont identiques à `results/lotb/b3_regles_dev_sans_mots_dev.jsonl`.
+  - `true` rend B7 ; avec les règles B15 actives, le dev reste identique à `b3_regles_dev.jsonl` (section 6).
 - `dependencies.produit_apposition` : une valeur en apposition est bornée par la virgule qui la ferme ; un mot analysé
   comme verbe à l'intérieur ne l'arrête plus.
 - `dependencies.produit_mode_production` : la valeur s'arrête devant un mode de fabrication. Nouveau type
@@ -143,16 +148,27 @@ Harnais `scripts/eval_anonymization.py` non modifié, `--backends rules union_se
 syn 6,8 %, lib 47,6 %.
 
 - **Règle du Bronze** (désactivation si la fuite monte de plus de 1 point) : non déclenchée.
-- Le passage de B7 à B7b par défaut ne change pas non plus les masques : PRODUIT n'est pas sensible, et aucun
-  arbitrage avec une entité sensible n'est touché.
+- Mesure faite avec le drapeau à `false` (B7b + Silver), qui était alors le défaut. Les masques sont identiques à
+  ceux de l'étape 0 (B7) : PRODUIT n'est pas sensible, et aucun arbitrage avec une entité sensible n'est touché. Le
+  défaut actuel (B7 + Silver) redonne les prédictions du Bronze au dev (section 6) : l'anonymisation est donc aussi
+  celle de l'étape 0.
 - Le journal `eval_anonymization.log` se termine par une erreur de lecture de mon script de comparaison, après les
   sorties du harnais. Corrigée, puis comparaison relancée avec `--comparer-seulement`, sans relancer le harnais.
 
-## 6. Conséquences et limites
+## 6. Configuration par défaut, conséquences et limites
 
-- **Défaut du Silver : éléments vus au dev coupés.** Toute commande avec la configuration par défaut produit
-  désormais B7b (PRODUIT 0,192 au dev, et non plus 0,911). `results/lotb/b3_regles_dev.jsonl` n'est pas régénéré ;
-  le Lot C doit le savoir.
+- **Défaut = B7 + Silver** (décision du 13/11/2026) : éléments vus au dev gardés, règles B15 gardées actives. Le
+  drapeau à `false` ne sert qu'à la mesure propre « B7b + Silver ».
+- **Contrôle d'identité** (`python -m scripts.b15_verif_defaut`, `results/lotb_silver/b15/b15_defaut_identique.json`,
+  comparaison entité par entité, sans score) :
+  - **dev** : prédictions par défaut **identiques** à `results/lotb/b3_regles_dev.jsonl` (162 / 162 lignes, même
+    ordre, 0 passage différent). Rien à régénérer, aucun changement pour les Lots C, D et E ;
+  - **train** : 494 / 496 passages identiques à `results/lotb/b3_regles_train.jsonl`. Les 2 différents sont les deux
+    corrections gardées au train : `lib_fr_08_p001` (arrêt avant « en sous-traitance ») et `syn_en_025_p001`
+    (apposition). Ce fichier n'est lu que par des scripts du Lot B (`run_b3_regles`, `report_b3_regles`,
+    `b7_eval_dev`) ; il n'est pas régénéré.
+- Le PRODUIT au dev de la configuration par défaut reste **optimiste** (0,911) ; le chiffre à citer pour la
+  généralisation est 0,192 (B7b + Silver).
 - La validation croisée par document mesure la généralisation **à l'intérieur des gabarits du train**. Les gabarits
   `syn_` du dev diffèrent : le train ne permet pas d'estimer, ni d'améliorer, le PRODUIT du dev.
 - Seule piste honnête qui reste : un modèle appris (CRF, XLM-R du Lot C) ou des règles écrites d'après le guide
@@ -165,7 +181,9 @@ syn 6,8 %, lib 47,6 %.
 python -m scripts.b15_regles_train          # train, ~3 min ; écrit aussi data/lexicons/produit_tetes_train.txt
 python -m scripts.b15_eval_dev              # dev, une fois
 python -m scripts.b15_anonymisation_dev     # anonymisation dev, une fois
+python -m scripts.b15_verif_defaut          # identité de la configuration par défaut avec results/lotb/b3_regles_*.jsonl
 ```
 
 Sorties : `results/lotb_silver/b15/` (`b15_regles_train.json`, `b15_ner_dev.json`, `b15_regles_dev.jsonl`,
-`b15_regles_dev_avec_mots_dev.jsonl`, `b15_anonymisation_dev.json`, `eval_anonymization/`).
+`b15_regles_dev_avec_mots_dev.jsonl`, `b15_anonymisation_dev.json`, `b15_defaut_identique.json`,
+`eval_anonymization/`).

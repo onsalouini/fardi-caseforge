@@ -1,8 +1,8 @@
 """Règles PRODUIT du B7 (``caseforge.extraction.rules.produit``) et règle de décision (``caseforge.eval.decision``).
 
 Toutes les phrases sont inventées pour les tests (ni dev, ni test, ni kappa) ; aucun nom de produit n'est repris
-des données. B15 (Silver) : les éléments choisis au dev sont coupés par défaut (``elements_vus_au_dev: false``) ; les
-tests du B7 qui en dépendent passent la configuration B7 (``cfg_b7``).
+des données. B15 (Silver) : les éléments choisis au dev sont gardés par défaut (``elements_vus_au_dev: true``, B7) ;
+``cfg_b7b`` les coupe (mesure propre). Les tests du B7 passent ``cfg_b7`` (B7 sans les règles B15).
 """
 
 from __future__ import annotations
@@ -40,6 +40,13 @@ def cfg_b7() -> dict:
     cfg = charger_config()
     cfg["elements_vus_au_dev"] = True
     cfg["regles_desactivees"] = cfg["regles_desactivees"] | set(REGLES_B15)
+    return cfg
+
+
+def cfg_b7b() -> dict:
+    """Configuration par défaut sans les éléments choisis au dev (« B7b + Silver »)."""
+    cfg = charger_config()
+    cfg["elements_vus_au_dev"] = False
     return cfg
 
 
@@ -151,10 +158,10 @@ def test_regles_desactivables() -> None:
     assert produits("Gamme concernée : tuyaux en cuivre.", "fr", cfg) != ["tuyaux en cuivre"]
 
 
-# ---------- B15 : éléments choisis au dev coupés par défaut ----------
-def test_elements_dev_coupes_par_defaut() -> None:
-    assert charger_config()["elements_vus_au_dev"] is False
-    assert DEFAUT == OptionsProduit(elements_dev=False, apposition=True, mode_production=True)
+# ---------- B15 : éléments choisis au dev gardés par défaut (B7), coupés pour la mesure propre ----------
+def test_elements_dev_gardes_par_defaut() -> None:
+    assert charger_config()["elements_vus_au_dev"] is True
+    assert DEFAUT == OptionsProduit(elements_dev=True, apposition=True, mode_production=True)
     assert {"gamme", "range", "سلعة", "demeure", "remains"} <= ELEMENTS_DEV
 
 
@@ -168,9 +175,10 @@ def test_elements_dev_coupes_par_defaut() -> None:
     ],
 )
 def test_elements_dev_selon_drapeau(texte: str, lang: str, attendu: str) -> None:
-    """Valeur lue grâce à un élément vu au dev : trouvée avec le drapeau (B7), pas sans (B7b, Silver)."""
+    """Valeur lue grâce à un élément vu au dev : trouvée par défaut (B7 + Silver), pas sans (B7b + Silver)."""
     assert attendu in produits(texte, lang, cfg_b7())
-    assert attendu not in produits(texte, lang)
+    assert attendu in produits(texte, lang)
+    assert attendu not in produits(texte, lang, cfg_b7b())
 
 
 # ---------- B15 : apposition ----------
