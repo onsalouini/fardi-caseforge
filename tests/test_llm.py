@@ -213,3 +213,74 @@ def test_nettoyage_retire_suivi_et_doublons(banque, fixes):
     brut, _ = llm.assembler(reponse, d2, fixes, nettoyage=False)
     assert not [e for e in propre["objectifs"] if "[PERSONNE_1]" in e["texte"]] and journal["retires_suivi"]
     assert journal["retires_doublons"] and len(propre["donnees"]) == len(brut["donnees"]) - 1
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Étape 3c : démarche guidée, indicateur répété, doublons et mots-clés au bruit OCR près
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def _avec_processus(doc: dict, ptype: str, texte: str = "plan d'expériences") -> dict:
+    """Copie du document où la seule entité PROCESSUS est placée dans un passage du type demandé."""
+    d = copy.deepcopy(doc)
+    for p in d["passages"]:
+        p["entities"] = [e for e in p["entities"] if e["label"] != "PROCESSUS"]
+    p = next(p for p in d["passages"] if p["ptype"] == ptype)
+    p["text_anonymise"] += f" Un atelier de {texte} a déjà été animé."
+    p["entities"].append({"label": "PROCESSUS", "text": texte})
+    return d
+
+
+def test_demarche_guidee_seulement_si_citee_comme_donnee(doc, fixes):
+    sans_demarche = {"indicateur_probleme": None, "demarche": None}
+    d = _avec_processus(doc, "donnee")
+    fiche, journal = llm.assembler(sans_demarche, d, fixes)
+    attendu = llm.gabarit.PHRASES["fr"]["proposer"].format("plan d'expériences")
+    assert [e["texte"] for e in fiche["objectifs"]] == [attendu] and journal["demarche_guidee"]
+    assert llm.assembler(sans_demarche, d, fixes, demarche_guidee=False)[0]["objectifs"] == []
+    # nommée dans un passage objectif : le LLM l'a vue et ne l'a pas retenue -> rien n'est ajouté
+    d_obj = _avec_processus(doc, "objectif")
+    assert llm.assembler(sans_demarche, d_obj, fixes)[0]["objectifs"] == []
+
+
+def test_demarche_guidee_desactivee_sans_entites(doc, banque, fixes):
+    d = _avec_processus(doc, "donnee")
+
+    def moteur_sans_demarche(messages, graine):
+        return json.dumps({"contexte": None, "demarche": None})
+
+    fiche, _ = llm.generer(d, moteur_sans_demarche, banque, fixes, graine=42)
+    assert fiche["objectifs"]
+    fiche, _ = llm.generer(d, moteur_sans_demarche, banque, fixes, graine=42, avec_entites=False)
+    assert fiche["objectifs"] == []
+
+
+def test_indicateur_repete_en_donnee_retire(doc, fixes):
+    p = doc["passages"][1]
+    p_texte = p["text_anonymise"]
+    indicateur = {"texte": p_texte, "sources": [p["passage_id"]]}
+    reponse = {"indicateur_probleme": indicateur, "donnees": [indicateur]}
+    propre, journal = llm.assembler(reponse, doc, fixes)
+    brut, _ = llm.assembler(reponse, doc, fixes, nettoyage=False)
+    assert journal["retires_doublons"] and len(propre["donnees"]) == len(brut["donnees"]) - 1
+
+
+def test_doublons_et_mots_cles_au_bruit_ocr_pres():
+    a = {"texte": "قياسات آلة القص الآلي", "origine": "source", "sources": ["p1"]}
+    b = {"texte": "قياسات آلة القص الالي", "origine": "source", "sources": ["p2"]}
+    assert llm.sans_doublons_normalises([a, b]) == [{**a, "sources": ["p1", "p2"]}]
+    doc = {
+        "doc_id": "essai",
+        "lang": "ar",
+        "passages": [
+            {
+                "passage_id": "p1",
+                "ptype": "donnee",
+                "text_anonymise": "ستوفر المؤسسة مستخـرجات من نظام الـتصرف المندمج",
+                "entities": [],
+            }
+        ],
+    }
+    vide = {c: [] for c in llm.CHAMPS_UNIQUES[1:] + llm.CHAMPS_LISTES}
+    donnees = llm.composer(vide, doc)["donnees"]
+    assert [e["texte"] for e in donnees] == ["مستخرجات من نظام التصرف المندمج"]

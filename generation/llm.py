@@ -222,11 +222,11 @@ def fiche_cible(fiche: dict, schema: str = "champs") -> str:
     return json.dumps(cible, ensure_ascii=False)
 
 
-MODES_EXEMPLES = ["mixte", "format"]
+MODES_EXEMPLES = ["format", "mixte"]
 
 
 def choisir_exemples(
-    doc: dict, banque: list[tuple[dict, dict]], k: int, graine: int, mode: str = "mixte"
+    doc: dict, banque: list[tuple[dict, dict]], k: int, graine: int, mode: str = "format"
 ) -> list[tuple[dict, dict]]:
     """k exemples du train, même langue, jamais le document lui-même ; tirage reproductible avec la graine.
 
@@ -364,16 +364,37 @@ def valeur(texte: str) -> str:
     return texte.replace(TATWEEL, "").strip("«»\"'  .").strip()
 
 
+def demarche_des_entites(doc: dict) -> list[dict]:
+    """Démarche citée seulement comme formation ou atelier déjà suivi : première entité PROCESSUS, ou [].
+
+    Reprise seulement si toutes les entités PROCESSUS du document sont dans des passages « donnee ». Une démarche
+    nommée dans un passage problème ou objectif a déjà été vue par le LLM, qui a choisi de ne pas la retenir (texte
+    libre : la référence n'a pas de phrase « Proposer une solution… »).
+    """
+    trouvees = [(p, t) for p in doc["passages"] for lab, t in entites_guidage(p) if lab == "PROCESSUS"]
+    if not trouvees or any(p.get("ptype") != "donnee" for p, _ in trouvees):
+        return []
+    p, texte = trouvees[0]
+    return [gabarit.element(texte, p["passage_id"])]
+
+
 def composer(
-    champs: dict[str, list[dict]], doc: dict, journal: dict | None = None, nettoyage: bool = True
+    champs: dict[str, list[dict]],
+    doc: dict,
+    journal: dict | None = None,
+    nettoyage: bool = True,
+    demarche_guidee: bool = True,
 ) -> dict[str, list[dict]]:
     """Objectifs, données et contraintes de la fiche, composés à partir des champs déjà ancrés dans la source.
 
-    Nettoyage (étape 3a, désactivable pour l'ablation) :
+    Nettoyage (étapes 3a et 3c, désactivable pour l'ablation) :
       - un objectif recopié qui nomme un responsable ([PERSONNE_n]) décrit le suivi du projet : retiré (même règle
         que le gabarit v2) ;
-      - une donnée recopiée qui répète une donnée déjà composée (équipement relevé, valeur d'historique, mot-clé
-        ERP / non-conformité déjà repris) est un doublon : retirée.
+      - une donnée recopiée qui répète une donnée déjà composée (équipement relevé, valeur d'historique, indicateur
+        du problème, mot-clé ERP / non-conformité déjà repris) est un doublon : retirée ;
+      - les mots-clés ERP / non-conformité sont cherchés dans le texte normalisé (bruit OCR arabe : tatweel…).
+    Démarche guidée (étape 3c) : si le LLM ne donne aucune démarche, la première entité PROCESSUS du document est
+    reprise (cas d'une démarche citée seulement comme formation ou atelier déjà suivi).
     """
     journal = journal if journal is not None else {}
     lang = langue_phrases(doc["lang"])
@@ -387,8 +408,12 @@ def composer(
     if nettoyage:
         journal["retires_suivi"] = [e["texte"] for e in explicites if gabarit.SUIVI.search(e["texte"])]
         explicites = [e for e in explicites if not gabarit.SUIVI.search(e["texte"])]
+    demarche = champs["demarche"]
+    if demarche_guidee and not demarche:
+        demarche = demarche_des_entites(doc)
+        journal["demarche_guidee"] = [e["texte"] for e in demarche]
     objectifs = [phrase(P["analyser"], e) for e in champs["indicateur_probleme"]]
-    objectifs += [phrase(P["proposer"], e) for e in champs["demarche"]]
+    objectifs += [phrase(P["proposer"], e) for e in demarche]
     objectifs += explicites
 
     donnees = [phrase(P["releves"], e) for e in champs["equipements_releves"]]
@@ -399,14 +424,15 @@ def composer(
     citees, cles_citees = [], []
     for p in doc["passages"]:
         if p.get("ptype") == "donnee":
-            bas = p["text_anonymise"].lower()
+            bas = normaliser(p["text_anonymise"]) if nettoyage else p["text_anonymise"].lower()
             for cles, lib in gabarit.DONNEES_CITEES.get(lang, []):
-                if any(k in bas for k in cles):
+                if any((normaliser(k) if nettoyage else k) in bas for k in cles):
                     citees.append(gabarit.element(lib, p["passage_id"]))
                     cles_citees += [normaliser(k) for k in cles]
     recopiees = champs["donnees"]
     if nettoyage:
-        deja = [normaliser(valeur(e["texte"])) for e in champs["equipements_releves"] + champs["historiques"]]
+        repris = champs["equipements_releves"] + champs["historiques"] + champs["indicateur_probleme"]
+        deja = [normaliser(valeur(e["texte"])) for e in repris]
         deja = [d for d in deja if d] + cles_citees
 
         def doublon(e: dict) -> bool:
@@ -418,6 +444,18 @@ def composer(
     return {"objectifs": objectifs, "donnees": donnees, "contraintes": champs["contraintes"]}
 
 
+def sans_doublons_normalises(elements: list[dict]) -> list[dict]:
+    """Comme gabarit.sans_doublons, mais deux textes égaux au bruit OCR près (« الالي » / « الآلي ») ne font qu'un."""
+    vus: dict[str, dict] = {}
+    for e in elements:
+        cle = normaliser(e["texte"])
+        if cle in vus:
+            vus[cle] = {**vus[cle], "sources": sorted(set(vus[cle]["sources"]) | set(e["sources"]))}
+        else:
+            vus[cle] = e
+    return list(vus.values())
+
+
 def assembler(
     reponse: dict,
     doc: dict,
@@ -426,6 +464,7 @@ def assembler(
     complete: bool = False,
     schema: str = "champs",
     nettoyage: bool = True,
+    demarche_guidee: bool = True,
 ) -> tuple[dict, dict]:
     """Fiche finale (format de data/final/fiches_*.jsonl) et journal des contrôles."""
     journal: dict = {
@@ -449,7 +488,7 @@ def assembler(
     if schema == "champs":
         champs = {c: traiter(elements_bruts(reponse.get(c))[:1]) for c in CHAMPS_UNIQUES[1:]}
         champs |= {c: traiter(elements_bruts(reponse.get(c))) for c in CHAMPS_LISTES}
-        fiche.update(composer(champs, doc, journal, nettoyage))
+        fiche.update(composer(champs, doc, journal, nettoyage, demarche_guidee))
     else:
         for r in RUBRIQUES:
             fiche[r] = traiter(elements_bruts(reponse.get(r)))
@@ -461,7 +500,7 @@ def assembler(
     for r in RUBRIQUES:
         garde = [e for e in fiche[r] if not gabarit.contient_sensible(e["texte"], noms)]
         journal["retires_sensibles"] += [e["texte"] for e in fiche[r] if e not in garde]
-        fiche[r] = gabarit.sans_doublons(garde)
+        fiche[r] = sans_doublons_normalises(garde) if nettoyage else gabarit.sans_doublons(garde)
     if fiche["contexte"] and gabarit.contient_sensible(fiche["contexte"]["texte"], noms):
         journal["retires_sensibles"].append(fiche["contexte"]["texte"])
         fiche["contexte"] = None
@@ -480,7 +519,8 @@ def generer(
     complete: bool = False,
     schema: str = "champs",
     nettoyage: bool = True,
-    mode_exemples: str = "mixte",
+    mode_exemples: str = "format",
+    demarche_guidee: bool = True,
 ) -> tuple[dict, dict]:
     """Fiche d'un document par le LLM ; repli sur le gabarit v2 sans JSON valide après ESSAIS_JSON essais."""
     messages = construire_messages(doc, choisir_exemples(doc, banque, k, graine, mode_exemples), avec_entites, schema)
@@ -490,7 +530,9 @@ def generer(
         reponses.append(moteur(messages, graine + 1000 * essai))
         objet = lire_json(reponses[-1])
         if objet is not None:
-            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema, nettoyage)
+            # sans guidage par les entités (ablation), la démarche ne peut pas venir des entités non plus
+            guidee = demarche_guidee and avec_entites
+            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema, nettoyage, guidee)
             break
     else:
         fiche = gabarit.generer(doc, fixes, version=2)
@@ -643,9 +685,15 @@ def main() -> None:
     ap.add_argument("--sans-entites", action="store_true", help="ablation : pas de guidage par les entités")
     ap.add_argument("--sans-controle", action="store_true", help="ablation : pas de contrôle d'ancrage des éléments")
     ap.add_argument(
-        "--choix-exemples", default="mixte", choices=MODES_EXEMPLES, help="mixte (étape 3 : un texte libre) ou format"
+        "--choix-exemples",
+        default="format",
+        choices=MODES_EXEMPLES,
+        help="format (défaut, étape 3c) ou mixte (un texte libre)",
     )
     ap.add_argument("--sans-nettoyage", action="store_true", help="ablation : pas de retrait des doublons ni du suivi")
+    ap.add_argument(
+        "--sans-demarche-guidee", action="store_true", help="ablation : pas de démarche reprise des entités PROCESSUS"
+    )
     ap.add_argument("--completer", action="store_true", help="ajoute les contraintes / indicateurs non couverts")
     ap.add_argument(
         "--schema", default="champs", choices=SCHEMAS, help="champs (étape 2, phrases composées) ou extractif (étape 1)"
@@ -700,6 +748,7 @@ def main() -> None:
                 args.schema,
                 not args.sans_nettoyage,
                 args.choix_exemples,
+                not args.sans_demarche_guidee,
             )
             journal["config"] = {k: v for k, v in vars(args).items() if k not in {"out", "journal"}}
             f_out.write(json.dumps(fiche, ensure_ascii=False) + "\n")
