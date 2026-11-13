@@ -82,6 +82,16 @@ Champs :
 - contraintes : exigences, interdictions, limites de budget, de délai ou de norme ; UNE contrainte par élément
   (sépare les contraintes coordonnées).
 
+Deux styles de documents :
+- document au canevas (« l'atelier constate un … », « démarche suivante : … », « données disponibles : … ») :
+  remplis indicateur_probleme et demarche ; « relevés de l'équipement / du poste X » -> X dans equipements_releves ;
+  « historique de six mois indiquant X » -> X dans historiques ; ne recopie pas ces mêmes valeurs dans donnees ;
+- texte libre (courriel, compte rendu, notes, formulaire) : recopie la demande telle qu'elle est écrite dans
+  objectifs, et ses faits chiffrés dans donnees ; laisse indicateur_probleme, demarche, equipements_releves et
+  historiques à null ou [] si le texte ne les formule pas ainsi.
+Une formation ou un atelier déjà suivi n'est pas une donnée ; si c'est le seul endroit où la démarche est nommée,
+prends cette démarche comme demarche.
+
 Règles strictes :
 - chaque "texte" est recopié tel quel depuis un passage cité dans "sources" (identifiant entre crochets) ; cite tous
   les passages qui contiennent la valeur ;
@@ -212,15 +222,33 @@ def fiche_cible(fiche: dict, schema: str = "champs") -> str:
     return json.dumps(cible, ensure_ascii=False)
 
 
-def choisir_exemples(doc: dict, banque: list[tuple[dict, dict]], k: int, graine: int) -> list[tuple[dict, dict]]:
-    """k exemples du train : même langue, même format d'abord, ordre tiré avec la graine ; jamais le document."""
+MODES_EXEMPLES = ["mixte", "format"]
+
+
+def choisir_exemples(
+    doc: dict, banque: list[tuple[dict, dict]], k: int, graine: int, mode: str = "mixte"
+) -> list[tuple[dict, dict]]:
+    """k exemples du train, même langue, jamais le document lui-même ; tirage reproductible avec la graine.
+
+    - format (étapes 1 et 2) : même format d'abord (courriel, PV…) ;
+    - mixte (étape 3) : au moins un texte libre du train (source SRC-LIBRE), le reste comme en mode format, puis
+      ordre mélangé. Les documents simulés dominent le train (18 contre 4 par langue) : sans cela, un texte libre ne
+      reçoit que des exemples au canevas simulé et l'imite (analyse d'erreurs de l'étape 2). Le type de source est
+      lu sur les exemples du train, jamais sur le document traité.
+    """
     if k <= 0:
         return []
     candidats = [(d, f) for d, f in banque if d["lang"] == doc["lang"] and d["doc_id"] != doc["doc_id"]]
     rng = random.Random(f"{graine}-{doc['doc_id']}")
     rng.shuffle(candidats)
     candidats.sort(key=lambda c: c[0].get("format") != doc.get("format"))  # tri stable : même format d'abord
-    return candidats[:k]
+    if mode == "format":
+        return candidats[:k]
+    libres = [c for c in candidats if c[0].get("source_id") == "SRC-LIBRE"][: max(1, k // 3)]
+    autres = [c for c in candidats if c not in libres and c[0].get("source_id") != "SRC-LIBRE"]
+    choisis = libres + autres[: k - len(libres)]
+    rng.shuffle(choisis)
+    return choisis
 
 
 def construire_messages(
@@ -336,8 +364,18 @@ def valeur(texte: str) -> str:
     return texte.replace(TATWEEL, "").strip("«»\"'  .").strip()
 
 
-def composer(champs: dict[str, list[dict]], doc: dict) -> dict[str, list[dict]]:
-    """Objectifs, données et contraintes de la fiche, composés à partir des champs déjà ancrés dans la source."""
+def composer(
+    champs: dict[str, list[dict]], doc: dict, journal: dict | None = None, nettoyage: bool = True
+) -> dict[str, list[dict]]:
+    """Objectifs, données et contraintes de la fiche, composés à partir des champs déjà ancrés dans la source.
+
+    Nettoyage (étape 3a, désactivable pour l'ablation) :
+      - un objectif recopié qui nomme un responsable ([PERSONNE_n]) décrit le suivi du projet : retiré (même règle
+        que le gabarit v2) ;
+      - une donnée recopiée qui répète une donnée déjà composée (équipement relevé, valeur d'historique, mot-clé
+        ERP / non-conformité déjà repris) est un doublon : retirée.
+    """
+    journal = journal if journal is not None else {}
     lang = langue_phrases(doc["lang"])
     P = gabarit.PHRASES[lang]
     textes = {p["passage_id"]: p["text_anonymise"] for p in doc["passages"]}
@@ -345,28 +383,49 @@ def composer(champs: dict[str, list[dict]], doc: dict) -> dict[str, list[dict]]:
     def phrase(modele: str, e: dict) -> dict:
         return gabarit.element(modele.format(valeur(e["texte"])), *e["sources"])
 
+    explicites = champs["objectifs"]
+    if nettoyage:
+        journal["retires_suivi"] = [e["texte"] for e in explicites if gabarit.SUIVI.search(e["texte"])]
+        explicites = [e for e in explicites if not gabarit.SUIVI.search(e["texte"])]
     objectifs = [phrase(P["analyser"], e) for e in champs["indicateur_probleme"]]
     objectifs += [phrase(P["proposer"], e) for e in champs["demarche"]]
-    objectifs += champs["objectifs"]
+    objectifs += explicites
+
     donnees = [phrase(P["releves"], e) for e in champs["equipements_releves"]]
     for e in champs["historiques"]:
         six = any(SIX_MOIS.search(textes.get(s, "")) for s in e["sources"])
         donnees.append(phrase(HISTORIQUE[lang], e) if six else e)
-    donnees += champs["donnees"]
     # données citées en toutes lettres (ERP, fiches de non-conformité) : même règle que le gabarit v2
+    citees, cles_citees = [], []
     for p in doc["passages"]:
         if p.get("ptype") == "donnee":
             bas = p["text_anonymise"].lower()
-            donnees += [
-                gabarit.element(lib, p["passage_id"])
-                for cles, lib in gabarit.DONNEES_CITEES.get(lang, [])
-                if any(k in bas for k in cles)
-            ]
+            for cles, lib in gabarit.DONNEES_CITEES.get(lang, []):
+                if any(k in bas for k in cles):
+                    citees.append(gabarit.element(lib, p["passage_id"]))
+                    cles_citees += [normaliser(k) for k in cles]
+    recopiees = champs["donnees"]
+    if nettoyage:
+        deja = [normaliser(valeur(e["texte"])) for e in champs["equipements_releves"] + champs["historiques"]]
+        deja = [d for d in deja if d] + cles_citees
+
+        def doublon(e: dict) -> bool:
+            return any(d in normaliser(e["texte"]) for d in deja)
+
+        journal["retires_doublons"] = [e["texte"] for e in recopiees if doublon(e)]
+        recopiees = [e for e in recopiees if not doublon(e)]
+    donnees += recopiees + citees
     return {"objectifs": objectifs, "donnees": donnees, "contraintes": champs["contraintes"]}
 
 
 def assembler(
-    reponse: dict, doc: dict, fixes: dict, controle: bool = True, complete: bool = False, schema: str = "champs"
+    reponse: dict,
+    doc: dict,
+    fixes: dict,
+    controle: bool = True,
+    complete: bool = False,
+    schema: str = "champs",
+    nettoyage: bool = True,
 ) -> tuple[dict, dict]:
     """Fiche finale (format de data/final/fiches_*.jsonl) et journal des contrôles."""
     journal: dict = {
@@ -390,7 +449,7 @@ def assembler(
     if schema == "champs":
         champs = {c: traiter(elements_bruts(reponse.get(c))[:1]) for c in CHAMPS_UNIQUES[1:]}
         champs |= {c: traiter(elements_bruts(reponse.get(c))) for c in CHAMPS_LISTES}
-        fiche.update(composer(champs, doc))
+        fiche.update(composer(champs, doc, journal, nettoyage))
     else:
         for r in RUBRIQUES:
             fiche[r] = traiter(elements_bruts(reponse.get(r)))
@@ -420,16 +479,18 @@ def generer(
     controle: bool = True,
     complete: bool = False,
     schema: str = "champs",
+    nettoyage: bool = True,
+    mode_exemples: str = "mixte",
 ) -> tuple[dict, dict]:
     """Fiche d'un document par le LLM ; repli sur le gabarit v2 sans JSON valide après ESSAIS_JSON essais."""
-    messages = construire_messages(doc, choisir_exemples(doc, banque, k, graine), avec_entites, schema)
+    messages = construire_messages(doc, choisir_exemples(doc, banque, k, graine, mode_exemples), avec_entites, schema)
     debut = time.perf_counter()
     reponses = []
     for essai in range(ESSAIS_JSON):
         reponses.append(moteur(messages, graine + 1000 * essai))
         objet = lire_json(reponses[-1])
         if objet is not None:
-            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema)
+            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema, nettoyage)
             break
     else:
         fiche = gabarit.generer(doc, fixes, version=2)
@@ -553,6 +614,12 @@ def moteur_rejeu(chemin_journal: str) -> Moteur:
     return appeler
 
 
+def ecrire_jsonl(chemin: Path, lignes: list[dict]) -> None:
+    with open(chemin, "w", encoding="utf-8") as f:
+        for ligne in lignes:
+            f.write(json.dumps(ligne, ensure_ascii=False) + "\n")
+
+
 def banque_exemples() -> list[tuple[dict, dict]]:
     """Couples (document, fiche de référence) du TRAIN : seule source des exemples du prompt."""
     fiches = {f["doc_id"]: f for f in gabarit.charger("data/final/fiches_train.jsonl")}
@@ -575,6 +642,10 @@ def main() -> None:
     ap.add_argument("--exemples", type=int, default=3, help="nombre d'exemples du train dans le prompt (0 = zero-shot)")
     ap.add_argument("--sans-entites", action="store_true", help="ablation : pas de guidage par les entités")
     ap.add_argument("--sans-controle", action="store_true", help="ablation : pas de contrôle d'ancrage des éléments")
+    ap.add_argument(
+        "--choix-exemples", default="mixte", choices=MODES_EXEMPLES, help="mixte (étape 3 : un texte libre) ou format"
+    )
+    ap.add_argument("--sans-nettoyage", action="store_true", help="ablation : pas de retrait des doublons ni du suivi")
     ap.add_argument("--completer", action="store_true", help="ajoute les contraintes / indicateurs non couverts")
     ap.add_argument(
         "--schema", default="champs", choices=SCHEMAS, help="champs (étape 2, phrases composées) ou extractif (étape 1)"
@@ -582,6 +653,7 @@ def main() -> None:
     ap.add_argument("--entites", help="entités prédites par le LOT B (à la place de la référence)")
     ap.add_argument("--anonymisation", help="remplacements de l'anonymiseur du LOT B (à la place de la référence)")
     ap.add_argument("--limite", type=int, help="ne traiter que les n premiers documents (essai rapide)")
+    ap.add_argument("--reprendre", action="store_true", help="après une coupure : saute les documents déjà écrits")
     ap.add_argument(
         "--rejouer",
         help="journal d'une exécution précédente : réutilise ses réponses du LLM sans GPU (ablations --completer, "
@@ -602,8 +674,19 @@ def main() -> None:
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     chemin_journal = Path(args.journal or str(out.with_suffix("")) + ".journal.jsonl")
-    with open(out, "w", encoding="utf-8") as f_out, open(chemin_journal, "w", encoding="utf-8") as f_j:
+    faits: set[str] = set()
+    if args.reprendre and out.exists() and chemin_journal.exists():
+        # un document est fait seulement s'il figure à la fois dans les fiches et dans le journal
+        fiches_ok, journal_ok = gabarit.charger(str(out)), gabarit.charger(str(chemin_journal))
+        faits = {f["doc_id"] for f in fiches_ok} & {j["doc_id"] for j in journal_ok}
+        ecrire_jsonl(out, [f for f in fiches_ok if f["doc_id"] in faits])
+        ecrire_jsonl(chemin_journal, [j for j in journal_ok if j["doc_id"] in faits])
+        print(f"reprise : {len(faits)} documents déjà faits", flush=True)
+    mode = "a" if faits else "w"
+    with open(out, mode, encoding="utf-8") as f_out, open(chemin_journal, mode, encoding="utf-8") as f_j:
         for i, doc in enumerate(docs, 1):
+            if doc["doc_id"] in faits:
+                continue
             fiche, journal = generer(
                 doc,
                 moteur,
@@ -615,10 +698,14 @@ def main() -> None:
                 not args.sans_controle,
                 args.completer,
                 args.schema,
+                not args.sans_nettoyage,
+                args.choix_exemples,
             )
             journal["config"] = {k: v for k, v in vars(args).items() if k not in {"out", "journal"}}
             f_out.write(json.dumps(fiche, ensure_ascii=False) + "\n")
             f_j.write(json.dumps(journal, ensure_ascii=False) + "\n")
+            f_out.flush()
+            f_j.flush()
             print(
                 f"[{i}/{len(docs)}] {doc['doc_id']} : {journal['temps_s']} s, essais {journal['essais']}, "
                 f"retirés {len(journal.get('retires_non_ancres', []))}, repli {journal['repli_gabarit']}",

@@ -181,3 +181,35 @@ def test_rejeu_d_un_journal_redonne_les_memes_fiches(tmp_path, banque, fixes):
     assert [llm.generer(d, rejeu, banque, fixes, graine=13)[0] for d in docs] == fiches
     with pytest.raises(KeyError):
         llm.generer(docs[0], llm.moteur_rejeu(str(chemin)), banque, fixes, graine=99)  # autres exemples -> autre prompt
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Étape 3 : nettoyage des doublons et du suivi, exemples mixtes
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def test_exemples_mixtes_contiennent_un_texte_libre(banque):
+    for d, _ in banque:
+        exemples = llm.choisir_exemples(d, banque, k=3, graine=42, mode="mixte")
+        assert len(exemples) == 3 and d["doc_id"] not in {x["doc_id"] for x, _ in exemples}
+        assert all(x["lang"] == d["lang"] for x, _ in exemples)
+        assert sum(x["source_id"] == "SRC-LIBRE" for x, _ in exemples) == 1, d["doc_id"]
+        assert llm.choisir_exemples(d, banque, k=3, graine=42, mode="mixte") == exemples
+
+
+def test_nettoyage_retire_suivi_et_doublons(banque, fixes):
+    d, f = next((d, f) for d, f in banque if d["doc_id"].startswith("syn_fr"))
+    champs = llm.champs_de_reference(f)
+    pid = d["passages"][1]["passage_id"]
+    equipement = champs["equipements_releves"][0]
+    p_eq = equipement["sources"][0]
+    texte_eq = next(p["text_anonymise"] for p in d["passages"] if p["passage_id"] == p_eq)
+    champs["objectifs"] = [{"texte": "Le projet est suivi par [PERSONNE_1].", "sources": [pid]}]
+    champs["donnees"] = [{"texte": texte_eq, "sources": [p_eq]}]  # phrase entière qui répète l'équipement relevé
+    reponse = {c: v for c, v in champs.items()}
+    d2 = copy.deepcopy(d)
+    d2["passages"][1]["text_anonymise"] += " Le projet est suivi par [PERSONNE_1]."
+    propre, journal = llm.assembler(reponse, d2, fixes)
+    brut, _ = llm.assembler(reponse, d2, fixes, nettoyage=False)
+    assert not [e for e in propre["objectifs"] if "[PERSONNE_1]" in e["texte"]] and journal["retires_suivi"]
+    assert journal["retires_doublons"] and len(propre["donnees"]) == len(brut["donnees"]) - 1
