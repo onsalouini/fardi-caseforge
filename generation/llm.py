@@ -222,11 +222,111 @@ def fiche_cible(fiche: dict, schema: str = "champs") -> str:
     return json.dumps(cible, ensure_ascii=False)
 
 
-MODES_EXEMPLES = ["format", "mixte"]
+MODES_EXEMPLES = ["format", "mixte", "dense", "dense_rerank"]
+MODELE_RETRIEVAL = "sentence-transformers/LaBSE"  # encodeur retenu par le Lot E (recherche de cas similaires)
+MODELE_RERANK = "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1"  # cross-encoder multilingue (dont ar, fr, en)
+CANDIDATS_RERANK = 10
+
+Encodeur = Callable[[list[str]], list[list[float]]]  # textes -> vecteurs normalisés (norme 1)
+Reranker = Callable[[str, list[str]], list[float]]  # requête, candidats -> scores (plus grand = plus proche)
+
+
+def texte_requete(doc: dict) -> str:
+    """Texte du document vu par le retrieval : texte ANONYMISÉ seulement (aucun nom réel n'est encodé)."""
+    return "\n".join(p["text_anonymise"] for p in doc["passages"])
+
+
+class Retrieveur:
+    """RAG des exemples du prompt : cas du train les plus proches du document, dans la même langue.
+
+    Étape 1, recherche dense : similarité cosinus entre embeddings (LaBSE) du texte anonymisé. Étape 2, facultative,
+    reranking : les CANDIDATS_RERANK premiers sont reclassés par un cross-encoder. Index = documents du train
+    uniquement ; le document traité n'en fait jamais partie.
+    """
+
+    def __init__(self, banque: list[tuple[dict, dict]], encodeur: Encodeur, reranker: Reranker | None = None) -> None:
+        self.banque = banque
+        self.encodeur = encodeur
+        self.reranker = reranker
+        self.vecteurs = encodeur([texte_requete(d) for d, _ in banque])
+
+    def chercher(self, doc: dict, k: int, rerank: bool = False) -> list[tuple[dict, dict]]:
+        """k exemples du train, même langue, jamais le document lui-même, classés par proximité."""
+        (requete,) = self.encodeur([texte_requete(doc)])
+        candidats = [
+            (sum(a * b for a, b in zip(requete, v, strict=True)), i)
+            for i, ((d, _), v) in enumerate(zip(self.banque, self.vecteurs, strict=True))
+            if d["lang"] == doc["lang"] and d["doc_id"] != doc["doc_id"]
+        ]
+        candidats.sort(key=lambda c: (-c[0], self.banque[c[1]][0]["doc_id"]))  # égalités : ordre stable
+        if rerank and self.reranker is not None:
+            tete = [i for _, i in candidats[:CANDIDATS_RERANK]]
+            scores = self.reranker(texte_requete(doc), [texte_requete(self.banque[i][0]) for i in tete])
+            ordre = sorted(zip(scores, tete, strict=True), key=lambda c: (-c[0], self.banque[c[1]][0]["doc_id"]))
+            return [self.banque[i] for _, i in ordre[:k]]
+        return [self.banque[i] for _, i in candidats[:k]]
+
+
+class RetrieveurJournal(Retrieveur):
+    """Rejeu : les exemples choisis par le retrieval sont relus dans le journal (sans modèle, sans GPU)."""
+
+    def __init__(self, banque: list[tuple[dict, dict]], chemin_journal: str) -> None:
+        self.par_id = {d["doc_id"]: (d, f) for d, f in banque}
+        self.exemples = {j["doc_id"]: j.get("exemples", []) for j in gabarit.charger(chemin_journal)}
+
+    def chercher(self, doc: dict, k: int, rerank: bool = False) -> list[tuple[dict, dict]]:
+        return [self.par_id[i] for i in self.exemples[doc["doc_id"]][:k]]
+
+
+def encodeur_fictif(textes: list[str]) -> list[list[float]]:
+    """Encodeur de test sans modèle : sac de mots haché sur 256 dimensions, normalisé."""
+    vecteurs = []
+    for texte in textes:
+        v = [0.0] * 256
+        for w in mots(texte):
+            v[int(hashlib.md5(w.encode()).hexdigest(), 16) % 256] += 1.0
+        n = sum(x * x for x in v) ** 0.5 or 1.0
+        vecteurs.append([x / n for x in v])
+    return vecteurs
+
+
+def reranker_fictif(requete: str, candidats: list[str]) -> list[float]:
+    """Reranker de test sans modèle : recouvrement de mots (Jaccard)."""
+    r = set(mots(requete))
+    return [len(r & set(mots(c))) / (len(r | set(mots(c))) or 1) for c in candidats]
+
+
+def encodeur_sentence_transformers(modele: str = MODELE_RETRIEVAL) -> Encodeur:
+    """Encodeur dense (sentence-transformers), embeddings normalisés."""
+    from sentence_transformers import SentenceTransformer
+
+    m = SentenceTransformer(modele)
+
+    def encoder(textes: list[str]) -> list[list[float]]:
+        return m.encode(textes, normalize_embeddings=True, batch_size=16).tolist()
+
+    return encoder
+
+
+def reranker_cross_encoder(modele: str = MODELE_RERANK) -> Reranker:
+    """Reranker par cross-encoder (sentence-transformers), entrées tronquées à 512 jetons."""
+    from sentence_transformers import CrossEncoder
+
+    m = CrossEncoder(modele, max_length=512)
+
+    def scorer(requete: str, candidats: list[str]) -> list[float]:
+        return [float(s) for s in m.predict([(requete, c) for c in candidats])]
+
+    return scorer
 
 
 def choisir_exemples(
-    doc: dict, banque: list[tuple[dict, dict]], k: int, graine: int, mode: str = "format"
+    doc: dict,
+    banque: list[tuple[dict, dict]],
+    k: int,
+    graine: int,
+    mode: str = "format",
+    retrieveur: Retrieveur | None = None,
 ) -> list[tuple[dict, dict]]:
     """k exemples du train, même langue, jamais le document lui-même ; tirage reproductible avec la graine.
 
@@ -234,10 +334,16 @@ def choisir_exemples(
     - mixte (étape 3) : au moins un texte libre du train (source SRC-LIBRE), le reste comme en mode format, puis
       ordre mélangé. Les documents simulés dominent le train (18 contre 4 par langue) : sans cela, un texte libre ne
       reçoit que des exemples au canevas simulé et l'imite (analyse d'erreurs de l'étape 2). Le type de source est
-      lu sur les exemples du train, jamais sur le document traité.
+      lu sur les exemples du train, jamais sur le document traité ;
+    - dense (RAG) : les k cas du train les plus proches (LaBSE sur le texte anonymisé) ; la graine est sans effet ;
+    - dense_rerank : idem, puis reranking des 10 premiers par un cross-encoder.
     """
     if k <= 0:
         return []
+    if mode in ("dense", "dense_rerank"):
+        if retrieveur is None:
+            raise ValueError(f"le mode « {mode} » demande un Retrieveur")
+        return retrieveur.chercher(doc, k, rerank=mode == "dense_rerank")
     candidats = [(d, f) for d, f in banque if d["lang"] == doc["lang"] and d["doc_id"] != doc["doc_id"]]
     rng = random.Random(f"{graine}-{doc['doc_id']}")
     rng.shuffle(candidats)
@@ -553,9 +659,11 @@ def generer(
     nettoyage: bool = True,
     mode_exemples: str = "format",
     demarche_guidee: bool = True,
+    retrieveur: Retrieveur | None = None,
 ) -> tuple[dict, dict]:
     """Fiche d'un document par le LLM ; repli sur le gabarit v2 sans JSON valide après ESSAIS_JSON essais."""
-    messages = construire_messages(doc, choisir_exemples(doc, banque, k, graine, mode_exemples), avec_entites, schema)
+    exemples = choisir_exemples(doc, banque, k, graine, mode_exemples, retrieveur)
+    messages = construire_messages(doc, exemples, avec_entites, schema)
     debut = time.perf_counter()
     reponses = []
     for essai in range(ESSAIS_JSON):
@@ -572,6 +680,7 @@ def generer(
     journal.update(
         {
             "doc_id": doc["doc_id"],
+            "exemples": [d["doc_id"] for d, _ in exemples],
             "essais": len(reponses),
             "prompt_sha": empreinte(messages),
             "reponses": reponses,
@@ -696,10 +805,45 @@ def ecrire_jsonl(chemin: Path, lignes: list[dict]) -> None:
 
 def banque_exemples() -> list[tuple[dict, dict]]:
     """Couples (document, fiche de référence) du TRAIN : seule source des exemples du prompt."""
-    fiches = {f["doc_id"]: f for f in gabarit.charger("data/final/fiches_train.jsonl")}
-    return [
-        (d, fiches[d["doc_id"]]) for d in gabarit.charger("data/final/documents_train.jsonl") if d["doc_id"] in fiches
-    ]
+    fiches = {f["doc_id"]: f for f in gabarit.charger(str(RACINE / "data/final/fiches_train.jsonl"))}
+    documents = gabarit.charger(str(RACINE / "data/final/documents_train.jsonl"))
+    return [(d, fiches[d["doc_id"]]) for d in documents if d["doc_id"] in fiches]
+
+
+# --------------------------------------------------------------------------------------------------------------------
+# Branchement dans le pipeline du Lot E : caseforge.pipeline.traiter(..., fiche="llm")
+# --------------------------------------------------------------------------------------------------------------------
+
+# Configuration du Silver utilisée par le pipeline (graine et mode d'exemples retenus au dev, reports/lot_d_silver.md)
+GRAINE_PIPELINE = 42
+MODE_PIPELINE = "format"
+_RESSOURCES: dict[str, object] = {}
+
+
+def ressources_pipeline() -> tuple[Moteur, list[tuple[dict, dict]], Retrieveur | None]:
+    """Moteur, banque d'exemples et retrieveur, chargés une seule fois par processus (GPU nécessaire)."""
+    if not _RESSOURCES:
+        banque = banque_exemples()
+        retrieveur = None
+        if MODE_PIPELINE.startswith("dense"):
+            rerank = reranker_cross_encoder() if MODE_PIPELINE == "dense_rerank" else None
+            retrieveur = Retrieveur(banque, encodeur_sentence_transformers(), rerank)
+        _RESSOURCES.update(moteur=moteur_transformers(), banque=banque, retrieveur=retrieveur)
+    return _RESSOURCES["moteur"], _RESSOURCES["banque"], _RESSOURCES["retrieveur"]  # type: ignore[return-value]
+
+
+def fiche_pipeline(doc: dict, fixes: dict) -> dict:
+    """Générateur de fiche du pipeline : document anonymisé (format de gabarit.py) -> fiche du LLM.
+
+    Mêmes contrôles qu'à l'évaluation (ancrage, nettoyage, noms sensibles, passages confidentiels) ; repli sur le
+    gabarit v2 si le JSON reste invalide. Le journal des contrôles est joint sous « journal_llm » (le pipeline ne garde
+    que les rubriques de la fiche).
+    """
+    moteur, banque, retrieveur = ressources_pipeline()
+    fiche, journal = generer(
+        doc, moteur, banque, fixes, GRAINE_PIPELINE, mode_exemples=MODE_PIPELINE, retrieveur=retrieveur
+    )
+    return {**fiche, "journal_llm": {k: v for k, v in journal.items() if k != "reponses"}}
 
 
 def main() -> None:
@@ -720,8 +864,10 @@ def main() -> None:
         "--choix-exemples",
         default="format",
         choices=MODES_EXEMPLES,
-        help="format (défaut, étape 3c) ou mixte (un texte libre)",
+        help="format (défaut, étape 3c), mixte (un texte libre), dense (RAG : LaBSE) ou dense_rerank (+ cross-encoder)",
     )
+    ap.add_argument("--modele-retrieval", default=MODELE_RETRIEVAL, help="encodeur dense des modes dense*")
+    ap.add_argument("--modele-rerank", default=MODELE_RERANK, help="cross-encoder du mode dense_rerank")
     ap.add_argument("--sans-nettoyage", action="store_true", help="ablation : pas de retrait des doublons ni du suivi")
     ap.add_argument(
         "--sans-demarche-guidee", action="store_true", help="ablation : pas de démarche reprise des entités PROCESSUS"
@@ -751,6 +897,15 @@ def main() -> None:
         gabarit.charger(f"data/final/documents_{args.split}.jsonl"), args.entites, args.anonymisation
     )[: args.limite]
     banque, fixes = banque_exemples(), gabarit.textes_fixes()
+    retrieveur: Retrieveur | None = None
+    if args.choix_exemples.startswith("dense"):
+        if args.rejouer:
+            retrieveur = RetrieveurJournal(banque, args.rejouer)
+        elif args.moteur == "fictif":
+            retrieveur = Retrieveur(banque, encodeur_fictif, reranker_fictif)
+        else:
+            rerank = reranker_cross_encoder(args.modele_rerank) if args.choix_exemples == "dense_rerank" else None
+            retrieveur = Retrieveur(banque, encodeur_sentence_transformers(args.modele_retrieval), rerank)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     chemin_journal = Path(args.journal or str(out.with_suffix("")) + ".journal.jsonl")
@@ -781,6 +936,7 @@ def main() -> None:
                 not args.sans_nettoyage,
                 args.choix_exemples,
                 not args.sans_demarche_guidee,
+                retrieveur,
             )
             journal["config"] = {k: v for k, v in vars(args).items() if k not in {"out", "journal"}}
             f_out.write(json.dumps(fiche, ensure_ascii=False) + "\n")

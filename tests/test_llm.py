@@ -347,3 +347,102 @@ def test_aucune_reference_ne_cite_un_passage_confidentiel(banque):
         confidentiels = llm.passages_confidentiels(d)
         elements = [e for r in llm.RUBRIQUES for e in f[r]] + ([f["contexte"]] if f["contexte"] else [])
         assert not [e for e in elements if set(e["sources"]) & confidentiels], d["doc_id"]
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Étape 5 : RAG des exemples du prompt (recherche dense puis reranking), encodeurs fictifs sans modèle
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def retrieveur(banque):
+    return llm.Retrieveur(banque, llm.encodeur_fictif, llm.reranker_fictif)
+
+
+def test_rag_meme_langue_jamais_le_document(banque, retrieveur):
+    for d, _ in banque:
+        for mode in ["dense", "dense_rerank"]:
+            exemples = llm.choisir_exemples(d, banque, 3, 42, mode, retrieveur)
+            assert len(exemples) == 3 and len({x["doc_id"] for x, _ in exemples}) == 3, (d["doc_id"], mode)
+            assert all(x["lang"] == d["lang"] and x["doc_id"] != d["doc_id"] for x, _ in exemples)
+        # la graine est sans effet : le retrieval est déterministe
+        assert llm.choisir_exemples(d, banque, 3, 1, "dense", retrieveur) == llm.choisir_exemples(
+            d, banque, 3, 2, "dense", retrieveur
+        )
+
+
+def test_rag_classement_par_similarite(banque, retrieveur, doc):
+    (requete,) = llm.encodeur_fictif([llm.texte_requete(doc)])
+    exemples = retrieveur.chercher(doc, 3)
+    scores = [
+        sum(a * b for a, b in zip(requete, v, strict=True))
+        for v in llm.encodeur_fictif([llm.texte_requete(x) for x, _ in exemples])
+    ]
+    assert scores == sorted(scores, reverse=True)
+    autres = [x for x, _ in banque if x["lang"] == doc["lang"] and x["doc_id"] != doc["doc_id"]]
+    meilleur = max(
+        sum(a * b for a, b in zip(requete, v, strict=True))
+        for v in llm.encodeur_fictif([llm.texte_requete(x) for x in autres])
+    )
+    assert scores[0] == pytest.approx(meilleur)
+
+
+def test_rerank_reclasse_parmi_les_candidats_denses(banque, retrieveur, doc):
+    tete = {x["doc_id"] for x, _ in retrieveur.chercher(doc, llm.CANDIDATS_RERANK)}
+    reclasses = retrieveur.chercher(doc, 3, rerank=True)
+    assert {x["doc_id"] for x, _ in reclasses} <= tete
+    textes = [llm.texte_requete(x) for x, _ in reclasses]
+    scores = llm.reranker_fictif(llm.texte_requete(doc), textes)
+    assert scores == sorted(scores, reverse=True)
+
+
+def test_rag_sans_retrieveur_refuse(doc, banque):
+    with pytest.raises(ValueError):
+        llm.choisir_exemples(doc, banque, 3, 42, "dense")
+
+
+def test_rag_texte_anonymise_seulement(banque):
+    for d, _ in banque[:20]:
+        assert not [n for n in llm.noms_sensibles(d) if n in llm.texte_requete(d)], d["doc_id"]
+
+
+def test_rejeu_d_une_execution_rag(tmp_path, banque, fixes, retrieveur):
+    docs = [d for d, _ in banque[:4]]
+    chemin = tmp_path / "journal.jsonl"
+    fiches = []
+    with open(chemin, "w", encoding="utf-8") as f:
+        for d in docs:
+            fiche, journal = llm.generer(
+                d, llm.moteur_fictif, banque, fixes, graine=42, mode_exemples="dense_rerank", retrieveur=retrieveur
+            )
+            assert len(journal["exemples"]) == 3
+            fiches.append(fiche)
+            f.write(json.dumps(journal, ensure_ascii=False) + "\n")
+    rejeu, relus = llm.moteur_rejeu(str(chemin)), llm.RetrieveurJournal(banque, str(chemin))
+    assert [
+        llm.generer(d, rejeu, banque, fixes, graine=42, mode_exemples="dense_rerank", retrieveur=relus)[0] for d in docs
+    ] == fiches
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Branchement dans le pipeline du Lot E : traiter(..., fiche="llm"), moteur fictif à la place du GPU
+# ---------------------------------------------------------------------------------------------------------------------
+
+
+def test_pipeline_fiche_llm(monkeypatch, banque):
+    from caseforge import pipeline
+
+    monkeypatch.setattr(llm, "_RESSOURCES", {"moteur": llm.moteur_fictif, "banque": banque, "retrieveur": None})
+    texte = (
+        "L'atelier d'injection de l'usine produit des bouchons.\n\n"
+        "Le taux de rebut atteint 9 % sur la presse 4.\n\n"
+        "Le budget ne doit pas dépasser 20000 DT."
+    )
+    sortie = pipeline.traiter(texte, langue="fr", doc_id="essai_llm", fiche="llm")
+    fiche = sortie["fiche"]
+    assert set(fiche) >= {"contexte", "objectifs", "donnees", "contraintes", "consignes", "livrables"}
+    ids = {p["passage_id"] for p in sortie["anonymise"]["passages"]} if "anonymise" in sortie else None
+    for r in ["objectifs", "donnees", "contraintes"]:
+        for e in fiche[r]:
+            assert e["sources"] and (ids is None or set(e["sources"]) <= ids), e
+    assert sortie["fuites"] == [] if "fuites" in sortie else True
