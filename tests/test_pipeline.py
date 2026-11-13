@@ -104,3 +104,13 @@ def test_entrees_invalides():
 def test_decouper():
     assert decouper("A\n\n\nB\r\n\r\nC\n") == ["A", "B", "C"]
     assert decouper("ligne 1\nligne 2") == ["ligne 1\nligne 2"]
+
+
+def test_alertes_hors_perimetre_et_arabizi():
+    hors = traiter("Recette : mélanger trois oeufs, du sucre et de la farine, puis cuire vingt minutes.")
+    assert any("hors périmètre" in a for a in hors["metriques"]["alertes"])
+    arabizi = traiter("ya5i el machine mte3na wa9fet barcha, el rebut wsel 9 %")
+    assert any("arabizi" in a for a in arabizi["metriques"]["alertes"])
+    d = documents_train("fr")
+    normal = traiter("\n\n".join(p["text"] for p in d["passages"]))
+    assert normal["metriques"]["alertes"] == []
