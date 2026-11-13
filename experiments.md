@@ -71,6 +71,11 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Décision : étape 3 = nettoyages déterministes mesurés par rejeu (sans GPU), puis exemples choisis par similarité de texte pour que les textes libres reçoivent des exemples libres.
 - Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le notebook.
 
+## 2026-11-13 · Boutheina · Lot E (Silver) : fusion de `lot-e-revue` (Ons), une seule évaluation finale
+- `scripts/final_eval.py` : version d'Ons comme base (6 composants contre baselines triviales, `--essai-dev`), avec les garde-fous de `lot-e-silver` réservés à l'exécution sur le test (`--auteur`, dépôt propre, empreintes du manifeste, journal `reports/final/journal.jsonl`, `--nouvelle-execution` qui n'écrase pas le premier rapport) et un 7e composant : cas similaires LaBSE contre TF-IDF (P@5, MRR, IC bootstrap). `--essai-dev` ne lit jamais le test et ne consigne rien. Tests : `tests/test_final_eval.py` (11 cas, dont `--essai-dev`). Pas encore exécuté sur le test.
+- Repris de `lot-e-revue` (jamais fusionné) : `scripts/baselines_bronze.py`, `scripts/export_erreurs_csv.py`, alertes du pipeline (`metriques.alertes` : hors périmètre, arabizi, code-switching) combinées avec les options Silver, README, `app/app.py`, tests du pipeline.
+- `scripts/eval_pipeline.py` : retour à la version de `main` (la fonction `evaluer_pipeline` n'est plus utilisée).
+
 ## 2026-11-12 · Ons · Lot D · Silver étape 1 : fiche par LLM extractif (Qwen2.5-7B-Instruct 4 bits), résultat négatif
 - `generation/llm.py` (commit `db993fa`), Colab T4, **dev**, graine 42, décodage glouton, 3 exemples du train (même langue / format), guidage par entités métier non sensibles, contrôle d'ancrage (≥ 80 % des mots dans le passage cité), sans complétion ; entrées de référence (comme le gabarit à 0,93). Sortie `generation/sorties/llm_dev_s42.jsonl` (non versionnée), évaluée par `generation/evaluer.py`.
 - Éléments P 0,83 ; R 0,60 ; **F1 0,70** (gabarit v2 : 0,93) ; citations 0,94 / 0,61 ; complétude 85 % ; 0 fuite. Par langue : fr 0,67 ; ar 0,75 ; en 0,67. Par source : syn_ 0,67 ; **lib_ 0,86** (gabarit v2 : 0,71). Par rubrique : contexte 1,00 ; contraintes 1,00 ; données 0,57 ; **objectifs 0,13** (R 0,08).
@@ -78,6 +83,30 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Cause mesurée sur les références du dev : seuls **3 objectifs sur 39** et 28 données sur 60 sont recopiés de la source (support ≥ 0,8) ; les autres sont des phrases du générateur du Lot A (« Analyser les causes de la dégradation de l'indicateur suivant : … », « Relevés de l'équipement … », « Historique sur six mois : … »). Un LLM purement extractif ne peut pas les produire, et le contrôle d'ancrage retire celles qu'il imite. Contexte et contraintes, réellement extractifs, sont parfaits ; le LLM est meilleur que le gabarit sur le texte libre (lib_, 3 documents : à confirmer sur 3 graines).
 - Décision : étape 2, le LLM remplit des champs extraits du texte (indicateur du problème, démarche, équipements relevés, mesures) et le code compose les phrases ; le contrôle d'ancrage porte sur les champs, pas sur la phrase composée.
 - Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le notebook.
+
+## 2026-11-12 · Boutheina · Lot E (Silver) : options du pipeline et évaluation finale
+- `caseforge/pipeline.py` : options `ner`, `backend`, `fiche`, `recherche` (Bronze par défaut, sortie inchangée) ; `enregistrer_ner` et `enregistrer_fiche` pour brancher XLM-R (Lot C) et le LLM (Lot D) ; `recherche="dense"` ajoute `cas_similaires` (LaBSE, termes métier prédits, 3 cas du train). Contrat : `docs/contrat_pipeline.md` §5. Tests : `tests/test_pipeline_silver.py`.
+- `scripts/final_eval.py` : seul script autorisé à lire le test gelé ; refuse sans `--i-know-this-is-the-frozen-test`, avec un dépôt modifié, avec des empreintes différentes du manifeste, ou si une évaluation a déjà eu lieu ; consigne chaque exécution ici et dans `reports/final/journal.jsonl`. Évalue le pipeline et la recherche de cas similaires (LaBSE, choix figé au dev) ; pas encore exécuté. Tests : `tests/test_final_eval.py`.
+- Aucune nouvelle mesure.
+
+## 2026-11-12 · Boutheina · Lot E (Silver) : recherche dense multilingue des cas similaires
+- `generation/recherche_dense.py` → `reports/lot_e_recherche_dense.md` (e5-small) et `reports/lot_e_recherche_dense_labse.md` (LaBSE). Dev : 66 documents du train indexés, 21 documents du dev en requête (19 avec au moins un cas du même secteur) ; pertinent = même secteur. Méthodes : TF-IDF (référence Bronze), dense, hybride (alpha = 0,5 fixé à l'avance) ; représentations : termes métier ou texte complet (entités sensibles masquées).
+- Référence Bronze reproduite : TF-IDF termes métier P@5 0,20, MRR 0,37 (hasard 0,15).
+- **LaBSE, termes métier : P@5 0,36, MRR 0,60** ; ar 0,34 (TF-IDF 0,14), en 0,30 (0,17), fr 0,43 (0,30) ; syn 0,36 (18 requêtes) ; lib 1 requête, pas de conclusion.
+- e5-small, termes métier : P@5 0,27, MRR 0,53.
+- **Résultats négatifs** : l'hybride fait moins bien que le dense seul (LaBSE 0,22 contre 0,36) ; le texte complet fait moins bien que les termes métier (LaBSE 0,28 contre 0,36).
+- **IC 95 %, bootstrap apparié sur les 19 requêtes** (10 000 tirages, graine 42), contre TF-IDF termes métier : LaBSE termes métier Δ P@5 **+0,16 [+0,04 ; +0,27]**, p = 0,004 (tient après correction de Bonferroni pour 10 comparaisons, seuil 0,005) ; Δ MRR +0,23 [+0,02 ; +0,44], p = 0,017. Hybride : Δ P@5 +0,02 [−0,05 ; +0,08], non significatif ; texte complet : +0,08 [−0,05 ; +0,23], non significatif.
+- Limites : 19 requêtes, groupes par langue de 6 ou 7 requêtes (pas de conclusion par langue) ; LaBSE choisi parmi 12 configurations évaluées au dev, chiffre optimiste ; le vrai chiffre sera celui du test gelé.
+- Décision : LaBSE sur les termes métier remplace le TF-IDF pour la recherche de cas similaires du pipeline Silver.
+- Dépendances : `transformers>=4.44,<4.50` et `sentence-transformers>=3.0,<4.0` ajoutés à `requirements-lotb.txt` (compatibles avec torch 2.5.1).
+
+## 2026-10-27 · Ons · Revue Bronze : baselines triviales, alertes du pipeline, CSV des erreurs
+- Baselines (`scripts/baselines_bronze.py` → `reports/baselines_bronze.md`, dev) : type de passage, classe majoritaire du train (`donnee`) macro-F1 **0,065** (fr 0,068 ; ar 0,069 ; en 0,057) contre 0,896 ; anonymisation sans masquage, fuite **100 %** (213 / 213) contre 6,6 % ; fiche « copie de la source », F1 des éléments **0,08** (fr 0,07 ; ar 0,09 ; en 0,09 ; syn 0,06 ; lib 0,21) contre 0,93. Rappels : NER B1 0,432 ; recherche du passage source au hasard MRR 0,030 ; cas similaires au hasard P@5 0,15 ; secteur, classe majoritaire 0,036.
+- Pipeline (`caseforge/pipeline.py`) : `metriques.alertes` signale un texte hors périmètre (aucune entité métier), l'arabizi (au moins deux mots latins avec chiffres 2, 3, 5, 7, 9) et le code-switching ; affichées dans l'interface, avec un panneau « Détails du traitement » (mode debug). Tests : `tests/test_pipeline.py` (19).
+- `scripts/export_erreurs_csv.py` → `reports/erreurs_bronze.csv` : 198 erreurs catégorisées (D fiche 100, C type de passage 22, C secteur 19, C recherche 57).
+- `scripts/final_eval.py` : évaluation finale unique sur le test gelé (option `--i-know-this-is-the-frozen-test`, refuse une seconde exécution, consigne l'exécution ici) ; répétition sur le dev avec `--essai-dev` (aucun fichier de test lu) : elle redonne les chiffres du dev des lots B à E.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts. Test gelé non utilisé.
+
 
 ## 2026-10-27 · Ons · Lot E · E4 : tableau de bord du Bronze et corrections issues des audits
 - `reports/bronze.md` : vue d'ensemble des lots A à E (chiffre clé, carte, état), exigences transversales, limites pour la démo ; README (tableau des lots, sections Lot D et pipeline) ; `docs/carte_systeme.md` (kappa 0,758, ligne Interface et API).

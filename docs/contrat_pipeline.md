@@ -53,3 +53,24 @@ Erreurs : `422` pour une entrée invalide (texte vide, langue inconnue), avec un
 caseforge.pipeline.traiter(texte: str, langue: str = "auto", doc_id: str | None = None) -> dict   # sortie §2
 caseforge.anonymization.anonymiser_document(passages: list[dict], langue: str, backend: str = "union_seuil") -> dict
 ```
+
+## 5. Options Silver (ajout compatible, la version 1.0 reste valable)
+
+`caseforge.pipeline.traiter(texte, langue, doc_id, backend="union_seuil", ner="b3", fiche="gabarit", recherche=None)`.
+Avec les valeurs par défaut, la sortie est exactement celle du §2.
+
+| Option | Valeurs | Brancher une nouvelle brique |
+|---|---|---|
+| `ner` | `"b3"` (règles du Lot B) | `enregistrer_ner(nom, f)` ; `f([(texte, langue), ...])` renvoie, par passage, une liste `{start, end, label}` (positions dans le texte du passage, étiquettes de `caseforge.labels`) |
+| `backend` | backends de `caseforge.anonymization` | ajouter le backend dans `caseforge/anonymization/` (Lot B) |
+| `fiche` | `"gabarit"` (version 2 du Lot D) | `enregistrer_fiche(nom, f)` ; `f(doc)` reçoit le document au format de `generation/gabarit.py` (texte anonymisé, entités) et renvoie les champs de la fiche (`contexte`, `objectifs`, `donnees`, `contraintes`, `consignes`, `livrables`, `criteres_evaluation`) |
+| `recherche` | `None`, `"dense"` (LaBSE), `"tfidf"` | — |
+
+Avec `recherche`, la sortie gagne une clé optionnelle :
+
+```json
+"cas_similaires": [{"doc_id": "syn_fr_012", "secteur": "textile", "lang": "fr", "score": 0.742}, ...]
+```
+
+Les 3 cas du **train** les plus proches, calculés à partir des termes métier (PRODUIT, EQUIPEMENT, PROCESSUS, INDICATEUR)
+**prédits** sur le document : aucune donnée de référence n'entre dans le pipeline. Liste vide si aucun terme métier.
