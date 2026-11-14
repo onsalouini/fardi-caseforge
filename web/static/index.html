@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CaseForge Studio</title>
+  <link rel="icon" href="/static/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="entete">
+    <div class="marque">
+      <img src="/static/logo.svg" alt="" class="logo" width="44" height="44">
+      <div>
+        <h1>CaseForge <span class="studio">Studio</span></h1>
+        <p class="slogan">Du document industriel à l'étude de cas : anonymisée, sourcée, validable.</p>
+      </div>
+    </div>
+    <div class="actions-entete">
+      <span class="pastille">FR · AR · EN</span>
+      <span class="pastille pastille-silver" id="etat-silver" title="État des briques Silver">Silver</span>
+      <button class="bouton-icone" id="bouton-aide" type="button" aria-label="Mode d'emploi" title="Mode d'emploi">?</button>
+      <button class="bouton-icone" id="bouton-theme" type="button" aria-label="Changer de thème" title="Thème clair ou sombre">◐</button>
+    </div>
+  </header>
+
+  <section class="guide" id="guide" aria-label="Mode d'emploi">
+    <ol class="etapes">
+      <li><span class="num">1</span><div><strong>Collez un document</strong><small>e-mail, compte rendu, formulaire… en français, arabe ou anglais ; un paragraphe par ligne vide. Ou choisissez un exemple.</small></div></li>
+      <li><span class="num">2</span><div><strong>Choisissez le palier</strong><small>Bronze : règles et TF-IDF. Silver : type de passage e5 et cas similaires LaBSE, avec comparaison au Bronze.</small></div></li>
+      <li><span class="num">3</span><div><strong>Analysez</strong><small>Bouton « Analyser » ou <kbd>Ctrl</kbd> + <kbd>Entrée</kbd>. Le premier calcul Silver charge les modèles (1 à 2 min sans GPU).</small></div></li>
+      <li><span class="num">4</span><div><strong>Relisez et validez</strong><small>Cliquez sur une source (p001…) pour voir le passage d'origine. La fiche n'est qu'une proposition : un enseignant la valide.</small></div></li>
+    </ol>
+    <button class="fermer-guide" id="fermer-guide" type="button" aria-label="Masquer le mode d'emploi">Masquer</button>
+  </section>
+
+  <main class="grille">
+    <aside class="panneau carte">
+      <h2>Réglages</h2>
+
+      <label class="champ">
+        <span>Langue <i class="aide" data-aide="« Auto » détecte la langue du document ; choisissez-la si le texte mélange plusieurs langues.">i</i></span>
+        <select id="langue">
+          <option value="auto">Détection automatique</option>
+          <option value="fr">Français</option>
+          <option value="ar">العربية</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+
+      <div class="champ">
+        <span>Palier <i class="aide" data-aide="Bronze : briques classiques (règles, TF-IDF). Silver : modèles appris (encodeurs multilingues).">i</i></span>
+        <div class="segment" role="radiogroup" aria-label="Palier">
+          <button type="button" role="radio" data-palier="Bronze" aria-checked="false">Bronze</button>
+          <button type="button" role="radio" data-palier="Silver" aria-checked="true" class="actif">Silver</button>
+        </div>
+      </div>
+
+      <div class="options-silver" id="options-silver">
+        <label class="interrupteur">
+          <input type="checkbox" id="ptype-e5" checked>
+          <span class="glissiere"></span>
+          <span>Type de passage e5 <i class="aide" data-aide="Lot C : encodeur e5 + TF-IDF + position, macro-F1 0,948 contre 0,896 au Bronze (dev).">i</i></span>
+        </label>
+        <label class="interrupteur">
+          <input type="checkbox" id="similaires" checked>
+          <span class="glissiere"></span>
+          <span>Cas similaires LaBSE <i class="aide" data-aide="Lot E : les 3 cas du train les plus proches (P@5 0,36 contre 0,20 en TF-IDF). Premier usage : téléchargement du modèle (≈ 1,8 Go).">i</i></span>
+        </label>
+        <label class="interrupteur">
+          <input type="checkbox" id="comparer" checked>
+          <span class="glissiere"></span>
+          <span>Comparer avec le Bronze <i class="aide" data-aide="Relance le pipeline Bronze sur le même texte et montre les types de passage qui changent.">i</i></span>
+        </label>
+      </div>
+
+      <div class="note">
+        <strong>Fiche par LLM et anonymisation XLM-R</strong> (Silver, Lots D et B) : GPU nécessaire, démontrées dans les
+        notebooks Kaggle. Ici, la fiche vient du gabarit.
+      </div>
+
+      <h3>Légende des entités</h3>
+      <p class="petit">Cliquez sur une étiquette pour la masquer ou l'afficher.</p>
+      <div class="legende" id="legende"></div>
+    </aside>
+
+    <section class="contenu">
+      <div class="carte saisie">
+        <div class="ligne-titre">
+          <h2>Document industriel</h2>
+          <div class="exemples" id="exemples">
+            <span class="petit">Exemples :</span>
+            <button type="button" class="puce" data-exemple="fr">Français</button>
+            <button type="button" class="puce" data-exemple="ar">العربية</button>
+            <button type="button" class="puce" data-exemple="en">English</button>
+          </div>
+        </div>
+        <textarea id="texte" dir="auto" spellcheck="false"
+          placeholder="Collez ici le besoin industriel. Séparez les paragraphes par une ligne vide.&#10;&#10;Exemple : « La société X, basée à Sfax, fabrique… »"></textarea>
+        <div class="barre-saisie">
+          <span class="petit" id="compteur">0 caractère · 0 paragraphe</span>
+          <div class="boutons">
+            <button type="button" class="bouton secondaire" id="effacer">Effacer</button>
+            <button type="button" class="bouton principal" id="analyser">
+              <span class="etincelle">✦</span> Analyser
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="carte chargement" id="chargement" hidden>
+        <div class="anneau"></div>
+        <div>
+          <strong id="etape-chargement">Découpage en passages…</strong>
+          <p class="petit">Étapes indicatives. Premier calcul Silver : chargement des modèles, 1 à 2 minutes sans GPU.</p>
+        </div>
+      </div>
+
+      <div class="carte erreur" id="erreur" hidden></div>
+
+      <div id="resultats" hidden>
+        <div class="indicateurs" id="indicateurs"></div>
+        <div id="alertes"></div>
+
+        <nav class="onglets" role="tablist">
+          <button type="button" role="tab" data-onglet="vue" class="actif">Vue d'ensemble</button>
+          <button type="button" role="tab" data-onglet="fiche">Fiche pédagogique</button>
+          <button type="button" role="tab" data-onglet="comparaison" id="onglet-comparaison">Bronze ↔ Silver</button>
+          <button type="button" role="tab" data-onglet="similaires" id="onglet-similaires">Cas similaires</button>
+          <button type="button" role="tab" data-onglet="json">Détails (JSON)</button>
+        </nav>
+
+        <div class="panneau-onglet" data-panneau="vue">
+          <div class="trois-colonnes">
+            <div class="carte colonne"><h3>Original <small>entités colorées</small></h3><div id="col-original"></div></div>
+            <div class="carte colonne"><h3>Anonymisé <small>pseudonymes</small></h3><div id="col-anonyme"></div></div>
+            <div class="carte colonne"><h3>Fiche <small>chaque élément cite sa source</small></h3><div id="col-fiche"></div></div>
+          </div>
+        </div>
+        <div class="panneau-onglet" data-panneau="fiche" hidden>
+          <div class="carte"><div id="fiche-complete"></div>
+            <div class="boutons droite">
+              <button type="button" class="bouton secondaire" id="copier-fiche">Copier la fiche</button>
+              <button type="button" class="bouton secondaire" id="telecharger">Télécharger le JSON</button>
+            </div>
+          </div>
+        </div>
+        <div class="panneau-onglet" data-panneau="comparaison" hidden><div class="carte" id="comparaison"></div></div>
+        <div class="panneau-onglet" data-panneau="similaires" hidden><div class="carte" id="similaires-liste"></div></div>
+        <div class="panneau-onglet" data-panneau="json" hidden><div class="carte"><pre id="json"></pre></div></div>
+
+        <form class="carte validation" id="validation">
+          <h2>Validation enseignante</h2>
+          <p class="petit">La décision est enregistrée dans <code>reports/journal_validation.jsonl</code> (identifiants seulement, aucun texte du document).</p>
+          <div class="deux-colonnes">
+            <label class="champ"><span>Validé par</span><input id="valide-par" type="text" maxlength="100" placeholder="Nom de l'enseignant"></label>
+            <label class="champ"><span>Commentaire</span><input id="commentaire" type="text" maxlength="2000" placeholder="Facultatif"></label>
+          </div>
+          <div class="boutons">
+            <button type="button" class="bouton succes" data-statut="validee">✓ Valider la fiche</button>
+            <button type="button" class="bouton danger" data-statut="rejetee">✕ Rejeter la fiche</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pied">CaseForge · projet P7 FARDI · module NLP ESPRIM 2026-2027 · toutes les mesures sont faites sur le dev ; la fiche est une proposition à valider.</footer>
+
+  <div class="infobulle" id="infobulle" role="tooltip" hidden></div>
+  <div class="toast" id="toast" hidden></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
