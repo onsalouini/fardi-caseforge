@@ -1,0 +1,5647 @@
+{
+  "split": "dev (documents_dev.jsonl)",
+  "backends": [
+    "fichier",
+    "union_fichier"
+  ],
+  "union_seuil": {
+    "seuils": {
+      "ORG": 0.35,
+      "PERSONNE": 0.8,
+      "SITE": 0.55,
+      "DONNEE_SENSIBLE": 0.3
+    },
+    "agregation": "minimum"
+  },
+  "configs": {
+    "fichier": {
+      "coref+balayage": {
+        "fuite": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 7,
+            "taux": 0.03286384976525822,
+            "totales": 2,
+            "partielles": 5,
+            "taux_totale": 0.009389671361502348,
+            "taux_partielle": 0.023474178403755867,
+            "ic95": [
+              0.008848582901251413,
+              0.06566489770804491
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 2,
+              "taux": 0.038461538461538464,
+              "totales": 0,
+              "partielles": 2,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.038461538461538464,
+              "ic95": [
+                0.0,
+                0.12
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 1,
+              "taux": 0.017543859649122806,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.017543859649122806,
+              "ic95": [
+                0.0,
+                0.05454545454545454
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.03125,
+              "taux_partielle": 0.03125,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 5,
+              "taux": 0.07246376811594203,
+              "totales": 1,
+              "partielles": 4,
+              "taux_totale": 0.014492753623188406,
+              "taux_partielle": 0.057971014492753624,
+              "ic95": [
+                0.0,
+                0.14290890269151132
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.014285714285714285,
+              "taux_partielle": 0.014285714285714285,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.09523809523809523,
+              "taux_partielle": 0.09523809523809523,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 3,
+              "taux": 0.015625,
+              "totales": 0,
+              "partielles": 3,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.015625,
+              "ic95": [
+                0.0,
+                0.03941374433009803
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          },
+          "sur_masquage": {
+            "global": {
+              "masques": 3510,
+              "hors_entites": 462,
+              "taux": 0.13162393162393163
+            },
+            "par_langue": {
+              "ar": {
+                "masques": 1158,
+                "hors_entites": 91,
+                "taux": 0.07858376511226252
+              },
+              "en": {
+                "masques": 1124,
+                "hors_entites": 205,
+                "taux": 0.18238434163701067
+              },
+              "fr": {
+                "masques": 1228,
+                "hors_entites": 166,
+                "taux": 0.13517915309446255
+              }
+            },
+            "par_source": {
+              "lib": {
+                "masques": 425,
+                "hors_entites": 35,
+                "taux": 0.08235294117647059
+              },
+              "syn": {
+                "masques": 3085,
+                "hors_entites": 427,
+                "taux": 0.13841166936790925
+              }
+            }
+          },
+          "passages_sans_masque": 0,
+          "methode": "masque"
+        },
+        "fuites_partielles_generiques": {
+          "global": {
+            "partielles": 5,
+            "dont_mots_generiques": 0
+          },
+          "DONNEE_SENSIBLE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "PERSONNE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "SITE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          }
+        },
+        "fuite_hors_generiques": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 7,
+            "taux": 0.03286384976525822,
+            "ic95": [
+              0.008848582901251413,
+              0.06566489770804491
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 2,
+              "taux": 0.038461538461538464,
+              "ic95": [
+                0.0,
+                0.12
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 1,
+              "taux": 0.017543859649122806,
+              "ic95": [
+                0.0,
+                0.05454545454545454
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 5,
+              "taux": 0.07246376811594203,
+              "ic95": [
+                0.0,
+                0.14290890269151132
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 3,
+              "taux": 0.015625,
+              "ic95": [
+                0.0,
+                0.03941374433009803
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          }
+        },
+        "rappel_montants": {
+          "par_langue": {
+            "ar": {
+              "n": 5,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "en": {
+              "n": 4,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "fr": {
+              "n": 6,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "par_source": {
+            "syn": {
+              "n": 15,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "global": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "sur_masquage_par_etiquette_gold": {
+          "O": 366,
+          "CONTRAINTE": 24,
+          "PROCESSUS": 14
+        },
+        "f1_caractere": {
+          "global": {
+            "p": 0.6240875912408759,
+            "r": 0.8028169014084507,
+            "f1": 0.702258726899384
+          },
+          "par_etiquette": {
+            "ORG": {
+              "support_gold": 40,
+              "support_pred": 44,
+              "tp": 40,
+              "fp": 4,
+              "fn": 0,
+              "p": 0.9090909090909091,
+              "r": 1.0,
+              "f1": 0.9523809523809523
+            },
+            "PERSONNE": {
+              "support_gold": 52,
+              "support_pred": 50,
+              "tp": 46,
+              "fp": 4,
+              "fn": 6,
+              "p": 0.92,
+              "r": 0.8846153846153846,
+              "f1": 0.9019607843137255
+            },
+            "SITE": {
+              "support_gold": 57,
+              "support_pred": 116,
+              "tp": 49,
+              "fp": 67,
+              "fn": 8,
+              "p": 0.4224137931034483,
+              "r": 0.8596491228070176,
+              "f1": 0.5664739884393064
+            },
+            "DONNEE_SENSIBLE": {
+              "support_gold": 64,
+              "support_pred": 64,
+              "tp": 36,
+              "fp": 28,
+              "fn": 28,
+              "p": 0.5625,
+              "r": 0.5625,
+              "f1": 0.5625
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "p": 0.6764705882352942,
+              "r": 0.6666666666666666,
+              "f1": 0.6715328467153284
+            },
+            "en": {
+              "p": 0.48760330578512395,
+              "r": 0.8428571428571429,
+              "f1": 0.6178010471204188
+            },
+            "fr": {
+              "p": 0.7764705882352941,
+              "r": 0.8918918918918919,
+              "f1": 0.8301886792452831
+            }
+          },
+          "par_source": {
+            "lib": {
+              "p": 0.5161290322580645,
+              "r": 0.7619047619047619,
+              "f1": 0.6153846153846154
+            },
+            "syn": {
+              "p": 0.6378600823045267,
+              "r": 0.8072916666666666,
+              "f1": 0.7126436781609196
+            }
+          },
+          "mixtes": {
+            "n_passages": 4,
+            "support_gold": 5,
+            "support_pred": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0
+          }
+        },
+        "coherence": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 22,
+              "taux": 0.9565217391304348
+            },
+            "SITE": {
+              "n": 21,
+              "ok": 20,
+              "taux": 0.9523809523809523
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 23,
+              "ok": 21,
+              "taux": 0.9130434782608695
+            },
+            "en": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 11,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 54,
+              "ok": 52,
+              "taux": 0.9629629629629629
+            }
+          },
+          "global": {
+            "n": 65,
+            "ok": 63,
+            "taux": 0.9692307692307692
+          }
+        },
+        "purete": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 24,
+              "ok": 24,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 22,
+              "ok": 22,
+              "taux": 1.0
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 25,
+              "ok": 25,
+              "taux": 1.0
+            },
+            "en": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 11,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 56,
+              "ok": 56,
+              "taux": 1.0
+            }
+          },
+          "global": {
+            "n": 67,
+            "ok": 67,
+            "taux": 1.0
+          }
+        },
+        "accord_reference": {
+          "par_langue": {
+            "ar": {
+              "n": 56,
+              "identiques": 0.7321428571428571,
+              "identiques_sans_numero": 0.7321428571428571,
+              "similarite": 0.9723133978382873
+            },
+            "en": {
+              "n": 56,
+              "identiques": 0.44642857142857145,
+              "identiques_sans_numero": 0.44642857142857145,
+              "similarite": 0.9562560459421653
+            },
+            "fr": {
+              "n": 59,
+              "identiques": 0.6610169491525424,
+              "identiques_sans_numero": 0.711864406779661,
+              "similarite": 0.9765955571510814
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 20,
+              "identiques": 0.6,
+              "identiques_sans_numero": 0.6,
+              "similarite": 0.9616424721741185
+            },
+            "syn": {
+              "n": 151,
+              "identiques": 0.6158940397350994,
+              "identiques_sans_numero": 0.6357615894039735,
+              "similarite": 0.9694448826499126
+            }
+          },
+          "global": {
+            "n": 171,
+            "identiques": 0.6140350877192983,
+            "identiques_sans_numero": 0.631578947368421,
+            "similarite": 0.9685323200211646
+          }
+        },
+        "balayage_ajouts": 49
+      },
+      "coref+sans balayage": {
+        "fuite": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 8,
+            "taux": 0.03755868544600939,
+            "totales": 4,
+            "partielles": 4,
+            "taux_totale": 0.018779342723004695,
+            "taux_partielle": 0.018779342723004695,
+            "ic95": [
+              0.009753741015671027,
+              0.07075471698113207
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 2,
+              "taux": 0.038461538461538464,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.019230769230769232,
+              "taux_partielle": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.12
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 2,
+              "taux": 0.03508771929824561,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.017543859649122806,
+              "taux_partielle": 0.017543859649122806,
+              "ic95": [
+                0.0,
+                0.08771929824561403
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.03125,
+              "taux_partielle": 0.03125,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 6,
+              "taux": 0.08695652173913043,
+              "totales": 3,
+              "partielles": 3,
+              "taux_totale": 0.043478260869565216,
+              "taux_partielle": 0.043478260869565216,
+              "ic95": [
+                0.028159233176838813,
+                0.15873015873015872
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.014285714285714285,
+              "taux_partielle": 0.014285714285714285,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.09523809523809523,
+              "taux_partielle": 0.09523809523809523,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 4,
+              "taux": 0.020833333333333332,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.010416666666666666,
+              "taux_partielle": 0.010416666666666666,
+              "ic95": [
+                0.0,
+                0.04522613065326633
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          },
+          "sur_masquage": {
+            "global": {
+              "masques": 3350,
+              "hors_entites": 317,
+              "taux": 0.09462686567164179
+            },
+            "par_langue": {
+              "ar": {
+                "masques": 1146,
+                "hors_entites": 91,
+                "taux": 0.07940663176265271
+              },
+              "en": {
+                "masques": 986,
+                "hors_entites": 70,
+                "taux": 0.07099391480730223
+              },
+              "fr": {
+                "masques": 1218,
+                "hors_entites": 156,
+                "taux": 0.12807881773399016
+              }
+            },
+            "par_source": {
+              "lib": {
+                "masques": 401,
+                "hors_entites": 14,
+                "taux": 0.034912718204488775
+              },
+              "syn": {
+                "masques": 2949,
+                "hors_entites": 303,
+                "taux": 0.10274669379450661
+              }
+            }
+          },
+          "passages_sans_masque": 0,
+          "methode": "masque"
+        },
+        "fuites_partielles_generiques": {
+          "global": {
+            "partielles": 4,
+            "dont_mots_generiques": 0
+          },
+          "DONNEE_SENSIBLE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "PERSONNE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          },
+          "SITE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          }
+        },
+        "fuite_hors_generiques": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 8,
+            "taux": 0.03755868544600939,
+            "ic95": [
+              0.009753741015671027,
+              0.07075471698113207
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 2,
+              "taux": 0.038461538461538464,
+              "ic95": [
+                0.0,
+                0.12
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 2,
+              "taux": 0.03508771929824561,
+              "ic95": [
+                0.0,
+                0.08771929824561403
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 6,
+              "taux": 0.08695652173913043,
+              "ic95": [
+                0.028159233176838813,
+                0.15873015873015872
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 4,
+              "taux": 0.020833333333333332,
+              "ic95": [
+                0.0,
+                0.04522613065326633
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          }
+        },
+        "rappel_montants": {
+          "par_langue": {
+            "ar": {
+              "n": 5,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "en": {
+              "n": 4,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "fr": {
+              "n": 6,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "par_source": {
+            "syn": {
+              "n": 15,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "global": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "sur_masquage_par_etiquette_gold": {
+          "O": 245,
+          "PROCESSUS": 14
+        },
+        "f1_caractere": {
+          "global": {
+            "p": 0.7555555555555555,
+            "r": 0.7981220657276995,
+            "f1": 0.776255707762557
+          },
+          "par_etiquette": {
+            "ORG": {
+              "support_gold": 40,
+              "support_pred": 43,
+              "tp": 40,
+              "fp": 3,
+              "fn": 0,
+              "p": 0.9302325581395349,
+              "r": 1.0,
+              "f1": 0.963855421686747
+            },
+            "PERSONNE": {
+              "support_gold": 52,
+              "support_pred": 49,
+              "tp": 46,
+              "fp": 3,
+              "fn": 6,
+              "p": 0.9387755102040817,
+              "r": 0.8846153846153846,
+              "f1": 0.9108910891089109
+            },
+            "SITE": {
+              "support_gold": 57,
+              "support_pred": 69,
+              "tp": 48,
+              "fp": 21,
+              "fn": 9,
+              "p": 0.6956521739130435,
+              "r": 0.8421052631578947,
+              "f1": 0.7619047619047619
+            },
+            "DONNEE_SENSIBLE": {
+              "support_gold": 64,
+              "support_pred": 64,
+              "tp": 36,
+              "fp": 28,
+              "fn": 28,
+              "p": 0.5625,
+              "r": 0.5625,
+              "f1": 0.5625
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "p": 0.6818181818181818,
+              "r": 0.6521739130434783,
+              "f1": 0.6666666666666666
+            },
+            "en": {
+              "p": 0.7866666666666666,
+              "r": 0.8428571428571429,
+              "f1": 0.8137931034482758
+            },
+            "fr": {
+              "p": 0.7857142857142857,
+              "r": 0.8918918918918919,
+              "f1": 0.8354430379746836
+            }
+          },
+          "par_source": {
+            "lib": {
+              "p": 0.6956521739130435,
+              "r": 0.7619047619047619,
+              "f1": 0.7272727272727273
+            },
+            "syn": {
+              "p": 0.7623762376237624,
+              "r": 0.8020833333333334,
+              "f1": 0.7817258883248731
+            }
+          },
+          "mixtes": {
+            "n_passages": 4,
+            "support_gold": 5,
+            "support_pred": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0
+          }
+        },
+        "coherence": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 22,
+              "taux": 0.9565217391304348
+            },
+            "SITE": {
+              "n": 21,
+              "ok": 20,
+              "taux": 0.9523809523809523
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 23,
+              "ok": 21,
+              "taux": 0.9130434782608695
+            },
+            "en": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 11,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 54,
+              "ok": 52,
+              "taux": 0.9629629629629629
+            }
+          },
+          "global": {
+            "n": 65,
+            "ok": 63,
+            "taux": 0.9692307692307692
+          }
+        },
+        "purete": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 24,
+              "ok": 24,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 22,
+              "ok": 22,
+              "taux": 1.0
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 25,
+              "ok": 25,
+              "taux": 1.0
+            },
+            "en": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 11,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 56,
+              "ok": 56,
+              "taux": 1.0
+            }
+          },
+          "global": {
+            "n": 67,
+            "ok": 67,
+            "taux": 1.0
+          }
+        },
+        "accord_reference": {
+          "par_langue": {
+            "ar": {
+              "n": 56,
+              "identiques": 0.7142857142857143,
+              "identiques_sans_numero": 0.7142857142857143,
+              "similarite": 0.9705078121136539
+            },
+            "en": {
+              "n": 56,
+              "identiques": 0.6964285714285714,
+              "identiques_sans_numero": 0.8035714285714286,
+              "similarite": 0.9856654219479893
+            },
+            "fr": {
+              "n": 59,
+              "identiques": 0.6779661016949152,
+              "identiques_sans_numero": 0.7288135593220338,
+              "similarite": 0.9776024375001331
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 20,
+              "identiques": 0.75,
+              "identiques_sans_numero": 0.75,
+              "similarite": 0.9695889596611911
+            },
+            "syn": {
+              "n": 151,
+              "identiques": 0.6887417218543046,
+              "identiques_sans_numero": 0.7483443708609272,
+              "similarite": 0.9790229518326893
+            }
+          },
+          "global": {
+            "n": 171,
+            "identiques": 0.695906432748538,
+            "identiques_sans_numero": 0.7485380116959064,
+            "similarite": 0.9779195609354377
+          }
+        },
+        "balayage_ajouts": 0
+      },
+      "sans coref+balayage": {
+        "fuite": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 7,
+            "taux": 0.03286384976525822,
+            "totales": 2,
+            "partielles": 5,
+            "taux_totale": 0.009389671361502348,
+            "taux_partielle": 0.023474178403755867,
+            "ic95": [
+              0.008848582901251413,
+              0.06566489770804491
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 2,
+              "taux": 0.038461538461538464,
+              "totales": 0,
+              "partielles": 2,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.038461538461538464,
+              "ic95": [
+                0.0,
+                0.12
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 1,
+              "taux": 0.017543859649122806,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.017543859649122806,
+              "ic95": [
+                0.0,
+                0.05454545454545454
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.03125,
+              "taux_partielle": 0.03125,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 5,
+              "taux": 0.07246376811594203,
+              "totales": 1,
+              "partielles": 4,
+              "taux_totale": 0.014492753623188406,
+              "taux_partielle": 0.057971014492753624,
+              "ic95": [
+                0.0,
+                0.14290890269151132
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.014285714285714285,
+              "taux_partielle": 0.014285714285714285,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.09523809523809523,
+              "taux_partielle": 0.09523809523809523,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 3,
+              "taux": 0.015625,
+              "totales": 0,
+              "partielles": 3,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.015625,
+              "ic95": [
+                0.0,
+                0.03941374433009803
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          },
+          "sur_masquage": {
+            "global": {
+              "masques": 3510,
+              "hors_entites": 462,
+              "taux": 0.13162393162393163
+            },
+            "par_langue": {
+              "ar": {
+                "masques": 1158,
+                "hors_entites": 91,
+                "taux": 0.07858376511226252
+              },
+              "en": {
+                "masques": 1124,
+                "hors_entites": 205,
+                "taux": 0.18238434163701067
+              },
+              "fr": {
+                "masques": 1228,
+                "hors_entites": 166,
+                "taux": 0.13517915309446255
+              }
+            },
+            "par_source": {
+              "lib": {
+                "masques": 425,
+                "hors_entites": 35,
+                "taux": 0.08235294117647059
+              },
+              "syn": {
+                "masques": 3085,
+                "hors_entites": 427,
+                "taux": 0.13841166936790925
+              }
+            }
+          },
+          "passages_sans_masque": 0,
+          "methode": "masque"
+        },
+        "fuites_partielles_generiques": {
+          "global": {
+            "partielles": 5,
+            "dont_mots_generiques": 0
+          },
+          "DONNEE_SENSIBLE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "PERSONNE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "SITE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          }
+        },
+        "fuite_hors_generiques": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 7,
+            "taux": 0.03286384976525822,
+            "ic95": [
+              0.008848582901251413,
+              0.06566489770804491
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 2,
+              "taux": 0.038461538461538464,
+              "ic95": [
+                0.0,
+                0.12
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 1,
+              "taux": 0.017543859649122806,
+              "ic95": [
+                0.0,
+                0.05454545454545454
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 5,
+              "taux": 0.07246376811594203,
+              "ic95": [
+                0.0,
+                0.14290890269151132
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 3,
+              "taux": 0.015625,
+              "ic95": [
+                0.0,
+                0.03941374433009803
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          }
+        },
+        "rappel_montants": {
+          "par_langue": {
+            "ar": {
+              "n": 5,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "en": {
+              "n": 4,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "fr": {
+              "n": 6,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "par_source": {
+            "syn": {
+              "n": 15,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "global": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "sur_masquage_par_etiquette_gold": {
+          "O": 366,
+          "CONTRAINTE": 24,
+          "PROCESSUS": 14
+        },
+        "f1_caractere": {
+          "global": {
+            "p": 0.6240875912408759,
+            "r": 0.8028169014084507,
+            "f1": 0.702258726899384
+          },
+          "par_etiquette": {
+            "ORG": {
+              "support_gold": 40,
+              "support_pred": 44,
+              "tp": 40,
+              "fp": 4,
+              "fn": 0,
+              "p": 0.9090909090909091,
+              "r": 1.0,
+              "f1": 0.9523809523809523
+            },
+            "PERSONNE": {
+              "support_gold": 52,
+              "support_pred": 50,
+              "tp": 46,
+              "fp": 4,
+              "fn": 6,
+              "p": 0.92,
+              "r": 0.8846153846153846,
+              "f1": 0.9019607843137255
+            },
+            "SITE": {
+              "support_gold": 57,
+              "support_pred": 116,
+              "tp": 49,
+              "fp": 67,
+              "fn": 8,
+              "p": 0.4224137931034483,
+              "r": 0.8596491228070176,
+              "f1": 0.5664739884393064
+            },
+            "DONNEE_SENSIBLE": {
+              "support_gold": 64,
+              "support_pred": 64,
+              "tp": 36,
+              "fp": 28,
+              "fn": 28,
+              "p": 0.5625,
+              "r": 0.5625,
+              "f1": 0.5625
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "p": 0.6764705882352942,
+              "r": 0.6666666666666666,
+              "f1": 0.6715328467153284
+            },
+            "en": {
+              "p": 0.48760330578512395,
+              "r": 0.8428571428571429,
+              "f1": 0.6178010471204188
+            },
+            "fr": {
+              "p": 0.7764705882352941,
+              "r": 0.8918918918918919,
+              "f1": 0.8301886792452831
+            }
+          },
+          "par_source": {
+            "lib": {
+              "p": 0.5161290322580645,
+              "r": 0.7619047619047619,
+              "f1": 0.6153846153846154
+            },
+            "syn": {
+              "p": 0.6378600823045267,
+              "r": 0.8072916666666666,
+              "f1": 0.7126436781609196
+            }
+          },
+          "mixtes": {
+            "n_passages": 4,
+            "support_gold": 5,
+            "support_pred": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0
+          }
+        },
+        "coherence": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 7,
+              "taux": 0.3333333333333333
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 7,
+              "taux": 0.30434782608695654
+            },
+            "SITE": {
+              "n": 21,
+              "ok": 7,
+              "taux": 0.3333333333333333
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 23,
+              "ok": 12,
+              "taux": 0.5217391304347826
+            },
+            "en": {
+              "n": 21,
+              "ok": 5,
+              "taux": 0.23809523809523808
+            },
+            "fr": {
+              "n": 21,
+              "ok": 4,
+              "taux": 0.19047619047619047
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 10,
+              "taux": 0.9090909090909091
+            },
+            "syn": {
+              "n": 54,
+              "ok": 11,
+              "taux": 0.2037037037037037
+            }
+          },
+          "global": {
+            "n": 65,
+            "ok": 21,
+            "taux": 0.3230769230769231
+          }
+        },
+        "purete": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 35,
+              "ok": 35,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 40,
+              "ok": 40,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 37,
+              "ok": 37,
+              "taux": 1.0
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 36,
+              "ok": 36,
+              "taux": 1.0
+            },
+            "en": {
+              "n": 37,
+              "ok": 37,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 39,
+              "ok": 39,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 12,
+              "ok": 12,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 100,
+              "ok": 100,
+              "taux": 1.0
+            }
+          },
+          "global": {
+            "n": 112,
+            "ok": 112,
+            "taux": 1.0
+          }
+        },
+        "accord_reference": {
+          "par_langue": {
+            "ar": {
+              "n": 56,
+              "identiques": 0.5892857142857143,
+              "identiques_sans_numero": 0.7321428571428571,
+              "similarite": 0.9701836023267045
+            },
+            "en": {
+              "n": 56,
+              "identiques": 0.32142857142857145,
+              "identiques_sans_numero": 0.44642857142857145,
+              "similarite": 0.9544597306771412
+            },
+            "fr": {
+              "n": 59,
+              "identiques": 0.5084745762711864,
+              "identiques_sans_numero": 0.711864406779661,
+              "similarite": 0.9745391578892584
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 20,
+              "identiques": 0.55,
+              "identiques_sans_numero": 0.6,
+              "similarite": 0.9609281864598327
+            },
+            "syn": {
+              "n": 151,
+              "identiques": 0.46357615894039733,
+              "identiques_sans_numero": 0.6357615894039735,
+              "similarite": 0.9672799551952642
+            }
+          },
+          "global": {
+            "n": 171,
+            "identiques": 0.47368421052631576,
+            "identiques_sans_numero": 0.631578947368421,
+            "similarite": 0.9665370582671438
+          }
+        },
+        "balayage_ajouts": 49
+      },
+      "sans coref+sans balayage": {
+        "fuite": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 8,
+            "taux": 0.03755868544600939,
+            "totales": 4,
+            "partielles": 4,
+            "taux_totale": 0.018779342723004695,
+            "taux_partielle": 0.018779342723004695,
+            "ic95": [
+              0.009753741015671027,
+              0.07075471698113207
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 2,
+              "taux": 0.038461538461538464,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.019230769230769232,
+              "taux_partielle": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.12
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 2,
+              "taux": 0.03508771929824561,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.017543859649122806,
+              "taux_partielle": 0.017543859649122806,
+              "ic95": [
+                0.0,
+                0.08771929824561403
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.03125,
+              "taux_partielle": 0.03125,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 6,
+              "taux": 0.08695652173913043,
+              "totales": 3,
+              "partielles": 3,
+              "taux_totale": 0.043478260869565216,
+              "taux_partielle": 0.043478260869565216,
+              "ic95": [
+                0.028159233176838813,
+                0.15873015873015872
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.014285714285714285,
+              "taux_partielle": 0.014285714285714285,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.09523809523809523,
+              "taux_partielle": 0.09523809523809523,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 4,
+              "taux": 0.020833333333333332,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.010416666666666666,
+              "taux_partielle": 0.010416666666666666,
+              "ic95": [
+                0.0,
+                0.04522613065326633
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          },
+          "sur_masquage": {
+            "global": {
+              "masques": 3350,
+              "hors_entites": 317,
+              "taux": 0.09462686567164179
+            },
+            "par_langue": {
+              "ar": {
+                "masques": 1146,
+                "hors_entites": 91,
+                "taux": 0.07940663176265271
+              },
+              "en": {
+                "masques": 986,
+                "hors_entites": 70,
+                "taux": 0.07099391480730223
+              },
+              "fr": {
+                "masques": 1218,
+                "hors_entites": 156,
+                "taux": 0.12807881773399016
+              }
+            },
+            "par_source": {
+              "lib": {
+                "masques": 401,
+                "hors_entites": 14,
+                "taux": 0.034912718204488775
+              },
+              "syn": {
+                "masques": 2949,
+                "hors_entites": 303,
+                "taux": 0.10274669379450661
+              }
+            }
+          },
+          "passages_sans_masque": 0,
+          "methode": "masque"
+        },
+        "fuites_partielles_generiques": {
+          "global": {
+            "partielles": 4,
+            "dont_mots_generiques": 0
+          },
+          "DONNEE_SENSIBLE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "PERSONNE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          },
+          "SITE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          }
+        },
+        "fuite_hors_generiques": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 8,
+            "taux": 0.03755868544600939,
+            "ic95": [
+              0.009753741015671027,
+              0.07075471698113207
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 2,
+              "taux": 0.038461538461538464,
+              "ic95": [
+                0.0,
+                0.12
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 2,
+              "taux": 0.03508771929824561,
+              "ic95": [
+                0.0,
+                0.08771929824561403
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 6,
+              "taux": 0.08695652173913043,
+              "ic95": [
+                0.028159233176838813,
+                0.15873015873015872
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 4,
+              "taux": 0.020833333333333332,
+              "ic95": [
+                0.0,
+                0.04522613065326633
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          }
+        },
+        "rappel_montants": {
+          "par_langue": {
+            "ar": {
+              "n": 5,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "en": {
+              "n": 4,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "fr": {
+              "n": 6,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "par_source": {
+            "syn": {
+              "n": 15,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "global": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "sur_masquage_par_etiquette_gold": {
+          "O": 245,
+          "PROCESSUS": 14
+        },
+        "f1_caractere": {
+          "global": {
+            "p": 0.7555555555555555,
+            "r": 0.7981220657276995,
+            "f1": 0.776255707762557
+          },
+          "par_etiquette": {
+            "ORG": {
+              "support_gold": 40,
+              "support_pred": 43,
+              "tp": 40,
+              "fp": 3,
+              "fn": 0,
+              "p": 0.9302325581395349,
+              "r": 1.0,
+              "f1": 0.963855421686747
+            },
+            "PERSONNE": {
+              "support_gold": 52,
+              "support_pred": 49,
+              "tp": 46,
+              "fp": 3,
+              "fn": 6,
+              "p": 0.9387755102040817,
+              "r": 0.8846153846153846,
+              "f1": 0.9108910891089109
+            },
+            "SITE": {
+              "support_gold": 57,
+              "support_pred": 69,
+              "tp": 48,
+              "fp": 21,
+              "fn": 9,
+              "p": 0.6956521739130435,
+              "r": 0.8421052631578947,
+              "f1": 0.7619047619047619
+            },
+            "DONNEE_SENSIBLE": {
+              "support_gold": 64,
+              "support_pred": 64,
+              "tp": 36,
+              "fp": 28,
+              "fn": 28,
+              "p": 0.5625,
+              "r": 0.5625,
+              "f1": 0.5625
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "p": 0.6818181818181818,
+              "r": 0.6521739130434783,
+              "f1": 0.6666666666666666
+            },
+            "en": {
+              "p": 0.7866666666666666,
+              "r": 0.8428571428571429,
+              "f1": 0.8137931034482758
+            },
+            "fr": {
+              "p": 0.7857142857142857,
+              "r": 0.8918918918918919,
+              "f1": 0.8354430379746836
+            }
+          },
+          "par_source": {
+            "lib": {
+              "p": 0.6956521739130435,
+              "r": 0.7619047619047619,
+              "f1": 0.7272727272727273
+            },
+            "syn": {
+              "p": 0.7623762376237624,
+              "r": 0.8020833333333334,
+              "f1": 0.7817258883248731
+            }
+          },
+          "mixtes": {
+            "n_passages": 4,
+            "support_gold": 5,
+            "support_pred": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0
+          }
+        },
+        "coherence": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 7,
+              "taux": 0.3333333333333333
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 7,
+              "taux": 0.30434782608695654
+            },
+            "SITE": {
+              "n": 21,
+              "ok": 7,
+              "taux": 0.3333333333333333
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 23,
+              "ok": 12,
+              "taux": 0.5217391304347826
+            },
+            "en": {
+              "n": 21,
+              "ok": 5,
+              "taux": 0.23809523809523808
+            },
+            "fr": {
+              "n": 21,
+              "ok": 4,
+              "taux": 0.19047619047619047
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 10,
+              "taux": 0.9090909090909091
+            },
+            "syn": {
+              "n": 54,
+              "ok": 11,
+              "taux": 0.2037037037037037
+            }
+          },
+          "global": {
+            "n": 65,
+            "ok": 21,
+            "taux": 0.3230769230769231
+          }
+        },
+        "purete": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 35,
+              "ok": 35,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 40,
+              "ok": 40,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 37,
+              "ok": 37,
+              "taux": 1.0
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 36,
+              "ok": 36,
+              "taux": 1.0
+            },
+            "en": {
+              "n": 37,
+              "ok": 37,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 39,
+              "ok": 39,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 12,
+              "ok": 12,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 100,
+              "ok": 100,
+              "taux": 1.0
+            }
+          },
+          "global": {
+            "n": 112,
+            "ok": 112,
+            "taux": 1.0
+          }
+        },
+        "accord_reference": {
+          "par_langue": {
+            "ar": {
+              "n": 56,
+              "identiques": 0.5892857142857143,
+              "identiques_sans_numero": 0.7142857142857143,
+              "similarite": 0.9684804855432648
+            },
+            "en": {
+              "n": 56,
+              "identiques": 0.5178571428571429,
+              "identiques_sans_numero": 0.8035714285714286,
+              "similarite": 0.983843050487261
+            },
+            "fr": {
+              "n": 59,
+              "identiques": 0.5254237288135594,
+              "identiques_sans_numero": 0.7288135593220338,
+              "similarite": 0.9755460382383103
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 20,
+              "identiques": 0.7,
+              "identiques_sans_numero": 0.75,
+              "similarite": 0.9688746739469053
+            },
+            "syn": {
+              "n": 151,
+              "identiques": 0.5231788079470199,
+              "identiques_sans_numero": 0.7483443708609272,
+              "similarite": 0.9768863628796793
+            }
+          },
+          "global": {
+            "n": 171,
+            "identiques": 0.543859649122807,
+            "identiques_sans_numero": 0.7485380116959064,
+            "similarite": 0.9759493232384195
+          }
+        },
+        "balayage_ajouts": 0
+      }
+    },
+    "union_fichier": {
+      "coref+balayage": {
+        "fuite": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 5,
+            "taux": 0.023474178403755867,
+            "totales": 2,
+            "partielles": 3,
+            "taux_totale": 0.009389671361502348,
+            "taux_partielle": 0.014084507042253521,
+            "ic95": [
+              0.0,
+              0.052362909892532374
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 1,
+              "taux": 0.019230769230769232,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.06
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.03125,
+              "taux_partielle": 0.03125,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 3,
+              "taux": 0.043478260869565216,
+              "totales": 1,
+              "partielles": 2,
+              "taux_totale": 0.014492753623188406,
+              "taux_partielle": 0.028985507246376812,
+              "ic95": [
+                0.0,
+                0.1111111111111111
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.014285714285714285,
+              "taux_partielle": 0.014285714285714285,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.09523809523809523,
+              "taux_partielle": 0.09523809523809523,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 1,
+              "taux": 0.005208333333333333,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.005208333333333333,
+              "ic95": [
+                0.0,
+                0.015627045157068063
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          },
+          "sur_masquage": {
+            "global": {
+              "masques": 3590,
+              "hors_entites": 535,
+              "taux": 0.149025069637883
+            },
+            "par_langue": {
+              "ar": {
+                "masques": 1216,
+                "hors_entites": 142,
+                "taux": 0.11677631578947369
+              },
+              "en": {
+                "masques": 1146,
+                "hors_entites": 227,
+                "taux": 0.1980802792321117
+              },
+              "fr": {
+                "masques": 1228,
+                "hors_entites": 166,
+                "taux": 0.13517915309446255
+              }
+            },
+            "par_source": {
+              "lib": {
+                "masques": 447,
+                "hors_entites": 57,
+                "taux": 0.12751677852348994
+              },
+              "syn": {
+                "masques": 3143,
+                "hors_entites": 478,
+                "taux": 0.15208399618199173
+              }
+            }
+          },
+          "passages_sans_masque": 0,
+          "methode": "masque"
+        },
+        "fuites_partielles_generiques": {
+          "global": {
+            "partielles": 3,
+            "dont_mots_generiques": 0
+          },
+          "DONNEE_SENSIBLE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "PERSONNE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          }
+        },
+        "fuite_hors_generiques": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 5,
+            "taux": 0.023474178403755867,
+            "ic95": [
+              0.0,
+              0.052362909892532374
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 1,
+              "taux": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.06
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 3,
+              "taux": 0.043478260869565216,
+              "ic95": [
+                0.0,
+                0.1111111111111111
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 1,
+              "taux": 0.005208333333333333,
+              "ic95": [
+                0.0,
+                0.015627045157068063
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          }
+        },
+        "rappel_montants": {
+          "par_langue": {
+            "ar": {
+              "n": 5,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "en": {
+              "n": 4,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "fr": {
+              "n": 6,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "par_source": {
+            "syn": {
+              "n": 15,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "global": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "sur_masquage_par_etiquette_gold": {
+          "O": 431,
+          "CONTRAINTE": 24,
+          "PROCESSUS": 14
+        },
+        "f1_caractere": {
+          "global": {
+            "p": 0.6072727272727273,
+            "r": 0.784037558685446,
+            "f1": 0.6844262295081968
+          },
+          "par_etiquette": {
+            "ORG": {
+              "support_gold": 40,
+              "support_pred": 44,
+              "tp": 36,
+              "fp": 8,
+              "fn": 4,
+              "p": 0.8181818181818182,
+              "r": 0.9,
+              "f1": 0.8571428571428571
+            },
+            "PERSONNE": {
+              "support_gold": 52,
+              "support_pred": 51,
+              "tp": 48,
+              "fp": 3,
+              "fn": 4,
+              "p": 0.9411764705882353,
+              "r": 0.9230769230769231,
+              "f1": 0.9320388349514563
+            },
+            "SITE": {
+              "support_gold": 57,
+              "support_pred": 116,
+              "tp": 47,
+              "fp": 69,
+              "fn": 10,
+              "p": 0.4051724137931034,
+              "r": 0.8245614035087719,
+              "f1": 0.5433526011560693
+            },
+            "DONNEE_SENSIBLE": {
+              "support_gold": 64,
+              "support_pred": 64,
+              "tp": 36,
+              "fp": 28,
+              "fn": 28,
+              "p": 0.5625,
+              "r": 0.5625,
+              "f1": 0.5625
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "p": 0.6176470588235294,
+              "r": 0.6086956521739131,
+              "f1": 0.6131386861313869
+            },
+            "en": {
+              "p": 0.48360655737704916,
+              "r": 0.8428571428571429,
+              "f1": 0.6145833333333334
+            },
+            "fr": {
+              "p": 0.7764705882352941,
+              "r": 0.8918918918918919,
+              "f1": 0.8301886792452831
+            }
+          },
+          "par_source": {
+            "lib": {
+              "p": 0.5,
+              "r": 0.7619047619047619,
+              "f1": 0.6037735849056604
+            },
+            "syn": {
+              "p": 0.6213991769547325,
+              "r": 0.7864583333333334,
+              "f1": 0.6942528735632184
+            }
+          },
+          "mixtes": {
+            "n_passages": 4,
+            "support_gold": 5,
+            "support_pred": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0
+          }
+        },
+        "coherence": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 17,
+              "taux": 0.8095238095238095
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 23,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 21,
+              "ok": 18,
+              "taux": 0.8571428571428571
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 23,
+              "ok": 16,
+              "taux": 0.6956521739130435
+            },
+            "en": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 11,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 54,
+              "ok": 47,
+              "taux": 0.8703703703703703
+            }
+          },
+          "global": {
+            "n": 65,
+            "ok": 58,
+            "taux": 0.8923076923076924
+          }
+        },
+        "purete": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 25,
+              "ok": 25,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 23,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 24,
+              "ok": 24,
+              "taux": 1.0
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 30,
+              "ok": 30,
+              "taux": 1.0
+            },
+            "en": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 11,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 61,
+              "ok": 61,
+              "taux": 1.0
+            }
+          },
+          "global": {
+            "n": 72,
+            "ok": 72,
+            "taux": 1.0
+          }
+        },
+        "accord_reference": {
+          "par_langue": {
+            "ar": {
+              "n": 56,
+              "identiques": 0.5892857142857143,
+              "identiques_sans_numero": 0.7142857142857143,
+              "similarite": 0.9675257833581808
+            },
+            "en": {
+              "n": 56,
+              "identiques": 0.42857142857142855,
+              "identiques_sans_numero": 0.42857142857142855,
+              "similarite": 0.9536688240046641
+            },
+            "fr": {
+              "n": 59,
+              "identiques": 0.6610169491525424,
+              "identiques_sans_numero": 0.711864406779661,
+              "similarite": 0.9765955571510814
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 20,
+              "identiques": 0.55,
+              "identiques_sans_numero": 0.55,
+              "similarite": 0.9543982507491151
+            },
+            "syn": {
+              "n": 151,
+              "identiques": 0.5629139072847682,
+              "identiques_sans_numero": 0.6291390728476821,
+              "similarite": 0.9676693435049724
+            }
+          },
+          "global": {
+            "n": 171,
+            "identiques": 0.5614035087719298,
+            "identiques_sans_numero": 0.6198830409356725,
+            "similarite": 0.9661171689136441
+          }
+        },
+        "balayage_ajouts": 47
+      },
+      "coref+sans balayage": {
+        "fuite": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 5,
+            "taux": 0.023474178403755867,
+            "totales": 2,
+            "partielles": 3,
+            "taux_totale": 0.009389671361502348,
+            "taux_partielle": 0.014084507042253521,
+            "ic95": [
+              0.0,
+              0.052362909892532374
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 1,
+              "taux": 0.019230769230769232,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.06
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.03125,
+              "taux_partielle": 0.03125,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 3,
+              "taux": 0.043478260869565216,
+              "totales": 1,
+              "partielles": 2,
+              "taux_totale": 0.014492753623188406,
+              "taux_partielle": 0.028985507246376812,
+              "ic95": [
+                0.0,
+                0.1111111111111111
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.014285714285714285,
+              "taux_partielle": 0.014285714285714285,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.09523809523809523,
+              "taux_partielle": 0.09523809523809523,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 1,
+              "taux": 0.005208333333333333,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.005208333333333333,
+              "ic95": [
+                0.0,
+                0.015627045157068063
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          },
+          "sur_masquage": {
+            "global": {
+              "masques": 3442,
+              "hors_entites": 390,
+              "taux": 0.11330621731551424
+            },
+            "par_langue": {
+              "ar": {
+                "masques": 1216,
+                "hors_entites": 142,
+                "taux": 0.11677631578947369
+              },
+              "en": {
+                "masques": 1008,
+                "hors_entites": 92,
+                "taux": 0.09126984126984126
+              },
+              "fr": {
+                "masques": 1218,
+                "hors_entites": 156,
+                "taux": 0.12807881773399016
+              }
+            },
+            "par_source": {
+              "lib": {
+                "masques": 423,
+                "hors_entites": 36,
+                "taux": 0.0851063829787234
+              },
+              "syn": {
+                "masques": 3019,
+                "hors_entites": 354,
+                "taux": 0.11725736999006293
+              }
+            }
+          },
+          "passages_sans_masque": 0,
+          "methode": "masque"
+        },
+        "fuites_partielles_generiques": {
+          "global": {
+            "partielles": 3,
+            "dont_mots_generiques": 0
+          },
+          "DONNEE_SENSIBLE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "PERSONNE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          }
+        },
+        "fuite_hors_generiques": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 5,
+            "taux": 0.023474178403755867,
+            "ic95": [
+              0.0,
+              0.052362909892532374
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 1,
+              "taux": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.06
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 3,
+              "taux": 0.043478260869565216,
+              "ic95": [
+                0.0,
+                0.1111111111111111
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 1,
+              "taux": 0.005208333333333333,
+              "ic95": [
+                0.0,
+                0.015627045157068063
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          }
+        },
+        "rappel_montants": {
+          "par_langue": {
+            "ar": {
+              "n": 5,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "en": {
+              "n": 4,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "fr": {
+              "n": 6,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "par_source": {
+            "syn": {
+              "n": 15,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "global": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "sur_masquage_par_etiquette_gold": {
+          "O": 310,
+          "PROCESSUS": 14
+        },
+        "f1_caractere": {
+          "global": {
+            "p": 0.7324561403508771,
+            "r": 0.784037558685446,
+            "f1": 0.7573696145124716
+          },
+          "par_etiquette": {
+            "ORG": {
+              "support_gold": 40,
+              "support_pred": 43,
+              "tp": 36,
+              "fp": 7,
+              "fn": 4,
+              "p": 0.8372093023255814,
+              "r": 0.9,
+              "f1": 0.8674698795180723
+            },
+            "PERSONNE": {
+              "support_gold": 52,
+              "support_pred": 51,
+              "tp": 48,
+              "fp": 3,
+              "fn": 4,
+              "p": 0.9411764705882353,
+              "r": 0.9230769230769231,
+              "f1": 0.9320388349514563
+            },
+            "SITE": {
+              "support_gold": 57,
+              "support_pred": 70,
+              "tp": 47,
+              "fp": 23,
+              "fn": 10,
+              "p": 0.6714285714285714,
+              "r": 0.8245614035087719,
+              "f1": 0.7401574803149606
+            },
+            "DONNEE_SENSIBLE": {
+              "support_gold": 64,
+              "support_pred": 64,
+              "tp": 36,
+              "fp": 28,
+              "fn": 28,
+              "p": 0.5625,
+              "r": 0.5625,
+              "f1": 0.5625
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "p": 0.6176470588235294,
+              "r": 0.6086956521739131,
+              "f1": 0.6131386861313869
+            },
+            "en": {
+              "p": 0.7763157894736842,
+              "r": 0.8428571428571429,
+              "f1": 0.8082191780821918
+            },
+            "fr": {
+              "p": 0.7857142857142857,
+              "r": 0.8918918918918919,
+              "f1": 0.8354430379746836
+            }
+          },
+          "par_source": {
+            "lib": {
+              "p": 0.6666666666666666,
+              "r": 0.7619047619047619,
+              "f1": 0.7111111111111111
+            },
+            "syn": {
+              "p": 0.7401960784313726,
+              "r": 0.7864583333333334,
+              "f1": 0.7626262626262627
+            }
+          },
+          "mixtes": {
+            "n_passages": 4,
+            "support_gold": 5,
+            "support_pred": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0
+          }
+        },
+        "coherence": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 17,
+              "taux": 0.8095238095238095
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 23,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 21,
+              "ok": 18,
+              "taux": 0.8571428571428571
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 23,
+              "ok": 16,
+              "taux": 0.6956521739130435
+            },
+            "en": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 11,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 54,
+              "ok": 47,
+              "taux": 0.8703703703703703
+            }
+          },
+          "global": {
+            "n": 65,
+            "ok": 58,
+            "taux": 0.8923076923076924
+          }
+        },
+        "purete": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 25,
+              "ok": 25,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 23,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 24,
+              "ok": 24,
+              "taux": 1.0
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 30,
+              "ok": 30,
+              "taux": 1.0
+            },
+            "en": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 21,
+              "ok": 21,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 11,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 61,
+              "ok": 61,
+              "taux": 1.0
+            }
+          },
+          "global": {
+            "n": 72,
+            "ok": 72,
+            "taux": 1.0
+          }
+        },
+        "accord_reference": {
+          "par_langue": {
+            "ar": {
+              "n": 56,
+              "identiques": 0.5892857142857143,
+              "identiques_sans_numero": 0.7142857142857143,
+              "similarite": 0.9675257833581808
+            },
+            "en": {
+              "n": 56,
+              "identiques": 0.6785714285714286,
+              "identiques_sans_numero": 0.7857142857142857,
+              "similarite": 0.9830782000104881
+            },
+            "fr": {
+              "n": 59,
+              "identiques": 0.6779661016949152,
+              "identiques_sans_numero": 0.7288135593220338,
+              "similarite": 0.9776024375001331
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 20,
+              "identiques": 0.7,
+              "identiques_sans_numero": 0.7,
+              "similarite": 0.9623447382361878
+            },
+            "syn": {
+              "n": 151,
+              "identiques": 0.6423841059602649,
+              "identiques_sans_numero": 0.7483443708609272,
+              "similarite": 0.9779170338836396
+            }
+          },
+          "global": {
+            "n": 171,
+            "identiques": 0.6491228070175439,
+            "identiques_sans_numero": 0.7426900584795322,
+            "similarite": 0.9760957127552826
+          }
+        },
+        "balayage_ajouts": 0
+      },
+      "sans coref+balayage": {
+        "fuite": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 5,
+            "taux": 0.023474178403755867,
+            "totales": 2,
+            "partielles": 3,
+            "taux_totale": 0.009389671361502348,
+            "taux_partielle": 0.014084507042253521,
+            "ic95": [
+              0.0,
+              0.052362909892532374
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 1,
+              "taux": 0.019230769230769232,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.06
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.03125,
+              "taux_partielle": 0.03125,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 3,
+              "taux": 0.043478260869565216,
+              "totales": 1,
+              "partielles": 2,
+              "taux_totale": 0.014492753623188406,
+              "taux_partielle": 0.028985507246376812,
+              "ic95": [
+                0.0,
+                0.1111111111111111
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.014285714285714285,
+              "taux_partielle": 0.014285714285714285,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.09523809523809523,
+              "taux_partielle": 0.09523809523809523,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 1,
+              "taux": 0.005208333333333333,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.005208333333333333,
+              "ic95": [
+                0.0,
+                0.015627045157068063
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          },
+          "sur_masquage": {
+            "global": {
+              "masques": 3590,
+              "hors_entites": 535,
+              "taux": 0.149025069637883
+            },
+            "par_langue": {
+              "ar": {
+                "masques": 1216,
+                "hors_entites": 142,
+                "taux": 0.11677631578947369
+              },
+              "en": {
+                "masques": 1146,
+                "hors_entites": 227,
+                "taux": 0.1980802792321117
+              },
+              "fr": {
+                "masques": 1228,
+                "hors_entites": 166,
+                "taux": 0.13517915309446255
+              }
+            },
+            "par_source": {
+              "lib": {
+                "masques": 447,
+                "hors_entites": 57,
+                "taux": 0.12751677852348994
+              },
+              "syn": {
+                "masques": 3143,
+                "hors_entites": 478,
+                "taux": 0.15208399618199173
+              }
+            }
+          },
+          "passages_sans_masque": 0,
+          "methode": "masque"
+        },
+        "fuites_partielles_generiques": {
+          "global": {
+            "partielles": 3,
+            "dont_mots_generiques": 0
+          },
+          "DONNEE_SENSIBLE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "PERSONNE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          }
+        },
+        "fuite_hors_generiques": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 5,
+            "taux": 0.023474178403755867,
+            "ic95": [
+              0.0,
+              0.052362909892532374
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 1,
+              "taux": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.06
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 3,
+              "taux": 0.043478260869565216,
+              "ic95": [
+                0.0,
+                0.1111111111111111
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 1,
+              "taux": 0.005208333333333333,
+              "ic95": [
+                0.0,
+                0.015627045157068063
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          }
+        },
+        "rappel_montants": {
+          "par_langue": {
+            "ar": {
+              "n": 5,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "en": {
+              "n": 4,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "fr": {
+              "n": 6,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "par_source": {
+            "syn": {
+              "n": 15,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "global": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "sur_masquage_par_etiquette_gold": {
+          "O": 431,
+          "CONTRAINTE": 24,
+          "PROCESSUS": 14
+        },
+        "f1_caractere": {
+          "global": {
+            "p": 0.6072727272727273,
+            "r": 0.784037558685446,
+            "f1": 0.6844262295081968
+          },
+          "par_etiquette": {
+            "ORG": {
+              "support_gold": 40,
+              "support_pred": 44,
+              "tp": 36,
+              "fp": 8,
+              "fn": 4,
+              "p": 0.8181818181818182,
+              "r": 0.9,
+              "f1": 0.8571428571428571
+            },
+            "PERSONNE": {
+              "support_gold": 52,
+              "support_pred": 51,
+              "tp": 48,
+              "fp": 3,
+              "fn": 4,
+              "p": 0.9411764705882353,
+              "r": 0.9230769230769231,
+              "f1": 0.9320388349514563
+            },
+            "SITE": {
+              "support_gold": 57,
+              "support_pred": 116,
+              "tp": 47,
+              "fp": 69,
+              "fn": 10,
+              "p": 0.4051724137931034,
+              "r": 0.8245614035087719,
+              "f1": 0.5433526011560693
+            },
+            "DONNEE_SENSIBLE": {
+              "support_gold": 64,
+              "support_pred": 64,
+              "tp": 36,
+              "fp": 28,
+              "fn": 28,
+              "p": 0.5625,
+              "r": 0.5625,
+              "f1": 0.5625
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "p": 0.6176470588235294,
+              "r": 0.6086956521739131,
+              "f1": 0.6131386861313869
+            },
+            "en": {
+              "p": 0.48360655737704916,
+              "r": 0.8428571428571429,
+              "f1": 0.6145833333333334
+            },
+            "fr": {
+              "p": 0.7764705882352941,
+              "r": 0.8918918918918919,
+              "f1": 0.8301886792452831
+            }
+          },
+          "par_source": {
+            "lib": {
+              "p": 0.5,
+              "r": 0.7619047619047619,
+              "f1": 0.6037735849056604
+            },
+            "syn": {
+              "p": 0.6213991769547325,
+              "r": 0.7864583333333334,
+              "f1": 0.6942528735632184
+            }
+          },
+          "mixtes": {
+            "n_passages": 4,
+            "support_gold": 5,
+            "support_pred": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0
+          }
+        },
+        "coherence": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 4,
+              "taux": 0.19047619047619047
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 6,
+              "taux": 0.2608695652173913
+            },
+            "SITE": {
+              "n": 21,
+              "ok": 8,
+              "taux": 0.38095238095238093
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 23,
+              "ok": 9,
+              "taux": 0.391304347826087
+            },
+            "en": {
+              "n": 21,
+              "ok": 5,
+              "taux": 0.23809523809523808
+            },
+            "fr": {
+              "n": 21,
+              "ok": 4,
+              "taux": 0.19047619047619047
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 10,
+              "taux": 0.9090909090909091
+            },
+            "syn": {
+              "n": 54,
+              "ok": 8,
+              "taux": 0.14814814814814814
+            }
+          },
+          "global": {
+            "n": 65,
+            "ok": 18,
+            "taux": 0.27692307692307694
+          }
+        },
+        "purete": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 38,
+              "ok": 38,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 41,
+              "ok": 41,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 36,
+              "ok": 36,
+              "taux": 1.0
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 39,
+              "ok": 39,
+              "taux": 1.0
+            },
+            "en": {
+              "n": 37,
+              "ok": 37,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 39,
+              "ok": 39,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 12,
+              "ok": 12,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 103,
+              "ok": 103,
+              "taux": 1.0
+            }
+          },
+          "global": {
+            "n": 115,
+            "ok": 115,
+            "taux": 1.0
+          }
+        },
+        "accord_reference": {
+          "par_langue": {
+            "ar": {
+              "n": 56,
+              "identiques": 0.5,
+              "identiques_sans_numero": 0.7142857142857143,
+              "similarite": 0.9658940748797039
+            },
+            "en": {
+              "n": 56,
+              "identiques": 0.30357142857142855,
+              "identiques_sans_numero": 0.42857142857142855,
+              "similarite": 0.9518725087396399
+            },
+            "fr": {
+              "n": 59,
+              "identiques": 0.5084745762711864,
+              "identiques_sans_numero": 0.711864406779661,
+              "similarite": 0.9745391578892584
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 20,
+              "identiques": 0.5,
+              "identiques_sans_numero": 0.55,
+              "similarite": 0.9536839650348293
+            },
+            "syn": {
+              "n": 151,
+              "identiques": 0.4304635761589404,
+              "identiques_sans_numero": 0.6291390728476821,
+              "similarite": 0.9656891370692243
+            }
+          },
+          "global": {
+            "n": 171,
+            "identiques": 0.43859649122807015,
+            "identiques_sans_numero": 0.6198830409356725,
+            "similarite": 0.9642850233809911
+          }
+        },
+        "balayage_ajouts": 47
+      },
+      "sans coref+sans balayage": {
+        "fuite": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 5,
+            "taux": 0.023474178403755867,
+            "totales": 2,
+            "partielles": 3,
+            "taux_totale": 0.009389671361502348,
+            "taux_partielle": 0.014084507042253521,
+            "ic95": [
+              0.0,
+              0.052362909892532374
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 1,
+              "taux": 0.019230769230769232,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.06
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.03125,
+              "taux_partielle": 0.03125,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 3,
+              "taux": 0.043478260869565216,
+              "totales": 1,
+              "partielles": 2,
+              "taux_totale": 0.014492753623188406,
+              "taux_partielle": 0.028985507246376812,
+              "ic95": [
+                0.0,
+                0.1111111111111111
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "totales": 1,
+              "partielles": 1,
+              "taux_totale": 0.014285714285714285,
+              "taux_partielle": 0.014285714285714285,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "totales": 0,
+              "partielles": 0,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "totales": 2,
+              "partielles": 2,
+              "taux_totale": 0.09523809523809523,
+              "taux_partielle": 0.09523809523809523,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 1,
+              "taux": 0.005208333333333333,
+              "totales": 0,
+              "partielles": 1,
+              "taux_totale": 0.0,
+              "taux_partielle": 0.005208333333333333,
+              "ic95": [
+                0.0,
+                0.015627045157068063
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          },
+          "sur_masquage": {
+            "global": {
+              "masques": 3442,
+              "hors_entites": 390,
+              "taux": 0.11330621731551424
+            },
+            "par_langue": {
+              "ar": {
+                "masques": 1216,
+                "hors_entites": 142,
+                "taux": 0.11677631578947369
+              },
+              "en": {
+                "masques": 1008,
+                "hors_entites": 92,
+                "taux": 0.09126984126984126
+              },
+              "fr": {
+                "masques": 1218,
+                "hors_entites": 156,
+                "taux": 0.12807881773399016
+              }
+            },
+            "par_source": {
+              "lib": {
+                "masques": 423,
+                "hors_entites": 36,
+                "taux": 0.0851063829787234
+              },
+              "syn": {
+                "masques": 3019,
+                "hors_entites": 354,
+                "taux": 0.11725736999006293
+              }
+            }
+          },
+          "passages_sans_masque": 0,
+          "methode": "masque"
+        },
+        "fuites_partielles_generiques": {
+          "global": {
+            "partielles": 3,
+            "dont_mots_generiques": 0
+          },
+          "DONNEE_SENSIBLE": {
+            "partielles": 2,
+            "dont_mots_generiques": 0
+          },
+          "PERSONNE": {
+            "partielles": 1,
+            "dont_mots_generiques": 0
+          }
+        },
+        "fuite_hors_generiques": {
+          "n_occurrences": 213,
+          "n_documents": 21,
+          "global": {
+            "n": 213,
+            "fuites": 5,
+            "taux": 0.023474178403755867,
+            "ic95": [
+              0.0,
+              0.052362909892532374
+            ]
+          },
+          "par_etiquette": {
+            "ORG": {
+              "n": 40,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "PERSONNE": {
+              "n": 52,
+              "fuites": 1,
+              "taux": 0.019230769230769232,
+              "ic95": [
+                0.0,
+                0.06
+              ]
+            },
+            "SITE": {
+              "n": 57,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            },
+            "DONNEE_SENSIBLE": {
+              "n": 64,
+              "fuites": 4,
+              "taux": 0.0625,
+              "ic95": [
+                0.0,
+                0.14823232323232316
+              ]
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 69,
+              "fuites": 3,
+              "taux": 0.043478260869565216,
+              "ic95": [
+                0.0,
+                0.1111111111111111
+              ]
+            },
+            "en": {
+              "n": 70,
+              "fuites": 2,
+              "taux": 0.02857142857142857,
+              "ic95": [
+                0.0,
+                0.09230769230769231
+              ]
+            },
+            "fr": {
+              "n": 74,
+              "fuites": 0,
+              "taux": 0.0,
+              "ic95": [
+                0.0,
+                0.0
+              ]
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 21,
+              "fuites": 4,
+              "taux": 0.19047619047619047,
+              "ic95": [
+                0.0,
+                0.2857142857142857
+              ]
+            },
+            "syn": {
+              "n": 192,
+              "fuites": 1,
+              "taux": 0.005208333333333333,
+              "ic95": [
+                0.0,
+                0.015627045157068063
+              ]
+            }
+          },
+          "mixtes": {
+            "n": 5,
+            "fuites": 0,
+            "taux": 0.0
+          },
+          "bootstrap": {
+            "unite": "doc_id",
+            "n_resamples": 1000,
+            "seed": 42
+          }
+        },
+        "rappel_montants": {
+          "par_langue": {
+            "ar": {
+              "n": 5,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "en": {
+              "n": 4,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            },
+            "fr": {
+              "n": 6,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "par_source": {
+            "syn": {
+              "n": 15,
+              "entieres": 1.0,
+              "caractere": 1.0,
+              "noyau": 1.0
+            }
+          },
+          "global": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "sur_masquage_par_etiquette_gold": {
+          "O": 310,
+          "PROCESSUS": 14
+        },
+        "f1_caractere": {
+          "global": {
+            "p": 0.7324561403508771,
+            "r": 0.784037558685446,
+            "f1": 0.7573696145124716
+          },
+          "par_etiquette": {
+            "ORG": {
+              "support_gold": 40,
+              "support_pred": 43,
+              "tp": 36,
+              "fp": 7,
+              "fn": 4,
+              "p": 0.8372093023255814,
+              "r": 0.9,
+              "f1": 0.8674698795180723
+            },
+            "PERSONNE": {
+              "support_gold": 52,
+              "support_pred": 51,
+              "tp": 48,
+              "fp": 3,
+              "fn": 4,
+              "p": 0.9411764705882353,
+              "r": 0.9230769230769231,
+              "f1": 0.9320388349514563
+            },
+            "SITE": {
+              "support_gold": 57,
+              "support_pred": 70,
+              "tp": 47,
+              "fp": 23,
+              "fn": 10,
+              "p": 0.6714285714285714,
+              "r": 0.8245614035087719,
+              "f1": 0.7401574803149606
+            },
+            "DONNEE_SENSIBLE": {
+              "support_gold": 64,
+              "support_pred": 64,
+              "tp": 36,
+              "fp": 28,
+              "fn": 28,
+              "p": 0.5625,
+              "r": 0.5625,
+              "f1": 0.5625
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "p": 0.6176470588235294,
+              "r": 0.6086956521739131,
+              "f1": 0.6131386861313869
+            },
+            "en": {
+              "p": 0.7763157894736842,
+              "r": 0.8428571428571429,
+              "f1": 0.8082191780821918
+            },
+            "fr": {
+              "p": 0.7857142857142857,
+              "r": 0.8918918918918919,
+              "f1": 0.8354430379746836
+            }
+          },
+          "par_source": {
+            "lib": {
+              "p": 0.6666666666666666,
+              "r": 0.7619047619047619,
+              "f1": 0.7111111111111111
+            },
+            "syn": {
+              "p": 0.7401960784313726,
+              "r": 0.7864583333333334,
+              "f1": 0.7626262626262627
+            }
+          },
+          "mixtes": {
+            "n_passages": 4,
+            "support_gold": 5,
+            "support_pred": 6,
+            "tp": 5,
+            "fp": 1,
+            "fn": 0
+          }
+        },
+        "coherence": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 21,
+              "ok": 4,
+              "taux": 0.19047619047619047
+            },
+            "PERSONNE": {
+              "n": 23,
+              "ok": 6,
+              "taux": 0.2608695652173913
+            },
+            "SITE": {
+              "n": 21,
+              "ok": 8,
+              "taux": 0.38095238095238093
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 23,
+              "ok": 9,
+              "taux": 0.391304347826087
+            },
+            "en": {
+              "n": 21,
+              "ok": 5,
+              "taux": 0.23809523809523808
+            },
+            "fr": {
+              "n": 21,
+              "ok": 4,
+              "taux": 0.19047619047619047
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 11,
+              "ok": 10,
+              "taux": 0.9090909090909091
+            },
+            "syn": {
+              "n": 54,
+              "ok": 8,
+              "taux": 0.14814814814814814
+            }
+          },
+          "global": {
+            "n": 65,
+            "ok": 18,
+            "taux": 0.27692307692307694
+          }
+        },
+        "purete": {
+          "par_etiquette": {
+            "ORG": {
+              "n": 38,
+              "ok": 38,
+              "taux": 1.0
+            },
+            "PERSONNE": {
+              "n": 41,
+              "ok": 41,
+              "taux": 1.0
+            },
+            "SITE": {
+              "n": 36,
+              "ok": 36,
+              "taux": 1.0
+            }
+          },
+          "par_langue": {
+            "ar": {
+              "n": 39,
+              "ok": 39,
+              "taux": 1.0
+            },
+            "en": {
+              "n": 37,
+              "ok": 37,
+              "taux": 1.0
+            },
+            "fr": {
+              "n": 39,
+              "ok": 39,
+              "taux": 1.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 12,
+              "ok": 12,
+              "taux": 1.0
+            },
+            "syn": {
+              "n": 103,
+              "ok": 103,
+              "taux": 1.0
+            }
+          },
+          "global": {
+            "n": 115,
+            "ok": 115,
+            "taux": 1.0
+          }
+        },
+        "accord_reference": {
+          "par_langue": {
+            "ar": {
+              "n": 56,
+              "identiques": 0.5,
+              "identiques_sans_numero": 0.7142857142857143,
+              "similarite": 0.9658940748797039
+            },
+            "en": {
+              "n": 56,
+              "identiques": 0.5,
+              "identiques_sans_numero": 0.7857142857142857,
+              "similarite": 0.9812558285497598
+            },
+            "fr": {
+              "n": 59,
+              "identiques": 0.5254237288135594,
+              "identiques_sans_numero": 0.7288135593220338,
+              "similarite": 0.9755460382383103
+            }
+          },
+          "par_source": {
+            "lib": {
+              "n": 20,
+              "identiques": 0.65,
+              "identiques_sans_numero": 0.7,
+              "similarite": 0.9616304525219019
+            },
+            "syn": {
+              "n": 151,
+              "identiques": 0.4900662251655629,
+              "identiques_sans_numero": 0.7483443708609272,
+              "similarite": 0.9759271642229946
+            }
+          },
+          "global": {
+            "n": 171,
+            "identiques": 0.5087719298245614,
+            "identiques_sans_numero": 0.7426900584795322,
+            "similarite": 0.974255034199475
+          }
+        },
+        "balayage_ajouts": 0
+      }
+    }
+  },
+  "sans_extension": {
+    "fichier": {
+      "fuite": {
+        "n_occurrences": 213,
+        "n_documents": 21,
+        "global": {
+          "n": 213,
+          "fuites": 7,
+          "taux": 0.03286384976525822,
+          "totales": 2,
+          "partielles": 5,
+          "taux_totale": 0.009389671361502348,
+          "taux_partielle": 0.023474178403755867,
+          "ic95": [
+            0.008848582901251413,
+            0.06566489770804491
+          ]
+        },
+        "par_etiquette": {
+          "ORG": {
+            "n": 40,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "PERSONNE": {
+            "n": 52,
+            "fuites": 2,
+            "taux": 0.038461538461538464,
+            "totales": 0,
+            "partielles": 2,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.038461538461538464,
+            "ic95": [
+              0.0,
+              0.12
+            ]
+          },
+          "SITE": {
+            "n": 57,
+            "fuites": 1,
+            "taux": 0.017543859649122806,
+            "totales": 0,
+            "partielles": 1,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.017543859649122806,
+            "ic95": [
+              0.0,
+              0.05454545454545454
+            ]
+          },
+          "DONNEE_SENSIBLE": {
+            "n": 64,
+            "fuites": 4,
+            "taux": 0.0625,
+            "totales": 2,
+            "partielles": 2,
+            "taux_totale": 0.03125,
+            "taux_partielle": 0.03125,
+            "ic95": [
+              0.0,
+              0.14823232323232316
+            ]
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "n": 69,
+            "fuites": 5,
+            "taux": 0.07246376811594203,
+            "totales": 1,
+            "partielles": 4,
+            "taux_totale": 0.014492753623188406,
+            "taux_partielle": 0.057971014492753624,
+            "ic95": [
+              0.0,
+              0.14290890269151132
+            ]
+          },
+          "en": {
+            "n": 70,
+            "fuites": 2,
+            "taux": 0.02857142857142857,
+            "totales": 1,
+            "partielles": 1,
+            "taux_totale": 0.014285714285714285,
+            "taux_partielle": 0.014285714285714285,
+            "ic95": [
+              0.0,
+              0.09230769230769231
+            ]
+          },
+          "fr": {
+            "n": 74,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "par_source": {
+          "lib": {
+            "n": 21,
+            "fuites": 4,
+            "taux": 0.19047619047619047,
+            "totales": 2,
+            "partielles": 2,
+            "taux_totale": 0.09523809523809523,
+            "taux_partielle": 0.09523809523809523,
+            "ic95": [
+              0.0,
+              0.2857142857142857
+            ]
+          },
+          "syn": {
+            "n": 192,
+            "fuites": 3,
+            "taux": 0.015625,
+            "totales": 0,
+            "partielles": 3,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.015625,
+            "ic95": [
+              0.0,
+              0.03941374433009803
+            ]
+          }
+        },
+        "mixtes": {
+          "n": 5,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0
+        },
+        "bootstrap": {
+          "unite": "doc_id",
+          "n_resamples": 1000,
+          "seed": 42
+        },
+        "sur_masquage": {
+          "global": {
+            "masques": 3510,
+            "hors_entites": 462,
+            "taux": 0.13162393162393163
+          },
+          "par_langue": {
+            "ar": {
+              "masques": 1158,
+              "hors_entites": 91,
+              "taux": 0.07858376511226252
+            },
+            "en": {
+              "masques": 1124,
+              "hors_entites": 205,
+              "taux": 0.18238434163701067
+            },
+            "fr": {
+              "masques": 1228,
+              "hors_entites": 166,
+              "taux": 0.13517915309446255
+            }
+          },
+          "par_source": {
+            "lib": {
+              "masques": 425,
+              "hors_entites": 35,
+              "taux": 0.08235294117647059
+            },
+            "syn": {
+              "masques": 3085,
+              "hors_entites": 427,
+              "taux": 0.13841166936790925
+            }
+          }
+        },
+        "passages_sans_masque": 0,
+        "methode": "masque"
+      },
+      "rappel_montants": {
+        "par_langue": {
+          "ar": {
+            "n": 5,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          },
+          "en": {
+            "n": 4,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          },
+          "fr": {
+            "n": 6,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "par_source": {
+          "syn": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "global": {
+          "n": 15,
+          "entieres": 1.0,
+          "caractere": 1.0,
+          "noyau": 1.0
+        }
+      }
+    },
+    "union_fichier": {
+      "fuite": {
+        "n_occurrences": 213,
+        "n_documents": 21,
+        "global": {
+          "n": 213,
+          "fuites": 5,
+          "taux": 0.023474178403755867,
+          "totales": 2,
+          "partielles": 3,
+          "taux_totale": 0.009389671361502348,
+          "taux_partielle": 0.014084507042253521,
+          "ic95": [
+            0.0,
+            0.052362909892532374
+          ]
+        },
+        "par_etiquette": {
+          "ORG": {
+            "n": 40,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "PERSONNE": {
+            "n": 52,
+            "fuites": 1,
+            "taux": 0.019230769230769232,
+            "totales": 0,
+            "partielles": 1,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.019230769230769232,
+            "ic95": [
+              0.0,
+              0.06
+            ]
+          },
+          "SITE": {
+            "n": 57,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "DONNEE_SENSIBLE": {
+            "n": 64,
+            "fuites": 4,
+            "taux": 0.0625,
+            "totales": 2,
+            "partielles": 2,
+            "taux_totale": 0.03125,
+            "taux_partielle": 0.03125,
+            "ic95": [
+              0.0,
+              0.14823232323232316
+            ]
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "n": 69,
+            "fuites": 3,
+            "taux": 0.043478260869565216,
+            "totales": 1,
+            "partielles": 2,
+            "taux_totale": 0.014492753623188406,
+            "taux_partielle": 0.028985507246376812,
+            "ic95": [
+              0.0,
+              0.1111111111111111
+            ]
+          },
+          "en": {
+            "n": 70,
+            "fuites": 2,
+            "taux": 0.02857142857142857,
+            "totales": 1,
+            "partielles": 1,
+            "taux_totale": 0.014285714285714285,
+            "taux_partielle": 0.014285714285714285,
+            "ic95": [
+              0.0,
+              0.09230769230769231
+            ]
+          },
+          "fr": {
+            "n": 74,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "par_source": {
+          "lib": {
+            "n": 21,
+            "fuites": 4,
+            "taux": 0.19047619047619047,
+            "totales": 2,
+            "partielles": 2,
+            "taux_totale": 0.09523809523809523,
+            "taux_partielle": 0.09523809523809523,
+            "ic95": [
+              0.0,
+              0.2857142857142857
+            ]
+          },
+          "syn": {
+            "n": 192,
+            "fuites": 1,
+            "taux": 0.005208333333333333,
+            "totales": 0,
+            "partielles": 1,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.005208333333333333,
+            "ic95": [
+              0.0,
+              0.015627045157068063
+            ]
+          }
+        },
+        "mixtes": {
+          "n": 5,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0
+        },
+        "bootstrap": {
+          "unite": "doc_id",
+          "n_resamples": 1000,
+          "seed": 42
+        },
+        "sur_masquage": {
+          "global": {
+            "masques": 3590,
+            "hors_entites": 535,
+            "taux": 0.149025069637883
+          },
+          "par_langue": {
+            "ar": {
+              "masques": 1216,
+              "hors_entites": 142,
+              "taux": 0.11677631578947369
+            },
+            "en": {
+              "masques": 1146,
+              "hors_entites": 227,
+              "taux": 0.1980802792321117
+            },
+            "fr": {
+              "masques": 1228,
+              "hors_entites": 166,
+              "taux": 0.13517915309446255
+            }
+          },
+          "par_source": {
+            "lib": {
+              "masques": 447,
+              "hors_entites": 57,
+              "taux": 0.12751677852348994
+            },
+            "syn": {
+              "masques": 3143,
+              "hors_entites": 478,
+              "taux": 0.15208399618199173
+            }
+          }
+        },
+        "passages_sans_masque": 0,
+        "methode": "masque"
+      },
+      "rappel_montants": {
+        "par_langue": {
+          "ar": {
+            "n": 5,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          },
+          "en": {
+            "n": 4,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          },
+          "fr": {
+            "n": 6,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "par_source": {
+          "syn": {
+            "n": 15,
+            "entieres": 1.0,
+            "caractere": 1.0,
+            "noyau": 1.0
+          }
+        },
+        "global": {
+          "n": 15,
+          "entieres": 1.0,
+          "caractere": 1.0,
+          "noyau": 1.0
+        }
+      }
+    }
+  },
+  "coreference": {
+    "avec": {
+      "coreference": true,
+      "par_etiquette": {
+        "ORG": {
+          "n_mentions": 40,
+          "n_clusters_gold": 21,
+          "n_clusters_pred": 21,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0,
+            "num_den": [
+              19,
+              19,
+              19,
+              19
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0
+          }
+        },
+        "PERSONNE": {
+          "n_mentions": 52,
+          "n_clusters_gold": 23,
+          "n_clusters_pred": 23,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0,
+            "num_den": [
+              29,
+              29,
+              29,
+              29
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0
+          }
+        },
+        "SITE": {
+          "n_mentions": 57,
+          "n_clusters_gold": 21,
+          "n_clusters_pred": 21,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0,
+            "num_den": [
+              36,
+              36,
+              36,
+              36
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0
+          }
+        }
+      },
+      "par_langue": {
+        "ar": {
+          "n_mentions": 49,
+          "n_clusters_gold": 23,
+          "n_clusters_pred": 23,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0,
+            "num_den": [
+              26,
+              26,
+              26,
+              26
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0
+          }
+        },
+        "en": {
+          "n_mentions": 50,
+          "n_clusters_gold": 21,
+          "n_clusters_pred": 21,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0,
+            "num_den": [
+              29,
+              29,
+              29,
+              29
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0
+          }
+        },
+        "fr": {
+          "n_mentions": 50,
+          "n_clusters_gold": 21,
+          "n_clusters_pred": 21,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0,
+            "num_den": [
+              29,
+              29,
+              29,
+              29
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0
+          }
+        }
+      },
+      "par_source": {
+        "lib": {
+          "n_mentions": 13,
+          "n_clusters_gold": 11,
+          "n_clusters_pred": 11,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0,
+            "num_den": [
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0
+          }
+        },
+        "syn": {
+          "n_mentions": 136,
+          "n_clusters_gold": 54,
+          "n_clusters_pred": 54,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0,
+            "num_den": [
+              82,
+              82,
+              82,
+              82
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 1.0,
+            "f1": 1.0
+          }
+        }
+      },
+      "global": {
+        "n_mentions": 149,
+        "n_clusters_gold": 65,
+        "n_clusters_pred": 65,
+        "muc": {
+          "precision": 1.0,
+          "rappel": 1.0,
+          "f1": 1.0,
+          "num_den": [
+            84,
+            84,
+            84,
+            84
+          ]
+        },
+        "b3": {
+          "precision": 1.0,
+          "rappel": 1.0,
+          "f1": 1.0
+        }
+      }
+    },
+    "sans": {
+      "coreference": false,
+      "par_etiquette": {
+        "ORG": {
+          "n_mentions": 40,
+          "n_clusters_gold": 21,
+          "n_clusters_pred": 35,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 0.2631578947368421,
+            "f1": 0.4166666666666667,
+            "num_den": [
+              5,
+              5,
+              5,
+              19
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 0.65,
+            "f1": 0.787878787878788
+          }
+        },
+        "PERSONNE": {
+          "n_mentions": 52,
+          "n_clusters_gold": 23,
+          "n_clusters_pred": 39,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 0.4482758620689655,
+            "f1": 0.6190476190476191,
+            "num_den": [
+              13,
+              13,
+              13,
+              29
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 0.6346153846153846,
+            "f1": 0.7764705882352941
+          }
+        },
+        "SITE": {
+          "n_mentions": 57,
+          "n_clusters_gold": 21,
+          "n_clusters_pred": 35,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 0.6111111111111112,
+            "f1": 0.7586206896551725,
+            "num_den": [
+              22,
+              22,
+              22,
+              36
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 0.6842105263157895,
+            "f1": 0.8125000000000001
+          }
+        }
+      },
+      "par_langue": {
+        "ar": {
+          "n_mentions": 49,
+          "n_clusters_gold": 23,
+          "n_clusters_pred": 34,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 0.5769230769230769,
+            "f1": 0.7317073170731707,
+            "num_den": [
+              15,
+              15,
+              15,
+              26
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 0.7482993197278912,
+            "f1": 0.8560311284046693
+          }
+        },
+        "en": {
+          "n_mentions": 50,
+          "n_clusters_gold": 21,
+          "n_clusters_pred": 37,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 0.4482758620689655,
+            "f1": 0.6190476190476191,
+            "num_den": [
+              13,
+              13,
+              13,
+              29
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 0.6266666666666667,
+            "f1": 0.7704918032786886
+          }
+        },
+        "fr": {
+          "n_mentions": 50,
+          "n_clusters_gold": 21,
+          "n_clusters_pred": 38,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 0.41379310344827586,
+            "f1": 0.5853658536585366,
+            "num_den": [
+              12,
+              12,
+              12,
+              29
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 0.6000000000000002,
+            "f1": 0.7500000000000002
+          }
+        }
+      },
+      "par_source": {
+        "lib": {
+          "n_mentions": 13,
+          "n_clusters_gold": 11,
+          "n_clusters_pred": 12,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 0.5,
+            "f1": 0.6666666666666666,
+            "num_den": [
+              1,
+              1,
+              1,
+              2
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 0.9230769230769231,
+            "f1": 0.9600000000000001
+          }
+        },
+        "syn": {
+          "n_mentions": 136,
+          "n_clusters_gold": 54,
+          "n_clusters_pred": 97,
+          "muc": {
+            "precision": 1.0,
+            "rappel": 0.47560975609756095,
+            "f1": 0.6446280991735537,
+            "num_den": [
+              39,
+              39,
+              39,
+              82
+            ]
+          },
+          "b3": {
+            "precision": 1.0,
+            "rappel": 0.6323529411764708,
+            "f1": 0.774774774774775
+          }
+        }
+      },
+      "global": {
+        "n_mentions": 149,
+        "n_clusters_gold": 65,
+        "n_clusters_pred": 109,
+        "muc": {
+          "precision": 1.0,
+          "rappel": 0.47619047619047616,
+          "f1": 0.6451612903225806,
+          "num_den": [
+            40,
+            40,
+            40,
+            84
+          ]
+        },
+        "b3": {
+          "precision": 1.0,
+          "rappel": 0.6577181208053694,
+          "f1": 0.793522267206478
+        }
+      }
+    }
+  },
+  "comparaisons_appariees": {}
+}

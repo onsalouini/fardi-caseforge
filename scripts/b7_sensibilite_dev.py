@@ -18,7 +18,6 @@ Mesure en mode ``token`` (cfdata, ``absents_vides=True``) sur le train et le dev
 
 from __future__ import annotations
 
-import re
 import warnings
 from typing import Any
 
@@ -29,43 +28,26 @@ from cfdata.common import read_jsonl
 from scripts.b7_produit_cv import CIBLE, scores
 from scripts.run_b3_regles import predire
 
-VUS_AU_DEV = frozenset(
-    {"gamme", "gammes", "range", "ranges", "سلعة", "سلع", "reste", "restent", "demeure", "demeurent", "remain",
-     "remains"}
-)  # fmt: skip
+VUS_AU_DEV = produit.ELEMENTS_DEV
 
 
-def sans_elements_dev() -> None:
-    """Remplace, dans ``caseforge.extraction.rules.produit``, les lexiques et motifs par leur version sans
-    ``VUS_AU_DEV``, sans « la suivante » et sans valeur arabe sans séparateur."""
-    termes = produit.termes
-    produit.termes = lambda nom, attribut=None: tuple(t for t in termes(nom, attribut) if t not in VUS_AU_DEV)
-
-    def separateurs() -> tuple[re.Pattern[str], re.Pattern[str]]:
-        copules = "|".join(sorted(produit.termes("produit_contexte", "copule"), key=len, reverse=True))
-        qualif = rf"(?:\s+(?!(?:{copules}){produit.APRES_MOT}){produit._MOT_LATIN}){{0,{produit.MAX_QUALIFICATIFS}}}"
-        return (
-            re.compile(rf"{qualif}\s*:\s*", re.IGNORECASE),
-            re.compile(rf"{qualif}(?:\s*[,،]\s*|\s+(?:{copules})\s*:?\s*)", re.IGNORECASE),
-        )
-
-    produit._motifs_separateurs = separateurs
-    produit._motif_libelle.cache_clear()
-    produit._contexte.cache_clear()
-    libelles = produit.libelles
-    suffixe = re.compile(r"(?:منتوج|منتج)\w*\s*$")
-    produit.libelles = lambda doc: [
-        c for c in libelles(doc) if not suffixe.search(doc.text[max(0, c.start - 15) : c.start])
-    ]
+def config_sans_elements_dev() -> dict[str, Any]:
+    """Configuration B7 sans les éléments vus au dev (B15 : drapeau ``elements_vus_au_dev`` de ``configs/rules.yaml``,
+    qui remplace le remplacement des lexiques à la volée du B7) ; règles B15 coupées."""
+    cfg = charger_config()
+    cfg["elements_vus_au_dev"] = False
+    cfg["regles_desactivees"] = (
+        cfg["regles_desactivees"] | set(produit.REGLES_B15) | {"dependencies.contrainte_coord_ar"}
+    )
+    return cfg
 
 
 def main() -> None:
     """Mesure train et dev de B7 sans les éléments vus au dev."""
     warnings.filterwarnings("ignore", category=FutureWarning)
-    sans_elements_dev()
     res: dict[str, Any] = {"retires": sorted(VUS_AU_DEV) + ["« la suivante : »", "valeur arabe sans séparateur"]}
     for nom, rows in (("train", read_jsonl(FINAL / "train.jsonl")), ("dev", charger_dev())):
-        pred = predire(rows, charger_config())
+        pred = predire(rows, config_sans_elements_dev())
         res[nom] = scores(rows, pred)
         print(f"[B7 sans éléments vus au dev · {nom}] micro {res[nom]['micro']:.3f} · "
               f"PRODUIT {res[nom]['par_etiquette'][CIBLE]:.3f}")  # fmt: skip

@@ -1,7 +1,8 @@
-# Carte de modèle — Lot B (palier Bronze)
+# Carte de modèle — Lot B (paliers Bronze et Silver)
 
 Responsable : Ali Ben Jannet · co-équipière : Boutheina Rjab · branche `lot-b`. Commit de référence `89b27e0` pour
-B1, B3 et B6 à B6c ; `0298d79` pour B6d, B6e, B6f, B8 et B9 (mise à jour du 27/10/2026).
+B1, B3 et B6 à B6c ; `0298d79` pour B6d, B6e, B6f, B8 et B9 (mise à jour du 27/10/2026). Palier Silver (B12 à B16,
+branche `lot-b-silver`, gel du 14/11/2026) : section « Palier Silver » ci-dessous.
 Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`). Tous les réglages et résultats ci-dessous sont
 mesurés sur le **dev**. **Le test gelé n'a pas encore été utilisé : ces chiffres sont des estimations sur le dev.** Il
 le sera une seule fois, à la fin du lot, avec `scripts/final_eval.py`.
@@ -18,6 +19,7 @@ d'`experiments.md` d'où il vient. Une valeur absente de `reports/` et d'`experi
 | B6 | Coréférence simple (un pseudonyme par entité) | `caseforge/anonymization/coref_simple.py` | `reports/lotb_anonymisation.md` (annexe « Ablations B6 (26/10/2026) » ; section 6 pour B10) |
 | B8 | Pipeline NLTK et ablation de tokenisation | `caseforge/extraction/nltk_pipeline.py` | `reports/lotb_b8_tokenisation.md` |
 | B9 | Interface publique d'anonymisation (Lots D et E) | `caseforge/anonymization/api.py` | `README.md` (section Lot B) |
+| B12–B16 (Silver) | Anonymisation `union_fichier` (règles ∪ XLM-R du Lot C, bornes DS), généralisation (non retenue), règles du train | `caseforge/anonymization/detect.py`, `generalisation.py`, `configs/anonymization.yaml` | `results/lotb_silver/b12_generalisation.md` à `b16_ablations.md` |
 | B7 | Règles PRODUIT (libellés, nominalisations, verbes) dans B3 : PRODUIT au dev 0,031 → 0,911, micro 0,681 → 0,751 (mode token) ; **optimiste**, le dev a servi à la mise au point, 0,192 sans les éléments vus au dev ; train 0,886 → 0,952 | `caseforge/extraction/rules/produit.py` | `reports/lotb_b7_produit.md` |
 
 Évaluation NER commune aux lots B et C : `caseforge/eval/ner_metrics.py`, **mode token** (entités exactes au niveau
@@ -116,15 +118,16 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 
   | Backend | Fuite [IC 95 %] | Sur-masquage | F1 caractère | Source |
   |---|---|---|---|---|
-  | `rules` | 12,2 % [7,4 ; 18,0] | 7,0 % | 0,847 | `reports/lotb_anonymisation.md`, section 4 |
-  | `union` | 7,5 % [3,7 ; 12,3] | 29,7 % | 0,564 | idem |
-  | `union_seuil` (B6b) | 7,5 % [3,7 ; 12,3] | 24,8 % | 0,598 | idem |
+  | `rules` (configuration B6d : règles de rappel B6c, plafonds) | 10,8 % [6,6 ; 16,5] | 2,6 % | 0,886 | `results/lotb_silver/point_de_depart.md`, section 3 |
+  | `union` (configuration B6d) | 6,6 % [3,2 ; 10,7] | 27,2 % | 0,592 | idem |
+  | `union_seuil` (B6b) | 7,5 % [3,7 ; 12,3] | 24,8 % | 0,598 | `reports/lotb_anonymisation.md`, section 4 |
   | `union_seuil` (B6c, `89b27e0`) | 6,6 % [3,2 ; 10,7] | 24,5 % | 0,606 | `reports/lotb_b6c.md`, section 3 ; `experiments.md`, entrée B6d |
   | **`union_seuil` (B6d, recommandé : B6c + plafonds de budget)** | **6,6 % [3,2 ; 10,7]** | **21,9 %** | **0,628** | `reports/lotb_anonymisation.md`, section 4 ter |
   | `union_seuil` (B6d + fusion aux bornes des règles, désactivée) | 9,4 % [6,0 ; 13,5] | 3,0 % | 0,885 | idem |
   | `union_seuil` (seuils B6e, non retenus) | 8,5 % [4,6 ; 12,9] | 24,6 % | 0,605 | `reports/lotb_anonymisation.md`, section 4 quater |
 
-  - Écart apparié `rules` − `union_seuil` (B6b) : +4,7 points, IC 95 % [+2,3 ; +7,4] (`reports/lotb_anonymisation.md`, section 4). Écart apparié après B6c : non mesuré.
+  - Les lignes `rules` et `union` donnaient auparavant 12,2 % / 7,0 % / 0,847 et 7,5 % / 29,7 % / 0,564 : ce sont les chiffres de B6, avant les règles de rappel (B6c) et les plafonds de budget (B6d). Les valeurs ci-dessus sont celles de la configuration B6d, remesurées à l'étape 0 du Silver (`results/lotb_silver/point_de_depart.md`).
+  - Écart apparié `rules` − `union_seuil` (B6b) : +4,7 points, IC 95 % [+2,3 ; +7,4] (`reports/lotb_anonymisation.md`, section 4). Configuration B6d : +4,2 points [+1,9 ; +7,0] (`results/lotb_silver/point_de_depart.md`, section 3).
   - **`union_seuil` B6c**, fuite par tranche (`reports/lotb_b6c.md`) :
     - par étiquette : ORG 7,5 %, PERSONNE 1,9 %, SITE 8,8 %, DONNEE_SENSIBLE 7,8 % ;
     - par langue : ar 5,8 %, en 8,6 %, fr 5,4 % ;
@@ -215,6 +218,116 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 
 ---
 
+## Palier Silver (B12 à B16) · anonymisation avec XLM-R du Lot C
+
+Branche `lot-b-silver`, gel du 14/11/2026. **Split : dev** (`documents_dev.jsonl`, 21 documents, 171 passages,
+213 occurrences sensibles) ; le test gelé n'a pas été lu. Les chiffres viennent des rapports
+`results/lotb_silver/b12_generalisation.md`, `b13_backend_fichier.md`, `b14_xlmr.md`, `b15_regles_train.md`,
+`b16_ablations.md` et du contrôle du gel `results/lotb_silver/gel/verification_dev.json`.
+
+- **Système Silver par défaut** (`configs/anonymization.yaml`) : backend `union_fichier` (règles B3 ∪ B1 ∪ prédictions
+  XLM-R du Lot C) avec les **bornes des règles pour DONNEE_SENSIBLE** (`fusion_fichier: bornes_ds`), coréférence,
+  balayage (renforcé), extension des montants, règles de rappel B6c, plafonds B6d ; **sans généralisation**
+  (`generaliser: false`). Prédictions par défaut : `reports/predictions/xlmr_dev_s42.jsonl` (graine s42, point de
+  contrôle choisi sur le dev par le Lot C). **Les chiffres cités sont la moyenne ± écart-type (de population) des 3
+  graines officielles du Lot C** (s13, s42, s2026). **Toujours suivi d'une relecture humaine.**
+- **Bronze toujours accessible** : backend `union_seuil` (`anonymize_document(doc, "union_seuil")`). C'est aussi le
+  défaut de l'interface B9 (`anonymiser`, `anonymiser_document`), qui reçoit un texte libre sans prédictions XLM-R.
+
+### Nouveaux backends et options
+
+- `fichier` (B13) : entités lues dans un JSONL `{passage_id, entities: [{start, end, label}]}`, filtrées sur
+  `SENSITIVE_LABELS` ; un passage absent du fichier n'a aucune prédiction (avertissement, compteur
+  `detect.passages_absents`) ; une entité hors du texte arrête la lecture.
+- `union_fichier` (B13) : `rules` ∪ `fichier`, mêmes plafonds de budget que `union`. Contrôle : avec
+  `reports/predictions/crf_dev.jsonl`, `union_fichier` redonne `union` à l'identique (fuite 6,6 %, sur-masquage
+  27,2 %, F1 caractère 0,592 ; mêmes remplacements dans les 21 documents).
+- Option `fusion_fichier` (B16, gel) : `union` (union des spans, B13 et B14) ou `bornes_ds` (défaut) : une entité du
+  fichier qui chevauche une DONNEE_SENSIBLE des règles est écartée et les bornes des règles sont gardées ; les autres
+  entités sont fusionnées comme avec `union` (`detect.fusionner_bornes_ds`). Contrôle du gel : sur le dev, les masques
+  du chemin par défaut sont identiques à ceux de la ligne « bornes DS » de B16 pour les 3 graines (0 / 171 passage
+  différent), et `rules` / `union_seuil` restent identiques à l'étape 0 (0 / 171).
+- Clés `fichier_predictions` (chemin du fichier, surchargeable par l'argument `fichier_predictions` de
+  `anonymize_document` ou `fichier` de `detect_document`) et `backend` (défaut de `anonymize_document`).
+- Option `generaliser` (B12) : PRODUIT et EQUIPEMENT remplacés par leur famille (`caseforge/anonymization/generalisation.py`,
+  lexiques `data/lexicons/familles_produits.txt` et `categories_equipements.txt` tirés du train). Fausse par défaut.
+
+### Généralisation (B12) : non retenue
+
+- Règle fixée avant la mesure : retenue si le nombre de documents ré-identifiables (k = 1, audit E5) baisse et si la
+  F1 de la fiche (`generation/evaluer.py`) perd au plus 3 points.
+- Cas réel (`union_seuil`, que la fiche consomme) : ré-identifiables N1 / N2 / N3 / N4 2 / 20 / 21 / 21 → 2 / 4 / 9 /
+  21 (sur 21), mais **F1 de la fiche 0,937 → 0,879 (−5,8 points)** : **non retenue**. Avec les entités gold
+  (information) : 2 / 2 / 2 / 21, F1 de la fiche inchangée (0,931).
+- Avec XLM-R (B16) : fuite inchangée (2,5 ± 0,6 %), sur-masquage 14,7 → 14,6 %, ré-identifiables 2 / 20 / 21 / 21 →
+  2 / 2 / 2,3 / 21 (attaque « par familles » : 2 / 2 / 10 / 21).
+- Le niveau N4 (indicateurs) reste à 21 / 21 dans tous les cas.
+
+### Règles mises au point sur le train (B15)
+
+- Mise au point et décisions sur le train (5 plis groupés par document, graine 42) ; le dev n'a servi qu'à une mesure.
+- Gardées : `produit_apposition`, `produit_mode_production` (PRODUIT +0,008 chacune) et `contrainte_coord_ar`
+  (non-régression, CONTRAINTE ar 1,000 → 1,000). Rejetée : `produit_lexique` (−0,011 en vraie CV, 3 candidats, tous
+  faux). PRODUIT au train 0,952 → 0,968.
+- **Résultat négatif au dev** : aucune des trois règles ne se déclenche (0 / 162 passage modifié). PRODUIT reste 0,192
+  (B7b + Silver, comparaison propre) ; CONTRAINTE ar reste 0,333. Anonymisation identique à l'étape 0 (0 / 171).
+
+### Résultats sur le dev
+
+Configuration commune : coréférence, balayage renforcé, extension des montants, règles de rappel, plafonds. IC 95 % :
+bootstrap par document (1 000 tirages, graine 42), donné par graine pour XLM-R.
+
+| Système | Fuite [IC 95 %] | Totales / partielles | Sur-masquage | F1 caractère | F1 car. DS | Source |
+|---|---|---|---|---|---|---|
+| `rules` | 10,8 % [6,6 ; 16,5] | 14 / 9 | 2,6 % | 0,886 | 0,951 | `point_de_depart.md`, `b16_ablations.md` |
+| `union` | 6,6 % [3,2 ; 10,7] | 9 / 5 | 27,2 % | 0,592 | 0,059 | `point_de_depart.md` |
+| `union_seuil` (**Bronze**) | 6,6 % [3,2 ; 10,7] | 9 / 5 | 21,9 % | 0,628 | 0,060 | `point_de_depart.md`, `b16_ablations.md` |
+| `union_fichier(crf)` | 6,6 % [3,2 ; 10,7] | 9 / 5 | 27,2 % | 0,592 | 0,059 | `b13_backend_fichier.md`, `b16_ablations.md` |
+| `union_fichier(xlmr)`, fusion `union` (B14) | 2,5 ± 0,6 % (s13 [0,0 ; 4,1] / s42 [0,0 ; 5,2] / s2026 [0,9 ; 5,7]) | 2 / 3,3 | 14,7 ± 1,1 % | 0,706 ± 0,028 | 0,593 ± 0,056 | `b14_xlmr.md`, `b16_ablations.md` |
+| **`union_fichier(xlmr)` + bornes DS (Silver gelé)** | **2,5 ± 0,6 %** (mêmes IC) | 2 / 3,3 | **9,4 ± 0,7 %** | **0,794 ± 0,014** | **0,917 ± 0,010** | `b16_ablations.md`, `gel/verification_dev.json` |
+
+- Par graine, Silver gelé : fuite 1,9 / 2,3 / 3,3 % ; sur-masquage 10,2 / 9,3 / 8,6 % ; F1 caractère 0,790 / 0,780 /
+  0,813 (s13 / s42 / s2026).
+- **Silver contre Bronze** (`union_seuil` 6,6 % / 21,9 % / 0,628) : fuite −4,1 ± 0,6 points (hausse de `union_seuil`
+  démontrée sur les 3 graines, bootstrap apparié par document, 10 000 tirages) ; sur-masquage −12,5 points ; F1
+  caractère +0,166.
+- Bornes DS contre fusion `union` : fuite +0,0 point sur chaque graine ; sur-masquage −5,4 ± 0,4 points (baisse
+  démontrée 3 / 3) ; F1 caractère DONNEE_SENSIBLE 0,593 → 0,917. Règle fixée avant la mesure (fuite ≤ +1 point, F1
+  car. DS en hausse) : retenue.
+- Ablations (B16, avec XLM-R) : sans coréférence, masques identiques mais cohérence des pseudonymes 84,1 → 26,2 % :
+  gardée. Sans balayage, fuite inchangée et sur-masquage −2,5 points (baisse démontrée sur 2 graines sur 3 seulement) :
+  gardé, comme protection contre les formes répétées non détectées, à réexaminer sur plus de documents.
+- **Ventilations du Silver gelé** (moyenne sur les 3 graines, `b16_ablations.md`, colonne `bornes_regles_DS`) :
+  - fuite par étiquette : ORG 0,0 %, PERSONNE 1,3 ± 0,9 %, SITE 2,3 ± 2,2 %, DONNEE_SENSIBLE 5,2 ± 0,7 % ;
+  - fuite par langue : fr 0,0 %, ar 3,9 ± 0,7 %, en 3,8 ± 1,3 % ; par source : syn_ 1,0 ± 0,7 %, lib_ 15,9 ± 2,2 %
+    (3 documents, 21 occurrences, tendance seulement) ;
+  - sur-masquage : fr 7,8 ± 3,0 %, ar 7,1 ± 1,9 %, en 13,2 ± 3,2 % ; syn_ 9,0 ± 0,8 %, lib_ 11,4 ± 1,0 % ;
+  - F1 caractère par étiquette : ORG 0,784, PERSONNE 0,909, SITE 0,616, DONNEE_SENSIBLE 0,917 ; par langue : fr 0,885,
+    ar 0,766, en 0,735 ; par source : syn_ 0,813, lib_ 0,642 ;
+  - passages mixtes (annexe) : 5 occurrences sensibles, 0 fuite (n < 30, pas de conclusion) ;
+  - ré-identifiables (k = 1) N1 / N2 / N3 / N4 : 2 / 20 / 21 / 21 sur 21, comme le Bronze.
+
+### Limites du Silver
+
+- **21 documents au dev** : les petits écarts ne sont pas significatifs (balayage, généralisation sur la fuite,
+  écarts entre graines). Seuls les écarts dont l'IC apparié exclut 0 pour les 3 graines sont dits démontrés.
+- **Points de contrôle XLM-R choisis sur le dev par le Lot C** : les trois graines sont un peu optimistes pour le dev.
+  Le dev a aussi servi à choisir les bornes DS (règle fixée avant la mesure, une seule mesure).
+- **Prédictions XLM-R seulement pour le dev.** `union_fichier` lit un fichier précalculé ; un passage absent du
+  fichier n'a aucune prédiction, et `union_fichier` revient alors à `rules` (fuite 10,8 % au dev). C'est le cas :
+  - pour le test gelé, tant que des prédictions XLM-R sur le test n'existent pas (code du Lot C, lancé dans
+    `scripts/final_eval.py`, passées par `fichier_predictions`) ;
+  - pour un texte libre (interface B9, pipeline du Lot E) : l'inférence dépend du point de contrôle du Lot C, qui
+    n'est pas branché dans le Lot B ; l'interface garde donc `union_seuil` par défaut.
+- 9 passages dédoublonnés du dev sont absents des fichiers de prédictions ; ils n'ont aucune occurrence sensible gold.
+- La généralisation, non retenue, laisse la fiche ré-identifiable par ses produits (N2 20 / 21) ; voir aussi la
+  note au Lot D (`results/lotb_silver/b12_generalisation.md` : `generation/gabarit.py` recopie les équipements depuis
+  le texte original).
+- Risques éthiques : ceux de B6. Fuites résiduelles de 2,5 % au dev, surtout des DONNEE_SENSIBLE (5,2 %) et des
+  documents `lib_` (15,9 %). **Relecture humaine obligatoire.**
+
+---
+
 ## Reproductibilité
 
 - Environnement : Python 3.11, `.venv` (`py -3.11 -m venv .venv`, puis `pip install -r requirements-lotb.txt`) ; modèle stanza `ar` ; commit de référence **`89b27e0`** (branche `lot-b`).
@@ -227,6 +340,7 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
   - B6e : `python -m scripts.b6e_plis_gabarit_cv` (train), `python -m scripts.b6e_eval_dev` (dev, refuse une seconde exécution) ;
   - B6f : `python -m scripts.b6f_bornes_ar_cv` (train), `python -m scripts.b6f_eval_dev` (dev, refuse une seconde exécution) ;
   - B8 : `python -m nltk.downloader punkt_tab`, puis `python -m scripts.b8_ablation_tokenisation` (dev) ;
+  - Silver (branche `lot-b-silver`) : `python -m scripts.b12_generalisation`, `python -m scripts.b13_backend_fichier`, `python -m scripts.b14_xlmr`, `python -m scripts.b15_regles_train` (train) puis `python -m scripts.b15_eval_dev`, `python -m scripts.b16_ablations_silver` ; contrôle du gel : `python -m scripts.gel_silver_verif` (dev). B13, B14 et B16 fixent `fusion_fichier="union"` là où ils mesuraient la fusion d'origine, pour redonner leurs chiffres ;
   - tests : `pytest` (complet), ou `pytest -m "not slow"` pour exclure le test de l'interface B9 sur le dev (≈ 1 min 30).
 - Graines : bootstrap par document, graine 42 (1 000 tirages ; 10 000 pour les comparaisons appariées de l'anonymisation) ; plis de CV groupés par document, graine 42 ; variance du CRF, graines 13, 42, 2026 ; CRF L-BFGS déterministe.
 - Résultats chiffrés : `results/lotb/*.json` ; prédictions pour le Lot D : `reports/predictions/lotb_dev_v2.jsonl` (entités, inchangées par B6f) et `results/lotb/b6d_anonymisation_dev_union_seuil.jsonl` (anonymisation, configuration recommandée ; l'export de B6e lui est identique).
@@ -244,9 +358,8 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 
   Chaque mesure du dev a été faite une seule fois, sans réajustement, mais le choix des familles d'erreurs à corriger dépend du dev. Celui-ci n'est donc plus un échantillon tenu à part pour l'anonymisation : la fuite de 6,6 % et les 4 noms visibles sous-estiment probablement la fuite réelle. B6e et B6f n'ont changé aucun chiffre retenu ; les gains viennent de B6c (fuite 7,5 → 6,6 %) et de B6d (sur-masquage 24,5 → 21,9 %). **Le vrai chiffre sera celui du test gelé**, mesuré une seule fois à la fin du lot avec `scripts/final_eval.py`.
 - L'anonymisation réduit le risque sans l'annuler : fuites résiduelles, données sensibles sans chiffre, ré-identification par le contexte. **Relecture humaine obligatoire** avant toute diffusion.
-- Prochaine étape (Silver) :
-  - règle PRODUIT, mise au point sur le train ;
-  - CONTRAINTE arabes : séparer deux conditions coordonnées (hypothèse de B6f), sur des phrases construites d'après le cas 4 ;
-  - sur-masquage : la fusion aux bornes des règles (B6d), à réévaluer si le Lot A corrige l'issue #7 ; les plis par gabarit (B6e) n'ont pas suffi ;
-  - XLM-R comparé à B3 et au CRF ;
-  - évaluation finale unique sur `test-gele-v3`.
+- Étapes Silver (bilan au 14/11/2026, section « Palier Silver ») :
+  - règle PRODUIT et CONTRAINTE arabes coordonnées, mises au point sur le train (B15) : faites, sans effet au dev ;
+  - sur-masquage : fusion aux bornes des règles limitée à DONNEE_SENSIBLE avec XLM-R (B16) : retenue (14,7 → 9,4 %) ; la fusion aux bornes pour toutes les étiquettes (B6d) reste désactivée ;
+  - XLM-R du Lot C branché dans l'anonymisation (B14) : fuite 6,6 → 2,5 ± 0,6 % au dev ;
+  - reste à faire : évaluation finale unique sur `test-gele-v3`, avec des prédictions XLM-R sur le test.
