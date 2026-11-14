@@ -2,15 +2,17 @@
 
 Transformer un document industriel FR / AR / EN en fiche pédagogique anonymisée et sourcée (module NLP ESPRIM 2026-2027).
 
-## État des lots (palier Bronze)
+## État des lots (paliers Bronze et Silver)
 
-| Lot | Responsables | Contenu | Résultat clé (dev) | Carte / rapport |
+| Lot | Responsables | Bronze (dev) | Silver (dev) | Carte / rapport |
 |---|---|---|---|---|
-| A · Données et langue | Ons, Boutheina | corpus, annotation, test gelé `test-gele-v3`, études de langue | kappa 0,758 ; 114 problèmes, 2 486 entités | [`docs/carte_donnees.md`](docs/carte_donnees.md) |
-| B · Extraction et anonymisation | Ali, Boutheina | règles spaCy (B3), CRF, anonymisation, coréférence | NER 0,701 (sans les mots du dev) ; fuite 6,6 % | [`docs/carte_modele_lotB.md`](docs/carte_modele_lotB.md) |
-| C · Modèles | Ghayth, Ons | type de passage, recherche du passage source, CRF, reproduction ANERcorp | type de passage 0,896 ; MRR 0,932 | [`docs/carte_modele_lotC.md`](docs/carte_modele_lotC.md) |
-| D · Génération | Ons, Boutheina | fiche par gabarit, recherche de cas similaires | fiche F1 0,93 (0,82 de bout en bout) | [`docs/carte_modele_lotD.md`](docs/carte_modele_lotD.md) |
-| E · Intégration | tous | pipeline, API, interface, audits | pipeline : fiche F1 0,76, 571 ms par document | [`reports/bronze.md`](reports/bronze.md), [`docs/contrat_pipeline.md`](docs/contrat_pipeline.md) |
+| A · Données et langue | Ons, Boutheina | kappa 0,758 ; 114 problèmes, 2 486 entités | (clos au Bronze) | [`docs/carte_donnees.md`](docs/carte_donnees.md) |
+| B · Extraction et anonymisation | Ali, Boutheina | NER 0,701 (sans les mots du dev) ; fuite 6,6 % | anonymisation union XLM-R + règles : fuite 2,5 ± 0,6 % | [`docs/carte_modele_lotB.md`](docs/carte_modele_lotB.md) |
+| C · Modèles | Ghayth, Ons | type de passage 0,896 ; MRR 0,932 | NER XLM-R 0,743 ± 0,019 ; type de passage e5 0,948 | [`docs/carte_modele_lotC.md`](docs/carte_modele_lotC.md) |
+| D · Génération | Ons, Boutheina | fiche F1 0,93 (0,82 de bout en bout) | LLM 0,944 ± 0,003 ; entrées du pipeline 0,872 ± 0,005 contre 0,815 ; RAG mesuré | [`docs/carte_modele_lotD.md`](docs/carte_modele_lotD.md), [`reports/lot_d_silver.md`](reports/lot_d_silver.md) |
+| E · Intégration | tous | pipeline : fiche F1 0,76, 571 ms par document | pipeline Silver 0,79 ; cas similaires LaBSE P@5 0,36 | [`reports/silver.md`](reports/silver.md), [`docs/contrat_pipeline.md`](docs/contrat_pipeline.md) |
+
+Tableau de bord du palier Silver : [`reports/silver.md`](reports/silver.md) (Bronze : [`reports/bronze.md`](reports/bronze.md)).
 
 Journal des expériences : [`experiments.md`](experiments.md). Toutes les mesures publiées sont faites sur le **dev** ;
 le **test gelé n'est évalué qu'une fois, à la fin** (procédure : `CLAUDE.md`, section 2). Le travail passe par une branche par
