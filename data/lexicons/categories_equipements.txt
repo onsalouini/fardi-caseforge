@@ -1,0 +1,253 @@
+# Catégories d'équipements (B12, généralisation des EQUIPEMENT) : forme<TAB>famille<TAB>langue.
+# Source : entités gold PRODUIT / EQUIPEMENT du TRAIN (data/final/train.jsonl), têtes d'equipement_tetes.
+# Fichier GÉNÉRÉ par scripts/b12_lexiques.py ;
+# ne pas l'éditer à la main : modifier les tables du script puis le relancer. Formes sans référence, code ni
+# marque, têtes nominales et noms de familles ; famille écrite dans la langue de la forme. Lecture :
+# caseforge.anonymization.generalisation (forme entière, puis tête, sinon famille générique « [ÉTIQUETTE] »).
+آلة	آلة إنتاج	ar
+آلة إنتاج	آلة إنتاج	ar
+آلة الغلق	آلة إنتاج	ar
+جهاز	آلة إنتاج	ar
+خلاط	آلة إنتاج	ar
+خلاط على شكل V	آلة إنتاج	ar
+ماكينة	آلة إنتاج	ar
+مطحنة	آلة إنتاج	ar
+آلة تشغيل	آلة تشغيل	ar
+مركز التشغيل	آلة تشغيل	ar
+مركز التشغيل الرقمي	آلة تشغيل	ar
+أدوات الإنتاج	أدوات الإنتاج	ar
+قالب	أدوات الإنتاج	ar
+برمجية	برمجية	ar
+حاسوب	برمجية	ar
+خط	خط إنتاج	ar
+خط إنتاج	خط إنتاج	ar
+خط التعبئة	خط إنتاج	ar
+خط تعليب الطماطم	خط إنتاج	ar
+قطع الغيار	قطع الغيار	ar
+خزان	مضخة أو ضاغط	ar
+ضاغط	مضخة أو ضاغط	ar
+مضخة	مضخة أو ضاغط	ar
+مضخة أو ضاغط	مضخة أو ضاغط	ar
+معدات المراقبة	معدات المراقبة	ar
+منصة الاختبار	معدات المراقبة	ar
+منصة الاختبار الكهربائي	معدات المراقبة	ar
+روبوت	معدات المناولة	ar
+معدات المناولة	معدات المناولة	ar
+ناقل	معدات المناولة	ar
+آلة التجفيف	معدات حرارية	ar
+الفرن الكهربائي ذي القوس	معدات حرارية	ar
+جهاز التعقيم	معدات حرارية	ar
+فرن	معدات حرارية	ar
+مجفف	معدات حرارية	ar
+معدات حرارية	معدات حرارية	ar
+الأقطاب الكهربائية	معدات كهربائية	ar
+الألواح الشمسية	معدات كهربائية	ar
+اللفات	معدات كهربائية	ar
+المحولات	معدات كهربائية	ar
+محطة	معدات كهربائية	ar
+محطة شمسية	معدات كهربائية	ar
+محول	معدات كهربائية	ar
+معدات كهربائية	معدات كهربائية	ar
+مولد	معدات كهربائية	ar
+آلة الحقن	مكبس	ar
+المكبس الهيدروليكي	مكبس	ar
+مكبس	مكبس	ar
+مستودع	منشأة تخزين	ar
+منشأة تخزين	منشأة تخزين	ar
+coil	electrical equipment	en
+electrical equipment	electrical equipment	en
+electrode	electrical equipment	en
+generator	electrical equipment	en
+heat sink	electrical equipment	en
+inverter	electrical equipment	en
+PLC	electrical equipment	en
+solar panel	electrical equipment	en
+transformer	electrical equipment	en
+conveyor	handling equipment	en
+forklift	handling equipment	en
+handling equipment	handling equipment	en
+robot	handling equipment	en
+bench	inspection equipment	en
+camera	inspection equipment	en
+detector	inspection equipment	en
+e1ectrical test bench	inspection equipment	en
+electrical test bench	inspection equipment	en
+electrlcal test bench	inspection equipment	en
+inspection equipment	inspection equipment	en
+metal detector	inspection equipment	en
+scanner	inspection equipment	en
+sensor	inspection equipment	en
+test bench	inspection equipment	en
+CNC machining centre	machine tool	en
+lathe	machine tool	en
+machine tool	machine tool	en
+machining center	machine tool	en
+machining centre	machine tool	en
+milling machine	machine tool	en
+cutting press	press	en
+hydraulic press	press	en
+injection press	press	en
+press	press	en
+rotary tablet press	press	en
+tablet press	press	en
+assembly line	production line	en
+bottling line	production line	en
+dyeing line	production line	en
+line	production line	en
+production line	production line	en
+blender	production machine	en
+blow moulder	production machine	en
+cell	production machine	en
+coating pan	production machine	en
+extruder	production machine	en
+filler	production machine	en
+labeler	production machine	en
+labeller	production machine	en
+machine	production machine	en
+mill	production machine	en
+mixer	production machine	en
+moulder	production machine	en
+production machine	production machine	en
+roller mill	production machine	en
+station	production machine	en
+stenter	production machine	en
+stenter frame	production machine	en
+turbine	production machine	en
+V-blender	production machine	en
+workstation	production machine	en
+compressor	pump or compressor	en
+pump	pump or compressor	en
+pump or compressor	pump or compressor	en
+tank	pump or compressor	en
+CMMS	software	en
+dashboard	software	en
+ERP	software	en
+GMAO	software	en
+MES	software	en
+PLM	software	en
+SCADA	software	en
+software	software	en
+SPC dashboard	software	en
+TMS	software	en
+WMS	software	en
+spare parts	spare parts	en
+silo	storage facility	en
+storage facility	storage facility	en
+warehouse	storage facility	en
+autoclave	thermal equipment	en
+boiler	thermal equipment	en
+dryer	thermal equipment	en
+furnace	thermal equipment	en
+kiln	thermal equipment	en
+oven	thermal equipment	en
+pastcurizer	thermal equipment	en
+pasteuriser	thermal equipment	en
+pasteurizer	thermal equipment	en
+sterilizer	thermal equipment	en
+thermal equipment	thermal equipment	en
+assembly board	tooling	en
+fixture	tooling	en
+jig	tooling	en
+mold	tooling	en
+mould	tooling	en
+stencil	tooling	en
+tool	tooling	en
+tooling	tooling	en
+entrepôt	installation de stockage	fr
+entrepôt sous douane	installation de stockage	fr
+installation de stockage	installation de stockage	fr
+silo	installation de stockage	fr
+chaîne	ligne de production	fr
+ligne	ligne de production	fr
+ligne d'embouteillage	ligne de production	fr
+ligne de montage	ligne de production	fr
+ligne de production	ligne de production	fr
+CMMS	logiciel	fr
+ERP	logiciel	fr
+GMAO	logiciel	fr
+logiciel	logiciel	fr
+MES	logiciel	fr
+PLM	logiciel	fr
+progiciel	logiciel	fr
+SCADA	logiciel	fr
+tableau de bord	logiciel	fr
+TMS	logiciel	fr
+WMS	logiciel	fr
+broyeur	machine de production	fr
+cellule	machine de production	fr
+dragéifieuse	machine de production	fr
+encartonneuse	machine de production	fr
+extrudeuse	machine de production	fr
+machine	machine de production	fr
+machine de production	machine de production	fr
+mélangeur	machine de production	fr
+mélangeur en V	machine de production	fr
+métier à tisser	machine de production	fr
+poste	machine de production	fr
+poste de pose de ceinture	machine de production	fr
+rameuse	machine de production	fr
+remplisseuse	machine de production	fr
+souffleuse	machine de production	fr
+turbine	machine de production	fr
+étiqueteuse	machine de production	fr
+centre d'usinage	machine-outil	fr
+centre d'usinage CN	machine-outil	fr
+centre d'usinage DMG	machine-outil	fr
+fraiseuse	machine-outil	fr
+machine-outil	machine-outil	fr
+rectifieuse	machine-outil	fr
+tour	machine-outil	fr
+gabarit	outillage	fr
+montage	outillage	fr
+montage d'usinage	outillage	fr
+moule	outillage	fr
+outil	outillage	fr
+outillage	outillage	fr
+planche de montage	outillage	fr
+pochoir	outillage	fr
+pièces de rechange	pièces de rechange	fr
+compresseur	pompe ou compresseur	fr
+cuve	pompe ou compresseur	fr
+pompe	pompe ou compresseur	fr
+pompe ou compresseur	pompe ou compresseur	fr
+réservoir	pompe ou compresseur	fr
+comprimcuse rotative	presse	fr
+comprimeuse	presse	fr
+comprimeuse rotative	presse	fr
+injecteuse	presse	fr
+presse	presse	fr
+presse hydraulique	presse	fr
+presse à injecter	presse	fr
+banc	équipement de contrôle	fr
+banc d'essai	équipement de contrôle	fr
+banc de test	équipement de contrôle	fr
+banc de test électrique	équipement de contrôle	fr
+caméra	équipement de contrôle	fr
+caméra thermique	équipement de contrôle	fr
+capteur	équipement de contrôle	fr
+détecteur	équipement de contrôle	fr
+scanner	équipement de contrôle	fr
+équipement de contrôle	équipement de contrôle	fr
+chariot élévateur	équipement de manutention	fr
+convoyeur	équipement de manutention	fr
+robot	équipement de manutention	fr
+équipement de manutention	équipement de manutention	fr
+autoclave	équipement thermique	fr
+chaudière	équipement thermique	fr
+four	équipement thermique	fr
+pasteurisateur	équipement thermique	fr
+stérilisateur	équipement thermique	fr
+sécheur	équipement thermique	fr
+séchoir	équipement thermique	fr
+équipement thermique	équipement thermique	fr
+étuve	équipement thermique	fr
+automate	équipement électrique	fr
+carte de puissance	équipement électrique	fr
+dissipateur	équipement électrique	fr
+groupe électrogène	équipement électrique	fr
+générateur	équipement électrique	fr
+onduleur	équipement électrique	fr
+panneau solaire	équipement électrique	fr
+transformateur	équipement électrique	fr
+électrode	équipement électrique	fr
+équipement électrique	équipement électrique	fr

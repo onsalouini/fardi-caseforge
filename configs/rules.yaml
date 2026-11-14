@@ -10,6 +10,14 @@ memoire_document: true
 # rule_id à ignorer, par exemple : [dependencies.produit_tete, matchers.personne_prenom]
 # B6c : les règles de rappel (caseforge.extraction.rules.rappel) servent l'anonymisation, qui les active dans
 # configs/anonymization.yaml (regles_rappel) ; elles restent hors du NER par défaut (effet mesuré à part).
-regles_desactivees: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_prenom_ar]
+regles_desactivees: [rappel.org_sigle, rappel.org_camelcase, rappel.personne_prenom_ar, dependencies.produit_lexique]
 # B7 : règles PRODUIT (caseforge.extraction.rules.produit : produit_libelle, produit_nominalisation, produit_verbe)
 # actives, gardées au train par la règle de décision (results/lotb/b7_produit_cv.json).
+# B15 (Silver) : éléments des règles PRODUIT choisis après lecture du dev au B7 (gamme(s), range(s), سلعة، سلع, les
+# copules reste(nt) / demeure(nt) / remain(s), « la suivante : », valeur sans séparateur après « منتوجها » ; liste
+# dans caseforge.extraction.rules.produit.ELEMENTS_DEV). Gardés par défaut (true, comportement du Bronze B7) pour que
+# rien ne change pour les Lots C, D et E (décision du 13/11/2026). false ne sert qu'à la mesure propre « B7b + Silver »
+# (PRODUIT 0,192 au dev, results/lotb_silver/b15_regles_train.md), jamais comme configuration de production.
+elements_vus_au_dev: true
+# B15 : dependencies.produit_apposition, dependencies.produit_mode_production, dependencies.produit_lexique (PRODUIT) et
+# dependencies.contrainte_coord_ar (CONTRAINTE arabes coordonnées) ; décision au train : results/lotb_silver/b15/.
