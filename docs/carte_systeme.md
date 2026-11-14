@@ -30,3 +30,16 @@ flowchart LR
 | Interface et API | E | texte brut → sortie du contrat → décision de validation | temps de réponse de l'API ; temps de correction humaine (non mesuré au Bronze) | `docs/contrat_pipeline.md`, `reports/lot_e_pipeline.md` |
 
 Règle transversale : aucune donnée FARDI brute ne quitte la machine ; seules les versions anonymisées alimentent le RAG et la génération.
+
+## Briques par palier
+
+| Étape | Bronze | Silver |
+|---|---|---|
+| NER | règles spaCy B3 (Lot B), CRF (Lot C) | XLM-R fine-tuné, 3 graines (Lot C) ; union XLM-R + règles pour l'anonymisation (Lot B) |
+| Anonymisation | patrons et seuils (`union_seuil`, Lot B) | `union_fichier` : XLM-R + règles (Lot B, B14) |
+| Classification des passages | TF-IDF caractères + position (Lot C) | e5 ⊕ TF-IDF + position (Lot C), branché par `ptype="e5"` |
+| Recherche de cas similaires | TF-IDF (Lot D) | LaBSE (Lot E), branché par `recherche="dense"` |
+| Génération de fiche | gabarit version 2 (Lot D) | LLM Qwen2.5-7B 4 bits à sortie JSON, contrôle d'ancrage (Lot D), branché par `fiche="llm"` (GPU) |
+| Exemples du prompt (RAG) | – | LaBSE + reranking mesurés (Lot D) ; tirage par format gardé |
+
+Détail et chiffres : `reports/silver.md`.
