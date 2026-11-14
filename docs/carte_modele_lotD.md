@@ -103,9 +103,9 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
   | Configuration | F1 éléments | Gabarit v2 | Δ (IC 95 %, bootstrap apparié) | Fuites LLM / gabarit |
   |---|---|---|---|---|
   | Entrées de référence, 3 graines | **0,944 ± 0,003** | 0,931 | +0,013 [−0,010 ; +0,036], p = 0,14 | 0 / 0 |
-  | Entrées du pipeline (Lot B, B6c) | **0,874** | 0,815 | **+0,059 [+0,011 ; +0,105], p = 0,006** | **1 / 2** |
+  | Entrées du pipeline (Lot B, B6c), 3 graines | **0,872 ± 0,005** | 0,815 | **+0,057 [+0,010 ; +0,104], p = 0,007** | **1 / 2** |
 
-  Par langue (référence, 3 graines) : fr 0,956 ; ar 0,915 ; en 0,961 ; (pipeline) fr 0,919 ; ar 0,815 ; en 0,887. Par
+  Par langue (référence, 3 graines) : fr 0,956 ; ar 0,915 ; en 0,961 ; (pipeline, 3 graines) fr 0,916 ; ar 0,807 ; en 0,892. Par
   source (référence) : syn_ 0,983 ; lib_ 0,687. Par rubrique (graine 42) : contexte 0,93 ; objectifs 0,94 ; données
   0,90 ; contraintes 1,00. Rappel des citations 0,91 (gabarit 0,81).
 - **RAG dense** (ablation de retrieval, `--choix-exemples dense`) : exemples du prompt retrouvés par LaBSE sur le texte
