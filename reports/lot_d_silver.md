@@ -42,24 +42,27 @@ les recomposer redonne F1 1,00 au dev et au train.
 Le LLM égale le gabarit v2 et le dépasse légèrement, **sans écart significatif** sur 21 documents. Les trois graines
 donnent presque le même score (écart-type 0,003) : le choix des exemples influe peu.
 
-### 2.2 Entrées du pipeline : entités du Lot B et anonymisation B6c `union_seuil` (graine 42)
+### 2.2 Entrées du pipeline : entités du Lot B et anonymisation B6c `union_seuil` (3 graines)
 
-| Groupe | n | LLM | Gabarit v2 | Δ | IC 95 % de Δ | p (Δ ≤ 0) |
+| Groupe | n | LLM (13 / 42 / 2026) | Gabarit v2 | Δ | IC 95 % de Δ | p (Δ ≤ 0) |
 |---|---|---|---|---|---|---|
-| **global** | 21 | **0,874** | 0,815 | **+0,059** | **[+0,011 ; +0,105]** | **0,006** |
-| langue = ar | 7 | 0,815 | 0,685 | +0,130 | [+0,028 ; +0,213] | 0,008 |
-| langue = en | 7 | 0,887 | 0,919 | −0,032 | [−0,066 ; +0,018] | 0,894 |
-| langue = fr | 7 | 0,919 | 0,836 | +0,083 | [+0,035 ; +0,132] | 0,000 |
-| source = syn_ | 18 | 0,901 | 0,832 | +0,069 | [+0,022 ; +0,119] | 0,002 |
-| source = lib_ | 3 | 0,683 | 0,698 | −0,015 | [−0,154 ; +0,055] | 0,704 |
+| **global** | 21 | **0,872 ± 0,005** | 0,815 | **+0,057** | **[+0,010 ; +0,104]** | **0,007** |
+| langue = ar | 7 | 0,807 ± 0,023 | 0,685 | +0,122 | [+0,019 ; +0,209] | 0,012 |
+| langue = en | 7 | 0,892 ± 0,010 | 0,919 | −0,027 | [−0,068 ; +0,020] | 0,871 |
+| langue = fr | 7 | 0,916 ± 0,003 | 0,836 | +0,080 | [+0,037 ; +0,127] | 0,000 |
+| source = syn_ | 18 | 0,897 ± 0,009 | 0,832 | +0,064 | [+0,016 ; +0,114] | 0,004 |
+| source = lib_ | 3 | 0,699 ± 0,028 | 0,698 | +0,002 | [−0,154 ; +0,086] | 0,367 |
 
-Fuites (noms sensibles de la référence retrouvés dans la fiche) : **LLM 1**, gabarit 2. La fuite commune (`syn_ar_022`)
+Par graine : 0,88 (13) ; 0,87 (42) ; 0,87 (2026). Par rubrique (moyenne des 3 graines) : contexte 0,88 ; objectifs 0,94 ;
+données 0,85 ; contraintes 0,84. Le gabarit est déterministe (une seule exécution).
+
+Fuites (noms sensibles de la référence retrouvés dans la fiche) : **LLM 1 par graine** (la même), gabarit 2. La fuite commune (`syn_ar_022`)
 vient d'un nom que l'anonymiseur n'a pas masqué. Le LLM évite la seconde (« SPEN », `syn_fr_022`) en choisissant un autre
 passage de contexte. **Sur les entrées réelles du pipeline, le LLM est significativement meilleur que le gabarit**, surtout
 en arabe et en français ; il est un peu moins bon en anglais, où le sur-masquage des budgets lui coûte des contraintes
 (section 4).
 
-### 2.3 Tableaux complets, graine 42
+### 2.3 Tableaux complets, graine 42 (détail)
 
 Entrées de référence :
 
