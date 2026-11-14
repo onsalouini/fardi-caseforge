@@ -1,4 +1,4 @@
-# Carte de modèle — Lot C (palier Bronze)
+# Carte de modèle — Lot C (paliers Bronze et Silver)
 
 Responsable : Ghayth Mahmoud · co-équipière : Ons Alouini · branche `lot-c-modeles`.
 Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`). Tous les réglages et résultats ci-dessous sont
@@ -13,6 +13,9 @@ faites par l'équipe.
 | C3 | Passage source d'un élément de fiche | `caseforge/retrieval/bm25.py`, `hybride.py` | `reports/lotC_retrieval.md`, `lotC_retrieval_hybride.md` |
 | C4 | NER des 9 entités (baseline apprise) | `caseforge/models/crf_ner.py`, `comparer_ner.py` | `reports/predictions/crf_dev.jsonl`, `lotC_comparaison_ner.md` |
 | C5 | Reproduction : NER arabe sur ANERcorp | `exemples/reproduction_anercorp.py` | `reports/lotC_reproduction_anercorp.md` |
+| C6 (Silver) | NER des 9 entités par XLM-R fine-tuné (3 graines) | `caseforge/models/xlmr_ner.py`, `comparer_ner.py` | `reports/lotC_comparaison_ner.md`, `lotC_xlmr_dev*.md` |
+| C6 (Silver) | Analyse d'erreurs de XLM-R (168 erreurs, 34 exemples) | `caseforge/models/erreurs_xlmr.py` | `reports/lotC_erreurs_xlmr.md` |
+| C7 (Silver) | Embeddings multilingues e5 : type de passage, passage source | `caseforge/models/embeddings_lotc.py` | `reports/lotC_embeddings.md` |
 
 Évaluation NER : harnais officiel `caseforge/eval/ner_metrics.py` du Lot B (mode « mots » pour comparer les modèles,
 mode « caractère » et taux de fuite pour l'anonymisation) ; `caseforge/eval/ner_eval.py` donne les mêmes chiffres en mode
@@ -118,11 +121,41 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
 
 ---
 
+## C6 · NER des 9 entités par XLM-R fine-tuné (palier Silver)
+
+- **Modèle** : `xlm-roberta-base` (278 M paramètres) fine-tuné en étiquetage BIO, 10 époques, lr 3e-5, point de
+  contrôle choisi sur le dev (optimiste) ; graines 13, 42, 2026 ; fine-tuning complet sur CPU (~17 min par graine).
+- **Résultats (F1 micro, mode mots, dev)** : **0,743 ± 0,019** (0,716 / 0,757 / 0,756) ; B3 sans les mots du dev
+  0,701 ; CRF 0,393. Par langue (XLM-R / B3 B7b) : fr 0,768 / 0,707 ; ar 0,711 / 0,583 ; en 0,749 / 0,806. Par
+  source : syn_ 0,774 / 0,717 ; lib_ 0,557 / 0,574. Par étiquette : PRODUIT 0,921 (B3 0,192), CONTRAINTE 0,961 (0,694),
+  EQUIPEMENT 0,743 (0,475), ORG 0,888, PERSONNE 0,957, SITE 0,782 ; plus faibles : INDICATEUR 0,423 (0,889), PROCESSUS
+  0,526 (0,585), DONNEE_SENSIBLE 0,555 (0,770).
+- **Bootstrap apparié** (1 000 tirages par document) : contre le CRF, +0,32 à +0,36 pour les 3 graines (IC au-dessus de
+  0) ; contre B3 sans les mots du dev, gain démontré en micro pour 1 graine sur 3 (s42 : +0,057 [+0,005 ; +0,121]) et en
+  macro pour 2 sur 3 : **gain probable mais fragile** sur 21 documents.
+- **Ablations** : embeddings gelés 0,738 ± 0,003 (aucune différence démontrée) ; gelé + corpus externes 0,731 ± 0,019
+  (**résultat négatif** : PERSONNE 0,987 → 0,777, conventions d'annotation différentes).
+- **Analyse d'erreurs** (`reports/lotC_erreurs_xlmr.md`, graine 42, 168 erreurs ; 189 et 152 pour les graines 13 et
+  2026) : bornes 82 (dont 19 ne diffèrent que par la ponctuation), en trop 63 (EQUIPEMENT, PROCESSUS, SITE), manquées
+  14, confusions d'étiquette 9 ; 31 prédictions coupent un mot (frontières de sous-mots) ; 4 entités sensibles manquées.
+- **Usage prévu** : NER appris du Silver, en union avec les règles pour l'anonymisation (Lot B, B14) ; reproductibilité :
+  un second entraînement donne 0,725 ± 0,022 (non-déterminisme du GPU), même conclusion.
+
+## C7 · Embeddings multilingues (palier Silver)
+
+- **Modèle** : `intfloat/multilingual-e5-small` gelé (moyenne des états cachés), têtes apprises sur le train.
+- **Type de passage** (macro-F1, 3 graines) : **e5 ⊕ TF-IDF caractères + position 0,948** (fr 0,899 ; ar 1,000 ;
+  en 0,942) contre 0,896 au Bronze : +0,052, IC 95 % [+0,022 ; +0,088], p 0,001 ; e5 seul 0,922. Branché dans le
+  pipeline (`traiter(..., ptype="e5")`, Lot E).
+- **Passage source** (MRR, 145 requêtes) : **résultat négatif** : BM25 0,932, e5 0,887 (−0,045, p 0,001), fusion RRF
+  0,920 ; BM25 est gardé pour le contrôle des citations.
+
 ## Limites communes et considérations éthiques
 
 - Corpus principal simulé (gabarits + textes libres rédigés par IA) : les scores surestiment probablement la
   performance sur de vrais documents industriels ; le pilote FARDI n'est pas encore disponible.
 - Dev petit (162 passages, 21 documents) : intervalles de confiance larges ; résultats rapportés par langue.
 - Les modèles travaillent sur des textes anonymisés ou simulés ; aucune donnée partenaire n'a été utilisée.
-- Prochaine étape (Silver) : XLM-R pour le NER (3 graines), comparaison règles / CRF / XLM-R, embeddings multilingues
-  pour C2 et C3, interprétation de l'attention ; évaluation finale unique sur `test-gele-v3`.
+- Prochaines étapes : interprétation de l'attention de XLM-R (explications, palier Gold) ; post-traitement des
+  bornes de XLM-R (ponctuation, mots coupés : 50 erreurs sur 168, `reports/lotC_erreurs_xlmr.md`) ; évaluation finale
+  unique sur `test-gele-v3` par `scripts/final_eval.py`.
