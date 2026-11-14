@@ -35,26 +35,115 @@ from app.rendu import (  # noqa: E402
 
 EXEMPLE = RACINE / "tests" / "fixtures" / "pipeline_exemple.json"
 
+LOGO = RACINE / "web" / "static" / "logo.svg"
+STYLE = """
+<style>
+  .block-container { padding-top: 1.6rem; }
+  .cf-entete { display:flex; align-items:center; gap:14px; padding:14px 18px; border-radius:16px; margin-bottom:10px;
+    background: linear-gradient(120deg, rgba(79,70,229,.12), rgba(13,148,136,.12));
+    border:1px solid rgba(79,70,229,.25); }
+  .cf-entete img { width:52px; height:52px; filter: drop-shadow(0 6px 14px rgba(79,70,229,.35)); }
+  .cf-entete h1 { font-size:1.65rem; margin:0; padding:0; letter-spacing:-.02em; }
+  .cf-entete .studio { background:linear-gradient(90deg,#4f46e5,#0d9488); -webkit-background-clip:text;
+    background-clip:text; color:transparent; }
+  .cf-entete p { margin:2px 0 0; opacity:.75; font-size:.92rem; }
+  .cf-pastille { font-size:.72rem; font-weight:700; padding:3px 10px; border-radius:999px; margin-left:auto;
+    background:linear-gradient(90deg,#c7d2fe,#99f6e4); color:#1e1b4b; white-space:nowrap; }
+  .cf-etapes { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:4px 0 6px; }
+  .cf-etape { display:flex; gap:10px; font-size:.86rem; }
+  .cf-etape b { display:block; }
+  .cf-num { flex:none; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; color:#fff;
+    font-weight:700; font-size:.8rem; background:linear-gradient(135deg,#4f46e5,#0d9488); }
+  div[data-testid="stMetric"] { border:1px solid rgba(128,128,128,.25); border-radius:14px; padding:12px 16px;
+    box-shadow:0 8px 24px -14px rgba(30,41,59,.35); }
+  div[data-testid="stExpander"] { border-radius:14px; }
+  .stButton > button[kind="primary"] { background:linear-gradient(90deg,#4f46e5,#0d9488); border:none;
+    box-shadow:0 8px 20px -8px rgba(79,70,229,.7); }
+  section[data-testid="stSidebar"] h2 { font-size:1.15rem; }
+  @media (max-width: 900px) { .cf-etapes { grid-template-columns:1fr 1fr; } }
+</style>
+"""
+GUIDE = [
+    ("Choisissez la source", "« Pipeline local » pour analyser votre texte ; « Exemple factice » pour découvrir."),
+    ("Réglez le palier", "Bronze : règles et TF-IDF. Silver : type de passage e5, cas similaires LaBSE."),
+    ("Collez le document", "FR, AR ou EN, un paragraphe par ligne vide, puis « Analyser »."),
+    ("Relisez et validez", "Comparez original, anonymisé et fiche ; un enseignant valide la fiche."),
+]
+
+
+def logo_data_uri() -> str:
+    """Logo du projet en data URI (affiché sans serveur de fichiers)."""
+    import base64
+
+    return "data:image/svg+xml;base64," + base64.b64encode(LOGO.read_bytes()).decode("ascii")
+
+
 st.set_page_config(page_title="CaseForge", page_icon="📄", layout="wide")
-st.title("CaseForge · du besoin industriel à l'étude de cas")
+st.markdown(STYLE, unsafe_allow_html=True)
+st.markdown(
+    f'<div class="cf-entete"><img src="{logo_data_uri()}" alt="CaseForge">'
+    '<div><h1>CaseForge <span class="studio">· interface d\'évaluation</span></h1>'
+    "<p>Du besoin industriel à l'étude de cas : anonymisée, sourcée, validable (FR · AR · EN).</p></div>"
+    '<span class="cf-pastille">Paliers Bronze et Silver</span></div>',
+    unsafe_allow_html=True,
+)
+with st.expander("Mode d'emploi", expanded=False):
+    st.markdown(
+        '<div class="cf-etapes">'
+        + "".join(
+            f'<div class="cf-etape"><span class="cf-num">{i}</span><div><b>{t}</b>{d}</div></div>'
+            for i, (t, d) in enumerate(GUIDE, 1)
+        )
+        + "</div>",
+        unsafe_allow_html=True,
+    )
 st.caption("Proposition générée automatiquement : elle doit être relue et validée par un enseignant avant tout usage.")
 
 with st.sidebar:
     st.header("Réglages")
-    source = st.radio("Source", ["Exemple factice", "Pipeline local", "API"], index=0)
-    url = st.text_input("Adresse de l'API", "http://127.0.0.1:8000", disabled=source != "API")
-    langue = st.selectbox("Langue", ["auto", "fr", "ar", "en"])
-    st.subheader("Palier")
-    palier = st.radio("Palier", ["Bronze", "Silver"], index=1, horizontal=True, disabled=source != "Pipeline local")
-    silver = source == "Pipeline local" and palier == "Silver"
-    ptype_e5 = st.checkbox("Type de passage e5 (Lot C, 0,948)", value=True, disabled=not silver)
-    similaires = st.checkbox("Cas similaires LaBSE (Lot E, P@5 0,36)", value=True, disabled=not silver)
-    comparer = st.checkbox("Comparer avec le Bronze", value=True, disabled=not silver)
-    st.caption(
-        "Silver disponible avec le pipeline local. Fiche LLM (Lot D) et anonymisation XLM-R (Lot B) : GPU, "
-        "démontrées dans leurs notebooks."
+    source = st.radio(
+        "Source",
+        ["Exemple factice", "Pipeline local", "API"],
+        index=0,
+        help="Exemple factice : sortie du contrat, sans calcul. Pipeline local : votre texte, sur ce PC. "
+        "API : le serveur FastAPI (uvicorn api.main:app).",
     )
-    st.markdown("**Légende**", unsafe_allow_html=True)
+    url = st.text_input("Adresse de l'API", "http://127.0.0.1:8000", disabled=source != "API")
+    langue = st.selectbox("Langue", ["auto", "fr", "ar", "en"], help="« auto » détecte la langue du document.")
+    st.subheader("Palier")
+    palier = st.radio(
+        "Palier",
+        ["Bronze", "Silver"],
+        index=1,
+        horizontal=True,
+        disabled=source != "Pipeline local",
+        help="Bronze : briques classiques. Silver : modèles appris (encodeurs multilingues).",
+    )
+    silver = source == "Pipeline local" and palier == "Silver"
+    ptype_e5 = st.checkbox(
+        "Type de passage e5 (Lot C, 0,948)",
+        value=True,
+        disabled=not silver,
+        help="Encodeur e5 + TF-IDF + position : macro-F1 0,948 contre 0,896 au Bronze (dev).",
+    )
+    similaires = st.checkbox(
+        "Cas similaires LaBSE (Lot E, P@5 0,36)",
+        value=True,
+        disabled=not silver,
+        help="Les 3 cas du train les plus proches. Premier usage : téléchargement du modèle (≈ 1,8 Go).",
+    )
+    comparer = st.checkbox(
+        "Comparer avec le Bronze",
+        value=True,
+        disabled=not silver,
+        help="Relance le Bronze sur le même texte et montre les types de passage qui changent.",
+    )
+    st.info(
+        "Fiche LLM (Lot D) et anonymisation XLM-R (Lot B) : GPU nécessaire, démontrées dans leurs notebooks. "
+        "Interface web alternative : `uvicorn web.serveur:app --port 8600`.",
+        icon="ℹ️",
+    )
+    st.markdown("**Légende des entités**", unsafe_allow_html=True)
     st.markdown(legende(), unsafe_allow_html=True)
 
 
@@ -90,6 +179,7 @@ def lancer(texte: str) -> dict:
 texte_exemple = "\n\n".join(p["text"] for p in exemple()["passages"])
 texte = st.text_area(
     "Texte du besoin industriel (paragraphes séparés par une ligne vide)",
+    help="Collez un e-mail, un compte rendu ou un formulaire. Le texte reste sur ce PC.",
     value=texte_exemple if source == "Exemple factice" else "",
     height=180,
     disabled=source == "Exemple factice",

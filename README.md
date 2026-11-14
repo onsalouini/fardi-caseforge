@@ -25,8 +25,17 @@ Usage d'assistants IA : déclaré dans `experiments.md` et dans les cartes de mo
 pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
 pip install -r requirements-lotb.txt -r requirements-lotc.txt -r requirements-api.txt -r requirements-lote.txt
 python -c "import stanza; stanza.download('ar')"
-streamlit run app/app.py
+streamlit run app/app.py                       # interface d'évaluation : http://localhost:8501
+uvicorn web.serveur:app --port 8600            # CaseForge Studio : http://127.0.0.1:8600
 ```
+
+Guide d'utilisation pas à pas : [`docs/guide_interfaces.md`](docs/guide_interfaces.md).
+
+Deux interfaces sur le même pipeline (Bronze ou Silver : type de passage e5, cas similaires LaBSE) :
+- **Streamlit** (`app/app.py`, port 8501) : interface d'évaluation, sources « exemple factice », « pipeline local » ou « API ».
+- **CaseForge Studio** (`web/`, port 8600) : interface web (FastAPI + HTML/CSS/JS, sans dépendance externe), avec mode
+  d'emploi, exemples FR / AR / EN, thème clair ou sombre, sources cliquables dans la fiche et validation enseignante.
+  `http://127.0.0.1:8600/?exemple=fr` (ou `ar`, `en`) charge un exemple et lance l'analyse (démo).
 
 API seule : `uvicorn api.main:app --port 8000` (documentation : http://127.0.0.1:8000/docs). Baselines de la revue :
 `python -m scripts.baselines_bronze` ; erreurs catégorisées : `python -m scripts.export_erreurs_csv`.
