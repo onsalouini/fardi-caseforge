@@ -254,7 +254,7 @@ def remplacer(text: str, spans: Sequence[tuple[int, int, str]]) -> tuple[str, li
 
 def anonymize_document(
     doc: dict,
-    backend: str = "rules",
+    backend: str | None = None,
     *,
     politique: Politique | None = None,
     detections: list[list[dict]] | None = None,
@@ -280,8 +280,11 @@ def anonymize_document(
     journal ; option inactive : aucune de ces clés.
     ``fichier_predictions`` (backends ``fichier`` et ``union_fichier``, B13) remplace la clé
     ``fichier_predictions`` de ``configs/anonymization.yaml``.
+    ``backend`` : par défaut l'option ``backend`` de la politique (Silver : ``union_fichier``) ; la fusion de
+    ``union_fichier`` est l'option ``fusion_fichier`` de la politique.
     """
     pol = politique or charger_politique()
+    backend = pol.options["backend"] if backend is None else backend
     coref = pol.options["coreference"] if coreference is None else coreference
     balai = pol.options["balayage"] if balayage is None else balayage
     ext = pol.options["extension_montants"] if extension_montants is None else extension_montants
@@ -289,7 +292,11 @@ def anonymize_document(
     gen = pol.options.get("generaliser", False) if generaliser is None else generaliser
     passages = doc["passages"]
     textes = [p["text"] for p in passages]
-    dets = detections if detections is not None else detect_document(doc, backend, fichier=fichier_predictions)
+    dets = (
+        detections
+        if detections is not None
+        else detect_document(doc, backend, fichier=fichier_predictions, fusion_fichier=pol.options["fusion_fichier"])
+    )
     if ext and backend != "gold":
         dets = [etendre_montants(t, ds) for t, ds in zip(textes, dets, strict=True)]
     journal: list[dict[str, Any]] = []

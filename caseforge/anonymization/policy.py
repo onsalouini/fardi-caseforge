@@ -37,8 +37,10 @@ class Politique:
 
     ``options`` : coreference, balayage, balayage_longueur_min, extension_montants, balayage_renforce,
     regles_rappel (rule_id des règles de rappel ajoutées à la détection ``rules``), fusion_crf (``union`` ou
-    ``regles``), plafonds_contrainte (B6d, ``caseforge.anonymization.detect``) et generaliser (B12 : PRODUIT et
-    EQUIPEMENT remplacés par leur famille, ``caseforge.anonymization.generalisation`` ; faux si la clé manque).
+    ``regles``), plafonds_contrainte (B6d, ``caseforge.anonymization.detect``), generaliser (B12 : PRODUIT et
+    EQUIPEMENT remplacés par leur famille, ``caseforge.anonymization.generalisation`` ; faux si la clé manque),
+    fusion_fichier (B16 : ``union`` ou ``bornes_ds`` pour ``union_fichier`` ; ``union`` si la clé manque) et backend
+    (backend par défaut de ``anonymize_document`` ; ``rules`` si la clé manque).
     """
 
     pseudonymes: dict[str, dict[str, str]]
@@ -99,6 +101,8 @@ def charger_politique(path: Path | str = CONFIG, **options: Any) -> Politique:
         )
     }
     opts["generaliser"] = cfg.get("generaliser", False)
+    opts["fusion_fichier"] = cfg.get("fusion_fichier", "union")
+    opts["backend"] = cfg.get("backend", "rules")
     for k, v in options.items():
         if k not in opts:
             raise ValueError(f"option inconnue {k!r} : {', '.join(opts)}")
@@ -107,4 +111,10 @@ def charger_politique(path: Path | str = CONFIG, **options: Any) -> Politique:
         raise ValueError(f"generaliser doit être un booléen : {opts['generaliser']!r}")
     if opts["fusion_crf"] not in ("union", "regles"):
         raise ValueError(f"fusion_crf inconnue {opts['fusion_crf']!r} : union, regles")
+    from caseforge.anonymization.detect import BACKENDS, FUSIONS_FICHIER  # import paresseux (detect lit la politique)
+
+    if opts["fusion_fichier"] not in FUSIONS_FICHIER:
+        raise ValueError(f"fusion_fichier inconnue {opts['fusion_fichier']!r} : {', '.join(FUSIONS_FICHIER)}")
+    if opts["backend"] not in BACKENDS:
+        raise ValueError(f"backend inconnu {opts['backend']!r} : {', '.join(BACKENDS)}")
     return Politique(pseudos, ds["etiquette"], ds["masques"], ds["masque_reference_lot_a"], opts)

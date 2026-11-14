@@ -89,8 +89,11 @@ def ecrire_predictions(chemin: Path, docs: list[dict], garder: set[str] | None =
 
 
 def anonymiser(docs: list[dict], backend: str, fichier: Path | None = None) -> tuple[list[dict], list[str]]:
-    """Anonymise le dev (configuration Bronze) ; renvoie les sorties et les passages absents du fichier."""
-    pol = charger_politique()
+    """Anonymise le dev (configuration Bronze) ; renvoie les sorties et les passages absents du fichier.
+
+    Fusion ``union`` de B13 (avant l'option ``fusion_fichier`` de B16), pour garder les chiffres de B13.
+    """
+    pol = charger_politique(fusion_fichier="union")
     reinitialiser_passages_absents()
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", UserWarning)  # les absences sont comptées par passages_absents

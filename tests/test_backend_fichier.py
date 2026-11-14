@@ -1,4 +1,5 @@
-"""Backends « fichier » et « union_fichier » (B13) : lecture, filtrage des étiquettes, union, passage absent.
+"""Backends « fichier » et « union_fichier » (B13) : lecture, filtrage des étiquettes, union, passage absent ;
+fusion « bornes DS » de ``union_fichier`` (B16, gel Silver) et configuration par défaut.
 
 Documents et fichiers de prédictions inventés pour les tests (ni dev, ni test, ni kappa), écrits dans ``tmp_path``.
 """
@@ -20,10 +21,12 @@ from caseforge.anonymization.detect import (
     detect_document,
     detect_generalisables,
     fusionner,
+    fusionner_bornes_ds,
     lire_predictions,
     passages_absents,
     reinitialiser_passages_absents,
 )
+from caseforge.anonymization.policy import charger_politique
 from caseforge.labels import GENERALISABLE_LABELS, LABELS, REPO_ROOT, SENSITIVE_LABELS
 
 TEXTE_0 = "La société Zitex Textiles Group produit des pantalons à Gabès. Contact : Mme Dorra Belhadj."
@@ -166,7 +169,7 @@ def test_union_fichier_egale_regles_union_fichier(fichier: Path) -> None:
     """Sans plafonds, union_fichier = fusion des spans de rules et de fichier, comme union = rules ∪ crf."""
     regles = detect_document(DOC, "rules", plafonds=False)
     seul = detect_document(DOC, "fichier", fichier=fichier, plafonds=False)
-    union = detect_document(DOC, "union_fichier", fichier=fichier, plafonds=False)
+    union = detect_document(DOC, "union_fichier", fichier=fichier, plafonds=False, fusion_fichier="union")
     attendu = [fusionner([*r, *f]) for r, f in zip(regles, seul, strict=True)]
     assert [[(e["start"], e["end"], e["label"]) for e in ds] for ds in union] == [
         [(e["start"], e["end"], e["label"]) for e in ds] for ds in attendu
@@ -184,10 +187,96 @@ def test_union_fichier_plafond_de_budget(tmp_path: Path) -> None:
     f = ecrire(
         tmp_path / "plafond.jsonl", [{"passage_id": "x", "entities": [span(texte, "50 000 TND", "DONNEE_SENSIBLE")]}]
     )
-    sans = detect_document(doc, "union_fichier", fichier=f, plafonds=False)
-    avec = detect_document(doc, "union_fichier", fichier=f, plafonds=True)
+    sans = detect_document(doc, "union_fichier", fichier=f, plafonds=False, fusion_fichier="union")
+    avec = detect_document(doc, "union_fichier", fichier=f, plafonds=True, fusion_fichier="union")
     assert [texte[e["start"] : e["end"]] for e in sans[0] if "fichier" in e["systemes"]] == ["50 000 TND"]
     assert not any("fichier" in e["systemes"] for e in avec[0])  # B3 voit la CONTRAINTE : plafond retiré
+
+
+# ---------- Fusion « bornes DS » (B16) ----------
+def ent(start: int, end: int, label: str, systeme: str) -> dict:
+    return {"start": start, "end": end, "label": label, "systemes": [systeme]}
+
+
+def test_bornes_ds_garde_les_bornes_des_regles() -> None:
+    """Une entité du fichier qui chevauche une DONNEE_SENSIBLE des règles est écartée ; les autres sont fusionnées."""
+    regles = [ent(10, 20, "DONNEE_SENSIBLE", "b1"), ent(30, 40, "ORG", "b3")]
+    autres = [
+        ent(5, 25, "DONNEE_SENSIBLE", "fichier"),  # élargirait la DONNEE_SENSIBLE : écartée
+        ent(18, 22, "PERSONNE", "fichier"),  # chevauche la DONNEE_SENSIBLE : écartée aussi
+        ent(35, 45, "ORG", "fichier"),  # chevauche une ORG des règles : union des spans
+        ent(50, 55, "SITE", "fichier"),  # ne touche rien : ajoutée
+    ]
+    out = fusionner_bornes_ds(regles, autres)
+    assert [(e["start"], e["end"], e["label"]) for e in out] == [
+        (10, 20, "DONNEE_SENSIBLE"),
+        (30, 45, "ORG"),
+        (50, 55, "SITE"),
+    ]
+    assert out[0]["systemes"] == ["b1"] and out[1]["systemes"] == ["b3", "fichier"]
+
+
+def test_bornes_ds_regles_fusionnees_d_abord() -> None:
+    """Les règles sont fusionnées entre elles avant le test de chevauchement (étiquette la plus prioritaire)."""
+    regles = [ent(0, 10, "ORG", "b3"), ent(5, 12, "DONNEE_SENSIBLE", "b1")]
+    out = fusionner_bornes_ds(regles, [ent(0, 15, "ORG", "fichier")])
+    assert [(e["start"], e["end"], e["label"]) for e in out] == [(0, 12, "DONNEE_SENSIBLE")]
+
+
+def test_bornes_ds_sans_donnee_sensible_egale_union() -> None:
+    regles = [ent(0, 5, "ORG", "b3"), ent(20, 30, "SITE", "b3")]
+    autres = [ent(3, 8, "ORG", "fichier"), ent(40, 45, "PERSONNE", "fichier")]
+    assert fusionner_bornes_ds(regles, autres) == fusionner([*regles, *autres])
+
+
+def test_union_fichier_bornes_ds_dans_detect_document(tmp_path: Path) -> None:
+    """``fusion_fichier="bornes_ds"`` = ``fusionner_bornes_ds(rules, fichier)`` ; la DONNEE_SENSIBLE des règles garde
+    ses bornes, alors que ``union`` l'élargit au span du fichier."""
+    texte = "Le contrat CT-2024-118 a été signé avec Zitex Textiles Group à Gabès."
+    doc = {"doc_id": "syn_fr_903", "lang": "fr", "passages": [{"passage_id": "y", "text": texte, "entities": []}]}
+    regles = detect_document(doc, "rules", plafonds=False)
+    ds = [e for e in regles[0] if e["label"] == "DONNEE_SENSIBLE"]
+    assert ds, "les règles doivent détecter la référence de contrat"
+    large = {"start": ds[0]["start"] - 3, "end": ds[0]["end"], "label": "DONNEE_SENSIBLE"}
+    f = ecrire(
+        tmp_path / "bornes.jsonl",
+        [{"passage_id": "y", "entities": [large, span(texte, "Zitex Textiles Group", "ORG")]}],
+    )
+    seul = detect_document(doc, "fichier", fichier=f, plafonds=False)
+    bornes = detect_document(doc, "union_fichier", fichier=f, plafonds=False, fusion_fichier="bornes_ds")
+    union = detect_document(doc, "union_fichier", fichier=f, plafonds=False, fusion_fichier="union")
+    assert bornes == [fusionner_bornes_ds(r, s) for r, s in zip(regles, seul, strict=True)]
+    assert (ds[0]["start"], ds[0]["end"]) in {(e["start"], e["end"]) for e in bornes[0]}
+    assert (ds[0]["start"], ds[0]["end"]) not in {(e["start"], e["end"]) for e in union[0]}
+    assert any(texte[e["start"] : e["end"]] == "Zitex Textiles Group" for e in bornes[0])
+
+
+def test_fusion_fichier_inconnue() -> None:
+    with pytest.raises(ValueError, match="fusion_fichier"):
+        detect_document(DOC, "rules", fusion_fichier="intersection")
+    with pytest.raises(ValueError, match="fusion_fichier"):
+        charger_politique(fusion_fichier="intersection")
+    with pytest.raises(ValueError, match="backend"):
+        charger_politique(backend="xlmr")
+
+
+def test_configuration_gel_silver() -> None:
+    """Gel Silver (configs/anonymization.yaml) : union_fichier + bornes DS + coréférence + balayage, sans
+    généralisation, prédictions XLM-R s42 du dev ; le Bronze reste un backend (union_seuil)."""
+    opts = charger_politique().options
+    assert opts["backend"] == "union_fichier" and opts["fusion_fichier"] == "bornes_ds"
+    assert opts["coreference"] and opts["balayage"] and opts["generaliser"] is False
+    assert chemin_predictions() == REPO_ROOT / "reports" / "predictions" / "xlmr_dev_s42.jsonl"
+    assert chemin_predictions().is_file()
+    assert "union_seuil" in BACKENDS_PUBLICS
+
+
+def test_anonymiseur_backend_par_defaut(fichier: Path) -> None:
+    """Sans backend, l'anonymiseur prend celui de la politique ; la fusion du fichier suit aussi la politique."""
+    res = anonymize_document(DOC, fichier_predictions=fichier)
+    assert res["backend"] == "union_fichier"
+    pol = charger_politique(backend="rules")
+    assert anonymize_document(DOC, politique=pol)["backend"] == "rules"
 
 
 # ---------- Passage absent ----------

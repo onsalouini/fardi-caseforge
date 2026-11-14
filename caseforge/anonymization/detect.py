@@ -20,7 +20,10 @@ Huit backends :
   ``SENSITIVE_LABELS``. Chemin : clé ``fichier_predictions`` de ``configs/anonymization.yaml``, ou argument
   ``fichier`` ; un passage absent du fichier n'a aucune prédiction (avertissement, compteur ``passages_absents``) ;
 - ``union_fichier`` (B13) : ``rules`` ∪ ``fichier``, même fusion et mêmes plafonds que ``union`` : il branche les
-  prédictions d'un autre modèle (XLM-R du Lot C, par exemple) sans le recalculer.
+  prédictions d'un autre modèle (XLM-R du Lot C, par exemple) sans le recalculer. Option ``fusion_fichier`` de
+  ``configs/anonymization.yaml`` : ``union`` (union des spans, B13) ou ``bornes_ds`` (B16, ``fusionner_bornes_ds``) :
+  une entité du fichier qui chevauche une DONNEE_SENSIBLE des règles est écartée et les bornes des règles sont
+  gardées ; les autres entités du fichier sont fusionnées comme avec ``union``.
 
 Les spans de plusieurs systèmes qui se chevauchent sont fusionnés en un seul span qui les couvre tous ; il prend
 l'étiquette la plus prioritaire (``caseforge.labels.PRIORITY``). Chaque entité porte le ou les systèmes qui l'ont
@@ -63,12 +66,15 @@ from caseforge.labels import GENERALISABLE_LABELS, REPO_ROOT, SENSITIVE_LABELS, 
 BACKENDS: tuple[str, ...] = ("gold", "rules", "b3", "crf", "union", "union_seuil", "fichier", "union_fichier")
 BACKENDS_FICHIER: tuple[str, ...] = ("fichier", "union_fichier")
 """Backends qui lisent les entités d'un fichier de prédictions (B13)."""
-FICHIER_PREDICTIONS_DEFAUT = "reports/predictions/crf_dev.jsonl"
+FICHIER_PREDICTIONS_DEFAUT = "reports/predictions/xlmr_dev_s42.jsonl"
 """Fichier de prédictions si ``configs/anonymization.yaml`` n'a pas de clé ``fichier_predictions``."""
 AGREGATIONS: tuple[str, ...] = ("moyenne", "minimum")
+"""Agrégation de la probabilité marginale sur les tokens d'une entité du CRF (``union_seuil``)."""
 FUSIONS: tuple[str, ...] = ("union", "regles")
 """Fusion des entités du CRF avec les règles (``union_seuil``) : union des spans, ou bornes des règles (B6d)."""
-"""Agrégation de la probabilité marginale sur les tokens d'une entité du CRF (``union_seuil``)."""
+FUSIONS_FICHIER: tuple[str, ...] = ("union", "bornes_ds")
+"""Fusion des entités du fichier avec les règles (``union_fichier``) : union des spans (B13), ou bornes des règles
+pour DONNEE_SENSIBLE (B16)."""
 Seuils = Mapping[str, float | None]
 """Seuil de confiance par étiquette sensible ; ``None`` : aucune entité du CRF de cette étiquette."""
 CRF_HYPERPARAMS: dict[str, Any] = {
@@ -118,6 +124,20 @@ def fusionner_regles(regles: Iterable[dict], crf: Iterable[dict]) -> list[dict]:
                 r["label"] = c["label"]
                 r["systemes"] = sorted({*r["systemes"], *c["systemes"]})
     return fusionner([*out, *ajouts])
+
+
+def fusionner_bornes_ds(regles: Iterable[dict], autres: Iterable[dict]) -> list[dict]:
+    """Fusion « bornes DS » (B16) : les DONNEE_SENSIBLE des règles gardent leurs bornes.
+
+    Les règles sont d'abord fusionnées entre elles (``fusionner``). Une entité de ``autres`` qui chevauche un span
+    des règles d'étiquette DONNEE_SENSIBLE est écartée : cette étiquette étant la plus prioritaire, elle ne
+    changerait pas l'étiquette, seulement les bornes. Les autres entités sont fusionnées avec les règles comme dans
+    ``union_fichier`` (``fusionner``).
+    """
+    regles = fusionner(regles)
+    figes = [r for r in regles if r["label"] == "DONNEE_SENSIBLE"]
+    gardes = [a for a in autres if not any(a["start"] < r["end"] and r["start"] < a["end"] for r in figes)]
+    return fusionner([*regles, *gardes])
 
 
 def retirer_plafonds(texte: str, ents: Iterable[dict], contraintes: Sequence[tuple[int, int]]) -> list[dict]:
@@ -443,6 +463,7 @@ def detect_document(
     plafonds: bool | None = None,
     crf: Sequence[Sequence[dict]] | None = None,
     fichier: Path | str | None = None,
+    fusion_fichier: str | None = None,
 ) -> list[list[dict]]:
     """Entités sensibles de chaque passage du document : ``[{start, end, label, systemes}]`` triées et disjointes.
 
@@ -454,6 +475,8 @@ def detect_document(
     ``fusion_crf`` et ``plafonds_contrainte`` de ``configs/anonymization.yaml``. ``crf`` (``union_seuil``) :
     entités du CRF avec leur confiance, déjà prédites (prédictions hors pli d'une validation croisée).
     ``fichier`` (``fichier``, ``union_fichier``) : fichier de prédictions, à la place de ``fichier_predictions``.
+    ``fusion_fichier`` (``union_fichier``) : ``union`` ou ``bornes_ds`` (``fusionner_bornes_ds``), par défaut
+    ``fusion_fichier`` de ``configs/anonymization.yaml``.
     """
     if backend not in BACKENDS:
         raise ValueError(f"backend inconnu {backend!r} : {', '.join(BACKENDS)}")
@@ -462,13 +485,16 @@ def detect_document(
     jeux: list[list[list[dict]]] = []  # un jeu = une liste d'entités par passage
     if backend == "gold":
         jeux.append([_sensibles(p["entities"], "gold") for p in passages])
-    if rappel is None or fusion is None or plafonds is None:
+    if rappel is None or fusion is None or plafonds is None or fusion_fichier is None:
         from caseforge.anonymization.policy import charger_politique
 
         opts = charger_politique().options
         rappel = (opts["regles_rappel"] or ()) if rappel is None else rappel
         fusion = opts["fusion_crf"] if fusion is None else fusion
         plafonds = opts["plafonds_contrainte"] if plafonds is None else plafonds
+        fusion_fichier = opts["fusion_fichier"] if fusion_fichier is None else fusion_fichier
+    if fusion_fichier not in FUSIONS_FICHIER:
+        raise ValueError(f"fusion_fichier inconnue {fusion_fichier!r} : {', '.join(FUSIONS_FICHIER)}")
     if backend in ("rules", "b3", "union", "union_fichier"):
         b3 = _b3(doc, regles_b3(() if backend == "b3" else rappel, sans))
         jeux.append([_sensibles(e, "b3") for e in b3])
@@ -489,4 +515,7 @@ def detect_document(
     if plafonds and backend in ("rules", "union", "union_fichier"):
         k = _contraintes(b3)
         jeux = [[retirer_plafonds(t, ents, kk) for t, ents, kk in zip(textes, jeu, k, strict=True)] for jeu in jeux]
+    if backend == "union_fichier" and fusion_fichier == "bornes_ds":
+        b3_, b1_, fich = jeux  # règles (B3, B1) puis fichier, plafonds déjà retirés
+        return [fusionner_bornes_ds([*b3_[i], *b1_[i]], fich[i]) for i in range(len(passages))]
     return [fusionner(s for jeu in jeux for s in jeu[i]) for i in range(len(passages))]

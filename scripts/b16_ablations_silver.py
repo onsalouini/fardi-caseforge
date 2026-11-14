@@ -128,7 +128,9 @@ def fusion_bornes_ds(regles: list[dict], autres: list[dict], fixes: frozenset[st
 def detection_union_fichier(doc: dict, fichier: Path, bornes_ds: bool) -> list[list[dict]]:
     """``union_fichier`` recomposé (règles, puis entités du fichier sans les plafonds), bornes DS en option.
 
-    Sans ``bornes_ds``, le résultat est comparé à ``detect_document(doc, "union_fichier")`` (erreur s'il diffère).
+    Sans ``bornes_ds``, le résultat est comparé à ``detect_document(doc, "union_fichier", fusion_fichier="union")``
+    (erreur s'il diffère) ; avec, la fusion « bornes DS » de ``detect_document`` (``fusion_fichier="bornes_ds"``,
+    gel Silver) doit redonner les mêmes spans (contrôle de ``tests/test_backend_fichier.py`` et du gel).
     """
     rappel = charger_politique().options["regles_rappel"] or ()
     regles = detect_document(doc, "rules")
@@ -139,7 +141,7 @@ def detection_union_fichier(doc: dict, fichier: Path, bornes_ds: bool) -> list[l
         for t, e, k in zip(textes, det.predictions_fichier(doc, fichier), contraintes, strict=True)
     ]
     union = [fusion_bornes_ds(r, f, frozenset()) for r, f in zip(regles, fich, strict=True)]
-    attendu = detect_document(doc, "union_fichier", fichier=fichier)
+    attendu = detect_document(doc, "union_fichier", fichier=fichier, fusion_fichier="union")
     if _spans(union) != _spans(attendu):
         raise RuntimeError(f"union_fichier recomposé différent de detect_document ({doc['doc_id']})")
     if not bornes_ds:

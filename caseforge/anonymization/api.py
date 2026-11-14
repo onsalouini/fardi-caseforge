@@ -6,8 +6,10 @@
 
 Les deux fonctions s'appuient sur ``anonymizer.anonymize_document``, qu'elles ne font que reformater : détection
 (backend ``union_seuil`` par défaut, configuration de ``configs/anonymization.yaml``), coréférence, balayage et
-remplacement sont les siens. Les pseudonymes sont donc cohérents dans tout le document (même entreprise = même
-pseudonyme d'un passage à l'autre).
+remplacement sont les siens. Le défaut reste le Bronze ``union_seuil`` et non le Silver ``union_fichier`` (clé
+``backend`` de la configuration) : un texte libre n'a pas de prédictions XLM-R dans ``fichier_predictions``, et
+``union_fichier`` y reviendrait à ``rules``. Les pseudonymes sont cohérents dans tout le document (même entreprise
+= même pseudonyme d'un passage à l'autre).
 
 Format d'un résultat (positions dans le texte d'ORIGINE du passage) ::
 

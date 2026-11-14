@@ -1,0 +1,88 @@
+{
+  "split": "dev (documents_dev.jsonl)",
+  "fichier_predictions_defaut": "reports/predictions/xlmr_dev_s42.jsonl",
+  "controles": {
+    "silver · s13": {
+      "reference": "results/lotb_silver/b16/masques_bornes_regles_DS_s13.jsonl",
+      "passages_differents": 0,
+      "identique": true
+    },
+    "union_fichier(union) · s13": {
+      "reference": "results/lotb_silver/b16/masques_reference_s13.jsonl",
+      "passages_differents": 0,
+      "identique": true
+    },
+    "silver · s42": {
+      "reference": "results/lotb_silver/b16/masques_bornes_regles_DS_s42.jsonl",
+      "passages_differents": 0,
+      "identique": true
+    },
+    "union_fichier(union) · s42": {
+      "reference": "results/lotb_silver/b16/masques_reference_s42.jsonl",
+      "passages_differents": 0,
+      "identique": true
+    },
+    "silver · s2026": {
+      "reference": "results/lotb_silver/b16/masques_bornes_regles_DS_s2026.jsonl",
+      "passages_differents": 0,
+      "identique": true
+    },
+    "union_fichier(union) · s2026": {
+      "reference": "results/lotb_silver/b16/masques_reference_s2026.jsonl",
+      "passages_differents": 0,
+      "identique": true
+    },
+    "rules": {
+      "reference": "results/lotb_silver/point_de_depart/b6_anonymisation_dev_rules.jsonl",
+      "passages_differents": 0,
+      "identique": true
+    },
+    "union_seuil": {
+      "reference": "results/lotb_silver/point_de_depart/b6_anonymisation_dev_union_seuil.jsonl",
+      "passages_differents": 0,
+      "identique": true
+    }
+  },
+  "chiffres": {
+    "s13": {
+      "fuite": 0.018779342723004695,
+      "sur_masquage": 0.10196308233225901,
+      "f1": 0.7899159663865546
+    },
+    "s42": {
+      "fuite": 0.023474178403755867,
+      "sur_masquage": 0.09293349168646081,
+      "f1": 0.7795918367346939
+    },
+    "s2026": {
+      "fuite": 0.03286384976525822,
+      "sur_masquage": 0.08565438754117999,
+      "f1": 0.8134831460674158
+    },
+    "rules": {
+      "fuite": 0.107981220657277,
+      "sur_masquage": 0.025668073136427567,
+      "f1": 0.8861985472154964
+    },
+    "union_seuil": {
+      "fuite": 0.06572769953051644,
+      "sur_masquage": 0.21908893709327548,
+      "f1": 0.6275510204081632
+    }
+  },
+  "moyenne_silver": {
+    "fuite": {
+      "moyenne": 0.025039123630672927,
+      "ecart_type": 0.005855488868190832
+    },
+    "sur_masquage": {
+      "moyenne": 0.09351698718663326,
+      "ecart_type": 0.006670768656168649
+    },
+    "f1": {
+      "moyenne": 0.7943303163962213,
+      "ecart_type": 0.0141837953683642
+    }
+  },
+  "tout_identique": true
+}

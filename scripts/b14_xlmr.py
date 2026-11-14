@@ -274,7 +274,8 @@ def _harnais_redirige(dossier: Path, fichier: Path | None) -> Iterator[None]:
     ancien_results, ancien_detect, argv = harnais.RESULTS, harnais.detect_document, sys.argv
     harnais.RESULTS = dossier
     if fichier is not None:
-        harnais.detect_document = functools.partial(detect_document, fichier=fichier)
+        # fusion « union » de B14 (avant l'option fusion_fichier de B16), pour garder les chiffres de B14
+        harnais.detect_document = functools.partial(detect_document, fichier=fichier, fusion_fichier="union")
     try:
         yield
     finally:

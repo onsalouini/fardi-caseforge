@@ -20,14 +20,45 @@ donnee_sensible:
     contrat / référence: "[REFERENCE]"
     autre: "[REFERENCE]"
   masque_reference_lot_a: "[DONNEE_MASQUEE]"   # pour comparer avec text_anonymise de référence
+# ---------- Gel Silver (étape 6, 14/11/2026) ----------
+# Mesures : dev (documents_dev.jsonl, 21 documents, 213 occurrences sensibles), XLM-R du Lot C = 3 graines officielles
+# (s13, s42, s2026), moyenne ± écart-type ; rapports results/lotb_silver/b12 à b16.
+# Système Silver par défaut : union_fichier + bornes DS + coréférence + balayage, generaliser false.
+#   fuite 2,5 ± 0,6 %, sur-masquage 9,4 ± 0,7 %, F1 caractère 0,794 ± 0,014 (b16_ablations.md, ligne bornes_regles_DS)
+#   contre Bronze union_seuil 6,6 % / 21,9 % / 0,628.
+# Bronze toujours accessible : backend union_seuil (anonymize_document(doc, "union_seuil") ; c'est aussi le défaut de
+# l'API caseforge.anonymization.anonymiser, qui travaille sur un texte libre sans prédictions XLM-R).
+#
+# backend : défaut de anonymize_document quand aucun backend n'est donné.
+# Mesure (b14_xlmr.md, b16_ablations.md) : union_fichier(xlmr) fuite 2,5 ± 0,6 % contre rules 10,8 %, union_seuil
+# 6,6 %, union_fichier(crf) 6,6 % ; hausse de fuite démontrée (IC 95 % apparié, 3/3 graines) pour chacun des trois.
+# Règle : la détection de fuite la plus basse, la fuite étant la métrique principale (CLAUDE.md §6).
+# LIMITE : union_fichier lit fichier_predictions, qui n'existe que pour le dev ; un passage absent du fichier n'a
+# aucune prédiction du fichier et union_fichier revient alors à rules (test, texte libre : voir la carte du modèle).
+backend: union_fichier
+# fusion_fichier : fusion des entités du fichier avec les règles dans union_fichier.
+#   union : union des spans (B13, B14) ; bornes_ds : une entité du fichier qui chevauche une DONNEE_SENSIBLE des règles
+#   est écartée, les bornes des règles sont gardées (B16, detect.fusionner_bornes_ds).
+# Mesure (b16_ablations.md) : bornes_ds contre union, Δ fuite +0,0 ± 0,0 pt, sur-masquage 14,7 -> 9,4 % (baisse
+# démontrée 3/3 graines), F1 caractère DONNEE_SENSIBLE 0,593 -> 0,917.
+# Règle fixée avant la mesure (REGLE_BORNES_DS) : retenue si la fuite moyenne ne monte pas de plus de 1 point et si la
+# F1 caractère DONNEE_SENSIBLE moyenne monte -> retenue.
+fusion_fichier: bornes_ds
 # Options par défaut de anonymize_document (les ablations les changent)
+# coreference — mesure (b16) : retirée, masques identiques (Δ fuite 0) mais cohérence des pseudonymes 84,1 -> 26,2 %.
+# Règle : une option qui ne coûte rien en fuite et garde la cohérence des pseudonymes est gardée -> gardée.
 coreference: true   # coref_simple : formes normalisées, sigles, nom de famille seul, initiales
+# balayage — mesure (b16) : retiré, Δ fuite 0 au dev, sur-masquage 14,7 -> 12,2 % (baisse démontrée 2/3 graines
+# seulement). Règle : pas de changement sans effet démontré sur les 3 graines (21 documents) -> gardé, comme
+# protection contre les formes répétées non détectées.
 balayage: true      # second passage : formes déjà remplacées retrouvées ailleurs dans le document
 balayage_longueur_min: 3   # caractères non blancs d'une forme pour qu'elle soit recherchée (sigles : 2)
 # B12 (Silver) : généralisation des indices rares. Vrai : les PRODUIT et EQUIPEMENT détectés sont remplacés par leur
 # famille (data/lexicons/familles_produits.txt, categories_equipements.txt, générés depuis le train par
 # scripts/b12_lexiques.py ; forme inconnue -> [PRODUIT] / [EQUIPEMENT]), avec coréférence et balayage.
-# Faux par défaut : sortie identique au Bronze. Non mesuré sur le dev à ce stade.
+# Faux par défaut : sortie identique au Bronze.
+# Mesure (b12_generalisation.md, b16_ablations.md) : fuite inchangée (Δ 0), documents ré-identifiables N2 20 -> 2 sur
+# 21, mais F1 de la fiche −5,8 points. Règle : non retenue si la F1 de la fiche baisse de plus de 3 points -> false.
 generaliser: false
 # B6c : second passage renforcé (variantes sans article, ORG sans le pays, nom de famille seul, translittération
 # simple arabe <-> latin ; caseforge.anonymization.anonymizer.variantes_balayage, squelette_mot).
@@ -54,7 +85,12 @@ extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombr
 # JSONL {passage_id, entities: [{start, end, label}]} ; seules les étiquettes sensibles sont gardées ; chemin relatif
 # à la racine du dépôt, surchargeable par l'argument fichier / fichier_predictions. Un passage absent du fichier n'a
 # aucune prédiction (avertissement et compteur detect.passages_absents).
-fichier_predictions: reports/predictions/crf_dev.jsonl
+# Gel Silver : XLM-R s42 du Lot C (origin/lot-c-silver, commit 1c6901e ; point de contrôle choisi sur le dev par le
+# Lot C). Les chiffres à citer sont la moyenne des 3 graines officielles (b14_xlmr.md, b16_ablations.md) ; s42 seule :
+# voir b16_ablations_dev.json. Dev seulement : pour le test, fichier_predictions doit pointer vers des prédictions
+# XLM-R sur le test (scripts/final_eval.py) ; sans elles, union_fichier revient à rules.
+# B13 : reports/predictions/crf_dev.jsonl (union_fichier(crf), fuite 6,6 %, sur-masquage 27,2 %).
+fichier_predictions: reports/predictions/xlmr_dev_s42.jsonl
 union_seuil:
   agregation: minimum
   seuils: {ORG: 0.35, PERSONNE: 0.8, SITE: 0.55, DONNEE_SENSIBLE: 0.3}
