@@ -115,3 +115,29 @@ def journaliser(entree: dict, chemin: Path = JOURNAL) -> None:
     chemin.parent.mkdir(parents=True, exist_ok=True)
     with open(chemin, "a", encoding="utf-8") as f:
         f.write(json.dumps(entree, ensure_ascii=False) + "\n")
+
+
+def cas_similaires_markdown(cas: list[dict]) -> str:
+    """Tableau des cas similaires du train (sortie `cas_similaires` du pipeline Silver, Lot E)."""
+    if not cas:
+        return "_Aucun terme métier reconnu : pas de cas similaire proposé._"
+    lignes = ["| Rang | Cas du train | Secteur | Langue | Similarité |", "|---|---|---|---|---|"]
+    for i, c in enumerate(cas, 1):
+        lignes.append(
+            f"| {i} | `{html.escape(c['doc_id'])}` | {html.escape(c['secteur'])} | {c['lang']} | {c['score']:.3f} |"
+        )
+    return "\n".join(lignes)
+
+
+def comparaison_ptypes(bronze: dict, silver: dict) -> tuple[str, int]:
+    """Types de passage Bronze et Silver côte à côte ; renvoie le tableau et le nombre de passages qui changent."""
+    lignes = ["| Passage | Bronze (TF-IDF) | Silver (e5) |", "|---|---|---|"]
+    changes = 0
+    for b, s in zip(bronze["passages"], silver["passages"], strict=False):
+        diff = b.get("ptype") != s.get("ptype")
+        changes += diff
+        marque = " ⬅" if diff else ""
+        lignes.append(
+            f"| {b['passage_id'].rsplit('_', 1)[-1]} | {b.get('ptype', '')} | **{s.get('ptype', '')}**{marque} |"
+        )
+    return "\n".join(lignes), changes

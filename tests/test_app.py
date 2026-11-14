@@ -45,3 +45,20 @@ def test_journal(tmp_path):
         "commentaire",
         "version_contrat",
     }
+
+
+def test_cas_similaires_markdown():
+    from app.rendu import cas_similaires_markdown
+
+    md = cas_similaires_markdown([{"doc_id": "syn_fr_001", "secteur": "textile", "lang": "fr", "score": 0.7421}])
+    assert "syn_fr_001" in md and "textile" in md and "0.742" in md
+    assert "Aucun terme métier" in cas_similaires_markdown([])
+
+
+def test_comparaison_ptypes():
+    from app.rendu import comparaison_ptypes
+
+    b = {"passages": [{"passage_id": "d_p1", "ptype": "contexte"}, {"passage_id": "d_p2", "ptype": "donnees"}]}
+    s = {"passages": [{"passage_id": "d_p1", "ptype": "contexte"}, {"passage_id": "d_p2", "ptype": "contraintes"}]}
+    tableau, changes = comparaison_ptypes(b, s)
+    assert changes == 1 and "contraintes" in tableau and tableau.count("⬅") == 1
