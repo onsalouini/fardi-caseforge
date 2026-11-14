@@ -1,6 +1,6 @@
 # Tableau de bord · palier Silver (FARDI CaseForge, projet 7)
 
-État au 14/11/2026. Toutes les mesures sont faites sur le
+État au 14/11/2026 : **palier clos** (étiquette Git `palier-silver`, entrée de clôture dans `experiments.md`). Toutes les mesures sont faites sur le
 **dev** (21 documents : 7 fr, 7 ar, 7 en ; 18 `syn_`, 3 `lib_`) ; le test gelé `test-gele-v3` n'a jamais été évalué :
 il le sera **une seule fois**, par `scripts/final_eval.py`, à la fin du projet. Chaque chiffre renvoie au rapport qui le
 produit ; le détail est dans `experiments.md`. Comparaisons : bootstrap apparié (IC 95 %), 3 graines (13, 42, 2026) pour
