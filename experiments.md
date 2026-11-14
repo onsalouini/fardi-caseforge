@@ -18,6 +18,24 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-14 · Ali · Lot B Silver · audit croisé du Lot C Silver (étape 7, lecture seule)
+- Quoi : audit de `origin/lot-c-silver`, c'est-à-dire des commits `8d0982e`, `87ead41`, `1c6901e` et `9096adf` de Ghayth, déjà fusionnés dans `main` par la PR #23, donc examinés par `git diff 23dd18f 9096adf`. Lecture seule : aucun fichier du Lot C modifié, aucun fichier du test gelé lu. Rapport : `results/lotb_silver/audit_croise_lotC.md`. Split : **dev**.
+- Reproduction (dev, 162 passages, 21 documents, harnais `ner_metrics.py`, mode token, tokeniseur cfdata, `absents_vides=True`) : XLM-R complet, F1 micro 0,716 / 0,757 / 0,756 (graines 13 / 42 / 2026), soit **0,743 ± 0,024** en écart-type d'échantillon (± 0,019 annoncé, qui est l'écart-type de population). Variante gelée : 0,738 ± 0,003. Variante gelée + corpus externes : 0,731 ± 0,024. Ces valeurs sont identiques aux rapports du Lot C ; l'écart `ner_eval` / `ner_metrics` est de 1e-16.
+  - Par langue (doc_lang, moyenne des 3 graines) : fr 0,769, ar 0,710, en 0,749.
+  - Par source : syn_ 0,773, lib_ 0,557.
+  - Annexe passages mixtes : 4 passages, 13 entités gold, 0 FP et 0 FN (pas de conclusion, n < 30).
+  - Par étiquette : ORG 0,888, PERSONNE 0,957, SITE 0,782, DONNEE_SENSIBLE 0,555, PRODUIT 0,921, EQUIPEMENT 0,743, PROCESSUS 0,526, INDICATEUR 0,423, CONTRAINTE 0,961.
+- Conforme : aucune lecture du test gelé dans les commits Silver, 3 graines, comparaison règles / CRF / XLM-R en mode token par `ner_metrics.py`, bootstrap apparié par document, chaque expérience journalisée, aucun modèle committé.
+- Constats :
+  - **H1 (haute)** : 7 modules du Lot C gardent une option de lecture du test gelé (`--test` ou `--split test`). C'est la recommandation E6 du 27/10, toujours pas appliquée.
+  - **M1** : `tests/test_test_gele.py` ne voit pas ces accès, construits par f-string. La correction revient au Lot B, après H1.
+  - **M2** : étiquettes écrites en dur dans `xlmr_ner.py:31-33`.
+  - **M3** : le résumé des 3 graines utilise `ner_eval` et `pstdev`, sans ventilation par source ni annexe des passages mixtes.
+  - **M4** : le point de contrôle XLM-R est choisi sur le dev, alors que la référence B3 B7b est « sans dev ». La comparaison est légèrement optimiste pour XLM-R.
+  - **M5** : l'ablation des corpus externes est faite sans dev externe. `data/lotb/externe_dev_ids.json` n'existe pas encore et revient au Lot B.
+  - Faibles : une p unilatérale dans la section CRF, pas de comparaison sur l'ensemble des 3 graines, l'ablation « gelé contre complet » confond gel et fp16/GPU, des ventilations manquent pour les embeddings, des docstrings sont périmées et le typage est incomplet.
+- Décision : corrections proposées au Lot C, avec un résumé pour sa PR. Pour le Lot B, deux actions : étendre le garde-fou après H1, et créer la découpe du dev externe.
+
 ## 2026-11-14 · Ali · Lot B Silver · gel (étape 6)
 - Code : option de fusion `fusion_fichier` de `union_fichier` dans `caseforge/anonymization/detect.py` (`union` = B13 ; `bornes_ds` = variante « bornes DS » de B16, jusqu'ici seulement dans `scripts/b16_ablations_silver.py`, désormais `detect.fusionner_bornes_ds`) ; clé `backend` (défaut de `anonymize_document`) lue par `caseforge/anonymization/policy.py` ; tests dans `tests/test_backend_fichier.py` (fusion, configuration gelée, backend par défaut). `scripts/b13_backend_fichier.py`, `b14_xlmr.py` et `b16_ablations_silver.py` fixent `fusion_fichier="union"` là où ils mesuraient la fusion d'origine (chiffres inchangés).
 - Configuration gelée (`configs/anonymization.yaml`, mesure et règle en commentaire de chaque clé) : `backend: union_fichier`, `fusion_fichier: bornes_ds`, `fichier_predictions: reports/predictions/xlmr_dev_s42.jsonl` (point de contrôle choisi sur le dev par le Lot C), coréférence et balayage gardés, `generaliser: false`. Bronze toujours accessible (backend `union_seuil`, qui reste le défaut de l'interface B9 sur texte libre).
