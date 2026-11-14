@@ -1,0 +1,5087 @@
+{
+  "split": "dev (documents_dev.jsonl)",
+  "regle": "la généralisation est retenue si le nombre de documents ré-identifiables baisse et si la F1 de la fiche perd au plus 3 points.",
+  "n_docs": 21,
+  "n_passages": 171,
+  "n_population": 87,
+  "anonymisation": {
+    "gold_sans": {
+      "fuite": {
+        "n_occurrences": 213,
+        "n_documents": 21,
+        "global": {
+          "n": 213,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0,
+          "ic95": [
+            0.0,
+            0.0
+          ]
+        },
+        "par_etiquette": {
+          "ORG": {
+            "n": 40,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "PERSONNE": {
+            "n": 52,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "SITE": {
+            "n": 57,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "DONNEE_SENSIBLE": {
+            "n": 64,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "n": 69,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "en": {
+            "n": 70,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "fr": {
+            "n": 74,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "par_source": {
+          "lib": {
+            "n": 21,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "syn": {
+            "n": 192,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "mixtes": {
+          "n": 5,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0
+        },
+        "bootstrap": {
+          "unite": "doc_id",
+          "n_resamples": 1000,
+          "seed": 42
+        },
+        "sur_masquage": {
+          "global": {
+            "masques": 3154,
+            "hors_entites": 0,
+            "taux": 0.0
+          },
+          "par_langue": {
+            "ar": {
+              "masques": 1125,
+              "hors_entites": 0,
+              "taux": 0.0
+            },
+            "en": {
+              "masques": 965,
+              "hors_entites": 0,
+              "taux": 0.0
+            },
+            "fr": {
+              "masques": 1064,
+              "hors_entites": 0,
+              "taux": 0.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "masques": 477,
+              "hors_entites": 0,
+              "taux": 0.0
+            },
+            "syn": {
+              "masques": 2677,
+              "hors_entites": 0,
+              "taux": 0.0
+            }
+          }
+        },
+        "passages_sans_masque": 0,
+        "methode": "masque"
+      },
+      "f1_caractere": {
+        "global": {
+          "p": 1.0,
+          "r": 1.0,
+          "f1": 1.0
+        },
+        "par_etiquette": {
+          "ORG": {
+            "support_gold": 40,
+            "support_pred": 40,
+            "tp": 40,
+            "fp": 0,
+            "fn": 0,
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "PERSONNE": {
+            "support_gold": 52,
+            "support_pred": 52,
+            "tp": 52,
+            "fp": 0,
+            "fn": 0,
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "SITE": {
+            "support_gold": 57,
+            "support_pred": 57,
+            "tp": 57,
+            "fp": 0,
+            "fn": 0,
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "DONNEE_SENSIBLE": {
+            "support_gold": 64,
+            "support_pred": 64,
+            "tp": 64,
+            "fp": 0,
+            "fn": 0,
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "en": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "fr": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          }
+        },
+        "par_source": {
+          "lib": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "syn": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          }
+        },
+        "mixtes": {
+          "n_passages": 4,
+          "support_gold": 5,
+          "support_pred": 5,
+          "tp": 5,
+          "fp": 0,
+          "fn": 0
+        }
+      }
+    },
+    "gold_avec": {
+      "fuite": {
+        "n_occurrences": 213,
+        "n_documents": 21,
+        "global": {
+          "n": 213,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0,
+          "ic95": [
+            0.0,
+            0.0
+          ]
+        },
+        "par_etiquette": {
+          "ORG": {
+            "n": 40,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "PERSONNE": {
+            "n": 52,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "SITE": {
+            "n": 57,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "DONNEE_SENSIBLE": {
+            "n": 64,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "n": 69,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "en": {
+            "n": 70,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "fr": {
+            "n": 74,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "par_source": {
+          "lib": {
+            "n": 21,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          },
+          "syn": {
+            "n": 192,
+            "fuites": 0,
+            "taux": 0.0,
+            "totales": 0,
+            "partielles": 0,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.0
+            ]
+          }
+        },
+        "mixtes": {
+          "n": 5,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0
+        },
+        "bootstrap": {
+          "unite": "doc_id",
+          "n_resamples": 1000,
+          "seed": 42
+        },
+        "sur_masquage": {
+          "global": {
+            "masques": 3154,
+            "hors_entites": 0,
+            "taux": 0.0
+          },
+          "par_langue": {
+            "ar": {
+              "masques": 1125,
+              "hors_entites": 0,
+              "taux": 0.0
+            },
+            "en": {
+              "masques": 965,
+              "hors_entites": 0,
+              "taux": 0.0
+            },
+            "fr": {
+              "masques": 1064,
+              "hors_entites": 0,
+              "taux": 0.0
+            }
+          },
+          "par_source": {
+            "lib": {
+              "masques": 477,
+              "hors_entites": 0,
+              "taux": 0.0
+            },
+            "syn": {
+              "masques": 2677,
+              "hors_entites": 0,
+              "taux": 0.0
+            }
+          }
+        },
+        "passages_sans_masque": 0,
+        "methode": "masque"
+      },
+      "f1_caractere": {
+        "global": {
+          "p": 1.0,
+          "r": 1.0,
+          "f1": 1.0
+        },
+        "par_etiquette": {
+          "ORG": {
+            "support_gold": 40,
+            "support_pred": 40,
+            "tp": 40,
+            "fp": 0,
+            "fn": 0,
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "PERSONNE": {
+            "support_gold": 52,
+            "support_pred": 52,
+            "tp": 52,
+            "fp": 0,
+            "fn": 0,
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "SITE": {
+            "support_gold": 57,
+            "support_pred": 57,
+            "tp": 57,
+            "fp": 0,
+            "fn": 0,
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "DONNEE_SENSIBLE": {
+            "support_gold": 64,
+            "support_pred": 64,
+            "tp": 64,
+            "fp": 0,
+            "fn": 0,
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "en": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "fr": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          }
+        },
+        "par_source": {
+          "lib": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          },
+          "syn": {
+            "p": 1.0,
+            "r": 1.0,
+            "f1": 1.0
+          }
+        },
+        "mixtes": {
+          "n_passages": 4,
+          "support_gold": 5,
+          "support_pred": 5,
+          "tp": 5,
+          "fp": 0,
+          "fn": 0
+        }
+      }
+    },
+    "union_seuil_sans": {
+      "fuite": {
+        "n_occurrences": 213,
+        "n_documents": 21,
+        "global": {
+          "n": 213,
+          "fuites": 14,
+          "taux": 0.06572769953051644,
+          "totales": 9,
+          "partielles": 5,
+          "taux_totale": 0.04225352112676056,
+          "taux_partielle": 0.023474178403755867,
+          "ic95": [
+            0.03210642620753215,
+            0.10680914042150129
+          ]
+        },
+        "par_etiquette": {
+          "ORG": {
+            "n": 40,
+            "fuites": 3,
+            "taux": 0.075,
+            "totales": 3,
+            "partielles": 0,
+            "taux_totale": 0.075,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.17073170731707318
+            ]
+          },
+          "PERSONNE": {
+            "n": 52,
+            "fuites": 1,
+            "taux": 0.019230769230769232,
+            "totales": 1,
+            "partielles": 0,
+            "taux_totale": 0.019230769230769232,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.06003061224489793
+            ]
+          },
+          "SITE": {
+            "n": 57,
+            "fuites": 5,
+            "taux": 0.08771929824561403,
+            "totales": 0,
+            "partielles": 5,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.08771929824561403,
+            "ic95": [
+              0.018850771869639793,
+              0.15791562238930656
+            ]
+          },
+          "DONNEE_SENSIBLE": {
+            "n": 64,
+            "fuites": 5,
+            "taux": 0.078125,
+            "totales": 5,
+            "partielles": 0,
+            "taux_totale": 0.078125,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.16678571428571418
+            ]
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "n": 69,
+            "fuites": 4,
+            "taux": 0.057971014492753624,
+            "totales": 3,
+            "partielles": 1,
+            "taux_totale": 0.043478260869565216,
+            "taux_partielle": 0.014492753623188406,
+            "ic95": [
+              0.013157894736842105,
+              0.12698412698412698
+            ]
+          },
+          "en": {
+            "n": 70,
+            "fuites": 6,
+            "taux": 0.08571428571428572,
+            "totales": 2,
+            "partielles": 4,
+            "taux_totale": 0.02857142857142857,
+            "taux_partielle": 0.05714285714285714,
+            "ic95": [
+              0.02531645569620253,
+              0.1774193548387097
+            ]
+          },
+          "fr": {
+            "n": 74,
+            "fuites": 4,
+            "taux": 0.05405405405405406,
+            "totales": 4,
+            "partielles": 0,
+            "taux_totale": 0.05405405405405406,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.012048192771084338,
+              0.12903225806451613
+            ]
+          }
+        },
+        "par_source": {
+          "lib": {
+            "n": 21,
+            "fuites": 7,
+            "taux": 0.3333333333333333,
+            "totales": 6,
+            "partielles": 1,
+            "taux_totale": 0.2857142857142857,
+            "taux_partielle": 0.047619047619047616,
+            "ic95": [
+              0.2857142857142857,
+              0.375
+            ]
+          },
+          "syn": {
+            "n": 192,
+            "fuites": 7,
+            "taux": 0.036458333333333336,
+            "totales": 3,
+            "partielles": 4,
+            "taux_totale": 0.015625,
+            "taux_partielle": 0.020833333333333332,
+            "ic95": [
+              0.01530418004765358,
+              0.05851846057571965
+            ]
+          }
+        },
+        "mixtes": {
+          "n": 5,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0
+        },
+        "bootstrap": {
+          "unite": "doc_id",
+          "n_resamples": 1000,
+          "seed": 42
+        },
+        "sur_masquage": {
+          "global": {
+            "masques": 3688,
+            "hors_entites": 808,
+            "taux": 0.21908893709327548
+          },
+          "par_langue": {
+            "ar": {
+              "masques": 1308,
+              "hors_entites": 271,
+              "taux": 0.20718654434250763
+            },
+            "en": {
+              "masques": 1067,
+              "hors_entites": 201,
+              "taux": 0.18837863167760074
+            },
+            "fr": {
+              "masques": 1313,
+              "hors_entites": 336,
+              "taux": 0.2559025133282559
+            }
+          },
+          "par_source": {
+            "lib": {
+              "masques": 284,
+              "hors_entites": 27,
+              "taux": 0.09507042253521127
+            },
+            "syn": {
+              "masques": 3404,
+              "hors_entites": 781,
+              "taux": 0.22943595769682726
+            }
+          }
+        },
+        "passages_sans_masque": 0,
+        "methode": "masque"
+      },
+      "f1_caractere": {
+        "global": {
+          "p": 0.6871508379888268,
+          "r": 0.5774647887323944,
+          "f1": 0.6275510204081632
+        },
+        "par_etiquette": {
+          "ORG": {
+            "support_gold": 40,
+            "support_pred": 39,
+            "tp": 25,
+            "fp": 14,
+            "fn": 15,
+            "p": 0.6410256410256411,
+            "r": 0.625,
+            "f1": 0.6329113924050633
+          },
+          "PERSONNE": {
+            "support_gold": 52,
+            "support_pred": 47,
+            "tp": 47,
+            "fp": 0,
+            "fn": 5,
+            "p": 1.0,
+            "r": 0.9038461538461539,
+            "f1": 0.9494949494949495
+          },
+          "SITE": {
+            "support_gold": 57,
+            "support_pred": 57,
+            "tp": 48,
+            "fp": 9,
+            "fn": 9,
+            "p": 0.8421052631578947,
+            "r": 0.8421052631578947,
+            "f1": 0.8421052631578947
+          },
+          "DONNEE_SENSIBLE": {
+            "support_gold": 64,
+            "support_pred": 36,
+            "tp": 3,
+            "fp": 33,
+            "fn": 61,
+            "p": 0.08333333333333333,
+            "r": 0.046875,
+            "f1": 0.06
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "p": 0.603448275862069,
+            "r": 0.5072463768115942,
+            "f1": 0.5511811023622047
+          },
+          "en": {
+            "p": 0.7258064516129032,
+            "r": 0.6428571428571429,
+            "f1": 0.6818181818181818
+          },
+          "fr": {
+            "p": 0.7288135593220338,
+            "r": 0.581081081081081,
+            "f1": 0.6466165413533834
+          }
+        },
+        "par_source": {
+          "lib": {
+            "p": 0.8125,
+            "r": 0.6190476190476191,
+            "f1": 0.7027027027027027
+          },
+          "syn": {
+            "p": 0.6748466257668712,
+            "r": 0.5729166666666666,
+            "f1": 0.6197183098591549
+          }
+        },
+        "mixtes": {
+          "n_passages": 4,
+          "support_gold": 5,
+          "support_pred": 5,
+          "tp": 5,
+          "fp": 0,
+          "fn": 0
+        }
+      }
+    },
+    "union_seuil_avec": {
+      "fuite": {
+        "n_occurrences": 213,
+        "n_documents": 21,
+        "global": {
+          "n": 213,
+          "fuites": 14,
+          "taux": 0.06572769953051644,
+          "totales": 9,
+          "partielles": 5,
+          "taux_totale": 0.04225352112676056,
+          "taux_partielle": 0.023474178403755867,
+          "ic95": [
+            0.03210642620753215,
+            0.10680914042150129
+          ]
+        },
+        "par_etiquette": {
+          "ORG": {
+            "n": 40,
+            "fuites": 3,
+            "taux": 0.075,
+            "totales": 3,
+            "partielles": 0,
+            "taux_totale": 0.075,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.17073170731707318
+            ]
+          },
+          "PERSONNE": {
+            "n": 52,
+            "fuites": 1,
+            "taux": 0.019230769230769232,
+            "totales": 1,
+            "partielles": 0,
+            "taux_totale": 0.019230769230769232,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.06003061224489793
+            ]
+          },
+          "SITE": {
+            "n": 57,
+            "fuites": 5,
+            "taux": 0.08771929824561403,
+            "totales": 0,
+            "partielles": 5,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.08771929824561403,
+            "ic95": [
+              0.018850771869639793,
+              0.15791562238930656
+            ]
+          },
+          "DONNEE_SENSIBLE": {
+            "n": 64,
+            "fuites": 5,
+            "taux": 0.078125,
+            "totales": 5,
+            "partielles": 0,
+            "taux_totale": 0.078125,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.16678571428571418
+            ]
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "n": 69,
+            "fuites": 4,
+            "taux": 0.057971014492753624,
+            "totales": 3,
+            "partielles": 1,
+            "taux_totale": 0.043478260869565216,
+            "taux_partielle": 0.014492753623188406,
+            "ic95": [
+              0.013157894736842105,
+              0.12698412698412698
+            ]
+          },
+          "en": {
+            "n": 70,
+            "fuites": 6,
+            "taux": 0.08571428571428572,
+            "totales": 2,
+            "partielles": 4,
+            "taux_totale": 0.02857142857142857,
+            "taux_partielle": 0.05714285714285714,
+            "ic95": [
+              0.02531645569620253,
+              0.1774193548387097
+            ]
+          },
+          "fr": {
+            "n": 74,
+            "fuites": 4,
+            "taux": 0.05405405405405406,
+            "totales": 4,
+            "partielles": 0,
+            "taux_totale": 0.05405405405405406,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.012048192771084338,
+              0.12903225806451613
+            ]
+          }
+        },
+        "par_source": {
+          "lib": {
+            "n": 21,
+            "fuites": 7,
+            "taux": 0.3333333333333333,
+            "totales": 6,
+            "partielles": 1,
+            "taux_totale": 0.2857142857142857,
+            "taux_partielle": 0.047619047619047616,
+            "ic95": [
+              0.2857142857142857,
+              0.375
+            ]
+          },
+          "syn": {
+            "n": 192,
+            "fuites": 7,
+            "taux": 0.036458333333333336,
+            "totales": 3,
+            "partielles": 4,
+            "taux_totale": 0.015625,
+            "taux_partielle": 0.020833333333333332,
+            "ic95": [
+              0.01530418004765358,
+              0.05851846057571965
+            ]
+          }
+        },
+        "mixtes": {
+          "n": 5,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0
+        },
+        "bootstrap": {
+          "unite": "doc_id",
+          "n_resamples": 1000,
+          "seed": 42
+        },
+        "sur_masquage": {
+          "global": {
+            "masques": 3688,
+            "hors_entites": 808,
+            "taux": 0.21908893709327548
+          },
+          "par_langue": {
+            "ar": {
+              "masques": 1308,
+              "hors_entites": 271,
+              "taux": 0.20718654434250763
+            },
+            "en": {
+              "masques": 1067,
+              "hors_entites": 201,
+              "taux": 0.18837863167760074
+            },
+            "fr": {
+              "masques": 1313,
+              "hors_entites": 336,
+              "taux": 0.2559025133282559
+            }
+          },
+          "par_source": {
+            "lib": {
+              "masques": 284,
+              "hors_entites": 27,
+              "taux": 0.09507042253521127
+            },
+            "syn": {
+              "masques": 3404,
+              "hors_entites": 781,
+              "taux": 0.22943595769682726
+            }
+          }
+        },
+        "passages_sans_masque": 0,
+        "methode": "masque"
+      },
+      "f1_caractere": {
+        "global": {
+          "p": 0.6871508379888268,
+          "r": 0.5774647887323944,
+          "f1": 0.6275510204081632
+        },
+        "par_etiquette": {
+          "ORG": {
+            "support_gold": 40,
+            "support_pred": 39,
+            "tp": 25,
+            "fp": 14,
+            "fn": 15,
+            "p": 0.6410256410256411,
+            "r": 0.625,
+            "f1": 0.6329113924050633
+          },
+          "PERSONNE": {
+            "support_gold": 52,
+            "support_pred": 47,
+            "tp": 47,
+            "fp": 0,
+            "fn": 5,
+            "p": 1.0,
+            "r": 0.9038461538461539,
+            "f1": 0.9494949494949495
+          },
+          "SITE": {
+            "support_gold": 57,
+            "support_pred": 57,
+            "tp": 48,
+            "fp": 9,
+            "fn": 9,
+            "p": 0.8421052631578947,
+            "r": 0.8421052631578947,
+            "f1": 0.8421052631578947
+          },
+          "DONNEE_SENSIBLE": {
+            "support_gold": 64,
+            "support_pred": 36,
+            "tp": 3,
+            "fp": 33,
+            "fn": 61,
+            "p": 0.08333333333333333,
+            "r": 0.046875,
+            "f1": 0.06
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "p": 0.603448275862069,
+            "r": 0.5072463768115942,
+            "f1": 0.5511811023622047
+          },
+          "en": {
+            "p": 0.7258064516129032,
+            "r": 0.6428571428571429,
+            "f1": 0.6818181818181818
+          },
+          "fr": {
+            "p": 0.7288135593220338,
+            "r": 0.581081081081081,
+            "f1": 0.6466165413533834
+          }
+        },
+        "par_source": {
+          "lib": {
+            "p": 0.8125,
+            "r": 0.6190476190476191,
+            "f1": 0.7027027027027027
+          },
+          "syn": {
+            "p": 0.6748466257668712,
+            "r": 0.5729166666666666,
+            "f1": 0.6197183098591549
+          }
+        },
+        "mixtes": {
+          "n_passages": 4,
+          "support_gold": 5,
+          "support_pred": 5,
+          "tp": 5,
+          "fp": 0,
+          "fn": 0
+        }
+      }
+    }
+  },
+  "generalisation": {
+    "gold_sans": {},
+    "gold_avec": {
+      "global": {
+        "EQUIPEMENT": [
+          65,
+          15,
+          2
+        ],
+        "total": [
+          106,
+          46,
+          2
+        ],
+        "PRODUIT": [
+          41,
+          31,
+          0
+        ]
+      },
+      "langue=ar": {
+        "EQUIPEMENT": [
+          23,
+          6,
+          1
+        ],
+        "total": [
+          35,
+          18,
+          1
+        ],
+        "PRODUIT": [
+          12,
+          12,
+          0
+        ]
+      },
+      "source=lib": {
+        "EQUIPEMENT": [
+          8,
+          4,
+          2
+        ],
+        "total": [
+          13,
+          8,
+          2
+        ],
+        "PRODUIT": [
+          5,
+          4,
+          0
+        ]
+      },
+      "langue=en": {
+        "PRODUIT": [
+          14,
+          9,
+          0
+        ],
+        "total": [
+          35,
+          13,
+          1
+        ],
+        "EQUIPEMENT": [
+          21,
+          4,
+          1
+        ]
+      },
+      "langue=fr": {
+        "PRODUIT": [
+          15,
+          10,
+          0
+        ],
+        "total": [
+          36,
+          15,
+          0
+        ],
+        "EQUIPEMENT": [
+          21,
+          5,
+          0
+        ]
+      },
+      "source=syn": {
+        "PRODUIT": [
+          36,
+          27,
+          0
+        ],
+        "total": [
+          93,
+          38,
+          0
+        ],
+        "EQUIPEMENT": [
+          57,
+          11,
+          0
+        ]
+      }
+    },
+    "union_seuil_sans": {},
+    "union_seuil_avec": {
+      "global": {
+        "EQUIPEMENT": [
+          59,
+          6,
+          4
+        ],
+        "total": [
+          97,
+          35,
+          4
+        ],
+        "PRODUIT": [
+          38,
+          29,
+          0
+        ]
+      },
+      "langue=ar": {
+        "EQUIPEMENT": [
+          18,
+          6,
+          0
+        ],
+        "total": [
+          30,
+          18,
+          0
+        ],
+        "PRODUIT": [
+          12,
+          12,
+          0
+        ]
+      },
+      "source=lib": {
+        "EQUIPEMENT": [
+          4,
+          0,
+          1
+        ],
+        "total": [
+          9,
+          4,
+          1
+        ],
+        "PRODUIT": [
+          5,
+          4,
+          0
+        ]
+      },
+      "langue=en": {
+        "PRODUIT": [
+          12,
+          7,
+          0
+        ],
+        "total": [
+          34,
+          7,
+          4
+        ],
+        "EQUIPEMENT": [
+          22,
+          0,
+          4
+        ]
+      },
+      "langue=fr": {
+        "PRODUIT": [
+          14,
+          10,
+          0
+        ],
+        "total": [
+          33,
+          10,
+          0
+        ],
+        "EQUIPEMENT": [
+          19,
+          0,
+          0
+        ]
+      },
+      "source=syn": {
+        "PRODUIT": [
+          33,
+          25,
+          0
+        ],
+        "total": [
+          88,
+          31,
+          3
+        ],
+        "EQUIPEMENT": [
+          55,
+          6,
+          3
+        ]
+      }
+    }
+  },
+  "couverture": {
+    "gold_sans": {
+      "global": {
+        "EQUIPEMENT": [
+          0,
+          63
+        ],
+        "total": [
+          0,
+          104
+        ],
+        "PRODUIT": [
+          0,
+          41
+        ]
+      },
+      "langue=ar": {
+        "EQUIPEMENT": [
+          0,
+          22
+        ],
+        "total": [
+          0,
+          34
+        ],
+        "PRODUIT": [
+          0,
+          12
+        ]
+      },
+      "source=lib": {
+        "EQUIPEMENT": [
+          0,
+          6
+        ],
+        "total": [
+          0,
+          11
+        ],
+        "PRODUIT": [
+          0,
+          5
+        ]
+      },
+      "langue=en": {
+        "PRODUIT": [
+          0,
+          14
+        ],
+        "total": [
+          0,
+          34
+        ],
+        "EQUIPEMENT": [
+          0,
+          20
+        ]
+      },
+      "langue=fr": {
+        "PRODUIT": [
+          0,
+          15
+        ],
+        "total": [
+          0,
+          36
+        ],
+        "EQUIPEMENT": [
+          0,
+          21
+        ]
+      },
+      "source=syn": {
+        "PRODUIT": [
+          0,
+          36
+        ],
+        "total": [
+          0,
+          93
+        ],
+        "EQUIPEMENT": [
+          0,
+          57
+        ]
+      }
+    },
+    "gold_avec": {
+      "global": {
+        "EQUIPEMENT": [
+          63,
+          63
+        ],
+        "total": [
+          104,
+          104
+        ],
+        "PRODUIT": [
+          41,
+          41
+        ]
+      },
+      "langue=ar": {
+        "EQUIPEMENT": [
+          22,
+          22
+        ],
+        "total": [
+          34,
+          34
+        ],
+        "PRODUIT": [
+          12,
+          12
+        ]
+      },
+      "source=lib": {
+        "EQUIPEMENT": [
+          6,
+          6
+        ],
+        "total": [
+          11,
+          11
+        ],
+        "PRODUIT": [
+          5,
+          5
+        ]
+      },
+      "langue=en": {
+        "PRODUIT": [
+          14,
+          14
+        ],
+        "total": [
+          34,
+          34
+        ],
+        "EQUIPEMENT": [
+          20,
+          20
+        ]
+      },
+      "langue=fr": {
+        "PRODUIT": [
+          15,
+          15
+        ],
+        "total": [
+          36,
+          36
+        ],
+        "EQUIPEMENT": [
+          21,
+          21
+        ]
+      },
+      "source=syn": {
+        "PRODUIT": [
+          36,
+          36
+        ],
+        "total": [
+          93,
+          93
+        ],
+        "EQUIPEMENT": [
+          57,
+          57
+        ]
+      }
+    },
+    "union_seuil_sans": {
+      "global": {
+        "EQUIPEMENT": [
+          0,
+          63
+        ],
+        "total": [
+          0,
+          104
+        ],
+        "PRODUIT": [
+          0,
+          41
+        ]
+      },
+      "langue=ar": {
+        "EQUIPEMENT": [
+          0,
+          22
+        ],
+        "total": [
+          0,
+          34
+        ],
+        "PRODUIT": [
+          0,
+          12
+        ]
+      },
+      "source=lib": {
+        "EQUIPEMENT": [
+          0,
+          6
+        ],
+        "total": [
+          0,
+          11
+        ],
+        "PRODUIT": [
+          0,
+          5
+        ]
+      },
+      "langue=en": {
+        "PRODUIT": [
+          0,
+          14
+        ],
+        "total": [
+          0,
+          34
+        ],
+        "EQUIPEMENT": [
+          0,
+          20
+        ]
+      },
+      "langue=fr": {
+        "PRODUIT": [
+          0,
+          15
+        ],
+        "total": [
+          0,
+          36
+        ],
+        "EQUIPEMENT": [
+          0,
+          21
+        ]
+      },
+      "source=syn": {
+        "PRODUIT": [
+          0,
+          36
+        ],
+        "total": [
+          0,
+          93
+        ],
+        "EQUIPEMENT": [
+          0,
+          57
+        ]
+      }
+    },
+    "union_seuil_avec": {
+      "global": {
+        "EQUIPEMENT": [
+          46,
+          63
+        ],
+        "total": [
+          82,
+          104
+        ],
+        "PRODUIT": [
+          36,
+          41
+        ]
+      },
+      "langue=ar": {
+        "EQUIPEMENT": [
+          18,
+          22
+        ],
+        "total": [
+          30,
+          34
+        ],
+        "PRODUIT": [
+          12,
+          12
+        ]
+      },
+      "source=lib": {
+        "EQUIPEMENT": [
+          3,
+          6
+        ],
+        "total": [
+          7,
+          11
+        ],
+        "PRODUIT": [
+          4,
+          5
+        ]
+      },
+      "langue=en": {
+        "PRODUIT": [
+          12,
+          14
+        ],
+        "total": [
+          27,
+          34
+        ],
+        "EQUIPEMENT": [
+          15,
+          20
+        ]
+      },
+      "langue=fr": {
+        "PRODUIT": [
+          12,
+          15
+        ],
+        "total": [
+          25,
+          36
+        ],
+        "EQUIPEMENT": [
+          13,
+          21
+        ]
+      },
+      "source=syn": {
+        "PRODUIT": [
+          32,
+          36
+        ],
+        "total": [
+          75,
+          93
+        ],
+        "EQUIPEMENT": [
+          43,
+          57
+        ]
+      }
+    }
+  },
+  "reid": {
+    "reference_lot_a": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            20,
+            21
+          ],
+          "langue=ar": [
+            6,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "gold_sans": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            20,
+            21
+          ],
+          "langue=ar": [
+            6,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "gold_avec": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "union_seuil_sans": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            20,
+            21
+          ],
+          "langue=ar": [
+            6,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "union_seuil_avec": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 1,
+          "syn_en_028": 13,
+          "syn_fr_007": 1,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            4,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            2,
+            7
+          ],
+          "langue=fr": [
+            2,
+            7
+          ],
+          "source=syn": [
+            2,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 1,
+          "syn_ar_022": 13,
+          "syn_en_005": 1,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 13,
+          "syn_fr_007": 1,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 1,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            9,
+            21
+          ],
+          "langue=ar": [
+            2,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            4,
+            7
+          ],
+          "langue=fr": [
+            3,
+            7
+          ],
+          "source=syn": [
+            6,
+            18
+          ]
+        },
+        "k_median": 12
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    }
+  },
+  "reid_familles": {
+    "gold_avec": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 4,
+          "syn_en_008": 4,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 4,
+          "syn_fr_022": 13,
+          "syn_fr_024": 5,
+          "syn_fr_026": 4,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 12
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 3,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 2,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 2,
+          "syn_ar_021": 12,
+          "syn_ar_022": 1,
+          "syn_en_005": 4,
+          "syn_en_006": 3,
+          "syn_en_008": 1,
+          "syn_en_013": 14,
+          "syn_en_015": 1,
+          "syn_en_028": 4,
+          "syn_fr_007": 4,
+          "syn_fr_022": 2,
+          "syn_fr_024": 4,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            10,
+            21
+          ],
+          "langue=ar": [
+            3,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            3,
+            7
+          ],
+          "langue=fr": [
+            4,
+            7
+          ],
+          "source=syn": [
+            8,
+            18
+          ]
+        },
+        "k_median": 2
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "union_seuil_avec": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 4,
+          "syn_en_008": 4,
+          "syn_en_013": 14,
+          "syn_en_015": 1,
+          "syn_en_028": 13,
+          "syn_fr_007": 1,
+          "syn_fr_022": 13,
+          "syn_fr_024": 5,
+          "syn_fr_026": 4,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            4,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            2,
+            7
+          ],
+          "langue=fr": [
+            2,
+            7
+          ],
+          "source=syn": [
+            2,
+            18
+          ]
+        },
+        "k_median": 12
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 2,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 2,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 3,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 4,
+          "syn_fr_007": 1,
+          "syn_fr_022": 2,
+          "syn_fr_024": 4,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            15,
+            21
+          ],
+          "langue=ar": [
+            5,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            5,
+            7
+          ],
+          "langue=fr": [
+            5,
+            7
+          ],
+          "source=syn": [
+            12,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    }
+  },
+  "reid_fiche": {
+    "reference": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            20,
+            21
+          ],
+          "langue=ar": [
+            6,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "gold_sans": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            20,
+            21
+          ],
+          "langue=ar": [
+            6,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "gold_avec": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            20,
+            21
+          ],
+          "langue=ar": [
+            6,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "union_seuil_sans": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 13,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 13,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            18,
+            21
+          ],
+          "langue=ar": [
+            5,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            6,
+            7
+          ],
+          "source=syn": [
+            16,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    },
+    "union_seuil_avec": {
+      "N1 · secteur": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 12,
+          "syn_en_028": 13,
+          "syn_fr_007": 14,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            2,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            1,
+            7
+          ],
+          "langue=fr": [
+            1,
+            7
+          ],
+          "source=syn": [
+            0,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N2 · secteur + produits": {
+        "k": {
+          "lib_ar_02": 13,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 14,
+          "syn_ar_006": 13,
+          "syn_ar_008": 12,
+          "syn_ar_017": 13,
+          "syn_ar_021": 12,
+          "syn_ar_022": 13,
+          "syn_en_005": 13,
+          "syn_en_006": 13,
+          "syn_en_008": 12,
+          "syn_en_013": 14,
+          "syn_en_015": 1,
+          "syn_en_028": 13,
+          "syn_fr_007": 1,
+          "syn_fr_022": 13,
+          "syn_fr_024": 13,
+          "syn_fr_026": 12,
+          "syn_fr_027": 12,
+          "syn_fr_029": 13
+        },
+        "reidentifiables": {
+          "global": [
+            4,
+            21
+          ],
+          "langue=ar": [
+            0,
+            7
+          ],
+          "source=lib": [
+            2,
+            3
+          ],
+          "langue=en": [
+            2,
+            7
+          ],
+          "langue=fr": [
+            2,
+            7
+          ],
+          "source=syn": [
+            2,
+            18
+          ]
+        },
+        "k_median": 13
+      },
+      "N3 · secteur + produits + équipements": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      },
+      "N4 · N3 + indicateurs chiffrés": {
+        "k": {
+          "lib_ar_02": 1,
+          "lib_en_01": 1,
+          "lib_fr_06": 1,
+          "syn_ar_001": 1,
+          "syn_ar_006": 1,
+          "syn_ar_008": 1,
+          "syn_ar_017": 1,
+          "syn_ar_021": 1,
+          "syn_ar_022": 1,
+          "syn_en_005": 1,
+          "syn_en_006": 1,
+          "syn_en_008": 1,
+          "syn_en_013": 1,
+          "syn_en_015": 1,
+          "syn_en_028": 1,
+          "syn_fr_007": 1,
+          "syn_fr_022": 1,
+          "syn_fr_024": 1,
+          "syn_fr_026": 1,
+          "syn_fr_027": 1,
+          "syn_fr_029": 1
+        },
+        "reidentifiables": {
+          "global": [
+            21,
+            21
+          ],
+          "langue=ar": [
+            7,
+            7
+          ],
+          "source=lib": [
+            3,
+            3
+          ],
+          "langue=en": [
+            7,
+            7
+          ],
+          "langue=fr": [
+            7,
+            7
+          ],
+          "source=syn": [
+            18,
+            18
+          ]
+        },
+        "k_median": 1
+      }
+    }
+  },
+  "identite": {
+    "gold": {
+      "passages_masque_different": 0,
+      "documents_remplacements_sensibles_differents": 0,
+      "metriques_identiques": true
+    },
+    "union_seuil": {
+      "passages_masque_different": 0,
+      "documents_remplacements_sensibles_differents": 0,
+      "metriques_identiques": true
+    }
+  },
+  "e5_reference": {
+    "N1 · secteur": "2 / 21",
+    "N2 · secteur + produits": "20 / 21",
+    "N3 · secteur + produits + équipements": "21 / 21",
+    "N4 · N3 + indicateurs chiffrés": "21 / 21"
+  },
+  "fiches": {
+    "reference": {
+      "fichier": "generation\\sorties\\fiches_dev_b12_reference.jsonl",
+      "rapport": "results\\lotb_silver\\b12\\fiche_dev_reference.md",
+      "tableau": {
+        "global": {
+          "P": "0.93",
+          "R": "0.93",
+          "F1": "0.93",
+          "cit_P": "0.90",
+          "cit_R": "0.81",
+          "completude": "98%",
+          "fuites": "0"
+        },
+        "langue=ar": {
+          "P": "0.89",
+          "R": "0.89",
+          "F1": "0.89",
+          "cit_P": "0.86",
+          "cit_R": "0.79",
+          "completude": "96%",
+          "fuites": "0"
+        },
+        "origine=lib": {
+          "P": "0.70",
+          "R": "0.73",
+          "F1": "0.71",
+          "cit_P": "0.64",
+          "cit_R": "0.64",
+          "completude": "83%",
+          "fuites": "0"
+        },
+        "langue=en": {
+          "P": "0.95",
+          "R": "0.98",
+          "F1": "0.96",
+          "cit_P": "0.92",
+          "cit_R": "0.82",
+          "completude": "100%",
+          "fuites": "0"
+        },
+        "langue=fr": {
+          "P": "0.95",
+          "R": "0.93",
+          "F1": "0.94",
+          "cit_P": "0.91",
+          "cit_R": "0.80",
+          "completude": "96%",
+          "fuites": "0"
+        },
+        "origine=syn": {
+          "P": "0.97",
+          "R": "0.97",
+          "F1": "0.97",
+          "cit_P": "0.94",
+          "cit_R": "0.83",
+          "completude": "100%",
+          "fuites": "0"
+        },
+        "rubrique=contexte": {
+          "P": "0.86",
+          "R": "0.86",
+          "F1": "0.86",
+          "cit_P": "0.86",
+          "cit_R": "0.86",
+          "completude": "100%",
+          "fuites": "-"
+        },
+        "rubrique=objectifs": {
+          "P": "0.87",
+          "R": "1.00",
+          "F1": "0.93",
+          "cit_P": "0.91",
+          "cit_R": "0.72",
+          "completude": "100%",
+          "fuites": "-"
+        },
+        "rubrique=donnees": {
+          "P": "0.95",
+          "R": "0.87",
+          "F1": "0.90",
+          "cit_P": "0.82",
+          "cit_R": "0.78",
+          "completude": "90%",
+          "fuites": "-"
+        },
+        "rubrique=contraintes": {
+          "P": "1.00",
+          "R": "1.00",
+          "F1": "1.00",
+          "cit_P": "1.00",
+          "cit_R": "1.00",
+          "completude": "100%",
+          "fuites": "-"
+        }
+      },
+      "exacte": {
+        "global": {
+          "P": 0.9281437125748503,
+          "R": 0.9337349397590361,
+          "F1": 0.9309309309309309
+        },
+        "langue=ar": {
+          "P": 0.8909090909090909,
+          "R": 0.8909090909090909,
+          "F1": 0.8909090909090909
+        },
+        "origine=lib": {
+          "P": 0.6956521739130435,
+          "R": 0.7272727272727273,
+          "F1": 0.711111111111111
+        },
+        "rubrique=contexte": {
+          "P": 0.8571428571428571,
+          "R": 0.8571428571428571,
+          "F1": 0.8571428571428571
+        },
+        "rubrique=objectifs": {
+          "P": 0.8666666666666667,
+          "R": 1.0,
+          "F1": 0.9285714285714286
+        },
+        "rubrique=donnees": {
+          "P": 0.9454545454545454,
+          "R": 0.8666666666666667,
+          "F1": 0.9043478260869566
+        },
+        "rubrique=contraintes": {
+          "P": 1.0,
+          "R": 1.0,
+          "F1": 1.0
+        },
+        "langue=en": {
+          "P": 0.9464285714285714,
+          "R": 0.9814814814814815,
+          "F1": 0.9636363636363636
+        },
+        "langue=fr": {
+          "P": 0.9464285714285714,
+          "R": 0.9298245614035088,
+          "F1": 0.9380530973451328
+        },
+        "origine=syn": {
+          "P": 0.9652777777777778,
+          "R": 0.9652777777777778,
+          "F1": 0.9652777777777778
+        }
+      }
+    },
+    "gold_sans": {
+      "fichier": "generation\\sorties\\fiches_dev_b12_gold_sans.jsonl",
+      "rapport": "results\\lotb_silver\\b12\\fiche_dev_gold_sans.md",
+      "tableau": {
+        "global": {
+          "P": "0.93",
+          "R": "0.93",
+          "F1": "0.93",
+          "cit_P": "0.90",
+          "cit_R": "0.81",
+          "completude": "98%",
+          "fuites": "0"
+        },
+        "langue=ar": {
+          "P": "0.89",
+          "R": "0.89",
+          "F1": "0.89",
+          "cit_P": "0.86",
+          "cit_R": "0.79",
+          "completude": "96%",
+          "fuites": "0"
+        },
+        "origine=lib": {
+          "P": "0.70",
+          "R": "0.73",
+          "F1": "0.71",
+          "cit_P": "0.64",
+          "cit_R": "0.64",
+          "completude": "83%",
+          "fuites": "0"
+        },
+        "langue=en": {
+          "P": "0.95",
+          "R": "0.98",
+          "F1": "0.96",
+          "cit_P": "0.92",
+          "cit_R": "0.82",
+          "completude": "100%",
+          "fuites": "0"
+        },
+        "langue=fr": {
+          "P": "0.95",
+          "R": "0.93",
+          "F1": "0.94",
+          "cit_P": "0.91",
+          "cit_R": "0.80",
+          "completude": "96%",
+          "fuites": "0"
+        },
+        "origine=syn": {
+          "P": "0.97",
+          "R": "0.97",
+          "F1": "0.97",
+          "cit_P": "0.94",
+          "cit_R": "0.83",
+          "completude": "100%",
+          "fuites": "0"
+        },
+        "rubrique=contexte": {
+          "P": "0.86",
+          "R": "0.86",
+          "F1": "0.86",
+          "cit_P": "0.86",
+          "cit_R": "0.86",
+          "completude": "100%",
+          "fuites": "-"
+        },
+        "rubrique=objectifs": {
+          "P": "0.87",
+          "R": "1.00",
+          "F1": "0.93",
+          "cit_P": "0.91",
+          "cit_R": "0.72",
+          "completude": "100%",
+          "fuites": "-"
+        },
+        "rubrique=donnees": {
+          "P": "0.95",
+          "R": "0.87",
+          "F1": "0.90",
+          "cit_P": "0.82",
+          "cit_R": "0.78",
+          "completude": "90%",
+          "fuites": "-"
+        },
+        "rubrique=contraintes": {
+          "P": "1.00",
+          "R": "1.00",
+          "F1": "1.00",
+          "cit_P": "1.00",
+          "cit_R": "1.00",
+          "completude": "100%",
+          "fuites": "-"
+        }
+      },
+      "exacte": {
+        "global": {
+          "P": 0.9281437125748503,
+          "R": 0.9337349397590361,
+          "F1": 0.9309309309309309
+        },
+        "langue=ar": {
+          "P": 0.8909090909090909,
+          "R": 0.8909090909090909,
+          "F1": 0.8909090909090909
+        },
+        "origine=lib": {
+          "P": 0.6956521739130435,
+          "R": 0.7272727272727273,
+          "F1": 0.711111111111111
+        },
+        "rubrique=contexte": {
+          "P": 0.8571428571428571,
+          "R": 0.8571428571428571,
+          "F1": 0.8571428571428571
+        },
+        "rubrique=objectifs": {
+          "P": 0.8666666666666667,
+          "R": 1.0,
+          "F1": 0.9285714285714286
+        },
+        "rubrique=donnees": {
+          "P": 0.9454545454545454,
+          "R": 0.8666666666666667,
+          "F1": 0.9043478260869566
+        },
+        "rubrique=contraintes": {
+          "P": 1.0,
+          "R": 1.0,
+          "F1": 1.0
+        },
+        "langue=en": {
+          "P": 0.9464285714285714,
+          "R": 0.9814814814814815,
+          "F1": 0.9636363636363636
+        },
+        "langue=fr": {
+          "P": 0.9464285714285714,
+          "R": 0.9298245614035088,
+          "F1": 0.9380530973451328
+        },
+        "origine=syn": {
+          "P": 0.9652777777777778,
+          "R": 0.9652777777777778,
+          "F1": 0.9652777777777778
+        }
+      }
+    },
+    "gold_avec": {
+      "fichier": "generation\\sorties\\fiches_dev_b12_gold_avec.jsonl",
+      "rapport": "results\\lotb_silver\\b12\\fiche_dev_gold_avec.md",
+      "tableau": {
+        "global": {
+          "P": "0.93",
+          "R": "0.93",
+          "F1": "0.93",
+          "cit_P": "0.90",
+          "cit_R": "0.81",
+          "completude": "98%",
+          "fuites": "0"
+        },
+        "langue=ar": {
+          "P": "0.89",
+          "R": "0.89",
+          "F1": "0.89",
+          "cit_P": "0.86",
+          "cit_R": "0.79",
+          "completude": "96%",
+          "fuites": "0"
+        },
+        "origine=lib": {
+          "P": "0.70",
+          "R": "0.73",
+          "F1": "0.71",
+          "cit_P": "0.64",
+          "cit_R": "0.64",
+          "completude": "83%",
+          "fuites": "0"
+        },
+        "langue=en": {
+          "P": "0.95",
+          "R": "0.98",
+          "F1": "0.96",
+          "cit_P": "0.92",
+          "cit_R": "0.82",
+          "completude": "100%",
+          "fuites": "0"
+        },
+        "langue=fr": {
+          "P": "0.95",
+          "R": "0.93",
+          "F1": "0.94",
+          "cit_P": "0.91",
+          "cit_R": "0.80",
+          "completude": "96%",
+          "fuites": "0"
+        },
+        "origine=syn": {
+          "P": "0.97",
+          "R": "0.97",
+          "F1": "0.97",
+          "cit_P": "0.94",
+          "cit_R": "0.83",
+          "completude": "100%",
+          "fuites": "0"
+        },
+        "rubrique=contexte": {
+          "P": "0.86",
+          "R": "0.86",
+          "F1": "0.86",
+          "cit_P": "0.86",
+          "cit_R": "0.86",
+          "completude": "100%",
+          "fuites": "-"
+        },
+        "rubrique=objectifs": {
+          "P": "0.87",
+          "R": "1.00",
+          "F1": "0.93",
+          "cit_P": "0.91",
+          "cit_R": "0.72",
+          "completude": "100%",
+          "fuites": "-"
+        },
+        "rubrique=donnees": {
+          "P": "0.95",
+          "R": "0.87",
+          "F1": "0.90",
+          "cit_P": "0.82",
+          "cit_R": "0.78",
+          "completude": "90%",
+          "fuites": "-"
+        },
+        "rubrique=contraintes": {
+          "P": "1.00",
+          "R": "1.00",
+          "F1": "1.00",
+          "cit_P": "1.00",
+          "cit_R": "1.00",
+          "completude": "100%",
+          "fuites": "-"
+        }
+      },
+      "exacte": {
+        "global": {
+          "P": 0.9281437125748503,
+          "R": 0.9337349397590361,
+          "F1": 0.9309309309309309
+        },
+        "langue=ar": {
+          "P": 0.8909090909090909,
+          "R": 0.8909090909090909,
+          "F1": 0.8909090909090909
+        },
+        "origine=lib": {
+          "P": 0.6956521739130435,
+          "R": 0.7272727272727273,
+          "F1": 0.711111111111111
+        },
+        "rubrique=contexte": {
+          "P": 0.8571428571428571,
+          "R": 0.8571428571428571,
+          "F1": 0.8571428571428571
+        },
+        "rubrique=objectifs": {
+          "P": 0.8666666666666667,
+          "R": 1.0,
+          "F1": 0.9285714285714286
+        },
+        "rubrique=donnees": {
+          "P": 0.9454545454545454,
+          "R": 0.8666666666666667,
+          "F1": 0.9043478260869566
+        },
+        "rubrique=contraintes": {
+          "P": 1.0,
+          "R": 1.0,
+          "F1": 1.0
+        },
+        "langue=en": {
+          "P": 0.9464285714285714,
+          "R": 0.9814814814814815,
+          "F1": 0.9636363636363636
+        },
+        "langue=fr": {
+          "P": 0.9464285714285714,
+          "R": 0.9298245614035088,
+          "F1": 0.9380530973451328
+        },
+        "origine=syn": {
+          "P": 0.9652777777777778,
+          "R": 0.9652777777777778,
+          "F1": 0.9652777777777778
+        }
+      }
+    },
+    "union_seuil_sans": {
+      "fichier": "generation\\sorties\\fiches_dev_b12_union_seuil_sans.jsonl",
+      "rapport": "results\\lotb_silver\\b12\\fiche_dev_union_seuil_sans.md",
+      "tableau": {
+        "global": {
+          "P": "0.94",
+          "R": "0.93",
+          "F1": "0.94",
+          "cit_P": "0.91",
+          "cit_R": "0.81",
+          "completude": "95%",
+          "fuites": "0"
+        },
+        "langue=ar": {
+          "P": "0.91",
+          "R": "0.89",
+          "F1": "0.90",
+          "cit_P": "0.89",
+          "cit_R": "0.79",
+          "completude": "93%",
+          "fuites": "0"
+        },
+        "origine=lib": {
+          "P": "0.70",
+          "R": "0.73",
+          "F1": "0.71",
+          "cit_P": "0.64",
+          "cit_R": "0.64",
+          "completude": "83%",
+          "fuites": "0"
+        },
+        "langue=en": {
+          "P": "0.95",
+          "R": "0.98",
+          "F1": "0.96",
+          "cit_P": "0.92",
+          "cit_R": "0.82",
+          "completude": "100%",
+          "fuites": "0"
+        },
+        "langue=fr": {
+          "P": "0.96",
+          "R": "0.93",
+          "F1": "0.95",
+          "cit_P": "0.94",
+          "cit_R": "0.80",
+          "completude": "93%",
+          "fuites": "0"
+        },
+        "origine=syn": {
+          "P": "0.98",
+          "R": "0.97",
+          "F1": "0.97",
+          "cit_P": "0.96",
+          "cit_R": "0.83",
+          "completude": "97%",
+          "fuites": "0"
+        },
+        "rubrique=contexte": {
+          "P": "0.95",
+          "R": "0.86",
+          "F1": "0.90",
+          "cit_P": "0.95",
+          "cit_R": "0.86",
+          "completude": "90%",
+          "fuites": "-"
+        },
+        "rubrique=objectifs": {
+          "P": "0.87",
+          "R": "1.00",
+          "F1": "0.93",
+          "cit_P": "0.91",
+          "cit_R": "0.72",
+          "completude": "100%",
+          "fuites": "-"
+        },
+        "rubrique=donnees": {
+          "P": "0.95",
+          "R": "0.87",
+          "F1": "0.90",
+          "cit_P": "0.82",
+          "cit_R": "0.78",
+          "completude": "90%",
+          "fuites": "-"
+        },
+        "rubrique=contraintes": {
+          "P": "1.00",
+          "R": "1.00",
+          "F1": "1.00",
+          "cit_P": "1.00",
+          "cit_R": "1.00",
+          "completude": "100%",
+          "fuites": "-"
+        }
+      },
+      "exacte": {
+        "global": {
+          "P": 0.9393939393939394,
+          "R": 0.9337349397590361,
+          "F1": 0.9365558912386707
+        },
+        "langue=ar": {
+          "P": 0.9074074074074074,
+          "R": 0.8909090909090909,
+          "F1": 0.8990825688073394
+        },
+        "origine=lib": {
+          "P": 0.6956521739130435,
+          "R": 0.7272727272727273,
+          "F1": 0.711111111111111
+        },
+        "rubrique=contexte": {
+          "P": 0.9473684210526315,
+          "R": 0.8571428571428571,
+          "F1": 0.9
+        },
+        "rubrique=objectifs": {
+          "P": 0.8666666666666667,
+          "R": 1.0,
+          "F1": 0.9285714285714286
+        },
+        "rubrique=donnees": {
+          "P": 0.9454545454545454,
+          "R": 0.8666666666666667,
+          "F1": 0.9043478260869566
+        },
+        "rubrique=contraintes": {
+          "P": 1.0,
+          "R": 1.0,
+          "F1": 1.0
+        },
+        "langue=en": {
+          "P": 0.9464285714285714,
+          "R": 0.9814814814814815,
+          "F1": 0.9636363636363636
+        },
+        "langue=fr": {
+          "P": 0.9636363636363636,
+          "R": 0.9298245614035088,
+          "F1": 0.9464285714285715
+        },
+        "origine=syn": {
+          "P": 0.9788732394366197,
+          "R": 0.9652777777777778,
+          "F1": 0.972027972027972
+        }
+      }
+    },
+    "union_seuil_avec": {
+      "fichier": "generation\\sorties\\fiches_dev_b12_union_seuil_avec.jsonl",
+      "rapport": "results\\lotb_silver\\b12\\fiche_dev_union_seuil_avec.md",
+      "tableau": {
+        "global": {
+          "P": "0.93",
+          "R": "0.83",
+          "F1": "0.88",
+          "cit_P": "0.91",
+          "cit_R": "0.81",
+          "completude": "95%",
+          "fuites": "0"
+        },
+        "langue=ar": {
+          "P": "0.90",
+          "R": "0.80",
+          "F1": "0.85",
+          "cit_P": "0.89",
+          "cit_R": "0.79",
+          "completude": "93%",
+          "fuites": "0"
+        },
+        "origine=lib": {
+          "P": "0.70",
+          "R": "0.73",
+          "F1": "0.71",
+          "cit_P": "0.64",
+          "cit_R": "0.64",
+          "completude": "83%",
+          "fuites": "0"
+        },
+        "langue=en": {
+          "P": "0.94",
+          "R": "0.87",
+          "F1": "0.90",
+          "cit_P": "0.92",
+          "cit_R": "0.82",
+          "completude": "100%",
+          "fuites": "0"
+        },
+        "langue=fr": {
+          "P": "0.96",
+          "R": "0.82",
+          "F1": "0.89",
+          "cit_P": "0.94",
+          "cit_R": "0.80",
+          "completude": "93%",
+          "fuites": "0"
+        },
+        "origine=syn": {
+          "P": "0.98",
+          "R": "0.85",
+          "F1": "0.91",
+          "cit_P": "0.96",
+          "cit_R": "0.83",
+          "completude": "97%",
+          "fuites": "0"
+        },
+        "rubrique=contexte": {
+          "P": "0.95",
+          "R": "0.86",
+          "F1": "0.90",
+          "cit_P": "0.95",
+          "cit_R": "0.86",
+          "completude": "90%",
+          "fuites": "-"
+        },
+        "rubrique=objectifs": {
+          "P": "0.87",
+          "R": "1.00",
+          "F1": "0.93",
+          "cit_P": "0.91",
+          "cit_R": "0.72",
+          "completude": "100%",
+          "fuites": "-"
+        },
+        "rubrique=donnees": {
+          "P": "0.92",
+          "R": "0.58",
+          "F1": "0.71",
+          "cit_P": "0.82",
+          "cit_R": "0.78",
+          "completude": "90%",
+          "fuites": "-"
+        },
+        "rubrique=contraintes": {
+          "P": "1.00",
+          "R": "1.00",
+          "F1": "1.00",
+          "cit_P": "1.00",
+          "cit_R": "1.00",
+          "completude": "100%",
+          "fuites": "-"
+        }
+      },
+      "exacte": {
+        "global": {
+          "P": 0.9324324324324325,
+          "R": 0.8313253012048193,
+          "F1": 0.8789808917197452
+        },
+        "langue=ar": {
+          "P": 0.8979591836734694,
+          "R": 0.8,
+          "F1": 0.8461538461538463
+        },
+        "origine=lib": {
+          "P": 0.6956521739130435,
+          "R": 0.7272727272727273,
+          "F1": 0.711111111111111
+        },
+        "rubrique=contexte": {
+          "P": 0.9473684210526315,
+          "R": 0.8571428571428571,
+          "F1": 0.9
+        },
+        "rubrique=objectifs": {
+          "P": 0.8666666666666667,
+          "R": 1.0,
+          "F1": 0.9285714285714286
+        },
+        "rubrique=donnees": {
+          "P": 0.9210526315789473,
+          "R": 0.5833333333333334,
+          "F1": 0.7142857142857143
+        },
+        "rubrique=contraintes": {
+          "P": 1.0,
+          "R": 1.0,
+          "F1": 1.0
+        },
+        "langue=en": {
+          "P": 0.94,
+          "R": 0.8703703703703703,
+          "F1": 0.9038461538461539
+        },
+        "langue=fr": {
+          "P": 0.9591836734693877,
+          "R": 0.8245614035087719,
+          "F1": 0.8867924528301887
+        },
+        "origine=syn": {
+          "P": 0.976,
+          "R": 0.8472222222222222,
+          "F1": 0.9070631970260222
+        }
+      }
+    }
+  },
+  "ecarts_fiches": {
+    "gold": {
+      "libelles_cites_perdus": {},
+      "contexte": {
+        "retires": 20,
+        "ajoutes": 20,
+        "documents": 20,
+        "donnees_citees_perdues": 0
+      },
+      "objectifs": {
+        "retires": 1,
+        "ajoutes": 1,
+        "documents": 1,
+        "donnees_citees_perdues": 0
+      },
+      "donnees": {
+        "retires": 0,
+        "ajoutes": 0,
+        "documents": 0,
+        "donnees_citees_perdues": 0
+      },
+      "contraintes": {
+        "retires": 0,
+        "ajoutes": 0,
+        "documents": 0,
+        "donnees_citees_perdues": 0
+      }
+    },
+    "union_seuil": {
+      "libelles_cites_perdus": {
+        "مستخرجات من نظام التصرف المندمج": 5,
+        "ERP extracts": 6,
+        "Extractions de l'ERP": 6
+      },
+      "contexte": {
+        "retires": 17,
+        "ajoutes": 17,
+        "documents": 17,
+        "donnees_citees_perdues": 0
+      },
+      "objectifs": {
+        "retires": 0,
+        "ajoutes": 0,
+        "documents": 0,
+        "donnees_citees_perdues": 0
+      },
+      "donnees": {
+        "retires": 17,
+        "ajoutes": 0,
+        "documents": 17,
+        "donnees_citees_perdues": 17
+      },
+      "contraintes": {
+        "retires": 0,
+        "ajoutes": 0,
+        "documents": 0,
+        "donnees_citees_perdues": 0
+      }
+    }
+  },
+  "decision": {
+    "union_seuil": {
+      "niveaux": {
+        "N1 · secteur": [
+          2,
+          2
+        ],
+        "N2 · secteur + produits": [
+          20,
+          4
+        ],
+        "N3 · secteur + produits + équipements": [
+          21,
+          9
+        ],
+        "N4 · N3 + indicateurs chiffrés": [
+          21,
+          21
+        ]
+      },
+      "baisse_reidentification": true,
+      "f1_sans": 0.9365558912386707,
+      "f1_avec": 0.8789808917197452,
+      "perte_f1": 0.05757499951892542,
+      "f1_ok": false,
+      "retenue": false
+    },
+    "gold": {
+      "niveaux": {
+        "N1 · secteur": [
+          2,
+          2
+        ],
+        "N2 · secteur + produits": [
+          20,
+          2
+        ],
+        "N3 · secteur + produits + équipements": [
+          21,
+          2
+        ],
+        "N4 · N3 + indicateurs chiffrés": [
+          21,
+          21
+        ]
+      },
+      "baisse_reidentification": true,
+      "f1_sans": 0.9309309309309309,
+      "f1_avec": 0.9309309309309309,
+      "perte_f1": 0.0,
+      "f1_ok": true,
+      "retenue": true
+    }
+  }
+}

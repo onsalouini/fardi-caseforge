@@ -1,0 +1,8 @@
+[rules · dev] fuite 10.8 % [6.6 % ; 16.5 %] · sur-masquage 2.6 % · F1 car. 0.886 · cohérence 88.5 % (80 s)
+[union · dev] fuite 6.6 % [3.2 % ; 10.7 %] · sur-masquage 27.2 % · F1 car. 0.592 · cohérence 81.2 % (15 s)
+[union_seuil · dev] fuite 6.6 % [3.2 % ; 10.7 %] · sur-masquage 21.9 % · F1 car. 0.628 · cohérence 82.8 % (3 s)
+[apparié · dev] fuite rules - union = +0.042 IC 95 % [+0.019 ; +0.070]
+[apparié · dev] fuite rules - union_seuil = +0.042 IC 95 % [+0.019 ; +0.070]
+[apparié · dev] fuite union_seuil - union = +0.000 IC 95 % [+0.000 ; +0.000]
+[rules · train] 60 fuites · causes {'bordure : mention détectée mais span trop court': 39, 'DONNEE_SENSIBLE décrite sans chiffre (limite connue)': 14, 'entité jamais détectée dans le document': 5, 'variante non retrouvée : la même entité est masquée ailleurs dans le document': 2}
+Terminé en 327 s

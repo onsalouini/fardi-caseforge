@@ -1,0 +1,20 @@
+[rules · dev] fuite 10.8 % [6.6 % ; 16.5 %] · sur-masquage 2.6 % · F1 car. 0.886 · cohérence 88.5 % (76 s)
+[union_seuil · dev] fuite 6.6 % [3.2 % ; 10.7 %] · sur-masquage 21.9 % · F1 car. 0.628 · cohérence 82.8 % (9 s)
+[apparié · dev] fuite rules - union_seuil = +0.042 IC 95 % [+0.019 ; +0.070]
+[rules · train] 60 fuites · causes {'bordure : mention détectée mais span trop court': 39, 'DONNEE_SENSIBLE décrite sans chiffre (limite connue)': 14, 'entité jamais détectée dans le document': 5, 'variante non retrouvée : la même entité est masquée ailleurs dans le document': 2}
+Terminé en 261 s
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\ChipTronics\Desktop\Nouveau dossier\fardi-caseforge\scripts\b15_anonymisation_dev.py", line 109, in <module>
+    main()
+  File "C:\Users\ChipTronics\Desktop\Nouveau dossier\fardi-caseforge\scripts\b15_anonymisation_dev.py", line 86, in main
+    m_avant = harnais.masques(_jsonl(ETAPE0 / f"b6_anonymisation_dev_{be}.jsonl"))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ChipTronics\Desktop\Nouveau dossier\fardi-caseforge\scripts\eval_anonymization.py", line 192, in masques
+    return {p["passage_id"]: p["masque_offsets"] for s in sorties for p in s["passages"]}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ChipTronics\Desktop\Nouveau dossier\fardi-caseforge\scripts\eval_anonymization.py", line 192, in <dictcomp>
+    return {p["passage_id"]: p["masque_offsets"] for s in sorties for p in s["passages"]}
+                                                                           ~^^^^^^^^^^^^
+KeyError: 'passages'

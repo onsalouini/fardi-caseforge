@@ -194,6 +194,18 @@ def test_cle_arabe_sans_proclitique_ni_diacritique() -> None:
     assert len(set(clusteriser(["", ""], m).ids)) == 1
 
 
+def test_clusteriser_personne_cle_vide() -> None:
+    """B14 : une PERSONNE réduite à une ponctuation (fragment de sous-mot d'un NER appris) a une clé vide."""
+    ms = [
+        Mention(0, 0, 1, "PERSONNE", "'"),
+        Mention(0, 2, 13, "PERSONNE", "Nadia Sassi"),
+        Mention(1, 0, 5, "PERSONNE", "Sassi"),
+    ]
+    assert cle("'", "PERSONNE") == ()
+    ids = clusteriser(["", ""], ms).ids
+    assert ids[1] == ids[2] and ids[0] != ids[1]
+
+
 # ---------- Balayage ----------
 def test_balayage_masque_les_formes_deja_remplacees() -> None:
     """Une mention non détectée d'une forme déjà remplacée ailleurs est masquée avec le pseudonyme de son cluster."""

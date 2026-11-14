@@ -49,6 +49,9 @@ PRIORITY: Final[tuple[str, ...]] = (
 SENSITIVE_LABELS: Final[frozenset[str]] = frozenset({"ORG", "PERSONNE", "SITE", "DONNEE_SENSIBLE"})
 """Étiquettes à masquer par l'anonymisation : elles identifient une entreprise, un site ou une personne."""
 
+GENERALISABLE_LABELS: Final[frozenset[str]] = frozenset({"PRODUIT", "EQUIPEMENT"})
+"""Indices rares remplacés par leur famille quand l'option ``generaliser`` est active (B12, audit E5)."""
+
 
 def rang_priorite(label: str) -> int:
     """Renvoie le rang de priorité d'une étiquette (0 = la plus prioritaire)."""
@@ -59,3 +62,5 @@ if set(PRIORITY) != set(LABELS) or len(PRIORITY) != len(LABELS):
     raise RuntimeError(f"PRIORITY ne couvre pas exactement les étiquettes de {LABELS_JSON}")
 if not SENSITIVE_LABELS <= set(LABELS):
     raise RuntimeError(f"SENSITIVE_LABELS contient une étiquette absente de {LABELS_JSON}")
+if not GENERALISABLE_LABELS <= set(LABELS) or GENERALISABLE_LABELS & SENSITIVE_LABELS:
+    raise RuntimeError("GENERALISABLE_LABELS doit être inclus dans LABELS et disjoint de SENSITIVE_LABELS")
