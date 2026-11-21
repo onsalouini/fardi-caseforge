@@ -8,7 +8,7 @@ ne changent pas.
 | --- | --- | --- | --- |
 | `synth_v4/` | 30 documents synthétiques v4, 240 passages | train | `python -m caseforge.gold.generer_v4` |
 | `libres_v4/` | textes libres neufs (à venir, Ons) | train | rédaction + pré-annotation + vérification |
-| `robustesse/` | 3 variantes perturbées du dev (à venir) | évaluation seulement | lot A |
+| `robustesse/` | 3 variantes perturbées du dev (162 passages chacune) | évaluation seulement | `python -m caseforge.gold.robustesse` |
 | `train_v4/` | train v4 assemblé et gelé (à venir, 23/11) | train | lot A |
 
 ## Synthétiques v4
@@ -24,3 +24,16 @@ ne changent pas.
 
 Fichiers : `passages.jsonl` (format de `data/final/train.jsonl`), `documents.jsonl` (format de
 `documents_train.jsonl`), `fiches.jsonl`, `metadonnees.csv`, `brut/*.txt`.
+
+## Jeux de robustesse
+
+Trois variantes des 162 passages du dev (mêmes `passage_id`, comparaison appariée avec le dev d'origine),
+étiquettes recalées sur les nouveaux offsets, graine 2027. **Jamais pour l'entraînement.**
+
+| Variante | Perturbation | Passages modifiés | Entités modifiées |
+| --- | --- | --- | --- |
+| `abreviations` | mots courants abrégés, entités comprises (« maintenance » → « maint. ») | 67 / 162 | 57 / 449 |
+| `ocr` | confusions de caractères d'un scan, entités comprises (« l » → « 1 », ة → ه) | 145 / 162 | 155 / 449 |
+| `mise_en_page` | liste à puces, e-mail avec en-tête et retours à la ligne, ou cellule de tableau | 162 / 162 | 0 / 449 |
+
+Fichiers : `<variante>.jsonl` (format de `data/final/dev.jsonl`) et `<variante>.bio.jsonl` (format de `dev.bio.jsonl`).

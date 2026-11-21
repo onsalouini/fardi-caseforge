@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-21 · Boutheina · Lot A Gold · jeux de robustesse du dev
+- `python -m caseforge.gold.robustesse` → `data/gold/robustesse/` : trois variantes des 162 passages du **dev** (mêmes `passage_id`, comparaison appariée), étiquettes recalées sur les nouveaux offsets, graine 2027, formats `dev.jsonl` et `dev.bio.jsonl`. Test gelé non lu ; évaluation seulement, jamais d'entraînement.
+- `abreviations` (mots courants abrégés, entités comprises) : 67 passages et 57 entités sur 449 modifiés. `ocr` (confusions de caractères d'un scan, entités comprises) : 145 passages, 155 entités. `mise_en_page` (liste à puces, e-mail avec en-tête et retours à la ligne, cellule de tableau ; entités inchangées) : 162 passages.
+- Remis aux lots B, C et D pour mesurer la perte de F1 NER et de fuite (cible Gold : perte ≤ 5 points de F1, fuite ≤ +1 point). Tests : `tests/test_gold_robustesse.py` (10).
+
 ## 2026-11-21 · Boutheina · Lot A Gold · générateur v4 et 30 documents synthétiques
 - Générateur copié hors de `cfdata/` (figé) : `caseforge/gold/` (`lexiques_v4.py`, `gabarits_v4.py`, `generer_v4.py`). Nouveaux gabarits : tableau de bord, plan d'actions en liste, formulaire d'audit, rapport 8D. Graine 2027, identifiants `syn_<langue>_500` et suivants, champ `version` à `v4`, famille `G`.
 - `python -m caseforge.gold.generer_v4` → `data/gold/synth_v4/` : 30 documents (10 par langue), 240 passages, 678 entités, dont INDICATEUR 90, PROCESSUS 75, DONNEE_SENSIBLE 136. Bruits : propre 96, OCR 72, abréviations 48, code-switch 24 passages.
