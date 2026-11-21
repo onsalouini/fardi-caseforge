@@ -124,12 +124,28 @@ def main() -> None:
     if len(fracs) >= 2:
         m = [agg[f]["micro"][0] for f in fracs]
         n_gain = concl_haut.count("gain")
+        monte = n_gain >= 2 and m[-1] > m[-2]
+        ecarts = {lab: agg[fracs[-1]][lab][0] - agg[fracs[-2]][lab][0] for lab in LABELS}
+        montent = sorted((lab for lab in LABELS if ecarts[lab] >= 0.03), key=lambda x: -ecarts[x])
+        plats = [lab for lab in LABELS if ecarts[lab] < 0.01]
+        depasse = next((f for f in fracs if agg[f]["micro"][0] > REF_B3), None)
         L += ["", "## 4. Lecture", "",
               f"- F1 micro : {' → '.join(f'{x:.3f}' for x in m)} ({fracs[0]} → {fracs[-1]} %). "
               f"Dernier palier ({fracs[-2]} → {fracs[-1]} %) : {m[-1] - m[-2]:+.3f} en moyenne ; gain démontré "
               f"(IC 95 % au-dessus de 0, micro) pour {n_gain} graine(s) sur {len(GRAINES)}.",
-              "- À compléter après lecture des chiffres : la courbe monte-t-elle encore à 100 % (le volume paie) "
-              "ou plafonne-t-elle (seule la diversité paiera, plan Gold) ; étiquettes qui progressent encore.",
+              ("- **La courbe monte encore à 100 %** : XLM-R n'est pas saturé, ajouter des données devrait encore "
+               "payer (contrairement au CRF, qui plafonne dès 50 % du train : 0,378 puis 0,393)."
+               if monte else
+               "- **La courbe plafonne à 100 %** : le volume seul ne paiera plus, seule la diversité des données "
+               "le peut (plan Gold)."),
+              "- Étiquettes qui progressent encore (75 → 100 %, ≥ +0,03) : "
+              + ", ".join(f"{lab} {ecarts[lab]:+.3f}" for lab in montent) + ". Étiquettes à plat (< +0,01) : "
+              + ", ".join(f"{lab} {ecarts[lab]:+.3f}" for lab in plats)
+              + " : pour elles, plus de données du même type ne suffira pas (cibler leur diversité ou leurs bornes).",
+              f"- Textes libres (lib_) : {agg[fracs[-2]]['lib'][0]:.3f} → {agg[fracs[-1]]['lib'][0]:.3f} ; "
+              f"synthétiques (syn_) : {agg[fracs[-2]]['syn'][0]:.3f} → {agg[fracs[-1]]['syn'][0]:.3f}.",
+              (f"- XLM-R ne dépasse les règles B3 ({REF_B3:.3f}) qu'à partir de {depasse} % du train."
+               if depasse else f"- XLM-R ne dépasse les règles B3 ({REF_B3:.3f}) à aucune fraction."),
               "- Limites : dev de 21 documents (IC larges) ; points de contrôle choisis sur le dev (optimiste pour "
               "toutes les fractions de la même façon) ; une seule série de sous-ensembles par graine."]
     out = Path("reports/lotC_gold_courbe.md")
