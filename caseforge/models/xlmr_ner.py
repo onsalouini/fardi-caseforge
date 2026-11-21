@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 import random
+import shutil
 from pathlib import Path
 from statistics import mean, pstdev
 
@@ -176,7 +177,8 @@ def entrainer(a) -> None:
                              per_device_eval_batch_size=32, num_train_epochs=a.epochs, warmup_ratio=0.1,
                              weight_decay=0.01, eval_strategy="epoch", save_strategy="epoch", save_total_limit=1,
                              load_best_model_at_end=True, metric_for_best_model="f1", seed=a.seed, report_to=[],
-                             remove_unused_columns=False, fp16=torch.cuda.is_available(), logging_steps=20)
+                             remove_unused_columns=False, fp16=torch.cuda.is_available(), logging_steps=20,
+                             save_only_model=True)  # sans l'état de l'optimiseur : 1,1 Go au lieu de 3,3 par point
     tr = MaskedTrainer(model=model, args=args, train_dataset=ds_train, eval_dataset=ds_dev, data_collator=collate,
                        compute_metrics=f1_sous_mots)
     tr.train()
@@ -196,6 +198,10 @@ def entrainer(a) -> None:
     f = SORTIE / f"xlmr_{split}_s{a.seed}{suffixe(a)}.jsonl"
     f.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in lignes), encoding="utf-8")
     print(f"-> {f}")
+    if a.garder_modele:
+        tr.save_model(f"{sortie}/meilleur")
+    for ckpt in Path(sortie).glob("checkpoint-*"):
+        shutil.rmtree(ckpt, ignore_errors=True)
     from caseforge.eval.ner_eval import charger as ch, evaluer
     res = evaluer(ch(f"data/final/{split}.jsonl"), ch(str(f)))
     print("F1 (mots) micro {:.3f} | fr {:.3f} ar {:.3f} en {:.3f}".format(
@@ -231,6 +237,8 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=3e-5)
     ap.add_argument("--externe", action="store_true")
     ap.add_argument("--geler-embeddings", action="store_true", help="gèle les embeddings des mots (GPU de 4 Go)")
+    ap.add_argument("--garder-modele", action="store_true",
+                    help="sauve le meilleur modèle dans runs/…/meilleur (sinon les points de contrôle sont supprimés)")
     ap.add_argument("--fraction", type=float, default=None,
                     help="part des documents du train gardée (courbe d'apprentissage) ; suffixe _f25, _f50…")
     ap.set_defaults(split="dev")
