@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 from pathlib import Path
 from statistics import mean, pstdev
 
@@ -76,7 +77,28 @@ def spans_depuis_sous_mots(texte: str, offsets: list[tuple[int, int]], tags: lis
 
 
 def suffixe(a) -> str:
-    return ("_ext" if a.externe else "") + ("_gel" if a.geler_embeddings else "")
+    frac = f"_f{round(a.fraction * 100)}" if getattr(a, "fraction", None) is not None else ""
+    return ("_ext" if a.externe else "") + ("_gel" if a.geler_embeddings else "") + frac
+
+
+def sous_echantillon(rows: list[dict], fraction: float, graine: int) -> list[dict]:
+    """Garde une fraction des DOCUMENTS, stratifiée par (source, langue), au moins 1 document par groupe.
+
+    Pour une même graine, l'ordre des documents est tiré une fois : les sous-ensembles sont emboîtés
+    (25 % ⊂ 50 % ⊂ 75 %).
+    """
+    groupes: dict[tuple[str, str], list[str]] = {}
+    for r in rows:
+        cle = (r["doc_id"][:3], r["doc_lang"])
+        if r["doc_id"] not in groupes.setdefault(cle, []):
+            groupes[cle].append(r["doc_id"])
+    rng = random.Random(graine)
+    gardes: set[str] = set()
+    for cle in sorted(groupes):
+        docs = sorted(groupes[cle])
+        rng.shuffle(docs)
+        gardes.update(docs[:max(1, int(fraction * len(docs) + 0.5))])
+    return [r for r in rows if r["doc_id"] in gardes]
 
 
 def charger(split: str, externe: bool = False) -> list[dict]:
@@ -101,7 +123,13 @@ def entrainer(a) -> None:
 
     set_seed(a.seed)
     tok = AutoTokenizer.from_pretrained(a.model)
-    train, dev = charger("train", a.externe), charger("dev")
+    train, dev = charger("train"), charger("dev")
+    if a.fraction is not None:
+        train = sous_echantillon(train, a.fraction, a.seed)
+        print(f"train sous-échantillonné à {a.fraction:.0%} : {len({r['doc_id'] for r in train})} documents, "
+              f"{len(train)} passages")
+    if a.externe:
+        train += [json.loads(ligne) for ligne in open("data/final/externe_train.jsonl", encoding="utf-8")]
 
     def encoder(rows):
         feats = []
@@ -203,6 +231,8 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=3e-5)
     ap.add_argument("--externe", action="store_true")
     ap.add_argument("--geler-embeddings", action="store_true", help="gèle les embeddings des mots (GPU de 4 Go)")
+    ap.add_argument("--fraction", type=float, default=None,
+                    help="part des documents du train gardée (courbe d'apprentissage) ; suffixe _f25, _f50…")
     ap.set_defaults(split="dev")
     ap.add_argument("--resume", action="store_true", help="résumer les 3 graines déjà calculées")
     a = ap.parse_args()
