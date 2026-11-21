@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"><title>CaseForge · annotation à l'aveugle v4</title>
+<style>
+body{font-family:system-ui,sans-serif;margin:0;background:#f5f7fb;color:#1f2a44}
+header{background:#1B3F8B;color:#fff;padding:12px 24px;display:flex;gap:16px;align-items:center}
+header input{padding:6px 10px;border-radius:6px;border:0}
+main{max-width:980px;margin:20px auto;padding:0 16px}
+.carte{background:#fff;border-radius:12px;padding:20px;box-shadow:0 1px 4px #0002}
+.texte{font-size:20px;line-height:2.1;white-space:pre-wrap;margin:12px 0 18px}
+.tok{cursor:pointer;border-radius:4px;padding:2px 1px}
+.tok.sel{outline:2px solid #E30613}
+.ent{border-bottom:3px solid;font-weight:600}
+.etiq{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.etiq button{border:0;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+.liste span{display:inline-block;margin:4px;padding:4px 8px;border-radius:6px;background:#eef2f9}
+.liste b{cursor:pointer;color:#E30613;margin-left:6px}
+nav{display:flex;justify-content:space-between;margin-top:16px}
+nav button,.export{background:#1B3F8B;color:#fff;border:0;padding:10px 16px;border-radius:8px;cursor:pointer}
+.export{background:#E30613}
+.aide{color:#5b6678;font-size:14px}
+[dir=rtl]{text-align:right}
+</style></head><body>
+<header><b>Annotation à l'aveugle · passages v4</b>
+<label>Ton prénom : <input id="nom" placeholder="ex. boutheina"></label>
+<span id="prog"></span><button class="export" onclick="exporter()">Télécharger mes annotations</button></header>
+<main><div class="carte">
+<p class="aide">Clique le premier mot de l'entité, puis Maj + clic sur le dernier (ou un seul clic pour un mot),
+puis choisis l'étiquette (ou touche 1 à 9). Clique ✕ pour retirer une entité. Guide : docs/guide_annotation_v2.md.</p>
+<div class="etiq" id="etiq"></div>
+<div id="pid" class="aide"></div><div class="texte" id="texte"></div>
+<div class="liste" id="liste"></div>
+<nav><button onclick="aller(-1)">← Précédent</button><button onclick="aller(1)">Suivant →</button></nav>
+</div></main>
+<script>
+const TACHES=__TACHES__, LABELS=__LABELS__;
+const COUL=["#E30613","#1B3F8B","#0E7C66","#8B5CF6","#D97706","#0891B2","#BE185D","#4D7C0F","#6B7280"];
+let i=0, debut=null, fin=null, ann={};
+try{ann=JSON.parse(localStorage.getItem("cf_kappa_v4")||"{}")}catch(e){}
+function sauver(){try{localStorage.setItem("cf_kappa_v4",JSON.stringify(ann))}catch(e){}}
+LABELS.forEach((l,k)=>{const b=document.createElement("button");b.textContent=(k+1)+" · "+l;
+ b.style.background=COUL[k];b.onclick=()=>etiqueter(l);document.getElementById("etiq").appendChild(b)});
+document.addEventListener("keydown",e=>{const k=parseInt(e.key);if(k>=1&&k<=LABELS.length&&e.target.id!=="nom")etiqueter(LABELS[k-1])});
+function afficher(){const t=TACHES[i],ents=ann[t.passage_id]||[];
+ document.getElementById("prog").textContent=`${i+1} / ${TACHES.length}`;
+ document.getElementById("pid").textContent=t.passage_id;
+ const zone=document.getElementById("texte");zone.dir=t.lang==="ar"?"rtl":"ltr";zone.innerHTML="";
+ let pos=0;t.tokens.forEach(([tok,s,e],k)=>{zone.append(t.text.slice(pos,s));const sp=document.createElement("span");
+  sp.className="tok";sp.textContent=t.text.slice(s,e);const ent=ents.find(x=>s>=x.start&&e<=x.end);
+  if(ent){sp.classList.add("ent");sp.style.borderColor=COUL[LABELS.indexOf(ent.label)]}
+  if(debut!==null&&k>=Math.min(debut,fin)&&k<=Math.max(debut,fin))sp.classList.add("sel");
+  sp.onclick=ev=>{if(ev.shiftKey&&debut!==null){fin=k}else{debut=k;fin=k}afficher()};zone.append(sp);pos=e});
+ zone.append(t.text.slice(pos));
+ const l=document.getElementById("liste");l.innerHTML="";ents.forEach((x,k)=>{const s=document.createElement("span");
+  s.innerHTML=`<i style="color:${COUL[LABELS.indexOf(x.label)]}">${x.label}</i> ${x.text}`;const b=document.createElement("b");
+  b.textContent="✕";b.onclick=()=>{ents.splice(k,1);ann[t.passage_id]=ents;sauver();afficher()};s.appendChild(b);l.appendChild(s)})}
+function etiqueter(label){if(debut===null)return;const t=TACHES[i],a=Math.min(debut,fin),b=Math.max(debut,fin);
+ const s=t.tokens[a][1],e=t.tokens[b][2];const ents=(ann[t.passage_id]||[]).filter(x=>x.end<=s||x.start>=e);
+ ents.push({start:s,end:e,label:label,text:t.text.slice(s,e)});ents.sort((x,y)=>x.start-y.start);
+ ann[t.passage_id]=ents;debut=fin=null;sauver();afficher()}
+function aller(d){i=Math.max(0,Math.min(TACHES.length-1,i+d));debut=fin=null;afficher()}
+function exporter(){const nom=document.getElementById("nom").value.trim();if(!nom){alert("Écris ton prénom en haut.");return}
+ const data={annotateur:nom,date:new Date().toISOString(),annotations:TACHES.map(t=>({passage_id:t.passage_id,entities:ann[t.passage_id]||[]}))};
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,1)],{type:"application/json"}));
+ a.download=`annotations_${nom}.json`;a.click()}
+afficher();
+</script></body></html>

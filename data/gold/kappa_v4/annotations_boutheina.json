@@ -1,0 +1,1152 @@
+{
+ "annotateur": "Boutheina",
+ "date": "2026-11-21T21:26:34.469Z",
+ "annotations": [
+  {
+   "passage_id": "syn_fr_503_p005",
+   "entities": [
+    {
+     "start": 0,
+     "end": 2,
+     "label": "INDICATEUR",
+     "text": "D5"
+    },
+    {
+     "start": 5,
+     "end": 24,
+     "label": "PROCESSUS",
+     "text": "Actions correctives"
+    },
+    {
+     "start": 27,
+     "end": 48,
+     "label": "PROCESSUS",
+     "text": "équilibrage de chaîne"
+    },
+    {
+     "start": 53,
+     "end": 69,
+     "label": "EQUIPEMENT",
+     "text": "machine à broder"
+    },
+    {
+     "start": 81,
+     "end": 89,
+     "label": "PERSONNE",
+     "text": "M. Mzali"
+    },
+    {
+     "start": 92,
+     "end": 98,
+     "label": "ORG",
+     "text": "client"
+    },
+    {
+     "start": 108,
+     "end": 132,
+     "label": "ORG",
+     "text": "une chaîne de pharmacies"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_507_p004",
+   "entities": [
+    {
+     "start": 16,
+     "end": 26,
+     "label": "PERSONNE",
+     "text": "M. Sellami"
+    },
+    {
+     "start": 28,
+     "end": 39,
+     "label": "PERSONNE",
+     "text": "line leader"
+    },
+    {
+     "start": 47,
+     "end": 61,
+     "label": "PROCESSUS",
+     "text": "line balancing"
+    },
+    {
+     "start": 93,
+     "end": 111,
+     "label": "EQUIPEMENT",
+     "text": "embroidery machine"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_508_p005",
+   "entities": [
+    {
+     "start": 34,
+     "end": 42,
+     "label": "DONNEE_SENSIBLE",
+     "text": "60000 DT"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_501_p003",
+   "entities": [
+    {
+     "start": 0,
+     "end": 2,
+     "label": "INDICATEUR",
+     "text": "D3"
+    },
+    {
+     "start": 5,
+     "end": 16,
+     "label": "PROCESSUS",
+     "text": "Containment"
+    },
+    {
+     "start": 18,
+     "end": 22,
+     "label": "INDICATEUR",
+     "text": "100%"
+    },
+    {
+     "start": 23,
+     "end": 39,
+     "label": "PROCESSUS",
+     "text": "sorting of stock"
+    },
+    {
+     "start": 41,
+     "end": 63,
+     "label": "INDICATEUR",
+     "text": "absenteeism rate of 9%"
+    },
+    {
+     "start": 71,
+     "end": 78,
+     "label": "PROCESSUS",
+     "text": "sorting"
+    },
+    {
+     "start": 80,
+     "end": 92,
+     "label": "EQUIPEMENT",
+     "text": "steam tunnel"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_508_p006",
+   "entities": [
+    {
+     "start": 0,
+     "end": 11,
+     "label": "CONTRAINTE",
+     "text": "توزيع محدود"
+    },
+    {
+     "start": 13,
+     "end": 25,
+     "label": "INDICATEUR",
+     "text": "كلفة الإنتاج"
+    },
+    {
+     "start": 26,
+     "end": 44,
+     "label": "INDICATEUR",
+     "text": "9,66 دينار للوحدة،"
+    },
+    {
+     "start": 45,
+     "end": 57,
+     "label": "INDICATEUR",
+     "text": "هامش ربح خام"
+    },
+    {
+     "start": 63,
+     "end": 67,
+     "label": "INDICATEUR",
+     "text": "24 %"
+    },
+    {
+     "start": 83,
+     "end": 89,
+     "label": "PRODUIT",
+     "text": "26T606"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_502_p001",
+   "entities": [
+    {
+     "start": 7,
+     "end": 26,
+     "label": "SITE",
+     "text": "l'atelier de Ariana"
+    },
+    {
+     "start": 28,
+     "end": 59,
+     "label": "ORG",
+     "text": "Manufacture Connectique Essalam"
+    },
+    {
+     "start": 61,
+     "end": 65,
+     "label": "ORG",
+     "text": "MCES"
+    },
+    {
+     "start": 83,
+     "end": 104,
+     "label": "PRODUIT",
+     "text": "faisceaux de portière"
+    },
+    {
+     "start": 110,
+     "end": 134,
+     "label": "ORG",
+     "text": "une chaîne de pharmacies"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_501_p007",
+   "entities": [
+    {
+     "start": 0,
+     "end": 11,
+     "label": "CONTRAINTE",
+     "text": "توزيع محدود"
+    },
+    {
+     "start": 26,
+     "end": 45,
+     "label": "INDICATEUR",
+     "text": "16,87 دينار للوحدة،"
+    },
+    {
+     "start": 46,
+     "end": 68,
+     "label": "INDICATEUR",
+     "text": "هامش ربح خام يبلغ 24 %"
+    },
+    {
+     "start": 84,
+     "end": 90,
+     "label": "PROCESSUS",
+     "text": "26K594"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_509_p004",
+   "entities": [
+    {
+     "start": 18,
+     "end": 27,
+     "label": "PERSONNE",
+     "text": "H. Ksouri"
+    },
+    {
+     "start": 64,
+     "end": 76,
+     "label": "PROCESSUS",
+     "text": "méthode SMED"
+    },
+    {
+     "start": 103,
+     "end": 129,
+     "label": "EQUIPEMENT",
+     "text": "poste tunnel de vaporisage"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_508_p005",
+   "entities": [
+    {
+     "start": 4,
+     "end": 14,
+     "label": "PROCESSUS",
+     "text": "changeover"
+    },
+    {
+     "start": 15,
+     "end": 41,
+     "label": "CONTRAINTE",
+     "text": "must not exceed 15 minutes"
+    },
+    {
+     "start": 44,
+     "end": 50,
+     "label": "PROCESSUS",
+     "text": "trials"
+    },
+    {
+     "start": 51,
+     "end": 83,
+     "label": "CONTRAINTE",
+     "text": "can only take place on Saturdays"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_504_p005",
+   "entities": [
+    {
+     "start": 5,
+     "end": 23,
+     "label": "PROCESSUS",
+     "text": "Corrective actions"
+    },
+    {
+     "start": 25,
+     "end": 39,
+     "label": "PROCESSUS",
+     "text": "line balancing"
+    },
+    {
+     "start": 47,
+     "end": 72,
+     "label": "EQUIPEMENT",
+     "text": "circular knitting machine"
+    },
+    {
+     "start": 86,
+     "end": 94,
+     "label": "PERSONNE",
+     "text": "C. Turki"
+    },
+    {
+     "start": 115,
+     "end": 131,
+     "label": "ORG",
+     "text": "public hospitals"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_509_p002",
+   "entities": [
+    {
+     "start": 10,
+     "end": 39,
+     "label": "INDICATEUR",
+     "text": "taux de disponibilité de 84 %"
+    },
+    {
+     "start": 51,
+     "end": 71,
+     "label": "EQUIPEMENT",
+     "text": "tunnel de vaporisage"
+    },
+    {
+     "start": 97,
+     "end": 110,
+     "label": "CONTRAINTE",
+     "text": "poste de nuit"
+    },
+    {
+     "start": 113,
+     "end": 125,
+     "label": "PROCESSUS",
+     "text": "méthode SMED"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_501_p002",
+   "entities": [
+    {
+     "start": 41,
+     "end": 50,
+     "label": "PRODUIT",
+     "text": "bed linen"
+    },
+    {
+     "start": 66,
+     "end": 90,
+     "label": "INDICATEUR",
+     "text": "cycle time of 52 seconds"
+    },
+    {
+     "start": 104,
+     "end": 119,
+     "label": "EQUIPEMENT",
+     "text": "spreading table"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_507_p006",
+   "entities": [
+    {
+     "start": 39,
+     "end": 58,
+     "label": "EQUIPEMENT",
+     "text": "sécheur de granulés"
+    },
+    {
+     "start": 68,
+     "end": 81,
+     "label": "INDICATEUR",
+     "text": "NCR-2025-9580"
+    },
+    {
+     "start": 103,
+     "end": 112,
+     "label": "DONNEE_SENSIBLE",
+     "text": "MAT-40256"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_503_p002",
+   "entities": [
+    {
+     "start": 71,
+     "end": 83,
+     "label": "EQUIPEMENT",
+     "text": "الفرن النفقي"
+    },
+    {
+     "start": 86,
+     "end": 99,
+     "label": "INDICATEUR",
+     "text": "نسبة الجاهزية"
+    },
+    {
+     "start": 105,
+     "end": 109,
+     "label": "INDICATEUR",
+     "text": "87 %"
+    },
+    {
+     "start": 131,
+     "end": 135,
+     "label": "INDICATEUR",
+     "text": "93 %"
+    },
+    {
+     "start": 140,
+     "end": 159,
+     "label": "EQUIPEMENT",
+     "text": "آلة التعبئة الحجمية"
+    },
+    {
+     "start": 162,
+     "end": 180,
+     "label": "INDICATEUR",
+     "text": "مردود المرور الأول"
+    },
+    {
+     "start": 186,
+     "end": 190,
+     "label": "INDICATEUR",
+     "text": "76 %"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_505_p007",
+   "entities": [
+    {
+     "start": 5,
+     "end": 26,
+     "label": "PERSONNE",
+     "text": "السيدة لمياء البراهمي"
+    },
+    {
+     "start": 44,
+     "end": 63,
+     "label": "DONNEE_SENSIBLE",
+     "text": "l.brahmi@chenini.tn"
+    },
+    {
+     "start": 66,
+     "end": 81,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 53 880 130"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_507_p003",
+   "entities": [
+    {
+     "start": 17,
+     "end": 31,
+     "label": "INDICATEUR",
+     "text": "استهلاك الطاقه"
+    },
+    {
+     "start": 37,
+     "end": 58,
+     "label": "INDICATEUR",
+     "text": "365 كيلوواط ساعه للطن"
+    },
+    {
+     "start": 61,
+     "end": 79,
+     "label": "INDICATEUR",
+     "text": "مردود المرور الأول"
+    },
+    {
+     "start": 85,
+     "end": 89,
+     "label": "INDICATEUR",
+     "text": "92 %"
+    },
+    {
+     "start": 110,
+     "end": 128,
+     "label": "SITE",
+     "text": "مركز العمل المجاور"
+    },
+    {
+     "start": 130,
+     "end": 149,
+     "label": "EQUIPEMENT",
+     "text": "الة التعبئة المعقمة"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_501_p004",
+   "entities": [
+    {
+     "start": 5,
+     "end": 20,
+     "label": "PROCESSUS",
+     "text": "الأسباب الجذرية"
+    },
+    {
+     "start": 26,
+     "end": 43,
+     "label": "PROCESSUS",
+     "text": "طريقة لماذا الخمس"
+    },
+    {
+     "start": 46,
+     "end": 56,
+     "label": "PROCESSUS",
+     "text": "تاكل أدوات"
+    },
+    {
+     "start": 57,
+     "end": 80,
+     "label": "EQUIPEMENT",
+     "text": "الة التعليب في الكرتون،"
+    },
+    {
+     "start": 81,
+     "end": 98,
+     "label": "INDICATEUR",
+     "text": "متوسط زمن الاصلاح"
+    },
+    {
+     "start": 104,
+     "end": 112,
+     "label": "INDICATEUR",
+     "text": "40 دقيقة"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_505_p001",
+   "entities": [
+    {
+     "start": 6,
+     "end": 23,
+     "label": "SITE",
+     "text": "the Bekalta plant"
+    },
+    {
+     "start": 25,
+     "end": 47,
+     "label": "ORG",
+     "text": "Thala Packaging Plant5"
+    },
+    {
+     "start": 49,
+     "end": 53,
+     "label": "ORG",
+     "text": "TPPL"
+    },
+    {
+     "start": 56,
+     "end": 69,
+     "label": "PROCESSUS",
+     "text": "Manufacturing"
+    },
+    {
+     "start": 70,
+     "end": 86,
+     "label": "PRODUIT",
+     "text": "cosmetic bottles"
+    },
+    {
+     "start": 91,
+     "end": 110,
+     "label": "ORG",
+     "text": "Libyan distributors"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_505_p002",
+   "entities": [
+    {
+     "start": 16,
+     "end": 20,
+     "label": "INDICATEUR",
+     "text": "MTTR"
+    },
+    {
+     "start": 24,
+     "end": 34,
+     "label": "INDICATEUR",
+     "text": "35 minutes"
+    },
+    {
+     "start": 42,
+     "end": 58,
+     "label": "EQUIPEMENT",
+     "text": "calendering line"
+    },
+    {
+     "start": 62,
+     "end": 69,
+     "label": "SITE",
+     "text": "Bekàlta"
+    },
+    {
+     "start": 79,
+     "end": 83,
+     "label": "INDICATEUR",
+     "text": "MTTR"
+    },
+    {
+     "start": 87,
+     "end": 97,
+     "label": "INDICATEUR",
+     "text": "25 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_508_p004",
+   "entities": [
+    {
+     "start": 18,
+     "end": 27,
+     "label": "PERSONNE",
+     "text": "A. Brahmi"
+    },
+    {
+     "start": 36,
+     "end": 60,
+     "label": "PROCESSUS",
+     "text": "Kanban visual management"
+    },
+    {
+     "start": 68,
+     "end": 88,
+     "label": "EQUIPEMENT",
+     "text": "pick-and-place robot"
+    },
+    {
+     "start": 92,
+     "end": 110,
+     "label": "PERSONNE",
+     "text": "Mr. Montassar Amri"
+    },
+    {
+     "start": 141,
+     "end": 152,
+     "label": "PROCESSUS",
+     "text": "5S approach"
+    },
+    {
+     "start": 156,
+     "end": 171,
+     "label": "PROCESSUS",
+     "text": "progress review"
+    },
+    {
+     "start": 175,
+     "end": 181,
+     "label": "CONTRAINTE",
+     "text": "week 6"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_500_p002",
+   "entities": [
+    {
+     "start": 71,
+     "end": 90,
+     "label": "EQUIPEMENT",
+     "text": "آلة التعبئة الحجمية"
+    },
+    {
+     "start": 93,
+     "end": 119,
+     "label": "INDICATEUR",
+     "text": "متوسط المخزون يبلغ 32 يوما"
+    },
+    {
+     "start": 122,
+     "end": 148,
+     "label": "INDICATEUR",
+     "text": "متوسط المخزون يبلغ 15 يوما"
+    },
+    {
+     "start": 153,
+     "end": 165,
+     "label": "EQUIPEMENT",
+     "text": "الفرن النفقي"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_505_p004",
+   "entities": [
+    {
+     "start": 18,
+     "end": 29,
+     "label": "PERSONNE",
+     "text": "W. Bouraoui"
+    },
+    {
+     "start": 38,
+     "end": 49,
+     "label": "PROCESSUS",
+     "text": "QRQC method"
+    },
+    {
+     "start": 57,
+     "end": 73,
+     "label": "EQUIPEMENT",
+     "text": "calendering line"
+    },
+    {
+     "start": 81,
+     "end": 91,
+     "label": "PERSONNE",
+     "text": "Imen Mzàli"
+    },
+    {
+     "start": 122,
+     "end": 146,
+     "label": "PROCESSUS",
+     "text": "Kanban vlsual management"
+    },
+    {
+     "start": 169,
+     "end": 176,
+     "label": "CONTRAINTE",
+     "text": "week 42"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_501_p005",
+   "entities": [
+    {
+     "start": 26,
+     "end": 41,
+     "label": "PROCESSUS",
+     "text": "تأهيل التجهيزات"
+    },
+    {
+     "start": 46,
+     "end": 68,
+     "label": "EQUIPEMENT",
+     "text": "اله التعليب في الكرتون"
+    },
+    {
+     "start": 77,
+     "end": 90,
+     "label": "PERSONNE",
+     "text": "شكري الغربال؛"
+    },
+    {
+     "start": 100,
+     "end": 106,
+     "label": "ORG",
+     "text": "الحريف"
+    },
+    {
+     "start": 108,
+     "end": 121,
+     "label": "ORG",
+     "text": "موزعين ليبيين"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_506_p002",
+   "entities": [
+    {
+     "start": 74,
+     "end": 100,
+     "label": "EQUIPEMENT",
+     "text": "ultrasonic welding station"
+    },
+    {
+     "start": 103,
+     "end": 127,
+     "label": "INDICATEUR",
+     "text": "availability rate of 74%"
+    },
+    {
+     "start": 130,
+     "end": 154,
+     "label": "INDICATEUR",
+     "text": "availability rate of 93%"
+    },
+    {
+     "start": 159,
+     "end": 180,
+     "label": "EQUIPEMENT",
+     "text": "cut-and-strip machine"
+    },
+    {
+     "start": 183,
+     "end": 201,
+     "label": "INDICATEUR",
+     "text": "MTTR of 25 minutes"
+    },
+    {
+     "start": 204,
+     "end": 210,
+     "label": "INDICATEUR",
+     "text": "stable"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_503_p004",
+   "entities": [
+    {
+     "start": 29,
+     "end": 57,
+     "label": "PROCESSUS",
+     "text": "contrôle par échantillonnage"
+    },
+    {
+     "start": 70,
+     "end": 101,
+     "label": "EQUIPEMENT",
+     "text": "l'outillage de machine à broder"
+    },
+    {
+     "start": 103,
+     "end": 132,
+     "label": "INDICATEUR",
+     "text": "taux de disponibilité de 87 %"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_508_p004",
+   "entities": [
+    {
+     "start": 67,
+     "end": 80,
+     "label": "PERSONNE",
+     "text": "عادل البراهمي"
+    },
+    {
+     "start": 83,
+     "end": 112,
+     "label": "PROCESSUS",
+     "text": "maintenance productive totale"
+    },
+    {
+     "start": 139,
+     "end": 158,
+     "label": "PERSONNE",
+     "text": "السيدة فريال العمري"
+    },
+    {
+     "start": 161,
+     "end": 176,
+     "label": "PROCESSUS",
+     "text": "démarche Kaizen"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_506_p003",
+   "entities": [
+    {
+     "start": 25,
+     "end": 30,
+     "label": "INDICATEUR",
+     "text": "100 %"
+    },
+    {
+     "start": 43,
+     "end": 73,
+     "label": "INDICATEUR",
+     "text": "taux de non-conformité de 11 %"
+    },
+    {
+     "start": 99,
+     "end": 119,
+     "label": "EQUIPEMENT",
+     "text": "table de matelassage"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_503_p003",
+   "entities": [
+    {
+     "start": 4,
+     "end": 17,
+     "label": "PERSONNE",
+     "text": "منتصر الشوشان"
+    },
+    {
+     "start": 47,
+     "end": 64,
+     "label": "PROCESSUS",
+     "text": "طريقة لماذا الخمس"
+    },
+    {
+     "start": 88,
+     "end": 100,
+     "label": "EQUIPEMENT",
+     "text": "الفرن النفقي"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_502_p007",
+   "entities": [
+    {
+     "start": 11,
+     "end": 28,
+     "label": "PERSONNE",
+     "text": "Mmc Ghada Sellami"
+    },
+    {
+     "start": 49,
+     "end": 66,
+     "label": "DONNEE_SENSIBLE",
+     "text": "g.sellami@mccs.tn"
+    },
+    {
+     "start": 69,
+     "end": 79,
+     "label": "DONNEE_SENSIBLE",
+     "text": "71 591 689"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_504_p002",
+   "entities": [
+    {
+     "start": 10,
+     "end": 33,
+     "label": "INDICATEUR",
+     "text": "stock moyen de 28 jours"
+    },
+    {
+     "start": 45,
+     "end": 64,
+     "label": "EQUIPEMENT",
+     "text": "ligne de calandrage"
+    },
+    {
+     "start": 90,
+     "end": 103,
+     "label": "CONTRAINTE",
+     "text": "poste de nuit"
+    },
+    {
+     "start": 106,
+     "end": 118,
+     "label": "PROCESSUS",
+     "text": "méthode QRQC"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_504_p005",
+   "entities": [
+    {
+     "start": 21,
+     "end": 39,
+     "label": "CONTRAINTE",
+     "text": "au plus 5 semaines"
+    },
+    {
+     "start": 86,
+     "end": 96,
+     "label": "CONTRAINTE",
+     "text": "15 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_503_p005",
+   "entities": [
+    {
+     "start": 31,
+     "end": 39,
+     "label": "CONTRAINTE",
+     "text": "30 دقيقة"
+    },
+    {
+     "start": 55,
+     "end": 69,
+     "label": "ORG",
+     "text": "الحريف النهائي"
+    },
+    {
+     "start": 74,
+     "end": 82,
+     "label": "CONTRAINTE",
+     "text": "كل تعديل"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_506_p007",
+   "entities": [
+    {
+     "start": 11,
+     "end": 27,
+     "label": "PERSONNE",
+     "text": "Ms. Najla Belaid"
+    },
+    {
+     "start": 60,
+     "end": 76,
+     "label": "DONNEE_SENSIBLE",
+     "text": "n.belaid@kcwo.tn"
+    },
+    {
+     "start": 79,
+     "end": 89,
+     "label": "DONNEE_SENSIBLE",
+     "text": "70 266 741"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_en_505_p007",
+   "entities": [
+    {
+     "start": 11,
+     "end": 28,
+     "label": "PERSONNE",
+     "text": "Mr. Wael Bouraoui"
+    },
+    {
+     "start": 30,
+     "end": 49,
+     "label": "ORG",
+     "text": "industrial engineer"
+    },
+    {
+     "start": 53,
+     "end": 71,
+     "label": "DONNEE_SENSIBLE",
+     "text": "w.bouraoui@tppl.tn"
+    },
+    {
+     "start": 74,
+     "end": 84,
+     "label": "DONNEE_SENSIBLE",
+     "text": "78 551 971"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_fr_506_p002",
+   "entities": [
+    {
+     "start": 28,
+     "end": 41,
+     "label": "CONTRAINTE",
+     "text": "NCR-2026-6460"
+    },
+    {
+     "start": 46,
+     "end": 58,
+     "label": "PRODUIT",
+     "text": "linge de lit"
+    },
+    {
+     "start": 60,
+     "end": 70,
+     "label": "CONTRAINTE",
+     "text": "lot 26R798"
+    },
+    {
+     "start": 73,
+     "end": 91,
+     "label": "INDICATEUR",
+     "text": "MTTR de 40 minutes"
+    },
+    {
+     "start": 105,
+     "end": 133,
+     "label": "EQUIPEMENT",
+     "text": "métier à tricoter circulaire"
+    }
+   ]
+  },
+  {
+   "passage_id": "syn_ar_505_p004",
+   "entities": [
+    {
+     "start": 21,
+     "end": 35,
+     "label": "PERSONNE",
+     "text": "لمياء البراهمي"
+    },
+    {
+     "start": 43,
+     "end": 56,
+     "label": "PROCESSUS",
+     "text": "méthode DMAIC"
+    },
+    {
+     "start": 61,
+     "end": 84,
+     "label": "EQUIPEMENT",
+     "text": "cellule de grenaillage؛"
+    },
+    {
+     "start": 87,
+     "end": 106,
+     "label": "PERSONNE",
+     "text": "السيد لطفي البوراوي"
+    },
+    {
+     "start": 127,
+     "end": 157,
+     "label": "PROCESSUS",
+     "text": "maintenance productive totale؛"
+    },
+    {
+     "start": 175,
+     "end": 185,
+     "label": "CONTRAINTE",
+     "text": "الأسبوع 15"
+    }
+   ]
+  }
+ ]
+}
