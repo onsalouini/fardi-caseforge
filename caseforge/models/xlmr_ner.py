@@ -1,7 +1,7 @@
 """Lot C · Silver : NER des 9 entités par fine-tuning de XLM-RoBERTa (Colab, GPU).
 
 Sur Colab (Exécution → Modifier le type d'exécution → GPU T4), dans une cellule :
-    !git clone -b lot-c-modeles https://github.com/onsalouini/fardi-caseforge.git
+    !git clone -b main https://github.com/onsalouini/fardi-caseforge.git
     %cd fardi-caseforge
     !pip install -q "transformers>=4.44" accelerate
     !python -m caseforge.models.xlmr_ner --seed 13
@@ -15,7 +15,7 @@ Choix de méthode :
     à `offset_mapping` : pas de passage par cfdata.common.tokenize, donc pas de perte due aux proclitiques arabes.
     Un sous-mot qui chevauche une entité prend son étiquette (B- pour le premier, I- ensuite).
   - Entraînement sur train, choix du meilleur point de contrôle sur le DEV (F1 au niveau des sous-mots) ; le test gelé
-    n'est jamais lu ici (évaluation finale unique, à la fin du lot, avec --split test).
+    n'est jamais lu ici (évaluation finale unique par scripts/final_eval.py, CLAUDE.md §2, constat H1).
   - Les prédictions du dev sont reconverties en spans de caractères et écrites au format commun
     (reports/predictions/xlmr_dev_s{graine}.jsonl), puis évaluées par le harnais commun au niveau des mots.
   - --externe : ajoute les corpus publics (ORG, PERSONNE, SITE seulement) ; leur perte est masquée sur les 6 autres
@@ -154,7 +154,7 @@ def entrainer(a) -> None:
     tr.train()
 
     split = a.split
-    rows = dev if split == "dev" else charger("test")
+    rows = dev
     model.eval()
     lignes = []
     for r in rows:
@@ -203,7 +203,7 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=3e-5)
     ap.add_argument("--externe", action="store_true")
     ap.add_argument("--geler-embeddings", action="store_true", help="gèle les embeddings des mots (GPU de 4 Go)")
-    ap.add_argument("--split", default="dev", choices=["dev", "test"], help="test : UNE SEULE FOIS, à la fin du lot")
+    ap.set_defaults(split="dev")
     ap.add_argument("--resume", action="store_true", help="résumer les 3 graines déjà calculées")
     a = ap.parse_args()
     resumer(a) if a.resume else entrainer(a)

@@ -1,7 +1,9 @@
 """Lot C · Baseline classique de recherche : retrouver le passage source d'un élément de fiche (BM25 / TF-IDF).
 
     python -m caseforge.retrieval.bm25              # résultats sur le DEV
-    python -m caseforge.retrieval.bm25 --test       # UNE SEULE FOIS, à la fin : test gelé
+
+Dev seulement en ligne de commande : l'évaluation unique sur le test gelé passe par scripts/final_eval.py, qui
+réutilise `charger`, `metriques` et `mots` (CLAUDE.md §2, constat H1).
 
 Tâche (utile au Lot D pour vérifier les citations) :
   requête  = un élément d'une fiche pédagogique (objectif, donnée ou contrainte) d'origine « source » ;
@@ -73,11 +75,9 @@ def classer_scores(scores, passages) -> list[str]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--test", action="store_true", help="évaluer sur le test gelé (une seule fois, à la fin)")
     ap.add_argument("--out", default="reports/lotC_retrieval.md")
     a = ap.parse_args()
-    split = "test" if a.test else "dev"
-    nom = "test gelé" if a.test else "dev"
+    split = nom = "dev"
     passages, requetes, ignorees = charger(split)
     corpus = [p["texte"] for p in passages]
 

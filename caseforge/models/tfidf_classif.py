@@ -1,7 +1,8 @@
 """Lot C · Baseline classique : classification du type de passage (ptype) par TF-IDF + régression logistique.
 
     python -m caseforge.models.tfidf_classif              # réglage et résultats sur le DEV
-    python -m caseforge.models.tfidf_classif --test       # UNE SEULE FOIS, à la fin : évaluation sur le test gelé
+
+Dev seulement : l'évaluation unique sur le test gelé passe par scripts/final_eval.py (CLAUDE.md §2, constat H1).
 
 Cible : ptype ∈ {contexte, probleme, objectif, contrainte, donnee, autre}.
 Entraînement sur train, réglage sur dev. Trois graines ; résultats en moyenne ± écart-type, globaux et par langue
@@ -56,14 +57,13 @@ def scores(rows: list[dict], pred: list[str]) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--test", action="store_true", help="évaluer sur le test gelé (une seule fois, à la fin)")
     ap.add_argument("--variante", default=None, help="mots | caracteres | mots+car. (par défaut : toutes sur le dev)")
     ap.add_argument("--out", default="reports/lotC_tfidf_ptype.md")
     a = ap.parse_args()
 
     train = charger("train")
-    evalset = charger("test" if a.test else "dev")
-    nom_eval = "test gelé" if a.test else "dev"
+    evalset = charger("dev")
+    nom_eval = "dev"
     variantes = [a.variante] if a.variante else ["mots", "caracteres", "mots+car."]
     X, y = [r["text"] for r in train], [r["ptype"] for r in train]
     Xe = [r["text"] for r in evalset]

@@ -1,8 +1,9 @@
 """Lot C · Baseline NER apprise : CRF sur les 9 étiquettes, qui ÉCRIT ses prédictions au format commun.
 
     python -m caseforge.models.crf_ner               # entraîne sur train, prédit le dev -> reports/predictions/crf_dev.jsonl
-    python -m caseforge.models.crf_ner --split test  # UNE SEULE FOIS, à la fin
     python -m caseforge.eval.ner_eval --pred reports/predictions/crf_dev.jsonl
+
+Dev seulement : l'évaluation unique sur le test gelé passe par scripts/final_eval.py (CLAUDE.md §2, constat H1).
 
 Mêmes traits que exemples/baseline_crf.py. Les étiquettes BIO prédites sur les mots sont reconverties en spans
 de caractères (début du premier mot, fin du dernier), pour être comparées aux règles du lot B avec ner_eval.
@@ -50,16 +51,14 @@ def vers_spans(text: str, tags: list[str]) -> list[dict]:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--split", default="dev", choices=["dev", "test"])
-    a = ap.parse_args()
-    train, ev = charger("train"), charger(a.split)
+    argparse.ArgumentParser(description=__doc__).parse_args()
+    train, ev = charger("train"), charger("dev")
     X = lambda R: [[feats([w for w, _, _ in tokenize(r["text"])], i) for i in range(len(tokenize(r["text"])))] for r in R]
     y = [spans_to_bio(r["text"], r["entities"])[1] for r in train]
     crf = sklearn_crfsuite.CRF(algorithm="lbfgs", c1=0.1, c2=0.05, max_iterations=150, all_possible_transitions=True)
     crf.fit(X(train), y)
     pred = crf.predict(X(ev))
-    out = Path(f"reports/predictions/crf_{a.split}.jsonl")
+    out = Path("reports/predictions/crf_dev.jsonl")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("".join(json.dumps({"passage_id": r["passage_id"], "entities": vers_spans(r["text"], list(t))},
                                       ensure_ascii=False) + "\n" for r, t in zip(ev, pred)), encoding="utf-8")
