@@ -1,0 +1,22 @@
+Tableau de bord hebdomadaire – semaine 19
+
+Site : le pôle industriel de Tozeur (Manufacture Connectique Kantaoui, MCKA). Fabrication de boîtiers de fusibles pour des distributeurs libyens.
+
+| Poste | Indicateur suivi | Semaine précédente |
+| --- | --- | --- |
+| machine de coupe-dénudage | MTTR de 45 minutes | MTTR de 35 minutes |
+| testeur de continuite | taux de disponibilite de 81 % | stable |
+
+Analyse menée par A. Guesmi (responsable arnélioration continue), outil utilisé : cartographle des flux. L'écart vient surtout du poste machinc de coupe-dénudage.
+
+| Action | Pilote | Outil |
+| --- | --- | --- |
+| Standardiser les réglages | A. Guesmi | méthode 8D |
+| Former l'équipe de nuit | M. Lotfi Ghorbel | cartogràphie des flux |
+
+- un changement de série ne doit pas dépasser 30 minutes
+- l'étude doit durer au plus 5 semaines
+
+Diffusion restreinte : coût de revient 71,45 DT par unite, marge brute dc 17 %, l0t conccrné 26T424.
+
+Rédigé par Mme Abir Guesmi (responsable amélioration continue) · a.guesmi@mcka.tn · 70 350 578

@@ -1,0 +1,22 @@
+Action plan – Monday meeting, week 23
+
+Site: the Manouba plant (Bou Kornine Connectors Plants, BKCPL). Manufacturing fuse boxes for public hospitals.
+
+Blocking point: average stock of 18 days on the coiling machine in Manouba, against average stock of 12 days a month ago.
+
+Retained causes:
+- settings differ between shifts on the coiling machine;
+- MTTR of 25 minutes on the cut-and-strip machine;
+- no formal value stream mapping.
+
+Agreed actions:
+- C. Bouslama: launch Poka-Yoke error proofing on the coiling machine;
+- Mr. Aymen Nasri (workshop supervisor): set up value stream mapping;
+- progress review in week 23.
+
+- the ISO 15378 certification must be kept
+- trials can only take place on Saturdays
+
+Attached data: cut-and-strip machine downtime export, report NCR-2026-6805, operator ID MAT-59580.
+
+Written by Mr. Chokri Bouslama (internal auditor) · c.bouslama@bkcpl.tn · +216 76 480 960

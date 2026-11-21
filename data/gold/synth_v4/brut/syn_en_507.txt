@@ -1,0 +1,22 @@
+Workstation audit form – grid AUD-4
+
+Company: Dougga Apparel Co.
+Audited site: Tozeur
+Product: bed linen
+Auditor: Mr. Adel Fakhfakh (industrial engineer)
+
+Finding: absenteeism rate of 8% recorded on the embroidery machine; line balancing is not applied on the night shift.
+
+Additional measurements:
+- energy use of 450 kWh per tonne
+- absenteeism rate of 7% at the last audit
+- adjacent station: circular knitting machine
+
+Analysis led by M. Sellami (line leader) using line balancing: the gap mainly comes from the embroidery machine.
+
+- investment is capped at TND 40,000
+- any change must be approved by the end customer
+
+Restricted: unit cost TND 44.98 per unit, gross margin of 14%, affected batch 26W323.
+
+Manager sign-off: Mr. Montassar Sellami – line leader – 71 345 123

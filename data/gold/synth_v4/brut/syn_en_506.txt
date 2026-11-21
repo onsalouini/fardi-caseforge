@@ -1,0 +1,22 @@
+Weekly dashboard – week 15
+
+Site: the Tozeur unit (Kantaoui Connectors Works, KCWO). Manufacturing dashboard harnesses for a German supplier.
+
+| Workstation | Tracked indicator | Previous week |
+| --- | --- | --- |
+| ultrasonic welding station | availability rate of 74% | availability rate of 93% |
+| cut-and-strip machine | MTTR of 25 minutes | stable |
+
+Analysis led by N. Belaid (continuous improvement lead) using Poka-Yoke error proofing: the gap mainly comes from the ultrasonic welding station.
+
+| Action | Owner | Tool |
+| --- | --- | --- |
+| Standardise settings | N. Belaid | value stream mapping |
+| Train the night shift | Ms. Imen Guesmi | Poka-Yoke error proofing |
+
+- investment is capped at TND 20,000
+- the study must last no more than 8 weeks
+
+Restricted: unit cost TND 82.34 per unit, gross margin of 12%, affected batch 25T223.
+
+Written by Ms. Najla Belaid (continuous improvement lead) · n.belaid@kcwo.tn · 70 266 741

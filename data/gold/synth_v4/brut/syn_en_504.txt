@@ -1,0 +1,15 @@
+8D report – customer complaint opened in wk 42
+
+D1 – Team: Mr. Chokri Turki (purchasing manager), C. Turki, Ms. Rania Zribi (purchasing manager); site the Sayada unit.
+
+D2 – Problem: complaint NCR-2025-9617 on hospital uniforms, batch 25T719; average stock of 32 days found on the circular knitting machine.
+
+D3 – Containment: 100% sorting of stock, first pass yield of 95% during sorting, embroidery machine stopped.
+
+D4 – Root causes (via SMED method): worn tooling on the circular knitting machine, average stock of 21 days before the drift.
+
+D5 – Corrective actions: line balancing on the circular knitting machine, followed by C. Turki; customer informed (public hospitals).
+
+D6 – Implementation constraints: any change must be approved by the end customer; the ISO 22716 certification must be kept.
+
+Restricted: unit cost TND 13.83 per unit, gross margin of 21%, affected batch 25T719.
