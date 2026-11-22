@@ -172,3 +172,57 @@ def test_comparer_humains() -> None:
 def test_consigne_du_juge_fixe_le_sens_des_notes() -> None:
     systeme = juge.messages_juge({"objectifs": []}, DOC)[0]["content"]
     assert "AUCUNE invention" in systeme and all(juge.ECHELLES[c] in systeme for c in juge.CRITERES)
+
+
+# ---------- Règle « Relevés de l'équipement » (llm.composer) ----------
+
+
+def _champs(releve_source: str) -> dict:
+    vide: list[dict] = []
+    return {
+        "objectifs": vide,
+        "demarche": vide,
+        "indicateur_probleme": vide,
+        "historiques": vide,
+        "donnees": vide,
+        "contraintes": vide,
+        "equipements_releves": [{"texte": "presse n° 3", "sources": [releve_source]}],
+    }
+
+
+def _doc(avec_donnee: bool) -> dict:
+    passages = [
+        {
+            "passage_id": "d_p1",
+            "ptype": "probleme",
+            "text": "Rebut élevé sur la presse n° 3.",
+            "text_anonymise": "Rebut élevé sur la presse n° 3.",
+            "entities": [],
+        }
+    ]
+    if avec_donnee:
+        passages.append(
+            {
+                "passage_id": "d_p2",
+                "ptype": "donnee",
+                "text": "Relevés de la presse n° 3 fournis.",
+                "text_anonymise": "Relevés de la presse n° 3 fournis.",
+                "entities": [],
+            }
+        )
+    return {"doc_id": "d", "lang": "fr", "passages": passages}
+
+
+def test_releves_sans_passage_de_donnees_retires() -> None:
+    import llm
+
+    journal: dict = {}
+    sortie = llm.composer(_champs("d_p1"), _doc(False), journal)
+    assert sortie["donnees"] == [] and journal["releves_hors_donnee"] == ["presse n° 3"]
+
+
+def test_releves_annonces_dans_les_donnees_gardes() -> None:
+    import llm
+
+    assert len(llm.composer(_champs("d_p1"), _doc(True), {})["donnees"]) == 1  # cité au problème, annoncé en donnée
+    assert len(llm.composer(_champs("d_p1"), _doc(False), {}, releves_donnee=False)["donnees"]) == 1  # ablation Silver

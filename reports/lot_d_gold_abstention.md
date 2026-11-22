@@ -16,20 +16,29 @@ Bonne réponse : l'élément « Non précisé dans le document ». Une rubrique 
 | `gabarit v2 + abstention` | rubrique=donnees | 21 | 21 | 0 | 0 | 0 | 100% |
 | `gabarit v2 + abstention` | source=lib_ | 6 | 6 | 0 | 0 | 0 | 100% |
 | `gabarit v2 + abstention` | source=syn_ | 36 | 36 | 0 | 0 | 0 | 100% |
-| `llm_abstention_dev_s42.jsonl` | global | 42 | 21 | 21 | 0 | 0 | 50% |
-| `llm_abstention_dev_s42.jsonl` | langue=ar | 14 | 7 | 7 | 0 | 0 | 50% |
-| `llm_abstention_dev_s42.jsonl` | langue=en | 14 | 7 | 7 | 0 | 0 | 50% |
-| `llm_abstention_dev_s42.jsonl` | langue=fr | 14 | 7 | 7 | 0 | 0 | 50% |
-| `llm_abstention_dev_s42.jsonl` | rubrique=contraintes | 21 | 21 | 0 | 0 | 0 | 100% |
-| `llm_abstention_dev_s42.jsonl` | rubrique=donnees | 21 | 0 | 21 | 0 | 0 | 0% |
-| `llm_abstention_dev_s42.jsonl` | source=lib_ | 6 | 3 | 3 | 0 | 0 | 50% |
-| `llm_abstention_dev_s42.jsonl` | source=syn_ | 36 | 18 | 18 | 0 | 0 | 50% |
+| `llm_abstention_gold_dev_s42.jsonl` | global | 42 | 40 | 2 | 0 | 0 | 95% |
+| `llm_abstention_gold_dev_s42.jsonl` | langue=ar | 14 | 13 | 1 | 0 | 0 | 93% |
+| `llm_abstention_gold_dev_s42.jsonl` | langue=en | 14 | 14 | 0 | 0 | 0 | 100% |
+| `llm_abstention_gold_dev_s42.jsonl` | langue=fr | 14 | 13 | 1 | 0 | 0 | 93% |
+| `llm_abstention_gold_dev_s42.jsonl` | rubrique=contraintes | 21 | 21 | 0 | 0 | 0 | 100% |
+| `llm_abstention_gold_dev_s42.jsonl` | rubrique=donnees | 21 | 19 | 2 | 0 | 0 | 90% |
+| `llm_abstention_gold_dev_s42.jsonl` | source=lib_ | 6 | 5 | 1 | 0 | 0 | 83% |
+| `llm_abstention_gold_dev_s42.jsonl` | source=syn_ | 36 | 35 | 1 | 0 | 0 | 97% |
+| `llm_abstention_silver_dev_s42.jsonl` | global | 42 | 21 | 21 | 0 | 0 | 50% |
+| `llm_abstention_silver_dev_s42.jsonl` | langue=ar | 14 | 7 | 7 | 0 | 0 | 50% |
+| `llm_abstention_silver_dev_s42.jsonl` | langue=en | 14 | 7 | 7 | 0 | 0 | 50% |
+| `llm_abstention_silver_dev_s42.jsonl` | langue=fr | 14 | 7 | 7 | 0 | 0 | 50% |
+| `llm_abstention_silver_dev_s42.jsonl` | rubrique=contraintes | 21 | 21 | 0 | 0 | 0 | 100% |
+| `llm_abstention_silver_dev_s42.jsonl` | rubrique=donnees | 21 | 0 | 21 | 0 | 0 | 0% |
+| `llm_abstention_silver_dev_s42.jsonl` | source=lib_ | 6 | 3 | 3 | 0 | 0 | 50% |
+| `llm_abstention_silver_dev_s42.jsonl` | source=syn_ | 36 | 18 | 18 | 0 | 0 | 50% |
 
 ## 2. Fausses abstentions sur les documents d'origine
 
 - `gabarit v2 + abstention` : **2** (lib_ar_02 donnees, lib_fr_06 donnees)
-- `llm_e3_dev_s42.jsonl` : **0**
-- `llm_champs_dev_s42.jsonl` : **0**
+- `gold_rejeu_s42_regle.jsonl` : **3** (lib_ar_02 donnees, lib_en_01 donnees, lib_fr_06 donnees)
+- `gold_pipe_s42_regle.jsonl` : **3** (lib_ar_02 donnees, lib_en_01 donnees, lib_fr_06 donnees)
+- `llm_silver_dev_s42.jsonl` : **2** (lib_en_01 donnees, lib_fr_06 donnees)
 
 ## Limites
 

@@ -490,6 +490,7 @@ def composer(
     journal: dict | None = None,
     nettoyage: bool = True,
     demarche_guidee: bool = True,
+    releves_donnee: bool = True,
 ) -> dict[str, list[dict]]:
     """Objectifs, données et contraintes de la fiche, composés à partir des champs déjà ancrés dans la source.
 
@@ -522,7 +523,24 @@ def composer(
     objectifs += [phrase(P["proposer"], e) for e in demarche]
     objectifs += explicites
 
-    donnees = [phrase(P["releves"], e) for e in champs["equipements_releves"]]
+    releves = champs["equipements_releves"]
+    if releves_donnee:
+        # Gold : « Relevés de l'équipement X » affirme que des relevés sont fournis ; seulement si le passage cité est
+        # de type « donnee » (même principe que « six mois »). Sinon, au dev, la phrase était composée depuis le passage
+        # du problème : mots ancrés, affirmation non soutenue (reports/lot_d_gold_abstention.md).
+        # Gardé si le passage cité est de type « donnee », ou si l'équipement est nommé dans un passage « donnee » du
+        # document (le LLM cite parfois le passage du problème pour un équipement annoncé dans les données).
+        types = {p["passage_id"]: p.get("ptype") for p in doc["passages"]}
+        donnees_doc = [normaliser(p["text_anonymise"]) for p in doc["passages"] if p.get("ptype") == "donnee"]
+
+        def annonce(e: dict) -> bool:
+            nom = normaliser(valeur(e["texte"]))
+            return any(types.get(s) == "donnee" for s in e["sources"]) or any(nom and nom in d for d in donnees_doc)
+
+        garder = [e for e in releves if annonce(e)]
+        journal["releves_hors_donnee"] = [e["texte"] for e in releves if e not in garder]
+        releves = garder
+    donnees = [phrase(P["releves"], e) for e in releves]
     for e in champs["historiques"]:
         six = any(SIX_MOIS.search(textes.get(s, "")) for s in e["sources"])
         donnees.append(phrase(HISTORIQUE[lang], e) if six else e)
@@ -592,6 +610,7 @@ def assembler(
     schema: str = "champs",
     nettoyage: bool = True,
     demarche_guidee: bool = True,
+    releves_donnee: bool = True,
 ) -> tuple[dict, dict]:
     """Fiche finale (format de data/final/fiches_*.jsonl) et journal des contrôles."""
     journal: dict = {
@@ -615,7 +634,7 @@ def assembler(
     if schema == "champs":
         champs = {c: traiter(elements_bruts(reponse.get(c))[:1]) for c in CHAMPS_UNIQUES[1:]}
         champs |= {c: traiter(elements_bruts(reponse.get(c))) for c in CHAMPS_LISTES}
-        fiche.update(composer(champs, doc, journal, nettoyage, demarche_guidee))
+        fiche.update(composer(champs, doc, journal, nettoyage, demarche_guidee, releves_donnee))
     else:
         for r in RUBRIQUES:
             fiche[r] = traiter(elements_bruts(reponse.get(r)))
@@ -660,6 +679,7 @@ def generer(
     mode_exemples: str = "format",
     demarche_guidee: bool = True,
     retrieveur: Retrieveur | None = None,
+    releves_donnee: bool = True,
 ) -> tuple[dict, dict]:
     """Fiche d'un document par le LLM ; repli sur le gabarit v2 sans JSON valide après ESSAIS_JSON essais."""
     exemples = choisir_exemples(doc, banque, k, graine, mode_exemples, retrieveur)
@@ -672,7 +692,7 @@ def generer(
         if objet is not None:
             # sans guidage par les entités (ablation), la démarche ne peut pas venir des entités non plus
             guidee = demarche_guidee and avec_entites
-            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema, nettoyage, guidee)
+            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema, nettoyage, guidee, releves_donnee)
             break
     else:
         fiche = gabarit.generer(doc, fixes, version=2)
@@ -885,6 +905,11 @@ def main() -> None:
     ap.add_argument(
         "--sans-demarche-guidee", action="store_true", help="ablation : pas de démarche reprise des entités PROCESSUS"
     )
+    ap.add_argument(
+        "--releves-partout",
+        action="store_true",
+        help="ablation (comportement du Silver) : « Relevés de l'équipement » composé quel que soit le passage cité",
+    )
     ap.add_argument("--completer", action="store_true", help="ajoute les contraintes / indicateurs non couverts")
     ap.add_argument(
         "--schema", default="champs", choices=SCHEMAS, help="champs (étape 2, phrases composées) ou extractif (étape 1)"
@@ -950,6 +975,7 @@ def main() -> None:
                 args.choix_exemples,
                 not args.sans_demarche_guidee,
                 retrieveur,
+                not args.releves_partout,
             )
             if args.abstention:
                 from abstention import abstenir  # import tardif : abstention importe controle, qui importe llm
