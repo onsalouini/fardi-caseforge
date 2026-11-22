@@ -150,7 +150,7 @@ def elements_source(fiche: dict) -> list[tuple[str, dict]]:
         (rub, e)
         for rub in RUBRIQUES_SOURCE
         for e in liste(fiche.get(rub))
-        if e.get("origine") != "gabarit" and e.get("texte")
+        if e.get("origine") not in ("gabarit", "abstention") and e.get("texte")
     ]
 
 
@@ -385,6 +385,7 @@ def ecrire_rapport(chemin: Path, val: dict, resumes: dict[str, tuple[dict, list[
 
 
 def main() -> None:
+    sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]  # console Windows (cp1252)
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--ref", type=Path, default=RACINE / "data/final/fiches_dev.jsonl")
     ap.add_argument("--docs", type=Path, default=RACINE / "data/final/documents_dev.jsonl")

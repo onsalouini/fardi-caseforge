@@ -846,9 +846,22 @@ def fiche_pipeline(doc: dict, fixes: dict) -> dict:
     return {**fiche, "journal_llm": {k: v for k, v in journal.items() if k != "reponses"}}
 
 
+def documents_a_traiter(args: argparse.Namespace) -> str:
+    """Fichier de documents : le split demandé, ou ``--docs`` (jeu dérivé du dev), jamais le test gelé."""
+    if args.docs:
+        if "test" in Path(args.docs).name:
+            raise SystemExit("--docs : le test gelé n'est jamais traité pendant le développement.")
+        return args.docs
+    return f"data/final/documents_{args.split}.jsonl"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--split", default="dev", choices=["train", "dev"])  # jamais le test pendant le développement
+    ap.add_argument(
+        "--docs", help="autre fichier de documents du dev (ex. generation/jeux/abstention_dev.jsonl) ; jamais le test"
+    )
+    ap.add_argument("--abstention", action="store_true", help="rubrique vide -> « Non précisé dans le document »")
     ap.add_argument("--out", default="generation/sorties/llm_dev.jsonl")
     ap.add_argument("--journal", help="journal des contrôles (défaut : <out>.journal.jsonl)")
     ap.add_argument("--moteur", default="transformers", choices=["transformers", "fictif"])
@@ -893,9 +906,9 @@ def main() -> None:
         moteur = moteur_fictif
     else:
         moteur = moteur_transformers(args.modele, args.temperature)
-    docs = gabarit.brancher_lot_b(
-        gabarit.charger(f"data/final/documents_{args.split}.jsonl"), args.entites, args.anonymisation
-    )[: args.limite]
+    docs = gabarit.brancher_lot_b(gabarit.charger(documents_a_traiter(args)), args.entites, args.anonymisation)[
+        : args.limite
+    ]
     banque, fixes = banque_exemples(), gabarit.textes_fixes()
     retrieveur: Retrieveur | None = None
     if args.choix_exemples.startswith("dense"):
@@ -938,6 +951,10 @@ def main() -> None:
                 not args.sans_demarche_guidee,
                 retrieveur,
             )
+            if args.abstention:
+                from abstention import abstenir  # import tardif : abstention importe controle, qui importe llm
+
+                abstenir(fiche)
             journal["config"] = {k: v for k, v in vars(args).items() if k not in {"out", "journal"}}
             f_out.write(json.dumps(fiche, ensure_ascii=False) + "\n")
             f_j.write(json.dumps(journal, ensure_ascii=False) + "\n")
