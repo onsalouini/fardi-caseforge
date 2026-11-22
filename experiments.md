@@ -18,6 +18,12 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-22 · Boutheina · Lot A Gold · double annotation à l'aveugle (kappa)
+- 36 passages v4 (15 % des 240, stratifiés par langue, graine 2027), annotés à l'aveugle par Boutheina (21/11) et Ons (22/11), chacune sur son PC, avec `data/gold/kappa_v4/annoter.html` (sans pré-annotation). Indépendance vérifiée : 2 passages sur 36 identiques, 45 entités vues par Ons seule, 69 par Boutheina seule.
+- **Kappa de Cohen au token Boutheina – Ons : 0,821** (972 tokens), cible ≥ 0,70 atteinte ; F1 spans exacts 0,617. Accord avec la construction : Ons 0,816, Boutheina 0,763.
+- Par étiquette, désaccords surtout sur SITE (0,569 : « l'atelier de Ariana » contre « Ariana ») et CONTRAINTE (0,555 : phrase entière contre seule valeur), puis PROCESSUS (0,730). À préciser dans le guide. Rapport : `reports/gold_kappa_v4.md` ; carte v4 régénérée.
+- Un premier fichier « 2e annotateur » reçu le 21/11 reprenait l'annotation de Boutheina (même mémoire de navigateur) : écarté, et la page corrigée (mémoire séparée par annotateur).
+
 ## 2026-11-22 · Ons · Lot D Gold · contrôle automatique des ajouts et des omissions
 - `python generation/controle.py` → `reports/lot_d_gold_controle.md` (branche `lot-d-gold`). Exigence Gold de la fiche P7. **Dev** seulement (21 documents, fiches de référence et sorties déjà générées, sans GPU) ; test gelé non lu (le script refuse un fichier dont le nom contient « test »). Tests : `tests/test_controle_fiches.py` (14).
 - Règles fixées avant la mesure : **ajout** = élément tiré de la source contenant un nombre absent du document (nombres en lettres compris : « six mois » = 6) ou dont < 50 % des mots de contenu sont dans le meilleur passage ; **omission** = entité CONTRAINTE ou INDICATEUR qu'aucun élément ne reprend (≥ 60 % des mots, nombres compris). Le vocabulaire des formulations du gabarit est tiré du code (`gabarit.PHRASES`, `llm.HISTORIQUE`), pas du dev.
