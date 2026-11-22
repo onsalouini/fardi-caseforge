@@ -56,7 +56,7 @@ ESSAIS_JSON = 3
 # Un moteur reçoit la liste des messages (format chat) et une graine, et renvoie le texte généré.
 Moteur = Callable[[list[dict], int], str]
 
-SCHEMAS = ["champs", "extractif"]
+SCHEMAS = ["champs", "extractif", "direct"]
 
 # Schéma « champs » (étape 2) : le LLM extrait des valeurs recopiées du texte, le code compose les phrases de la fiche
 # avec les formulations du gabarit (celles de la référence du Lot A). Clés de la réponse du LLM :
@@ -125,6 +125,26 @@ Règles strictes :
 - garde les pseudonymes ([PERSONNE_1], [ENTREPRISE_A], ...) tels quels ; n'essaie jamais de les remplacer ;
 - ignore le suivi administratif du projet (qui est responsable, signatures, en-têtes de courriel) ;
 - réponds UNIQUEMENT avec un objet JSON de la forme :
+{"contexte": {"texte": "...", "sources": ["id"]} | null,
+ "objectifs": [{"texte": "...", "sources": ["id"]}],
+ "donnees": [{"texte": "...", "sources": ["id"]}],
+ "contraintes": [{"texte": "...", "sources": ["id"]}]}"""
+
+
+# Gold, question de recherche RQ2 (sujet P7) : « l'extraction structurée suivie d'un RAG réduit-elle les faits inventés
+# par rapport à une génération directe par LLM ? ». Base « génération directe » : le LLM RÉDIGE la fiche (schéma
+# direct, à lancer avec --sans-controle), mêmes exemples du train ; comparée au pipeline Gold (champs + ancrage).
+CONSIGNES_DIRECT = """Tu rédiges une fiche pédagogique à partir d'un document industriel déjà anonymisé, pour des
+étudiants ingénieurs. Écris dans la langue du document, avec tes propres phrases.
+
+Rubriques :
+- contexte : une phrase qui présente l'entreprise et la situation industrielle (ou null) ;
+- objectifs : ce que les étudiants doivent analyser et proposer ;
+- donnees : les faits chiffrés et les données disponibles ; UN fait par élément ;
+- contraintes : les exigences de budget, de délai, de norme ; UNE contrainte par élément.
+
+Garde les pseudonymes ([PERSONNE_1], [ENTREPRISE_A], ...) tels quels. Indique pour chaque élément le passage du
+document dont il vient (identifiant entre crochets). Réponds UNIQUEMENT avec un objet JSON de la forme :
 {"contexte": {"texte": "...", "sources": ["id"]} | null,
  "objectifs": [{"texte": "...", "sources": ["id"]}],
  "donnees": [{"texte": "...", "sources": ["id"]}],
@@ -361,7 +381,8 @@ def construire_messages(
     doc: dict, exemples: list[tuple[dict, dict]], avec_entites: bool = True, schema: str = "champs"
 ) -> list[dict]:
     """Messages au format chat : consignes, exemples (tour utilisateur / tour assistant), puis le document."""
-    messages = [{"role": "system", "content": CONSIGNES_CHAMPS if schema == "champs" else CONSIGNES}]
+    consignes = {"champs": CONSIGNES_CHAMPS, "direct": CONSIGNES_DIRECT}.get(schema, CONSIGNES)
+    messages = [{"role": "system", "content": consignes}]
     for d, f in exemples:
         messages.append({"role": "user", "content": "Document :\n" + formater_document(d, avec_entites)})
         messages.append({"role": "assistant", "content": fiche_cible(f, schema)})
@@ -912,7 +933,10 @@ def main() -> None:
     )
     ap.add_argument("--completer", action="store_true", help="ajoute les contraintes / indicateurs non couverts")
     ap.add_argument(
-        "--schema", default="champs", choices=SCHEMAS, help="champs (étape 2, phrases composées) ou extractif (étape 1)"
+        "--schema",
+        default="champs",
+        choices=SCHEMAS,
+        help="champs (étape 2, phrases composées), extractif (étape 1) ou direct (Gold, RQ2 : le LLM rédige)",
     )
     ap.add_argument("--entites", help="entités prédites par le LOT B (à la place de la référence)")
     ap.add_argument("--anonymisation", help="remplacements de l'anonymiseur du LOT B (à la place de la référence)")

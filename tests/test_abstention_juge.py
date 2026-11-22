@@ -226,3 +226,32 @@ def test_releves_annonces_dans_les_donnees_gardes() -> None:
 
     assert len(llm.composer(_champs("d_p1"), _doc(True), {})["donnees"]) == 1  # cité au problème, annoncé en donnée
     assert len(llm.composer(_champs("d_p1"), _doc(False), {}, releves_donnee=False)["donnees"]) == 1  # ablation Silver
+
+
+# ---------- RQ2 et vocabulaire des fiches v4 ----------
+
+
+def test_schema_direct_demande_de_rediger() -> None:
+    import llm
+
+    doc = {**_doc(False), "passages": [{**p, "entities": []} for p in _doc(False)["passages"]]}
+    systeme = llm.construire_messages(doc, [], schema="direct")[0]["content"]
+    assert systeme == llm.CONSIGNES_DIRECT and "propres phrases" in systeme
+    assert "direct" in llm.SCHEMAS
+
+
+def test_rq2_bootstrap_et_mesures() -> None:
+    import rq2
+
+    delta, bas, haut, p = rq2.bootstrap([0.5, 0.5, 0.5], [0.0, 0.0, 0.0])
+    assert delta == 0.5 and bas == haut == 0.5 and p == 1.0
+    fiche = {"objectifs": [el("Réduire le taux de rebut à 2 %")], "donnees": [], "contraintes": []}
+    m = rq2.mesures_fiche(fiche, DOC)
+    assert m["inventes"] == 1.0 and m["nombre_invente"] == 1.0
+
+
+def test_formulation_des_fiches_v4_non_signalee() -> None:
+    import controle
+
+    f = {"objectifs": [el("Proposer un plan d'actions fondé sur la démarche suivante : rebut.")]}
+    assert controle.ajouts(f, DOC) == []
