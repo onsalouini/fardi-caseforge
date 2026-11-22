@@ -60,10 +60,24 @@ QUESTIONS = {
     "faisabilite": "Consignes, livrables et critères adaptés à des étudiants ingénieurs, en 4 à 8 semaines ?",
     "langue": "Langue correcte et homogène (pas de mélange non voulu) ?",
 }
+# Échelle explicite de chaque critère, pour le juge LLM seulement (les feuilles humaines gardent la grille de l'équipe).
+# Version 1 (Kaggle, 22/11) : sans ces lignes, Qwen a noté « invention » 0 sur les 40 fiches tout en écrivant « fiche
+# fidèle au document » : il lisait 0 comme « zéro invention ». Correction de la consigne, avant toute note humaine.
+ECHELLES = {
+    "fidelite_objectifs": "2 = tous les objectifs viennent du problème ; 0 = objectifs hors sujet ou absents.",
+    "donnees": "2 = toutes les données utiles reprises ; 0 = aucune.",
+    "contraintes": "2 = toutes les contraintes reprises, aucune inventée ; 0 = contraintes absentes ou inventées.",
+    "invention": "2 = AUCUNE invention (tout est dans le document) ; 1 = une invention mineure ; "
+    "0 = au moins un chiffre, nom ou contrainte inventé.",
+    "citations": "2 = chaque passage cité contient l'information ; 0 = citations fausses.",
+    "anonymisation": "2 = aucun nom réel visible ; 0 = un nom réel ou une donnée sensible visible.",
+    "faisabilite": "2 = travail adapté ; 0 = irréaliste.",
+    "langue": "2 = langue correcte et homogène ; 0 = langue fautive ou mélangée.",
+}
 SEUIL_ACCEPTATION = 13
 GRAINE = 2027
 N_FICHES = 40
-RELECTEURS = ["ghayth", "boutheina"]
+RELECTEURS = ["ali", "boutheina"]
 SYSTEMES = {
     "gabarit": "generation/sorties/gabarit_v2_dev.jsonl",
     "gabarit_pipeline": "generation/sorties/gabarit_v2_dev_pipeline.jsonl",
@@ -157,6 +171,8 @@ Note la fiche avec la grille ci-dessous, critère par critère : 0 = absent ou f
 2 = correct. Compare toujours la fiche au DOCUMENT : un chiffre, une contrainte ou un objectif absent du document
 est une invention. Les pseudonymes entre crochets ([ENTREPRISE_A], [PERSONNE_1]…) sont normaux. Une rubrique
 « Non précisé dans le document » est correcte si le document ne donne pas l'information.
+Pour CHAQUE critère, 2 est la meilleure note : « invention »: 2 veut dire qu'il n'y a AUCUNE invention. Tes notes
+doivent être cohérentes avec ton commentaire.
 
 Grille :
 {grille}
@@ -180,7 +196,7 @@ def texte_document(doc: dict) -> str:
 
 
 def messages_juge(fiche: dict, doc: dict) -> list[dict]:
-    grille = "\n".join(f"- {c} : {QUESTIONS[c]}" for c in CRITERES)
+    grille = "\n".join(f"- {c} : {QUESTIONS[c]} {ECHELLES[c]}" for c in CRITERES)
     return [
         {"role": "system", "content": CONSIGNES.format(grille=grille)},
         {"role": "user", "content": f"DOCUMENT\n{texte_document(doc)}\n\nFICHE\n{texte_fiche(fiche)}"},
@@ -316,11 +332,12 @@ def juger(juge: str, moteur: Moteur | None, graine: int = 42) -> list[dict]:
 
 
 def comparer(a: dict[str, dict], b: dict[str, dict]) -> dict:
-    """Kappa pondéré par critère et accord sur la décision, sur les codes et critères notés des deux côtés."""
+    """Par critère : (kappa pondéré, n, accord exact) sur les codes notés des deux côtés ; accord sur la décision."""
     res: dict = {}
     for c in CRITERES:
         paires = [(a[k][c], b[k][c]) for k in a if k in b and a[k].get(c) is not None and b[k].get(c) is not None]
-        res[c] = (kappa_pondere([x for x, _ in paires], [y for _, y in paires]), len(paires))
+        exact = sum(x == y for x, y in paires) / len(paires) if paires else None
+        res[c] = (kappa_pondere([x for x, _ in paires], [y for _, y in paires]), len(paires), exact)
     communs = [k for k in a if k in b]
     res["decision"] = (
         sum(acceptee(a[k]) == acceptee(b[k]) for k in communs) / len(communs) if communs else None,
@@ -329,12 +346,23 @@ def comparer(a: dict[str, dict], b: dict[str, dict]) -> dict:
     return res
 
 
+def cellule(r: tuple) -> str:
+    kappa, n, exact = r
+    if not n:
+        return "–"
+    return (f"{kappa:.2f}" if kappa is not None else "–") + f" ({exact:.0%})"
+
+
 def rapport_calibration(humains: dict[str, dict], juges: dict[str, dict], chemin: Path) -> str:
     lignes = [
         "# Lot D · Gold : calibration du LLM-juge (dev)",
         "",
-        "Produit par `python generation/juge.py calibrer`. Kappa pondéré quadratique par critère (n = notes "
-        "communes) ; décision = accord sur « acceptée » (≥ 13/16, aucun 0 en invention ni anonymisation).",
+        "Produit par `python generation/juge.py calibrer`. 40 fiches générées du **dev**, notées à l'aveugle ; test "
+        "gelé non lu. Chaque cellule : kappa pondéré quadratique (accord exact). Décision = accord sur « acceptée » "
+        "(≥ 13/16, aucun 0 en invention ni anonymisation). Le kappa s'effondre quand presque toutes les notes valent 2 "
+        "(paradoxe du kappa) : lire les deux chiffres et les répartitions ci-dessous.",
+        "",
+        "## 1. Accord",
         "",
     ]
     paires = []
@@ -346,11 +374,42 @@ def rapport_calibration(humains: dict[str, dict], juges: dict[str, dict], chemin
             paires.append((f"{j} / {h}", comparer(notes, humains[h])))
     lignes += ["| Paire | " + " | ".join(CRITERES) + " | décision |", "|---|" + "---|" * (len(CRITERES) + 1)]
     for nom, r in paires:
-        cellules = [f"{r[c][0]:.2f} (n={r[c][1]})" if r[c][0] is not None else f"– (n={r[c][1]})" for c in CRITERES]
         d = r["decision"]
         lignes.append(
-            f"| {nom} | " + " | ".join(cellules) + (f" | {d[0]:.0%} (n={d[1]}) |" if d[0] is not None else " | – |")
+            f"| {nom} | "
+            + " | ".join(cellule(r[c]) for c in CRITERES)
+            + (f" | {d[0]:.0%} |" if d[0] is not None else " | – |")
         )
+    lignes += [
+        "",
+        "## 2. Répartition des notes (nombre de 0 / 1 / 2) et fiches acceptées",
+        "",
+        "| Noteur | " + " | ".join(CRITERES) + " | acceptées |",
+        "|---|" + "---|" * (len(CRITERES) + 1),
+    ]
+    for nom, notes in list(humains.items()) + list(juges.items()):
+        rep = []
+        for c in CRITERES:
+            v = [n[c] for n in notes.values() if n.get(c) is not None]
+            rep.append(" / ".join(str(v.count(x)) for x in (0, 1, 2)) if v else "–")
+        lignes.append(
+            f"| {nom} | " + " | ".join(rep) + f" | {sum(acceptee(n) for n in notes.values())} / {len(notes)} |"
+        )
+    if CLES.exists() and len(noms) >= 2:
+        cles = json.loads(CLES.read_text(encoding="utf-8"))
+        par_systeme: dict[str, list[float]] = {}
+        for code, c in cles.items():
+            notes = [sum(v for v in humains[h][code].values() if v is not None) for h in noms if code in humains[h]]
+            par_systeme.setdefault(c["systeme"], []).append(sum(notes) / len(notes))
+        lignes += [
+            "",
+            "## 3. Note humaine moyenne par système (sur 16, moyenne des relecteurs)",
+            "",
+            "| Système | Fiches | Note moyenne |",
+            "|---|---|---|",
+        ]
+        for s, v in sorted(par_systeme.items(), key=lambda kv: -sum(kv[1]) / len(kv[1])):
+            lignes.append(f"| {s} | {len(v)} | {sum(v) / len(v):.2f} |")
     texte = "\n".join(lignes) + "\n"
     chemin.parent.mkdir(parents=True, exist_ok=True)
     chemin.write_text(texte, encoding="utf-8")

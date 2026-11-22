@@ -159,6 +159,9 @@ def ecrire_rapport(chemin: Path, mesures: dict[str, dict[str, Counter]], fausses
         "(≥ 80 % d'abstentions correctes, aucune invention) se lit sur les fiches du LLM, le gabarit s'abstenant par "
         "construction.",
         "- Les objectifs ne sont pas retirés : le gabarit et le LLM les dérivent aussi de l'indicateur du problème.",
+        "- Une rubrique « remplie (ancrée) » n'est pas forcément juste : le contrôle est lexical. Sur le LLM à champs, "
+        "les données des variantes sans données sont presque toujours « Relevés de l'équipement X », composées depuis "
+        "le passage du problème : les mots sont dans le document, mais rien ne dit que des relevés sont fournis.",
     ]
     texte = "\n".join(lignes) + "\n"
     chemin.parent.mkdir(parents=True, exist_ok=True)

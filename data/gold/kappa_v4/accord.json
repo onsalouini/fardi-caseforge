@@ -1,0 +1,59 @@
+{
+  "annotateurs": [
+    "Boutheina",
+    "ons"
+  ],
+  "humains": {
+    "passages": 36,
+    "tokens": 972,
+    "kappa": 0.821,
+    "f1_spans_exacts": 0.617,
+    "kappa_par_etiquette": {
+      "ORG": 0.842,
+      "PERSONNE": 0.881,
+      "SITE": 0.569,
+      "DONNEE_SENSIBLE": 0.862,
+      "PRODUIT": 0.908,
+      "EQUIPEMENT": 0.978,
+      "PROCESSUS": 0.73,
+      "INDICATEUR": 0.879,
+      "CONTRAINTE": 0.555
+    }
+  },
+  "Boutheina_construction": {
+    "passages": 36,
+    "tokens": 972,
+    "kappa": 0.763,
+    "f1_spans_exacts": 0.615,
+    "kappa_par_etiquette": {
+      "ORG": 0.437,
+      "PERSONNE": 0.961,
+      "SITE": 0.822,
+      "DONNEE_SENSIBLE": 0.719,
+      "PRODUIT": 0.908,
+      "EQUIPEMENT": 0.978,
+      "PROCESSUS": 0.808,
+      "INDICATEUR": 0.788,
+      "CONTRAINTE": 0.381
+    }
+  },
+  "ons_construction": {
+    "passages": 36,
+    "tokens": 972,
+    "kappa": 0.816,
+    "f1_spans_exacts": 0.78,
+    "kappa_par_etiquette": {
+      "ORG": 0.494,
+      "PERSONNE": 0.881,
+      "SITE": 0.726,
+      "DONNEE_SENSIBLE": 0.847,
+      "PRODUIT": 1.0,
+      "EQUIPEMENT": 1.0,
+      "PROCESSUS": 0.8,
+      "INDICATEUR": 0.894,
+      "CONTRAINTE": 0.304
+    }
+  },
+  "kappa_min": 0.7,
+  "atteint": true
+}

@@ -167,3 +167,8 @@ def test_comparer_humains() -> None:
     a = {"F01": dict.fromkeys(juge.CRITERES, 2), "F02": dict.fromkeys(juge.CRITERES, 0)}
     r = juge.comparer(a, a)
     assert r["invention"][0] == 1.0 and r["decision"] == (1.0, 2)
+
+
+def test_consigne_du_juge_fixe_le_sens_des_notes() -> None:
+    systeme = juge.messages_juge({"objectifs": []}, DOC)[0]["content"]
+    assert "AUCUNE invention" in systeme and all(juge.ECHELLES[c] in systeme for c in juge.CRITERES)
