@@ -255,3 +255,20 @@ def test_formulation_des_fiches_v4_non_signalee() -> None:
 
     f = {"objectifs": [el("Proposer un plan d'actions fondé sur la démarche suivante : rebut.")]}
     assert controle.ajouts(f, DOC) == []
+
+
+def test_robustesse_anonymise_avec_les_pseudonymes_du_document() -> None:
+    import robustesse_fiches as R
+
+    doc = {
+        "passages": [
+            {
+                "remplacements": [{"label": "ORG", "original": "Alpha Plast", "remplacement": "[ENTREPRISE_A]"}],
+                "entities": [{"start": 0, "end": 11, "label": "ORG", "text": "Alpha Plast", "ref": "org"}],
+            }
+        ]
+    }
+    table = R.pseudonymes(doc)
+    assert table == {"org": "[ENTREPRISE_A]"}
+    ents = [{"start": 4, "end": 15, "label": "ORG", "text": "A1pha Plast", "ref": "org"}]
+    assert R.anonymiser("Ste A1pha Plast, Sfax", ents, table) == "Ste [ENTREPRISE_A], Sfax"
