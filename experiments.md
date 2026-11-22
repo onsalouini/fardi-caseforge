@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-22 · Boutheina · Audit croisé du lot C (Gold)
+- Branche `origin/lot-c-gold` (`d5182b7`), dev seulement, test gelé non lu. Rapport : `reports/audit_lotC_gold.md`.
+- H1 corrigé : aucun accès au test dans `caseforge/models/` ni `caseforge/retrieval/`. Post-traitement des bornes reproduit à l'identique (F1 token 0,743 → 0,784, strict 0,718 → 0,759).
+- Risque de réglage sur le dev faible : aucune entité de référence bornée par une ponctuation (train v3 0/1 464, dev 0/449), la règle suit la convention du guide. Mais le gain vient presque entièrement des INDICATEUR synthétiques finissant par « . » (54 corrections sur 3 graines, 1 seule dans un texte libre ; `lib_` inchangé à 0,557) : à annoncer avec cette portée. Cas limite : 2 ORG « … Co. » du train v4 seraient coupées ; recommandation d'une liste d'abréviations protégées.
+
 ## 2026-11-22 · Boutheina · Lot A Gold · train v4 gelé
 - `python -m caseforge.gold.train_v4` → `data/gold/train_v4/` : train v3 (496 passages, `data/final/train.jsonl` inchangé) + 240 passages synthétiques v4 = **736 passages, 96 documents**. Dédoublonnage contre le train v3 et le dev : 0 passage écarté. Dev (162) et test gelé (206) inchangés ; empreinte du dev notée dans le manifeste.
 - Entités : INDICATEUR 132 → 222 (+68 %), PROCESSUS 145 → 220 (+52 %), DONNEE_SENSIBLE 204 → 340 (+67 %), EQUIPEMENT 202 → 314, PERSONNE 156 → 262, ORG 189 → 221, SITE 175 → 212, CONTRAINTE 133 → 193, PRODUIT 128 → 158. Langues : ar 200, en 248, fr 223, mixte 65.
