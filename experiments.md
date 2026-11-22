@@ -18,6 +18,10 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-22 · Ons · Lot D Gold · textes libres v4 : premier jet incomplet, passe de révision
+- Kaggle T4 (`notebooks/lot_d_gold_kaggle_suite.ipynb`, section 3) : Qwen2.5-7B a rédigé les 40 documents, mais **0 / 40** contiennent toutes les valeurs du plan mot pour mot (ex. `lib_ar_515` : équipement, indicateur de référence, deux contraintes, coût et lot absents ou reformulés). Résultat négatif de la consigne seule : la pré-annotation aurait été très incomplète.
+- Correction (`generation/textes_libres.py`) : passe de révision, jusqu'à 3 tours par document ; le texte est rendu au LLM avec la liste exacte des valeurs absentes à insérer et des valeurs présentes à garder ; une révision n'est gardée que si elle réduit le nombre de valeurs absentes ; température 0,7 → 0,5. Elle repart des textes déjà rédigés (`--reprendre`). Le journal `redaction.jsonl` garde le nombre de valeurs absentes avant et après révision. Bug du notebook corrigé aussi (dossier `generation/sorties` absent avant le zip). Tests : `tests/test_textes_libres.py` (6).
+
 ## 2026-11-22 · Ons · Lot D Gold · juge LLM v2 calibré (résultat négatif) et juge hybride retenu
 - Kaggle T4 (`notebooks/lot_d_gold_kaggle.ipynb`, section 5) : Qwen2.5-7B-Instruct 4 bits, consigne v2 (échelle explicite par critère), 40 fiches figées du **dev** ; calibration contre Ali et Boutheina (`python generation/juge.py calibrer`, `reports/lot_d_gold_juge.md`). Test gelé non lu.
 - **Juge LLM v2 : 62 % et 60 % d'accord sur la décision** avec les relecteurs (contre 82 % entre humains) ; il met « invention » 0 à 18 fiches sur 40 (humains : 1 et 1) et ne voit pas la fuite de F32 ; ses commentaires contredisent ses notes (« globalement fidèle… les données manquent » noté invention 0). Conclusion : un LLM de 7 B quantifié ne tient pas une grille de 8 critères ; **résultat négatif** (v1 : 12 % et 30 %, échelle inversée).

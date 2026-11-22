@@ -167,9 +167,38 @@ def valeurs_absentes(doc: dict, texte: str) -> list[str]:
     return [k for k, v in doc["valeurs"].items() if k != "ROLE" and v not in texte]
 
 
+REVISIONS = 3
+CONSIGNE_REVISION = """Voici un document industriel FICTIF. Il lui manque des valeurs qui doivent y figurer
+MOT POUR MOT. Réécris le document en gardant sa langue, son style, ses paragraphes et tout son contenu, et insère
+chacune de ces valeurs exactement telle qu'elle est écrite ici (même orthographe, mêmes chiffres, sans traduction) :
+{manquantes}
+
+Ces valeurs sont déjà présentes : garde-les exactement telles quelles.
+{presentes}
+
+DOCUMENT À CORRIGER :
+{texte}
+
+Réponds seulement par le document corrigé, paragraphes séparés par une ligne vide."""
+
+
+def messages_revision(doc: dict, texte: str, absentes: list[str]) -> list[dict]:
+    """Deuxième tour : insérer mot pour mot les valeurs absentes, sans perdre les autres."""
+    manquantes = "\n".join(f"* {doc['valeurs'][k]}" for k in absentes)
+    presentes = "\n".join(f"* {v}" for k, v in doc["valeurs"].items() if k not in absentes and k != "ROLE")
+    contenu = CONSIGNE_REVISION.format(manquantes=manquantes, presentes=presentes, texte=texte)
+    return [{"role": "user", "content": contenu}]
+
+
 def moteur_fictif(messages: list[dict], graine: int) -> str:
-    """Moteur de test : recopie les valeurs dans des paragraphes fixes (aucun GPU)."""
-    vals = re.findall(r"^- (.*)$", messages[0]["content"], re.MULTILINE)
+    """Moteur de test : recopie les valeurs dans des paragraphes fixes (aucun GPU) ; en révision, ajoute les valeurs
+    manquantes à la fin du document."""
+    contenu = messages[0]["content"]
+    if "DOCUMENT À CORRIGER :" in contenu:
+        texte = contenu.split("DOCUMENT À CORRIGER :\n", 1)[1].split("\n\nRéponds seulement", 1)[0]
+        manquantes = re.findall(r"^\* (.*)$", contenu.split("Ces valeurs sont déjà présentes", 1)[0], re.MULTILINE)
+        return texte + "\n\n" + " ; ".join(manquantes)
+    vals = re.findall(r"^- (.*)$", contenu, re.MULTILINE)
     return "\n\n".join(
         [
             " ".join(vals[0:3]),
@@ -192,10 +221,25 @@ def rediger(plan: list[dict], moteur: Moteur, dossier: Path = DOSSIER, reprendre
             texte = chemin.read_text(encoding="utf-8")
         else:
             texte = nettoyer_reponse(moteur(messages_redaction(doc), doc["graine"]))
-            chemin.write_text(texte, encoding="utf-8")
         absentes = valeurs_absentes(doc, texte)
-        journal.append({"doc_id": doc["doc_id"], "valeurs_absentes": absentes, "caracteres": len(texte)})
-        print(f"{doc['doc_id']} : {len(texte)} caractères, valeurs absentes {absentes}", flush=True)
+        depart, revisions = len(absentes), 0
+        # Révision : jusqu'à REVISIONS tours pour insérer les valeurs absentes ; on garde la meilleure version.
+        while absentes and revisions < REVISIONS:
+            revisions += 1
+            candidat = nettoyer_reponse(moteur(messages_revision(doc, texte, absentes), doc["graine"] + revisions))
+            if len(valeurs_absentes(doc, candidat)) < len(absentes):
+                texte, absentes = candidat, valeurs_absentes(doc, candidat)
+        chemin.write_text(texte, encoding="utf-8")
+        journal.append(
+            {
+                "doc_id": doc["doc_id"],
+                "valeurs_absentes": absentes,
+                "absentes_avant_revision": depart,
+                "revisions": revisions,
+                "caracteres": len(texte),
+            }
+        )
+        print(f"{doc['doc_id']} : {len(texte)} caractères, absentes {depart} -> {len(absentes)} {absentes}", flush=True)
     ecrire_jsonl(dossier / "redaction.jsonl", journal)
     return journal
 
@@ -409,7 +453,7 @@ def main() -> None:
         else:
             from llm import moteur_transformers
 
-            moteur = moteur_transformers(args.modele, 0.7, 1200)
+            moteur = moteur_transformers(args.modele, 0.5, 1500)
         journal = rediger(plan[: args.limite], moteur)
         print(f"{sum(not j['valeurs_absentes'] for j in journal)} / {len(journal)} documents avec toutes les valeurs")
     elif args.etape == "preannoter":

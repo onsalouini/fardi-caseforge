@@ -75,3 +75,14 @@ def test_type_de_passage() -> None:
     assert T.type_passage("Le budget limité impose…", v) == "contrainte"
     assert T.type_passage("Le taux de rebut de 7 % inquiète.", v) == "probleme"
     assert T.type_passage("Bonjour.", v) == "autre"
+
+
+def test_revision_insere_les_valeurs_absentes(tmp_path: Path) -> None:
+    plan = T.planifier()[:1]
+    brut = tmp_path / "brut"
+    brut.mkdir()
+    # premier jet incomplet (comme Qwen au 22/11) : seule l'entreprise est présente
+    (brut / f"{plan[0]['doc_id']}.txt").write_text(plan[0]["valeurs"]["ORG"] + " fabrique.", encoding="utf-8")
+    journal = T.rediger(plan, T.moteur_fictif, dossier=tmp_path)
+    assert journal[0]["absentes_avant_revision"] > 0 and journal[0]["valeurs_absentes"] == []
+    assert journal[0]["revisions"] == 1
