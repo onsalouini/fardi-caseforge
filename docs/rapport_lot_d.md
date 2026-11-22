@@ -44,7 +44,7 @@ Exigence du sujet : ne rien inventer, ne rien exposer, et rendre chaque élémen
 
 | Exigence | Résultat | Rapport |
 |---|---|---|
-| Contrôle automatique des ajouts et omissions | rappel 1,00 sur 63 erreurs injectées (21 ajouts étrangers, 21 nombres modifiés, 21 omissions) ; a révélé 8 fiches de **référence** qui inventent « six mois » et une valeur « 6,1 % » tronquée par le gabarit du pipeline | `reports/lot_d_gold_controle.md` |
+| Contrôle automatique des ajouts et omissions | rappel 1,00 sur 63 erreurs injectées (21 ajouts étrangers, 21 nombres modifiés, 21 omissions) ; a révélé 8 fiches de **référence** qui inventent « six mois » et une valeur « 6,1 % » tronquée par le gabarit du pipeline. Contre les relecteurs (40 fiches) : omissions précision 0,80 à 1,00 mais rappel 0,15 à 0,36 ; ajouts : 0 des 1 à 4 inventions humaines retrouvée (inventions sémantiques). **Cible P et R ≥ 0,80 non atteinte** face aux humains | `reports/lot_d_gold_controle.md`, `reports/lot_d_gold_juge.md` §4 |
 | Abstention | 42 variantes du dev sans contraintes ou sans données : **95 % d'abstentions correctes, 0 invention** (Silver : 50 %) ; cible ≥ 80 % atteinte | `reports/lot_d_gold_abstention.md` |
 | Validation humaine | 40 fiches générées notées à l'aveugle par Ali et Boutheina ; accord sur la décision 82 % ; note sur 16 : LLM extractif 14,56, gabarit 14,40, LLM à champs 14,18, gabarit du pipeline 12,35 | `reports/lot_d_gold_juge.md` |
 | LLM-juge calibré | **juge retenu : hybride** (règles pour les 6 critères mesurables, LLM pour faisabilité et langue) : décision 92 % et 75 % d'accord avec les relecteurs (moyenne 83,5 %, au niveau de l'accord entre humains, 82 %), anonymisation 98 à 100 % ; juge LLM seul : v1 invalide (échelle inversée), **v2 : 62 % et 60 %**, notes incohérentes avec ses commentaires (« invention » 0 sur 18 fiches sur 40) : **résultat négatif** pour Qwen2.5-7B 4 bits comme juge de cette grille | `reports/lot_d_gold_juge.md` |
@@ -63,6 +63,7 @@ Exigence du sujet : ne rien inventer, ne rien exposer, et rendre chaque élémen
 | Sans contrôle d'ancrage | 0,94 | même F1 : le contrôle garantit la fidélité, pas le score |
 | Règle « Relevés » stricte (passage cité « donnee » seulement) | pipeline 0,839 contre 0,872 | **négatif**, remplacée par la règle finale |
 | Juge LLM v1 | invention 0 sur les 40 fiches | **négatif** : consigne corrigée (échelle explicite) |
+| Contrôle lexical contre les relecteurs | omissions R 0,15 à 0,36 ; ajouts 0 retrouvé | **négatif** : il cible la relecture, il ne la remplace pas |
 | Génération directe (RQ2) | F1 0,74 contre 0,945 ; 4,6 % d'éléments inventés | **négatif** pour la rédaction libre : extraction ancrée confirmée |
 | LLM sous bruit OCR | −11,2 points contre −8,4 pour le gabarit | **négatif** : l'avantage du LLM disparaît sur un texte bruité |
 | Juge LLM v2 (consigne corrigée) | décision 62 % et 60 % d'accord avec les relecteurs | **négatif** : un LLM 7 B quantifié ne tient pas une grille de 8 critères ; juge hybride retenu |

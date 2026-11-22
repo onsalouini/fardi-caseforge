@@ -25,7 +25,9 @@ de référence, non démontré (+0,013, p = 0,14). Le LLM supporte mieux les err
 **Comment savez-vous que le LLM n'invente rien ?** Trois garde-fous : ancrage de chaque valeur, contrôle automatique des
 ajouts (nombres absents du document, contenu non ancré), abstention « Non précisé dans le document ». Limite honnête : le
 contrôle est lexical et ne voit pas une affirmation dont tous les mots sont dans le document ; c'est ainsi que
-« Relevés de l'équipement » nous avait échappé avant l'abstention.
+« Relevés de l'équipement » nous avait échappé avant l'abstention. Mesuré contre les relecteurs, il retrouve 0 des
+inventions qu'ils ont vues et 15 à 36 % de leurs omissions (précision 0,80 à 1,00) : il cible la relecture humaine,
+il ne la remplace pas.
 
 **Vos fiches de référence sont-elles fiables ?** Pas toutes : le contrôle a trouvé 9 fiches sur 21 qui écrivent
 « Historique sur six mois » sans appui dans la source. Nous ne les avons pas corrigées (lot A figé), nous les avons

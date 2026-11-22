@@ -1,0 +1,11 @@
+Comptoir Connectique Elissa est installé à Bekalta. L'entreprise se spécialise dans la production de faisceaux de portière.
+
+Problème constaté : Le rendement de l'enrouleuse est inférieur aux normes prévues. Les essais actuels donnent un rendement au premier passage de 89 %, alors qu'un rendement de 92 % était attendu.
+
+Données disponibles : Les données sur le rendement actuel sont disponibles et peuvent être consultées. De plus, les essais pourraient être réalisés avec la cartographie des flux pour identifier les points de déperdition.
+
+Travail demandé aux étudiants : Les étudiants doivent analyser pourquoi le rendement n'est pas au niveau attendu et proposer des solutions pour améliorer le rendement à 92 %. Ils devront aussi effectuer des essais le samedi, qui est la seule journée disponible pour les tests.
+
+Constrains : Les essais ne peuvent avoir lieu que le samedi et il est important de conserver la certification ISO 15378.
+
+Coordonnées de la personne à contacter : Pour toute information supplémentaire, veuillez contacter M. Haythem Sghaier, responsable amélioration continue. Vous pouvez le joindre à l'adresse e-mail h.sghaier@ccel.tn ou par téléphone au 72 505 838.

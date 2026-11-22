@@ -1,0 +1,11 @@
+Usines Conserverie El Fajr situées à Tozeur se spécialisant dans la conservation de thon à l'huile. L'usine est équipée d'un autoclave de stérilisation.
+
+Problème constaté concerne le taux d'absentéisme élevé, atteignant 8 %, ce qui affecte la productivité de l'usine.
+
+Données disponibles incluent les registres de présence, les horaires de travail, les factures de main-d'œuvre, et les rapports sur les accidents de travail.
+
+Travail demandé aux étudiants est de déterminer les causes profondes du taux d'absentéisme et de proposer des solutions durables.
+
+Contraintes imposées sont que l'investissement pour améliorer la situation ne peut excéder 25000 DT. De plus, l'étude doit être achevée en moins de 5 semaines.
+
+Coordonnées pour contacter M. Zied Amri, pilote de ligne, sont : z.amri@ucefa.tn et 77 944 658.

@@ -280,3 +280,13 @@ def test_juge_hybride_complete_les_criteres_qualitatifs() -> None:
     h = juge.hybrider(regles, llm_notes)[0]
     assert h["scores"]["invention"] == 2 and h["scores"]["faisabilite"] == 1 and h["scores"]["langue"] == 2
     assert h["acceptee"]
+
+
+def test_precision_rappel_du_controle_contre_un_relecteur() -> None:
+    controle_ = {"F1": {"invention": 0}, "F2": {"invention": 2}, "F3": {"invention": 1}, "F4": {"invention": 2}}
+    humain = {"F1": {"invention": 1}, "F2": {"invention": 0}, "F3": {"invention": 2}, "F4": {"invention": None}}
+    r = juge.precision_rappel(controle_, humain, ("invention",))
+    assert (r["vp"], r["fp"], r["fn"]) == (1, 1, 1)
+    assert r["precision"] == 0.5 and r["rappel"] == 0.5
+    section = "\n".join(juge.section_detecteur({"a": humain, "b": humain}, controle_))
+    assert "| ajouts | les deux | 1 | 1 | 1 | 0.50 | 0.50 |" in section

@@ -86,3 +86,22 @@ def test_revision_insere_les_valeurs_absentes(tmp_path: Path) -> None:
     journal = T.rediger(plan, T.moteur_fictif, dossier=tmp_path)
     assert journal[0]["absentes_avant_revision"] > 0 and journal[0]["valeurs_absentes"] == []
     assert journal[0]["revisions"] == 1
+
+
+def test_occurrence_approchee_d_une_valeur_reformulee() -> None:
+    texte = "Les taux de disponibilité de ce dernier ne sont que de 81 %. Le reste va bien."
+    bornes = T.occurrence_approchee(texte, "taux de disponibilité de 81 %")
+    assert (
+        bornes is not None and texte[bornes[0] : bornes[1]] == "taux de disponibilité de ce dernier ne sont que de 81 %"
+    )
+    # le nombre est obligatoire, et une entité ne traverse pas une fin de phrase
+    assert T.occurrence_approchee("Le taux de disponibilité est bas.", "taux de disponibilité de 81 %") is None
+    assert T.occurrence_approchee("We hold 15 days. The exact stock level", "stock level of 15 days") is None
+    entites = T.occurrences(texte, {"IND": "taux de disponibilité de 81 %"})
+    assert len(entites) == 1 and entites[0]["approchee"] and entites[0]["label"] == "INDICATEUR"
+
+
+def test_texte_qui_boucle_reecrit() -> None:
+    phrase = "Le stock moyen de l'usine atteint vingt et un jours"
+    assert T.repetitif(". ".join([phrase] * 3))
+    assert not T.repetitif(phrase + ". Autre phrase assez longue pour compter.")

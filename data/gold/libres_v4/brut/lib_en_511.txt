@@ -1,0 +1,11 @@
+Nakhla Connectors Plants is an industrial company located in El Jem. The plant operates on a 24-hour schedule and produces various connectors for electronic devices.
+
+A fuse box malfunction was recently observed during production. The problem was noted when an ultrasonic welding station experienced an unexpected shutdown, leading to a production halt.
+
+Data available includes the current stock levels, which are at an average of 18 days for raw materials and 15 days for finished goods. The exact stock levels were recorded as of the last inventory check, but due to recent production delays, the actual levels may have changed.
+
+The work assigned to the students is to analyze the production line, focusing on the fuse box and the ultrasonic welding station. They should identify potential causes of the malfunction and propose solutions to prevent future occurrences. Additionally, they need to suggest ways to reduce the changeover time from the current 20 minutes to meet the company’s target of no more than 15 minutes.
+
+The students will also need to ensure that all process improvements comply with the ISO 50001 energy management system standards, maintaining the company’s certification. Continuous improvement initiatives must include value stream mapping to optimize workflow and reduce waste.
+
+For any inquiries or further details, please contact Ms. Najla Kchaou, the continuous improvement lead, at her email address: n.kchaou@ncpl.tn or by phone at 73 383 115.

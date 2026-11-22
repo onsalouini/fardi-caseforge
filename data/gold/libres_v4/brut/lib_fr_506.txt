@@ -1,0 +1,16 @@
+Manufacture Confection El Fajr située à Kasserine est spécialisée dans la confection de uniformes hospitaliers depuis plus de 20 ans. Notre usine moderne est équipée de la dernière technologie en matière de tissus et de couture.
+
+Nous avons constaté une baisse significative de notre rendement lors de la première passe sur le métier à tricoter circulaire. Le rendement était de 86 % alors que nous nous attendions à au moins 95 %. Cette diminution a directement impacté nos coûts et notre compétitivité sur le marché.
+
+Nous avons recensé les données suivantes : le nombre de pièces produites, le temps de production, le taux de défectuosité et les variations de rendement par série. Ces informations sont disponibles dans le fichier joint intitulé "Données_production_MCEFA.xlsx".
+
+Nous souhaitons que vos étudiants s'occupent de cette étude. Nous leur demandons de proposer des solutions pour améliorer le rendement et d'identifier les causes de cette baisse. En outre, ils doivent examiner si l'équilibrage de chaîne peut être amélioré.
+
+L'étude doit durer au plus 8 semaines. Un changement de série ne doit pas dépasser 10 minutes. Nous vous recommandons de veiller à ce que le travail respecte ces exigences.
+
+N'hésitez pas à me contacter via mon adresse e-mail z.kchaou@mcefa.tn ou au téléphone +216 44 765 668 si vous avez des questions. Nous sommes impatients de recevoir votre rapport et vos recommandations.
+
+Cordialement,
+
+M. Zied Kchaou
+Ingénieur méthodes

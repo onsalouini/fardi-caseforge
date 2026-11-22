@@ -11,7 +11,8 @@ Quatre étapes :
               graine 2027 ; identifiants ``lib_<langue>_500`` et suivants -> ``data/gold/libres_v4/plan.jsonl``.
   rediger     (GPU) le LLM rédige chaque document en plaçant MOT POUR MOT les valeurs du plan ; une valeur absente
               est signalée -> ``data/gold/libres_v4/brut/<doc_id>.txt`` et ``redaction.jsonl``.
-  preannoter  découpe en passages (lignes vides), entités pré-annotées = occurrences exactes des valeurs du plan, type
+  preannoter  découpe en passages (lignes vides), entités pré-annotées = occurrences exactes des valeurs du plan (ou
+              approchées si le LLM a reformulé : ≥ 60 % des mots et tous les nombres, dans une phrase), type
               de passage déduit des valeurs qu'il contient -> ``a_verifier/passages_preannotes.jsonl`` et la page
               ``a_verifier/verifier.html`` (page d'annotation du lot A, pré-remplie : on corrige au lieu d'annoter).
   integrer    lit le fichier JSON exporté par la page (annotations vérifiées) -> ``passages.jsonl``,
@@ -162,6 +163,12 @@ def nettoyer_reponse(reponse: str) -> str:
     return "\n\n".join(paragraphes)
 
 
+def repetitif(texte: str, seuil: int = 3) -> bool:
+    """Le LLM a bouclé : une même phrase (> 20 caractères) revient au moins ``seuil`` fois."""
+    phrases = [p.strip() for p in re.split(r"[.!?؟\n]", texte) if len(p.strip()) > 20]
+    return any(phrases.count(p) >= seuil for p in set(phrases))
+
+
 def valeurs_absentes(doc: dict, texte: str) -> list[str]:
     """Emplacements dont la valeur n'apparaît pas mot pour mot (le rôle n'est pas une entité : ignoré)."""
     return [k for k, v in doc["valeurs"].items() if k != "ROLE" and v not in texte]
@@ -217,10 +224,12 @@ def rediger(plan: list[dict], moteur: Moteur, dossier: Path = DOSSIER, reprendre
     journal = []
     for doc in plan:
         chemin = brut / f"{doc['doc_id']}.txt"
-        if reprendre and chemin.exists():
-            texte = chemin.read_text(encoding="utf-8")
-        else:
-            texte = nettoyer_reponse(moteur(messages_redaction(doc), doc["graine"]))
+        texte = chemin.read_text(encoding="utf-8") if reprendre and chemin.exists() else ""
+        essai = 0
+        while not texte or (repetitif(texte) and essai < REVISIONS):
+            # Premier jet, ou nouveau jet si le LLM a bouclé (même phrase répétée) : on repart de zéro.
+            texte = nettoyer_reponse(moteur(messages_redaction(doc), doc["graine"] + 100 * essai))
+            essai += 1
         absentes = valeurs_absentes(doc, texte)
         depart, revisions = len(absentes), 0
         # Révision : jusqu'à REVISIONS tours pour insérer les valeurs absentes ; on garde la meilleure version.
@@ -236,6 +245,7 @@ def rediger(plan: list[dict], moteur: Moteur, dossier: Path = DOSSIER, reprendre
                 "valeurs_absentes": absentes,
                 "absentes_avant_revision": depart,
                 "revisions": revisions,
+                "repetitif": repetitif(texte),
                 "caracteres": len(texte),
             }
         )
@@ -247,24 +257,100 @@ def rediger(plan: list[dict], moteur: Moteur, dossier: Path = DOSSIER, reprendre
 # ---------------------------------------------------------------- pré-annotation
 
 
+MOT = re.compile(r"\w+(?:[.,]\d+)?%?|%", re.UNICODE)
+COUVERTURE_MIN = 0.6  # part des mots pleins de la valeur que doit reprendre une occurrence approchée
+MARGE_MOTS = 6  # mots en plus tolérés dans une occurrence approchée (reformulation du LLM)
+FIN_PHRASE = re.compile(r"[.!?؟;:،,]\s|\n")
+
+
+def _mots(texte: str) -> list[tuple[str, int, int]]:
+    return [(m.group().lower(), m.start(), m.end()) for m in MOT.finditer(texte)]
+
+
+def _plein(mot: str) -> bool:
+    return len(mot) >= 3 or any(c.isdigit() for c in mot)
+
+
+def _meme_mot(a: str, b: str) -> bool:
+    """Égalité tolérante aux flexions courtes (pluriel, article arabe collé) : préfixe ou suffixe à 2 lettres près."""
+    if a == b:
+        return True
+    if any(c.isdigit() for c in a + b):
+        return a.rstrip("%") == b.rstrip("%")
+    court, long_ = sorted((a, b), key=len)
+    return len(court) >= 3 and len(long_) - len(court) <= 2 and (long_.startswith(court) or long_.endswith(court))
+
+
+def occurrence_approchee(texte: str, valeur: str) -> tuple[int, int] | None:
+    """Plus courte fenêtre de ``texte`` qui reprend ≥ 60 % des mots pleins de ``valeur`` et TOUS ses nombres.
+
+    Sert quand le LLM a reformulé la valeur (« les taux de disponibilité … ne sont que de 81 % ») : l'entité est
+    proposée, l'humain ajuste les bornes pendant la vérification.
+    """
+    cibles = [m for m, _, _ in _mots(valeur) if _plein(m)]
+    nombres = [m for m in cibles if any(c.isdigit() for c in m)]
+    if len(cibles) < 2:
+        return None
+    mots = _mots(texte)
+    meilleur: tuple[float, int, int, int] | None = None
+    for i, (mi, _, _) in enumerate(mots):
+        if not any(_meme_mot(mi, c) for c in cibles):
+            continue
+        for j in range(i, min(len(mots), i + len(_mots(valeur)) + MARGE_MOTS)):
+            if FIN_PHRASE.search(texte[mots[i][1] : mots[j][2]]):
+                break  # une entité ne traverse pas une fin de phrase
+            if not any(_meme_mot(mots[j][0], c) for c in cibles):
+                continue
+            fenetre = [m for m, _, _ in mots[i : j + 1]]
+            couverts = sum(any(_meme_mot(m, c) for m in fenetre) for c in cibles) / len(cibles)
+            if couverts < COUVERTURE_MIN or not all(any(_meme_mot(m, n) for m in fenetre) for n in nombres):
+                continue
+            cle = (-couverts, j - i, mots[i][1], mots[j][2])
+            if meilleur is None or cle < meilleur:
+                meilleur = cle
+    if meilleur is None:
+        return None
+    fin = meilleur[3]
+    pourcent = re.match(r"[   ]?%", texte[fin:])  # « 81 % » : le signe fait partie de la valeur
+    return meilleur[2], fin + (pourcent.end() if pourcent else 0)
+
+
 def occurrences(texte: str, valeurs: dict[str, str]) -> list[dict]:
-    """Entités = occurrences exactes des valeurs (les plus longues d'abord, sans chevauchement)."""
+    """Entités = occurrences exactes des valeurs (les plus longues d'abord, sans chevauchement), puis, pour une valeur
+    absente mot pour mot, son occurrence approchée (``approchee`` : True, bornes à vérifier)."""
     candidats = sorted(((v, k) for k, v in valeurs.items() if k in G.ETIQUETTE and v), key=lambda x: -len(x[0]))
     pris: list[tuple[int, int]] = []
     entites = []
+
+    def ajouter(debut: int, fin: int, cle: str, approchee: bool) -> None:
+        pris.append((debut, fin))
+        entites.append(
+            {
+                "start": debut,
+                "end": fin,
+                "label": G.ETIQUETTE[cle],
+                "text": texte[debut:fin],
+                "ref": G.REFERENCE[cle],
+                "cle": cle,
+                "approchee": approchee,
+            }
+        )
+
     for valeur, cle in candidats:
         for m in re.finditer(re.escape(valeur), texte):
-            if any(m.start() < f and d < m.end() for d, f in pris):
-                continue
-            pris.append((m.start(), m.end()))
-            entites.append(
-                {"start": m.start(), "end": m.end(), "label": G.ETIQUETTE[cle], "text": valeur, "ref": G.REFERENCE[cle]}
-            )
+            if not any(m.start() < f and d < m.end() for d, f in pris):
+                ajouter(m.start(), m.end(), cle, False)
+    for valeur, cle in candidats:
+        if valeur in texte:
+            continue
+        bornes = occurrence_approchee(texte, valeur)
+        if bornes and not any(bornes[0] < f and d < bornes[1] for d, f in pris):
+            ajouter(*bornes, cle, True)
     return sorted(entites, key=lambda e: e["start"])
 
 
 def type_passage(texte: str, valeurs: dict[str, str]) -> str:
-    presentes = {k for k, v in valeurs.items() if v and v in texte}
+    presentes = {e["cle"] for e in occurrences(texte, valeurs)} | {k for k, v in valeurs.items() if v and v in texte}
     return next((ptype for ptype, cles in PRIORITE_PTYPE if presentes & cles), "autre")
 
 
@@ -460,7 +546,12 @@ def main() -> None:
         passages = preannoter(plan)
         ecrire_jsonl(DOSSIER / "a_verifier/passages_preannotes.jsonl", passages)
         ecrire_page(passages, DOSSIER / "a_verifier/verifier.html")
-        print(f"{len(passages)} passages pré-annotés -> {DOSSIER / 'a_verifier/verifier.html'}")
+        entites = [e for p in passages for e in p["entities"]]
+        print(
+            f"{len(passages)} passages pré-annotés, {len(entites)} entités dont "
+            f"{sum(e['approchee'] for e in entites)} approchées (bornes à vérifier) "
+            f"-> {DOSSIER / 'a_verifier/verifier.html'}"
+        )
     else:
         passages = lire_jsonl(DOSSIER / "a_verifier/passages_preannotes.jsonl")
         export = json.loads(args.export.read_text(encoding="utf-8"))

@@ -140,6 +140,9 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
 - **Contrôle des ajouts et omissions** : rappel 1,00 sur 63 erreurs injectées (ajouts étrangers, nombres modifiés,
   omissions) ; a révélé 8 fiches de référence qui inventent « six mois » et une valeur « 6,1 % » tronquée par le gabarit
   du pipeline (`reports/lot_d_gold_controle.md`). Comparaison lexicale : une paraphrase fidèle peut être signalée.
+  Contre les deux relecteurs (40 fiches, `reports/lot_d_gold_juge.md` §4) : omissions précision 0,80 à 1,00, rappel
+  0,15 à 0,36 ; ajouts : aucune des 1 à 4 inventions humaines retrouvée (affirmations fausses faites de mots du
+  document). Cible P et R ≥ 0,80 non atteinte face aux humains.
 - **Abstention** (42 variantes du dev sans contraintes ou sans données) : **95 % d'abstentions correctes, 0 invention**
   (Silver : 50 %) ; 3 fausses abstentions sur des textes libres (`reports/lot_d_gold_abstention.md`).
 - **Qualité des fiches avec la règle « Relevés »** (3 graines, bootstrap apparié) : 0,945 contre 0,944 (entrées de

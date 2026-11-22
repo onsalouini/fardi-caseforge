@@ -362,6 +362,67 @@ def comparer(a: dict[str, dict], b: dict[str, dict]) -> dict:
     return res
 
 
+DETECTEUR = {"ajouts": ("invention",), "omissions": ("donnees", "contraintes")}
+
+
+def precision_rappel(detecteur: dict[str, dict], reference: dict[str, dict], criteres: tuple[str, ...]) -> dict:
+    """Précision et rappel du contrôle automatique : une fiche est « signalée » si l'un des critères vaut moins de 2."""
+
+    def signalee(notes: dict) -> bool:
+        return any(notes.get(c) is not None and notes[c] < 2 for c in criteres)
+
+    codes = [k for k in detecteur if k in reference]
+    vp = sum(signalee(detecteur[k]) and signalee(reference[k]) for k in codes)
+    fp = sum(signalee(detecteur[k]) and not signalee(reference[k]) for k in codes)
+    fn = sum(signalee(reference[k]) and not signalee(detecteur[k]) for k in codes)
+    return {
+        "vp": vp,
+        "fp": fp,
+        "fn": fn,
+        "precision": vp / (vp + fp) if vp + fp else None,
+        "rappel": vp / (vp + fn) if vp + fn else None,
+    }
+
+
+def section_detecteur(humains: dict[str, dict], regles: dict[str, dict]) -> list[str]:
+    """Section du rapport : le contrôle (juge par règles) contre chaque relecteur et contre leur accord."""
+    references = dict(humains)
+    noms = list(humains)
+    if len(noms) >= 2:
+        a, b = humains[noms[0]], humains[noms[1]]
+
+        def bas(notes: dict, c: str) -> bool:
+            return notes.get(c) is not None and notes[c] < 2
+
+        communs = [k for k in a if k in b]
+        references["les deux"] = {k: {c: 0 if bas(a[k], c) and bas(b[k], c) else 2 for c in CRITERES} for k in communs}
+        references["au moins un"] = {
+            k: {c: 0 if bas(a[k], c) or bas(b[k], c) else 2 for c in CRITERES} for k in communs
+        }
+    lignes = [
+        "",
+        "## 4. Contrôle des ajouts et omissions contre les relecteurs",
+        "",
+        "Une fiche est signalée si « invention » (ajouts) ou « données » / « contraintes » (omissions) vaut "
+        "moins de 2. Contrôle = `controle.py` via le juge par règles. Cible du plan Gold : précision et rappel ≥ 0,80.",
+        "",
+        "| Contrôle | Référence | VP | FP | FN | Précision | Rappel |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    for nom, criteres in DETECTEUR.items():
+        for ref, notes in references.items():
+            r = precision_rappel(regles, notes, criteres)
+            p = f"{r['precision']:.2f}" if r["precision"] is not None else "–"
+            rp = f"{r['rappel']:.2f}" if r["rappel"] is not None else "–"
+            lignes.append(f"| {nom} | {ref} | {r['vp']} | {r['fp']} | {r['fn']} | {p} | {rp} |")
+    return lignes + [
+        "",
+        "Lecture : peu de fiches positives sur 40 (chiffres fragiles). Le contrôle est lexical : il ne voit ni une "
+        "affirmation fausse faite de mots du document, ni une donnée incomplète que le relecteur juge importante ; "
+        "il ne remplace pas la relecture humaine, il la cible.",
+    ]
+
+
 def cellule(r: tuple) -> str:
     kappa, n, exact = r
     if not n:
@@ -426,6 +487,9 @@ def rapport_calibration(humains: dict[str, dict], juges: dict[str, dict], chemin
         ]
         for s, v in sorted(par_systeme.items(), key=lambda kv: -sum(kv[1]) / len(kv[1])):
             lignes.append(f"| {s} | {len(v)} | {sum(v) / len(v):.2f} |")
+    regles = next((notes for nom, notes in juges.items() if "regles" in nom), None)
+    if regles is not None:
+        lignes += section_detecteur(humains, regles)
     texte = "\n".join(lignes) + "\n"
     chemin.parent.mkdir(parents=True, exist_ok=True)
     chemin.write_text(texte, encoding="utf-8")

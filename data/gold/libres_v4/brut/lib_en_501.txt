@@ -1,0 +1,11 @@
+Bassatine Canning Holding is a leading canned food producer based in Kasserine. Our state-of-the-art facility features a tunnel oven for processing our products. The recent increase in machinery downtime has raised concerns about the efficiency of our operations.
+
+During the last quarter, we observed that the Mean Time To Repair (MTTR) was at 70 minutes, which is higher than the target of 40 minutes. This has led to significant delays and inefficiencies in our production process. The root cause analysis suggests that the current maintenance practices need improvement.
+
+We have access to a variety of data including equipment logs, maintenance records, and production schedules. These data points will be crucial for the students to analyze and identify areas for improvement.
+
+The students are tasked with conducting a comprehensive study on the current maintenance procedures and proposing solutions to reduce the MTTR to 40 minutes. They should also ensure that the changeover time between different product lines does not exceed 30 minutes, as per company standards.
+
+The study must last no more than five weeks, and the students should adhere to the 5S approach to organize and improve their work environment during this period. This will help them to effectively manage their time and resources.
+
+Any questions or concerns regarding the project should be directed to Mr. Haythem Sghaier, our internal auditor. He can be reached at h.sghaier@bcho.tn or by phone at 71 634 673. The study should be completed and presented within the specified timeframe.

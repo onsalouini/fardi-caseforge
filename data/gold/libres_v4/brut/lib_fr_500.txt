@@ -1,0 +1,11 @@
+Usines Fonderie Sbeitla à Teboulba
+
+On nous a signalé des problèmes avec la cellule de grenaillage. On a constaté que le MTTR est de 70 minutes.
+
+On a les données de production et les coûts par unité. Les essais ne peuvent avoir lieu que le samedi.
+
+On demande aux étudiants de travailler sur la réduction du MTTR. Ils doivent chercher des solutions pour ramener le temps de panne à 30 minutes.
+
+Le client final doit valider toute modification. On ne peut pas faire de changements sans son accord.
+
+Contactez Mme Ghada Brahmi. C'est le pilote de ligne. Vous pouvez la joindre au 55,58 DT par unité ou par mail à g.brahmi@ufsb.tn. Son numéro est 72 882 392.

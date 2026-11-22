@@ -35,3 +35,20 @@ Produit par `python generation/juge.py calibrer`. 40 fiches générées du **dev
 | gabarit | 10 | 14.40 |
 | llm_champs | 11 | 14.18 |
 | gabarit_pipeline | 10 | 12.35 |
+
+## 4. Contrôle des ajouts et omissions contre les relecteurs
+
+Une fiche est signalée si « invention » (ajouts) ou « données » / « contraintes » (omissions) vaut moins de 2. Contrôle = `controle.py` via le juge par règles. Cible du plan Gold : précision et rappel ≥ 0,80.
+
+| Contrôle | Référence | VP | FP | FN | Précision | Rappel |
+|---|---|---|---|---|---|---|
+| ajouts | ali | 0 | 1 | 1 | 0.00 | 0.00 |
+| ajouts | boutheina | 0 | 1 | 4 | 0.00 | 0.00 |
+| ajouts | les deux | 0 | 1 | 1 | 0.00 | 0.00 |
+| ajouts | au moins un | 0 | 1 | 4 | 0.00 | 0.00 |
+| omissions | ali | 4 | 1 | 9 | 0.80 | 0.31 |
+| omissions | boutheina | 5 | 0 | 29 | 1.00 | 0.15 |
+| omissions | les deux | 4 | 1 | 7 | 0.80 | 0.36 |
+| omissions | au moins un | 5 | 0 | 29 | 1.00 | 0.15 |
+
+Lecture : peu de fiches positives sur 40 (chiffres fragiles). Le contrôle est lexical : il ne voit ni une affirmation fausse faite de mots du document, ni une donnée incomplète que le relecteur juge importante ; il ne remplace pas la relecture humaine, il la cible.
