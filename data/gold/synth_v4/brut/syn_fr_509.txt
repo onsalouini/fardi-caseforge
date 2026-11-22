@@ -1,0 +1,22 @@
+Formulaire d'audit de poste – grille AUD-4
+
+Entreprise : Comptoir Confection Essalam
+Site audité : Tozeur
+Produit : pulls en maille
+Auditeur : Mme Abir Bahri (cheffe d'atelier)
+
+Constat : taux de disponibilité de 84 % relevé sur tunnel de vaporisage ; démarche non suivie en poste de nuit : méthode SMED.
+
+Mesures complémentaires :
+- MTTR de 35 minutes
+- taux de disponibilité de 90 % au dernier audit
+- poste voisin : machine à broder
+
+Analyse menée par H. Ksouri (auditeur interne), outil utilisé : méthode SMED. L'écart vient surtout du poste tunnel de vaporisage.
+
+- la certification ISO 15378 doit être conservée
+- les essais ne peuvent avoir lieu que le samedi
+
+Diffusion restreinte : coût de revient 75,45 DT par unité, marge brute de 17 %, lot concerné 26W374.
+
+Visa du responsable : M. Haythem Ksouri – auditeur interne – +216 23 378 586

@@ -1,0 +1,22 @@
+Plan d'actions – réunion du lundi, sem. 15
+
+Site : l'atelier de Le Kef (Usines Emballages Sbeitla, UESB). Fabrication de sacs tissés pour un équipementier allemand.
+
+Point bloquant : taux de non-conformité de 5 % sur le poste robot de dépose à Le Kef, contre taux de non-conformité de 3 % il y a un mois.
+
+Causes retenues :
+- réglages différents d'une équipe à l'autre sur robot de dépose ;
+- consommation d'énergie de 310 kWh par tonne sur sécheur de granulés ;
+- démarche absente : méthode QRQC.
+
+Actions décidées :
+- M. Ellouze : appliquer gestion visuelle Kanban sur robot de dépose ;
+- Mme Nesrine Fakhfakh (cheffe d'atelier) : déployer méthode QRQC ;
+- point d'avancement en sem. 15.
+
+- toute modification doit être validée par le client final
+- la certification FSSC 22000 doit être conservée
+
+Données jointes : export des arrêts de sécheur de granulés, rapport NCR-2025-9580, matricule opérateur MAT-40256.
+
+Rédigé par Mme Marwa Ellouze (ingénieure méthodes) · m.ellouze@uesb.tn · +216 39 914 133

@@ -1,0 +1,15 @@
+8D report – customer complaint opened in week 42
+
+D1 – Team: Ms. Kaouther Zribi (continuous improvement lead), K. Zribi, Ms. Ghada Bouslama (internal auditor); site the Bekalta industrial park.
+
+D2 – Problem: complaint NCR-2026-0413 on coaxial cables, batch 26M121; first pass yield of 76% found on the cut-and-strip machine.
+
+D3 – Containment: 100% sorting of stock, MTTR of 30 minutes during sorting, coiling machine stopped.
+
+D4 – Root causes (via Poka-Yoke error proofing): worn tooling on the cut-and-strip machine, first pass yield of 80% before the drift.
+
+D5 – Corrective actions: value stream mapping on the cut-and-strip machine, followed by K. Zribi; customer informed (public hospitals).
+
+D6 – Implementation constraints: trials can only take place on Saturdays; the BRCGS certification must be kept.
+
+Restricted: unit cost TND 20.90 per unit, gross margin of 14%, affected batch 26M121.

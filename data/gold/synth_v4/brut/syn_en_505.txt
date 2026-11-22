@@ -1,0 +1,22 @@
+Action plan – Monday meeting, week 42
+
+Site: the Bekalta plant (Thala Packaging Plant5, TPPL). Manufacturing cosmetic bottles for Libyan distributors.
+
+Blocking p0int: MTTR of 35 minutes on the calendering line in Bekàlta, against MTTR of 25 minutes a month ago.
+
+Retained causes:
+- settings differ between shlfts on the càlendering linc;
+- first pass yield of 80% on the pellet dryer;
+- no formal Kanban visual management.
+
+Agreed actions:
+- W. Bouraoui: launch QRQC method on the calendering line;
+- Ms. Imen Mzàli (workshop supervisor): set up Kanban vlsual management;
+- progress review in week 42.
+
+- the FSSC 22000 certification must be kept
+- trials can only take place on Saturdays
+
+Attached data: pellet dryer downtime export, report NCR-2025-5631, operator ID MAT-58449.
+
+Written by Mr. Wael Bouraoui (industrial engineer) · w.bouraoui@tppl.tn · 78 551 971

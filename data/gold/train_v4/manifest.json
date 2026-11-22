@@ -1,0 +1,46 @@
+{
+  "version": "v4",
+  "base": "data/final/train.jsonl (v3, inchangé)",
+  "sources_v4": [
+    "synth_v4"
+  ],
+  "dev_inchange": "a075b2f5845a7d17836da9d892ae5d461205dfeb8ceffd47ad3bfa8025f750a9",
+  "effectifs": {
+    "passages": 736,
+    "documents": 96,
+    "par_version": {
+      "v3": 496,
+      "v4": 240
+    },
+    "par_source": {
+      "lib": 78,
+      "syn": 658
+    },
+    "par_langue": {
+      "ar": 200,
+      "en": 248,
+      "fr": 223,
+      "mixte": 65
+    },
+    "entites_par_etiquette": {
+      "ORG": 221,
+      "PERSONNE": 262,
+      "SITE": 212,
+      "DONNEE_SENSIBLE": 340,
+      "PRODUIT": 158,
+      "EQUIPEMENT": 314,
+      "PROCESSUS": 220,
+      "INDICATEUR": 222,
+      "CONTRAINTE": 193
+    }
+  },
+  "ajoutes": 240,
+  "ecartes": [],
+  "fiches": 96,
+  "sha256": {
+    "train.jsonl": "891736aa41a344e1eda4d83aea5289672020465a98ce0e4874ce01561d147424",
+    "train.bio.jsonl": "577c4a5375cf6cb558e203a7c53684b1a55074fbcfbcd56c9786714b980b8228",
+    "documents_train.jsonl": "508336ba5763536d7a2cbde52d4f01e18fffe7e9da0799f1449844400491de71",
+    "fiches_train.jsonl": "a9fc4a2275a2f8f2ccf5ec05b2f3023f97d14b26f77335e835ed23804a28e9f1"
+  }
+}

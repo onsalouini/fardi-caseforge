@@ -1,0 +1,22 @@
+Action plan – Monday meeting, week 6
+
+Site: the Gafsa unit (Rimel Packaging P1ants, RPPL). Manufacturing therrnoforrncd cups for a German supplier.
+
+Blocking point: absenteeism rate of 10% on the pick-and-place robot in Gafsa, against ab5enteeism rate of 7% a month ago.
+
+Retained causes:
+- settings differ between 5hifts on the pick-and-place robot;
+- non-conformity rate of 8% on the pellet dryer;
+- no formal 5S approach.
+
+Agreed actions:
+- A. Brahmi: launch Kanban visual management 0n the pick-and-place robot;
+- Mr. Montassar Amri (workshop supervisor): set up 5S approach;
+- progress review in week 6.
+
+- a changeover must not exceed 15 minutes
+- trials can only take place on Saturdays
+
+Attached data: pellet dryer downtime export, report NCR-2025-5407, operator ID MAT-50573.
+
+Written by Mr. Adel Brahmi (continuous improvement lead) · a.brahmi@rppl.tn · 75 102 381

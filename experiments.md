@@ -18,6 +18,27 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-22 · Boutheina · Audit croisé du lot C (Gold)
+- Branche `origin/lot-c-gold` (`d5182b7`), dev seulement, test gelé non lu. Rapport : `reports/audit_lotC_gold.md`.
+- H1 corrigé : aucun accès au test dans `caseforge/models/` ni `caseforge/retrieval/`. Post-traitement des bornes reproduit à l'identique (F1 token 0,743 → 0,784, strict 0,718 → 0,759).
+- Risque de réglage sur le dev faible : aucune entité de référence bornée par une ponctuation (train v3 0/1 464, dev 0/449), la règle suit la convention du guide. Mais le gain vient presque entièrement des INDICATEUR synthétiques finissant par « . » (54 corrections sur 3 graines, 1 seule dans un texte libre ; `lib_` inchangé à 0,557) : à annoncer avec cette portée. Cas limite : 2 ORG « … Co. » du train v4 seraient coupées ; recommandation d'une liste d'abréviations protégées.
+
+## 2026-11-22 · Boutheina · Lot A Gold · train v4 gelé
+- `python -m caseforge.gold.train_v4` → `data/gold/train_v4/` : train v3 (496 passages, `data/final/train.jsonl` inchangé) + 240 passages synthétiques v4 = **736 passages, 96 documents**. Dédoublonnage contre le train v3 et le dev : 0 passage écarté. Dev (162) et test gelé (206) inchangés ; empreinte du dev notée dans le manifeste.
+- Entités : INDICATEUR 132 → 222 (+68 %), PROCESSUS 145 → 220 (+52 %), DONNEE_SENSIBLE 204 → 340 (+67 %), EQUIPEMENT 202 → 314, PERSONNE 156 → 262, ORG 189 → 221, SITE 175 → 212, CONTRAINTE 133 → 193, PRODUIT 128 → 158. Langues : ar 200, en 248, fr 223, mixte 65.
+- Ce gel contient la partie synthétique du v4. Les textes libres v4 (lot D) viendront dans un second temps : on gèle dès maintenant pour que le lot C puisse réentraîner avant la validation du 23/11.
+- Gel : `data/gold/train_v4/manifest.json` (SHA-256 des 4 fichiers, identiques sous Linux et Windows) ; `tests/test_gold_train_v4.py` échoue si un fichier change. Remis aux lots B, C et D.
+
+## 2026-11-21 · Boutheina · Lot A Gold · jeux de robustesse du dev
+- `python -m caseforge.gold.robustesse` → `data/gold/robustesse/` : trois variantes des 162 passages du **dev** (mêmes `passage_id`, comparaison appariée), étiquettes recalées sur les nouveaux offsets, graine 2027, formats `dev.jsonl` et `dev.bio.jsonl`. Test gelé non lu ; évaluation seulement, jamais d'entraînement.
+- `abreviations` (mots courants abrégés, entités comprises) : 67 passages et 57 entités sur 449 modifiés. `ocr` (confusions de caractères d'un scan, entités comprises) : 145 passages, 155 entités. `mise_en_page` (liste à puces, e-mail avec en-tête et retours à la ligne, cellule de tableau ; entités inchangées) : 162 passages.
+- Remis aux lots B, C et D pour mesurer la perte de F1 NER et de fuite (cible Gold : perte ≤ 5 points de F1, fuite ≤ +1 point). Tests : `tests/test_gold_robustesse.py` (10).
+
+## 2026-11-21 · Boutheina · Lot A Gold · générateur v4 et 30 documents synthétiques
+- Générateur copié hors de `cfdata/` (figé) : `caseforge/gold/` (`lexiques_v4.py`, `gabarits_v4.py`, `generer_v4.py`). Nouveaux gabarits : tableau de bord, plan d'actions en liste, formulaire d'audit, rapport 8D. Graine 2027, identifiants `syn_<langue>_500` et suivants, champ `version` à `v4`, famille `G`.
+- `python -m caseforge.gold.generer_v4` → `data/gold/synth_v4/` : 30 documents (10 par langue), 240 passages, 678 entités, dont INDICATEUR 90, PROCESSUS 75, DONNEE_SENSIBLE 136. Bruits : propre 96, OCR 72, abréviations 48, code-switch 24 passages.
+- Anti-contamination sans lire le test : lexiques disjoints de tout le v3, donc de la famille B réservée au test (`tests/test_gold_generateur.py`, 8 tests) ; aucun nom du v4 présent au train ni au dev (9 noms remplacés). Annotations exactes par construction, non vérifiées par un humain : un échantillon sera vérifié avant le gel du train v4.
+
 ## 2026-11-14 · Ons · Clôture du palier Silver
 - Toutes les branches du Silver sont fusionnées dans `main` : Lot B (PR n° 27), Lot C (n° 23, 30), Lot D (n° 24, 26, 29), Lot E (n° 22, 25, 31). Tests : 387 passent, 1 ignoré ; CI verte sur la PR n° 31 (même contenu que `main`). Étiquette Git `palier-silver` posée sur le commit de clôture. Toutes les mesures sont faites sur le **dev** ; le test gelé `test-gele-v3` n'a pas été évalué.
 - Exigences du palier (sujet P7, p. 18 et règle commune p. 3) : NER fine-tuné (XLM-R, 0,743 ± 0,019, 3 graines, bootstrap) ; encodeurs (e5 : type de passage 0,948 ; LaBSE : cas similaires P@5 0,36) ; retrieval dense (LaBSE, e5 contre BM25) et RAG du Lot D (dense et reranking mesurés) ; LLM à sortie structurée (0,944 ± 0,003 ; entrées du pipeline 0,872 ± 0,005 contre 0,815, p = 0,007) ; anonymisation XLM-R + règles (fuite 2,5 ± 0,6 % contre 6,6 %) ; résultats par langue et par source ; ablations de tokenisation (B8), d'anonymisation (B14), de retrieval (E, D) ; analyses d'erreurs (Lot D : 61 ; Lot C : XLM-R 168) ; résultat publié reproduit (ANERcorp) ; cartes de modèle B, C, D et carte du système à jour ; démo Silver (`app/app.py`). Tableau de bord : `reports/silver.md`.
