@@ -1,0 +1,35 @@
+# Modèle de fichier du jeu tunisien (Lot B Gold, G2) : ÉVALUATION SEULEMENT, jamais d'entraînement.
+# Guide : docs/guide_tunisien.md (règles d'annotation : docs/guide_annotation_v2.md).
+#
+# Copier ce fichier dans data/lotb/tunisien/gold/<nom>.txt (passages annotés) ou dans
+# data/lotb/tunisien/textes/<nom>.txt (passages bruts, à double annoter), puis retirer le « # » des lignes utiles.
+# Encodage UTF-8. Les lignes vides et celles qui commencent par « # » sont ignorées.
+#
+# Directives (une par ligne) :
+#   @annotateur: <prénom>        une fois, avant le premier passage (pas dans textes/ : « preparer » l'ajoute)
+#   @doc: tun_<identifiant>      ouvre un document ; ses passages deviennent tun_<identifiant>_p000, _p001…
+#   @ecriture: arabe | arabizi | latin
+#   @lang: ar | mixte
+# @ecriture et @lang valent pour tous les passages qui suivent, jusqu'à la directive suivante.
+#
+# Passages : UN passage par ligne (1 à 5 phrases), sans retour à la ligne à l'intérieur.
+# Entité : [texte exact](ETIQUETTE), étiquette parmi
+#   ORG PERSONNE SITE DONNEE_SENSIBLE PRODUIT EQUIPEMENT PROCESSUS INDICATEUR CONTRAINTE
+# Ni espace ni ponctuation à l'intérieur des crochets en bordure, pas d'imbrication.
+# Crochet ou barre oblique inverse littéraux : \[  \]  \\
+# Le passage_id dépend de l'ordre des lignes : ne pas réordonner les passages après la double annotation.
+#
+# Gabarit (remplacer les <…> ; aucune ligne ci-dessous n'est un vrai passage) :
+#
+# @annotateur: <prénom>
+#
+# @doc: tun_<identifiant>
+# @ecriture: arabizi
+# @lang: mixte
+# <texte en arabizi avec [<nom de personne>](PERSONNE) et [<nom d'entreprise>](ORG)>
+# <passage suivant du même document>
+#
+# @doc: tun_<identifiant>
+# @ecriture: arabe
+# @lang: ar
+# <نص بالحروف العربية مع [<اسم الشركة>](ORG) و[<المدينة>](SITE)>
