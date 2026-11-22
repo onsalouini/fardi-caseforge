@@ -44,8 +44,8 @@ Langues du train v4 : ar 200, en 248, fr 223, mixte 65.
 | Paire | Passages | Tokens | Kappa | F1 spans exacts |
 | --- | --- | --- | --- | --- |
 | Boutheina – construction | 36 | 972 | 0.763 | 0.615 |
-
-**Double annotation entre deux humains : pas encore faite.** Seul l'accord d'un annotateur humain avec l'annotation par construction est mesuré pour l'instant.
+| ons – construction | 36 | 972 | 0.816 | 0.780 |
+| Boutheina – ons (humains) | 36 | 972 | 0.821 | 0.617 |
 
 ## 5. Usage d'IA déclaré
 
