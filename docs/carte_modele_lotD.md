@@ -150,6 +150,12 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
   à 98 à 100 % sur l'anonymisation ; il ne juge ni la faisabilité ni la langue, et voit mal les objectifs et les
   citations. Le juge LLM seul (Qwen2.5-7B, 4 bits) n'est pas fiable : v1 à échelle inversée, v2 à 62 % et 60 %
   d'accord ; juge retenu : **hybride** (règles + LLM pour faisabilité et langue), 83,5 % (`reports/lot_d_gold_juge.md`).
+- **RQ2 (extraction structurée contre génération directe)** : la génération directe par le même LLM invente 4,6 % de
+  ses éléments contre 0 % pour le Gold (Δ +4,6 points, IC 95 % [+1,4 ; +8,9], 3 graines, bootstrap apparié ; arabe
+  7,9 %), omet 10 % des faits clés contre 4 %, et tombe à F1 0,74 ± 0,03 contre 0,945 (`reports/lot_d_gold_rq2.md`).
+- **Robustesse du LLM** (graine 42) : OCR −11,2 points (arabe −13,7), mise en page −0,6 (non significatif) ; le LLM
+  perd plus que le gabarit sous OCR (−8,4) ; variante « abréviations » non générée (exécution Kaggle interrompue)
+  (`reports/lot_d_gold_robustesse.md`).
 - **Limites** : 21 documents au dev, dont 3 textes libres ; règles mises au point sur le dev par analyse d'erreurs ;
   biais du protocole de notation pour les fiches du pipeline (document de référence affiché à la place de
   l'anonymisation du lot B).

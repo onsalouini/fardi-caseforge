@@ -149,11 +149,15 @@ def main() -> None:
         "Gabarit v2 (sans GPU)", SORTIES / "robustesse_gabarit_propre.jsonl", fichiers_gabarit, refs, index
     )
     if args.llm:
-        fichiers_llm = {v: SORTIES / f"robustesse_llm_{v}_s42.jsonl" for v in VARIANTES}
-        manquants = [str(c) for c in fichiers_llm.values() if not c.exists()]
-        if manquants:
-            raise SystemExit(f"Fiches LLM manquantes (Kaggle, section 5 quater) : {manquants}")
+        candidats = {v: SORTIES / f"robustesse_llm_{v}_s42.jsonl" for v in VARIANTES}
+        fichiers_llm = {v: c for v, c in candidats.items() if c.exists()}
+        manquants = [v for v in VARIANTES if v not in fichiers_llm]
+        if not fichiers_llm:
+            raise SystemExit("Aucune fiche LLM perturbée (Kaggle, notebook de la suite, section 4).")
         lignes += tableau("LLM Gold (graine 42)", SORTIES / "gold_rejeu_s42_regle.jsonl", fichiers_llm, refs, index)
+        if manquants:
+            lignes += [f"Variantes LLM non générées (exécution Kaggle interrompue) : {', '.join(manquants)}.", ""]
+            print(f"Attention : variantes LLM absentes : {manquants}")
     lignes += [
         "Lecture : une baisse vient en partie de la métrique (mots abrégés ou bruités comparés aux mots de la "
         "référence propre), pas seulement d'une fiche moins complète.",
