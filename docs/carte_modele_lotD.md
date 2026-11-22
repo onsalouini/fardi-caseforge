@@ -148,8 +148,8 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
   note moyenne sur 16 : LLM extractif 14,56, gabarit 14,40, LLM à champs 14,18, gabarit du pipeline 12,35.
 - **Juge** : le juge par règles s'accorde avec les relecteurs sur la décision à 83,5 % en moyenne (92 % et 75 %) et
   à 98 à 100 % sur l'anonymisation ; il ne juge ni la faisabilité ni la langue, et voit mal les objectifs et les
-  citations. Le juge LLM v1 (Qwen2.5-7B) était invalide (échelle « invention » inversée) ; v2 à calibrer
-  (`reports/lot_d_gold_juge.md`).
+  citations. Le juge LLM seul (Qwen2.5-7B, 4 bits) n'est pas fiable : v1 à échelle inversée, v2 à 62 % et 60 %
+  d'accord ; juge retenu : **hybride** (règles + LLM pour faisabilité et langue), 83,5 % (`reports/lot_d_gold_juge.md`).
 - **Limites** : 21 documents au dev, dont 3 textes libres ; règles mises au point sur le dev par analyse d'erreurs ;
   biais du protocole de notation pour les fiches du pipeline (document de référence affiché à la place de
   l'anonymisation du lot B).

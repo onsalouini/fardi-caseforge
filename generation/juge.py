@@ -331,6 +331,22 @@ def juger(juge: str, moteur: Moteur | None, graine: int = 42) -> list[dict]:
     return sortie
 
 
+# Juge Gold retenu (22/11) : critères mesurables par les règles (validées : décision 92 % et 75 % d'accord avec les
+# relecteurs), critères qualitatifs par le LLM. Répartition fixée par la nature des critères, pas par les notes.
+CRITERES_LLM = ("faisabilite", "langue")
+
+
+def hybrider(regles: list[dict], llm: dict[str, dict]) -> list[dict]:
+    """Notes du juge par règles complétées par le juge LLM sur les critères que les règles ne mesurent pas."""
+    sortie = []
+    for n in regles:
+        scores = {**n["scores"], **{c: llm[n["code"]]["scores"].get(c) for c in CRITERES_LLM if n["code"] in llm}}
+        sortie.append(
+            {"code": n["code"], "juge": "hybride", "scores": scores, "acceptee": acceptee(scores), "reponse": None}
+        )
+    return sortie
+
+
 def comparer(a: dict[str, dict], b: dict[str, dict]) -> dict:
     """Par critère : (kappa pondéré, n, accord exact) sur les codes notés des deux côtés ; accord sur la décision."""
     res: dict = {}
@@ -423,7 +439,8 @@ def main() -> None:
     f = sous.add_parser("feuille")
     f.add_argument("--dossier", type=Path, default=RACINE / "reports")
     j = sous.add_parser("juger")
-    j.add_argument("--juge", choices=["regles", "llm", "fictif"], default="regles")
+    j.add_argument("--juge", choices=["regles", "llm", "fictif", "hybride"], default="regles")
+    j.add_argument("--notes-llm", type=Path, help="hybride : notes du juge LLM déjà calculées (faisabilité, langue)")
     j.add_argument("--modele", default="Qwen/Qwen2.5-7B-Instruct")
     j.add_argument("--graine", type=int, default=42)
     j.add_argument("--out", type=Path, required=True)
@@ -447,7 +464,12 @@ def main() -> None:
             moteur = moteur_transformers(args.modele, 0.0, 512)
         elif args.juge == "fictif":
             moteur = juge_fictif
-        notes = juger(args.juge, moteur, args.graine)
+        if args.juge == "hybride":
+            if not args.notes_llm:
+                raise SystemExit("--juge hybride demande --notes-llm (sorties du juge LLM sur Kaggle)")
+            notes = hybrider(juger("regles", None), {n["code"]: n for n in controle.charger(args.notes_llm)})
+        else:
+            notes = juger(args.juge, moteur, args.graine)
         args.out.parent.mkdir(parents=True, exist_ok=True)
         with args.out.open("w", encoding="utf-8") as sortie:
             sortie.writelines(json.dumps(n, ensure_ascii=False) + "\n" for n in notes)

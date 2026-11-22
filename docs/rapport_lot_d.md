@@ -47,7 +47,7 @@ Exigence du sujet : ne rien inventer, ne rien exposer, et rendre chaque élémen
 | Contrôle automatique des ajouts et omissions | rappel 1,00 sur 63 erreurs injectées (21 ajouts étrangers, 21 nombres modifiés, 21 omissions) ; a révélé 8 fiches de **référence** qui inventent « six mois » et une valeur « 6,1 % » tronquée par le gabarit du pipeline | `reports/lot_d_gold_controle.md` |
 | Abstention | 42 variantes du dev sans contraintes ou sans données : **95 % d'abstentions correctes, 0 invention** (Silver : 50 %) ; cible ≥ 80 % atteinte | `reports/lot_d_gold_abstention.md` |
 | Validation humaine | 40 fiches générées notées à l'aveugle par Ali et Boutheina ; accord sur la décision 82 % ; note sur 16 : LLM extractif 14,56, gabarit 14,40, LLM à champs 14,18, gabarit du pipeline 12,35 | `reports/lot_d_gold_juge.md` |
-| LLM-juge calibré | juge par règles : décision 92 % et 75 % d'accord avec les relecteurs (moyenne 83,5 %, au niveau humain), anonymisation 98 à 100 % ; juge LLM v1 invalide (échelle inversée), v2 corrigé avant toute note humaine : **en attente** | `reports/lot_d_gold_juge.md` |
+| LLM-juge calibré | **juge retenu : hybride** (règles pour les 6 critères mesurables, LLM pour faisabilité et langue) : décision 92 % et 75 % d'accord avec les relecteurs (moyenne 83,5 %, au niveau de l'accord entre humains, 82 %), anonymisation 98 à 100 % ; juge LLM seul : v1 invalide (échelle inversée), **v2 : 62 % et 60 %**, notes incohérentes avec ses commentaires (« invention » 0 sur 18 fiches sur 40) : **résultat négatif** pour Qwen2.5-7B 4 bits comme juge de cette grille | `reports/lot_d_gold_juge.md` |
 | Robustesse (abréviations, OCR, mise en page) | gabarit : −4,2 points (abréviations), −8,4 (OCR ; arabe −12,7), 0 (mise en page) ; LLM : **en attente** | `reports/lot_d_gold_robustesse.md` |
 | Question de recherche RQ2 (extraction structurée contre génération directe, sur les faits inventés) | protocole prêt (schéma `direct`, `generation/rq2.py`) : **en attente** | `reports/lot_d_gold_rq2.md` |
 
@@ -63,6 +63,7 @@ Exigence du sujet : ne rien inventer, ne rien exposer, et rendre chaque élémen
 | Sans contrôle d'ancrage | 0,94 | même F1 : le contrôle garantit la fidélité, pas le score |
 | Règle « Relevés » stricte (passage cité « donnee » seulement) | pipeline 0,839 contre 0,872 | **négatif**, remplacée par la règle finale |
 | Juge LLM v1 | invention 0 sur les 40 fiches | **négatif** : consigne corrigée (échelle explicite) |
+| Juge LLM v2 (consigne corrigée) | décision 62 % et 60 % d'accord avec les relecteurs | **négatif** : un LLM 7 B quantifié ne tient pas une grille de 8 critères ; juge hybride retenu |
 
 ## 6. Analyse d'erreurs
 

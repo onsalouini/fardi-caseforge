@@ -272,3 +272,11 @@ def test_robustesse_anonymise_avec_les_pseudonymes_du_document() -> None:
     assert table == {"org": "[ENTREPRISE_A]"}
     ents = [{"start": 4, "end": 15, "label": "ORG", "text": "A1pha Plast", "ref": "org"}]
     assert R.anonymiser("Ste A1pha Plast, Sfax", ents, table) == "Ste [ENTREPRISE_A], Sfax"
+
+
+def test_juge_hybride_complete_les_criteres_qualitatifs() -> None:
+    regles = [{"code": "F01", "scores": {**dict.fromkeys(juge.CRITERES, 2), "faisabilite": None, "langue": None}}]
+    llm_notes = {"F01": {"scores": {**dict.fromkeys(juge.CRITERES, 0), "faisabilite": 1, "langue": 2}}}
+    h = juge.hybrider(regles, llm_notes)[0]
+    assert h["scores"]["invention"] == 2 and h["scores"]["faisabilite"] == 1 and h["scores"]["langue"] == 2
+    assert h["acceptee"]

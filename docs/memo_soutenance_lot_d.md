@@ -30,8 +30,9 @@ contrôle est lexical et ne voit pas une affirmation dont tous les mots sont dan
 signalées, et elles pénalisent un modèle qui refuse d'inventer.
 
 **Le juge LLM est-il fiable ?** Le premier ne l'était pas : il notait « invention » à l'envers (0 partout). Nous l'avons
-vu en le comparant au juge par règles et corrigé avant d'avoir les notes humaines. La calibration de la v2 est dans
-`reports/lot_d_gold_juge.md`.
+vu en le comparant au juge par règles et corrigé avant d'avoir les notes humaines. La v2 reste peu fiable (62 % et 60 %
+d'accord sur la décision, contre 82 % entre humains) : un LLM de 7 B en 4 bits ne tient pas 8 critères à la fois. Nous
+avons retenu un juge hybride : règles pour les critères mesurables, LLM pour faisabilité et langue, 83,5 % d'accord.
 
 **Pourquoi le RAG n'aide-t-il pas ?** Le retrieval dense trouve des cas proches par le sujet (5 fois plus du même
 secteur) mais pas par la forme (courriel, PV, formulaire), qui guide davantage l'extraction : 0,934 contre 0,944,
