@@ -27,7 +27,7 @@ Légende : ✅ fait et mesuré · 🟡 en cours, ou fait sans la mesure finale �
 | --- | --- | --- | --- |
 | Audit de ré-identification (P7) | N3 ≤ 50 % pour une perte de fiche ≤ 3 points | lot B : travail en cours | 🟡 |
 | Contrôle des ajouts et des omissions (P7) | précision et rappel ≥ 0,80 sur 40 fiches | détecteur livré ; rappel 1,00 par injection ; la précision contre l'annotation humaine n'est pas encore mesurée | 🟡 |
-| Robustesse aux abréviations et à la mise en page (P7) | perte ≤ 5 points de F1 NER, fuite ≤ +1 point | **3 jeux livrés** (`data/gold/robustesse/`) ; les mesures de chaque lot sont en attente | 🟡 |
+| Robustesse aux abréviations et à la mise en page (P7) | perte ≤ 5 points de F1 NER, fuite ≤ +1 point | 3 jeux livrés ; **règles NER et anonymisation par défaut mesurées** ([`gold_robustesse.md`](gold_robustesse.md)) : cible tenue pour la mise en page, **pas pour les abréviations ni l'OCR** ; XLM-R et `union_fichier` en attente | 🟡 |
 | Validation humaine et LLM-juge (P7, règle commune) | kappa juge–humains ≥ kappa humains − 0,10 | pas commencé | ⏳ |
 | Transfert vers le tunisien (règle commune) | écart fr → tunisien avec IC 95 % | pas commencé | ⏳ |
 | Abstention (règle commune) | ≥ 80 % d'abstentions correctes | pas commencé | ⏳ |
@@ -56,13 +56,29 @@ Légende : ✅ fait et mesuré · 🟡 en cours, ou fait sans la mesure finale �
   - CONTRAINTE (0,56) : la phrase entière ou seulement la valeur.
 - Ces deux points sont à préciser dans le guide.
 
-## 4. Robustesse : jeux livrés, mesures attendues
+## 4. Robustesse
 
-| Lot | Mesure attendue sur les 3 jeux | Cible | Résultat |
-| --- | --- | --- | --- |
-| B | fuite et sur-masquage de l'anonymisation Silver | fuite ≤ +1 point | en attente |
-| C | F1 NER de XLM-R (v3, puis v4) | perte ≤ 5 points | en attente |
-| D | fiche de bout en bout sur des entrées perturbées | — | en attente |
+Mesurée sur le dev d'origine (21 documents) contre chaque jeu perturbé, avec un bootstrap apparié sur les documents (10 000 tirages). Rapport : [`gold_robustesse.md`](gold_robustesse.md).
+
+| Brique (sans GPU) | Jeu | Dev → jeu | Écart [IC 95 %] | Cible |
+| --- | --- | --- | --- | --- |
+| NER par règles (B3 sans les mots du dev), F1 token | abréviations | 0,701 → 0,645 | −5,6 [−8,1 ; −3,2] | ❌ |
+| | OCR | 0,701 → 0,645 | −5,6 [−7,7 ; −3,5] | ❌ |
+| | mise en page | 0,701 → 0,690 | −1,1 [−2,4 ; +0,1] | ✅ |
+| Anonymisation par défaut (`union_seuil`), fuite | abréviations | 6,6 % → 13,1 % | +6,6 [+2,4 ; +11,4] | ❌ |
+| | OCR | 6,6 % → 8,5 % | +1,9 [+0,0 ; +4,1] | ❌ |
+| | mise en page | 6,6 % → 7,0 % | +0,5 [+0,0 ; +1,4] | ✅ |
+
+**Lecture**
+- Les briques du Bronze **résistent à la mise en page**.
+- Elles **ne résistent pas aux abréviations ni à l'OCR** : la fuite **double** avec les abréviations, car un nom abrégé n'est plus reconnu.
+- Le sur-masquage monte avec la mise en page (21,9 % → 32,4 %) : les en-têtes ajoutés (e-mail, tableau) sont masqués à tort.
+
+| Lot | Mesure encore attendue sur les mêmes jeux | Résultat |
+| --- | --- | --- |
+| B | fuite de l'anonymisation Silver (`union_fichier`, XLM-R) | en attente |
+| C | F1 NER de XLM-R (v3, puis v4) | en attente |
+| D | fiche de bout en bout sur des entrées perturbées | en attente |
 
 ## 5. Limitations (état au 22/11)
 

@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-22 · Boutheina · Lot E Gold · robustesse des règles NER et de l'anonymisation
+- `python -m caseforge.gold.robustesse_mesure` → `reports/gold_robustesse.md` : dev d'origine contre les 3 jeux de `data/gold/robustesse/`, bootstrap apparié sur les 21 documents (10 000 tirages, graine 2027). Briques sans GPU : NER par règles B3 sans les mots du dev (B7b), anonymisation par défaut du pipeline (`union_seuil`). Test gelé non lu.
+- F1 token : abréviations 0,701 → 0,645 (−5,6 [−8,1 ; −3,2]), OCR 0,701 → 0,645 (−5,6 [−7,7 ; −3,5]), mise en page 0,701 → 0,690 (−1,1 [−2,4 ; +0,1]). Fuite : abréviations 6,6 % → 13,1 % (+6,6 [+2,4 ; +11,4]), OCR → 8,5 % (+1,9 [+0,0 ; +4,1]), mise en page → 7,0 % (+0,5 [+0,0 ; +1,4]).
+- Cible Gold (perte ≤ 5 points, fuite ≤ +1 point) tenue pour la mise en page seulement. Résultat négatif gardé : il montre où le Bronze casse. XLM-R et `union_fichier` restent à mesurer par les lots C et B sur les mêmes jeux.
+
 ## 2026-11-22 · Boutheina · Lot A Gold · double annotation à l'aveugle (kappa)
 - 36 passages v4 (15 % des 240, stratifiés par langue, graine 2027), annotés à l'aveugle par Boutheina (21/11) et Ons (22/11), chacune sur son PC, avec `data/gold/kappa_v4/annoter.html` (sans pré-annotation). Indépendance vérifiée : 2 passages sur 36 identiques, 45 entités vues par Ons seule, 69 par Boutheina seule.
 - **Kappa de Cohen au token Boutheina – Ons : 0,821** (972 tokens), cible ≥ 0,70 atteinte ; F1 spans exacts 0,617. Accord avec la construction : Ons 0,816, Boutheina 0,763.
