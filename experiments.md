@@ -18,6 +18,12 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-22 · Boutheina · Lot A Gold · train v4 gelé
+- `python -m caseforge.gold.train_v4` → `data/gold/train_v4/` : train v3 (496 passages, `data/final/train.jsonl` inchangé) + 240 passages synthétiques v4 = **736 passages, 96 documents**. Dédoublonnage contre le train v3 et le dev : 0 passage écarté. Dev (162) et test gelé (206) inchangés ; empreinte du dev notée dans le manifeste.
+- Entités : INDICATEUR 132 → 222 (+68 %), PROCESSUS 145 → 220 (+52 %), DONNEE_SENSIBLE 204 → 340 (+67 %), EQUIPEMENT 202 → 314, PERSONNE 156 → 262, ORG 189 → 221, SITE 175 → 212, CONTRAINTE 133 → 193, PRODUIT 128 → 158. Langues : ar 200, en 248, fr 223, mixte 65.
+- Ce gel contient la partie synthétique du v4. Les textes libres v4 (lot D) viendront dans un second temps : on gèle dès maintenant pour que le lot C puisse réentraîner avant la validation du 23/11.
+- Gel : `data/gold/train_v4/manifest.json` (SHA-256 des 4 fichiers, identiques sous Linux et Windows) ; `tests/test_gold_train_v4.py` échoue si un fichier change. Remis aux lots B, C et D.
+
 ## 2026-11-21 · Boutheina · Lot A Gold · jeux de robustesse du dev
 - `python -m caseforge.gold.robustesse` → `data/gold/robustesse/` : trois variantes des 162 passages du **dev** (mêmes `passage_id`, comparaison appariée), étiquettes recalées sur les nouveaux offsets, graine 2027, formats `dev.jsonl` et `dev.bio.jsonl`. Test gelé non lu ; évaluation seulement, jamais d'entraînement.
 - `abreviations` (mots courants abrégés, entités comprises) : 67 passages et 57 entités sur 449 modifiés. `ocr` (confusions de caractères d'un scan, entités comprises) : 145 passages, 155 entités. `mise_en_page` (liste à puces, e-mail avec en-tête et retours à la ligne, cellule de tableau ; entités inchangées) : 162 passages.
