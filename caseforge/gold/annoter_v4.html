@@ -35,8 +35,10 @@ puis choisis l'étiquette (ou touche 1 à 9). Clique ✕ pour retirer une entit�
 const TACHES=__TACHES__, LABELS=__LABELS__;
 const COUL=["#E30613","#1B3F8B","#0E7C66","#8B5CF6","#D97706","#0891B2","#BE185D","#4D7C0F","#6B7280"];
 let i=0, debut=null, fin=null, ann={};
-try{ann=JSON.parse(localStorage.getItem("cf_kappa_v4")||"{}")}catch(e){}
-function sauver(){try{localStorage.setItem("cf_kappa_v4",JSON.stringify(ann))}catch(e){}}
+// mémoire propre à chaque annotateur : sur un PC partagé, personne ne voit les annotations d'un autre
+function cle(){return "cf_kappa_v4_"+document.getElementById("nom").value.trim().toLowerCase()}
+function charger(){ann={};const n=document.getElementById("nom").value.trim();if(n){try{ann=JSON.parse(localStorage.getItem(cle())||"{}")}catch(e){}}debut=fin=null;afficher()}
+function sauver(){if(!document.getElementById("nom").value.trim())return;try{localStorage.setItem(cle(),JSON.stringify(ann))}catch(e){}}
 LABELS.forEach((l,k)=>{const b=document.createElement("button");b.textContent=(k+1)+" · "+l;
  b.style.background=COUL[k];b.onclick=()=>etiqueter(l);document.getElementById("etiq").appendChild(b)});
 document.addEventListener("keydown",e=>{const k=parseInt(e.key);if(k>=1&&k<=LABELS.length&&e.target.id!=="nom")etiqueter(LABELS[k-1])});
@@ -53,7 +55,7 @@ function afficher(){const t=TACHES[i],ents=ann[t.passage_id]||[];
  const l=document.getElementById("liste");l.innerHTML="";ents.forEach((x,k)=>{const s=document.createElement("span");
   s.innerHTML=`<i style="color:${COUL[LABELS.indexOf(x.label)]}">${x.label}</i> ${x.text}`;const b=document.createElement("b");
   b.textContent="✕";b.onclick=()=>{ents.splice(k,1);ann[t.passage_id]=ents;sauver();afficher()};s.appendChild(b);l.appendChild(s)})}
-function etiqueter(label){if(debut===null)return;const t=TACHES[i],a=Math.min(debut,fin),b=Math.max(debut,fin);
+function etiqueter(label){if(!document.getElementById("nom").value.trim()){alert("Écris d'abord ton prénom en haut.");return}if(debut===null)return;const t=TACHES[i],a=Math.min(debut,fin),b=Math.max(debut,fin);
  const s=t.tokens[a][1],e=t.tokens[b][2];const ents=(ann[t.passage_id]||[]).filter(x=>x.end<=s||x.start>=e);
  ents.push({start:s,end:e,label:label,text:t.text.slice(s,e)});ents.sort((x,y)=>x.start-y.start);
  ann[t.passage_id]=ents;debut=fin=null;sauver();afficher()}
@@ -62,5 +64,6 @@ function exporter(){const nom=document.getElementById("nom").value.trim();if(!no
  const data={annotateur:nom,date:new Date().toISOString(),annotations:TACHES.map(t=>({passage_id:t.passage_id,entities:ann[t.passage_id]||[]}))};
  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,1)],{type:"application/json"}));
  a.download=`annotations_${nom}.json`;a.click()}
+document.getElementById("nom").addEventListener("change",charger);
 afficher();
 </script></body></html>
