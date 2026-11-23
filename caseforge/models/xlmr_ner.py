@@ -200,6 +200,7 @@ def entrainer(a) -> None:
     print(f"-> {f}")
     if a.garder_modele:
         tr.save_model(f"{sortie}/meilleur")
+        tok.save_pretrained(f"{sortie}/meilleur")
     for ckpt in Path(sortie).glob("checkpoint-*"):
         shutil.rmtree(ckpt, ignore_errors=True)
     from caseforge.eval.ner_eval import charger as ch, evaluer

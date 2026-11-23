@@ -18,6 +18,16 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-23 · Ghayth · Lot C Gold · tâche 3 : sélection active, 150 passages à vérifier d'abord
+- Quoi : `python -m caseforge.models.incertitude_xlmr --modele runs/xlmr_s42_f100/meilleur` → `reports/lotC_gold_incertitude.csv` (150 passages) et `reports/lotC_gold_incertitude.md`. Modèle : XLM-R fine-tuné sur le train v3 (graine 42, `--garder-modele`, F1 token dev 0,757, prédictions identiques au bit près à la courbe : entraînement CPU reproductible). Score : entropie moyenne (bits) des 19 tags BIO sur les sous-mots ; marge entre les deux tags les plus probables en score secondaire. Tests : `tests/test_incertitude_xlmr.py`.
+- Candidats (507) : 240 passages v4 du train v4 gelé (`data/gold/train_v4/train.jsonl`, `version == v4`) et les 40 textes libres v4 d'Ons, lus sur sa branche `lot-d-gold` (pas encore fusionnée), découpés en 267 paragraphes. Aucune étiquette n'est encore vérifiée par un humain (`verifie_humain: false` partout).
+- **Validation sur le dev** (le score prédit-il les erreurs ?) : Spearman ρ = 0,47 entre entropie et nombre d'erreurs du passage ; le quart le plus incertain a 2,46 erreurs par passage (24 % sans erreur) contre 0,55 (62 %) pour les autres, et **concentre 60 % des erreurs** (25 % attendus au hasard).
+- Sélection (retenus / candidats) : textes libres 93/267, synthétiques v4 57/240 ; ar 76/205, en 45/152, fr 29/150. Entropie moyenne : retenus 0,547, non retenus 0,180.
+- **Défaut de données signalé (Lot D, Ons)** : contrôle automatique des écritures (colonne `alerte`, section 4 du rapport) : 10 passages contiennent du chinois. `lib_ar_500` est une sortie ratée du LLM de rédaction (« 关于我们上一个指令… 我被告知需要复制粘贴特定内容 », répété dans plusieurs paragraphes) ; `lib_ar_514_p003` contient « 降低成本 ». À corriger ou retirer avant d'ajouter les textes libres au train. L'incertitude seule ne les repérait pas (`lib_ar_500` au rang 293/507) : le contrôle d'écriture est nécessaire en plus.
+- Correctif : `xlmr_ner.py --garder-modele` sauve aussi le tokenizer avec le modèle.
+- Limites : un seul modèle (graine 42) ; découpage des textes libres par paragraphe (provisoire tant que le Lot A ne les a pas découpés) ; le train v4 étant gelé le 23/11, la liste sert surtout à vérifier après coup les passages v4 et à prioriser la vérification des textes libres.
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le script.
+
 ## 2026-11-22 · Boutheina · Lot A Gold · double annotation à l'aveugle (kappa)
 - 36 passages v4 (15 % des 240, stratifiés par langue, graine 2027), annotés à l'aveugle par Boutheina (21/11) et Ons (22/11), chacune sur son PC, avec `data/gold/kappa_v4/annoter.html` (sans pré-annotation). Indépendance vérifiée : 2 passages sur 36 identiques, 45 entités vues par Ons seule, 69 par Boutheina seule.
 - **Kappa de Cohen au token Boutheina – Ons : 0,821** (972 tokens), cible ≥ 0,70 atteinte ; F1 spans exacts 0,617. Accord avec la construction : Ons 0,816, Boutheina 0,763.
