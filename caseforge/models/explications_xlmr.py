@@ -45,6 +45,14 @@ class Explicateur:
         self.emb = self.mod.base_model.embeddings.word_embeddings
 
     def attributions(self, texte: str, debut: int, fin: int, etiquette: str) -> dict:
+        """Attributions par mot ; recalculées avec 4 fois plus d'étapes si la complétude est mauvaise (> 10 %)."""
+        r = self._attributions(texte, debut, fin, etiquette, self.etapes)
+        c = r["completude"]
+        if abs(c["somme_attributions"] - c["ecart_score"]) > 0.10 * max(1e-6, abs(c["ecart_score"])):
+            r = self._attributions(texte, debut, fin, etiquette, 4 * self.etapes)
+        return r
+
+    def _attributions(self, texte: str, debut: int, fin: int, etiquette: str, etapes: int) -> dict:
         torch = self.torch
         enc = self.tok(texte, truncation=True, max_length=256, return_offsets_mapping=True, return_tensors="pt")
         off = enc.pop("offset_mapping")[0].tolist()
@@ -62,12 +70,12 @@ class Explicateur:
             lp = self.mod(inputs_embeds=entrees, attention_mask=m).logits.log_softmax(-1)
             return lp[:, pos, cibles].sum(-1)
 
-        alphas = (torch.arange(self.etapes, dtype=x.dtype) + 0.5) / self.etapes  # règle du point milieu
+        alphas = (torch.arange(etapes, dtype=x.dtype) + 0.5) / etapes  # règle du point milieu
         grad = torch.zeros_like(x)
         for paquet in alphas.split(16):  # par paquets : mémoire bornée
             chemin = (ref + paquet[:, None, None] * (x - ref)).requires_grad_(True)
             grad += torch.autograd.grad(f(chemin).sum(), chemin)[0].sum(0, keepdim=True)
-        attr = ((x - ref) * grad / self.etapes).sum(-1)[0].detach()
+        attr = ((x - ref) * grad / etapes).sum(-1)[0].detach()
         with torch.no_grad():
             ecart = float(f(x) - f(ref))
         mots = []
@@ -78,7 +86,7 @@ class Explicateur:
         for w in mots:
             w["score"] = round(w["score"] / maxi, 4)
         return {"mots": mots, "completude": {"somme_attributions": round(float(attr.sum()), 4),
-                                             "ecart_score": round(ecart, 4)}}
+                                             "ecart_score": round(ecart, 4), "etapes": etapes}}
 
 
 def selectionner(gold: list[dict], preds: dict[str, dict], graine: int = 42) -> list[dict]:
@@ -154,7 +162,8 @@ def main() -> None:
          "`reports/explications/lotC_gold_explications.json`. "
          "Script : `python -m caseforge.models.explications_xlmr`. Le test gelé n'est pas lu.", "",
          f"Contrôle de complétude (somme des attributions contre écart de score) : erreur relative médiane "
-         f"{sorted(erreurs)[len(erreurs) // 2]:.1%}.", "",
+         f"{sorted(erreurs)[len(erreurs) // 2]:.1%} ; {sum(e > 0.10 for e in erreurs)} cas sur {len(erreurs)} au-delà "
+         f"de 10 % ; {sum(s['completude']['etapes'] > 128 for s in sortie)} cas recalculés avec 512 étapes.", "",
          "## 1. Part de l'attribution portée par l'entité elle-même (le reste vient du contexte)", "",
          "| Catégorie | Cas | Part moyenne sur l'entité |", "|---|---|---|"]
     for cat in QUOTAS:

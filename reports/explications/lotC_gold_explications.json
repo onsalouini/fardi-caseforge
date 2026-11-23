@@ -1,0 +1,5159 @@
+{
+ "modele": "runs/xlmr_v4_s42/meilleur",
+ "methode": "gradients intégrés (128 étapes, point milieu, référence = jeton de remplissage)",
+ "format": "cas[].mots[] = {start, end, texte, score} ; score normalisé dans [-1, 1] par passage ; positif = pousse vers l'étiquette de l'entité",
+ "cas": [
+  {
+   "id": 1,
+   "passage_id": "lib_fr_06_p006",
+   "doc_id": "lib_fr_06",
+   "langue": "fr",
+   "source": "lib",
+   "categorie": "correcte",
+   "etiquette": "DONNEE_SENSIBLE",
+   "entite": {
+    "start": 20,
+    "end": 70,
+    "texte": "montant de l'amende environnementale reçue en 2025"
+   },
+   "gold": {
+    "start": 20,
+    "end": 70,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "prediction": {
+    "start": 20,
+    "end": 70,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "part_attribution_entite": 0.5508,
+   "mots": [
+    {
+     "start": 0,
+     "end": 1,
+     "texte": "À",
+     "score": -0.0729
+    },
+    {
+     "start": 2,
+     "end": 4,
+     "texte": "ne",
+     "score": -0.1435
+    },
+    {
+     "start": 5,
+     "end": 8,
+     "texte": "pas",
+     "score": -0.2777
+    },
+    {
+     "start": 9,
+     "end": 14,
+     "texte": "citer",
+     "score": -0.2071
+    },
+    {
+     "start": 15,
+     "end": 16,
+     "texte": ":",
+     "score": -0.0779
+    },
+    {
+     "start": 17,
+     "end": 19,
+     "texte": "le",
+     "score": 0.0938
+    },
+    {
+     "start": 20,
+     "end": 27,
+     "texte": "montant",
+     "score": 1.0
+    },
+    {
+     "start": 28,
+     "end": 30,
+     "texte": "de",
+     "score": 0.1075
+    },
+    {
+     "start": 31,
+     "end": 39,
+     "texte": "l'amende",
+     "score": -0.3013
+    },
+    {
+     "start": 40,
+     "end": 56,
+     "texte": "environnementale",
+     "score": 0.1612
+    },
+    {
+     "start": 57,
+     "end": 62,
+     "texte": "reçue",
+     "score": -0.1223
+    },
+    {
+     "start": 63,
+     "end": 65,
+     "texte": "en",
+     "score": -0.071
+    },
+    {
+     "start": 66,
+     "end": 70,
+     "texte": "2025",
+     "score": 0.3443
+    },
+    {
+     "start": 71,
+     "end": 73,
+     "texte": "et",
+     "score": 0.3262
+    },
+    {
+     "start": 74,
+     "end": 76,
+     "texte": "le",
+     "score": 0.1441
+    },
+    {
+     "start": 77,
+     "end": 80,
+     "texte": "nom",
+     "score": 0.2141
+    },
+    {
+     "start": 81,
+     "end": 83,
+     "texte": "du",
+     "score": 0.0677
+    },
+    {
+     "start": 84,
+     "end": 90,
+     "texte": "client",
+     "score": 0.0251
+    },
+    {
+     "start": 91,
+     "end": 97,
+     "texte": "indien",
+     "score": 0.0057
+    },
+    {
+     "start": 98,
+     "end": 108,
+     "texte": "principal.",
+     "score": 0.0633
+    }
+   ],
+   "completude": {
+    "somme_attributions": 33.2117,
+    "ecart_score": 33.268,
+    "etapes": 512
+   }
+  },
+  {
+   "id": 2,
+   "passage_id": "lib_ar_02_p001",
+   "doc_id": "lib_ar_02",
+   "langue": "ar",
+   "source": "lib",
+   "categorie": "correcte",
+   "etiquette": "PERSONNE",
+   "entite": {
+    "start": 42,
+    "end": 60,
+    "texte": "السيدة مريم الكافي"
+   },
+   "gold": {
+    "start": 42,
+    "end": 60,
+    "label": "PERSONNE"
+   },
+   "prediction": {
+    "start": 42,
+    "end": 60,
+    "label": "PERSONNE"
+   },
+   "part_attribution_entite": 0.3805,
+   "mots": [
+    {
+     "start": 0,
+     "end": 9,
+     "texte": "الحاضرون:",
+     "score": -0.4084
+    },
+    {
+     "start": 10,
+     "end": 15,
+     "texte": "السيد",
+     "score": 0.0911
+    },
+    {
+     "start": 16,
+     "end": 20,
+     "texte": "أنور",
+     "score": 0.1067
+    },
+    {
+     "start": 21,
+     "end": 27,
+     "texte": "الدالي",
+     "score": 0.2354
+    },
+    {
+     "start": 28,
+     "end": 34,
+     "texte": "المدير",
+     "score": 0.1154
+    },
+    {
+     "start": 35,
+     "end": 41,
+     "texte": "الفني،",
+     "score": -0.2228
+    },
+    {
+     "start": 42,
+     "end": 48,
+     "texte": "السيدة",
+     "score": 1.0
+    },
+    {
+     "start": 49,
+     "end": 53,
+     "texte": "مريم",
+     "score": 0.554
+    },
+    {
+     "start": 54,
+     "end": 60,
+     "texte": "الكافي",
+     "score": 0.2965
+    },
+    {
+     "start": 61,
+     "end": 67,
+     "texte": "مسؤولة",
+     "score": 0.0337
+    },
+    {
+     "start": 68,
+     "end": 75,
+     "texte": "الجودة،",
+     "score": -0.1849
+    },
+    {
+     "start": 76,
+     "end": 81,
+     "texte": "السيد",
+     "score": 0.2234
+    },
+    {
+     "start": 82,
+     "end": 86,
+     "texte": "بشير",
+     "score": 0.2995
+    },
+    {
+     "start": 87,
+     "end": 94,
+     "texte": "الهمامي",
+     "score": 0.1829
+    },
+    {
+     "start": 95,
+     "end": 99,
+     "texte": "رئيس",
+     "score": 0.068
+    },
+    {
+     "start": 100,
+     "end": 104,
+     "texte": "ورشة",
+     "score": 0.2753
+    },
+    {
+     "start": 105,
+     "end": 111,
+     "texte": "الحقن.",
+     "score": 0.5658
+    }
+   ],
+   "completude": {
+    "somme_attributions": 22.5854,
+    "ecart_score": 22.1944,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 3,
+   "passage_id": "lib_en_01_p000",
+   "doc_id": "lib_en_01",
+   "langue": "en",
+   "source": "lib",
+   "categorie": "correcte",
+   "etiquette": "DONNEE_SENSIBLE",
+   "entite": {
+    "start": 24,
+    "end": 52,
+    "texte": "d.whitfield@aerocompo-tn.com"
+   },
+   "gold": {
+    "start": 24,
+    "end": 52,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "prediction": {
+    "start": 24,
+    "end": 52,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "part_attribution_entite": 0.7361,
+   "mots": [
+    {
+     "start": 0,
+     "end": 5,
+     "texte": "From:",
+     "score": -0.0469
+    },
+    {
+     "start": 6,
+     "end": 12,
+     "texte": "Daniel",
+     "score": -0.031
+    },
+    {
+     "start": 13,
+     "end": 22,
+     "texte": "Whitfield",
+     "score": -0.0105
+    },
+    {
+     "start": 23,
+     "end": 53,
+     "texte": "<d.whitfield@aerocompo-tn.com>",
+     "score": 1.0
+    },
+    {
+     "start": 54,
+     "end": 57,
+     "texte": "To:",
+     "score": 0.0384
+    },
+    {
+     "start": 58,
+     "end": 68,
+     "texte": "Industrial",
+     "score": 0.0211
+    },
+    {
+     "start": 69,
+     "end": 80,
+     "texte": "Engineering",
+     "score": -0.0083
+    },
+    {
+     "start": 81,
+     "end": 91,
+     "texte": "Department",
+     "score": -0.0386
+    },
+    {
+     "start": 92,
+     "end": 100,
+     "texte": "Subject:",
+     "score": 0.0395
+    },
+    {
+     "start": 101,
+     "end": 108,
+     "texte": "Student",
+     "score": 0.0082
+    },
+    {
+     "start": 109,
+     "end": 116,
+     "texte": "project",
+     "score": 0.0222
+    },
+    {
+     "start": 117,
+     "end": 118,
+     "texte": "–",
+     "score": -0.0124
+    },
+    {
+     "start": 119,
+     "end": 128,
+     "texte": "composite",
+     "score": 0.0527
+    },
+    {
+     "start": 129,
+     "end": 135,
+     "texte": "curing",
+     "score": -0.0251
+    },
+    {
+     "start": 136,
+     "end": 142,
+     "texte": "issues",
+     "score": -0.0036
+    }
+   ],
+   "completude": {
+    "somme_attributions": 93.1098,
+    "ecart_score": 101.1205,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 4,
+   "passage_id": "syn_fr_029_p002",
+   "doc_id": "syn_fr_029",
+   "langue": "fr",
+   "source": "syn",
+   "categorie": "correcte",
+   "etiquette": "EQUIPEMENT",
+   "entite": {
+    "start": 54,
+    "end": 69,
+    "texte": "fluid bed dryer"
+   },
+   "gold": {
+    "start": 54,
+    "end": 69,
+    "label": "EQUIPEMENT"
+   },
+   "prediction": {
+    "start": 54,
+    "end": 69,
+    "label": "EQUIPEMENT"
+   },
+   "part_attribution_entite": 0.5833,
+   "mots": [
+    {
+     "start": 0,
+     "end": 2,
+     "texte": "Le",
+     "score": 0.0001
+    },
+    {
+     "start": 3,
+     "end": 11,
+     "texte": "problème",
+     "score": 0.031
+    },
+    {
+     "start": 12,
+     "end": 21,
+     "texte": "principal",
+     "score": 0.056
+    },
+    {
+     "start": 22,
+     "end": 30,
+     "texte": "concerne",
+     "score": 0.0204
+    },
+    {
+     "start": 31,
+     "end": 43,
+     "texte": "l'équipement",
+     "score": 0.1453
+    },
+    {
+     "start": 44,
+     "end": 51,
+     "texte": "suivant",
+     "score": 0.0068
+    },
+    {
+     "start": 52,
+     "end": 53,
+     "texte": ":",
+     "score": 0.0352
+    },
+    {
+     "start": 54,
+     "end": 59,
+     "texte": "fluid",
+     "score": 0.5961
+    },
+    {
+     "start": 60,
+     "end": 63,
+     "texte": "bed",
+     "score": 0.0301
+    },
+    {
+     "start": 64,
+     "end": 70,
+     "texte": "dryer.",
+     "score": 1.0
+    },
+    {
+     "start": 71,
+     "end": 81,
+     "texte": "Indicateur",
+     "score": 0.2501
+    },
+    {
+     "start": 82,
+     "end": 88,
+     "texte": "relevé",
+     "score": 0.1869
+    },
+    {
+     "start": 89,
+     "end": 90,
+     "texte": ":",
+     "score": 0.029
+    },
+    {
+     "start": 91,
+     "end": 95,
+     "texte": "MTBF",
+     "score": 0.064
+    },
+    {
+     "start": 96,
+     "end": 98,
+     "texte": "de",
+     "score": 0.0581
+    },
+    {
+     "start": 99,
+     "end": 100,
+     "texte": "9",
+     "score": 0.0822
+    },
+    {
+     "start": 101,
+     "end": 108,
+     "texte": "heures.",
+     "score": 0.0377
+    },
+    {
+     "start": 109,
+     "end": 116,
+     "texte": "Relevés",
+     "score": 0.0352
+    },
+    {
+     "start": 117,
+     "end": 126,
+     "texte": "effectués",
+     "score": 0.0286
+    },
+    {
+     "start": 127,
+     "end": 130,
+     "texte": "sur",
+     "score": 0.0108
+    },
+    {
+     "start": 131,
+     "end": 133,
+     "texte": "le",
+     "score": 0.0093
+    },
+    {
+     "start": 134,
+     "end": 138,
+     "texte": "site",
+     "score": -0.0268
+    },
+    {
+     "start": 139,
+     "end": 141,
+     "texte": "de",
+     "score": 0.0265
+    },
+    {
+     "start": 142,
+     "end": 151,
+     "texte": "Zaghouan.",
+     "score": -0.0216
+    }
+   ],
+   "completude": {
+    "somme_attributions": 38.917,
+    "ecart_score": 36.9728,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 5,
+   "passage_id": "syn_ar_006_p001",
+   "doc_id": "syn_ar_006",
+   "langue": "ar",
+   "source": "syn",
+   "categorie": "correcte",
+   "etiquette": "ORG",
+   "entite": {
+    "start": 5,
+    "end": 22,
+    "texte": "شركة حنبعل للنسيج"
+   },
+   "gold": {
+    "start": 5,
+    "end": 22,
+    "label": "ORG"
+   },
+   "prediction": {
+    "start": 5,
+    "end": 22,
+    "label": "ORG"
+   },
+   "part_attribution_entite": 0.3035,
+   "mots": [
+    {
+     "start": 0,
+     "end": 4,
+     "texte": "تنشط",
+     "score": 0.2333
+    },
+    {
+     "start": 5,
+     "end": 9,
+     "texte": "شركة",
+     "score": 0.9762
+    },
+    {
+     "start": 10,
+     "end": 15,
+     "texte": "حنبعل",
+     "score": 0.4997
+    },
+    {
+     "start": 16,
+     "end": 22,
+     "texte": "للنسيج",
+     "score": 0.4501
+    },
+    {
+     "start": 23,
+     "end": 30,
+     "texte": "انطلاقا",
+     "score": 1.0
+    },
+    {
+     "start": 31,
+     "end": 33,
+     "texte": "من",
+     "score": -0.0502
+    },
+    {
+     "start": 34,
+     "end": 41,
+     "texte": "المنطقة",
+     "score": 0.1721
+    },
+    {
+     "start": 42,
+     "end": 50,
+     "texte": "الصناعية",
+     "score": -0.0357
+    },
+    {
+     "start": 51,
+     "end": 57,
+     "texte": "بزغوان",
+     "score": 0.1858
+    },
+    {
+     "start": 58,
+     "end": 63,
+     "texte": "وتعمل",
+     "score": 0.4066
+    },
+    {
+     "start": 64,
+     "end": 71,
+     "texte": "لفائـدة",
+     "score": 0.3868
+    },
+    {
+     "start": 72,
+     "end": 80,
+     "texte": "المساحات",
+     "score": 0.2996
+    },
+    {
+     "start": 81,
+     "end": 89,
+     "texte": "التجارية",
+     "score": 0.0423
+    },
+    {
+     "start": 90,
+     "end": 97,
+     "texte": "الكبري،",
+     "score": 0.3041
+    },
+    {
+     "start": 98,
+     "end": 102,
+     "texte": "واهم",
+     "score": 0.213
+    },
+    {
+     "start": 103,
+     "end": 112,
+     "texte": "منتوجاتها",
+     "score": 0.1925
+    },
+    {
+     "start": 113,
+     "end": 117,
+     "texte": "قماش",
+     "score": 0.2219
+    },
+    {
+     "start": 118,
+     "end": 125,
+     "texte": "الدنيم.",
+     "score": 0.6759
+    }
+   ],
+   "completude": {
+    "somme_attributions": 66.7506,
+    "ecart_score": 66.7614,
+    "etapes": 512
+   }
+  },
+  {
+   "id": 6,
+   "passage_id": "syn_en_006_p007",
+   "doc_id": "syn_en_006",
+   "langue": "en",
+   "source": "syn",
+   "categorie": "correcte",
+   "etiquette": "DONNEE_SENSIBLE",
+   "entite": {
+    "start": 36,
+    "end": 45,
+    "texte": "TND 44.50"
+   },
+   "gold": {
+    "start": 36,
+    "end": 45,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "prediction": {
+    "start": 36,
+    "end": 45,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "part_attribution_entite": 0.6288,
+   "mots": [
+    {
+     "start": 0,
+     "end": 3,
+     "texte": "Not",
+     "score": -0.032
+    },
+    {
+     "start": 4,
+     "end": 7,
+     "texte": "for",
+     "score": -0.0985
+    },
+    {
+     "start": 8,
+     "end": 21,
+     "texte": "distribution:",
+     "score": -0.2746
+    },
+    {
+     "start": 22,
+     "end": 26,
+     "texte": "unit",
+     "score": -0.0079
+    },
+    {
+     "start": 27,
+     "end": 32,
+     "texte": "price",
+     "score": 0.2257
+    },
+    {
+     "start": 33,
+     "end": 35,
+     "texte": "of",
+     "score": -0.069
+    },
+    {
+     "start": 36,
+     "end": 39,
+     "texte": "TND",
+     "score": 0.7949
+    },
+    {
+     "start": 40,
+     "end": 45,
+     "texte": "44.50",
+     "score": 1.0
+    },
+    {
+     "start": 46,
+     "end": 49,
+     "texte": "and",
+     "score": -0.0728
+    },
+    {
+     "start": 50,
+     "end": 58,
+     "texte": "contract",
+     "score": 0.202
+    },
+    {
+     "start": 59,
+     "end": 62,
+     "texte": "no.",
+     "score": 0.0374
+    },
+    {
+     "start": 63,
+     "end": 72,
+     "texte": "2026-192.",
+     "score": 0.0397
+    }
+   ],
+   "completude": {
+    "somme_attributions": 20.9307,
+    "ecart_score": 20.9469,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 7,
+   "passage_id": "lib_fr_06_p000",
+   "doc_id": "lib_fr_06",
+   "langue": "fr",
+   "source": "lib",
+   "categorie": "correcte",
+   "etiquette": "SITE",
+   "entite": {
+    "start": 66,
+    "end": 75,
+    "texte": "Ghannouch"
+   },
+   "gold": {
+    "start": 66,
+    "end": 75,
+    "label": "SITE"
+   },
+   "prediction": {
+    "start": 66,
+    "end": 75,
+    "label": "SITE"
+   },
+   "part_attribution_entite": 0.5983,
+   "mots": [
+    {
+     "start": 0,
+     "end": 5,
+     "texte": "Notes",
+     "score": -0.0128
+    },
+    {
+     "start": 6,
+     "end": 12,
+     "texte": "visite",
+     "score": 0.0732
+    },
+    {
+     "start": 13,
+     "end": 18,
+     "texte": "usine",
+     "score": 0.0475
+    },
+    {
+     "start": 19,
+     "end": 20,
+     "texte": "–",
+     "score": 0.0122
+    },
+    {
+     "start": 21,
+     "end": 26,
+     "texte": "07/10",
+     "score": -0.022
+    },
+    {
+     "start": 27,
+     "end": 28,
+     "texte": "–",
+     "score": 0.034
+    },
+    {
+     "start": 29,
+     "end": 36,
+     "texte": "Engrais",
+     "score": 0.0696
+    },
+    {
+     "start": 37,
+     "end": 38,
+     "texte": "&",
+     "score": 0.0405
+    },
+    {
+     "start": 39,
+     "end": 49,
+     "texte": "Phosphates",
+     "score": 0.0732
+    },
+    {
+     "start": 50,
+     "end": 52,
+     "texte": "du",
+     "score": -0.0506
+    },
+    {
+     "start": 53,
+     "end": 58,
+     "texte": "Golfe",
+     "score": 0.2215
+    },
+    {
+     "start": 59,
+     "end": 65,
+     "texte": "(EPG),",
+     "score": 0.0142
+    },
+    {
+     "start": 66,
+     "end": 75,
+     "texte": "Ghannouch",
+     "score": 1.0
+    }
+   ],
+   "completude": {
+    "somme_attributions": 21.9571,
+    "ecart_score": 22.1181,
+    "etapes": 512
+   }
+  },
+  {
+   "id": 8,
+   "passage_id": "lib_ar_02_p005",
+   "doc_id": "lib_ar_02",
+   "langue": "ar",
+   "source": "lib",
+   "categorie": "correcte",
+   "etiquette": "CONTRAINTE",
+   "entite": {
+    "start": 55,
+    "end": 91,
+    "texte": "يمنع تغيير القوالب دون موافقة الحريف"
+   },
+   "gold": {
+    "start": 55,
+    "end": 91,
+    "label": "CONTRAINTE"
+   },
+   "prediction": {
+    "start": 55,
+    "end": 91,
+    "label": "CONTRAINTE"
+   },
+   "part_attribution_entite": 0.424,
+   "mots": [
+    {
+     "start": 0,
+     "end": 7,
+     "texte": "الشروط:",
+     "score": 0.1626
+    },
+    {
+     "start": 8,
+     "end": 11,
+     "texte": "يجب",
+     "score": 0.232
+    },
+    {
+     "start": 12,
+     "end": 15,
+     "texte": "ألا",
+     "score": 0.4328
+    },
+    {
+     "start": 16,
+     "end": 22,
+     "texte": "تتجاوز",
+     "score": 0.6245
+    },
+    {
+     "start": 23,
+     "end": 30,
+     "texte": "ميزانية",
+     "score": 0.4189
+    },
+    {
+     "start": 31,
+     "end": 40,
+     "texte": "التعديلات",
+     "score": 0.1098
+    },
+    {
+     "start": 41,
+     "end": 43,
+     "texte": "60",
+     "score": -0.0577
+    },
+    {
+     "start": 44,
+     "end": 47,
+     "texte": "ألف",
+     "score": 0.0962
+    },
+    {
+     "start": 48,
+     "end": 54,
+     "texte": "دينار.",
+     "score": -0.3758
+    },
+    {
+     "start": 55,
+     "end": 59,
+     "texte": "يمنع",
+     "score": 0.7337
+    },
+    {
+     "start": 60,
+     "end": 65,
+     "texte": "تغيير",
+     "score": 0.2179
+    },
+    {
+     "start": 66,
+     "end": 73,
+     "texte": "القوالب",
+     "score": 0.1243
+    },
+    {
+     "start": 74,
+     "end": 77,
+     "texte": "دون",
+     "score": 1.0
+    },
+    {
+     "start": 78,
+     "end": 84,
+     "texte": "موافقة",
+     "score": 0.5585
+    },
+    {
+     "start": 85,
+     "end": 92,
+     "texte": "الحريف.",
+     "score": 0.4915
+    },
+    {
+     "start": 93,
+     "end": 96,
+     "texte": "يجب",
+     "score": 0.1533
+    },
+    {
+     "start": 97,
+     "end": 99,
+     "texte": "أن",
+     "score": 0.1318
+    },
+    {
+     "start": 100,
+     "end": 104,
+     "texte": "تبقى",
+     "score": 0.0649
+    },
+    {
+     "start": 105,
+     "end": 111,
+     "texte": "الحلول",
+     "score": 0.2734
+    },
+    {
+     "start": 112,
+     "end": 119,
+     "texte": "متوافقة",
+     "score": 0.7008
+    },
+    {
+     "start": 120,
+     "end": 122,
+     "texte": "مع",
+     "score": 0.131
+    },
+    {
+     "start": 123,
+     "end": 131,
+     "texte": "المواصفة",
+     "score": 0.1109
+    },
+    {
+     "start": 132,
+     "end": 135,
+     "texte": "ISO",
+     "score": 0.1541
+    },
+    {
+     "start": 136,
+     "end": 141,
+     "texte": "9001.",
+     "score": 0.0152
+    }
+   ],
+   "completude": {
+    "somme_attributions": 85.0901,
+    "ecart_score": 89.4726,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 9,
+   "passage_id": "lib_en_01_p004",
+   "doc_id": "lib_en_01",
+   "langue": "en",
+   "source": "lib",
+   "categorie": "correcte",
+   "etiquette": "CONTRAINTE",
+   "entite": {
+    "start": 179,
+    "end": 221,
+    "texte": "The project must be delivered by June 2027"
+   },
+   "gold": {
+    "start": 179,
+    "end": 221,
+    "label": "CONTRAINTE"
+   },
+   "prediction": {
+    "start": 179,
+    "end": 221,
+    "label": "CONTRAINTE"
+   },
+   "part_attribution_entite": 0.5344,
+   "mots": [
+    {
+     "start": 0,
+     "end": 6,
+     "texte": "Please",
+     "score": 0.046
+    },
+    {
+     "start": 7,
+     "end": 12,
+     "texte": "note:",
+     "score": -0.0897
+    },
+    {
+     "start": 13,
+     "end": 16,
+     "texte": "any",
+     "score": 0.0528
+    },
+    {
+     "start": 17,
+     "end": 24,
+     "texte": "process",
+     "score": -0.0467
+    },
+    {
+     "start": 25,
+     "end": 31,
+     "texte": "change",
+     "score": -0.0383
+    },
+    {
+     "start": 32,
+     "end": 36,
+     "texte": "must",
+     "score": 0.2143
+    },
+    {
+     "start": 37,
+     "end": 43,
+     "texte": "remain",
+     "score": 0.0293
+    },
+    {
+     "start": 44,
+     "end": 53,
+     "texte": "compliant",
+     "score": -0.2236
+    },
+    {
+     "start": 54,
+     "end": 58,
+     "texte": "with",
+     "score": 0.0604
+    },
+    {
+     "start": 59,
+     "end": 61,
+     "texte": "EN",
+     "score": 0.008
+    },
+    {
+     "start": 62,
+     "end": 66,
+     "texte": "9100",
+     "score": -0.1758
+    },
+    {
+     "start": 67,
+     "end": 70,
+     "texte": "and",
+     "score": 0.0647
+    },
+    {
+     "start": 71,
+     "end": 73,
+     "texte": "be",
+     "score": 0.0722
+    },
+    {
+     "start": 74,
+     "end": 82,
+     "texte": "approved",
+     "score": 0.0792
+    },
+    {
+     "start": 83,
+     "end": 85,
+     "texte": "by",
+     "score": -0.0154
+    },
+    {
+     "start": 86,
+     "end": 89,
+     "texte": "our",
+     "score": 0.0796
+    },
+    {
+     "start": 90,
+     "end": 100,
+     "texte": "customer's",
+     "score": 0.1256
+    },
+    {
+     "start": 101,
+     "end": 108,
+     "texte": "quality",
+     "score": 0.0613
+    },
+    {
+     "start": 109,
+     "end": 114,
+     "texte": "team.",
+     "score": -0.0331
+    },
+    {
+     "start": 115,
+     "end": 123,
+     "texte": "Students",
+     "score": 0.0639
+    },
+    {
+     "start": 124,
+     "end": 130,
+     "texte": "cannot",
+     "score": 0.4409
+    },
+    {
+     "start": 131,
+     "end": 137,
+     "texte": "access",
+     "score": 0.0699
+    },
+    {
+     "start": 138,
+     "end": 141,
+     "texte": "the",
+     "score": 0.1592
+    },
+    {
+     "start": 142,
+     "end": 147,
+     "texte": "clean",
+     "score": 0.073
+    },
+    {
+     "start": 148,
+     "end": 152,
+     "texte": "room",
+     "score": 0.01
+    },
+    {
+     "start": 153,
+     "end": 160,
+     "texte": "without",
+     "score": 0.3116
+    },
+    {
+     "start": 161,
+     "end": 162,
+     "texte": "a",
+     "score": 0.1086
+    },
+    {
+     "start": 163,
+     "end": 168,
+     "texte": "2-day",
+     "score": -0.1662
+    },
+    {
+     "start": 169,
+     "end": 178,
+     "texte": "training.",
+     "score": -0.0078
+    },
+    {
+     "start": 179,
+     "end": 182,
+     "texte": "The",
+     "score": 0.156
+    },
+    {
+     "start": 183,
+     "end": 190,
+     "texte": "project",
+     "score": 0.1774
+    },
+    {
+     "start": 191,
+     "end": 195,
+     "texte": "must",
+     "score": 0.1773
+    },
+    {
+     "start": 196,
+     "end": 198,
+     "texte": "be",
+     "score": 0.5392
+    },
+    {
+     "start": 199,
+     "end": 208,
+     "texte": "delivered",
+     "score": 1.0
+    },
+    {
+     "start": 209,
+     "end": 211,
+     "texte": "by",
+     "score": 0.9142
+    },
+    {
+     "start": 212,
+     "end": 216,
+     "texte": "June",
+     "score": 0.1149
+    },
+    {
+     "start": 217,
+     "end": 222,
+     "texte": "2027.",
+     "score": 0.2804
+    }
+   ],
+   "completude": {
+    "somme_attributions": 92.2325,
+    "ecart_score": 92.1542,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 10,
+   "passage_id": "syn_fr_007_p002",
+   "doc_id": "syn_fr_007",
+   "langue": "fr",
+   "source": "syn",
+   "categorie": "correcte",
+   "etiquette": "INDICATEUR",
+   "entite": {
+    "start": 87,
+    "end": 108,
+    "texte": "taux de rebut de 11 %"
+   },
+   "gold": {
+    "start": 87,
+    "end": 108,
+    "label": "INDICATEUR"
+   },
+   "prediction": {
+    "start": 87,
+    "end": 108,
+    "label": "INDICATEUR"
+   },
+   "part_attribution_entite": 0.6411,
+   "mots": [
+    {
+     "start": 0,
+     "end": 2,
+     "texte": "Le",
+     "score": 0.0102
+    },
+    {
+     "start": 3,
+     "end": 11,
+     "texte": "problème",
+     "score": 0.0718
+    },
+    {
+     "start": 12,
+     "end": 21,
+     "texte": "principal",
+     "score": 0.0717
+    },
+    {
+     "start": 22,
+     "end": 30,
+     "texte": "concerne",
+     "score": 0.0316
+    },
+    {
+     "start": 31,
+     "end": 43,
+     "texte": "l'équipement",
+     "score": 0.0751
+    },
+    {
+     "start": 44,
+     "end": 51,
+     "texte": "suivant",
+     "score": 0.07
+    },
+    {
+     "start": 52,
+     "end": 53,
+     "texte": ":",
+     "score": -0.0248
+    },
+    {
+     "start": 54,
+     "end": 66,
+     "texte": "sertisseuse.",
+     "score": 0.2629
+    },
+    {
+     "start": 67,
+     "end": 77,
+     "texte": "Indicateur",
+     "score": 0.1884
+    },
+    {
+     "start": 78,
+     "end": 84,
+     "texte": "relevé",
+     "score": 0.3326
+    },
+    {
+     "start": 85,
+     "end": 86,
+     "texte": ":",
+     "score": 0.0767
+    },
+    {
+     "start": 87,
+     "end": 91,
+     "texte": "taux",
+     "score": 0.7806
+    },
+    {
+     "start": 92,
+     "end": 94,
+     "texte": "de",
+     "score": 0.2376
+    },
+    {
+     "start": 95,
+     "end": 100,
+     "texte": "rebut",
+     "score": 0.4805
+    },
+    {
+     "start": 101,
+     "end": 103,
+     "texte": "de",
+     "score": 0.1413
+    },
+    {
+     "start": 104,
+     "end": 106,
+     "texte": "11",
+     "score": 0.454
+    },
+    {
+     "start": 107,
+     "end": 109,
+     "texte": "%.",
+     "score": 1.0
+    },
+    {
+     "start": 110,
+     "end": 117,
+     "texte": "Relevés",
+     "score": -0.1071
+    },
+    {
+     "start": 118,
+     "end": 127,
+     "texte": "effectués",
+     "score": -0.0201
+    },
+    {
+     "start": 128,
+     "end": 131,
+     "texte": "sur",
+     "score": 0.044
+    },
+    {
+     "start": 132,
+     "end": 134,
+     "texte": "1e",
+     "score": -0.1355
+    },
+    {
+     "start": 135,
+     "end": 139,
+     "texte": "site",
+     "score": 0.001
+    },
+    {
+     "start": 140,
+     "end": 142,
+     "texte": "de",
+     "score": -0.0047
+    },
+    {
+     "start": 143,
+     "end": 151,
+     "texte": "Enfidha.",
+     "score": -0.2042
+    }
+   ],
+   "completude": {
+    "somme_attributions": 54.7145,
+    "ecart_score": 54.6157,
+    "etapes": 512
+   }
+  },
+  {
+   "id": 11,
+   "passage_id": "lib_fr_06_p004",
+   "doc_id": "lib_fr_06",
+   "langue": "fr",
+   "source": "lib",
+   "categorie": "bornes",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 33,
+    "end": 38,
+    "texte": "modél"
+   },
+   "gold": {
+    "start": 33,
+    "end": 62,
+    "label": "PROCESSUS"
+   },
+   "prediction": {
+    "start": 33,
+    "end": 38,
+    "label": "PROCESSUS"
+   },
+   "part_attribution_entite": 0.0944,
+   "mots": [
+    {
+     "start": 0,
+     "end": 5,
+     "texte": "Idées",
+     "score": -0.0053
+    },
+    {
+     "start": 6,
+     "end": 8,
+     "texte": "de",
+     "score": -0.1736
+    },
+    {
+     "start": 9,
+     "end": 16,
+     "texte": "projets",
+     "score": 0.1338
+    },
+    {
+     "start": 17,
+     "end": 26,
+     "texte": "étudiants",
+     "score": 0.0017
+    },
+    {
+     "start": 27,
+     "end": 28,
+     "texte": ":",
+     "score": 0.0585
+    },
+    {
+     "start": 29,
+     "end": 32,
+     "texte": "(a)",
+     "score": -0.5954
+    },
+    {
+     "start": 33,
+     "end": 45,
+     "texte": "modélisation",
+     "score": 0.6226
+    },
+    {
+     "start": 46,
+     "end": 48,
+     "texte": "du",
+     "score": 1.0
+    },
+    {
+     "start": 49,
+     "end": 55,
+     "texte": "laveur",
+     "score": 0.6779
+    },
+    {
+     "start": 56,
+     "end": 58,
+     "texte": "de",
+     "score": -0.0454
+    },
+    {
+     "start": 59,
+     "end": 62,
+     "texte": "gaz",
+     "score": 0.1591
+    },
+    {
+     "start": 63,
+     "end": 65,
+     "texte": "et",
+     "score": 0.5921
+    },
+    {
+     "start": 66,
+     "end": 81,
+     "texte": "dimensionnement",
+     "score": 0.5294
+    },
+    {
+     "start": 82,
+     "end": 86,
+     "texte": "d'un",
+     "score": 0.1688
+    },
+    {
+     "start": 87,
+     "end": 93,
+     "texte": "second",
+     "score": -0.0164
+    },
+    {
+     "start": 94,
+     "end": 99,
+     "texte": "étage",
+     "score": -0.2384
+    },
+    {
+     "start": 100,
+     "end": 101,
+     "texte": ";",
+     "score": -0.2259
+    },
+    {
+     "start": 102,
+     "end": 105,
+     "texte": "(b)",
+     "score": 0.0382
+    },
+    {
+     "start": 106,
+     "end": 117,
+     "texte": "maintenance",
+     "score": 0.0382
+    },
+    {
+     "start": 118,
+     "end": 128,
+     "texte": "prédictive",
+     "score": 0.3404
+    },
+    {
+     "start": 129,
+     "end": 132,
+     "texte": "des",
+     "score": 0.1115
+    },
+    {
+     "start": 133,
+     "end": 140,
+     "texte": "filtres",
+     "score": 0.0126
+    },
+    {
+     "start": 141,
+     "end": 142,
+     "texte": "à",
+     "score": 0.1145
+    },
+    {
+     "start": 143,
+     "end": 149,
+     "texte": "partir",
+     "score": -0.0212
+    },
+    {
+     "start": 150,
+     "end": 153,
+     "texte": "des",
+     "score": 0.2024
+    },
+    {
+     "start": 154,
+     "end": 161,
+     "texte": "données",
+     "score": 0.045
+    },
+    {
+     "start": 162,
+     "end": 164,
+     "texte": "de",
+     "score": 0.1718
+    },
+    {
+     "start": 165,
+     "end": 173,
+     "texte": "pression",
+     "score": 0.0163
+    },
+    {
+     "start": 174,
+     "end": 189,
+     "texte": "différentielle.",
+     "score": 0.2393
+    }
+   ],
+   "completude": {
+    "somme_attributions": 16.6519,
+    "ecart_score": 16.317,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 12,
+   "passage_id": "lib_ar_02_p002",
+   "doc_id": "lib_ar_02",
+   "langue": "ar",
+   "source": "lib",
+   "categorie": "bornes",
+   "etiquette": "EQUIPEMENT",
+   "entite": {
+    "start": 139,
+    "end": 154,
+    "texte": "آلة الحقن رقم 7"
+   },
+   "gold": {
+    "start": 139,
+    "end": 165,
+    "label": "EQUIPEMENT"
+   },
+   "prediction": {
+    "start": 139,
+    "end": 154,
+    "label": "EQUIPEMENT"
+   },
+   "part_attribution_entite": 0.4405,
+   "mots": [
+    {
+     "start": 0,
+     "end": 6,
+     "texte": "النقطة",
+     "score": 0.0219
+    },
+    {
+     "start": 7,
+     "end": 14,
+     "texte": "الأولى:",
+     "score": -0.0267
+    },
+    {
+     "start": 15,
+     "end": 21,
+     "texte": "ارتفاع",
+     "score": 0.1262
+    },
+    {
+     "start": 22,
+     "end": 26,
+     "texte": "نسبة",
+     "score": 0.027
+    },
+    {
+     "start": 27,
+     "end": 32,
+     "texte": "القطع",
+     "score": -0.0806
+    },
+    {
+     "start": 33,
+     "end": 40,
+     "texte": "المعيبة",
+     "score": 0.091
+    },
+    {
+     "start": 41,
+     "end": 43,
+     "texte": "في",
+     "score": -0.0036
+    },
+    {
+     "start": 44,
+     "end": 50,
+     "texte": "صناديق",
+     "score": -0.0234
+    },
+    {
+     "start": 51,
+     "end": 56,
+     "texte": "الخضر",
+     "score": -0.02
+    },
+    {
+     "start": 57,
+     "end": 65,
+     "texte": "المصنوعة",
+     "score": 0.112
+    },
+    {
+     "start": 66,
+     "end": 68,
+     "texte": "من",
+     "score": 0.0324
+    },
+    {
+     "start": 69,
+     "end": 75,
+     "texte": "البولي",
+     "score": 0.0211
+    },
+    {
+     "start": 76,
+     "end": 84,
+     "texte": "بروبيلين",
+     "score": 0.0244
+    },
+    {
+     "start": 85,
+     "end": 88,
+     "texte": "إلى",
+     "score": -0.0247
+    },
+    {
+     "start": 89,
+     "end": 92,
+     "texte": "6,1",
+     "score": 0.088
+    },
+    {
+     "start": 93,
+     "end": 94,
+     "texte": "%",
+     "score": 0.1016
+    },
+    {
+     "start": 95,
+     "end": 99,
+     "texte": "بسبب",
+     "score": -0.0079
+    },
+    {
+     "start": 100,
+     "end": 106,
+     "texte": "التشوه",
+     "score": -0.0232
+    },
+    {
+     "start": 107,
+     "end": 117,
+     "texte": "والفقاعات.",
+     "score": 0.032
+    },
+    {
+     "start": 118,
+     "end": 122,
+     "texte": "أغلب",
+     "score": 0.0995
+    },
+    {
+     "start": 123,
+     "end": 129,
+     "texte": "العيوب",
+     "score": 0.0728
+    },
+    {
+     "start": 130,
+     "end": 135,
+     "texte": "صادرة",
+     "score": 0.0253
+    },
+    {
+     "start": 136,
+     "end": 138,
+     "texte": "عن",
+     "score": 0.2108
+    },
+    {
+     "start": 139,
+     "end": 142,
+     "texte": "آلة",
+     "score": 1.0
+    },
+    {
+     "start": 143,
+     "end": 148,
+     "texte": "الحقن",
+     "score": 0.137
+    },
+    {
+     "start": 149,
+     "end": 152,
+     "texte": "رقم",
+     "score": -0.1107
+    },
+    {
+     "start": 153,
+     "end": 154,
+     "texte": "7",
+     "score": 0.0012
+    },
+    {
+     "start": 155,
+     "end": 158,
+     "texte": "ذات",
+     "score": 0.1262
+    },
+    {
+     "start": 159,
+     "end": 162,
+     "texte": "450",
+     "score": 0.1493
+    },
+    {
+     "start": 163,
+     "end": 166,
+     "texte": "طن.",
+     "score": -0.0148
+    }
+   ],
+   "completude": {
+    "somme_attributions": 44.6577,
+    "ecart_score": 44.6553,
+    "etapes": 512
+   }
+  },
+  {
+   "id": 13,
+   "passage_id": "lib_en_01_p000",
+   "doc_id": "lib_en_01",
+   "langue": "en",
+   "source": "lib",
+   "categorie": "bornes",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 119,
+    "end": 135,
+    "texte": "composite curing"
+   },
+   "gold": {
+    "start": 129,
+    "end": 135,
+    "label": "PROCESSUS"
+   },
+   "prediction": {
+    "start": 119,
+    "end": 135,
+    "label": "PROCESSUS"
+   },
+   "part_attribution_entite": 0.5555,
+   "mots": [
+    {
+     "start": 0,
+     "end": 5,
+     "texte": "From:",
+     "score": 0.0012
+    },
+    {
+     "start": 6,
+     "end": 12,
+     "texte": "Daniel",
+     "score": -0.016
+    },
+    {
+     "start": 13,
+     "end": 22,
+     "texte": "Whitfield",
+     "score": 0.0476
+    },
+    {
+     "start": 23,
+     "end": 53,
+     "texte": "<d.whitfield@aerocompo-tn.com>",
+     "score": 0.6137
+    },
+    {
+     "start": 54,
+     "end": 57,
+     "texte": "To:",
+     "score": 0.0144
+    },
+    {
+     "start": 58,
+     "end": 68,
+     "texte": "Industrial",
+     "score": 0.0702
+    },
+    {
+     "start": 69,
+     "end": 80,
+     "texte": "Engineering",
+     "score": 0.0568
+    },
+    {
+     "start": 81,
+     "end": 91,
+     "texte": "Department",
+     "score": -0.004
+    },
+    {
+     "start": 92,
+     "end": 100,
+     "texte": "Subject:",
+     "score": 0.1515
+    },
+    {
+     "start": 101,
+     "end": 108,
+     "texte": "Student",
+     "score": 0.0509
+    },
+    {
+     "start": 109,
+     "end": 116,
+     "texte": "project",
+     "score": 0.1664
+    },
+    {
+     "start": 117,
+     "end": 118,
+     "texte": "–",
+     "score": -0.0618
+    },
+    {
+     "start": 119,
+     "end": 128,
+     "texte": "composite",
+     "score": 1.0
+    },
+    {
+     "start": 129,
+     "end": 135,
+     "texte": "curing",
+     "score": 0.6681
+    },
+    {
+     "start": 136,
+     "end": 142,
+     "texte": "issues",
+     "score": 0.0803
+    }
+   ],
+   "completude": {
+    "somme_attributions": 42.6973,
+    "ecart_score": 42.3623,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 14,
+   "passage_id": "syn_fr_027_p002",
+   "doc_id": "syn_fr_027",
+   "langue": "fr",
+   "source": "syn",
+   "categorie": "bornes",
+   "etiquette": "SITE",
+   "entite": {
+    "start": 164,
+    "end": 174,
+    "texte": "de Bizerte"
+   },
+   "gold": {
+    "start": 167,
+    "end": 174,
+    "label": "SITE"
+   },
+   "prediction": {
+    "start": 164,
+    "end": 174,
+    "label": "SITE"
+   },
+   "part_attribution_entite": 0.2087,
+   "mots": [
+    {
+     "start": 0,
+     "end": 2,
+     "texte": "Le",
+     "score": 0.0905
+    },
+    {
+     "start": 3,
+     "end": 11,
+     "texte": "problème",
+     "score": 0.046
+    },
+    {
+     "start": 12,
+     "end": 21,
+     "texte": "principal",
+     "score": 0.1681
+    },
+    {
+     "start": 22,
+     "end": 30,
+     "texte": "concerne",
+     "score": -0.0331
+    },
+    {
+     "start": 31,
+     "end": 43,
+     "texte": "l'équipement",
+     "score": 0.5741
+    },
+    {
+     "start": 44,
+     "end": 51,
+     "texte": "suivant",
+     "score": 0.1272
+    },
+    {
+     "start": 52,
+     "end": 53,
+     "texte": ":",
+     "score": -0.2196
+    },
+    {
+     "start": 54,
+     "end": 61,
+     "texte": "machine",
+     "score": 0.0938
+    },
+    {
+     "start": 62,
+     "end": 63,
+     "texte": "à",
+     "score": 0.1292
+    },
+    {
+     "start": 64,
+     "end": 71,
+     "texte": "mesurer",
+     "score": 0.1693
+    },
+    {
+     "start": 72,
+     "end": 90,
+     "texte": "tridimensionnelle.",
+     "score": 0.0589
+    },
+    {
+     "start": 91,
+     "end": 101,
+     "texte": "Indicateur",
+     "score": 0.2648
+    },
+    {
+     "start": 102,
+     "end": 108,
+     "texte": "relevé",
+     "score": 0.393
+    },
+    {
+     "start": 109,
+     "end": 110,
+     "texte": ":",
+     "score": -0.0033
+    },
+    {
+     "start": 111,
+     "end": 115,
+     "texte": "taux",
+     "score": 0.153
+    },
+    {
+     "start": 116,
+     "end": 118,
+     "texte": "de",
+     "score": 0.2221
+    },
+    {
+     "start": 119,
+     "end": 124,
+     "texte": "rebut",
+     "score": 0.1697
+    },
+    {
+     "start": 125,
+     "end": 127,
+     "texte": "de",
+     "score": 0.0386
+    },
+    {
+     "start": 128,
+     "end": 130,
+     "texte": "14",
+     "score": 0.0421
+    },
+    {
+     "start": 131,
+     "end": 133,
+     "texte": "%.",
+     "score": -0.1826
+    },
+    {
+     "start": 134,
+     "end": 141,
+     "texte": "Relevés",
+     "score": 0.754
+    },
+    {
+     "start": 142,
+     "end": 151,
+     "texte": "effectués",
+     "score": 0.0244
+    },
+    {
+     "start": 152,
+     "end": 155,
+     "texte": "sur",
+     "score": -0.0793
+    },
+    {
+     "start": 156,
+     "end": 158,
+     "texte": "le",
+     "score": 0.5309
+    },
+    {
+     "start": 159,
+     "end": 163,
+     "texte": "site",
+     "score": -0.8173
+    },
+    {
+     "start": 164,
+     "end": 166,
+     "texte": "de",
+     "score": 0.4202
+    },
+    {
+     "start": 167,
+     "end": 175,
+     "texte": "Bizerte.",
+     "score": 1.0
+    }
+   ],
+   "completude": {
+    "somme_attributions": 27.1805,
+    "ecart_score": 27.2394,
+    "etapes": 512
+   }
+  },
+  {
+   "id": 15,
+   "passage_id": "syn_ar_021_p006",
+   "doc_id": "syn_ar_021",
+   "langue": "ar",
+   "source": "syn",
+   "categorie": "bornes",
+   "etiquette": "DONNEE_SENSIBLE",
+   "entite": {
+    "start": 52,
+    "end": 71,
+    "texte": "والعقد عدد 2025-120"
+   },
+   "gold": {
+    "start": 53,
+    "end": 71,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "prediction": {
+    "start": 52,
+    "end": 71,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "part_attribution_entite": 0.4099,
+   "mots": [
+    {
+     "start": 0,
+     "end": 7,
+     "texte": "معلومات",
+     "score": 0.1415
+    },
+    {
+     "start": 8,
+     "end": 10,
+     "texte": "لا",
+     "score": 0.1335
+    },
+    {
+     "start": 11,
+     "end": 14,
+     "texte": "يجب",
+     "score": -0.0765
+    },
+    {
+     "start": 15,
+     "end": 21,
+     "texte": "نشرها:",
+     "score": 0.2783
+    },
+    {
+     "start": 22,
+     "end": 25,
+     "texte": "سعر",
+     "score": 0.1675
+    },
+    {
+     "start": 26,
+     "end": 31,
+     "texte": "البيع",
+     "score": 0.0175
+    },
+    {
+     "start": 32,
+     "end": 38,
+     "texte": "448,98",
+     "score": -0.7417
+    },
+    {
+     "start": 39,
+     "end": 44,
+     "texte": "دينار",
+     "score": 0.2047
+    },
+    {
+     "start": 45,
+     "end": 51,
+     "texte": "للوحدة",
+     "score": -0.1396
+    },
+    {
+     "start": 52,
+     "end": 58,
+     "texte": "والعقد",
+     "score": 0.2521
+    },
+    {
+     "start": 59,
+     "end": 62,
+     "texte": "عدد",
+     "score": -0.0682
+    },
+    {
+     "start": 63,
+     "end": 72,
+     "texte": "2025-120.",
+     "score": 1.0
+    }
+   ],
+   "completude": {
+    "somme_attributions": 19.6523,
+    "ecart_score": 19.4032,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 16,
+   "passage_id": "syn_en_015_p002",
+   "doc_id": "syn_en_015",
+   "langue": "en",
+   "source": "syn",
+   "categorie": "bornes",
+   "etiquette": "EQUIPEMENT",
+   "entite": {
+    "start": 43,
+    "end": 56,
+    "texte": "uring machinc"
+   },
+   "gold": {
+    "start": 28,
+    "end": 56,
+    "label": "EQUIPEMENT"
+   },
+   "prediction": {
+    "start": 43,
+    "end": 56,
+    "label": "EQUIPEMENT"
+   },
+   "part_attribution_entite": 0.2563,
+   "mots": [
+    {
+     "start": 0,
+     "end": 3,
+     "texte": "The",
+     "score": 0.2267
+    },
+    {
+     "start": 4,
+     "end": 8,
+     "texte": "main",
+     "score": 0.3398
+    },
+    {
+     "start": 9,
+     "end": 14,
+     "texte": "issue",
+     "score": 0.225
+    },
+    {
+     "start": 15,
+     "end": 23,
+     "texte": "concerns",
+     "score": 0.6095
+    },
+    {
+     "start": 24,
+     "end": 27,
+     "texte": "the",
+     "score": 0.7742
+    },
+    {
+     "start": 28,
+     "end": 38,
+     "texte": "coordinate",
+     "score": -0.264
+    },
+    {
+     "start": 39,
+     "end": 48,
+     "texte": "measuring",
+     "score": 0.9201
+    },
+    {
+     "start": 49,
+     "end": 57,
+     "texte": "machinc.",
+     "score": 1.0
+    },
+    {
+     "start": 58,
+     "end": 61,
+     "texte": "Key",
+     "score": 0.438
+    },
+    {
+     "start": 62,
+     "end": 72,
+     "texte": "indicator:",
+     "score": 0.4177
+    },
+    {
+     "start": 73,
+     "end": 77,
+     "texte": "MTBF",
+     "score": 0.6192
+    },
+    {
+     "start": 78,
+     "end": 80,
+     "texte": "of",
+     "score": 0.286
+    },
+    {
+     "start": 81,
+     "end": 82,
+     "texte": "9",
+     "score": 0.2989
+    },
+    {
+     "start": 83,
+     "end": 89,
+     "texte": "hours.",
+     "score": 0.4369
+    },
+    {
+     "start": 90,
+     "end": 98,
+     "texte": "Readings",
+     "score": 0.1536
+    },
+    {
+     "start": 99,
+     "end": 103,
+     "texte": "were",
+     "score": 0.0043
+    },
+    {
+     "start": 104,
+     "end": 113,
+     "texte": "collected",
+     "score": 0.1287
+    },
+    {
+     "start": 114,
+     "end": 116,
+     "texte": "at",
+     "score": 0.0608
+    },
+    {
+     "start": 117,
+     "end": 120,
+     "texte": "the",
+     "score": 0.0483
+    },
+    {
+     "start": 121,
+     "end": 129,
+     "texte": "Zaghouan",
+     "score": -0.1181
+    },
+    {
+     "start": 130,
+     "end": 135,
+     "texte": "site.",
+     "score": -0.1213
+    }
+   ],
+   "completude": {
+    "somme_attributions": 18.7592,
+    "ecart_score": 20.3152,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 17,
+   "passage_id": "lib_fr_06_p002",
+   "doc_id": "lib_fr_06",
+   "langue": "fr",
+   "source": "lib",
+   "categorie": "étiquette",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 23,
+    "end": 35,
+    "texte": "phosphogypse"
+   },
+   "gold": {
+    "start": 23,
+    "end": 35,
+    "label": "PRODUIT"
+   },
+   "prediction": {
+    "start": 23,
+    "end": 35,
+    "label": "PROCESSUS"
+   },
+   "part_attribution_entite": 0.1417,
+   "mots": [
+    {
+     "start": 0,
+     "end": 4,
+     "texte": "Gros",
+     "score": 0.0485
+    },
+    {
+     "start": 5,
+     "end": 10,
+     "texte": "sujet",
+     "score": 0.1135
+    },
+    {
+     "start": 11,
+     "end": 12,
+     "texte": "=",
+     "score": -0.2054
+    },
+    {
+     "start": 13,
+     "end": 19,
+     "texte": "rejets",
+     "score": 0.0753
+    },
+    {
+     "start": 20,
+     "end": 22,
+     "texte": "de",
+     "score": -0.0052
+    },
+    {
+     "start": 23,
+     "end": 35,
+     "texte": "phosphogypse",
+     "score": 0.9984
+    },
+    {
+     "start": 36,
+     "end": 38,
+     "texte": "et",
+     "score": 0.7042
+    },
+    {
+     "start": 39,
+     "end": 48,
+     "texte": "émissions",
+     "score": 1.0
+    },
+    {
+     "start": 49,
+     "end": 51,
+     "texte": "de",
+     "score": 0.1858
+    },
+    {
+     "start": 52,
+     "end": 57,
+     "texte": "fluor",
+     "score": 0.4955
+    },
+    {
+     "start": 58,
+     "end": 59,
+     "texte": "à",
+     "score": 0.2449
+    },
+    {
+     "start": 60,
+     "end": 62,
+     "texte": "la",
+     "score": 0.0544
+    },
+    {
+     "start": 63,
+     "end": 71,
+     "texte": "cheminée",
+     "score": 0.1118
+    },
+    {
+     "start": 72,
+     "end": 74,
+     "texte": "de",
+     "score": 0.0476
+    },
+    {
+     "start": 75,
+     "end": 84,
+     "texte": "l'atelier",
+     "score": 0.1333
+    },
+    {
+     "start": 85,
+     "end": 95,
+     "texte": "d'attaque.",
+     "score": -0.2755
+    },
+    {
+     "start": 96,
+     "end": 102,
+     "texte": "Mesure",
+     "score": 0.0011
+    },
+    {
+     "start": 103,
+     "end": 105,
+     "texte": "du",
+     "score": 0.0375
+    },
+    {
+     "start": 106,
+     "end": 113,
+     "texte": "dernier",
+     "score": 0.0012
+    },
+    {
+     "start": 114,
+     "end": 119,
+     "texte": "audit",
+     "score": -0.0255
+    },
+    {
+     "start": 120,
+     "end": 121,
+     "texte": ":",
+     "score": -0.0916
+    },
+    {
+     "start": 122,
+     "end": 125,
+     "texte": "7,4",
+     "score": -0.0888
+    },
+    {
+     "start": 126,
+     "end": 132,
+     "texte": "mg/Nm3",
+     "score": -0.2592
+    },
+    {
+     "start": 133,
+     "end": 135,
+     "texte": "de",
+     "score": 0.0403
+    },
+    {
+     "start": 136,
+     "end": 141,
+     "texte": "fluor",
+     "score": 0.1915
+    },
+    {
+     "start": 142,
+     "end": 148,
+     "texte": "contre",
+     "score": -0.071
+    },
+    {
+     "start": 149,
+     "end": 152,
+     "texte": "une",
+     "score": 0.1839
+    },
+    {
+     "start": 153,
+     "end": 159,
+     "texte": "limite",
+     "score": -0.0142
+    },
+    {
+     "start": 160,
+     "end": 161,
+     "texte": "à",
+     "score": 0.0466
+    },
+    {
+     "start": 162,
+     "end": 163,
+     "texte": "5",
+     "score": -0.0648
+    },
+    {
+     "start": 164,
+     "end": 171,
+     "texte": "mg/Nm3.",
+     "score": -0.4827
+    },
+    {
+     "start": 172,
+     "end": 180,
+     "texte": "Plaintes",
+     "score": -0.0834
+    },
+    {
+     "start": 181,
+     "end": 189,
+     "texte": "répétées",
+     "score": -0.0679
+    },
+    {
+     "start": 190,
+     "end": 192,
+     "texte": "de",
+     "score": 0.0276
+    },
+    {
+     "start": 193,
+     "end": 206,
+     "texte": "l'association",
+     "score": 0.3922
+    },
+    {
+     "start": 207,
+     "end": 210,
+     "texte": "des",
+     "score": -0.0213
+    },
+    {
+     "start": 211,
+     "end": 221,
+     "texte": "riverains.",
+     "score": -0.1549
+    }
+   ],
+   "completude": {
+    "somme_attributions": 26.7405,
+    "ecart_score": 26.9006,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 18,
+   "passage_id": "lib_ar_02_p006",
+   "doc_id": "lib_ar_02",
+   "langue": "ar",
+   "source": "lib",
+   "categorie": "étiquette",
+   "etiquette": "INDICATEUR",
+   "entite": {
+    "start": 13,
+    "end": 36,
+    "texte": "هامش الربح على الصناديق"
+   },
+   "gold": {
+    "start": 13,
+    "end": 36,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "prediction": {
+    "start": 13,
+    "end": 36,
+    "label": "INDICATEUR"
+   },
+   "part_attribution_entite": 0.4704,
+   "mots": [
+    {
+     "start": 0,
+     "end": 6,
+     "texte": "معطيات",
+     "score": -0.1913
+    },
+    {
+     "start": 7,
+     "end": 12,
+     "texte": "سرية:",
+     "score": -0.3401
+    },
+    {
+     "start": 13,
+     "end": 17,
+     "texte": "هامش",
+     "score": 0.5399
+    },
+    {
+     "start": 18,
+     "end": 23,
+     "texte": "الربح",
+     "score": 0.9923
+    },
+    {
+     "start": 24,
+     "end": 27,
+     "texte": "على",
+     "score": 0.1117
+    },
+    {
+     "start": 28,
+     "end": 36,
+     "texte": "الصناديق",
+     "score": 0.6045
+    },
+    {
+     "start": 37,
+     "end": 43,
+     "texte": "وقائمة",
+     "score": 1.0
+    },
+    {
+     "start": 44,
+     "end": 51,
+     "texte": "الحرفاء",
+     "score": 0.4415
+    },
+    {
+     "start": 52,
+     "end": 54,
+     "texte": "في",
+     "score": 0.0458
+    },
+    {
+     "start": 55,
+     "end": 59,
+     "texte": "قطاع",
+     "score": 0.3408
+    },
+    {
+     "start": 60,
+     "end": 67,
+     "texte": "التوزيع",
+     "score": 0.1005
+    },
+    {
+     "start": 68,
+     "end": 75,
+     "texte": "الكبير.",
+     "score": 0.0712
+    }
+   ],
+   "completude": {
+    "somme_attributions": 58.2423,
+    "ecart_score": 57.8528,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 19,
+   "passage_id": "lib_en_01_p005",
+   "doc_id": "lib_en_01",
+   "langue": "en",
+   "source": "lib",
+   "categorie": "étiquette",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 24,
+    "end": 38,
+    "texte": "autoclave logs"
+   },
+   "gold": {
+    "start": 24,
+    "end": 33,
+    "label": "EQUIPEMENT"
+   },
+   "prediction": {
+    "start": 24,
+    "end": 38,
+    "label": "PROCESSUS"
+   },
+   "part_attribution_entite": 0.3116,
+   "mots": [
+    {
+     "start": 0,
+     "end": 2,
+     "texte": "We",
+     "score": 0.1812
+    },
+    {
+     "start": 3,
+     "end": 6,
+     "texte": "can",
+     "score": 0.2405
+    },
+    {
+     "start": 7,
+     "end": 12,
+     "texte": "share",
+     "score": 0.1625
+    },
+    {
+     "start": 13,
+     "end": 23,
+     "texte": "anonymised",
+     "score": -0.1093
+    },
+    {
+     "start": 24,
+     "end": 33,
+     "texte": "autoclave",
+     "score": 1.0
+    },
+    {
+     "start": 34,
+     "end": 38,
+     "texte": "logs",
+     "score": -0.2219
+    },
+    {
+     "start": 39,
+     "end": 42,
+     "texte": "and",
+     "score": 0.2502
+    },
+    {
+     "start": 43,
+     "end": 46,
+     "texte": "NDT",
+     "score": 0.0066
+    },
+    {
+     "start": 47,
+     "end": 54,
+     "texte": "reports",
+     "score": 0.2387
+    },
+    {
+     "start": 55,
+     "end": 58,
+     "texte": "for",
+     "score": 0.0201
+    },
+    {
+     "start": 59,
+     "end": 64,
+     "texte": "1,400",
+     "score": 0.1915
+    },
+    {
+     "start": 65,
+     "end": 72,
+     "texte": "panels.",
+     "score": -0.1092
+    },
+    {
+     "start": 73,
+     "end": 76,
+     "texte": "The",
+     "score": 0.0628
+    },
+    {
+     "start": 77,
+     "end": 81,
+     "texte": "unit",
+     "score": 0.0494
+    },
+    {
+     "start": 82,
+     "end": 87,
+     "texte": "price",
+     "score": 0.1474
+    },
+    {
+     "start": 88,
+     "end": 94,
+     "texte": "agreed",
+     "score": 0.0163
+    },
+    {
+     "start": 95,
+     "end": 99,
+     "texte": "with",
+     "score": 0.041
+    },
+    {
+     "start": 100,
+     "end": 103,
+     "texte": "our",
+     "score": 0.0688
+    },
+    {
+     "start": 104,
+     "end": 112,
+     "texte": "customer",
+     "score": 0.0911
+    },
+    {
+     "start": 113,
+     "end": 116,
+     "texte": "and",
+     "score": 0.0502
+    },
+    {
+     "start": 117,
+     "end": 120,
+     "texte": "the",
+     "score": 0.0927
+    },
+    {
+     "start": 121,
+     "end": 125,
+     "texte": "name",
+     "score": 0.0288
+    },
+    {
+     "start": 126,
+     "end": 128,
+     "texte": "of",
+     "score": 0.1117
+    },
+    {
+     "start": 129,
+     "end": 132,
+     "texte": "the",
+     "score": 0.0473
+    },
+    {
+     "start": 133,
+     "end": 141,
+     "texte": "aircraft",
+     "score": 0.0854
+    },
+    {
+     "start": 142,
+     "end": 151,
+     "texte": "programme",
+     "score": -0.0426
+    },
+    {
+     "start": 152,
+     "end": 155,
+     "texte": "are",
+     "score": 0.0017
+    },
+    {
+     "start": 156,
+     "end": 169,
+     "texte": "confidential.",
+     "score": -0.022
+    },
+    {
+     "start": 170,
+     "end": 174,
+     "texte": "Best",
+     "score": -0.0116
+    },
+    {
+     "start": 175,
+     "end": 183,
+     "texte": "regards,",
+     "score": -0.0504
+    },
+    {
+     "start": 184,
+     "end": 190,
+     "texte": "Daniel",
+     "score": -0.006
+    },
+    {
+     "start": 191,
+     "end": 201,
+     "texte": "Whitfield,",
+     "score": 0.025
+    },
+    {
+     "start": 202,
+     "end": 212,
+     "texte": "Operations",
+     "score": -0.0429
+    },
+    {
+     "start": 213,
+     "end": 223,
+     "texte": "Excellence",
+     "score": 0.0139
+    },
+    {
+     "start": 224,
+     "end": 232,
+     "texte": "Manager,",
+     "score": -0.0091
+    },
+    {
+     "start": 233,
+     "end": 237,
+     "texte": "+216",
+     "score": -0.0075
+    },
+    {
+     "start": 238,
+     "end": 240,
+     "texte": "71",
+     "score": -0.0237
+    },
+    {
+     "start": 241,
+     "end": 244,
+     "texte": "940",
+     "score": -0.0175
+    },
+    {
+     "start": 245,
+     "end": 248,
+     "texte": "255",
+     "score": -0.0228
+    }
+   ],
+   "completude": {
+    "somme_attributions": 28.6365,
+    "ecart_score": 28.5721,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 20,
+   "passage_id": "lib_fr_06_p003",
+   "doc_id": "lib_fr_06",
+   "langue": "fr",
+   "source": "lib",
+   "categorie": "manquée",
+   "etiquette": "INDICATEUR",
+   "entite": {
+    "start": 56,
+    "end": 83,
+    "texte": "3 arrêts non planifiés/mois"
+   },
+   "gold": {
+    "start": 56,
+    "end": 83,
+    "label": "INDICATEUR"
+   },
+   "prediction": null,
+   "part_attribution_entite": 0.4422,
+   "mots": [
+    {
+     "start": 0,
+     "end": 2,
+     "texte": "2e",
+     "score": 0.0596
+    },
+    {
+     "start": 3,
+     "end": 8,
+     "texte": "sujet",
+     "score": 0.067
+    },
+    {
+     "start": 9,
+     "end": 10,
+     "texte": ":",
+     "score": 0.0242
+    },
+    {
+     "start": 11,
+     "end": 20,
+     "texte": "colmatage",
+     "score": 0.0782
+    },
+    {
+     "start": 21,
+     "end": 29,
+     "texte": "fréquent",
+     "score": 0.0423
+    },
+    {
+     "start": 30,
+     "end": 33,
+     "texte": "des",
+     "score": -0.0044
+    },
+    {
+     "start": 34,
+     "end": 41,
+     "texte": "filtres",
+     "score": 0.0044
+    },
+    {
+     "start": 42,
+     "end": 43,
+     "texte": "à",
+     "score": -0.0175
+    },
+    {
+     "start": 44,
+     "end": 50,
+     "texte": "bande,",
+     "score": 0.2463
+    },
+    {
+     "start": 51,
+     "end": 55,
+     "texte": "env.",
+     "score": -0.1356
+    },
+    {
+     "start": 56,
+     "end": 57,
+     "texte": "3",
+     "score": 0.0162
+    },
+    {
+     "start": 58,
+     "end": 64,
+     "texte": "arrêts",
+     "score": -0.0284
+    },
+    {
+     "start": 65,
+     "end": 68,
+     "texte": "non",
+     "score": -0.0184
+    },
+    {
+     "start": 69,
+     "end": 84,
+     "texte": "planifiés/mois,",
+     "score": 1.0
+    },
+    {
+     "start": 85,
+     "end": 91,
+     "texte": "chaque",
+     "score": 0.0025
+    },
+    {
+     "start": 92,
+     "end": 97,
+     "texte": "arrêt",
+     "score": -0.1855
+    },
+    {
+     "start": 98,
+     "end": 99,
+     "texte": "=",
+     "score": 0.0058
+    },
+    {
+     "start": 100,
+     "end": 102,
+     "texte": "~6",
+     "score": 0.2426
+    },
+    {
+     "start": 103,
+     "end": 104,
+     "texte": "h",
+     "score": 0.0539
+    },
+    {
+     "start": 105,
+     "end": 107,
+     "texte": "de",
+     "score": 0.1153
+    },
+    {
+     "start": 108,
+     "end": 118,
+     "texte": "production",
+     "score": -0.0376
+    },
+    {
+     "start": 119,
+     "end": 126,
+     "texte": "perdue.",
+     "score": 0.018
+    }
+   ],
+   "completude": {
+    "somme_attributions": 42.4539,
+    "ecart_score": 42.3937,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 21,
+   "passage_id": "lib_ar_02_p004",
+   "doc_id": "lib_ar_02",
+   "langue": "ar",
+   "source": "lib",
+   "categorie": "manquée",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 64,
+    "end": 77,
+    "texte": "تصميم التجارب"
+   },
+   "gold": {
+    "start": 64,
+    "end": 77,
+    "label": "PROCESSUS"
+   },
+   "prediction": null,
+   "part_attribution_entite": 0.192,
+   "mots": [
+    {
+     "start": 0,
+     "end": 7,
+     "texte": "القرار:",
+     "score": 0.2368
+    },
+    {
+     "start": 8,
+     "end": 14,
+     "texte": "اقتراح",
+     "score": 0.3055
+    },
+    {
+     "start": 15,
+     "end": 20,
+     "texte": "مشروع",
+     "score": 0.1978
+    },
+    {
+     "start": 21,
+     "end": 24,
+     "texte": "ختم",
+     "score": -0.041
+    },
+    {
+     "start": 25,
+     "end": 29,
+     "texte": "دروس",
+     "score": 0.0226
+    },
+    {
+     "start": 30,
+     "end": 33,
+     "texte": "حول",
+     "score": 0.6266
+    },
+    {
+     "start": 34,
+     "end": 37,
+     "texte": "ضبط",
+     "score": 0.2901
+    },
+    {
+     "start": 38,
+     "end": 44,
+     "texte": "معايير",
+     "score": 0.404
+    },
+    {
+     "start": 45,
+     "end": 52,
+     "texte": "القولبة",
+     "score": 1.0
+    },
+    {
+     "start": 53,
+     "end": 59,
+     "texte": "بالحقن",
+     "score": -0.736
+    },
+    {
+     "start": 60,
+     "end": 63,
+     "texte": "عبر",
+     "score": -0.9125
+    },
+    {
+     "start": 64,
+     "end": 69,
+     "texte": "تصميم",
+     "score": -0.9739
+    },
+    {
+     "start": 70,
+     "end": 78,
+     "texte": "التجارب،",
+     "score": -0.6412
+    },
+    {
+     "start": 79,
+     "end": 85,
+     "texte": "ودراسة",
+     "score": 0.6896
+    },
+    {
+     "start": 86,
+     "end": 93,
+     "texte": "إمكانية",
+     "score": 0.4682
+    },
+    {
+     "start": 94,
+     "end": 101,
+     "texte": "استرجاع",
+     "score": 0.0955
+    },
+    {
+     "start": 102,
+     "end": 107,
+     "texte": "حرارة",
+     "score": 0.2295
+    },
+    {
+     "start": 108,
+     "end": 112,
+     "texte": "وحدة",
+     "score": 0.344
+    },
+    {
+     "start": 113,
+     "end": 121,
+     "texte": "التبريد.",
+     "score": -0.197
+    }
+   ],
+   "completude": {
+    "somme_attributions": 8.5462,
+    "ecart_score": 8.5659,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 22,
+   "passage_id": "lib_en_01_p003",
+   "doc_id": "lib_en_01",
+   "langue": "en",
+   "source": "lib",
+   "categorie": "manquée",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 180,
+    "end": 186,
+    "texte": "lay-up"
+   },
+   "gold": {
+    "start": 180,
+    "end": 186,
+    "label": "PROCESSUS"
+   },
+   "prediction": null,
+   "part_attribution_entite": 0.136,
+   "mots": [
+    {
+     "start": 0,
+     "end": 2,
+     "texte": "We",
+     "score": -0.0064
+    },
+    {
+     "start": 3,
+     "end": 8,
+     "texte": "would",
+     "score": -0.0219
+    },
+    {
+     "start": 9,
+     "end": 13,
+     "texte": "like",
+     "score": -0.0751
+    },
+    {
+     "start": 14,
+     "end": 15,
+     "texte": "a",
+     "score": 0.0225
+    },
+    {
+     "start": 16,
+     "end": 20,
+     "texte": "team",
+     "score": -0.001
+    },
+    {
+     "start": 21,
+     "end": 23,
+     "texte": "of",
+     "score": 0.0219
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "texte": "students",
+     "score": 0.2057
+    },
+    {
+     "start": 33,
+     "end": 35,
+     "texte": "to",
+     "score": 0.0784
+    },
+    {
+     "start": 36,
+     "end": 43,
+     "texte": "perform",
+     "score": -0.0158
+    },
+    {
+     "start": 44,
+     "end": 45,
+     "texte": "a",
+     "score": 0.1394
+    },
+    {
+     "start": 46,
+     "end": 50,
+     "texte": "root",
+     "score": 0.065
+    },
+    {
+     "start": 51,
+     "end": 56,
+     "texte": "cause",
+     "score": -0.0121
+    },
+    {
+     "start": 57,
+     "end": 66,
+     "texte": "analysis,",
+     "score": 0.0985
+    },
+    {
+     "start": 67,
+     "end": 72,
+     "texte": "build",
+     "score": 0.1157
+    },
+    {
+     "start": 73,
+     "end": 74,
+     "texte": "a",
+     "score": 0.047
+    },
+    {
+     "start": 75,
+     "end": 86,
+     "texte": "statistical",
+     "score": 0.1018
+    },
+    {
+     "start": 87,
+     "end": 92,
+     "texte": "model",
+     "score": 0.0305
+    },
+    {
+     "start": 93,
+     "end": 100,
+     "texte": "linking",
+     "score": 0.039
+    },
+    {
+     "start": 101,
+     "end": 107,
+     "texte": "curing",
+     "score": 0.0792
+    },
+    {
+     "start": 108,
+     "end": 118,
+     "texte": "parameters",
+     "score": 0.0195
+    },
+    {
+     "start": 119,
+     "end": 121,
+     "texte": "to",
+     "score": 0.0171
+    },
+    {
+     "start": 122,
+     "end": 131,
+     "texte": "porosity,",
+     "score": 0.3875
+    },
+    {
+     "start": 132,
+     "end": 135,
+     "texte": "and",
+     "score": 0.0562
+    },
+    {
+     "start": 136,
+     "end": 143,
+     "texte": "propose",
+     "score": 0.1508
+    },
+    {
+     "start": 144,
+     "end": 146,
+     "texte": "an",
+     "score": 0.3183
+    },
+    {
+     "start": 147,
+     "end": 154,
+     "texte": "updated",
+     "score": 0.4047
+    },
+    {
+     "start": 155,
+     "end": 159,
+     "texte": "work",
+     "score": 0.1685
+    },
+    {
+     "start": 160,
+     "end": 171,
+     "texte": "instruction",
+     "score": -0.025
+    },
+    {
+     "start": 172,
+     "end": 175,
+     "texte": "for",
+     "score": 0.1007
+    },
+    {
+     "start": 176,
+     "end": 179,
+     "texte": "the",
+     "score": -0.3078
+    },
+    {
+     "start": 180,
+     "end": 186,
+     "texte": "lay-up",
+     "score": 0.6506
+    },
+    {
+     "start": 187,
+     "end": 197,
+     "texte": "operators.",
+     "score": -1.0
+    }
+   ],
+   "completude": {
+    "somme_attributions": 19.5369,
+    "ecart_score": 19.826,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 23,
+   "passage_id": "lib_fr_06_p002",
+   "doc_id": "lib_fr_06",
+   "langue": "fr",
+   "source": "lib",
+   "categorie": "manquée",
+   "etiquette": "EQUIPEMENT",
+   "entite": {
+    "start": 63,
+    "end": 94,
+    "texte": "cheminée de l'atelier d'attaque"
+   },
+   "gold": {
+    "start": 63,
+    "end": 94,
+    "label": "EQUIPEMENT"
+   },
+   "prediction": null,
+   "part_attribution_entite": 0.4231,
+   "mots": [
+    {
+     "start": 0,
+     "end": 4,
+     "texte": "Gros",
+     "score": -0.2339
+    },
+    {
+     "start": 5,
+     "end": 10,
+     "texte": "sujet",
+     "score": 0.1562
+    },
+    {
+     "start": 11,
+     "end": 12,
+     "texte": "=",
+     "score": -0.0478
+    },
+    {
+     "start": 13,
+     "end": 19,
+     "texte": "rejets",
+     "score": 0.1998
+    },
+    {
+     "start": 20,
+     "end": 22,
+     "texte": "de",
+     "score": 0.015
+    },
+    {
+     "start": 23,
+     "end": 35,
+     "texte": "phosphogypse",
+     "score": -0.0826
+    },
+    {
+     "start": 36,
+     "end": 38,
+     "texte": "et",
+     "score": -0.0456
+    },
+    {
+     "start": 39,
+     "end": 48,
+     "texte": "émissions",
+     "score": 0.0222
+    },
+    {
+     "start": 49,
+     "end": 51,
+     "texte": "de",
+     "score": -0.0825
+    },
+    {
+     "start": 52,
+     "end": 57,
+     "texte": "fluor",
+     "score": -0.2517
+    },
+    {
+     "start": 58,
+     "end": 59,
+     "texte": "à",
+     "score": 0.032
+    },
+    {
+     "start": 60,
+     "end": 62,
+     "texte": "la",
+     "score": -0.0579
+    },
+    {
+     "start": 63,
+     "end": 71,
+     "texte": "cheminée",
+     "score": -0.3052
+    },
+    {
+     "start": 72,
+     "end": 74,
+     "texte": "de",
+     "score": 0.155
+    },
+    {
+     "start": 75,
+     "end": 84,
+     "texte": "l'atelier",
+     "score": 0.5452
+    },
+    {
+     "start": 85,
+     "end": 95,
+     "texte": "d'attaque.",
+     "score": 1.0
+    },
+    {
+     "start": 96,
+     "end": 102,
+     "texte": "Mesure",
+     "score": 0.0079
+    },
+    {
+     "start": 103,
+     "end": 105,
+     "texte": "du",
+     "score": -0.0481
+    },
+    {
+     "start": 106,
+     "end": 113,
+     "texte": "dernier",
+     "score": 0.0722
+    },
+    {
+     "start": 114,
+     "end": 119,
+     "texte": "audit",
+     "score": -0.0482
+    },
+    {
+     "start": 120,
+     "end": 121,
+     "texte": ":",
+     "score": -0.002
+    },
+    {
+     "start": 122,
+     "end": 125,
+     "texte": "7,4",
+     "score": 0.0338
+    },
+    {
+     "start": 126,
+     "end": 132,
+     "texte": "mg/Nm3",
+     "score": -0.2682
+    },
+    {
+     "start": 133,
+     "end": 135,
+     "texte": "de",
+     "score": 0.0229
+    },
+    {
+     "start": 136,
+     "end": 141,
+     "texte": "fluor",
+     "score": -0.0083
+    },
+    {
+     "start": 142,
+     "end": 148,
+     "texte": "contre",
+     "score": -0.0228
+    },
+    {
+     "start": 149,
+     "end": 152,
+     "texte": "une",
+     "score": 0.0815
+    },
+    {
+     "start": 153,
+     "end": 159,
+     "texte": "limite",
+     "score": 0.0473
+    },
+    {
+     "start": 160,
+     "end": 161,
+     "texte": "à",
+     "score": -0.043
+    },
+    {
+     "start": 162,
+     "end": 163,
+     "texte": "5",
+     "score": -0.0455
+    },
+    {
+     "start": 164,
+     "end": 171,
+     "texte": "mg/Nm3.",
+     "score": -0.3338
+    },
+    {
+     "start": 172,
+     "end": 180,
+     "texte": "Plaintes",
+     "score": 0.0395
+    },
+    {
+     "start": 181,
+     "end": 189,
+     "texte": "répétées",
+     "score": 0.0073
+    },
+    {
+     "start": 190,
+     "end": 192,
+     "texte": "de",
+     "score": -0.0283
+    },
+    {
+     "start": 193,
+     "end": 206,
+     "texte": "l'association",
+     "score": 0.2067
+    },
+    {
+     "start": 207,
+     "end": 210,
+     "texte": "des",
+     "score": -0.0499
+    },
+    {
+     "start": 211,
+     "end": 221,
+     "texte": "riverains.",
+     "score": -0.0895
+    }
+   ],
+   "completude": {
+    "somme_attributions": 10.6962,
+    "ecart_score": 10.2903,
+    "etapes": 512
+   }
+  },
+  {
+   "id": 24,
+   "passage_id": "syn_ar_022_p006",
+   "doc_id": "syn_ar_022",
+   "langue": "ar",
+   "source": "syn",
+   "categorie": "manquée",
+   "etiquette": "DONNEE_SENSIBLE",
+   "entite": {
+    "start": 55,
+    "end": 73,
+    "texte": "العقد عدد 2024-115"
+   },
+   "gold": {
+    "start": 55,
+    "end": 73,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "prediction": null,
+   "part_attribution_entite": 0.3757,
+   "mots": [
+    {
+     "start": 0,
+     "end": 8,
+     "texte": "معلومـات",
+     "score": -1.0
+    },
+    {
+     "start": 9,
+     "end": 11,
+     "texte": "لا",
+     "score": -0.0415
+    },
+    {
+     "start": 12,
+     "end": 15,
+     "texte": "يجب",
+     "score": -0.1334
+    },
+    {
+     "start": 16,
+     "end": 22,
+     "texte": "نشرها:",
+     "score": 0.3921
+    },
+    {
+     "start": 23,
+     "end": 27,
+     "texte": "سـعر",
+     "score": -0.708
+    },
+    {
+     "start": 28,
+     "end": 33,
+     "texte": "البيع",
+     "score": -0.1323
+    },
+    {
+     "start": 34,
+     "end": 40,
+     "texte": "462,48",
+     "score": 0.8865
+    },
+    {
+     "start": 41,
+     "end": 46,
+     "texte": "دينار",
+     "score": 0.6782
+    },
+    {
+     "start": 47,
+     "end": 53,
+     "texte": "للوحدة",
+     "score": 0.0954
+    },
+    {
+     "start": 54,
+     "end": 60,
+     "texte": "والعقد",
+     "score": 0.8368
+    },
+    {
+     "start": 61,
+     "end": 64,
+     "texte": "عدد",
+     "score": 0.751
+    },
+    {
+     "start": 65,
+     "end": 74,
+     "texte": "2024-115.",
+     "score": 0.8604
+    }
+   ],
+   "completude": {
+    "somme_attributions": 16.3728,
+    "ecart_score": 17.4093,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 25,
+   "passage_id": "lib_fr_06_p002",
+   "doc_id": "lib_fr_06",
+   "langue": "fr",
+   "source": "lib",
+   "categorie": "en trop",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 39,
+    "end": 57,
+    "texte": "émissions de fluor"
+   },
+   "gold": null,
+   "prediction": {
+    "start": 39,
+    "end": 57,
+    "label": "PROCESSUS"
+   },
+   "part_attribution_entite": 0.2885,
+   "mots": [
+    {
+     "start": 0,
+     "end": 4,
+     "texte": "Gros",
+     "score": 0.0543
+    },
+    {
+     "start": 5,
+     "end": 10,
+     "texte": "sujet",
+     "score": 0.0727
+    },
+    {
+     "start": 11,
+     "end": 12,
+     "texte": "=",
+     "score": 0.141
+    },
+    {
+     "start": 13,
+     "end": 19,
+     "texte": "rejets",
+     "score": 0.1706
+    },
+    {
+     "start": 20,
+     "end": 22,
+     "texte": "de",
+     "score": -0.0182
+    },
+    {
+     "start": 23,
+     "end": 35,
+     "texte": "phosphogypse",
+     "score": -0.0669
+    },
+    {
+     "start": 36,
+     "end": 38,
+     "texte": "et",
+     "score": 0.0058
+    },
+    {
+     "start": 39,
+     "end": 48,
+     "texte": "émissions",
+     "score": -0.0709
+    },
+    {
+     "start": 49,
+     "end": 51,
+     "texte": "de",
+     "score": 0.1305
+    },
+    {
+     "start": 52,
+     "end": 57,
+     "texte": "fluor",
+     "score": 1.0
+    },
+    {
+     "start": 58,
+     "end": 59,
+     "texte": "à",
+     "score": 0.2774
+    },
+    {
+     "start": 60,
+     "end": 62,
+     "texte": "la",
+     "score": 0.1588
+    },
+    {
+     "start": 63,
+     "end": 71,
+     "texte": "cheminée",
+     "score": 0.2057
+    },
+    {
+     "start": 72,
+     "end": 74,
+     "texte": "de",
+     "score": 0.0292
+    },
+    {
+     "start": 75,
+     "end": 84,
+     "texte": "l'atelier",
+     "score": 0.0225
+    },
+    {
+     "start": 85,
+     "end": 95,
+     "texte": "d'attaque.",
+     "score": -0.183
+    },
+    {
+     "start": 96,
+     "end": 102,
+     "texte": "Mesure",
+     "score": 0.0811
+    },
+    {
+     "start": 103,
+     "end": 105,
+     "texte": "du",
+     "score": 0.0465
+    },
+    {
+     "start": 106,
+     "end": 113,
+     "texte": "dernier",
+     "score": 0.0265
+    },
+    {
+     "start": 114,
+     "end": 119,
+     "texte": "audit",
+     "score": -0.0299
+    },
+    {
+     "start": 120,
+     "end": 121,
+     "texte": ":",
+     "score": 0.0139
+    },
+    {
+     "start": 122,
+     "end": 125,
+     "texte": "7,4",
+     "score": -0.0275
+    },
+    {
+     "start": 126,
+     "end": 132,
+     "texte": "mg/Nm3",
+     "score": -0.1028
+    },
+    {
+     "start": 133,
+     "end": 135,
+     "texte": "de",
+     "score": 0.034
+    },
+    {
+     "start": 136,
+     "end": 141,
+     "texte": "fluor",
+     "score": 0.279
+    },
+    {
+     "start": 142,
+     "end": 148,
+     "texte": "contre",
+     "score": -0.0714
+    },
+    {
+     "start": 149,
+     "end": 152,
+     "texte": "une",
+     "score": 0.1503
+    },
+    {
+     "start": 153,
+     "end": 159,
+     "texte": "limite",
+     "score": -0.015
+    },
+    {
+     "start": 160,
+     "end": 161,
+     "texte": "à",
+     "score": 0.0283
+    },
+    {
+     "start": 162,
+     "end": 163,
+     "texte": "5",
+     "score": -0.0055
+    },
+    {
+     "start": 164,
+     "end": 171,
+     "texte": "mg/Nm3.",
+     "score": -0.2032
+    },
+    {
+     "start": 172,
+     "end": 180,
+     "texte": "Plaintes",
+     "score": 0.0398
+    },
+    {
+     "start": 181,
+     "end": 189,
+     "texte": "répétées",
+     "score": 0.0036
+    },
+    {
+     "start": 190,
+     "end": 192,
+     "texte": "de",
+     "score": -0.0238
+    },
+    {
+     "start": 193,
+     "end": 206,
+     "texte": "l'association",
+     "score": 0.2741
+    },
+    {
+     "start": 207,
+     "end": 210,
+     "texte": "des",
+     "score": -0.0194
+    },
+    {
+     "start": 211,
+     "end": 221,
+     "texte": "riverains.",
+     "score": -0.081
+    }
+   ],
+   "completude": {
+    "somme_attributions": 23.5805,
+    "ecart_score": 23.6391,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 26,
+   "passage_id": "lib_ar_02_p004",
+   "doc_id": "lib_ar_02",
+   "langue": "ar",
+   "source": "lib",
+   "categorie": "en trop",
+   "etiquette": "EQUIPEMENT",
+   "entite": {
+    "start": 108,
+    "end": 120,
+    "texte": "وحدة التبريد"
+   },
+   "gold": null,
+   "prediction": {
+    "start": 108,
+    "end": 120,
+    "label": "EQUIPEMENT"
+   },
+   "part_attribution_entite": 0.2645,
+   "mots": [
+    {
+     "start": 0,
+     "end": 7,
+     "texte": "القرار:",
+     "score": 0.2668
+    },
+    {
+     "start": 8,
+     "end": 14,
+     "texte": "اقتراح",
+     "score": 0.1702
+    },
+    {
+     "start": 15,
+     "end": 20,
+     "texte": "مشروع",
+     "score": 0.2497
+    },
+    {
+     "start": 21,
+     "end": 24,
+     "texte": "ختم",
+     "score": -0.0009
+    },
+    {
+     "start": 25,
+     "end": 29,
+     "texte": "دروس",
+     "score": -0.1712
+    },
+    {
+     "start": 30,
+     "end": 33,
+     "texte": "حول",
+     "score": 0.1832
+    },
+    {
+     "start": 34,
+     "end": 37,
+     "texte": "ضبط",
+     "score": 0.2472
+    },
+    {
+     "start": 38,
+     "end": 44,
+     "texte": "معايير",
+     "score": 0.3872
+    },
+    {
+     "start": 45,
+     "end": 52,
+     "texte": "القولبة",
+     "score": 0.3828
+    },
+    {
+     "start": 53,
+     "end": 59,
+     "texte": "بالحقن",
+     "score": -0.0595
+    },
+    {
+     "start": 60,
+     "end": 63,
+     "texte": "عبر",
+     "score": 0.3747
+    },
+    {
+     "start": 64,
+     "end": 69,
+     "texte": "تصميم",
+     "score": 0.2247
+    },
+    {
+     "start": 70,
+     "end": 78,
+     "texte": "التجارب،",
+     "score": 0.4881
+    },
+    {
+     "start": 79,
+     "end": 85,
+     "texte": "ودراسة",
+     "score": 0.0444
+    },
+    {
+     "start": 86,
+     "end": 93,
+     "texte": "إمكانية",
+     "score": 0.3347
+    },
+    {
+     "start": 94,
+     "end": 101,
+     "texte": "استرجاع",
+     "score": 0.1481
+    },
+    {
+     "start": 102,
+     "end": 107,
+     "texte": "حرارة",
+     "score": -0.0494
+    },
+    {
+     "start": 108,
+     "end": 112,
+     "texte": "وحدة",
+     "score": 1.0
+    },
+    {
+     "start": 113,
+     "end": 121,
+     "texte": "التبريد.",
+     "score": 0.3601
+    }
+   ],
+   "completude": {
+    "somme_attributions": 32.7443,
+    "ecart_score": 31.4438,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 27,
+   "passage_id": "lib_en_01_p005",
+   "doc_id": "lib_en_01",
+   "langue": "en",
+   "source": "lib",
+   "categorie": "en trop",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 13,
+    "end": 23,
+    "texte": "anonymised"
+   },
+   "gold": null,
+   "prediction": {
+    "start": 13,
+    "end": 23,
+    "label": "PROCESSUS"
+   },
+   "part_attribution_entite": 0.039,
+   "mots": [
+    {
+     "start": 0,
+     "end": 2,
+     "texte": "We",
+     "score": 0.1515
+    },
+    {
+     "start": 3,
+     "end": 6,
+     "texte": "can",
+     "score": 0.1747
+    },
+    {
+     "start": 7,
+     "end": 12,
+     "texte": "share",
+     "score": -0.1611
+    },
+    {
+     "start": 13,
+     "end": 23,
+     "texte": "anonymised",
+     "score": 0.1975
+    },
+    {
+     "start": 24,
+     "end": 33,
+     "texte": "autoclave",
+     "score": 1.0
+    },
+    {
+     "start": 34,
+     "end": 38,
+     "texte": "logs",
+     "score": 0.1269
+    },
+    {
+     "start": 39,
+     "end": 42,
+     "texte": "and",
+     "score": 0.2668
+    },
+    {
+     "start": 43,
+     "end": 46,
+     "texte": "NDT",
+     "score": 0.2557
+    },
+    {
+     "start": 47,
+     "end": 54,
+     "texte": "reports",
+     "score": -0.4407
+    },
+    {
+     "start": 55,
+     "end": 58,
+     "texte": "for",
+     "score": -0.312
+    },
+    {
+     "start": 59,
+     "end": 64,
+     "texte": "1,400",
+     "score": 0.4377
+    },
+    {
+     "start": 65,
+     "end": 72,
+     "texte": "panels.",
+     "score": 0.0606
+    },
+    {
+     "start": 73,
+     "end": 76,
+     "texte": "The",
+     "score": 0.2665
+    },
+    {
+     "start": 77,
+     "end": 81,
+     "texte": "unit",
+     "score": -0.0901
+    },
+    {
+     "start": 82,
+     "end": 87,
+     "texte": "price",
+     "score": -0.032
+    },
+    {
+     "start": 88,
+     "end": 94,
+     "texte": "agreed",
+     "score": 0.0191
+    },
+    {
+     "start": 95,
+     "end": 99,
+     "texte": "with",
+     "score": 0.0493
+    },
+    {
+     "start": 100,
+     "end": 103,
+     "texte": "our",
+     "score": 0.0855
+    },
+    {
+     "start": 104,
+     "end": 112,
+     "texte": "customer",
+     "score": 0.0731
+    },
+    {
+     "start": 113,
+     "end": 116,
+     "texte": "and",
+     "score": 0.0452
+    },
+    {
+     "start": 117,
+     "end": 120,
+     "texte": "the",
+     "score": 0.0915
+    },
+    {
+     "start": 121,
+     "end": 125,
+     "texte": "name",
+     "score": 0.0837
+    },
+    {
+     "start": 126,
+     "end": 128,
+     "texte": "of",
+     "score": 0.12
+    },
+    {
+     "start": 129,
+     "end": 132,
+     "texte": "the",
+     "score": 0.052
+    },
+    {
+     "start": 133,
+     "end": 141,
+     "texte": "aircraft",
+     "score": -0.0273
+    },
+    {
+     "start": 142,
+     "end": 151,
+     "texte": "programme",
+     "score": -0.0354
+    },
+    {
+     "start": 152,
+     "end": 155,
+     "texte": "are",
+     "score": 0.0578
+    },
+    {
+     "start": 156,
+     "end": 169,
+     "texte": "confidential.",
+     "score": 0.0444
+    },
+    {
+     "start": 170,
+     "end": 174,
+     "texte": "Best",
+     "score": 0.002
+    },
+    {
+     "start": 175,
+     "end": 183,
+     "texte": "regards,",
+     "score": -0.0607
+    },
+    {
+     "start": 184,
+     "end": 190,
+     "texte": "Daniel",
+     "score": -0.0465
+    },
+    {
+     "start": 191,
+     "end": 201,
+     "texte": "Whitfield,",
+     "score": -0.0299
+    },
+    {
+     "start": 202,
+     "end": 212,
+     "texte": "Operations",
+     "score": -0.0304
+    },
+    {
+     "start": 213,
+     "end": 223,
+     "texte": "Excellence",
+     "score": -0.0127
+    },
+    {
+     "start": 224,
+     "end": 232,
+     "texte": "Manager,",
+     "score": -0.0225
+    },
+    {
+     "start": 233,
+     "end": 237,
+     "texte": "+216",
+     "score": -0.0169
+    },
+    {
+     "start": 238,
+     "end": 240,
+     "texte": "71",
+     "score": -0.0552
+    },
+    {
+     "start": 241,
+     "end": 244,
+     "texte": "940",
+     "score": -0.0262
+    },
+    {
+     "start": 245,
+     "end": 248,
+     "texte": "255",
+     "score": 0.0047
+    }
+   ],
+   "completude": {
+    "somme_attributions": 15.3506,
+    "ecart_score": 15.6639,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 28,
+   "passage_id": "syn_fr_026_p005",
+   "doc_id": "syn_fr_026",
+   "langue": "fr",
+   "source": "syn",
+   "categorie": "en trop",
+   "etiquette": "CONTRAINTE",
+   "entite": {
+    "start": 0,
+    "end": 2,
+    "texte": "Le"
+   },
+   "gold": null,
+   "prediction": {
+    "start": 0,
+    "end": 2,
+    "label": "CONTRAINTE"
+   },
+   "part_attribution_entite": 0.2635,
+   "mots": [
+    {
+     "start": 0,
+     "end": 2,
+     "texte": "Le",
+     "score": 1.0
+    },
+    {
+     "start": 3,
+     "end": 13,
+     "texte": "partenaire",
+     "score": -0.0051
+    },
+    {
+     "start": 14,
+     "end": 20,
+     "texte": "impose",
+     "score": 0.3985
+    },
+    {
+     "start": 21,
+     "end": 24,
+     "texte": "les",
+     "score": 0.3067
+    },
+    {
+     "start": 25,
+     "end": 35,
+     "texte": "conditions",
+     "score": 0.1474
+    },
+    {
+     "start": 36,
+     "end": 45,
+     "texte": "suivantes",
+     "score": 0.0757
+    },
+    {
+     "start": 46,
+     "end": 47,
+     "texte": ":",
+     "score": 0.1276
+    },
+    {
+     "start": 48,
+     "end": 50,
+     "texte": "le",
+     "score": 0.0721
+    },
+    {
+     "start": 51,
+     "end": 57,
+     "texte": "projet",
+     "score": -0.0061
+    },
+    {
+     "start": 58,
+     "end": 62,
+     "texte": "doit",
+     "score": 0.2775
+    },
+    {
+     "start": 63,
+     "end": 67,
+     "texte": "être",
+     "score": 0.1051
+    },
+    {
+     "start": 68,
+     "end": 75,
+     "texte": "terminé",
+     "score": -0.0308
+    },
+    {
+     "start": 76,
+     "end": 78,
+     "texte": "en",
+     "score": 0.1063
+    },
+    {
+     "start": 79,
+     "end": 80,
+     "texte": "8",
+     "score": 0.0175
+    },
+    {
+     "start": 81,
+     "end": 89,
+     "texte": "semaines",
+     "score": -0.0195
+    },
+    {
+     "start": 90,
+     "end": 91,
+     "texte": ";",
+     "score": 0.0729
+    },
+    {
+     "start": 92,
+     "end": 94,
+     "texte": "le",
+     "score": 0.1285
+    },
+    {
+     "start": 95,
+     "end": 101,
+     "texte": "budget",
+     "score": 0.1322
+    },
+    {
+     "start": 102,
+     "end": 108,
+     "texte": "alloué",
+     "score": 0.0933
+    },
+    {
+     "start": 109,
+     "end": 111,
+     "texte": "ne",
+     "score": 0.0617
+    },
+    {
+     "start": 112,
+     "end": 116,
+     "texte": "doit",
+     "score": 0.0695
+    },
+    {
+     "start": 117,
+     "end": 120,
+     "texte": "pas",
+     "score": 0.055
+    },
+    {
+     "start": 121,
+     "end": 129,
+     "texte": "dépasser",
+     "score": 0.0755
+    },
+    {
+     "start": 130,
+     "end": 134,
+     "texte": "5000",
+     "score": 0.1294
+    },
+    {
+     "start": 135,
+     "end": 138,
+     "texte": "DT.",
+     "score": 0.2815
+    }
+   ],
+   "completude": {
+    "somme_attributions": 8.5805,
+    "ecart_score": 8.5712,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 29,
+   "passage_id": "syn_ar_021_p006",
+   "doc_id": "syn_ar_021",
+   "langue": "ar",
+   "source": "syn",
+   "categorie": "en trop",
+   "etiquette": "DONNEE_SENSIBLE",
+   "entite": {
+    "start": 22,
+    "end": 31,
+    "texte": "سعر البيع"
+   },
+   "gold": null,
+   "prediction": {
+    "start": 22,
+    "end": 31,
+    "label": "DONNEE_SENSIBLE"
+   },
+   "part_attribution_entite": 0.11,
+   "mots": [
+    {
+     "start": 0,
+     "end": 7,
+     "texte": "معلومات",
+     "score": 0.0669
+    },
+    {
+     "start": 8,
+     "end": 10,
+     "texte": "لا",
+     "score": 0.276
+    },
+    {
+     "start": 11,
+     "end": 14,
+     "texte": "يجب",
+     "score": -0.1284
+    },
+    {
+     "start": 15,
+     "end": 21,
+     "texte": "نشرها:",
+     "score": -0.0423
+    },
+    {
+     "start": 22,
+     "end": 25,
+     "texte": "سعر",
+     "score": 0.2777
+    },
+    {
+     "start": 26,
+     "end": 31,
+     "texte": "البيع",
+     "score": 0.071
+    },
+    {
+     "start": 32,
+     "end": 38,
+     "texte": "448,98",
+     "score": 1.0
+    },
+    {
+     "start": 39,
+     "end": 44,
+     "texte": "دينار",
+     "score": 0.2385
+    },
+    {
+     "start": 45,
+     "end": 51,
+     "texte": "للوحدة",
+     "score": -0.1245
+    },
+    {
+     "start": 52,
+     "end": 58,
+     "texte": "والعقد",
+     "score": -0.0823
+    },
+    {
+     "start": 59,
+     "end": 62,
+     "texte": "عدد",
+     "score": -0.1307
+    },
+    {
+     "start": 63,
+     "end": 72,
+     "texte": "2025-120.",
+     "score": 0.733
+    }
+   ],
+   "completude": {
+    "somme_attributions": 8.8791,
+    "ecart_score": 9.1055,
+    "etapes": 128
+   }
+  },
+  {
+   "id": 30,
+   "passage_id": "syn_en_013_p003",
+   "doc_id": "syn_en_013",
+   "langue": "en",
+   "source": "syn",
+   "categorie": "en trop",
+   "etiquette": "PROCESSUS",
+   "entite": {
+    "start": 112,
+    "end": 121,
+    "texte": "structure"
+   },
+   "gold": null,
+   "prediction": {
+    "start": 112,
+    "end": 121,
+    "label": "PROCESSUS"
+   },
+   "part_attribution_entite": 0.0097,
+   "mots": [
+    {
+     "start": 0,
+     "end": 1,
+     "texte": "A",
+     "score": -0.0386
+    },
+    {
+     "start": 2,
+     "end": 10,
+     "texte": "previous",
+     "score": 0.0074
+    },
+    {
+     "start": 11,
+     "end": 18,
+     "texte": "attempt",
+     "score": 0.0705
+    },
+    {
+     "start": 19,
+     "end": 22,
+     "texte": "led",
+     "score": 0.0534
+    },
+    {
+     "start": 23,
+     "end": 25,
+     "texte": "by",
+     "score": -0.0313
+    },
+    {
+     "start": 26,
+     "end": 28,
+     "texte": "W.",
+     "score": -0.1979
+    },
+    {
+     "start": 29,
+     "end": 39,
+     "texte": "Ghannouchi",
+     "score": -0.0534
+    },
+    {
+     "start": 40,
+     "end": 42,
+     "texte": "on",
+     "score": -0.0245
+    },
+    {
+     "start": 43,
+     "end": 46,
+     "texte": "the",
+     "score": 0.0634
+    },
+    {
+     "start": 47,
+     "end": 50,
+     "texte": "can",
+     "score": -0.0057
+    },
+    {
+     "start": 51,
+     "end": 57,
+     "texte": "seamer",
+     "score": -0.0963
+    },
+    {
+     "start": 58,
+     "end": 61,
+     "texte": "was",
+     "score": 0.0891
+    },
+    {
+     "start": 62,
+     "end": 65,
+     "texte": "not",
+     "score": 0.1588
+    },
+    {
+     "start": 66,
+     "end": 73,
+     "texte": "enough;",
+     "score": -0.2252
+    },
+    {
+     "start": 74,
+     "end": 78,
+     "texte": "EFEN",
+     "score": 0.1349
+    },
+    {
+     "start": 79,
+     "end": 89,
+     "texte": "management",
+     "score": -0.0239
+    },
+    {
+     "start": 90,
+     "end": 92,
+     "texte": "in",
+     "score": 0.261
+    },
+    {
+     "start": 93,
+     "end": 101,
+     "texte": "Zaghouan",
+     "score": 0.5957
+    },
+    {
+     "start": 102,
+     "end": 109,
+     "texte": "expects",
+     "score": 0.903
+    },
+    {
+     "start": 110,
+     "end": 111,
+     "texte": "a",
+     "score": 0.0775
+    },
+    {
+     "start": 112,
+     "end": 122,
+     "texte": "structured",
+     "score": 0.0455
+    },
+    {
+     "start": 123,
+     "end": 132,
+     "texte": "approach.",
+     "score": 1.0
+    },
+    {
+     "start": 133,
+     "end": 141,
+     "texte": "Affected",
+     "score": 0.1835
+    },
+    {
+     "start": 142,
+     "end": 148,
+     "texte": "range:",
+     "score": -0.102
+    },
+    {
+     "start": 149,
+     "end": 156,
+     "texte": "harissa",
+     "score": 0.0475
+    },
+    {
+     "start": 157,
+     "end": 163,
+     "texte": "paste.",
+     "score": -0.1834
+    }
+   ],
+   "completude": {
+    "somme_attributions": 7.5195,
+    "ecart_score": 7.6608,
+    "etapes": 128
+   }
+  }
+ ]
+}
