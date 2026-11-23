@@ -18,6 +18,12 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-23 · Ghayth · Lot C Gold · tâche 5 : XLM-R réentraîné sur le train v4 gelé (3 graines)
+- Quoi : `python -m caseforge.models.xlmr_ner --version v4 --bornes ponctuation --seed {42,13,2026} --garder-modele`, puis `--version v4 --resume` → `reports/lotC_xlmr_v4_dev.md`. Train v4 gelé (`data/gold/train_v4/train.jsonl`, 736 passages = 496 v3 + 240 synthétiques v4 ; manifeste SHA-256 du Lot A), mêmes réglages qu'au Silver, fine-tuning complet sur CPU (22 à 24 min par graine). Point de contrôle choisi sur le **dev** ; test gelé non lu.
+- **Prédictions remises au Lot B (Ali)** : `reports/predictions/xlmr_v4_dev_s{13,42,2026}.jsonl` (post-traitement des bornes retenu à la tâche 4 : ponctuation ; format commun lu par `union_fichier`) ; versions brutes `…_brut.jsonl` pour mesurer l'effet du post-traitement. Modèles gardés hors Git (`runs/xlmr_v4_s*/meilleur`, 1,1 Go chacun) pour les explications et la robustesse (tâche 7).
+- **F1 token (dev, avec post-traitement)** : graines 13 / 42 / 2026 = 0,824 / 0,803 / 0,800 ; **0,809 ± 0,011** (v3 avec le même post-traitement : 0,784 ± 0,020). Par langue : fr 0,824 ; ar 0,826 ; en 0,777. Comparaisons statistiques, étiquettes et sources : RQ1 (tâche 6, `reports/lotC_gold_rq1.md`).
+- Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le script.
+
 ## 2026-11-23 · Ghayth · Lot C Gold · tâche 3 : sélection active, 150 passages à vérifier d'abord
 - Quoi : `python -m caseforge.models.incertitude_xlmr --modele runs/xlmr_s42_f100/meilleur` → `reports/lotC_gold_incertitude.csv` (150 passages) et `reports/lotC_gold_incertitude.md`. Modèle : XLM-R fine-tuné sur le train v3 (graine 42, `--garder-modele`, F1 token dev 0,757, prédictions identiques au bit près à la courbe : entraînement CPU reproductible). Score : entropie moyenne (bits) des 19 tags BIO sur les sous-mots ; marge entre les deux tags les plus probables en score secondaire. Tests : `tests/test_incertitude_xlmr.py`.
 - Candidats (507) : 240 passages v4 du train v4 gelé (`data/gold/train_v4/train.jsonl`, `version == v4`) et les 40 textes libres v4 d'Ons, lus sur sa branche `lot-d-gold` (pas encore fusionnée), découpés en 267 paragraphes. Aucune étiquette n'est encore vérifiée par un humain (`verifie_humain: false` partout).
