@@ -1,0 +1,22 @@
+W0rkstation audit form – grid AUD-4
+
+Company: Bàssatine Packaging Plants
+Audited site: Ariana
+Product: thermoformed cups
+Auditor: Mr. Skander Chtioui (purchasing manager)
+
+Finding: availabillty rate of 74% recorded on the calendering line; QRQC method is not applied on the night shift.
+
+Additional measurements:
+- average stock of 28 days
+- availability rate of 81% at the last audit
+- adjacent stàtion: pick-and-place robot
+
+Analysis led by I. Sghaier (internal auditor) using QRQC method: the gap mainly comes from the calenderlng line.
+
+- investment is capped at TND 15,000
+- any change must be approved by the end custorner
+
+Restricted: unit cost TND 75.52 per unit, gr0ss margin of 17%, affected batch 25R905.
+
+Manager sign-off: Ms. Imen Sghàier – internal auditor – 78 175 778

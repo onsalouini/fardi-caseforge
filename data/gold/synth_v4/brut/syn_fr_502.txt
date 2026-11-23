@@ -1,0 +1,22 @@
+Plan d'actions – réunion du lundi, semaine 42
+
+Site : l'atelier de Ariana (Manufacture Connectique Essalam, MCES). Fabrication de faisceaux de portière pour une chaîne de pharmacies.
+
+Point bloquant : taux de non-conformité de 9 % sur le poste enrouleuse à Ariana, contre taux de non-conformité de 3 % il y a un mois.
+
+Causes retenues :
+- réglages différents d'une équipe à l'autre sur enrouleuse ;
+- MTTR de 35 minutes sur machine de coupe-dénudage ;
+- démarche abscnte : cartographie des flux.
+
+Actions décidées :
+- G. Sellami : appliquer méthodc 8D sur enrouleuse ;
+- M. Achraf Amri (responsable amélioration continue) : déployer cartographie des flux ;
+- point d'avancement en semaine 42.
+
+- toute modification doit être va1idée par le client final
+- l'étude doit durer au plus 6 semaines
+
+Données jointes : export des arrêts de machine de coupe-dénudage, rapport NCR-2026-4798, matricule opérateur MAT-70037.
+
+Rédigé par Mmc Ghada Sellami (pilote de ligne) · g.sellami@mccs.tn · 71 591 689

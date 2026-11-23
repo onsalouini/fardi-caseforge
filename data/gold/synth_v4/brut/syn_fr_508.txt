@@ -1,0 +1,22 @@
+Tableau de bord hebdomadaire – semaine 42
+
+Site : l'unité de Sayada (Usines C0nnectique Bassatine, UCBA). Fabrication de boîtiers de fusibles pour un équipementier allemand.
+
+| Poste | Indicateur suivi | Semaine précédente |
+| --- | --- | --- |
+| testeur de continuité | MTTR de 55 minutes | MTTR de 40 minutes |
+| machine de coupe-dénudage | tàux dc non-conformité de 8 % | stable |
+
+Analyse menée par H. Mzall (respon5able des achats), outil utilisé : cartographie des flux. L'écàrt vient surtout du poste testeur de continuité.
+
+| Action | Pilote | Outil |
+| --- | --- | --- |
+| Standardi5er les réglagcs | H. Mzali | détrompage Poka-Yoke |
+| Former l'équipe de nuit | Mme Rania Kchaou | cartographie des flux |
+
+- l'investissement est p1afonné à 60000 DT
+- toute modification doit être validee par le client final
+
+Diffusion rcstreinte : coût de revient 68,52 DT par unité, marge brute de 17 %, lot concerné 25R546.
+
+Rédigé par Mme Hiba Mzali (responsable des achats) · h.mzali@ucba.tn · +216 93 158 348

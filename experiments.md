@@ -18,6 +18,41 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-22 · Boutheina · Lot A Gold · double annotation à l'aveugle (kappa)
+- 36 passages v4 (15 % des 240, stratifiés par langue, graine 2027), annotés à l'aveugle par Boutheina (21/11) et Ons (22/11), chacune sur son PC, avec `data/gold/kappa_v4/annoter.html` (sans pré-annotation). Indépendance vérifiée : 2 passages sur 36 identiques, 45 entités vues par Ons seule, 69 par Boutheina seule.
+- **Kappa de Cohen au token Boutheina – Ons : 0,821** (972 tokens), cible ≥ 0,70 atteinte ; F1 spans exacts 0,617. Accord avec la construction : Ons 0,816, Boutheina 0,763.
+- Par étiquette, désaccords surtout sur SITE (0,569 : « l'atelier de Ariana » contre « Ariana ») et CONTRAINTE (0,555 : phrase entière contre seule valeur), puis PROCESSUS (0,730). À préciser dans le guide. Rapport : `reports/gold_kappa_v4.md` ; carte v4 régénérée.
+- Un premier fichier « 2e annotateur » reçu le 21/11 reprenait l'annotation de Boutheina (même mémoire de navigateur) : écarté, et la page corrigée (mémoire séparée par annotateur).
+
+## 2026-11-22 · Ons · Lot D Gold · contrôle automatique des ajouts et des omissions
+- `python generation/controle.py` → `reports/lot_d_gold_controle.md` (branche `lot-d-gold`). Exigence Gold de la fiche P7. **Dev** seulement (21 documents, fiches de référence et sorties déjà générées, sans GPU) ; test gelé non lu (le script refuse un fichier dont le nom contient « test »). Tests : `tests/test_controle_fiches.py` (14).
+- Règles fixées avant la mesure : **ajout** = élément tiré de la source contenant un nombre absent du document (nombres en lettres compris : « six mois » = 6) ou dont < 50 % des mots de contenu sont dans le meilleur passage ; **omission** = entité CONTRAINTE ou INDICATEUR qu'aucun élément ne reprend (≥ 60 % des mots, nombres compris). Le vocabulaire des formulations du gabarit est tiré du code (`gabarit.PHRASES`, `llm.HISTORIQUE`), pas du dev.
+- Validation par injection (graine 2027, fiches de référence du dev) : ajout étranger 21 / 21, nombre modifié 21 / 21, omission 21 / 21 détectés (rappel 1,00 sur des erreurs construites, à confirmer contre l'annotation humaine des 40 fiches).
+- **Défaut du Lot A trouvé** (signalé, `data/final/` non modifié) : 8 fiches de référence du dev écrivent « Historique sur six mois » alors que la source dit seulement « historique suivant » (`syn_fr_007`, `syn_fr_026`, `syn_en_006`, `syn_en_008`, `syn_en_013`, `syn_ar_006`, `syn_ar_021`, `syn_ar_022`), vérifié à la main ; `syn_fr_022` (signalé au Bronze) échappe au contrôle car « 6 » figure ailleurs dans son document. Conséquence : le LLM, qui refuse d'inventer cette durée, est pénalisé par la référence sur ces 9 éléments.
+- Fiches générées (dev, ajouts / faits clés omis) : gabarit v2 0 / 3 sur 88 (3 %) ; gabarit v2 sur les entrées du pipeline 1 / 5 (6 %) ; LLM extractif (e3, graine 42) 0 / 2 (2 %) ; LLM à champs (graine 42) 0 / 4 (5 %). Par source, les omissions viennent surtout des textes libres : `lib_` 19 % (gabarit), 31 % (gabarit pipeline), 6 % (LLM e3) contre 0 à 1 % pour `syn_`. Seul ajout trouvé : `lib_ar_02`, la valeur « 6,1 % » tronquée en « 6 » par le gabarit du pipeline (vrai défaut).
+- Limites : comparaison lexicale (une paraphrase fidèle peut être signalée) ; test des nombres à l'échelle du document ; faits clés = entités de référence (dans le pipeline : entités du Lot B) ; 3 documents `lib_` seulement. Suite : annotation humaine des ajouts et omissions sur 40 fiches (Ghayth, Boutheina) pour mesurer la précision réelle, puis branchement du contrôle dans le pipeline (Lot E).
+
+## 2026-11-22 · Boutheina · Audit croisé du lot C (Gold)
+- Branche `origin/lot-c-gold` (`d5182b7`), dev seulement, test gelé non lu. Rapport : `reports/audit_lotC_gold.md`.
+- H1 corrigé : aucun accès au test dans `caseforge/models/` ni `caseforge/retrieval/`. Post-traitement des bornes reproduit à l'identique (F1 token 0,743 → 0,784, strict 0,718 → 0,759).
+- Risque de réglage sur le dev faible : aucune entité de référence bornée par une ponctuation (train v3 0/1 464, dev 0/449), la règle suit la convention du guide. Mais le gain vient presque entièrement des INDICATEUR synthétiques finissant par « . » (54 corrections sur 3 graines, 1 seule dans un texte libre ; `lib_` inchangé à 0,557) : à annoncer avec cette portée. Cas limite : 2 ORG « … Co. » du train v4 seraient coupées ; recommandation d'une liste d'abréviations protégées.
+
+## 2026-11-22 · Boutheina · Lot A Gold · train v4 gelé
+- `python -m caseforge.gold.train_v4` → `data/gold/train_v4/` : train v3 (496 passages, `data/final/train.jsonl` inchangé) + 240 passages synthétiques v4 = **736 passages, 96 documents**. Dédoublonnage contre le train v3 et le dev : 0 passage écarté. Dev (162) et test gelé (206) inchangés ; empreinte du dev notée dans le manifeste.
+- Entités : INDICATEUR 132 → 222 (+68 %), PROCESSUS 145 → 220 (+52 %), DONNEE_SENSIBLE 204 → 340 (+67 %), EQUIPEMENT 202 → 314, PERSONNE 156 → 262, ORG 189 → 221, SITE 175 → 212, CONTRAINTE 133 → 193, PRODUIT 128 → 158. Langues : ar 200, en 248, fr 223, mixte 65.
+- Ce gel contient la partie synthétique du v4. Les textes libres v4 (lot D) viendront dans un second temps : on gèle dès maintenant pour que le lot C puisse réentraîner avant la validation du 23/11.
+- Gel : `data/gold/train_v4/manifest.json` (SHA-256 des 4 fichiers, identiques sous Linux et Windows) ; `tests/test_gold_train_v4.py` échoue si un fichier change. Remis aux lots B, C et D.
+
+## 2026-11-21 · Boutheina · Lot A Gold · jeux de robustesse du dev
+- `python -m caseforge.gold.robustesse` → `data/gold/robustesse/` : trois variantes des 162 passages du **dev** (mêmes `passage_id`, comparaison appariée), étiquettes recalées sur les nouveaux offsets, graine 2027, formats `dev.jsonl` et `dev.bio.jsonl`. Test gelé non lu ; évaluation seulement, jamais d'entraînement.
+- `abreviations` (mots courants abrégés, entités comprises) : 67 passages et 57 entités sur 449 modifiés. `ocr` (confusions de caractères d'un scan, entités comprises) : 145 passages, 155 entités. `mise_en_page` (liste à puces, e-mail avec en-tête et retours à la ligne, cellule de tableau ; entités inchangées) : 162 passages.
+- Remis aux lots B, C et D pour mesurer la perte de F1 NER et de fuite (cible Gold : perte ≤ 5 points de F1, fuite ≤ +1 point). Tests : `tests/test_gold_robustesse.py` (10).
+
+## 2026-11-21 · Boutheina · Lot A Gold · générateur v4 et 30 documents synthétiques
+- Générateur copié hors de `cfdata/` (figé) : `caseforge/gold/` (`lexiques_v4.py`, `gabarits_v4.py`, `generer_v4.py`). Nouveaux gabarits : tableau de bord, plan d'actions en liste, formulaire d'audit, rapport 8D. Graine 2027, identifiants `syn_<langue>_500` et suivants, champ `version` à `v4`, famille `G`.
+- `python -m caseforge.gold.generer_v4` → `data/gold/synth_v4/` : 30 documents (10 par langue), 240 passages, 678 entités, dont INDICATEUR 90, PROCESSUS 75, DONNEE_SENSIBLE 136. Bruits : propre 96, OCR 72, abréviations 48, code-switch 24 passages.
+- Anti-contamination sans lire le test : lexiques disjoints de tout le v3, donc de la famille B réservée au test (`tests/test_gold_generateur.py`, 8 tests) ; aucun nom du v4 présent au train ni au dev (9 noms remplacés). Annotations exactes par construction, non vérifiées par un humain : un échantillon sera vérifié avant le gel du train v4.
+
 ## 2026-11-21 · Ghayth · Lot C Gold · tâche 4 : post-traitement des bornes de XLM-R (dev)
 - Quoi : `python -m caseforge.models.bornes_xlmr` → `reports/lotC_gold_bornes.md`. Prédictions XLM-R du Silver (fine-tuning complet, graines 13 / 42 / 2026) corrigées **sans réentraînement** ; deux corrections tirées de l'analyse d'erreurs (`reports/lotC_erreurs_xlmr.md`) : retirer espaces et ` .,;:،؛` aux bornes (ponctuation) ; étendre une borne coupée au milieu d'un mot jusqu'à la limite du mot (mots). Ablation : chacune seule, puis les deux. Harnais officiel, mode token (classement) et strict au caractère ; bootstrap apparié par document contre le brut, p bilatérale. Split : **dev** ; test gelé non lu. Tests : `tests/test_bornes_xlmr.py`.
 - **F1 token (3 graines)** : brut 0,743 ± 0,019 ; **ponctuation seule 0,784 ± 0,020** ; mots seuls 0,745 ± 0,020 ; les deux 0,786 ± 0,020. Strict au caractère : 0,718 → **0,759** (ponctuation) ; 0,718 (mots) ; 0,758 (les deux).
@@ -45,6 +80,7 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Vérifications : `python -m caseforge.models.tfidf_classif --test` est refusé (« unrecognized arguments ») ; les 7 scripts relancés sur le dev redonnent les chiffres publiés (type de passage A 0,896 ; XLM-R `--resume` 0,743 ± 0,019 ; `crf_dev.jsonl` identique) ; pytest : 270 réussis, 10 échecs et 13 erreurs **identiques à `main`** (modèle spaCy `fr_core_news_md` absent de l'environnement local) ; ruff : `scripts/audit_lotc.py` conforme (périmètre CLAUDE.md), aucune nouvelle alerte sur les modules du Lot C (51 avant, 51 après, toutes préexistantes).
 - Hors Lot C, signalé sans modification : `exemples/baseline_crf.py` (Lot A) garde une option `--test`.
 - Code modifié avec l'aide d'un assistant IA (déclaré) ; vérifications obtenues en exécutant les scripts.
+
 
 ## 2026-11-14 · Ons · Clôture du palier Silver
 - Toutes les branches du Silver sont fusionnées dans `main` : Lot B (PR n° 27), Lot C (n° 23, 30), Lot D (n° 24, 26, 29), Lot E (n° 22, 25, 31). Tests : 387 passent, 1 ignoré ; CI verte sur la PR n° 31 (même contenu que `main`). Étiquette Git `palier-silver` posée sur le commit de clôture. Toutes les mesures sont faites sur le **dev** ; le test gelé `test-gele-v3` n'a pas été évalué.

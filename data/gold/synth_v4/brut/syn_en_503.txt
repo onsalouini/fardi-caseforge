@@ -1,0 +1,22 @@
+Weekly dashboard – week 6
+
+Site: the Tozeur unit (Bou Kornine Connectors Co., BKCCO). Manufacturing door harnesses for Libyan distributors.
+
+| Workstation | Tracked indicator | Previous week |
+| --- | --- | --- |
+| coiling machine | non-conformity rate of 4% | non-conformity rate of 3% |
+| ultrasonic welding station | energy use of 340 kWh per tonne | stable |
+
+Analysis led by A. Mzali (industrial engineer) using Poka-Yoke error proofing: the gap mainly comes from the coiling machine.
+
+| Action | Owner | Tool |
+| --- | --- | --- |
+| Standardise settings | A. Mzali | 8D method |
+| Train the night shift | Ms. Abir Turki | Poka-Yoke error proofing |
+
+- the study must last no more than 5 weeks
+- the FSSC 22000 certification must be kept
+
+Restricted: unit cost TND 58.53 per unit, gross margin of 17%, affected batch 25T873.
+
+Written by Mr. Achraf Mzali (industrial engineer) · a.mzali@bkcco.tn · +216 88 309 585

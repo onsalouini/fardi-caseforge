@@ -1,0 +1,22 @@
+Formulaire d'audit de poste – grille AUD-4
+
+Entreprise : SARL Emballages Nakhla
+Site audité : Ariana
+Produit : gobelets thermoformés
+Auditeur : M. Haythem Zribi (responsable amélioration continue)
+
+Constat : stock moyen de 28 jours relevé sur ligne de calandrage ; démarche non suivie en poste de nuit : méthode QRQC.
+
+Mesures complémentaires :
+- rendement au premier passage de 95 %
+- stock moyen de 24 jours au dernier audit
+- poste voisin : robot de dépose
+
+Analyse menée par C. Chtioui (auditeur interne), outil utilisé : méthode QRQC. L'écart vient surtout du poste ligne de calandrage.
+
+- l'étude doit durer au plus 5 semaines
+- un changement de série ne doit pas dépasser 15 minutes
+
+Diffusion restreinte : coût de revient 89,62 DT par unité, marge brute de 21 %, lot concerné 25R114.
+
+Visa du resp. : M. Chokri Chtioui – auditeur interne – +216 33 137 558
