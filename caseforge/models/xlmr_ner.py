@@ -9,6 +9,9 @@ Sur Colab (Exécution → Modifier le type d'exécution → GPU T4), dans une ce
     !python -m caseforge.models.xlmr_ner --seed 2026
     !python -m caseforge.models.xlmr_ner --resume      # moyenne ± écart-type des 3 graines
 Ne PAS installer requirements-lotb.txt sur Colab (il remplacerait le torch GPU de Colab).
+Palier Gold, train v4 gelé et post-traitement des bornes retenu (CPU ~23 min par graine, Colab T4 ~5 min) :
+    python -m caseforge.models.xlmr_ner --version v4 --bornes ponctuation --seed 13     # puis 42 et 2026
+    python -m caseforge.models.xlmr_ner --version v4 --resume
 
 Choix de méthode :
   - Étiquettes alignées DIRECTEMENT des spans de caractères (data/final/*.jsonl) vers les sous-mots du tokenizer, grâce
@@ -77,6 +80,13 @@ def spans_depuis_sous_mots(texte: str, offsets: list[tuple[int, int]], tags: lis
     return [sp for sp in spans if sp["start"] < sp["end"]]
 
 
+TRAIN_V4 = Path("data/gold/train_v4/train.jsonl")
+
+
+def prefixe(a) -> str:
+    return "xlmr_v4" if getattr(a, "version", "v3") == "v4" else "xlmr"
+
+
 def suffixe(a) -> str:
     frac = f"_f{round(a.fraction * 100)}" if getattr(a, "fraction", None) is not None else ""
     return ("_ext" if a.externe else "") + ("_gel" if a.geler_embeddings else "") + frac
@@ -124,7 +134,9 @@ def entrainer(a) -> None:
 
     set_seed(a.seed)
     tok = AutoTokenizer.from_pretrained(a.model)
-    train, dev = charger("train"), charger("dev")
+    dev = charger("dev")
+    train = charger("train") if a.version == "v3" else [json.loads(ligne) for ligne in open(TRAIN_V4, encoding="utf-8")]
+    print(f"train {a.version} : {len(train)} passages")
     if a.fraction is not None:
         train = sous_echantillon(train, a.fraction, a.seed)
         print(f"train sous-échantillonné à {a.fraction:.0%} : {len({r['doc_id'] for r in train})} documents, "
@@ -172,7 +184,7 @@ def entrainer(a) -> None:
         fn = ((lab != 0) & (pred != lab) & m).sum()
         return {"f1": float(2 * tp / max(2 * tp + fp + fn, 1))}
 
-    sortie = f"runs/xlmr_s{a.seed}{suffixe(a)}"
+    sortie = f"runs/{prefixe(a)}_s{a.seed}{suffixe(a)}"
     args = TrainingArguments(output_dir=sortie, learning_rate=a.lr, per_device_train_batch_size=16,
                              per_device_eval_batch_size=32, num_train_epochs=a.epochs, warmup_ratio=0.1,
                              weight_decay=0.01, eval_strategy="epoch", save_strategy="epoch", save_total_limit=1,
@@ -195,7 +207,16 @@ def entrainer(a) -> None:
         tags = [TAGS[i] for i in logits.argmax(-1).tolist()]
         lignes.append({"passage_id": r["passage_id"], "entities": spans_depuis_sous_mots(r["text"], off, tags)})
     SORTIE.mkdir(parents=True, exist_ok=True)
-    f = SORTIE / f"xlmr_{split}_s{a.seed}{suffixe(a)}.jsonl"
+    f = SORTIE / f"{prefixe(a)}_{split}_s{a.seed}{suffixe(a)}.jsonl"
+    if a.bornes != "aucun":  # prédictions brutes gardées pour mesurer l'effet du post-traitement (tâche 4)
+        from caseforge.models.bornes_xlmr import post_traiter
+
+        brut = f.with_name(f.stem + "_brut.jsonl")
+        brut.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in lignes), encoding="utf-8")
+        print(f"-> {brut}")
+        texte = {r["passage_id"]: r["text"] for r in rows}
+        lignes = [{**x, "entities": post_traiter(texte[x["passage_id"]], x["entities"], ponctuation=True, mots=False)}
+                  for x in lignes]
     f.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in lignes), encoding="utf-8")
     print(f"-> {f}")
     if a.garder_modele:
@@ -213,7 +234,7 @@ def resumer(a) -> None:
     from caseforge.eval.ner_eval import charger as ch, evaluer
     gold = ch(f"data/final/{a.split}.jsonl")
     suf = suffixe(a)
-    fichiers = [SORTIE / f"xlmr_{a.split}_s{g}{suf}.jsonl" for g in (13, 42, 2026)]
+    fichiers = [SORTIE / f"{prefixe(a)}_{a.split}_s{g}{suf}.jsonl" for g in (13, 42, 2026)]
     fichiers = [f for f in fichiers if f.exists()]
     runs = [evaluer(gold, ch(str(f))) for f in fichiers]
     cles = ["micro", "fr", "ar", "en", *LABELS]
@@ -224,7 +245,7 @@ def resumer(a) -> None:
     for k in cles:
         v = [r.get(k, (0, 0, 0))[2] for r in runs]
         L.append(f"| {k} | {mean(v):.3f} ± {pstdev(v):.3f} |")
-    out = Path(f"reports/lotC_xlmr_{a.split}{suf}.md")
+    out = Path(f"reports/lotC_{prefixe(a)}_{a.split}{suf}.md")
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     print(f"-> {out}")
@@ -242,6 +263,10 @@ def main() -> None:
                     help="sauve le meilleur modèle dans runs/…/meilleur (sinon les points de contrôle sont supprimés)")
     ap.add_argument("--fraction", type=float, default=None,
                     help="part des documents du train gardée (courbe d'apprentissage) ; suffixe _f25, _f50…")
+    ap.add_argument("--version", default="v3", choices=["v3", "v4"],
+                    help="train v3 (data/final) ou v4 gelé (data/gold/train_v4) ; fichiers xlmr_… ou xlmr_v4_…")
+    ap.add_argument("--bornes", default="aucun", choices=["aucun", "ponctuation"],
+                    help="post-traitement des bornes (tâche 4) ; écrit aussi les prédictions brutes (_brut)")
     ap.set_defaults(split="dev")
     ap.add_argument("--resume", action="store_true", help="résumer les 3 graines déjà calculées")
     a = ap.parse_args()
