@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-23 · Ghayth · Lot C Gold · tâche 8 : carte de modèle du Lot C mise à jour
+- `docs/carte_modele_lotC.md` : en-tête Gold (train v4 gelé, dev inchangé, test gelé lisible seulement par `scripts/final_eval.py`), 5 lignes C8 dans le tableau des modèles, section **C8 · NER XLM-R au palier Gold** (résultats v4, courbe, post-traitement des bornes, RQ1, robustesse, explications, sélection active, usage prévu), limites Gold (synthétiques non vérifiés, textes libres v4 absents, réglages sur le dev, sensibilité à la forme) et usage d'IA déclaré. Lien mort `reports/lotC_explications.md` (signalé le 14/11) remplacé par `reports/lotC_gold_explications.md`.
+- Chiffres repris des entrées du 21 au 23/11 (tâches 1 à 7). Reste ouvert : jeu tunisien du Lot B (à mesurer dès sa livraison avec `robustesse_xlmr.py --tunisien`).
+- Tests : 327 réussis ; les 10 échecs et 13 erreurs viennent du modèle spaCy `fr_core_news_md` absent de l'environnement local (identiques à `main`).
+
 ## 2026-11-23 · Ghayth · Lot C Gold · tâche 7 : explications (gradients intégrés) et robustesse de XLM-R v4
 - **Robustesse** : `python -m caseforge.models.robustesse_xlmr` → `reports/lotC_gold_robustesse.md`. Les 3 modèles v4 sauvegardés (tâche 5) prédisent, sans réentraînement et avec le post-traitement des bornes, le dev et ses 3 variantes du Lot A (`data/gold/robustesse`) ; harnais officiel, mode token ; perte = F1(variante) − F1(dev), IC 95 % par bootstrap apparié par document. Contrôle : sur le modèle v3, les prédictions du script sont identiques à celles de la tâche 4.
   - F1 (3 graines) : dev 0,809 ± 0,011 ; abréviations 0,784 (**−2,6 points**, cible ≤ 5 respectée 3/3) ; bruit OCR 0,744 (**−6,6 points**, cible respectée 1/3, IC tous sous 0) ; mise en page 0,757 (**−5,2 points**, 1/3) alors qu'aucune entité n'y est modifiée : le modèle est sensible à la forme (puces, en-têtes d'e-mail, cellules).

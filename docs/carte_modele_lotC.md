@@ -1,8 +1,12 @@
-# Carte de modèle — Lot C (paliers Bronze et Silver)
+# Carte de modèle — Lot C (paliers Bronze, Silver et Gold)
 
-Responsable : Ghayth Mahmoud · co-équipière : Ons Alouini · branche `lot-c-modeles`.
-Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`). Tous les réglages et résultats ci-dessous sont
-mesurés sur le **dev** ; le test gelé n'a pas encore été utilisé (il le sera une seule fois, à la fin du lot).
+Responsable : Ghayth Mahmoud · co-équipière : Ons Alouini · branches `lot-c-modeles` (Bronze), `lot-c-silver`,
+`lot-c-gold`.
+Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`) ; au Gold, train v4 gelé du Lot A
+(`data/gold/train_v4`, 736 passages = 496 v3 + 240 synthétiques v4, manifeste SHA-256). Le dev (162 passages) ne
+change pas. Tous les réglages et résultats ci-dessous sont mesurés sur le **dev** ; le test gelé n'a pas encore été
+utilisé : il le sera une seule fois, en équipe, par `scripts/final_eval.py` (aucun script du Lot C ne peut plus le
+lire, constat H1 levé au Gold).
 Code écrit avec l'aide d'un assistant IA (déclaré dans le rapport) ; exécution, vérification et analyse d'erreurs
 faites par l'équipe.
 
@@ -16,11 +20,17 @@ faites par l'équipe.
 | C6 (Silver) | NER des 9 entités par XLM-R fine-tuné (3 graines) | `caseforge/models/xlmr_ner.py`, `comparer_ner.py` | `reports/lotC_comparaison_ner.md`, `lotC_xlmr_dev*.md` |
 | C6 (Silver) | Analyse d'erreurs de XLM-R (168 erreurs, 34 exemples) | `caseforge/models/erreurs_xlmr.py` | `reports/lotC_erreurs_xlmr.md` |
 | C7 (Silver) | Embeddings multilingues e5 : type de passage, passage source | `caseforge/models/embeddings_lotc.py` | `reports/lotC_embeddings.md` |
+| C8 (Gold) | Courbe d'apprentissage de XLM-R (25 à 100 % du train v3) | `caseforge/models/courbe_xlmr.py` | `reports/lotC_gold_courbe.md` |
+| C8 (Gold) | Post-traitement des bornes (ponctuation retenue) | `caseforge/models/bornes_xlmr.py` | `reports/lotC_gold_bornes.md` |
+| C8 (Gold) | Sélection active : 150 passages à vérifier d'abord | `caseforge/models/incertitude_xlmr.py` | `reports/lotC_gold_incertitude.md`, `.csv` |
+| C8 (Gold) | XLM-R réentraîné sur le train v4 ; RQ1 contre les règles | `caseforge/models/xlmr_ner.py --version v4`, `rq1_ner.py` | `reports/lotC_gold_rq1.md` |
+| C8 (Gold) | Robustesse (abréviations, OCR, mise en page) et explications (gradients intégrés) | `caseforge/models/robustesse_xlmr.py`, `explications_xlmr.py` | `reports/lotC_gold_robustesse.md`, `lotC_gold_explications.md` |
 
 Évaluation NER : harnais officiel `caseforge/eval/ner_metrics.py` du Lot B (mode « mots » pour comparer les modèles,
 mode « caractère » et taux de fuite pour l'anonymisation) ; `caseforge/eval/ner_eval.py` donne les mêmes chiffres en mode
 mots (non-régression à 1e-6).
-Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Explications : `reports/lotC_explications.md`.
+Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées), `reports/lotC_erreurs_xlmr.md` (XLM-R).
+Explications : `reports/lotC_gold_explications.md` et `reports/explications/lotC_gold_explications.json` (Studio).
 
 ---
 
@@ -150,12 +160,46 @@ Analyse d'erreurs : `reports/erreurs_lotC.md` (41 erreurs catégorisées). Expli
 - **Passage source** (MRR, 145 requêtes) : **résultat négatif** : BM25 0,932, e5 0,887 (−0,045, p 0,001), fusion RRF
   0,920 ; BM25 est gardé pour le contrôle des citations.
 
+## C8 · NER XLM-R au palier Gold (train v4, post-traitement des bornes)
+
+- **Système Gold** : `xlm-roberta-base` fine-tuné sur le **train v4 gelé** (736 passages), mêmes réglages qu'au Silver
+  (10 époques, lr 3e-5, point de contrôle choisi sur le dev), fine-tuning complet sur CPU (22 à 24 min par graine),
+  graines 13, 42, 2026 ; sortie corrigée par le **post-traitement des bornes** (ponctuation retirée aux bornes).
+  Prédictions remises au Lot B : `reports/predictions/xlmr_v4_dev_s{graine}.jsonl` (brutes : `…_brut.jsonl`).
+- **Résultats (F1 micro, mode token, dev)** : **0,809 ± 0,011** (v3 avec le même post-traitement 0,784 ± 0,020 ;
+  v3 brut 0,743 ; règles B3 sans les mots du dev 0,701). Par langue : fr 0,824 ; ar 0,826 ; en 0,777. Par source :
+  syn_ 0,852 ; lib_ 0,555. Par étiquette : PERSONNE 0,987, CONTRAINTE 0,975, PRODUIT 0,895, INDICATEUR 0,841,
+  ORG 0,834, SITE 0,829, EQUIPEMENT 0,783, DONNEE_SENSIBLE 0,758, PROCESSUS 0,469.
+- **Courbe d'apprentissage** (train v3) : 0,533 / 0,637 / 0,693 / 0,743 à 25 / 50 / 75 / 100 % ; elle monte encore
+  à 100 % (gain démontré 75 → 100 % pour 2 graines sur 3), contrairement au CRF (plateau dès 50 %).
+- **Post-traitement des bornes** (tâche 4, sans réentraînement) : ponctuation +0,041 (gain démontré 3/3, INDICATEUR
+  0,423 → 0,830) ; extension au mot : aucun gain démontré, écartée.
+- **RQ1** (`reports/lotC_gold_rq1.md`) : XLM-R v4 + bornes bat les règles au global (+0,10 à +0,12, 3 graines sur 3)
+  et sur PRODUIT, EQUIPEMENT, CONTRAINTE, PERSONNE ; aucune étiquette où les règles sont démontrées meilleures ;
+  pas de différence démontrée sur ORG, SITE, DONNEE_SENSIBLE, PROCESSUS, INDICATEUR. Effet du train v4 (même
+  modèle) : +0,025 en moyenne, démontré pour 1 graine sur 3 seulement (le v4 n'ajoute que des synthétiques).
+- **Robustesse** (sans réentraînement) : abréviations −2,6 points (cible ≤ 5 respectée), bruit OCR −6,6 (non
+  respectée), mise en page −5,2 (limite) alors qu'aucune entité n'y change. Jeu tunisien du Lot B : en attente.
+- **Explications** : gradients intégrés sur 30 cas (complétude médiane 0,8 %) ; les détections correctes s'appuient à
+  54 % sur l'entité elle-même, les fausses détections à 16 % seulement (surtout le contexte).
+- **Sélection active** : l'incertitude de XLM-R concentre 60 % des erreurs du dev dans le quart le plus incertain ;
+  150 passages v4 à vérifier d'abord ; contrôle d'écriture : sortie ratée du LLM repérée dans `lib_ar_500` (chinois).
+- **Usage prévu** : NER appris du système, en union avec les règles pour l'anonymisation (Lot B) ; ne pas l'utiliser
+  seul sur des textes libres ou des documents scannés (pertes mesurées ci-dessus).
+
 ## Limites communes et considérations éthiques
 
 - Corpus principal simulé (gabarits + textes libres rédigés par IA) : les scores surestiment probablement la
   performance sur de vrais documents industriels ; le pilote FARDI n'est pas encore disponible.
 - Dev petit (162 passages, 21 documents) : intervalles de confiance larges ; résultats rapportés par langue.
 - Les modèles travaillent sur des textes anonymisés ou simulés ; aucune donnée partenaire n'a été utilisée.
-- Prochaines étapes : interprétation de l'attention de XLM-R (explications, palier Gold) ; post-traitement des
-  bornes de XLM-R (ponctuation, mots coupés : 50 erreurs sur 168, `reports/lotC_erreurs_xlmr.md`) ; évaluation finale
-  unique sur `test-gele-v3` par `scripts/final_eval.py`.
+- Gold : le train v4 n'ajoute que des données synthétiques, générées et annotées par construction, non vérifiées
+  par un humain (`verifie_humain: false`) ; les textes libres v4 (rédigés par un LLM, Lot D) ne sont pas encore
+  intégrés. Le point de contrôle et le post-traitement sont réglés sur le dev : les scores du dev sont optimistes.
+- Les fausses détections reposent surtout sur le contexte (explications) : prudence sur des documents de forme
+  inhabituelle (mise en page −5,2 points, OCR −6,6).
+- Usage d'IA déclaré : code des Lots C (Bronze à Gold) écrit avec l'aide d'un assistant IA ; toutes les mesures
+  obtenues en exécutant les scripts, vérifiées et analysées par l'équipe.
+- Prochaines étapes : textes libres v4 dans le train (après correction de `lib_ar_500`) ; mesure sur le jeu tunisien
+  du Lot B (`python -m caseforge.models.robustesse_xlmr --tunisien …`) ; évaluation finale unique sur
+  `test-gele-v3` par `scripts/final_eval.py`.
