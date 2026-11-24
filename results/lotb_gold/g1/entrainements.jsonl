@@ -1,0 +1,6 @@
+{"condition": "sans", "graine": 13, "epoques": 10, "n_passages_train": 496, "duree_s": 80, "materiel": "cuda"}
+{"condition": "avec", "graine": 13, "epoques": 10, "n_passages_train": 3747, "duree_s": 1264, "materiel": "cuda"}
+{"condition": "sans", "graine": 42, "epoques": 10, "n_passages_train": 496, "duree_s": 78, "materiel": "cuda"}
+{"condition": "avec", "graine": 42, "epoques": 10, "n_passages_train": 3747, "duree_s": 1278, "materiel": "cuda"}
+{"condition": "sans", "graine": 2026, "epoques": 10, "n_passages_train": 496, "duree_s": 79, "materiel": "cuda"}
+{"condition": "avec", "graine": 2026, "epoques": 10, "n_passages_train": 3747, "duree_s": 1278, "materiel": "cuda"}
