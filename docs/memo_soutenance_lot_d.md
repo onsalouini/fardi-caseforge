@@ -44,8 +44,8 @@ résultat négatif consigné.
 
 **Que se passe-t-il avec un document scanné ou abrégé ?** Gabarit : −8,4 points sous bruit OCR (−12,7 en arabe),
 −4,2 avec abréviations, rien avec une autre mise en page. LLM : −11,2 sous OCR (plus que le gabarit : il recopie
-des valeurs bruitées que la référence propre ne reconnaît plus), −0,6 pour la mise en page. Abréviations non mesurées
-pour le LLM (exécution interrompue). Piste : normaliser le texte OCR avant l'extraction.
+des valeurs bruitées que la référence propre ne reconnaît plus), −4,0 avec abréviations, −0,6 pour la mise en page.
+Piste : normaliser le texte OCR avant l'extraction.
 
 **Et si on ne sait pas ?** « Nous ne savons pas encore : 3 textes libres seulement au dev ; les 40 textes libres v4 et le
 test gelé le diront. »

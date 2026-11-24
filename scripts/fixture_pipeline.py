@@ -6,6 +6,7 @@ L'exemple est tiré d'un document du TRAIN (jamais du dev ni du test, pour ne pa
 passages, types et entités de référence, anonymisation de référence, fiche de référence. Il suit exactement
 docs/contrat_pipeline.md et sert à développer l'API et l'interface en parallèle, avant que le vrai pipeline soit prêt.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -16,8 +17,10 @@ PSEUDO_PAR_DEFAUT = {"DONNEE_SENSIBLE": "[DONNEE_MASQUEE]"}
 
 
 def construire(doc_id: str) -> dict:
-    docs = {json.loads(l)["doc_id"]: json.loads(l) for l in open("data/final/documents_train.jsonl", encoding="utf-8")}
-    fiches = {json.loads(l)["doc_id"]: json.loads(l) for l in open("data/final/fiches_train.jsonl", encoding="utf-8")}
+    with open("data/final/documents_train.jsonl", encoding="utf-8") as f:
+        docs = {d["doc_id"]: d for d in map(json.loads, f)}
+    with open("data/final/fiches_train.jsonl", encoding="utf-8") as f:
+        fiches = {x["doc_id"]: x for x in map(json.loads, f)}
     if doc_id not in docs:
         raise SystemExit(f"{doc_id} n'est pas un document du train")
     d = docs[doc_id]
@@ -28,18 +31,39 @@ def construire(doc_id: str) -> dict:
         pseudo = {r["original"]: r["remplacement"] for r in p.get("remplacements", [])}
         for e in p["entities"]:
             if e["text"] in pseudo or e["label"] in PSEUDO_PAR_DEFAUT:
-                remplacements.append({"passage_id": p["passage_id"], "start": e["start"], "end": e["end"], "label": e["label"],
-                                      "pseudonyme": pseudo.get(e["text"], PSEUDO_PAR_DEFAUT.get(e["label"]))})
+                remplacements.append(
+                    {
+                        "passage_id": p["passage_id"],
+                        "start": e["start"],
+                        "end": e["end"],
+                        "label": e["label"],
+                        "pseudonyme": pseudo.get(e["text"], PSEUDO_PAR_DEFAUT.get(e["label"])),
+                    }
+                )
     f = fiches[doc_id]
-    fiche = {k: f[k] for k in ("titre", "contexte", "objectifs", "donnees", "contraintes", "consignes", "livrables",
-                               "criteres_evaluation") if k in f}
+    fiche = {
+        k: f[k]
+        for k in (
+            "titre",
+            "contexte",
+            "objectifs",
+            "donnees",
+            "contraintes",
+            "consignes",
+            "livrables",
+            "criteres_evaluation",
+        )
+        if k in f
+    }
     return {
         "version_contrat": "1.0",
         "doc_id": doc_id,
         "lang": d["lang"],
         "passages": passages,
-        "anonymise": {"passages": [{"passage_id": p["passage_id"], "texte": p["text_anonymise"]} for p in d["passages"]],
-                      "remplacements": remplacements},
+        "anonymise": {
+            "passages": [{"passage_id": p["passage_id"], "texte": p["text_anonymise"]} for p in d["passages"]],
+            "remplacements": remplacements,
+        },
         "fiche": fiche,
         "validation": {"statut": "a_valider", "valide_par": None, "date": None, "commentaire": ""},
         "metriques": {"fuites_detectees": 0, "temps_ms": None},

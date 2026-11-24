@@ -410,12 +410,63 @@ def ecrire_page(passages: list[dict], chemin: Path) -> None:
 # ---------------------------------------------------------------- intégration
 
 
+# Sorties ratées du LLM, repérées après la vérification (signalées par Ali, 24/11/2026) : texte en chinois
+# (CJK) au milieu d'un document arabe. Une traduction fidèle est permise quand le sens est sûr ; sinon le texte
+# chinois est retiré et le passage coupé à sa dernière phrase complète.
+CJK = re.compile(r"[　-〿㐀-鿿豈-﫿＀-￯]+")
+TRADUCTIONS_CJK = {"降低成本。": "خفض التكاليف."}  # « réduire les coûts. »
+FRAGMENT_MIN = 20  # un passage plus court, coupé en plein mot par le LLM, est retiré
+
+
+def nettoyer_passages(passages: list[dict], verifies: dict[str, list[dict]]) -> tuple[list[dict], list[str]]:
+    """Retire le texte chinois, les passages répétés à l'identique dans un document et les fragments coupés.
+
+    Les entités vérifiées doivent rester intactes (même texte aux mêmes positions) ; sinon le script s'arrête.
+    Renvoie les passages gardés et le journal des corrections.
+    """
+    gardes, journal, vus = [], [], set()
+
+    # Documents où le LLM a déraillé (texte chinois) : seuls eux sont filtrés pour les fragments coupés ; ailleurs
+    # un passage court (« Bonjour, », une signature, un montant) est légitime.
+    def traduit(texte: str) -> str:
+        for chinois, arabe in TRADUCTIONS_CJK.items():
+            texte = texte.replace(chinois, arabe)
+        return texte
+
+    rates = {p["doc_id"] for p in passages if CJK.search(traduit(p["text"]))}
+    for p in passages:
+        texte = p["text"]
+        for chinois, arabe in TRADUCTIONS_CJK.items():
+            if chinois in texte:
+                texte = texte.replace(chinois, arabe)
+                journal.append(f"{p['passage_id']} : « {chinois} » traduit en « {arabe} »")
+        m = CJK.search(texte)
+        if m:
+            fins = [i + 1 for i, c in enumerate(texte[: m.start()]) if c in ".!?؟"]
+            texte = texte[: fins[-1]] if fins else ""
+            journal.append(f"{p['passage_id']} : texte chinois retiré, passage coupé à la dernière phrase complète")
+        if (p["doc_id"], texte) in vus:
+            journal.append(f"{p['passage_id']} : répétition d'un passage précédent du document, retiré")
+            continue
+        if not texte.strip() or (p["doc_id"] in rates and len(texte.strip()) < FRAGMENT_MIN):
+            journal.append(f"{p['passage_id']} : fragment vide ou coupé, retiré")
+            continue
+        for e in verifies.get(p["passage_id"], []):
+            if e["end"] > len(texte) or texte[e["start"] : e["end"]] != e["text"]:
+                raise SystemExit(f"{p['passage_id']} : le nettoyage toucherait l'entité « {e['text']} »")
+        vus.add((p["doc_id"], texte))
+        gardes.append({**p, "text": texte})
+    return gardes, journal
+
+
 def integrer(plan: list[dict], passages: list[dict], export: dict, dossier: Path = DOSSIER) -> int:
     """Passages vérifiés -> passages.jsonl, documents.jsonl, metadonnees.csv (format de synth_v4)."""
     verifies = {a["passage_id"]: a["entities"] for a in export["annotations"]}
     manquants = [p["passage_id"] for p in passages if p["passage_id"] not in verifies]
     if manquants:
         raise SystemExit(f"{len(manquants)} passages non vérifiés dans l'export (ex. {manquants[:3]})")
+    passages, corrections = nettoyer_passages(passages, verifies)
+    (dossier / "corrections.txt").write_text("\n".join(corrections) + "\n", encoding="utf-8")
     infos = {d["doc_id"]: d for d in plan}
     lignes, documents = [], {}
     for p in passages:

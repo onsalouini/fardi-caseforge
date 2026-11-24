@@ -18,6 +18,17 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-24 · Ons · Lot D Gold · textes libres v4 : nettoyage des sorties ratées du LLM, encodage d'un test
+- Signalé par Ali : `lib_ar_500` contient 9 fois une phrase chinoise produite par Qwen (le document boucle) et `lib_ar_514` le mot chinois « 降低成本。 ». Correction sans régénération, dans `integrer` (`nettoyer_passages`, `generation/textes_libres.py`) ; les textes bruts (`brut/`) restent la trace de la sortie du LLM ; journal des corrections : `data/gold/libres_v4/corrections.txt`. Texte chinois retiré et passage coupé à sa dernière phrase complète ; passages répétés à l'identique dans un document retirés ; fragment coupé « المصنع الن » retiré ; « 降低成本。 » traduit en « خفض التكاليف. » (réduire les coûts), sans toucher aux entités. Les entités vérifiées par Ons sont contrôlées intactes après nettoyage.
+- Résultat : 242 passages (au lieu de 267 ; `lib_ar_500` passe de 28 à 3 passages), ar 100 / fr 70 / en 72 (arabe 41 %, cible ≥ 40 %), 537 entités : DONNEE_SENSIBLE 98, INDICATEUR 89, CONTRAINTE 86, EQUIPEMENT 54, PRODUIT 52, ORG 47, SITE 44, PERSONNE 39, PROCESSUS 28. Essai du train v4 (dossier temporaire, train gelé non modifié) : 978 passages, `lib_` 78 → 320, ar 200 → 300, 0 doublon écarté.
+- `tests/test_controle_fiches.py::test_refuse_un_fichier_de_test` échouait sous une page de code Windows autre que cp1252 (reproduit avec cp850) : sous-processus lu sans encodage explicite. Corrigé (`encoding="utf-8"`, `PYTHONIOENCODING=utf-8`) ; passe en cp1252, cp850 et UTF-8. `scripts/fixture_pipeline.py` remis aux normes ruff (formatage, variable `l` renommée), fixture régénérée identique.
+- Robustesse du LLM Gold aux abréviations (Kaggle T4, graine 42, `generation/sorties/robustesse_llm_abreviations_s42.jsonl` ; `python generation/robustesse_fiches.py --llm`, dev) : 0,900 contre 0,939 propre, **−4,0 points** (IC [−6,5 ; −1,6]) ; ar −1,9, en −6,5, fr −3,5 ; `syn_` −4,5, `lib_` 0. Dans la cible de 5 points, comme le gabarit (−4,2) ; la robustesse du lot D est complète (seul l'OCR dépasse la cible).
+
+## 2026-11-24 · Ons · Lot D Gold · 40 textes libres v4 vérifiés et intégrés
+- Vérification humaine par **Ons** des 267 passages pré-annotés (page `data/gold/libres_v4/a_verifier/verifier.html`, guide v2), sur le premier jet Qwen2.5-7B (sans passe de révision) ; export `data/gold/libres_v4/annotations_ons.json` (champ annotateur complété : « ons », oublié à l'export). Par rapport à la pré-annotation : 432 entités gardées, 145 ajoutées ou corrigées, 66 retirées ou corrigées ; 0 décalage d'offset.
+- `python generation/textes_libres.py integrer data/gold/libres_v4/annotations_ons.json` → `passages.jsonl`, `documents.jsonl`, `metadonnees.csv` (`verifie_humain` : true ; auteur « Qwen2.5-7B + ons »). 267 passages : ar 125 / fr 70 / en 72 (arabe 47 %, cible ≥ 40 %) ; source `lib_` ; 577 entités : INDICATEUR 105, DONNEE_SENSIBLE 98, CONTRAINTE 86, PRODUIT 60, ORG 55, EQUIPEMENT 54, SITE 52, PERSONNE 39, PROCESSUS 28.
+- Essai d'assemblage (`python -m caseforge.gold.train_v4 --sortie <dossier temporaire>`, le train v4 gelé n'est **pas** modifié) : 979 passages au lieu de 736 (483 ajoutés v4, 24 doublons écartés, surtout les répétitions de `lib_ar_500`) ; `lib_` 78 → 321 ; ar 200 → 301 ; INDICATEUR 222 → 311, CONTRAINTE 193 → 279. Le regel du train v4 et le kappa sur 15 % des passages restent au lot A (Boutheina).
+
 ## 2026-11-24 · Boutheina · Lot E Gold · intégration des branches Gold dans main
 - Branche `integration-gold` : fusion de `lot-c-gold` (8a0581d), `lot-b-gold` (e0457cb), `lot-d-gold` (b78f02d) et `lot-e-gold-rapport` (88c6a1a), avec l'accord des trois lots. Conflits seulement dans `experiments.md` : toutes les entrées gardées, triées par date.
 - Deux tests ajustés, dus au croisement des lots et non à un défaut : `tests/test_test_gele.py::test_aucun_acces_construit_lot_c` n'est plus marqué `xfail` (H1 corrigé par le lot C et maintenant intégré, le test redevient bloquant, comme prévu par le lot B) ; `tests/test_tunisien.py` autorise `caseforge/models/robustesse_xlmr.py`, qui évalue le jeu tunisien sans entraîner.
@@ -136,7 +147,6 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - F1 token : abréviations 0,701 → 0,645 (−5,6 [−8,1 ; −3,2]), OCR 0,701 → 0,645 (−5,6 [−7,7 ; −3,5]), mise en page 0,701 → 0,690 (−1,1 [−2,4 ; +0,1]). Fuite : abréviations 6,6 % → 13,1 % (+6,6 [+2,4 ; +11,4]), OCR → 8,5 % (+1,9 [+0,0 ; +4,1]), mise en page → 7,0 % (+0,5 [+0,0 ; +1,4]).
 - Cible Gold (perte ≤ 5 points, fuite ≤ +1 point) tenue pour la mise en page seulement. Résultat négatif gardé : il montre où le Bronze casse. XLM-R et `union_fichier` restent à mesurer par les lots C et B sur les mêmes jeux.
 
-
 ## 2026-11-22 · Boutheina · Lot A Gold · double annotation à l'aveugle (kappa)
 - 36 passages v4 (15 % des 240, stratifiés par langue, graine 2027), annotés à l'aveugle par Boutheina (21/11) et Ons (22/11), chacune sur son PC, avec `data/gold/kappa_v4/annoter.html` (sans pré-annotation). Indépendance vérifiée : 2 passages sur 36 identiques, 45 entités vues par Ons seule, 69 par Boutheina seule.
 - **Kappa de Cohen au token Boutheina – Ons : 0,821** (972 tokens), cible ≥ 0,70 atteinte ; F1 spans exacts 0,617. Accord avec la construction : Ons 0,816, Boutheina 0,763.
@@ -233,7 +243,6 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Hors Lot C, signalé sans modification : `exemples/baseline_crf.py` (Lot A) garde une option `--test`.
 - Code modifié avec l'aide d'un assistant IA (déclaré) ; vérifications obtenues en exécutant les scripts.
 
-
 ## 2026-11-14 · Ons · Clôture du palier Silver
 - Toutes les branches du Silver sont fusionnées dans `main` : Lot B (PR n° 27), Lot C (n° 23, 30), Lot D (n° 24, 26, 29), Lot E (n° 22, 25, 31). Tests : 387 passent, 1 ignoré ; CI verte sur la PR n° 31 (même contenu que `main`). Étiquette Git `palier-silver` posée sur le commit de clôture. Toutes les mesures sont faites sur le **dev** ; le test gelé `test-gele-v3` n'a pas été évalué.
 - Exigences du palier (sujet P7, p. 18 et règle commune p. 3) : NER fine-tuné (XLM-R, 0,743 ± 0,019, 3 graines, bootstrap) ; encodeurs (e5 : type de passage 0,948 ; LaBSE : cas similaires P@5 0,36) ; retrieval dense (LaBSE, e5 contre BM25) et RAG du Lot D (dense et reranking mesurés) ; LLM à sortie structurée (0,944 ± 0,003 ; entrées du pipeline 0,872 ± 0,005 contre 0,815, p = 0,007) ; anonymisation XLM-R + règles (fuite 2,5 ± 0,6 % contre 6,6 %) ; résultats par langue et par source ; ablations de tokenisation (B8), d'anonymisation (B14), de retrieval (E, D) ; analyses d'erreurs (Lot D : 61 ; Lot C : XLM-R 168) ; résultat publié reproduit (ANERcorp) ; cartes de modèle B, C, D et carte du système à jour ; démo Silver (`app/app.py`). Tableau de bord : `reports/silver.md`.
@@ -271,12 +280,10 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Documentation : section « Palier Silver » de `docs/carte_modele_lotB.md` ; lignes `rules` et `union` du tableau B6 corrigées (10,8 % / 2,6 % / 0,886 et 6,6 % / 27,2 % / 0,592, `results/lotb_silver/point_de_depart.md`). `docs/contrat_pipeline.md` non modifié (ajouts décrits dans la PR).
 - Limites : 21 documents au dev ; prédictions XLM-R seulement pour le dev : sans prédictions XLM-R sur le test (code du Lot C, lancé dans `scripts/final_eval.py`, passées par `fichier_predictions`), `union_fichier` revient à `rules`. `scripts/fixture_pipeline.py` échoue à ruff (E501, format ; non modifié par le Lot B, exclu de la vérification).
 
-
 ## 2026-11-14 · Ons · Lot D · Silver étape 6 : 3 graines sur les entrées du pipeline (résultat principal, Kaggle T4)
 - `notebooks/lot_d_llm_kaggle_pipeline_graines.ipynb` (commit `6e53015`) : graines 13 et 2026 avec la configuration finale du Silver (exemples « format »), entités `reports/predictions/lotb_dev_v2.jsonl` et anonymisation B6c `union_seuil`, **dev** ; la graine 42 vient de l'étape 4 (rejeu avec le post-traitement final). Sorties `generation/sorties/llm_e6_dev_s{13,2026}_pipeline.jsonl` (non versionnées). 0 repli, 50 s / document.
 - F1 éléments : 0,88 (13) ; 0,87 (42) ; 0,87 (2026) : **0,872 ± 0,005** contre gabarit v2 0,815 : Δ **+0,057**, IC 95 % [+0,010 ; +0,104], p = 0,007 (bootstrap apparié, comptes des 3 graines). Par langue : ar 0,807 ± 0,023 (0,685 ; Δ +0,122, IC [+0,019 ; +0,209]) ; fr 0,916 ± 0,003 (0,836 ; Δ +0,080) ; en 0,892 ± 0,010 (0,919 ; Δ −0,027, non significatif). Par source : syn_ 0,897 ± 0,009 (0,832) ; lib_ 0,699 ± 0,028 (0,698). Fuites : 1 par graine (la même, `syn_ar_022`, nom non masqué par B6c) contre 2 pour le gabarit.
 - Conclusion : le gain du LLM sur les entrées réelles du pipeline est confirmé sur 3 graines ; c'est le résultat principal du Lot D au Silver.
-
 
 ## 2026-11-13 · Ons · Lot D · Silver étape 5b : RAG dense + reranking par cross-encoder (Kaggle T4)
 - `generation/llm.py --choix-exemples dense_rerank` (notebook `notebooks/lot_d_llm_kaggle_rag.ipynb`, section 6) : les 10 premiers cas de LaBSE sont reclassés par `cross-encoder/mmarco-mMiniLMv2-L12-H384-v1`, puis les 3 meilleurs servent d'exemples. Sortie `generation/sorties/llm_e5_dev_dense_rerank.jsonl` (non versionnée), **dev**, graine 42 ; 0 repli, 49 s / document. La génération dense seule (étape 5) est identique d'une exécution à l'autre.
@@ -296,7 +303,6 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - `scripts/final_eval.py` : composant 3 bis (e5 contre TF-IDF + position, écart et IC 95 % par bootstrap apparié sur les documents, 2 000 tirages comme le Lot C) et 6 bis (pipeline Silver avec `ptype="e5"`, contre le pipeline Bronze).
 - Tests : `tests/test_pipeline_silver.py` (option `ptype`), `tests/test_final_eval.py` (`bootstrap_documents`).
 - `--essai-dev` (dev, aucun fichier de test lu) : chiffre du Lot C reproduit dans le pipeline, type de passage e5 **0,948** contre 0,896, Δ **+0,052 [+0,021 ; +0,087]** (bootstrap par document) ; fr 0,899 (0,767), ar 1,000 (1,000), en 0,942 (0,903). Pipeline Silver de bout en bout : fiche F1 **0,79** contre 0,76 (fr 0,77 / 0,72 ; ar 0,69 / 0,69 ; en 0,91 / 0,89), type de passage dans le pipeline 0,948 contre 0,906. **À surveiller** : 2 fuites contre 1 pour le pipeline Bronze (une valeur sensible de plus reprise dans une fiche quand le type de passage change). 310 tests OK.
-
 
 ## 2026-11-13 · Ons · Lot D · Silver : version finale, analyse d'erreurs (61 erreurs) et carte du modèle
 - Filtre de confidentialité complété par la variante « لا يجب نشرها » (même verbe que « لا تنشر »), vue à l'analyse d'erreurs du **dev** (recopiée en contrainte dans 2 fiches arabes avec les entrées du pipeline) : la mesure de fuite du dev est optimiste pour ce cas. Toujours 0 élément de référence tiré d'un passage confidentiel (35 passages au train, 13 au dev).
@@ -514,7 +520,6 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - `scripts/export_erreurs_csv.py` → `reports/erreurs_bronze.csv` : 198 erreurs catégorisées (D fiche 100, C type de passage 22, C secteur 19, C recherche 57).
 - `scripts/final_eval.py` : évaluation finale unique sur le test gelé (option `--i-know-this-is-the-frozen-test`, refuse une seconde exécution, consigne l'exécution ici) ; répétition sur le dev avec `--essai-dev` (aucun fichier de test lu) : elle redonne les chiffres du dev des lots B à E.
 - Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant les scripts. Test gelé non utilisé.
-
 
 ## 2026-10-27 · Ons · Lot E · E4 : tableau de bord du Bronze et corrections issues des audits
 - `reports/bronze.md` : vue d'ensemble des lots A à E (chiffre clé, carte, état), exigences transversales, limites pour la démo ; README (tableau des lots, sections Lot D et pipeline) ; `docs/carte_systeme.md` (kappa 0,758, ligne Interface et API).
