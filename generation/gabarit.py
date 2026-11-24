@@ -64,7 +64,31 @@ def brancher_lot_b(docs, chemin_entites=None, chemin_anonymisation=None):
                 for r in sorted(anonym.get(p["passage_id"], []), key=lambda r: -r["start"]):
                     texte = texte[:r["start"]] + r["remplacement"] + texte[r["end"]:]
                 p["text_anonymise"] = texte
+                # gardés pour lire les entités dans le texte anonymisé (audit G5 du Lot B, ré-identification)
+                p["remplacements_lot_b"] = anonym.get(p["passage_id"], [])
     return docs
+
+
+def texte_visible(p, e):
+    """Texte de l'entité tel qu'il apparaît dans le texte ANONYMISÉ du passage.
+
+    Avec l'anonymisation du Lot B branchée (``remplacements_lot_b``), chaque remplacement qui chevauche l'entité
+    (pseudonyme, masque ou famille généralisée d'un PRODUIT / EQUIPEMENT) est appliqué, en entier : la fiche ne
+    recopie jamais un indice que l'anonymisation a retiré (audit G5, N3). Sans anonymisation branchée, le texte de
+    référence de l'entité est rendu tel quel.
+    """
+    rempl = p.get("remplacements_lot_b")
+    if not rempl:
+        return e["text"]
+    touches = sorted((r for r in rempl if r["start"] < e["end"] and e["start"] < r["end"]), key=lambda r: r["start"])
+    if not touches:
+        return e["text"]
+    debut, fin = min(e["start"], touches[0]["start"]), max(e["end"], max(r["end"] for r in touches))
+    morceaux, pos = [], debut
+    for r in touches:
+        morceaux += [p["text"][pos:r["start"]], r["remplacement"]]
+        pos = r["end"]
+    return "".join(morceaux) + p["text"][pos:fin]
 
 
 def textes_fixes():
@@ -103,7 +127,7 @@ def generer(doc, fixes, version=2):
     noms_sensibles = {e["text"] for p in passages for e in p["entities"] if e["label"] in SENSIBLES}
 
     def entites(label, types=None):
-        return [(e["text"], p["passage_id"]) for p in passages for e in p["entities"]
+        return [(texte_visible(p, e), p["passage_id"]) for p in passages for e in p["entities"]
                 if e["label"] == label and (types is None or p["ptype"] in types)]
 
     fiche = {"doc_id": doc["doc_id"], "lang": doc["lang"], "secteur": doc.get("secteur")}
