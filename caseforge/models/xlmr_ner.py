@@ -1,7 +1,7 @@
 """Lot C · Silver : NER des 9 entités par fine-tuning de XLM-RoBERTa (Colab, GPU).
 
 Sur Colab (Exécution → Modifier le type d'exécution → GPU T4), dans une cellule :
-    !git clone -b lot-c-modeles https://github.com/onsalouini/fardi-caseforge.git
+    !git clone -b main https://github.com/onsalouini/fardi-caseforge.git
     %cd fardi-caseforge
     !pip install -q "transformers>=4.44" accelerate
     !python -m caseforge.models.xlmr_ner --seed 13
@@ -9,13 +9,16 @@ Sur Colab (Exécution → Modifier le type d'exécution → GPU T4), dans une ce
     !python -m caseforge.models.xlmr_ner --seed 2026
     !python -m caseforge.models.xlmr_ner --resume      # moyenne ± écart-type des 3 graines
 Ne PAS installer requirements-lotb.txt sur Colab (il remplacerait le torch GPU de Colab).
+Palier Gold, train v4 gelé et post-traitement des bornes retenu (CPU ~23 min par graine, Colab T4 ~5 min) :
+    python -m caseforge.models.xlmr_ner --version v4 --bornes ponctuation --seed 13     # puis 42 et 2026
+    python -m caseforge.models.xlmr_ner --version v4 --resume
 
 Choix de méthode :
   - Étiquettes alignées DIRECTEMENT des spans de caractères (data/final/*.jsonl) vers les sous-mots du tokenizer, grâce
     à `offset_mapping` : pas de passage par cfdata.common.tokenize, donc pas de perte due aux proclitiques arabes.
     Un sous-mot qui chevauche une entité prend son étiquette (B- pour le premier, I- ensuite).
   - Entraînement sur train, choix du meilleur point de contrôle sur le DEV (F1 au niveau des sous-mots) ; le test gelé
-    n'est jamais lu ici (évaluation finale unique, à la fin du lot, avec --split test).
+    n'est jamais lu ici (évaluation finale unique par scripts/final_eval.py, CLAUDE.md §2, constat H1).
   - Les prédictions du dev sont reconverties en spans de caractères et écrites au format commun
     (reports/predictions/xlmr_dev_s{graine}.jsonl), puis évaluées par le harnais commun au niveau des mots.
   - --externe : ajoute les corpus publics (ORG, PERSONNE, SITE seulement) ; leur perte est masquée sur les 6 autres
@@ -25,6 +28,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
+import shutil
 from pathlib import Path
 from statistics import mean, pstdev
 
@@ -75,8 +80,36 @@ def spans_depuis_sous_mots(texte: str, offsets: list[tuple[int, int]], tags: lis
     return [sp for sp in spans if sp["start"] < sp["end"]]
 
 
+TRAIN_V4 = Path("data/gold/train_v4/train.jsonl")
+
+
+def prefixe(a) -> str:
+    return "xlmr_v4" if getattr(a, "version", "v3") == "v4" else "xlmr"
+
+
 def suffixe(a) -> str:
-    return ("_ext" if a.externe else "") + ("_gel" if a.geler_embeddings else "")
+    frac = f"_f{round(a.fraction * 100)}" if getattr(a, "fraction", None) is not None else ""
+    return ("_ext" if a.externe else "") + ("_gel" if a.geler_embeddings else "") + frac
+
+
+def sous_echantillon(rows: list[dict], fraction: float, graine: int) -> list[dict]:
+    """Garde une fraction des DOCUMENTS, stratifiée par (source, langue), au moins 1 document par groupe.
+
+    Pour une même graine, l'ordre des documents est tiré une fois : les sous-ensembles sont emboîtés
+    (25 % ⊂ 50 % ⊂ 75 %).
+    """
+    groupes: dict[tuple[str, str], list[str]] = {}
+    for r in rows:
+        cle = (r["doc_id"][:3], r["doc_lang"])
+        if r["doc_id"] not in groupes.setdefault(cle, []):
+            groupes[cle].append(r["doc_id"])
+    rng = random.Random(graine)
+    gardes: set[str] = set()
+    for cle in sorted(groupes):
+        docs = sorted(groupes[cle])
+        rng.shuffle(docs)
+        gardes.update(docs[:max(1, int(fraction * len(docs) + 0.5))])
+    return [r for r in rows if r["doc_id"] in gardes]
 
 
 def charger(split: str, externe: bool = False) -> list[dict]:
@@ -101,7 +134,15 @@ def entrainer(a) -> None:
 
     set_seed(a.seed)
     tok = AutoTokenizer.from_pretrained(a.model)
-    train, dev = charger("train", a.externe), charger("dev")
+    dev = charger("dev")
+    train = charger("train") if a.version == "v3" else [json.loads(ligne) for ligne in open(TRAIN_V4, encoding="utf-8")]
+    print(f"train {a.version} : {len(train)} passages")
+    if a.fraction is not None:
+        train = sous_echantillon(train, a.fraction, a.seed)
+        print(f"train sous-échantillonné à {a.fraction:.0%} : {len({r['doc_id'] for r in train})} documents, "
+              f"{len(train)} passages")
+    if a.externe:
+        train += [json.loads(ligne) for ligne in open("data/final/externe_train.jsonl", encoding="utf-8")]
 
     def encoder(rows):
         feats = []
@@ -143,18 +184,19 @@ def entrainer(a) -> None:
         fn = ((lab != 0) & (pred != lab) & m).sum()
         return {"f1": float(2 * tp / max(2 * tp + fp + fn, 1))}
 
-    sortie = f"runs/xlmr_s{a.seed}{suffixe(a)}"
+    sortie = f"runs/{prefixe(a)}_s{a.seed}{suffixe(a)}"
     args = TrainingArguments(output_dir=sortie, learning_rate=a.lr, per_device_train_batch_size=16,
                              per_device_eval_batch_size=32, num_train_epochs=a.epochs, warmup_ratio=0.1,
                              weight_decay=0.01, eval_strategy="epoch", save_strategy="epoch", save_total_limit=1,
                              load_best_model_at_end=True, metric_for_best_model="f1", seed=a.seed, report_to=[],
-                             remove_unused_columns=False, fp16=torch.cuda.is_available(), logging_steps=20)
+                             remove_unused_columns=False, fp16=torch.cuda.is_available(), logging_steps=20,
+                             save_only_model=True)  # sans l'état de l'optimiseur : 1,1 Go au lieu de 3,3 par point
     tr = MaskedTrainer(model=model, args=args, train_dataset=ds_train, eval_dataset=ds_dev, data_collator=collate,
                        compute_metrics=f1_sous_mots)
     tr.train()
 
     split = a.split
-    rows = dev if split == "dev" else charger("test")
+    rows = dev
     model.eval()
     lignes = []
     for r in rows:
@@ -165,9 +207,23 @@ def entrainer(a) -> None:
         tags = [TAGS[i] for i in logits.argmax(-1).tolist()]
         lignes.append({"passage_id": r["passage_id"], "entities": spans_depuis_sous_mots(r["text"], off, tags)})
     SORTIE.mkdir(parents=True, exist_ok=True)
-    f = SORTIE / f"xlmr_{split}_s{a.seed}{suffixe(a)}.jsonl"
+    f = SORTIE / f"{prefixe(a)}_{split}_s{a.seed}{suffixe(a)}.jsonl"
+    if a.bornes != "aucun":  # prédictions brutes gardées pour mesurer l'effet du post-traitement (tâche 4)
+        from caseforge.models.bornes_xlmr import post_traiter
+
+        brut = f.with_name(f.stem + "_brut.jsonl")
+        brut.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in lignes), encoding="utf-8")
+        print(f"-> {brut}")
+        texte = {r["passage_id"]: r["text"] for r in rows}
+        lignes = [{**x, "entities": post_traiter(texte[x["passage_id"]], x["entities"], ponctuation=True, mots=False)}
+                  for x in lignes]
     f.write_text("".join(json.dumps(x, ensure_ascii=False) + "\n" for x in lignes), encoding="utf-8")
     print(f"-> {f}")
+    if a.garder_modele:
+        tr.save_model(f"{sortie}/meilleur")
+        tok.save_pretrained(f"{sortie}/meilleur")
+    for ckpt in Path(sortie).glob("checkpoint-*"):
+        shutil.rmtree(ckpt, ignore_errors=True)
     from caseforge.eval.ner_eval import charger as ch, evaluer
     res = evaluer(ch(f"data/final/{split}.jsonl"), ch(str(f)))
     print("F1 (mots) micro {:.3f} | fr {:.3f} ar {:.3f} en {:.3f}".format(
@@ -178,7 +234,7 @@ def resumer(a) -> None:
     from caseforge.eval.ner_eval import charger as ch, evaluer
     gold = ch(f"data/final/{a.split}.jsonl")
     suf = suffixe(a)
-    fichiers = [SORTIE / f"xlmr_{a.split}_s{g}{suf}.jsonl" for g in (13, 42, 2026)]
+    fichiers = [SORTIE / f"{prefixe(a)}_{a.split}_s{g}{suf}.jsonl" for g in (13, 42, 2026)]
     fichiers = [f for f in fichiers if f.exists()]
     runs = [evaluer(gold, ch(str(f))) for f in fichiers]
     cles = ["micro", "fr", "ar", "en", *LABELS]
@@ -189,7 +245,7 @@ def resumer(a) -> None:
     for k in cles:
         v = [r.get(k, (0, 0, 0))[2] for r in runs]
         L.append(f"| {k} | {mean(v):.3f} ± {pstdev(v):.3f} |")
-    out = Path(f"reports/lotC_xlmr_{a.split}{suf}.md")
+    out = Path(f"reports/lotC_{prefixe(a)}_{a.split}{suf}.md")
     out.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
     print(f"-> {out}")
@@ -203,7 +259,15 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=3e-5)
     ap.add_argument("--externe", action="store_true")
     ap.add_argument("--geler-embeddings", action="store_true", help="gèle les embeddings des mots (GPU de 4 Go)")
-    ap.add_argument("--split", default="dev", choices=["dev", "test"], help="test : UNE SEULE FOIS, à la fin du lot")
+    ap.add_argument("--garder-modele", action="store_true",
+                    help="sauve le meilleur modèle dans runs/…/meilleur (sinon les points de contrôle sont supprimés)")
+    ap.add_argument("--fraction", type=float, default=None,
+                    help="part des documents du train gardée (courbe d'apprentissage) ; suffixe _f25, _f50…")
+    ap.add_argument("--version", default="v3", choices=["v3", "v4"],
+                    help="train v3 (data/final) ou v4 gelé (data/gold/train_v4) ; fichiers xlmr_… ou xlmr_v4_…")
+    ap.add_argument("--bornes", default="aucun", choices=["aucun", "ponctuation"],
+                    help="post-traitement des bornes (tâche 4) ; écrit aussi les prédictions brutes (_brut)")
+    ap.set_defaults(split="dev")
     ap.add_argument("--resume", action="store_true", help="résumer les 3 graines déjà calculées")
     a = ap.parse_args()
     resumer(a) if a.resume else entrainer(a)

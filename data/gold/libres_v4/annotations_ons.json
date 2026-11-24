@@ -1,0 +1,4760 @@
+{
+ "annotateur": "ons",
+ "date": "2026-11-24T09:05:00+01:00",
+ "annotations": [
+  {
+   "passage_id": "lib_en_500_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 21,
+     "label": "ORG",
+     "text": "Sbeitla Apparel Works"
+    },
+    {
+     "start": 47,
+     "end": 55,
+     "label": "SITE",
+     "text": "Hammamet"
+    },
+    {
+     "start": 194,
+     "end": 210,
+     "label": "PRODUIT",
+     "text": "knitted sweaters"
+    },
+    {
+     "start": 256,
+     "end": 281,
+     "label": "EQUIPEMENT",
+     "text": "circular knitting machine"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_500_p001",
+   "entities": [
+    {
+     "start": 56,
+     "end": 81,
+     "label": "EQUIPEMENT",
+     "text": "circular knitting machine"
+    },
+    {
+     "start": 84,
+     "end": 127,
+     "label": "INDICATEUR",
+     "text": "The current cycle time is set at 45 seconds"
+    },
+    {
+     "start": 158,
+     "end": 198,
+     "label": "INDICATEUR",
+     "text": "could be reduced to as low as 42 seconds"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_500_p002",
+   "entities": [
+    {
+     "start": 416,
+     "end": 441,
+     "label": "EQUIPEMENT",
+     "text": "circular knitting machine"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_500_p003",
+   "entities": [
+    {
+     "start": 73,
+     "end": 133,
+     "label": "CONTRAINTE",
+     "text": "any changes implemented must be approved by the end customer"
+    },
+    {
+     "start": 174,
+     "end": 210,
+     "label": "CONTRAINTE",
+     "text": "can only conduct trials on Saturdays"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_500_p004",
+   "entities": [
+    {
+     "start": 118,
+     "end": 133,
+     "label": "PERSONNE",
+     "text": "Mr. Zied Guesmi"
+    },
+    {
+     "start": 188,
+     "end": 204,
+     "label": "DONNEE_SENSIBLE",
+     "text": "z.guesmi@sawo.tn"
+    },
+    {
+     "start": 220,
+     "end": 235,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 35 724 232"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p001",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p003",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p004",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p005",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p006",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p007",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p008",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p009",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p010",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p011",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p012",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p013",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p014",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p015",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p016",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p017",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p018",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p019",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p020",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p021",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p022",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p023",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p024",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع النخلة للمصبرات"
+    },
+    {
+     "start": 24,
+     "end": 32,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 34,
+     "end": 45,
+     "label": "PRODUIT",
+     "text": "معجون التين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p025",
+   "entities": [
+    {
+     "start": 68,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "المخزون الحالي في المصنع يبلغ 21 يوما"
+    },
+    {
+     "start": 133,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "متوسط مخزون أطول بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p026",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_500_p027",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_501_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 38,
+     "label": "ORG",
+     "text": "شركة التونسية القنطاوي للربط الكهربائي"
+    },
+    {
+     "start": 42,
+     "end": 46,
+     "label": "SITE",
+     "text": "توزر"
+    },
+    {
+     "start": 59,
+     "end": 70,
+     "label": "PRODUIT",
+     "text": "علب المصاهر"
+    },
+    {
+     "start": 72,
+     "end": 104,
+     "label": "EQUIPEMENT",
+     "text": "محطة اللحام بالموجات فوق الصوتية"
+    },
+    {
+     "start": 150,
+     "end": 172,
+     "label": "INDICATEUR",
+     "text": "تبلغ نسبة الجاهزية 84%"
+    },
+    {
+     "start": 176,
+     "end": 187,
+     "label": "PRODUIT",
+     "text": "علب المصاهر"
+    },
+    {
+     "start": 189,
+     "end": 192,
+     "label": "INDICATEUR",
+     "text": "87%"
+    },
+    {
+     "start": 196,
+     "end": 228,
+     "label": "EQUIPEMENT",
+     "text": "محطة اللحام بالموجات فوق الصوتية"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_501_p001",
+   "entities": [
+    {
+     "start": 81,
+     "end": 114,
+     "label": "CONTRAINTE",
+     "text": "يجب ألا يتجاوز هذا الوقت 20 دقيقة"
+    },
+    {
+     "start": 123,
+     "end": 188,
+     "label": "CONTRAINTE",
+     "text": "الاستثمار المحدد بسقف قدره 20000 دينار هو المتوقع لحل هذه المشكلة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_501_p002",
+   "entities": [
+    {
+     "start": 39,
+     "end": 48,
+     "label": "PROCESSUS",
+     "text": "منهجية 8D"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_501_p003",
+   "entities": [
+    {
+     "start": 0,
+     "end": 53,
+     "label": "CONTRAINTE",
+     "text": "يجب ألا يتجاوز الوقت المستغرق لتغيير السلسلة 20 دقيقة"
+    },
+    {
+     "start": 59,
+     "end": 104,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يكون الاستثمار المحدد بسقف 20000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_501_p004",
+   "entities": [
+    {
+     "start": 51,
+     "end": 67,
+     "label": "PERSONNE",
+     "text": "السيد عادل اللوز"
+    },
+    {
+     "start": 110,
+     "end": 120,
+     "label": "DONNEE_SENSIBLE",
+     "text": "76 188 115"
+    },
+    {
+     "start": 142,
+     "end": 163,
+     "label": "DONNEE_SENSIBLE",
+     "text": "a.ellouze@kantaoui.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_501_p005",
+   "entities": [
+    {
+     "start": 0,
+     "end": 18,
+     "label": "DONNEE_SENSIBLE",
+     "text": "76,34 دينار للوحدة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_500_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 23,
+     "label": "ORG",
+     "text": "Usines Fonderie Sbeitla"
+    },
+    {
+     "start": 26,
+     "end": 34,
+     "label": "SITE",
+     "text": "Teboulba"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_500_p001",
+   "entities": [
+    {
+     "start": 40,
+     "end": 62,
+     "label": "EQUIPEMENT",
+     "text": "cellule de grenaillage"
+    },
+    {
+     "start": 85,
+     "end": 107,
+     "label": "INDICATEUR",
+     "text": "MTTR est de 70 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_500_p002",
+   "entities": [
+    {
+     "start": 55,
+     "end": 101,
+     "label": "CONTRAINTE",
+     "text": "Les essais ne peuvent avoir lieu que le samedi"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_500_p003",
+   "entities": [
+    {
+     "start": 105,
+     "end": 143,
+     "label": "INDICATEUR",
+     "text": "ramener le temps de panne à 30 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_500_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 47,
+     "label": "CONTRAINTE",
+     "text": "Le client final doit valider toute modification"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_500_p005",
+   "entities": [
+    {
+     "start": 10,
+     "end": 26,
+     "label": "PERSONNE",
+     "text": "Mme Ghada Brahmi"
+    },
+    {
+     "start": 80,
+     "end": 98,
+     "label": "DONNEE_SENSIBLE",
+     "text": "55,58 DT par unité"
+    },
+    {
+     "start": 113,
+     "end": 129,
+     "label": "DONNEE_SENSIBLE",
+     "text": "g.brahmi@ufsb.tn"
+    },
+    {
+     "start": 146,
+     "end": 156,
+     "label": "DONNEE_SENSIBLE",
+     "text": "72 882 392"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_502_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 19,
+     "label": "ORG",
+     "text": "مصانع الشمس للتغليف"
+    },
+    {
+     "start": 22,
+     "end": 32,
+     "label": "SITE",
+     "text": "سيدي بوزيد"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_502_p001",
+   "entities": [
+    {
+     "start": 24,
+     "end": 43,
+     "label": "PRODUIT",
+     "text": "قوارير مواد التجميل"
+    },
+    {
+     "start": 217,
+     "end": 258,
+     "label": "INDICATEUR",
+     "text": "نسبة عدم المطابقة التي تتراوح بين 11% و6%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_502_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_502_p003",
+   "entities": [
+    {
+     "start": 124,
+     "end": 155,
+     "label": "PROCESSUS",
+     "text": "منهجية الاستجابة السريعة للجودة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_502_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 52,
+     "label": "CONTRAINTE",
+     "text": "الاستثمار المخصص لهذا المشروع محدود بسقف 15000 دينار"
+    },
+    {
+     "start": 55,
+     "end": 118,
+     "label": "CONTRAINTE",
+     "text": "من المهم أن تتم دراسة القضية وتقديم الحلول في غضون 6 أسابيع فقط"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_502_p005",
+   "entities": [
+    {
+     "start": 136,
+     "end": 156,
+     "label": "PERSONNE",
+     "text": "السيدة رانية السلامي"
+    },
+    {
+     "start": 215,
+     "end": 233,
+     "label": "DONNEE_SENSIBLE",
+     "text": "r.sellami@chams.tn"
+    },
+    {
+     "start": 244,
+     "end": 259,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 94 681 398"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_502_p006",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_503_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 29,
+     "label": "ORG",
+     "text": "الشركة التونسية عليسة للمخابر"
+    },
+    {
+     "start": 32,
+     "end": 40,
+     "label": "SITE",
+     "text": "الحمامات"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_503_p001",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_503_p002",
+   "entities": [
+    {
+     "start": 6,
+     "end": 35,
+     "label": "ORG",
+     "text": "الشركة التونسية عليسة للمخابر"
+    },
+    {
+     "start": 44,
+     "end": 59,
+     "label": "PRODUIT",
+     "text": "الأكياس الفوارة"
+    },
+    {
+     "start": 107,
+     "end": 121,
+     "label": "INDICATEUR",
+     "text": "نسبة التغيب 9%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_503_p003",
+   "entities": [
+    {
+     "start": 38,
+     "end": 57,
+     "label": "INDICATEUR",
+     "text": "نسبة التغيب تبلغ 7%"
+    },
+    {
+     "start": 66,
+     "end": 82,
+     "label": "EQUIPEMENT",
+     "text": "المحبب عالي القص"
+    },
+    {
+     "start": 95,
+     "end": 110,
+     "label": "PRODUIT",
+     "text": "الأكياس الفوارة"
+    },
+    {
+     "start": 111,
+     "end": 130,
+     "label": "INDICATEUR",
+     "text": "تبلغ نسبة التغيب 9%"
+    },
+    {
+     "start": 156,
+     "end": 182,
+     "label": "PROCESSUS",
+     "text": "مراجعة سنوية لجودة المنتوج"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_503_p004",
+   "entities": [
+    {
+     "start": 100,
+     "end": 115,
+     "label": "PRODUIT",
+     "text": "الأكياس الفوارة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_503_p005",
+   "entities": [
+    {
+     "start": 0,
+     "end": 58,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يتم العمل ضمن قيود استثمارية محددة بسقف 60000 دينار"
+    },
+    {
+     "start": 137,
+     "end": 149,
+     "label": "PERSONNE",
+     "text": "عادل المزالي"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_503_p006",
+   "entities": [
+    {
+     "start": 0,
+     "end": 18,
+     "label": "PERSONNE",
+     "text": "السيد عادل المزالي"
+    },
+    {
+     "start": 44,
+     "end": 62,
+     "label": "DONNEE_SENSIBLE",
+     "text": "86,91 دينار للوحدة"
+    },
+    {
+     "start": 65,
+     "end": 71,
+     "label": "DONNEE_SENSIBLE",
+     "text": "25K641"
+    },
+    {
+     "start": 74,
+     "end": 91,
+     "label": "DONNEE_SENSIBLE",
+     "text": "a.mzali@elissa.tn"
+    },
+    {
+     "start": 94,
+     "end": 104,
+     "label": "DONNEE_SENSIBLE",
+     "text": "74 609 285"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_504_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 26,
+     "label": "ORG",
+     "text": "DAR السلام للملابس الجاهزة"
+    },
+    {
+     "start": 159,
+     "end": 167,
+     "label": "SITE",
+     "text": "الحمامات"
+    },
+    {
+     "start": 185,
+     "end": 201,
+     "label": "PRODUIT",
+     "text": "أزياء المستشفيات"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_504_p001",
+   "entities": [
+    {
+     "start": 58,
+     "end": 69,
+     "label": "EQUIPEMENT",
+     "text": "نفق التبخير"
+    },
+    {
+     "start": 95,
+     "end": 116,
+     "label": "INDICATEUR",
+     "text": "يبلغ المتوسط 40 دقيقة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_504_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_504_p003",
+   "entities": [
+    {
+     "start": 146,
+     "end": 185,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يتأكد الحريف النهائي من كل تعديل"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_504_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 59,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يتم هذا العمل ضمن حدود استثمار محدد بسقف 15000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_504_p005",
+   "entities": [
+    {
+     "start": 50,
+     "end": 70,
+     "label": "PERSONNE",
+     "text": "السيدة إيمان الغربال"
+    },
+    {
+     "start": 92,
+     "end": 118,
+     "label": "ORG",
+     "text": "دار السلام للملابس الجاهزة"
+    },
+    {
+     "start": 122,
+     "end": 130,
+     "label": "SITE",
+     "text": "الحمامات"
+    },
+    {
+     "start": 161,
+     "end": 176,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 86 306 597"
+    },
+    {
+     "start": 206,
+     "end": 226,
+     "label": "DONNEE_SENSIBLE",
+     "text": "i.ghorbel@essalam.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_504_p006",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_en_501_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 25,
+     "label": "ORG",
+     "text": "Bassatine Canning Holding"
+    },
+    {
+     "start": 69,
+     "end": 78,
+     "label": "SITE",
+     "text": "Kasserine"
+    },
+    {
+     "start": 121,
+     "end": 132,
+     "label": "EQUIPEMENT",
+     "text": "tunnel oven"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_501_p001",
+   "entities": [
+    {
+     "start": 42,
+     "end": 90,
+     "label": "INDICATEUR",
+     "text": "the Mean Time To Repair (MTTR) was at 70 minutes"
+    },
+    {
+     "start": 117,
+     "end": 137,
+     "label": "INDICATEUR",
+     "text": "target of 40 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_501_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_en_501_p003",
+   "entities": [
+    {
+     "start": 127,
+     "end": 156,
+     "label": "INDICATEUR",
+     "text": "reduce the MTTR to 40 minutes"
+    },
+    {
+     "start": 175,
+     "end": 265,
+     "label": "CONTRAINTE",
+     "text": "ensure that the changeover time between different product lines does not exceed 30 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_501_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 43,
+     "label": "CONTRAINTE",
+     "text": "The study must last no more than five weeks"
+    },
+    {
+     "start": 83,
+     "end": 94,
+     "label": "PROCESSUS",
+     "text": "5S approach"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_501_p005",
+   "entities": [
+    {
+     "start": 70,
+     "end": 89,
+     "label": "PERSONNE",
+     "text": "Mr. Haythem Sghaier"
+    },
+    {
+     "start": 134,
+     "end": 151,
+     "label": "DONNEE_SENSIBLE",
+     "text": "h.sghaier@bcho.tn"
+    },
+    {
+     "start": 167,
+     "end": 177,
+     "label": "DONNEE_SENSIBLE",
+     "text": "71 634 673"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_505_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 28,
+     "label": "ORG",
+     "text": "مصانع سبيطلة للربط الكهربائي"
+    },
+    {
+     "start": 38,
+     "end": 42,
+     "label": "SITE",
+     "text": "توزر"
+    },
+    {
+     "start": 67,
+     "end": 84,
+     "label": "PRODUIT",
+     "text": "حزم أسلاك الأبواب"
+    },
+    {
+     "start": 102,
+     "end": 110,
+     "label": "EQUIPEMENT",
+     "text": "آلة اللف"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_505_p001",
+   "entities": [
+    {
+     "start": 62,
+     "end": 93,
+     "label": "INDICATEUR",
+     "text": "يبلغ متوسط زمن الإصلاح 45 دقيقة"
+    },
+    {
+     "start": 95,
+     "end": 136,
+     "label": "CONTRAINTE",
+     "text": "بينما تم تحديد الاستثمار بسقف 60000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_505_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_505_p003",
+   "entities": [
+    {
+     "start": 100,
+     "end": 135,
+     "label": "INDICATEUR",
+     "text": "خفض زمن الإصلاح إلى 40 دقيقة أو أقل"
+    },
+    {
+     "start": 137,
+     "end": 177,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يصادق الحريف النهائي على كل تعديل"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_505_p004",
+   "entities": [
+    {
+     "start": 52,
+     "end": 68,
+     "label": "PROCESSUS",
+     "text": "نظام منع الأخطاء"
+    },
+    {
+     "start": 74,
+     "end": 114,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يصادق الحريف النهائي على كل تعديل"
+    },
+    {
+     "start": 116,
+     "end": 148,
+     "label": "CONTRAINTE",
+     "text": "الاستثمار محدود بسقف 60000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_505_p005",
+   "entities": [
+    {
+     "start": 117,
+     "end": 137,
+     "label": "PERSONNE",
+     "text": "السيدة إيمان بوسلامة"
+    },
+    {
+     "start": 165,
+     "end": 187,
+     "label": "ORG",
+     "text": "سبيطلة للربط الكهربائي"
+    },
+    {
+     "start": 208,
+     "end": 214,
+     "label": "DONNEE_SENSIBLE",
+     "text": "26W944"
+    },
+    {
+     "start": 216,
+     "end": 234,
+     "label": "DONNEE_SENSIBLE",
+     "text": "72,80 دينار للوحدة"
+    },
+    {
+     "start": 277,
+     "end": 298,
+     "label": "DONNEE_SENSIBLE",
+     "text": "i.bouslama@sbeitla.tn"
+    },
+    {
+     "start": 309,
+     "end": 324,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 71 495 500"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_501_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 20,
+     "label": "ORG",
+     "text": "SARL Fonderie Dougga"
+    },
+    {
+     "start": 31,
+     "end": 38,
+     "label": "SITE",
+     "text": "Manouba"
+    },
+    {
+     "start": 149,
+     "end": 165,
+     "label": "PRODUIT",
+     "text": "carters de pompe"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_501_p001",
+   "entities": [
+    {
+     "start": 88,
+     "end": 104,
+     "label": "PRODUIT",
+     "text": "carters de pompe"
+    },
+    {
+     "start": 145,
+     "end": 162,
+     "label": "EQUIPEMENT",
+     "text": "rectifieuse plane"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_501_p002",
+   "entities": [
+    {
+     "start": 44,
+     "end": 60,
+     "label": "PRODUIT",
+     "text": "carters de pompe"
+    },
+    {
+     "start": 146,
+     "end": 173,
+     "label": "INDICATEUR",
+     "text": "réduire ce délai à 21 jours"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_501_p003",
+   "entities": [
+    {
+     "start": 262,
+     "end": 279,
+     "label": "EQUIPEMENT",
+     "text": "rectifieuse plane"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_501_p004",
+   "entities": [
+    {
+     "start": 14,
+     "end": 60,
+     "label": "CONTRAINTE",
+     "text": "Les essais ne peuvent avoir lieu que le samedi"
+    },
+    {
+     "start": 62,
+     "end": 158,
+     "label": "CONTRAINTE",
+     "text": "Nous devons également veiller à ce que la certification FSSC 22000 soit maintenue et mise à jour"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_501_p005",
+   "entities": [
+    {
+     "start": 77,
+     "end": 92,
+     "label": "PERSONNE",
+     "text": "Mme Rania Zribi"
+    },
+    {
+     "start": 118,
+     "end": 136,
+     "label": "DONNEE_SENSIBLE",
+     "text": "77,86 DT par unité"
+    },
+    {
+     "start": 166,
+     "end": 181,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 54 254 344"
+    },
+    {
+     "start": 222,
+     "end": 237,
+     "label": "DONNEE_SENSIBLE",
+     "text": "r.zribi@sfdo.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 29,
+     "label": "ORG",
+     "text": "Bou Kornine Packaging Holding"
+    },
+    {
+     "start": 105,
+     "end": 111,
+     "label": "SITE",
+     "text": "Tozeur"
+    },
+    {
+     "start": 161,
+     "end": 171,
+     "label": "PRODUIT",
+     "text": "HDPE pipes"
+    },
+    {
+     "start": 180,
+     "end": 200,
+     "label": "EQUIPEMENT",
+     "text": "pick-and-place robot"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p001",
+   "entities": [
+    {
+     "start": 87,
+     "end": 97,
+     "label": "PRODUIT",
+     "text": "HDPE pipes"
+    },
+    {
+     "start": 128,
+     "end": 151,
+     "label": "INDICATEUR",
+     "text": "below our target of 95%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p002",
+   "entities": [
+    {
+     "start": 106,
+     "end": 126,
+     "label": "EQUIPEMENT",
+     "text": "pick-and-place robot"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p003",
+   "entities": [
+    {
+     "start": 250,
+     "end": 261,
+     "label": "PROCESSUS",
+     "text": "QRQC method"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p004",
+   "entities": [
+    {
+     "start": 51,
+     "end": 91,
+     "label": "CONTRAINTE",
+     "text": "the study must last no more than 7 weeks"
+    },
+    {
+     "start": 128,
+     "end": 155,
+     "label": "CONTRAINTE",
+     "text": "the ISO 15378 certification"
+    },
+    {
+     "start": 164,
+     "end": 174,
+     "label": "PRODUIT",
+     "text": "HDPE pipes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p005",
+   "entities": [
+    {
+     "start": 157,
+     "end": 172,
+     "label": "PERSONNE",
+     "text": "Mr. Zied Guesmi"
+    },
+    {
+     "start": 235,
+     "end": 252,
+     "label": "DONNEE_SENSIBLE",
+     "text": "z.guesmi@bkpho.tn"
+    },
+    {
+     "start": 265,
+     "end": 280,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 56 242 238"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p006",
+   "entities": [
+    {
+     "start": 0,
+     "end": 9,
+     "label": "DONNEE_SENSIBLE",
+     "text": "TND 89.93"
+    },
+    {
+     "start": 34,
+     "end": 43,
+     "label": "PRODUIT",
+     "text": "HDPE pipe"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_503_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 23,
+     "label": "ORG",
+     "text": "Sbeitla Laboratories Co"
+    },
+    {
+     "start": 70,
+     "end": 76,
+     "label": "SITE",
+     "text": "El Jem"
+    },
+    {
+     "start": 174,
+     "end": 187,
+     "label": "PRODUIT",
+     "text": "suppositories"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_503_p001",
+   "entities": [
+    {
+     "start": 2,
+     "end": 28,
+     "label": "INDICATEUR",
+     "text": "non-conformity rate of 11%"
+    },
+    {
+     "start": 76,
+     "end": 89,
+     "label": "PRODUIT",
+     "text": "suppositories"
+    },
+    {
+     "start": 170,
+     "end": 191,
+     "label": "EQUIPEMENT",
+     "text": "high-shear granulator"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_503_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_en_503_p003",
+   "entities": [
+    {
+     "start": 145,
+     "end": 158,
+     "label": "PROCESSUS",
+     "text": "5 Whys method"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_503_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 71,
+     "label": "CONTRAINTE",
+     "text": "The investment in new equipment or improvements is capped at TND 40,000"
+    },
+    {
+     "start": 171,
+     "end": 271,
+     "label": "CONTRAINTE",
+     "text": "ensure that the BRCGS certification remains intact during any changes made to the production process"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_503_p005",
+   "entities": [
+    {
+     "start": 70,
+     "end": 86,
+     "label": "PERSONNE",
+     "text": "Ms. Sirine Turki"
+    },
+    {
+     "start": 134,
+     "end": 149,
+     "label": "DONNEE_SENSIBLE",
+     "text": "s.turki@slco.tn"
+    },
+    {
+     "start": 174,
+     "end": 189,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 79 707 405"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_502_p000",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_502_p001",
+   "entities": [
+    {
+     "start": 12,
+     "end": 39,
+     "label": "ORG",
+     "text": "Comptoir Confection El Fajr"
+    },
+    {
+     "start": 49,
+     "end": 56,
+     "label": "SITE",
+     "text": "Bekalta"
+    },
+    {
+     "start": 93,
+     "end": 105,
+     "label": "PRODUIT",
+     "text": "linge de lit"
+    },
+    {
+     "start": 123,
+     "end": 142,
+     "label": "EQUIPEMENT",
+     "text": "tricoter circulaire"
+    },
+    {
+     "start": 178,
+     "end": 218,
+     "label": "INDICATEUR",
+     "text": "rendement au premier passage est de 76 %"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_502_p002",
+   "entities": [
+    {
+     "start": 68,
+     "end": 74,
+     "label": "DONNEE_SENSIBLE",
+     "text": "25T652"
+    },
+    {
+     "start": 104,
+     "end": 112,
+     "label": "DONNEE_SENSIBLE",
+     "text": "12,91 DT"
+    },
+    {
+     "start": 116,
+     "end": 137,
+     "label": "PROCESSUS",
+     "text": "équilibrage de chaîne"
+    },
+    {
+     "start": 235,
+     "end": 289,
+     "label": "CONTRAINTE",
+     "text": "un changement de série ne doit pas dépasser 15 minutes"
+    },
+    {
+     "start": 294,
+     "end": 340,
+     "label": "CONTRAINTE",
+     "text": "les essais ne peuvent avoir lieu que le samedi"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_502_p003",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_502_p004",
+   "entities": [
+    {
+     "start": 32,
+     "end": 47,
+     "label": "PERSONNE",
+     "text": "M. Chokri Bahri"
+    },
+    {
+     "start": 92,
+     "end": 102,
+     "label": "DONNEE_SENSIBLE",
+     "text": "75 178 267"
+    },
+    {
+     "start": 119,
+     "end": 135,
+     "label": "DONNEE_SENSIBLE",
+     "text": "c.bahri@ccefa.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_506_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 25,
+     "label": "ORG",
+     "text": "شركة تونسية شنني للمصبرات"
+    },
+    {
+     "start": 91,
+     "end": 95,
+     "label": "SITE",
+     "text": "ماطر"
+    },
+    {
+     "start": 127,
+     "end": 139,
+     "label": "EQUIPEMENT",
+     "text": "الفرن النفقي"
+    },
+    {
+     "start": 141,
+     "end": 161,
+     "label": "PRODUIT",
+     "text": "الكسكسي المطهو مسبقا"
+    },
+    {
+     "start": 170,
+     "end": 191,
+     "label": "INDICATEUR",
+     "text": "480 كيلوواط ساعة للطن"
+    },
+    {
+     "start": 205,
+     "end": 226,
+     "label": "INDICATEUR",
+     "text": "420 كيلوواط ساعة للطن"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_506_p001",
+   "entities": [
+    {
+     "start": 93,
+     "end": 110,
+     "label": "PROCESSUS",
+     "text": "طريقة لماذا الخمس"
+    },
+    {
+     "start": 146,
+     "end": 171,
+     "label": "CONTRAINTE",
+     "text": "التجارب على يوم السبت فقط"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_506_p002",
+   "entities": [
+    {
+     "start": 0,
+     "end": 49,
+     "label": "CONTRAINTE",
+     "text": "الميزانية المخصصة للمشروع محدودة بسقف 20000 دينار"
+    },
+    {
+     "start": 137,
+     "end": 148,
+     "label": "DONNEE_SENSIBLE",
+     "text": "77,53 دينار"
+    },
+    {
+     "start": 227,
+     "end": 233,
+     "label": "DONNEE_SENSIBLE",
+     "text": "25K308"
+    },
+    {
+     "start": 263,
+     "end": 281,
+     "label": "DONNEE_SENSIBLE",
+     "text": "i.mzali@chenini.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_503_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 27,
+     "label": "ORG",
+     "text": "Comptoir Connectique Elissa"
+    },
+    {
+     "start": 43,
+     "end": 50,
+     "label": "SITE",
+     "text": "Bekalta"
+    },
+    {
+     "start": 101,
+     "end": 122,
+     "label": "PRODUIT",
+     "text": "faisceaux de portière"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_503_p001",
+   "entities": [
+    {
+     "start": 38,
+     "end": 48,
+     "label": "EQUIPEMENT",
+     "text": "enrouleuse"
+    },
+    {
+     "start": 113,
+     "end": 149,
+     "label": "INDICATEUR",
+     "text": "rendement au premier passage de 89 %"
+    },
+    {
+     "start": 160,
+     "end": 194,
+     "label": "INDICATEUR",
+     "text": "un rendement de 92 % était attendu"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_503_p002",
+   "entities": [
+    {
+     "start": 156,
+     "end": 177,
+     "label": "PROCESSUS",
+     "text": "cartographie des flux"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_503_p003",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_503_p004",
+   "entities": [
+    {
+     "start": 13,
+     "end": 59,
+     "label": "CONTRAINTE",
+     "text": "Les essais ne peuvent avoir lieu que le samedi"
+    },
+    {
+     "start": 63,
+     "end": 119,
+     "label": "CONTRAINTE",
+     "text": "il est important de conserver la certification ISO 15378"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_503_p005",
+   "entities": [
+    {
+     "start": 99,
+     "end": 117,
+     "label": "PERSONNE",
+     "text": "M. Haythem Sghaier"
+    },
+    {
+     "start": 196,
+     "end": 213,
+     "label": "DONNEE_SENSIBLE",
+     "text": "h.sghaier@ccel.tn"
+    },
+    {
+     "start": 234,
+     "end": 244,
+     "label": "DONNEE_SENSIBLE",
+     "text": "72 505 838"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_507_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "المصنع الفجر للمسبوكات"
+    },
+    {
+     "start": 48,
+     "end": 61,
+     "label": "PRODUIT",
+     "text": "أغلفة المضخات"
+    },
+    {
+     "start": 64,
+     "end": 84,
+     "label": "EQUIPEMENT",
+     "text": "خلية السفع بالحبيبات"
+    },
+    {
+     "start": 104,
+     "end": 114,
+     "label": "SITE",
+     "text": "مدينة تونس"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_507_p001",
+   "entities": [
+    {
+     "start": 85,
+     "end": 88,
+     "label": "INDICATEUR",
+     "text": "80%"
+    },
+    {
+     "start": 98,
+     "end": 101,
+     "label": "INDICATEUR",
+     "text": "83%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_507_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_507_p003",
+   "entities": [
+    {
+     "start": 23,
+     "end": 35,
+     "label": "PROCESSUS",
+     "text": "منهجية DMAIC"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_507_p004",
+   "entities": [
+    {
+     "start": 19,
+     "end": 56,
+     "label": "CONTRAINTE",
+     "text": "يجب ألا يتجاوز تغيير السلسلة 30 دقيقة"
+    },
+    {
+     "start": 62,
+     "end": 101,
+     "label": "CONTRAINTE",
+     "text": "يجب ألا تتجاوز مدة الدراسة 6 أسابيع فقط"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_507_p005",
+   "entities": [
+    {
+     "start": 31,
+     "end": 48,
+     "label": "PERSONNE",
+     "text": "السيد لطفي العمري"
+    },
+    {
+     "start": 98,
+     "end": 113,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 46 496 615"
+    },
+    {
+     "start": 139,
+     "end": 153,
+     "label": "DONNEE_SENSIBLE",
+     "text": "l.amri@fajr.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_507_p006",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_504_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 27,
+     "label": "ORG",
+     "text": "Comptoir Emballages Essalam"
+    },
+    {
+     "start": 40,
+     "end": 46,
+     "label": "SITE",
+     "text": "Ariana"
+    },
+    {
+     "start": 83,
+     "end": 102,
+     "label": "PRODUIT",
+     "text": "flacons cosmétiques"
+    },
+    {
+     "start": 107,
+     "end": 126,
+     "label": "EQUIPEMENT",
+     "text": "sécheur de granulés"
+    },
+    {
+     "start": 191,
+     "end": 220,
+     "label": "INDICATEUR",
+     "text": "temps de cycle de 55 secondes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p001",
+   "entities": [
+    {
+     "start": 101,
+     "end": 144,
+     "label": "INDICATEUR",
+     "text": "il prend 55 secondes pour terminer un cycle"
+    },
+    {
+     "start": 177,
+     "end": 188,
+     "label": "INDICATEUR",
+     "text": "42 secondes"
+    },
+    {
+     "start": 274,
+     "end": 330,
+     "label": "CONTRAINTE",
+     "text": "tout en respectant un investissement plafonné à 25000 DT"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p002",
+   "entities": [
+    {
+     "start": 68,
+     "end": 89,
+     "label": "INDICATEUR",
+     "text": "temps de cycle actuel"
+    },
+    {
+     "start": 96,
+     "end": 115,
+     "label": "INDICATEUR",
+     "text": "capacité du sécheur"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p003",
+   "entities": [
+    {
+     "start": 68,
+     "end": 118,
+     "label": "CONTRAINTE",
+     "text": "l'investissement total doit être limité à 25000 DT"
+    },
+    {
+     "start": 129,
+     "end": 178,
+     "label": "CONTRAINTE",
+     "text": "les tests et essais doivent se dérouler le samedi"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p004",
+   "entities": [
+    {
+     "start": 174,
+     "end": 191,
+     "label": "PERSONNE",
+     "text": "Mme Kaouther Amri"
+    },
+    {
+     "start": 216,
+     "end": 243,
+     "label": "ORG",
+     "text": "Comptoir Emballages Essalam"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p005",
+   "entities": [
+    {
+     "start": 31,
+     "end": 46,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 40 860 256"
+    },
+    {
+     "start": 73,
+     "end": 87,
+     "label": "DONNEE_SENSIBLE",
+     "text": "k.amri@cees.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_505_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 24,
+     "label": "ORG",
+     "text": "SARL Laboratoires Nakhla"
+    },
+    {
+     "start": 41,
+     "end": 47,
+     "label": "SITE",
+     "text": "Tozeur"
+    },
+    {
+     "start": 118,
+     "end": 135,
+     "label": "PRODUIT",
+     "text": "collyres stériles"
+    },
+    {
+     "start": 163,
+     "end": 194,
+     "label": "EQUIPEMENT",
+     "text": "granulateur à haut cisaillement"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_505_p001",
+   "entities": [
+    {
+     "start": 86,
+     "end": 110,
+     "label": "INDICATEUR",
+     "text": "taux d'absentéisme de 8%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_505_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_505_p003",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_505_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 72,
+     "label": "CONTRAINTE",
+     "text": "Toute modification des équipements doit être validée par le client final"
+    },
+    {
+     "start": 116,
+     "end": 170,
+     "label": "CONTRAINTE",
+     "text": "L'étude doit être achevée au plus tard en six semaines"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_505_p005",
+   "entities": [
+    {
+     "start": 62,
+     "end": 80,
+     "label": "PERSONNE",
+     "text": "Mme Sirine Ellouze"
+    },
+    {
+     "start": 189,
+     "end": 199,
+     "label": "DONNEE_SENSIBLE",
+     "text": "73 412 263"
+    },
+    {
+     "start": 216,
+     "end": 233,
+     "label": "DONNEE_SENSIBLE",
+     "text": "s.ellouze@slna.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_506_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 30,
+     "label": "ORG",
+     "text": "Manufacture Confection El Fajr"
+    },
+    {
+     "start": 40,
+     "end": 49,
+     "label": "SITE",
+     "text": "Kasserine"
+    },
+    {
+     "start": 88,
+     "end": 110,
+     "label": "PRODUIT",
+     "text": "uniformes hospitaliers"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_506_p001",
+   "entities": [
+    {
+     "start": 97,
+     "end": 125,
+     "label": "EQUIPEMENT",
+     "text": "métier à tricoter circulaire"
+    },
+    {
+     "start": 130,
+     "end": 153,
+     "label": "INDICATEUR",
+     "text": "rendement était de 86 %"
+    },
+    {
+     "start": 187,
+     "end": 200,
+     "label": "INDICATEUR",
+     "text": "au moins 95 %"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_506_p002",
+   "entities": [
+    {
+     "start": 43,
+     "end": 72,
+     "label": "INDICATEUR",
+     "text": "le nombre de pièces produites"
+    },
+    {
+     "start": 74,
+     "end": 96,
+     "label": "INDICATEUR",
+     "text": "le temps de production"
+    },
+    {
+     "start": 98,
+     "end": 121,
+     "label": "INDICATEUR",
+     "text": "le taux de défectuosité"
+    },
+    {
+     "start": 125,
+     "end": 162,
+     "label": "INDICATEUR",
+     "text": "les variations de rendement par série"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_506_p003",
+   "entities": [
+    {
+     "start": 215,
+     "end": 236,
+     "label": "PROCESSUS",
+     "text": "équilibrage de chaîne"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_506_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 37,
+     "label": "CONTRAINTE",
+     "text": "L'étude doit durer au plus 8 semaines"
+    },
+    {
+     "start": 39,
+     "end": 93,
+     "label": "CONTRAINTE",
+     "text": "Un changement de série ne doit pas dépasser 10 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_506_p005",
+   "entities": [
+    {
+     "start": 52,
+     "end": 69,
+     "label": "DONNEE_SENSIBLE",
+     "text": "z.kchaou@mcefa.tn"
+    },
+    {
+     "start": 86,
+     "end": 101,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 44 765 668"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_506_p006",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_506_p007",
+   "entities": [
+    {
+     "start": 0,
+     "end": 14,
+     "label": "PERSONNE",
+     "text": "M. Zied Kchaou"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_507_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 26,
+     "label": "ORG",
+     "text": "Comptoir Conserverie Thala"
+    },
+    {
+     "start": 60,
+     "end": 66,
+     "label": "SITE",
+     "text": "Sayada"
+    },
+    {
+     "start": 106,
+     "end": 120,
+     "label": "PRODUIT",
+     "text": "thon à l'huile"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_507_p001",
+   "entities": [
+    {
+     "start": 58,
+     "end": 100,
+     "label": "INDICATEUR",
+     "text": "taux d'absentéisme des employés atteint 8%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_507_p002",
+   "entities": [
+    {
+     "start": 101,
+     "end": 109,
+     "label": "DONNEE_SENSIBLE",
+     "text": "14,30 DT"
+    },
+    {
+     "start": 125,
+     "end": 173,
+     "label": "INDICATEUR",
+     "text": "le processus de change de série prend 15 minutes"
+    },
+    {
+     "start": 203,
+     "end": 241,
+     "label": "INDICATEUR",
+     "text": "temps maximal acceptable de 10 minutes"
+    },
+    {
+     "start": 268,
+     "end": 283,
+     "label": "EQUIPEMENT",
+     "text": "trieuse optique"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_507_p003",
+   "entities": [
+    {
+     "start": 279,
+     "end": 294,
+     "label": "EQUIPEMENT",
+     "text": "trieuse optique"
+    },
+    {
+     "start": 296,
+     "end": 364,
+     "label": "CONTRAINTE",
+     "text": "L'investissement maximal pour cette solution est plafonné à 20000 DT"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_507_p004",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_507_p005",
+   "entities": [
+    {
+     "start": 66,
+     "end": 82,
+     "label": "PERSONNE",
+     "text": "M. Chokri Guesmi"
+    },
+    {
+     "start": 130,
+     "end": 140,
+     "label": "DONNEE_SENSIBLE",
+     "text": "78 314 109"
+    },
+    {
+     "start": 159,
+     "end": 175,
+     "label": "DONNEE_SENSIBLE",
+     "text": "c.guesmi@ccth.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_508_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 26,
+     "label": "ORG",
+     "text": "دار الرمال للربط الكهربائي"
+    },
+    {
+     "start": 30,
+     "end": 34,
+     "label": "SITE",
+     "text": "قفصة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_508_p001",
+   "entities": [
+    {
+     "start": 24,
+     "end": 28,
+     "label": "SITE",
+     "text": "قفصة"
+    },
+    {
+     "start": 80,
+     "end": 102,
+     "label": "PRODUIT",
+     "text": "حزم أسلاك لوحة القيادة"
+    },
+    {
+     "start": 110,
+     "end": 152,
+     "label": "INDICATEUR",
+     "text": "يستهلك الجهاز الجديد 310 كيلوواط ساعة للطن"
+    },
+    {
+     "start": 158,
+     "end": 200,
+     "label": "INDICATEUR",
+     "text": "الجهاز القديم يستهلك 420 كيلوواط ساعة للطن"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_508_p002",
+   "entities": [
+    {
+     "start": 17,
+     "end": 49,
+     "label": "INDICATEUR",
+     "text": "استهلاك الطاقة لكل طن من الأسلاك"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_508_p003",
+   "entities": [
+    {
+     "start": 73,
+     "end": 114,
+     "label": "CONTRAINTE",
+     "text": "يجب ألا يتجاوز وقت تغيير السلسلة 30 دقيقة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_508_p004",
+   "entities": [
+    {
+     "start": 18,
+     "end": 71,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يتم العمل ضمن حدود استثمار محدد بـ 15000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_508_p005",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_508_p006",
+   "entities": [
+    {
+     "start": 18,
+     "end": 36,
+     "label": "PERSONNE",
+     "text": "السيد لطفي الناصري"
+    },
+    {
+     "start": 83,
+     "end": 93,
+     "label": "DONNEE_SENSIBLE",
+     "text": "75 917 635"
+    },
+    {
+     "start": 115,
+     "end": 131,
+     "label": "DONNEE_SENSIBLE",
+     "text": "l.nasri@rimel.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_504_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 19,
+     "label": "ORG",
+     "text": "Kantaoui Foundry Co"
+    },
+    {
+     "start": 48,
+     "end": 55,
+     "label": "SITE",
+     "text": "Manouba"
+    },
+    {
+     "start": 91,
+     "end": 107,
+     "label": "PRODUIT",
+     "text": "hardened pinions"
+    },
+    {
+     "start": 197,
+     "end": 226,
+     "label": "PROCESSUS",
+     "text": "welding process of our robots"
+    },
+    {
+     "start": 240,
+     "end": 280,
+     "label": "INDICATEUR",
+     "text": "energy usage stands at 480 kWh per tonne"
+    },
+    {
+     "start": 307,
+     "end": 345,
+     "label": "INDICATEUR",
+     "text": "competitors’ rate of 340 kWh per tonne"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_504_p001",
+   "entities": [
+    {
+     "start": 4,
+     "end": 17,
+     "label": "EQUIPEMENT",
+     "text": "welding robot"
+    },
+    {
+     "start": 235,
+     "end": 272,
+     "label": "CONTRAINTE",
+     "text": "changeover must not exceed 15 minutes"
+    },
+    {
+     "start": 278,
+     "end": 317,
+     "label": "CONTRAINTE",
+     "text": "we can only conduct trials on Saturdays"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_504_p002",
+   "entities": [
+    {
+     "start": 49,
+     "end": 76,
+     "label": "INDICATEUR",
+     "text": "energy consumption patterns"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_504_p003",
+   "entities": [
+    {
+     "start": 29,
+     "end": 63,
+     "label": "CONTRAINTE",
+     "text": "adhere to strict safety guidelines"
+    },
+    {
+     "start": 73,
+     "end": 143,
+     "label": "CONTRAINTE",
+     "text": "all experiments comply with the total productive maintenance standards"
+    },
+    {
+     "start": 145,
+     "end": 186,
+     "label": "CONTRAINTE",
+     "text": "Trials can only be conducted on Saturdays"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_504_p004",
+   "entities": [
+    {
+     "start": 15,
+     "end": 31,
+     "label": "PERSONNE",
+     "text": "Mr. Wael Sellami"
+    },
+    {
+     "start": 133,
+     "end": 150,
+     "label": "DONNEE_SENSIBLE",
+     "text": "w.sellami@kfco.tn"
+    },
+    {
+     "start": 167,
+     "end": 177,
+     "label": "DONNEE_SENSIBLE",
+     "text": "73 523 173"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_504_p005",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_en_505_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 24,
+     "label": "ORG",
+     "text": "Kantaoui Packaging Works"
+    },
+    {
+     "start": 54,
+     "end": 64,
+     "label": "PRODUIT",
+     "text": "woven bags"
+    },
+    {
+     "start": 68,
+     "end": 74,
+     "label": "SITE",
+     "text": "Mateur"
+    },
+    {
+     "start": 109,
+     "end": 121,
+     "label": "EQUIPEMENT",
+     "text": "pellet dryer"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_505_p001",
+   "entities": [
+    {
+     "start": 4,
+     "end": 53,
+     "label": "INDICATEUR",
+     "text": "absenteeism rate among our employees stands at 9%"
+    },
+    {
+     "start": 80,
+     "end": 103,
+     "label": "INDICATEUR",
+     "text": "industry standard of 6%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_505_p002",
+   "entities": [
+    {
+     "start": 254,
+     "end": 260,
+     "label": "DONNEE_SENSIBLE",
+     "text": "26M745"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_505_p003",
+   "entities": [
+    {
+     "start": 257,
+     "end": 299,
+     "label": "CONTRAINTE",
+     "text": "The study must last no more than six weeks"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_505_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 72,
+     "label": "CONTRAINTE",
+     "text": "Any changes or adjustments proposed must be approved by the end customer"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_505_p005",
+   "entities": [
+    {
+     "start": 57,
+     "end": 70,
+     "label": "PERSONNE",
+     "text": "Mr. Wael Amri"
+    },
+    {
+     "start": 159,
+     "end": 173,
+     "label": "DONNEE_SENSIBLE",
+     "text": "w.amri@kpwo.tn"
+    },
+    {
+     "start": 189,
+     "end": 204,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 24 151 586"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_509_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 15,
+     "label": "ORG",
+     "text": "دار دقة للمخابر"
+    },
+    {
+     "start": 19,
+     "end": 26,
+     "label": "SITE",
+     "text": "القصرين"
+    },
+    {
+     "start": 113,
+     "end": 120,
+     "label": "SITE",
+     "text": "القصرين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_509_p001",
+   "entities": [
+    {
+     "start": 51,
+     "end": 59,
+     "label": "PRODUIT",
+     "text": "التحاميل"
+    },
+    {
+     "start": 61,
+     "end": 80,
+     "label": "INDICATEUR",
+     "text": "تبلغ نسبة التغيب 8%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_509_p002",
+   "entities": [
+    {
+     "start": 32,
+     "end": 40,
+     "label": "PRODUIT",
+     "text": "التحاميل"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_509_p003",
+   "entities": [
+    {
+     "start": 53,
+     "end": 61,
+     "label": "PRODUIT",
+     "text": "التحاميل"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_509_p004",
+   "entities": [
+    {
+     "start": 15,
+     "end": 48,
+     "label": "CONTRAINTE",
+     "text": "يجب المحافظة على شهادة FSSC 22000"
+    },
+    {
+     "start": 54,
+     "end": 95,
+     "label": "CONTRAINTE",
+     "text": "يجب ألا يتجاوز وقت تغيير السلسلة 30 دقيقة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_509_p005",
+   "entities": [
+    {
+     "start": 32,
+     "end": 51,
+     "label": "PERSONNE",
+     "text": "السيدة غادة الناصري"
+    },
+    {
+     "start": 81,
+     "end": 91,
+     "label": "DONNEE_SENSIBLE",
+     "text": "73 285 638"
+    },
+    {
+     "start": 113,
+     "end": 130,
+     "label": "DONNEE_SENSIBLE",
+     "text": "g.nasri@dougga.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_506_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 21,
+     "label": "ORG",
+     "text": "Elissa Apparel Plants"
+    },
+    {
+     "start": 115,
+     "end": 120,
+     "label": "SITE",
+     "text": "Gafsa"
+    },
+    {
+     "start": 137,
+     "end": 154,
+     "label": "PRODUIT",
+     "text": "hospital uniforms"
+    },
+    {
+     "start": 238,
+     "end": 250,
+     "label": "EQUIPEMENT",
+     "text": "steam tunnel"
+    },
+    {
+     "start": 397,
+     "end": 409,
+     "label": "EQUIPEMENT",
+     "text": "steam tunnel"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_506_p001",
+   "entities": [
+    {
+     "start": 30,
+     "end": 42,
+     "label": "EQUIPEMENT",
+     "text": "steam tunnel"
+    },
+    {
+     "start": 131,
+     "end": 192,
+     "label": "INDICATEUR",
+     "text": "first pass yield for this particular steam tunnel is only 86%"
+    },
+    {
+     "start": 223,
+     "end": 260,
+     "label": "INDICATEUR",
+     "text": "92% average across all our facilities"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_506_p002",
+   "entities": [
+    {
+     "start": 85,
+     "end": 97,
+     "label": "EQUIPEMENT",
+     "text": "steam tunnel"
+    },
+    {
+     "start": 213,
+     "end": 232,
+     "label": "PROCESSUS",
+     "text": "acceptance sampling"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_506_p003",
+   "entities": [
+    {
+     "start": 0,
+     "end": 54,
+     "label": "CONTRAINTE",
+     "text": "The study must be completed within an 8-week timeframe"
+    },
+    {
+     "start": 55,
+     "end": 104,
+     "label": "CONTRAINTE",
+     "text": "and should not exceed an investment of TND 25,000"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_506_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 17,
+     "label": "PERSONNE",
+     "text": "Ms. Rania Ghorbel"
+    },
+    {
+     "start": 124,
+     "end": 141,
+     "label": "DONNEE_SENSIBLE",
+     "text": "r.ghorbel@eapl.tn"
+    },
+    {
+     "start": 157,
+     "end": 172,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 82 331 627"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_508_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 26,
+     "label": "ORG",
+     "text": "Usines Conserverie El Fajr"
+    },
+    {
+     "start": 37,
+     "end": 43,
+     "label": "SITE",
+     "text": "Tozeur"
+    },
+    {
+     "start": 84,
+     "end": 98,
+     "label": "PRODUIT",
+     "text": "thon à l'huile"
+    },
+    {
+     "start": 125,
+     "end": 151,
+     "label": "EQUIPEMENT",
+     "text": "autoclave de stérilisation"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_508_p001",
+   "entities": [
+    {
+     "start": 56,
+     "end": 70,
+     "label": "INDICATEUR",
+     "text": "atteignant 8 %"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_508_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_508_p003",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_508_p004",
+   "entities": [
+    {
+     "start": 30,
+     "end": 99,
+     "label": "CONTRAINTE",
+     "text": "l'investissement pour améliorer la situation ne peut excéder 25000 DT"
+    },
+    {
+     "start": 101,
+     "end": 158,
+     "label": "CONTRAINTE",
+     "text": "De plus, l'étude doit être achevée en moins de 5 semaines"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_508_p005",
+   "entities": [
+    {
+     "start": 27,
+     "end": 39,
+     "label": "PERSONNE",
+     "text": "M. Zied Amri"
+    },
+    {
+     "start": 65,
+     "end": 80,
+     "label": "DONNEE_SENSIBLE",
+     "text": "z.amri@ucefa.tn"
+    },
+    {
+     "start": 84,
+     "end": 94,
+     "label": "DONNEE_SENSIBLE",
+     "text": "77 944 658"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_510_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 27,
+     "label": "ORG",
+     "text": "دار بوقرنين للربط الكهربائي"
+    },
+    {
+     "start": 37,
+     "end": 45,
+     "label": "SITE",
+     "text": "البقالطة"
+    },
+    {
+     "start": 116,
+     "end": 132,
+     "label": "PRODUIT",
+     "text": "الكوابل المحورية"
+    },
+    {
+     "start": 142,
+     "end": 166,
+     "label": "EQUIPEMENT",
+     "text": "أجهزة اختبار الاستمرارية"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_510_p001",
+   "entities": [
+    {
+     "start": 60,
+     "end": 85,
+     "label": "INDICATEUR",
+     "text": "9% في فئة الهندسة المدنية"
+    },
+    {
+     "start": 89,
+     "end": 117,
+     "label": "INDICATEUR",
+     "text": "6% في فئة الهندسة الكهربائية"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_510_p002",
+   "entities": [
+    {
+     "start": 78,
+     "end": 97,
+     "label": "INDICATEUR",
+     "text": "عدد الطلاب المسجلين"
+    },
+    {
+     "start": 99,
+     "end": 118,
+     "label": "INDICATEUR",
+     "text": "عدد الطلاب الغائبين"
+    },
+    {
+     "start": 121,
+     "end": 147,
+     "label": "INDICATEUR",
+     "text": "نسبة الغياب لكل فئة دراسية"
+    },
+    {
+     "start": 185,
+     "end": 207,
+     "label": "INDICATEUR",
+     "text": "التحصيل الدراسي للطلاب"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_510_p003",
+   "entities": [
+    {
+     "start": 105,
+     "end": 114,
+     "label": "PROCESSUS",
+     "text": "منهجية 8D"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_510_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 61,
+     "label": "CONTRAINTE",
+     "text": "الميزانية المخصصة لحل هذه المشكلة محددة بسقف قدره 40000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_510_p005",
+   "entities": [
+    {
+     "start": 52,
+     "end": 72,
+     "label": "PERSONNE",
+     "text": "السيدة لمياء الفخفاخ"
+    },
+    {
+     "start": 115,
+     "end": 130,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 89 801 624"
+    },
+    {
+     "start": 156,
+     "end": 180,
+     "label": "DONNEE_SENSIBLE",
+     "text": "l.fakhfakh@boukornine.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_511_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 17,
+     "label": "ORG",
+     "text": "دار دقة للمسبوكات"
+    },
+    {
+     "start": 21,
+     "end": 31,
+     "label": "SITE",
+     "text": "سيدي بوزيد"
+    },
+    {
+     "start": 69,
+     "end": 85,
+     "label": "PRODUIT",
+     "text": "المسننات المقساة"
+    },
+    {
+     "start": 115,
+     "end": 123,
+     "label": "EQUIPEMENT",
+     "text": "فرن الحث"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_511_p001",
+   "entities": [
+    {
+     "start": 46,
+     "end": 66,
+     "label": "INDICATEUR",
+     "text": "متوسط المخزون الفعلي"
+    },
+    {
+     "start": 138,
+     "end": 172,
+     "label": "INDICATEUR",
+     "text": "متوسط المخزون المطلوب عند 24 يوماً"
+    },
+    {
+     "start": 179,
+     "end": 214,
+     "label": "INDICATEUR",
+     "text": "الفرق بين التوقعات والملاحظات فعلية"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_511_p002",
+   "entities": [
+    {
+     "start": 74,
+     "end": 87,
+     "label": "DONNEE_SENSIBLE",
+     "text": "أسعار الوحدات"
+    },
+    {
+     "start": 90,
+     "end": 109,
+     "label": "INDICATEUR",
+     "text": "كمية الإنتاج اليومي"
+    },
+    {
+     "start": 112,
+     "end": 128,
+     "label": "INDICATEUR",
+     "text": "معدلات الاستهلاك"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_511_p003",
+   "entities": [
+    {
+     "start": 23,
+     "end": 35,
+     "label": "PROCESSUS",
+     "text": "منهجية DMAIC"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_511_p004",
+   "entities": [
+    {
+     "start": 87,
+     "end": 105,
+     "label": "PERSONNE",
+     "text": "السيد منتصر البحري"
+    },
+    {
+     "start": 166,
+     "end": 181,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 80 842 721"
+    },
+    {
+     "start": 203,
+     "end": 220,
+     "label": "DONNEE_SENSIBLE",
+     "text": "m.bahri@dougga.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_511_p005",
+   "entities": [
+    {
+     "start": 99,
+     "end": 149,
+     "label": "CONTRAINTE",
+     "text": "نأمل في الحصول على نتائج ملموسة في أقل من شهر واحد"
+    },
+    {
+     "start": 158,
+     "end": 189,
+     "label": "CONTRAINTE",
+     "text": "الاستثمار محدد بسقف 40000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_507_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 18,
+     "label": "ORG",
+     "text": "Chams Packaging Co"
+    },
+    {
+     "start": 46,
+     "end": 53,
+     "label": "SITE",
+     "text": "Manouba"
+    },
+    {
+     "start": 100,
+     "end": 117,
+     "label": "PRODUIT",
+     "text": "thermoformed cups"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_507_p001",
+   "entities": [
+    {
+     "start": 36,
+     "end": 48,
+     "label": "EQUIPEMENT",
+     "text": "pellet dryer"
+    },
+    {
+     "start": 110,
+     "end": 134,
+     "label": "INDICATEUR",
+     "text": "availability rate of 87%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_507_p002",
+   "entities": [
+    {
+     "start": 216,
+     "end": 228,
+     "label": "EQUIPEMENT",
+     "text": "pellet dryer"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_507_p003",
+   "entities": [
+    {
+     "start": 119,
+     "end": 131,
+     "label": "EQUIPEMENT",
+     "text": "pellet dryer"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_507_p004",
+   "entities": [
+    {
+     "start": 46,
+     "end": 97,
+     "label": "CONTRAINTE",
+     "text": "it should be completed within a period of six weeks"
+    },
+    {
+     "start": 103,
+     "end": 178,
+     "label": "CONTRAINTE",
+     "text": "the ISO 50001 certification must be maintained or improved during this time"
+    },
+    {
+     "start": 205,
+     "end": 229,
+     "label": "PROCESSUS",
+     "text": "Kanban visual management"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_507_p005",
+   "entities": [
+    {
+     "start": 15,
+     "end": 32,
+     "label": "PERSONNE",
+     "text": "Mr. Haythem Zribi"
+    },
+    {
+     "start": 101,
+     "end": 116,
+     "label": "DONNEE_SENSIBLE",
+     "text": "h.zribi@cpco.tn"
+    },
+    {
+     "start": 142,
+     "end": 157,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 37 147 789"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_507_p006",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_509_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 31,
+     "label": "ORG",
+     "text": "Manufacture Laboratoires Djerba"
+    },
+    {
+     "start": 60,
+     "end": 68,
+     "label": "SITE",
+     "text": "Teboulba"
+    },
+    {
+     "start": 104,
+     "end": 121,
+     "label": "PRODUIT",
+     "text": "collyres stériles"
+    },
+    {
+     "start": 154,
+     "end": 185,
+     "label": "EQUIPEMENT",
+     "text": "granulateur à haut cisaillement"
+    },
+    {
+     "start": 237,
+     "end": 292,
+     "label": "INDICATEUR",
+     "text": "taux de disponibilité de ce dernier ne sont que de 81 %"
+    },
+    {
+     "start": 294,
+     "end": 342,
+     "label": "INDICATEUR",
+     "text": "comparativement à 93 % pour d'autres équipements"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_509_p001",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_509_p002",
+   "entities": [
+    {
+     "start": 182,
+     "end": 213,
+     "label": "EQUIPEMENT",
+     "text": "granulateur à haut cisaillement"
+    },
+    {
+     "start": 309,
+     "end": 338,
+     "label": "PROCESSUS",
+     "text": "qualification des équipements"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_509_p003",
+   "entities": [
+    {
+     "start": 0,
+     "end": 80,
+     "label": "CONTRAINTE",
+     "text": "Toute modification apportée à l'équipement doit être validée par le client final"
+    },
+    {
+     "start": 102,
+     "end": 156,
+     "label": "CONTRAINTE",
+     "text": "Le changement de série ne doit pas dépasser 30 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_509_p004",
+   "entities": [
+    {
+     "start": 55,
+     "end": 72,
+     "label": "PERSONNE",
+     "text": "Mme Hiba Bouslama"
+    },
+    {
+     "start": 95,
+     "end": 126,
+     "label": "ORG",
+     "text": "Manufacture Laboratoires Djerba"
+    },
+    {
+     "start": 154,
+     "end": 172,
+     "label": "DONNEE_SENSIBLE",
+     "text": "51,63 DT par unité"
+    },
+    {
+     "start": 189,
+     "end": 207,
+     "label": "DONNEE_SENSIBLE",
+     "text": "h.bouslama@mldj.tn"
+    },
+    {
+     "start": 235,
+     "end": 250,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 47 992 408"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_508_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 25,
+     "label": "ORG",
+     "text": "Bou Kornine Apparel Works"
+    },
+    {
+     "start": 51,
+     "end": 58,
+     "label": "SITE",
+     "text": "Manouba"
+    },
+    {
+     "start": 89,
+     "end": 98,
+     "label": "PRODUIT",
+     "text": "bed linen"
+    },
+    {
+     "start": 121,
+     "end": 140,
+     "label": "EQUIPEMENT",
+     "text": "embroidery machines"
+    },
+    {
+     "start": 302,
+     "end": 341,
+     "label": "INDICATEUR",
+     "text": "current availability rate stands at 84%"
+    },
+    {
+     "start": 362,
+     "end": 375,
+     "label": "INDICATEUR",
+     "text": "target of 90%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_508_p001",
+   "entities": [
+    {
+     "start": 215,
+     "end": 233,
+     "label": "EQUIPEMENT",
+     "text": "embroidery machine"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_508_p002",
+   "entities": [
+    {
+     "start": 141,
+     "end": 214,
+     "label": "CONTRAINTE",
+     "text": "the OEKO-TEX certified quality standards that our products must adhere to"
+    },
+    {
+     "start": 235,
+     "end": 292,
+     "label": "CONTRAINTE",
+     "text": "any changes proposed do not compromise this certification"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_508_p003",
+   "entities": [
+    {
+     "start": 0,
+     "end": 78,
+     "label": "CONTRAINTE",
+     "text": "We are looking for innovative solutions within an investment cap of TND 15,000"
+    },
+    {
+     "start": 142,
+     "end": 160,
+     "label": "EQUIPEMENT",
+     "text": "embroidery machine"
+    },
+    {
+     "start": 219,
+     "end": 233,
+     "label": "PROCESSUS",
+     "text": "line balancing"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_508_p004",
+   "entities": [
+    {
+     "start": 17,
+     "end": 87,
+     "label": "CONTRAINTE",
+     "text": "all findings must maintain the OEKO-TEX certification for our products"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_508_p005",
+   "entities": [
+    {
+     "start": 58,
+     "end": 76,
+     "label": "PERSONNE",
+     "text": "Mr. Lotfi Bouslama"
+    },
+    {
+     "start": 98,
+     "end": 123,
+     "label": "ORG",
+     "text": "Bou Kornine Apparel Works"
+    },
+    {
+     "start": 133,
+     "end": 148,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 88 145 134"
+    },
+    {
+     "start": 158,
+     "end": 177,
+     "label": "DONNEE_SENSIBLE",
+     "text": "l.bouslama@bkawo.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_509_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 20,
+     "label": "ORG",
+     "text": "Djerba Canning Works"
+    },
+    {
+     "start": 46,
+     "end": 55,
+     "label": "SITE",
+     "text": "Tataouine"
+    },
+    {
+     "start": 134,
+     "end": 154,
+     "label": "PRODUIT",
+     "text": "maltese orange juice"
+    },
+    {
+     "start": 205,
+     "end": 216,
+     "label": "EQUIPEMENT",
+     "text": "tunnel oven"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_509_p001",
+   "entities": [
+    {
+     "start": 81,
+     "end": 101,
+     "label": "PRODUIT",
+     "text": "maltese orange juice"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_509_p002",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_en_509_p003",
+   "entities": [
+    {
+     "start": 42,
+     "end": 57,
+     "label": "PROCESSUS",
+     "text": "Pareto analysis"
+    },
+    {
+     "start": 133,
+     "end": 153,
+     "label": "PRODUIT",
+     "text": "maltese orange juice"
+    },
+    {
+     "start": 204,
+     "end": 258,
+     "label": "INDICATEUR",
+     "text": "reduce the average stock level from 32 days to 12 days"
+    },
+    {
+     "start": 260,
+     "end": 303,
+     "label": "CONTRAINTE",
+     "text": "This study must be completed within 7 weeks"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_509_p004",
+   "entities": [
+    {
+     "start": 43,
+     "end": 127,
+     "label": "CONTRAINTE",
+     "text": "The total investment required for any proposed improvements cannot exceed TND 15,000"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_509_p005",
+   "entities": [
+    {
+     "start": 70,
+     "end": 86,
+     "label": "PERSONNE",
+     "text": "Mr. Wael Ghorbel"
+    },
+    {
+     "start": 124,
+     "end": 134,
+     "label": "DONNEE_SENSIBLE",
+     "text": "79 216 349"
+    },
+    {
+     "start": 151,
+     "end": 168,
+     "label": "DONNEE_SENSIBLE",
+     "text": "w.ghorbel@dcwo.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_510_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 26,
+     "label": "ORG",
+     "text": "Essalam Connectors Holding"
+    },
+    {
+     "start": 108,
+     "end": 114,
+     "label": "SITE",
+     "text": "Le Kef"
+    },
+    {
+     "start": 179,
+     "end": 205,
+     "label": "EQUIPEMENT",
+     "text": "ultrasonic welding station"
+    },
+    {
+     "start": 234,
+     "end": 244,
+     "label": "PRODUIT",
+     "text": "fuse boxes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_510_p001",
+   "entities": [
+    {
+     "start": 84,
+     "end": 90,
+     "label": "SITE",
+     "text": "Le Kef"
+    },
+    {
+     "start": 174,
+     "end": 204,
+     "label": "INDICATEUR",
+     "text": "absenteeism rate stands at 10%"
+    },
+    {
+     "start": 245,
+     "end": 266,
+     "label": "INDICATEUR",
+     "text": "acceptable rate of 7%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_510_p002",
+   "entities": [
+    {
+     "start": 28,
+     "end": 54,
+     "label": "EQUIPEMENT",
+     "text": "ultrasonic welding station"
+    },
+    {
+     "start": 138,
+     "end": 152,
+     "label": "INDICATEUR",
+     "text": "machine uptime"
+    },
+    {
+     "start": 157,
+     "end": 173,
+     "label": "INDICATEUR",
+     "text": "production yield"
+    },
+    {
+     "start": 211,
+     "end": 227,
+     "label": "PROCESSUS",
+     "text": "value stream map"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_510_p003",
+   "entities": [
+    {
+     "start": 237,
+     "end": 257,
+     "label": "PROCESSUS",
+     "text": "value stream mapping"
+    },
+    {
+     "start": 275,
+     "end": 364,
+     "label": "CONTRAINTE",
+     "text": "Any changes or adjustments to the production process must be approved by the end customer"
+    },
+    {
+     "start": 374,
+     "end": 450,
+     "label": "CONTRAINTE",
+     "text": "changeover time between different production runs must not exceed 15 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_510_p004",
+   "entities": [
+    {
+     "start": 66,
+     "end": 119,
+     "label": "CONTRAINTE",
+     "text": "ensure that all proposed solutions are cost-effective"
+    },
+    {
+     "start": 124,
+     "end": 169,
+     "label": "CONTRAINTE",
+     "text": "align with the company’s sustainability goals"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_510_p005",
+   "entities": [
+    {
+     "start": 81,
+     "end": 101,
+     "label": "PERSONNE",
+     "text": "Mr. Montassar Guesmi"
+    },
+    {
+     "start": 146,
+     "end": 152,
+     "label": "SITE",
+     "text": "Le Kef"
+    },
+    {
+     "start": 184,
+     "end": 200,
+     "label": "DONNEE_SENSIBLE",
+     "text": "m.guesmi@echo.tn"
+    },
+    {
+     "start": 216,
+     "end": 231,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 28 128 214"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_512_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 25,
+     "label": "ORG",
+     "text": "المصنع البساتين للمسبوكات"
+    },
+    {
+     "start": 32,
+     "end": 39,
+     "label": "SITE",
+     "text": "الصيادة"
+    },
+    {
+     "start": 41,
+     "end": 58,
+     "label": "PRODUIT",
+     "text": "الصمامات الحديدية"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_512_p001",
+   "entities": [
+    {
+     "start": 33,
+     "end": 50,
+     "label": "PRODUIT",
+     "text": "الصمامات الحديدية"
+    },
+    {
+     "start": 75,
+     "end": 111,
+     "label": "INDICATEUR",
+     "text": "المتوسط اليومي للمخزون يبلغ 32 يومًا"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_512_p002",
+   "entities": [
+    {
+     "start": 17,
+     "end": 51,
+     "label": "INDICATEUR",
+     "text": "الاستهلاك اليومي للصمامات الحديدية"
+    },
+    {
+     "start": 77,
+     "end": 88,
+     "label": "DONNEE_SENSIBLE",
+     "text": "93,81 دينار"
+    },
+    {
+     "start": 129,
+     "end": 148,
+     "label": "EQUIPEMENT",
+     "text": "آلة التجليخ المستوي"
+    },
+    {
+     "start": 150,
+     "end": 172,
+     "label": "INDICATEUR",
+     "text": "كميتها من المواد الخام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_512_p003",
+   "entities": [
+    {
+     "start": 51,
+     "end": 63,
+     "label": "PROCESSUS",
+     "text": "منهجية كايزن"
+    },
+    {
+     "start": 121,
+     "end": 140,
+     "label": "EQUIPEMENT",
+     "text": "آلة التجليخ المستوي"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_512_p004",
+   "entities": [
+    {
+     "start": 18,
+     "end": 58,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يتم اختبار المنتجات فقط يوم السبت"
+    },
+    {
+     "start": 81,
+     "end": 140,
+     "label": "CONTRAINTE",
+     "text": "كما يجب على جميع الأطراف مراعاة الحفاظ على شهادة FSSC 22000"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_512_p005",
+   "entities": [
+    {
+     "start": 32,
+     "end": 52,
+     "label": "PERSONNE",
+     "text": "السادة أسامة الغربال"
+    },
+    {
+     "start": 127,
+     "end": 149,
+     "label": "DONNEE_SENSIBLE",
+     "text": "o.ghorbel@bassatine.tn"
+    },
+    {
+     "start": 161,
+     "end": 176,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 87 433 253"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_510_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 26,
+     "label": "ORG",
+     "text": "Usines Emballages Kantaoui"
+    },
+    {
+     "start": 37,
+     "end": 43,
+     "label": "SITE",
+     "text": "Tozeur"
+    },
+    {
+     "start": 81,
+     "end": 94,
+     "label": "PRODUIT",
+     "text": "tubes en PEHD"
+    },
+    {
+     "start": 146,
+     "end": 161,
+     "label": "EQUIPEMENT",
+     "text": "robot de dépose"
+    },
+    {
+     "start": 176,
+     "end": 216,
+     "label": "INDICATEUR",
+     "text": "premier passage avec un rendement de 76%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_510_p001",
+   "entities": [
+    {
+     "start": 76,
+     "end": 123,
+     "label": "INDICATEUR",
+     "text": "rendement ne dépasse pas 83% du premier passage"
+    },
+    {
+     "start": 232,
+     "end": 255,
+     "label": "PROCESSUS",
+     "text": "gestion visuelle Kanban"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_510_p002",
+   "entities": [
+    {
+     "start": 112,
+     "end": 161,
+     "label": "CONTRAINTE",
+     "text": "afin que ces derniers ne dépassent pas 30 minutes"
+    },
+    {
+     "start": 163,
+     "end": 229,
+     "label": "CONTRAINTE",
+     "text": "Toutes les modifications doivent être validées par le client final"
+    },
+    {
+     "start": 355,
+     "end": 373,
+     "label": "DONNEE_SENSIBLE",
+     "text": "49,78 DT par unité"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_510_p003",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_fr_510_p004",
+   "entities": [
+    {
+     "start": 61,
+     "end": 80,
+     "label": "PERSONNE",
+     "text": "M. Montassar Belaid"
+    },
+    {
+     "start": 135,
+     "end": 151,
+     "label": "DONNEE_SENSIBLE",
+     "text": "m.belaid@ueka.tn"
+    },
+    {
+     "start": 172,
+     "end": 187,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 32 817 340"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_511_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 23,
+     "label": "ORG",
+     "text": "SARL Laboratoires Thala"
+    },
+    {
+     "start": 49,
+     "end": 52,
+     "label": "SITE",
+     "text": "Kef"
+    },
+    {
+     "start": 141,
+     "end": 154,
+     "label": "PRODUIT",
+     "text": "suppositoires"
+    },
+    {
+     "start": 265,
+     "end": 296,
+     "label": "EQUIPEMENT",
+     "text": "granulateur à haut cisaillement"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_511_p001",
+   "entities": [
+    {
+     "start": 94,
+     "end": 125,
+     "label": "EQUIPEMENT",
+     "text": "granulateur à haut cisaillement"
+    },
+    {
+     "start": 140,
+     "end": 198,
+     "label": "INDICATEUR",
+     "text": "taux de disponibilité de l’équipement est de seulement 78%"
+    },
+    {
+     "start": 381,
+     "end": 410,
+     "label": "PROCESSUS",
+     "text": "qualification des équipements"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_511_p002",
+   "entities": [
+    {
+     "start": 207,
+     "end": 238,
+     "label": "EQUIPEMENT",
+     "text": "granulateur à haut cisaillement"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_511_p003",
+   "entities": [
+    {
+     "start": 77,
+     "end": 123,
+     "label": "CONTRAINTE",
+     "text": "les essais ne peuvent avoir lieu que le samedi"
+    },
+    {
+     "start": 180,
+     "end": 234,
+     "label": "CONTRAINTE",
+     "text": "un changement de série ne doit pas dépasser 20 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_511_p004",
+   "entities": [
+    {
+     "start": 103,
+     "end": 120,
+     "label": "PERSONNE",
+     "text": "Mme Nesrine Mzali"
+    },
+    {
+     "start": 208,
+     "end": 223,
+     "label": "DONNEE_SENSIBLE",
+     "text": "n.mzali@slth.tn"
+    },
+    {
+     "start": 251,
+     "end": 261,
+     "label": "DONNEE_SENSIBLE",
+     "text": "78 954 871"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_513_p000",
+   "entities": [
+    {
+     "start": 7,
+     "end": 28,
+     "label": "ORG",
+     "text": "الشمس للملابس الجاهزة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_513_p001",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_513_p002",
+   "entities": [
+    {
+     "start": 120,
+     "end": 134,
+     "label": "PRODUIT",
+     "text": "القمصان البولو"
+    },
+    {
+     "start": 138,
+     "end": 164,
+     "label": "ORG",
+     "text": "مصنع الشمس للملابس الجاهزة"
+    },
+    {
+     "start": 205,
+     "end": 218,
+     "label": "PROCESSUS",
+     "text": "عملية التبخير"
+    },
+    {
+     "start": 220,
+     "end": 244,
+     "label": "INDICATEUR",
+     "text": "زمن الدورة يبلغ 52 ثانية"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_513_p003",
+   "entities": [
+    {
+     "start": 72,
+     "end": 92,
+     "label": "EQUIPEMENT",
+     "text": "نظام مراقبة بالعينات"
+    },
+    {
+     "start": 128,
+     "end": 175,
+     "label": "CONTRAINTE",
+     "text": "التجارب الحية لا يمكن إجراؤها إلا يوم السبت فقط"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_513_p004",
+   "entities": [
+    {
+     "start": 85,
+     "end": 143,
+     "label": "CONTRAINTE",
+     "text": "دون زيادة التكاليف أكثر من الاستثمار المحدد بـ 60000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_513_p005",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_513_p006",
+   "entities": [
+    {
+     "start": 59,
+     "end": 65,
+     "label": "DONNEE_SENSIBLE",
+     "text": "25M806"
+    },
+    {
+     "start": 97,
+     "end": 116,
+     "label": "DONNEE_SENSIBLE",
+     "text": "s.fakhfakh@chams.tn"
+    },
+    {
+     "start": 129,
+     "end": 144,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 45 887 569"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_513_p007",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_513_p008",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_513_p009",
+   "entities": [
+    {
+     "start": 0,
+     "end": 4,
+     "label": "PERSONNE",
+     "text": "جمال"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_514_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 22,
+     "label": "ORG",
+     "text": "مصانع بوقرنين للمصبرات"
+    },
+    {
+     "start": 26,
+     "end": 33,
+     "label": "SITE",
+     "text": "القصرين"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_514_p001",
+   "entities": [
+    {
+     "start": 37,
+     "end": 56,
+     "label": "EQUIPEMENT",
+     "text": "آلة التعبئة الحجمية"
+    },
+    {
+     "start": 65,
+     "end": 89,
+     "label": "INDICATEUR",
+     "text": "زمن الدورة يبلغ 55 ثانية"
+    },
+    {
+     "start": 103,
+     "end": 120,
+     "label": "INDICATEUR",
+     "text": "60 ثانية المطلوبة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_514_p002",
+   "entities": [
+    {
+     "start": 17,
+     "end": 31,
+     "label": "INDICATEUR",
+     "text": "استهلاك الطاقة"
+    },
+    {
+     "start": 33,
+     "end": 46,
+     "label": "DONNEE_SENSIBLE",
+     "text": "تكلفة التشغيل"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_514_p003",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_514_p004",
+   "entities": [
+    {
+     "start": 0,
+     "end": 40,
+     "label": "CONTRAINTE",
+     "text": "الدراسة يجب أن تستغرق لا تتجاوز 7 أسابيع"
+    },
+    {
+     "start": 43,
+     "end": 105,
+     "label": "CONTRAINTE",
+     "text": "لا يمكن تجاوز التكلفة الإجمالية للاستثمار إلى حدود 40000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_514_p005",
+   "entities": [
+    {
+     "start": 0,
+     "end": 20,
+     "label": "PERSONNE",
+     "text": "السيدة فريال الشوشان"
+    },
+    {
+     "start": 91,
+     "end": 101,
+     "label": "DONNEE_SENSIBLE",
+     "text": "71 684 917"
+    },
+    {
+     "start": 123,
+     "end": 148,
+     "label": "DONNEE_SENSIBLE",
+     "text": "f.chouchane@boukornine.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_514_p006",
+   "entities": [
+    {
+     "start": 0,
+     "end": 18,
+     "label": "DONNEE_SENSIBLE",
+     "text": "27,57 دينار للوحدة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_511_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 24,
+     "label": "ORG",
+     "text": "Nakhla Connectors Plants"
+    },
+    {
+     "start": 61,
+     "end": 67,
+     "label": "SITE",
+     "text": "El Jem"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_511_p001",
+   "entities": [
+    {
+     "start": 2,
+     "end": 10,
+     "label": "PRODUIT",
+     "text": "fuse box"
+    },
+    {
+     "start": 94,
+     "end": 120,
+     "label": "EQUIPEMENT",
+     "text": "ultrasonic welding station"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_511_p002",
+   "entities": [
+    {
+     "start": 66,
+     "end": 133,
+     "label": "INDICATEUR",
+     "text": "average of 18 days for raw materials and 15 days for finished goods"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_511_p003",
+   "entities": [
+    {
+     "start": 85,
+     "end": 93,
+     "label": "PRODUIT",
+     "text": "fuse box"
+    },
+    {
+     "start": 102,
+     "end": 128,
+     "label": "EQUIPEMENT",
+     "text": "ultrasonic welding station"
+    },
+    {
+     "start": 319,
+     "end": 337,
+     "label": "INDICATEUR",
+     "text": "current 20 minutes"
+    },
+    {
+     "start": 341,
+     "end": 393,
+     "label": "CONTRAINTE",
+     "text": "meet the company’s target of no more than 15 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_511_p004",
+   "entities": [
+    {
+     "start": 219,
+     "end": 239,
+     "label": "PROCESSUS",
+     "text": "value stream mapping"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_511_p005",
+   "entities": [
+    {
+     "start": 53,
+     "end": 69,
+     "label": "PERSONNE",
+     "text": "Ms. Najla Kchaou"
+    },
+    {
+     "start": 126,
+     "end": 142,
+     "label": "DONNEE_SENSIBLE",
+     "text": "n.kchaou@ncpl.tn"
+    },
+    {
+     "start": 158,
+     "end": 168,
+     "label": "DONNEE_SENSIBLE",
+     "text": "73 383 115"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_515_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 20,
+     "label": "ORG",
+     "text": "مصانع جربة للمسبوكات"
+    },
+    {
+     "start": 24,
+     "end": 28,
+     "label": "SITE",
+     "text": "قفصة"
+    },
+    {
+     "start": 38,
+     "end": 54,
+     "label": "PRODUIT",
+     "text": "المسننات المقساة"
+    },
+    {
+     "start": 114,
+     "end": 134,
+     "label": "INDICATEUR",
+     "text": "نسبة التغيب تبلغ 9 %"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_515_p001",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_515_p002",
+   "entities": [
+    {
+     "start": 23,
+     "end": 35,
+     "label": "PROCESSUS",
+     "text": "منهجية DMAIC"
+    },
+    {
+     "start": 67,
+     "end": 108,
+     "label": "CONTRAINTE",
+     "text": "يجب أن يتم صق الحريف النهائي على كل تعديل"
+    },
+    {
+     "start": 110,
+     "end": 151,
+     "label": "CONTRAINTE",
+     "text": "نحن نسعى دائماً للحفاظ على شهادة OEKO-TEX"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_515_p003",
+   "entities": []
+  },
+  {
+   "passage_id": "lib_ar_515_p004",
+   "entities": [
+    {
+     "start": 38,
+     "end": 56,
+     "label": "PERSONNE",
+     "text": "السيد أسامة الكشاو"
+    },
+    {
+     "start": 107,
+     "end": 122,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 36 139 813"
+    },
+    {
+     "start": 148,
+     "end": 166,
+     "label": "DONNEE_SENSIBLE",
+     "text": "o.kchaou@djerba.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_515_p005",
+   "entities": []
+  }
+ ]
+}

@@ -1,0 +1,15 @@
+Rapport 8D – réclamation client ouverte en semaine 15
+
+D1 – Équipe : M. Adel Guesmi (responsable amélioration continue), A. Guesmi, Mme Imen Zribi (responsable amélioration continue) ; site le pôle industriel de Sayada.
+
+D2 – Problème : réclamation NCR-2026-6460 sur linge de lit, lot 26R798 ; MTTR de 40 minutes constaté sur métier à tricoter circulaire.
+
+D3 – Confinement : tri à 100 % des stocks, taux de non-conformité de 11 % pendant le tri, arrêt de table de matelassage.
+
+D4 – Causes racines (outil : équilibrage de chaîne) : usure de l'outillage de métier à tricoter circulaire, MTTR de 25 minutes avant la dérive.
+
+D5 – Actions correctives : contrôle par échantillonnage sur métier à tricoter circulaire, suivi par A. Guesmi ; client informé (des distributeurs libyens).
+
+D6 – Contraintes de mise en œuvre : un changement de série ne doit pas dépasser 15 minutes ; l'étude doit durer au plus 5 semaines.
+
+Diffusion restreinte : coût de revient 62,92 DT par unité, marge brute de 17 %, lot concerné 26R798.

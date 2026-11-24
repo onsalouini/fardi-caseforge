@@ -1,0 +1,11 @@
+Comptoir Emballages Essalam, implanté à Ariana, est spécialisé dans l'emballage de flacons cosmétiques. Le sécheur de granulés de l'entreprise, qui est actuellement en service, opère avec un temps de cycle de 55 secondes. Notre objectif est d'améliorer cette performance.
+
+Nous avons observé que le temps de cycle du sécheur peut être considérablement réduit. Actuellement, il prend 55 secondes pour terminer un cycle, alors qu'il pourrait atteindre 42 secondes avec des améliorations. Nous souhaitons donc optimiser notre processus de production tout en respectant un investissement plafonné à 25000 DT.
+
+Nous disposons déjà de certaines données pertinentes, telles que le temps de cycle actuel et la capacité du sécheur. Ces informations peuvent nous aider à identifier les domaines d'amélioration potentielles. Les étudiants seront chargés d'analyser ces données, de proposer des solutions concrètes et de préparer un plan d'action pour l'optimisation du sécheur.
+
+Les étudiants devront respecter quelques contraintes. Tout d'abord, l'investissement total doit être limité à 25000 DT. De plus, les tests et essais doivent se dérouler le samedi, ce qui limite la disponibilité des ressources.
+
+Nous sommes en attente de votre réponse et vous remercions de l'attention que vous porterez à cette demande. Pour toute information complémentaire, n'hésitez pas à contacter Mme Kaouther Amri, ingénieure méthodes au Comptoir Emballages Essalam.
+
+Son numéro de téléphone est le +216 40 860 256 et son adresse e-mail est k.amri@cees.tn.

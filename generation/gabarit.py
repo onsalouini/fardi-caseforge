@@ -10,6 +10,7 @@ Par défaut, le texte anonymisé, ptype et entities sont ceux de référence (LO
     python generation/gabarit.py --split dev --entites results/lotb/b6_b3_corrige_dev.jsonl \
         --anonymisation results/lotb/b6_anonymisation_dev_rules.jsonl --out generation/sorties/fiches_dev_lotb.jsonl
 """
+
 import argparse
 import json
 import re
@@ -19,15 +20,21 @@ SENSIBLES = {"ORG", "PERSONNE", "SITE", "DONNEE_SENSIBLE"}
 
 # Phrases à trous pour les objectifs et les données, par langue
 PHRASES = {
-    "fr": {"analyser": "Analyser les causes de la dégradation de l'indicateur suivant : {}.",
-           "proposer": "Proposer une solution en appliquant la démarche : {}.",
-           "releves": "Relevés de l'équipement « {} »"},
-    "en": {"analyser": "Analyse the root causes behind the following indicator: {}.",
-           "proposer": "Propose a solution applying the approach: {}.",
-           "releves": "Readings from the {}"},
-    "ar": {"analyser": "تحليل أسباب تدهور المؤشر التالي: {}.",
-           "proposer": "اقتراح حل باعتماد المنهجية: {}.",
-           "releves": "قياسات {}"},
+    "fr": {
+        "analyser": "Analyser les causes de la dégradation de l'indicateur suivant : {}.",
+        "proposer": "Proposer une solution en appliquant la démarche : {}.",
+        "releves": "Relevés de l'équipement « {} »",
+    },
+    "en": {
+        "analyser": "Analyse the root causes behind the following indicator: {}.",
+        "proposer": "Propose a solution applying the approach: {}.",
+        "releves": "Readings from the {}",
+    },
+    "ar": {
+        "analyser": "تحليل أسباب تدهور المؤشر التالي: {}.",
+        "proposer": "اقتراح حل باعتماد المنهجية: {}.",
+        "releves": "قياسات {}",
+    },
 }
 FIXES = ["consignes", "livrables", "criteres_evaluation"]
 # Données citées en toutes lettres dans un passage « donnee » sans être des entités (même libellé que la référence) :
@@ -54,17 +61,45 @@ def brancher_lot_b(docs, chemin_entites=None, chemin_anonymisation=None):
     Un passage absent d'un fichier n'a aucune entité prédite, ou aucun remplacement (son texte reste tel quel).
     """
     entites = {r["passage_id"]: r["entities"] for r in charger(chemin_entites)} if chemin_entites else None
-    anonym = {r["passage_id"]: r["remplacements"] for r in charger(chemin_anonymisation)} if chemin_anonymisation else None
+    anonym = (
+        {r["passage_id"]: r["remplacements"] for r in charger(chemin_anonymisation)} if chemin_anonymisation else None
+    )
     for doc in docs:
         for p in doc["passages"]:
             if entites is not None:
-                p["entities"] = [{**e, "text": p["text"][e["start"]:e["end"]]} for e in entites.get(p["passage_id"], [])]
+                p["entities"] = [
+                    {**e, "text": p["text"][e["start"] : e["end"]]} for e in entites.get(p["passage_id"], [])
+                ]
             if anonym is not None:
                 texte = p["text"]
                 for r in sorted(anonym.get(p["passage_id"], []), key=lambda r: -r["start"]):
-                    texte = texte[:r["start"]] + r["remplacement"] + texte[r["end"]:]
+                    texte = texte[: r["start"]] + r["remplacement"] + texte[r["end"] :]
                 p["text_anonymise"] = texte
+                # gardés pour lire les entités dans le texte anonymisé (audit G5 du Lot B, ré-identification)
+                p["remplacements_lot_b"] = anonym.get(p["passage_id"], [])
     return docs
+
+
+def texte_visible(p, e):
+    """Texte de l'entité tel qu'il apparaît dans le texte ANONYMISÉ du passage.
+
+    Avec l'anonymisation du Lot B branchée (``remplacements_lot_b``), chaque remplacement qui chevauche l'entité
+    (pseudonyme, masque ou famille généralisée d'un PRODUIT / EQUIPEMENT) est appliqué, en entier : la fiche ne
+    recopie jamais un indice que l'anonymisation a retiré (audit G5, N3). Sans anonymisation branchée, le texte de
+    référence de l'entité est rendu tel quel.
+    """
+    rempl = p.get("remplacements_lot_b")
+    if not rempl:
+        return e["text"]
+    touches = sorted((r for r in rempl if r["start"] < e["end"] and e["start"] < r["end"]), key=lambda r: r["start"])
+    if not touches:
+        return e["text"]
+    debut, fin = min(e["start"], touches[0]["start"]), max(e["end"], max(r["end"] for r in touches))
+    morceaux, pos = [], debut
+    for r in touches:
+        morceaux += [p["text"][pos : r["start"]], r["remplacement"]]
+        pos = r["end"]
+    return "".join(morceaux) + p["text"][pos:fin]
 
 
 def textes_fixes():
@@ -95,7 +130,8 @@ def contient_sensible(texte, noms_sensibles):
 
 
 def generer(doc, fixes, version=2):
-    """version 1 : gabarit d'origine ; version 2 : corrections issues de l'analyse d'erreurs (reports/lot_d_erreurs.md)."""
+    """version 1 : gabarit d'origine ; version 2 : corrections issues de l'analyse d'erreurs
+    (reports/lot_d_erreurs.md)."""
     lang = doc["lang"] if doc["lang"] in PHRASES else "fr"
     P = PHRASES[lang]
     passages = doc["passages"]
@@ -103,8 +139,12 @@ def generer(doc, fixes, version=2):
     noms_sensibles = {e["text"] for p in passages for e in p["entities"] if e["label"] in SENSIBLES}
 
     def entites(label, types=None):
-        return [(e["text"], p["passage_id"]) for p in passages for e in p["entities"]
-                if e["label"] == label and (types is None or p["ptype"] in types)]
+        return [
+            (texte_visible(p, e), p["passage_id"])
+            for p in passages
+            for e in p["entities"]
+            if e["label"] == label and (types is None or p["ptype"] in types)
+        ]
 
     fiche = {"doc_id": doc["doc_id"], "lang": doc["lang"], "secteur": doc.get("secteur")}
 
@@ -117,8 +157,11 @@ def generer(doc, fixes, version=2):
     objectifs += [element(P["proposer"].format(t), pid) for t, pid in entites("PROCESSUS")[:1]]
     # un passage « objectif » qui nomme un responsable ([PERSONNE_n]) décrit le suivi du projet, pas un objectif :
     # sa démarche est déjà reprise ci-dessus (analyse d'erreurs, reports/lot_d_erreurs.md)
-    objectifs += [element(p["text_anonymise"], p["passage_id"]) for p in passages
-                  if p["ptype"] == "objectif" and (version == 1 or not SUIVI.search(p["text_anonymise"]))]
+    objectifs += [
+        element(p["text_anonymise"], p["passage_id"])
+        for p in passages
+        if p["ptype"] == "objectif" and (version == 1 or not SUIVI.search(p["text_anonymise"]))
+    ]
     fiche["objectifs"] = objectifs
 
     # Données : équipements relevés et indicateurs des passages de type « donnee »
@@ -127,7 +170,11 @@ def generer(doc, fixes, version=2):
     for p in passages if version >= 2 else []:
         if p["ptype"] == "donnee":
             bas = p["text_anonymise"].lower()
-            donnees += [element(lib, p["passage_id"]) for cles, lib in DONNEES_CITEES.get(lang, []) if any(k in bas for k in cles)]
+            donnees += [
+                element(lib, p["passage_id"])
+                for cles, lib in DONNEES_CITEES.get(lang, [])
+                if any(k in bas for k in cles)
+            ]
     fiche["donnees"] = donnees
 
     # Contraintes : une par entité CONTRAINTE
@@ -138,7 +185,9 @@ def generer(doc, fixes, version=2):
 
     # Sécurité : on retire tout élément qui contiendrait encore un nom sensible
     for rubrique in ["objectifs", "donnees", "contraintes"]:
-        fiche[rubrique] = sans_doublons([e for e in fiche[rubrique] if not contient_sensible(e["texte"], noms_sensibles)])
+        fiche[rubrique] = sans_doublons(
+            [e for e in fiche[rubrique] if not contient_sensible(e["texte"], noms_sensibles)]
+        )
     if fiche["contexte"] and contient_sensible(fiche["contexte"]["texte"], noms_sensibles):
         fiche["contexte"] = None
     return fiche
@@ -150,7 +199,9 @@ def main():
     ap.add_argument("--out", default="generation/sorties/fiches_dev.jsonl")
     ap.add_argument("--entites", help="entités prédites par le LOT B (à la place de la référence)")
     ap.add_argument("--anonymisation", help="remplacements de l'anonymiseur du LOT B (à la place de la référence)")
-    ap.add_argument("--version", type=int, default=2, choices=[1, 2], help="1 : gabarit d'origine ; 2 : après analyse d'erreurs")
+    ap.add_argument(
+        "--version", type=int, default=2, choices=[1, 2], help="1 : gabarit d'origine ; 2 : après analyse d'erreurs"
+    )
     args = ap.parse_args()
 
     fixes = textes_fixes()

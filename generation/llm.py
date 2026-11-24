@@ -56,7 +56,7 @@ ESSAIS_JSON = 3
 # Un moteur reçoit la liste des messages (format chat) et une graine, et renvoie le texte généré.
 Moteur = Callable[[list[dict], int], str]
 
-SCHEMAS = ["champs", "extractif"]
+SCHEMAS = ["champs", "extractif", "direct"]
 
 # Schéma « champs » (étape 2) : le LLM extrait des valeurs recopiées du texte, le code compose les phrases de la fiche
 # avec les formulations du gabarit (celles de la référence du Lot A). Clés de la réponse du LLM :
@@ -125,6 +125,26 @@ Règles strictes :
 - garde les pseudonymes ([PERSONNE_1], [ENTREPRISE_A], ...) tels quels ; n'essaie jamais de les remplacer ;
 - ignore le suivi administratif du projet (qui est responsable, signatures, en-têtes de courriel) ;
 - réponds UNIQUEMENT avec un objet JSON de la forme :
+{"contexte": {"texte": "...", "sources": ["id"]} | null,
+ "objectifs": [{"texte": "...", "sources": ["id"]}],
+ "donnees": [{"texte": "...", "sources": ["id"]}],
+ "contraintes": [{"texte": "...", "sources": ["id"]}]}"""
+
+
+# Gold, question de recherche RQ2 (sujet P7) : « l'extraction structurée suivie d'un RAG réduit-elle les faits inventés
+# par rapport à une génération directe par LLM ? ». Base « génération directe » : le LLM RÉDIGE la fiche (schéma
+# direct, à lancer avec --sans-controle), mêmes exemples du train ; comparée au pipeline Gold (champs + ancrage).
+CONSIGNES_DIRECT = """Tu rédiges une fiche pédagogique à partir d'un document industriel déjà anonymisé, pour des
+étudiants ingénieurs. Écris dans la langue du document, avec tes propres phrases.
+
+Rubriques :
+- contexte : une phrase qui présente l'entreprise et la situation industrielle (ou null) ;
+- objectifs : ce que les étudiants doivent analyser et proposer ;
+- donnees : les faits chiffrés et les données disponibles ; UN fait par élément ;
+- contraintes : les exigences de budget, de délai, de norme ; UNE contrainte par élément.
+
+Garde les pseudonymes ([PERSONNE_1], [ENTREPRISE_A], ...) tels quels. Indique pour chaque élément le passage du
+document dont il vient (identifiant entre crochets). Réponds UNIQUEMENT avec un objet JSON de la forme :
 {"contexte": {"texte": "...", "sources": ["id"]} | null,
  "objectifs": [{"texte": "...", "sources": ["id"]}],
  "donnees": [{"texte": "...", "sources": ["id"]}],
@@ -361,7 +381,8 @@ def construire_messages(
     doc: dict, exemples: list[tuple[dict, dict]], avec_entites: bool = True, schema: str = "champs"
 ) -> list[dict]:
     """Messages au format chat : consignes, exemples (tour utilisateur / tour assistant), puis le document."""
-    messages = [{"role": "system", "content": CONSIGNES_CHAMPS if schema == "champs" else CONSIGNES}]
+    consignes = {"champs": CONSIGNES_CHAMPS, "direct": CONSIGNES_DIRECT}.get(schema, CONSIGNES)
+    messages = [{"role": "system", "content": consignes}]
     for d, f in exemples:
         messages.append({"role": "user", "content": "Document :\n" + formater_document(d, avec_entites)})
         messages.append({"role": "assistant", "content": fiche_cible(f, schema)})
@@ -490,6 +511,7 @@ def composer(
     journal: dict | None = None,
     nettoyage: bool = True,
     demarche_guidee: bool = True,
+    releves_donnee: bool = True,
 ) -> dict[str, list[dict]]:
     """Objectifs, données et contraintes de la fiche, composés à partir des champs déjà ancrés dans la source.
 
@@ -522,7 +544,24 @@ def composer(
     objectifs += [phrase(P["proposer"], e) for e in demarche]
     objectifs += explicites
 
-    donnees = [phrase(P["releves"], e) for e in champs["equipements_releves"]]
+    releves = champs["equipements_releves"]
+    if releves_donnee:
+        # Gold : « Relevés de l'équipement X » affirme que des relevés sont fournis ; seulement si le passage cité est
+        # de type « donnee » (même principe que « six mois »). Sinon, au dev, la phrase était composée depuis le passage
+        # du problème : mots ancrés, affirmation non soutenue (reports/lot_d_gold_abstention.md).
+        # Gardé si le passage cité est de type « donnee », ou si l'équipement est nommé dans un passage « donnee » du
+        # document (le LLM cite parfois le passage du problème pour un équipement annoncé dans les données).
+        types = {p["passage_id"]: p.get("ptype") for p in doc["passages"]}
+        donnees_doc = [normaliser(p["text_anonymise"]) for p in doc["passages"] if p.get("ptype") == "donnee"]
+
+        def annonce(e: dict) -> bool:
+            nom = normaliser(valeur(e["texte"]))
+            return any(types.get(s) == "donnee" for s in e["sources"]) or any(nom and nom in d for d in donnees_doc)
+
+        garder = [e for e in releves if annonce(e)]
+        journal["releves_hors_donnee"] = [e["texte"] for e in releves if e not in garder]
+        releves = garder
+    donnees = [phrase(P["releves"], e) for e in releves]
     for e in champs["historiques"]:
         six = any(SIX_MOIS.search(textes.get(s, "")) for s in e["sources"])
         donnees.append(phrase(HISTORIQUE[lang], e) if six else e)
@@ -592,6 +631,7 @@ def assembler(
     schema: str = "champs",
     nettoyage: bool = True,
     demarche_guidee: bool = True,
+    releves_donnee: bool = True,
 ) -> tuple[dict, dict]:
     """Fiche finale (format de data/final/fiches_*.jsonl) et journal des contrôles."""
     journal: dict = {
@@ -615,7 +655,7 @@ def assembler(
     if schema == "champs":
         champs = {c: traiter(elements_bruts(reponse.get(c))[:1]) for c in CHAMPS_UNIQUES[1:]}
         champs |= {c: traiter(elements_bruts(reponse.get(c))) for c in CHAMPS_LISTES}
-        fiche.update(composer(champs, doc, journal, nettoyage, demarche_guidee))
+        fiche.update(composer(champs, doc, journal, nettoyage, demarche_guidee, releves_donnee))
     else:
         for r in RUBRIQUES:
             fiche[r] = traiter(elements_bruts(reponse.get(r)))
@@ -660,6 +700,7 @@ def generer(
     mode_exemples: str = "format",
     demarche_guidee: bool = True,
     retrieveur: Retrieveur | None = None,
+    releves_donnee: bool = True,
 ) -> tuple[dict, dict]:
     """Fiche d'un document par le LLM ; repli sur le gabarit v2 sans JSON valide après ESSAIS_JSON essais."""
     exemples = choisir_exemples(doc, banque, k, graine, mode_exemples, retrieveur)
@@ -672,7 +713,7 @@ def generer(
         if objet is not None:
             # sans guidage par les entités (ablation), la démarche ne peut pas venir des entités non plus
             guidee = demarche_guidee and avec_entites
-            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema, nettoyage, guidee)
+            fiche, journal = assembler(objet, doc, fixes, controle, complete, schema, nettoyage, guidee, releves_donnee)
             break
     else:
         fiche = gabarit.generer(doc, fixes, version=2)
@@ -846,9 +887,22 @@ def fiche_pipeline(doc: dict, fixes: dict) -> dict:
     return {**fiche, "journal_llm": {k: v for k, v in journal.items() if k != "reponses"}}
 
 
+def documents_a_traiter(args: argparse.Namespace) -> str:
+    """Fichier de documents : le split demandé, ou ``--docs`` (jeu dérivé du dev), jamais le test gelé."""
+    if args.docs:
+        if "test" in Path(args.docs).name:
+            raise SystemExit("--docs : le test gelé n'est jamais traité pendant le développement.")
+        return args.docs
+    return f"data/final/documents_{args.split}.jsonl"
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--split", default="dev", choices=["train", "dev"])  # jamais le test pendant le développement
+    ap.add_argument(
+        "--docs", help="autre fichier de documents du dev (ex. generation/jeux/abstention_dev.jsonl) ; jamais le test"
+    )
+    ap.add_argument("--abstention", action="store_true", help="rubrique vide -> « Non précisé dans le document »")
     ap.add_argument("--out", default="generation/sorties/llm_dev.jsonl")
     ap.add_argument("--journal", help="journal des contrôles (défaut : <out>.journal.jsonl)")
     ap.add_argument("--moteur", default="transformers", choices=["transformers", "fictif"])
@@ -872,9 +926,17 @@ def main() -> None:
     ap.add_argument(
         "--sans-demarche-guidee", action="store_true", help="ablation : pas de démarche reprise des entités PROCESSUS"
     )
+    ap.add_argument(
+        "--releves-partout",
+        action="store_true",
+        help="ablation (comportement du Silver) : « Relevés de l'équipement » composé quel que soit le passage cité",
+    )
     ap.add_argument("--completer", action="store_true", help="ajoute les contraintes / indicateurs non couverts")
     ap.add_argument(
-        "--schema", default="champs", choices=SCHEMAS, help="champs (étape 2, phrases composées) ou extractif (étape 1)"
+        "--schema",
+        default="champs",
+        choices=SCHEMAS,
+        help="champs (étape 2, phrases composées), extractif (étape 1) ou direct (Gold, RQ2 : le LLM rédige)",
     )
     ap.add_argument("--entites", help="entités prédites par le LOT B (à la place de la référence)")
     ap.add_argument("--anonymisation", help="remplacements de l'anonymiseur du LOT B (à la place de la référence)")
@@ -893,9 +955,9 @@ def main() -> None:
         moteur = moteur_fictif
     else:
         moteur = moteur_transformers(args.modele, args.temperature)
-    docs = gabarit.brancher_lot_b(
-        gabarit.charger(f"data/final/documents_{args.split}.jsonl"), args.entites, args.anonymisation
-    )[: args.limite]
+    docs = gabarit.brancher_lot_b(gabarit.charger(documents_a_traiter(args)), args.entites, args.anonymisation)[
+        : args.limite
+    ]
     banque, fixes = banque_exemples(), gabarit.textes_fixes()
     retrieveur: Retrieveur | None = None
     if args.choix_exemples.startswith("dense"):
@@ -937,7 +999,12 @@ def main() -> None:
                 args.choix_exemples,
                 not args.sans_demarche_guidee,
                 retrieveur,
+                not args.releves_partout,
             )
+            if args.abstention:
+                from abstention import abstenir  # import tardif : abstention importe controle, qui importe llm
+
+                abstenir(fiche)
             journal["config"] = {k: v for k, v in vars(args).items() if k not in {"out", "journal"}}
             f_out.write(json.dumps(fiche, ensure_ascii=False) + "\n")
             f_j.write(json.dumps(journal, ensure_ascii=False) + "\n")

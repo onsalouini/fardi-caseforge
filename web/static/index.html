@@ -27,7 +27,7 @@
   <section class="guide" id="guide" aria-label="Mode d'emploi">
     <ol class="etapes">
       <li><span class="num">1</span><div><strong>Collez un document</strong><small>e-mail, compte rendu, formulaire… en français, arabe ou anglais ; un paragraphe par ligne vide. Ou choisissez un exemple.</small></div></li>
-      <li><span class="num">2</span><div><strong>Choisissez le palier</strong><small>Bronze : règles et TF-IDF. Silver : type de passage e5 et cas similaires LaBSE, avec comparaison au Bronze.</small></div></li>
+      <li><span class="num">2</span><div><strong>Choisissez le palier</strong><small>Bronze : règles et TF-IDF. Silver : type de passage e5 et cas similaires LaBSE, avec comparaison au Bronze. Gold : Silver + contrôle des ajouts et omissions de la fiche.</small></div></li>
       <li><span class="num">3</span><div><strong>Analysez</strong><small>Bouton « Analyser » ou <kbd>Ctrl</kbd> + <kbd>Entrée</kbd>. Le premier calcul Silver charge les modèles (1 à 2 min sans GPU).</small></div></li>
       <li><span class="num">4</span><div><strong>Relisez et validez</strong><small>Cliquez sur une source (p001…) pour voir le passage d'origine. La fiche n'est qu'une proposition : un enseignant la valide.</small></div></li>
     </ol>
@@ -49,10 +49,11 @@
       </label>
 
       <div class="champ">
-        <span>Palier <i class="aide" data-aide="Bronze : briques classiques (règles, TF-IDF). Silver : modèles appris (encodeurs multilingues).">i</i></span>
+        <span>Palier <i class="aide" data-aide="Bronze : briques classiques (règles, TF-IDF). Silver : modèles appris (encodeurs multilingues). Gold : Silver + contrôle automatique des ajouts et des omissions de la fiche (Lot D).">i</i></span>
         <div class="segment" role="radiogroup" aria-label="Palier">
           <button type="button" role="radio" data-palier="Bronze" aria-checked="false">Bronze</button>
           <button type="button" role="radio" data-palier="Silver" aria-checked="true" class="actif">Silver</button>
+          <button type="button" role="radio" data-palier="Gold" aria-checked="false">Gold</button>
         </div>
       </div>
 
@@ -127,6 +128,7 @@
           <button type="button" role="tab" data-onglet="fiche">Fiche pédagogique</button>
           <button type="button" role="tab" data-onglet="comparaison" id="onglet-comparaison">Bronze ↔ Silver</button>
           <button type="button" role="tab" data-onglet="similaires" id="onglet-similaires">Cas similaires</button>
+          <button type="button" role="tab" data-onglet="explications">Explications XLM-R</button>
           <button type="button" role="tab" data-onglet="json">Détails (JSON)</button>
         </nav>
 
@@ -138,7 +140,7 @@
           </div>
         </div>
         <div class="panneau-onglet" data-panneau="fiche" hidden>
-          <div class="carte"><div id="fiche-complete"></div>
+          <div class="carte"><div id="controle-fiche"></div><div id="fiche-complete"></div>
             <div class="boutons droite">
               <button type="button" class="bouton secondaire" id="copier-fiche">Copier la fiche</button>
               <button type="button" class="bouton secondaire" id="telecharger">Télécharger le JSON</button>
@@ -147,6 +149,7 @@
         </div>
         <div class="panneau-onglet" data-panneau="comparaison" hidden><div class="carte" id="comparaison"></div></div>
         <div class="panneau-onglet" data-panneau="similaires" hidden><div class="carte" id="similaires-liste"></div></div>
+        <div class="panneau-onglet" data-panneau="explications" hidden><div class="carte" id="explications"></div></div>
         <div class="panneau-onglet" data-panneau="json" hidden><div class="carte"><pre id="json"></pre></div></div>
 
         <form class="carte validation" id="validation">

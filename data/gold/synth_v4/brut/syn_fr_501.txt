@@ -1,0 +1,22 @@
+Formulaire d'audit de poste – grille AUD-4
+
+Entreprise : Usines Emballages Kantaoui
+Site audité : Jemmal
+Produit : flacons cosmétiques
+Auditeur : Mme Najla Bouraoui (cheffe d'atelier)
+
+Constat : stock moyen de 28 jours relevé sur ligne de calandrage ; démarche non suivie en poste de nuit : gestion visuelle Kanban.
+
+Mesures complémentaires :
+- taux de non-conformité de 4 %
+- stock moyen de 15 jours au dernier audit
+- poste voisin : thermoformeuse
+
+Analyse menée par A. Brahmi (responsable des achats), outil utilisé : gestion visuelle Kanban. L'écart vient surtout du poste ligne de calandrage.
+
+- l'étude doit durer au plus 6 semaines
+- toute modification doit être validée par le client final
+
+Diffusion restreinte : coût de revient 14,44 DT par unité, marge brute de 21 %, lot concerné 26M284.
+
+Visa du responsable : M. Aymen Brahmi – resp. des achats – 79 959 921

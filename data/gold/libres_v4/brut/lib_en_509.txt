@@ -1,0 +1,11 @@
+Djerba Canning Works operates in the heart of Tataouine, producing and distributing a variety of juice products including the popular maltese orange juice. The company utilizes modern facilities such as a tunnel oven to ensure the quality of its products.
+
+The production team has noticed that the current stock management system for the maltese orange juice line is inefficient, leading to significant delays in delivery and increased costs. To address this issue, we require a thorough analysis and potential solutions from the students.
+
+Data on production, sales, and stock levels are readily available. The students will have access to historical records detailing the production rates and sales volumes over the past year. Additionally, they can use the existing financial data to understand the cost implications of the current stock management practices.
+
+The students are tasked with conducting a Pareto analysis to identify the most critical issues affecting the stock management of the maltese orange juice. They should also propose a new system that could reduce the average stock level from 32 days to 12 days. This study must be completed within 7 weeks to align with the upcoming production schedule.
+
+There are certain constraints to consider. The total investment required for any proposed improvements cannot exceed TND 15,000. Furthermore, all solutions must be cost-effective and sustainable in the long term.
+
+If you have any questions or need further information, please contact Mr. Wael Ghorbel, the continuous improvement lead, at 79 216 349 or via email at w.ghorbel@dcwo.tn.

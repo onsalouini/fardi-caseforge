@@ -1,0 +1,22 @@
+Tableau de bord hebdomadaire – semaine 47
+
+Site : l'unité de Tataouine (Manufacture Confection El Fajr, MCEFA). Fabrication de polos piqués pour une chaîne de pharmacies.
+
+| Poste | Indicateur suivi | Semaine précédente |
+| --- | --- | --- |
+| machine à broder | stock moyen de 24 jours | stock moyen de 15 jours |
+| tunnel de vaporisage | MTTR de 70 minutes | stable |
+
+Analyse menée par N. Sghaier (pilote de ligne), outil utilisé : contrôle par échantillonnage. L'écart vient surtout du poste machine à broder.
+
+| Action | Pilote | Outil |
+| --- | --- | --- |
+| Standardiser les réglages | N. Sghaier | équilibrage de chaîne |
+| Former l'équipe de nuit | M. Montassar Nasri | contrôle par échantillonnage |
+
+- les essais ne peuvent avoir lieu que le samedi
+- un changement de série ne doit pas dépasser 20 minutes
+
+Diffusion restreinte : coût de revient 84,49 DT par unité, marge brute de 14 %, lot concerné 25K481.
+
+Rédigé par Mme Najla Sghaier (pilote de ligne) · n.sghaier@mcefa.tn · +216 89 782 118

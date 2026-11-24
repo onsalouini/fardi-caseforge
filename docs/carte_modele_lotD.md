@@ -131,6 +131,39 @@ GPU : `notebooks/lot_d_llm_kaggle.ipynb` (ou `notebooks/lot_d_llm_colab.ipynb`).
 
 ---
 
+## D4 · Palier Gold : contrôle, abstention, validation humaine et juge
+
+- **Composants** (`generation/`) : `controle.py` (ajouts et omissions, sans modèle), `abstention.py` (« Non précisé
+  dans le document »), règle « Relevés » de `llm.py` (active par défaut ; `--releves-partout` = Silver), `juge.py`
+  (juge par règles, juge LLM, calibration contre deux relecteurs), `rq2.py` (génération directe contre pipeline Gold).
+  Tout est mesuré sur le **dev** ; le test gelé n'est pas lu.
+- **Contrôle des ajouts et omissions** : rappel 1,00 sur 63 erreurs injectées (ajouts étrangers, nombres modifiés,
+  omissions) ; a révélé 8 fiches de référence qui inventent « six mois » et une valeur « 6,1 % » tronquée par le gabarit
+  du pipeline (`reports/lot_d_gold_controle.md`). Comparaison lexicale : une paraphrase fidèle peut être signalée.
+  Contre les deux relecteurs (40 fiches, `reports/lot_d_gold_juge.md` §4) : omissions précision 0,80 à 1,00, rappel
+  0,15 à 0,36 ; ajouts : aucune des 1 à 4 inventions humaines retrouvée (affirmations fausses faites de mots du
+  document). Cible P et R ≥ 0,80 non atteinte face aux humains.
+- **Abstention** (42 variantes du dev sans contraintes ou sans données) : **95 % d'abstentions correctes, 0 invention**
+  (Silver : 50 %) ; 3 fausses abstentions sur des textes libres (`reports/lot_d_gold_abstention.md`).
+- **Qualité des fiches avec la règle « Relevés »** (3 graines, bootstrap apparié) : 0,945 contre 0,944 (entrées de
+  référence), 0,871 contre 0,872 (entrées du pipeline) ; textes libres 0,726 contre 0,687.
+- **Validation humaine** : 40 fiches générées notées à l'aveugle par Ali et Boutheina ; accord sur la décision 82 % ;
+  note moyenne sur 16 : LLM extractif 14,56, gabarit 14,40, LLM à champs 14,18, gabarit du pipeline 12,35.
+- **Juge** : le juge par règles s'accorde avec les relecteurs sur la décision à 83,5 % en moyenne (92 % et 75 %) et
+  à 98 à 100 % sur l'anonymisation ; il ne juge ni la faisabilité ni la langue, et voit mal les objectifs et les
+  citations. Le juge LLM seul (Qwen2.5-7B, 4 bits) n'est pas fiable : v1 à échelle inversée, v2 à 62 % et 60 %
+  d'accord ; juge retenu : **hybride** (règles + LLM pour faisabilité et langue), 83,5 % (`reports/lot_d_gold_juge.md`).
+- **RQ2 (extraction structurée contre génération directe)** : la génération directe par le même LLM invente 4,6 % de
+  ses éléments contre 0 % pour le Gold (Δ +4,6 points, IC 95 % [+1,4 ; +8,9], 3 graines, bootstrap apparié ; arabe
+  7,9 %), omet 10 % des faits clés contre 4 %, et tombe à F1 0,74 ± 0,03 contre 0,945 (`reports/lot_d_gold_rq2.md`).
+- **Robustesse du LLM** (graine 42) : abréviations −4,0 points (gabarit −4,2), OCR −11,2 (arabe −13,7), mise en page
+  −0,6 (non significatif) ; le LLM perd plus que le gabarit sous OCR (−8,4) (`reports/lot_d_gold_robustesse.md`).
+- **Limites** : 21 documents au dev, dont 3 textes libres ; règles mises au point sur le dev par analyse d'erreurs ;
+  biais du protocole de notation pour les fiches du pipeline (document de référence affiché à la place de
+  l'anonymisation du lot B).
+
+---
+
 ## Prochaines étapes
 
 - Remonter au Lot B le sur-masquage des montants de budget (8 erreurs du pipeline) et le nom arabe non masqué

@@ -1,0 +1,15 @@
+8D report – customer complaint opened in wk 15
+
+D1 – Team: Ms. Feriel Mzali (continuous improvement lead), F. Mzali, Mr. Chokri Sellami (internal auditor); site the Le Kef plant.
+
+D2 – Problem: complaint NCR-2026-8834 on bed linen, batch 26K836; cycle time of 52 seconds found on the spreading table.
+
+D3 – Containment: 100% sorting of stock, absenteeism rate of 9% during sorting, steam tunnel stopped.
+
+D4 – Root causes (via acceptance sampling): worn tooling on the spreading table, cycle time of 45 seconds before the drift.
+
+D5 – Corrective actions: line balancing on the spreading table, followed by F. Mzali; customer informed (Libyan distributors).
+
+D6 – Implementation constraints: trials can only take place on Saturdays; a changeover must not exceed 10 minutes.
+
+Restricted: unit cost TND 30.16 per unit, gross margin of 21%, affected batch 26K836.
