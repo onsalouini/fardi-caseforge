@@ -1,4 +1,5 @@
 """LOT D : tests de la génération de fiches par gabarit (generation/), sur des documents du TRAIN uniquement."""
+
 from __future__ import annotations
 
 import json
@@ -43,8 +44,17 @@ def test_citations_vers_des_passages_du_document(train, fixes):
 
 def test_rubriques_et_parties_fixes(train, fixes):
     fiche = generer(train[0], fixes)
-    for cle in ("doc_id", "lang", "contexte", "objectifs", "donnees", "contraintes", "consignes", "livrables",
-                "criteres_evaluation"):
+    for cle in (
+        "doc_id",
+        "lang",
+        "contexte",
+        "objectifs",
+        "donnees",
+        "contraintes",
+        "consignes",
+        "livrables",
+        "criteres_evaluation",
+    ):
         assert cle in fiche
 
 
@@ -63,20 +73,39 @@ def test_donnees_citees_seulement_si_le_passage_les_mentionne(train, fixes):
 
 
 def test_sans_doublons_regroupe_les_sources():
-    els = [{"texte": "A", "origine": "source", "sources": ["p1"]}, {"texte": "A", "origine": "source", "sources": ["p2"]}]
+    els = [
+        {"texte": "A", "origine": "source", "sources": ["p1"]},
+        {"texte": "A", "origine": "source", "sources": ["p2"]},
+    ]
     assert sans_doublons(els) == [{"texte": "A", "origine": "source", "sources": ["p1", "p2"]}]
 
 
 def test_brancher_lot_b_reconstruit_le_texte_anonymise(tmp_path):
-    doc = {"doc_id": "d", "passages": [{"passage_id": "d_p000", "text": "La société Alpha est à Sfax.",
-                                         "text_anonymise": "", "entities": []}]}
+    doc = {
+        "doc_id": "d",
+        "passages": [
+            {"passage_id": "d_p000", "text": "La société Alpha est à Sfax.", "text_anonymise": "", "entities": []}
+        ],
+    }
     anonym = tmp_path / "a.jsonl"
-    anonym.write_text(json.dumps({"passage_id": "d_p000", "remplacements": [
-        {"start": 11, "end": 16, "remplacement": "[ENTREPRISE_A]"},
-        {"start": 23, "end": 27, "remplacement": "[SITE_1]"}]}) + "\n", encoding="utf-8")
+    anonym.write_text(
+        json.dumps(
+            {
+                "passage_id": "d_p000",
+                "remplacements": [
+                    {"start": 11, "end": 16, "remplacement": "[ENTREPRISE_A]"},
+                    {"start": 23, "end": 27, "remplacement": "[SITE_1]"},
+                ],
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     ents = tmp_path / "e.jsonl"
-    ents.write_text(json.dumps({"passage_id": "d_p000", "entities": [{"start": 11, "end": 16, "label": "ORG"}]}) + "\n",
-                    encoding="utf-8")
+    ents.write_text(
+        json.dumps({"passage_id": "d_p000", "entities": [{"start": 11, "end": 16, "label": "ORG"}]}) + "\n",
+        encoding="utf-8",
+    )
     out = brancher_lot_b([doc], str(ents), str(anonym))[0]["passages"][0]
     assert out["text_anonymise"] == "La société [ENTREPRISE_A] est à [SITE_1]."
     assert out["entities"] == [{"start": 11, "end": 16, "label": "ORG", "text": "Alpha"}]
@@ -92,6 +121,10 @@ def test_jaccard_et_appariement():
 
 def test_le_test_gele_n_est_pas_accepte():
     import subprocess
-    r = subprocess.run([sys.executable, "generation/gabarit.py", "--split", "test", "--out", "/dev/null"],
-                       capture_output=True, text=True)
+
+    r = subprocess.run(
+        [sys.executable, "generation/gabarit.py", "--split", "test", "--out", "/dev/null"],
+        capture_output=True,
+        text=True,
+    )
     assert r.returncode != 0

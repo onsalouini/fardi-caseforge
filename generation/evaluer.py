@@ -10,6 +10,7 @@ Résultats globaux, par langue et par origine (syn = gabarits, lib = texte libre
 
     python generation/evaluer.py --gen generation/sorties/fiches_dev.jsonl --out reports/lot_d.md
 """
+
 import argparse
 import json
 import re
@@ -41,8 +42,9 @@ def jaccard(a, b):
 
 def apparier(gen, ref):
     """Appariement glouton un à un : renvoie le nombre de paires dont le recouvrement dépasse le seuil."""
-    paires = sorted(((jaccard(g["texte"], r["texte"]), i, j) for i, g in enumerate(gen) for j, r in enumerate(ref)),
-                    reverse=True)
+    paires = sorted(
+        ((jaccard(g["texte"], r["texte"]), i, j) for i, g in enumerate(gen) for j, r in enumerate(ref)), reverse=True
+    )
     pris_g, pris_r, n = set(), set(), 0
     for score, i, j in paires:
         if score < SEUIL:
@@ -92,22 +94,30 @@ def main():
             val = [apparier(g, r), len(g), len(r), len(cg & cr), len(cg), len(cr), int(bool(g)), 1, 0]
             for c in cles + [f"rubrique={rub}"]:
                 cible = par_rubrique if c.startswith("rubrique") else groupes
-                cible[c] = [x + y for x, y in zip(cible[c], val)]
+                cible[c] = [x + y for x, y in zip(cible[c], val, strict=True)]
         for c in cles:
             groupes[c][8] += len(fuite)
 
-    lignes = ["# LOT D : évaluation des fiches générées par gabarit (dev)", "",
-              f"Fiches générées : `{args.gen}` · référence : `{args.ref}`. Le test gelé n'est pas utilisé.",
-              f"Un élément généré correspond à un élément de référence si leurs mots se recouvrent à ≥ {SEUIL:.0%} (Jaccard).",
-              "", "| Groupe | Éléments P | Éléments R | Éléments F1 | Citations P | Citations R | Complétude | Fuites |",
-              "|---|---|---|---|---|---|---|---|"]
+    lignes = [
+        "# LOT D : évaluation des fiches générées par gabarit (dev)",
+        "",
+        f"Fiches générées : `{args.gen}` · référence : `{args.ref}`. Le test gelé n'est pas utilisé.",
+        f"Un élément généré correspond à un élément de référence si leurs mots se recouvrent à ≥ {SEUIL:.0%} "
+        "(Jaccard).",
+        "",
+        "| Groupe | Éléments P | Éléments R | Éléments F1 | Citations P | Citations R | Complétude | Fuites |",
+        "|---|---|---|---|---|---|---|---|",
+    ]
     for nom, t in list(groupes.items()) + list(par_rubrique.items()):
         p, r = ratio(t[0], t[1]), ratio(t[0], t[2])
         cp, cr = ratio(t[3], t[4]), ratio(t[3], t[5])
         fu = str(t[8]) if not nom.startswith("rubrique") else "-"
-        lignes.append(f"| {nom} | {p:.2f} | {r:.2f} | {f1(p, r):.2f} | {cp:.2f} | {cr:.2f} | {ratio(t[6], t[7]):.0%} | {fu} |")
-    lignes += ["", "P = précision (1 - part d'ajouts), R = rappel (1 - part d'omissions).", "",
-               "## Fuites", ""] + ([f"- {d} : {', '.join(n)}" for d, n in fuites] or ["Aucune fuite détectée."])
+        lignes.append(
+            f"| {nom} | {p:.2f} | {r:.2f} | {f1(p, r):.2f} | {cp:.2f} | {cr:.2f} | {ratio(t[6], t[7]):.0%} | {fu} |"
+        )
+    lignes += ["", "P = précision (1 - part d'ajouts), R = rappel (1 - part d'omissions).", "", "## Fuites", ""] + (
+        [f"- {d} : {', '.join(n)}" for d, n in fuites] or ["Aucune fuite détectée."]
+    )
     open(args.out, "w", encoding="utf-8").write("\n".join(lignes) + "\n")
     print("\n".join(lignes))
 

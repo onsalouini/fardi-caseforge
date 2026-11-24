@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-24 · Ons · Lot D · mise aux normes ruff des anciens fichiers du Lot D (sans changement de résultat)
+- Fichiers : `generation/analyser_erreurs.py`, `generation/gabarit.py`, `generation/evaluer.py`, `tests/test_contrat.py`, `tests/test_generation.py` et les 6 notebooks `notebooks/lot_d_*.ipynb` (119 erreurs ruff → 0). Formatage, imports triés, chaînes longues coupées en littéraux adjacents (même valeur), `zip(..., strict=True)` dans `evaluer.py`, variable `l` renommée dans deux notebooks. Code du Lot C non modifié (`caseforge/models`, `caseforge/retrieval`, `caseforge/eval/ner_eval.py` : 76 erreurs restantes, hors de notre périmètre).
+- Notebooks : seul le code des cellules change (sorties, markdown et métadonnées identiques, chaque cellule reste du Python valide). Exception ciblée dans `pyproject.toml` pour `notebooks/lot_d_*.ipynb` : B007 (faux positifs, variable de boucle utilisée dans une commande `!python … {g}`) et E501 (commandes shell non coupables).
+- Contrôle de non-régression : les sorties des scripts sont identiques octet pour octet avant et après (analyse d'erreurs, fiches gabarit v1 / v2 / pipeline / train, évaluations du dev). `pytest` : 582 réussis.
+
 ## 2026-11-24 · Ons · Lot D Gold · le gabarit lit les entités dans le texte anonymisé (suite de l'audit G5 du Lot B)
 - Signalé par Ali (audit G5, `results/lotb_gold/g5_reidentification.md` sur `lot-b-gold`) : avec la généralisation, le texte anonymisé n'est plus ré-identifiable en N3 que pour 12,7 % des documents du dev, mais les fiches de `generation/gabarit.py` le restent (N3 20 / 21) : le gabarit recopiait les EQUIPEMENT, INDICATEUR, PROCESSUS et CONTRAINTE depuis le texte **original** des entités.
 - Correction (`generation/gabarit.py`, `texte_visible`) : avec l'anonymisation du Lot B branchée (`--anonymisation`), chaque valeur d'entité recopiée dans la fiche est lue dans le texte anonymisé (pseudonyme, masque ou famille généralisée appliqués en entier) ; sans anonymisation branchée, rien ne change. La fiche LLM (`llm.py`) n'était pas concernée (elle ne lit que `text_anonymise`). Tests : `tests/test_gabarit_anonymise.py` (3).
