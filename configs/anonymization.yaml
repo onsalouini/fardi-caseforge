@@ -20,7 +20,7 @@ donnee_sensible:
     contrat / référence: "[REFERENCE]"
     autre: "[REFERENCE]"
   masque_reference_lot_a: "[DONNEE_MASQUEE]"   # pour comparer avec text_anonymise de référence
-# ---------- Gel Gold (26/11/2026) ----------
+# ---------- Gel Gold (24/11/2026, commit 2cef770) ----------
 # G4 (results/lotb_gold/g4_anonymisation_v4.md, .json ; scripts/g4_anonymisation_v4.py) : même système que le gel
 # Silver, seul fichier_predictions change : XLM-R v4 du Lot C (origin/lot-c-gold, commit 8a0581d ; fichiers
 # reports/predictions/xlmr_v4_dev_s13/_s42/_s2026.jsonl ajoutés en 0b47a2e, récupérés seuls, sans fusion).
@@ -104,7 +104,7 @@ extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombr
 # voir b16_ablations_dev.json. Dev seulement : pour le test, fichier_predictions doit pointer vers des prédictions
 # XLM-R sur le test (scripts/final_eval.py) ; sans elles, union_fichier revient à rules.
 # B13 : reports/predictions/crf_dev.jsonl (union_fichier(crf), fuite 6,6 %, sur-masquage 27,2 %).
-# Gel Gold (26/11/2026, G4) : XLM-R v4 s42 (origin/lot-c-gold 8a0581d) ; gel Silver : xlmr_dev_s42.jsonl.
+# Gel Gold (24/11/2026, G4, commit 2cef770) : XLM-R v4 s42 (origin/lot-c-gold 8a0581d) ; gel Silver : xlmr_dev_s42.jsonl.
 fichier_predictions: reports/predictions/xlmr_v4_dev_s42.jsonl
 union_seuil:
   agregation: minimum

@@ -3,7 +3,7 @@
 Responsable : Ali Ben Jannet · co-équipière : Boutheina Rjab · branche `lot-b`. Commit de référence `89b27e0` pour
 B1, B3 et B6 à B6c ; `0298d79` pour B6d, B6e, B6f, B8 et B9 (mise à jour du 27/10/2026). Palier Silver (B12 à B16,
 branche `lot-b-silver`, gel du 14/11/2026) : section « Palier Silver » ci-dessous. Palier Gold (branche `lot-b-gold`,
-gel de l'anonymisation du 26/11/2026, G4) : section « Palier Gold » ci-dessous.
+gel de l'anonymisation du 24/11/2026, G4, commit 2cef770) : section « Palier Gold » ci-dessous.
 Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`). Tous les réglages et résultats ci-dessous sont
 mesurés sur le **dev**. **Le test gelé n'a pas encore été utilisé : ces chiffres sont des estimations sur le dev.** Il
 le sera une seule fois, à la fin du lot, avec `scripts/final_eval.py`.
@@ -222,7 +222,7 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 
 ## Palier Gold · G4 : anonymisation avec XLM-R v4 du Lot C (gel Gold)
 
-Branche `lot-b-gold`, gel du 26/11/2026. **Split : dev** (`documents_dev.jsonl`, 21 documents, 171 passages,
+Branche `lot-b-gold`, gel du 24/11/2026 (commit 2cef770). **Split : dev** (`documents_dev.jsonl`, 21 documents, 171 passages,
 213 occurrences sensibles) ; le test gelé n'a pas été lu. Chiffres : `results/lotb_gold/g4_anonymisation_v4.md`
 (et `.json`).
 
@@ -404,5 +404,5 @@ bootstrap par document (1 000 tirages, graine 42), donné par graine pour XLM-R.
   - règle PRODUIT et CONTRAINTE arabes coordonnées, mises au point sur le train (B15) : faites, sans effet au dev ;
   - sur-masquage : fusion aux bornes des règles limitée à DONNEE_SENSIBLE avec XLM-R (B16) : retenue (14,7 → 9,4 %) ; la fusion aux bornes pour toutes les étiquettes (B6d) reste désactivée ;
   - XLM-R du Lot C branché dans l'anonymisation (B14) : fuite 6,6 → 2,5 ± 0,6 % au dev ;
-  - Gold (G4, 26/11/2026) : XLM-R v4 du Lot C remplace les prédictions Silver : fuite 2,5 → 1,3 ± 0,2 % au dev, sur-masquage 9,4 → 9,2 % ;
+  - Gold (G4, 24/11/2026, commit 2cef770) : XLM-R v4 du Lot C remplace les prédictions Silver : fuite 2,5 → 1,3 ± 0,2 % au dev, sur-masquage 9,4 → 9,2 % ;
   - reste à faire : évaluation finale unique sur `test-gele-v3`, avec des prédictions XLM-R sur le test.
