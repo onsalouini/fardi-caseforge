@@ -1,0 +1,35 @@
+lib_ar_500_p002 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p003 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p004 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p005 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p005 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p006 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p007 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p008 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p008 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p009 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p010 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p011 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p011 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p012 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p013 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p014 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p014 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p015 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p016 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p017 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p017 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p018 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p019 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p020 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p020 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p021 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p022 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p023 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p023 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p024 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p025 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p026 : texte chinois retiré, passage coupé à la dernière phrase complète
+lib_ar_500_p026 : répétition d'un passage précédent du document, retiré
+lib_ar_500_p027 : fragment vide ou coupé, retiré
+lib_ar_514_p003 : « 降低成本。 » traduit en « خفض التكاليف. »

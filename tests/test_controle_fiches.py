@@ -5,6 +5,7 @@ Documents construits à la main : aucun fichier du dev ni du test gelé n'est lu
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -146,6 +147,8 @@ def test_refuse_un_fichier_de_test(tmp_path: Path) -> None:
         [sys.executable, str(RACINE / "generation/controle.py"), "--docs", str(faux), "--out", str(tmp_path / "r.md")],
         capture_output=True,
         text=True,
+        encoding="utf-8",  # Windows : sans cela, le message « gelé » est décodé selon la page de code locale
+        env={**os.environ, "PYTHONIOENCODING": "utf-8"},
     )
     assert r.returncode != 0 and "test gelé" in r.stderr
 

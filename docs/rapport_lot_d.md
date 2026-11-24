@@ -48,7 +48,7 @@ Exigence du sujet : ne rien inventer, ne rien exposer, et rendre chaque élémen
 | Abstention | 42 variantes du dev sans contraintes ou sans données : **95 % d'abstentions correctes, 0 invention** (Silver : 50 %) ; cible ≥ 80 % atteinte | `reports/lot_d_gold_abstention.md` |
 | Validation humaine | 40 fiches générées notées à l'aveugle par Ali et Boutheina ; accord sur la décision 82 % ; note sur 16 : LLM extractif 14,56, gabarit 14,40, LLM à champs 14,18, gabarit du pipeline 12,35 | `reports/lot_d_gold_juge.md` |
 | LLM-juge calibré | **juge retenu : hybride** (règles pour les 6 critères mesurables, LLM pour faisabilité et langue) : décision 92 % et 75 % d'accord avec les relecteurs (moyenne 83,5 %, au niveau de l'accord entre humains, 82 %), anonymisation 98 à 100 % ; juge LLM seul : v1 invalide (échelle inversée), **v2 : 62 % et 60 %**, notes incohérentes avec ses commentaires (« invention » 0 sur 18 fiches sur 40) : **résultat négatif** pour Qwen2.5-7B 4 bits comme juge de cette grille | `reports/lot_d_gold_juge.md` |
-| Robustesse (abréviations, OCR, mise en page) | gabarit : −4,2 points (abréviations), −8,4 (OCR ; arabe −12,7), 0 (mise en page) ; LLM Gold (graine 42) : **−11,2 sous OCR** (IC [−15,0 ; −7,6] ; arabe −13,7), −0,6 pour la mise en page (non significatif) ; abréviations non générées (exécution Kaggle interrompue). Cible ≤ 5 points atteinte pour la mise en page seulement | `reports/lot_d_gold_robustesse.md` |
+| Robustesse (abréviations, OCR, mise en page) | gabarit : −4,2 points (abréviations), −8,4 (OCR ; arabe −12,7), 0 (mise en page) ; LLM Gold (graine 42) : −4,0 avec abréviations (IC [−6,5 ; −1,6]), **−11,2 sous OCR** (IC [−15,0 ; −7,6] ; arabe −13,7), −0,6 pour la mise en page (non significatif). Cible ≤ 5 points atteinte pour les abréviations et la mise en page, pas pour l'OCR | `reports/lot_d_gold_robustesse.md` |
 | Question de recherche RQ2 (extraction structurée contre génération directe, sur les faits inventés) | même LLM, 3 graines : la génération directe invente **4,6 %** de ses éléments contre **0 %** pour le Gold (Δ +4,6 points, IC 95 % [+1,4 ; +8,9]) ; arabe 7,9 %, anglais 4,3 %, français 1,7 % ; faits clés omis 10 % contre 4 % ; F1 **0,74 ± 0,03** contre 0,945. Réponse : l'extraction ancrée réduit les inventions | `reports/lot_d_gold_rq2.md` |
 
 ## 5. Ablations et résultats négatifs
@@ -87,7 +87,7 @@ par la règle « Relevés ».
    données (42 %) et faisabilité (22 %), dû à des sévérités différentes ; pour les 10 fiches du pipeline, la feuille de
    notation montrait le document de référence au lieu de l'anonymisation du lot B (biais signalé).
 4. **Robustesse et généralisation** : perte sous bruit OCR de 8,4 points pour le gabarit (12,7 en arabe) et de 11,2
-   pour le LLM (13,7 en arabe), au-delà de la cible de 5 points ; robustesse du LLM aux abréviations non mesurée ; textes libres
+   pour le LLM (13,7 en arabe), au-delà de la cible de 5 points (abréviations −4,0 et mise en page −0,6 : dans la cible) ; textes libres
    nettement plus faibles (0,726 contre 0,977) ; 3 fausses abstentions sur des textes libres.
 5. **Éthique et sécurité** : la fiche hérite des fuites du lot B (1 nom non masqué au dev, fuite partielle « aeronautics
    park » sur `lib_en_01`) ; le garde-fou de confidentialité retire les passages qui s'annoncent confidentiels, pas une

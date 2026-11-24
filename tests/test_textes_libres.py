@@ -105,3 +105,24 @@ def test_texte_qui_boucle_reecrit() -> None:
     phrase = "Le stock moyen de l'usine atteint vingt et un jours"
     assert T.repetitif(". ".join([phrase] * 3))
     assert not T.repetitif(phrase + ". Autre phrase assez longue pour compter.")
+
+
+def test_nettoyage_des_sorties_ratees_du_llm() -> None:
+    def p(i: int, texte: str) -> dict:
+        return {"doc_id": "lib_ar_9", "passage_id": f"lib_ar_9_p{i:03d}", "text": texte}
+
+    bon = "الشركة تصنع العلب. الإنتاج منخفض."
+    passages = [
+        p(0, bon),
+        p(1, "لدينا بيانات منتظمة. ومع ذلك، فإن البيانات关于我们上一个指令"),
+        p(2, bon),
+        p(3, "المصنع الن"),
+        p(4, "يجب خفض الهدر و降低成本。"),
+    ]
+    verifies = {"lib_ar_9_p000": [{"start": 0, "end": 6, "label": "ORG", "text": "الشركة"}]}
+    gardes, journal = T.nettoyer_passages(passages, verifies)
+    assert [g["text"] for g in gardes] == [bon, "لدينا بيانات منتظمة.", "يجب خفض الهدر وخفض التكاليف."]
+    assert len(journal) == 4
+    # ailleurs, un passage court est légitime
+    court = [{"doc_id": "lib_fr_9", "passage_id": "lib_fr_9_p000", "text": "Bonjour,"}]
+    assert T.nettoyer_passages(court, {})[0] == court
