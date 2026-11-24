@@ -1,0 +1,11 @@
+Essalam Connectors Holding is a leading manufacturer of electrical components with a production facility in Le Kef, Tunisia. Our production line includes various machines such as ultrasonic welding stations for precision assembly and fuse boxes for safety and reliability.
+
+A non-conformity was observed during our recent audit of the production line at the Le Kef facility. The issue pertains to the absenteeism rate of the workforce. The current absenteeism rate stands at 10%, which is significantly higher than the acceptable rate of 7%.
+
+The production data for the ultrasonic welding station is available in the internal database, detailing the performance metrics including machine uptime and production yield. Additionally, we have access to the value stream map of the entire production process, highlighting the flow of materials and the workstations involved.
+
+The students are required to analyze the root cause of the increased absenteeism rate and propose solutions to improve workforce attendance. They should also consider the impact of this issue on the overall production efficiency and the value stream mapping of the facility. Any changes or adjustments to the production process must be approved by the end customer, and the changeover time between different production runs must not exceed 15 minutes to maintain operational efficiency.
+
+The task is subject to several constraints, including the need to ensure that all proposed solutions are cost-effective and align with the company’s sustainability goals. The students must adhere to these constraints while conducting their analysis and presenting their findings.
+
+For further information or to discuss any aspect of this project, please contact Mr. Montassar Guesmi, who serves as the internal auditor for the Le Kef facility. He can be reached at m.guesmi@echo.tn or by phone at +216 28 128 214.

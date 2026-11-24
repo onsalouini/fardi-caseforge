@@ -1,7 +1,8 @@
 """Lot C · Type de passage AVEC le contexte du document (position du passage, suite des passages).
 
     python -m caseforge.models.ptype_contexte            # dev (réglage et résultats)
-    python -m caseforge.models.ptype_contexte --test     # UNE SEULE FOIS, à la fin du lot
+
+Dev seulement : l'évaluation unique sur le test gelé passe par scripts/final_eval.py (CLAUDE.md §2, constat H1).
 
 Constat de l'analyse d'erreurs (reports/erreurs_lotC.md) : pris isolément, un passage « problème » ressemble à un
 passage « donnée » (chiffres, relevés). Dans un document, l'ordre est pourtant très régulier
@@ -92,11 +93,10 @@ def traits(rows, P, classes, doc):
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--test", action="store_true")
     ap.add_argument("--out", default="reports/lotC_ptype_contexte.md")
     a = ap.parse_args()
-    train, ev = charger("train"), charger("test" if a.test else "dev")
-    nom = "test gelé" if a.test else "dev"
+    train, ev = charger("train"), charger("dev")
+    nom = "dev"
     gold = [r["ptype"] for r in ev]
     runs, seul, posi, dernier = [], [], [], None
     for g in GRAINES:

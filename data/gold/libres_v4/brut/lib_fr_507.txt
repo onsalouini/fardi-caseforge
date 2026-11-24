@@ -1,0 +1,11 @@
+Comptoir Conserverie Thala se situe au cœur de la région de Sayada, spécialisée dans la transformation de thon à l'huile. La production s'effectue sur un site moderne, équipé d'installations de pointe. L'entreprise est connue pour sa qualité et son respect des normes de sécurité alimentaire.
+
+Un problème de productivité persistant a été constaté. Le taux d'absentéisme des employés atteint 8%, ce qui impacte négativement la continuité de la production. De plus, le trie des produits est manuel, ce qui est lent et non efficace. Cela a conduit à des erreurs de tri et à des retards dans la production.
+
+Nous disposons actuellement de plusieurs données pertinentes. Le coût de production par unité est de 14,30 DT. Actuellement, le processus de change de série prend 15 minutes, ce qui dépasse largement le temps maximal acceptable de 10 minutes. En outre, nous avons une trieuse optique en stock qui pourrait être utilisée si elle est adaptée au processus de production.
+
+Notre objectif est de demander aux étudiants de concevoir et de mettre en place une solution pour améliorer la productivité. Cette solution devrait inclure une réduction significative du taux d'absentéisme, une optimisation du processus de change de série et l'utilisation de la trieuse optique. L'investissement maximal pour cette solution est plafonné à 20000 DT.
+
+Le travail devra respecter certaines contraintes. Les modifications de processus doivent être réalisées de manière à minimiser les perturbations. Un plan de mise en œuvre devra être élaboré pour garantir que la transition vers la nouvelle configuration est fluide. De plus, les solutions proposées doivent tenir compte des coûts et de l'efficacité.
+
+Pour toute question ou demande supplémentaire, veuillez contacter M. Chokri Guesmi, responsable des achats. Il peut être joint au 78 314 109 ou par courriel à c.guesmi@ccth.tn.

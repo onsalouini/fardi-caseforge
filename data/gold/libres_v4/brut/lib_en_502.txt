@@ -1,0 +1,13 @@
+Bou Kornine Packaging Holding is a leading company in packaging solutions with its main plant located in Tozeur, Tunisia. The plant specializes in manufacturing HDPE pipes using a pick-and-place robot for automation.
+
+A recent analysis has revealed that our first pass yield for the production process of HDPE pipes is currently at 83%, which is below our target of 95%. This shortfall in efficiency not only affects our bottom line but also impacts our ability to meet customer demands on time.
+
+We have existing data from the past three months on the production process, including the output from the pick-and-place robot and the quality control results. Our team of engineers has been tracking these metrics closely. The primary goal is to identify the root causes of the low first pass yield and propose solutions to improve it.
+
+The final year engineering students are requested to conduct a comprehensive study on this issue. The scope of work includes analyzing the current production process, identifying bottlenecks, and proposing improvements. Students will need to use the QRQC method to ensure all aspects of the quality control process are addressed.
+
+To complete this project within the set timeframe, the study must last no more than 7 weeks. Additionally, it is essential that the ISO 15378 certification for the HDPE pipes remains intact throughout the study period. This project will contribute significantly to our ongoing efforts in continuous improvement.
+
+The project should be completed by the end of the semester, and students will present their findings and recommendations to the Continuous Improvement Lead. Mr. Zied Guesmi, our Continuous Improvement Lead, can be reached via email at z.guesmi@bkpho.tn or phone at +216 56 242 238.
+
+TND 89.93 is the cost per unit of HDPE pipe produced, and this figure will be used as a reference point in evaluating the economic impact of any proposed changes.

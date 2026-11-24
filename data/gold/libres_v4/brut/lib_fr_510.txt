@@ -1,0 +1,9 @@
+Usines Emballages Kantaoui situées à Tozeur ont pour spécialité la production de tubes en PEHD. Le processus de production est automatisé avec un robot de dépose qui assure le premier passage avec un rendement de 76%.
+
+Un problème persiste lorsque des changements de série sont effectués, où le rendement ne dépasse pas 83% du premier passage. Cette situation met en lumière la nécessité d'améliorer la fluidité du changement de série. Des données de gestion visuelle Kanban sont disponibles, mais elles ne suffisent pas pour résoudre le problème.
+
+Nous demandons aux étudiants de concevoir un système permettant de gérer efficacement les changements de série, afin que ces derniers ne dépassent pas 30 minutes. Toutes les modifications doivent être validées par le client final avant la mise en œuvre. Un étudiant sera chargé de piloter cette ligne de production, et le coût de production actuel est de 49,78 DT par unité.
+
+Le projet devra respecter certaines contraintes, notamment le respect du temps de changement de série et la validation finale par le client. L'objectif est d'améliorer la productivité tout en maintenant la qualité du produit.
+
+Pour toute information complémentaire, vous pouvez contacter M. Montassar Belaid, pilote de ligne. Vous pouvez le joindre par e-mail à m.belaid@ueka.tn ou par téléphone au +216 32 817 340.

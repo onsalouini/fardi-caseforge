@@ -1,0 +1,11 @@
+SARL Fonderie Dougga, située à Manouba, est une entreprise spécialisée dans la production de pièces mécaniques de haute qualité. Nous fabriquons des carters de pompe utilisés dans divers secteurs industriels.
+
+Problème constaté : Nous avons observé une augmentation des retards de livraison de nos carters de pompe, ce qui affecte notre production. Notre rectifieuse plane, qui est un outil clé dans notre processus de fabrication, fonctionne au-delà de ses capacités de production actuelles.
+
+Données disponibles : Le stock moyen de nos carters de pompe se situe à 28 jours. Cependant, pour optimiser notre flux de production, nous devons réduire ce délai à 21 jours.
+
+Travail demandé aux étudiants : Nous souhaiterions que vous analysez notre processus de fabrication actuel et proposiez des améliorations afin de réduire le stock en attente. En particulier, nous avons besoin de solutions pour augmenter la productivité de notre rectifieuse plane et réduire les retards.
+
+Contraintes : Les essais ne peuvent avoir lieu que le samedi. Nous devons également veiller à ce que la certification FSSC 22000 soit maintenue et mise à jour.
+
+Coordonnées de la personne à contacter : Pour plus d'informations, contactez Mme Rania Zribi, ingénieure méthodes, au 77,86 DT par unité. Son numéro de téléphone est +216 54 254 344 et vous pouvez l'atteindre via e-mail à r.zribi@sfdo.tn.

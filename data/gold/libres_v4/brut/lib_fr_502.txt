@@ -1,0 +1,9 @@
+Bonjour,
+
+Nous sommes Comptoir Confection El Fajr situés à Bekalta. Nous fabriquons principalement des linge de lit. Notre machine à tricoter circulaire est actuellement en difficulté. Le rendement au premier passage est de 76 %, ce qui est insuffisant pour notre production. Nous avons déjà tenté diverses ajustements mais rien n'a résolu le problème.
+
+Les données disponibles sont les suivantes : le type de machine est 25T652, et le coût par unité est de 12,91 DT. L'équilibrage de chaîne pourrait être une solution potentielle. Cependant, nous devons respecter certaines contraintes : un changement de série ne doit pas dépasser 15 minutes, et les essais ne peuvent avoir lieu que le samedi.
+
+Nous demandons donc à votre école d'ingénieurs de trouver une solution à ce problème. Les étudiants devront étudier les données fournies, tester différentes solutions et proposer la meilleure alternative.
+
+Merci de bien vouloir contacter M. Chokri Bahri, ingénieur méthodes, au numéro de téléphone 75 178 267 ou par e-mail à c.bahri@ccefa.tn.

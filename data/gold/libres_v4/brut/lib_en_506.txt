@@ -1,0 +1,9 @@
+Elissa Apparel Plants has been operating in the textile industry for over 20 years, with our main plant located in Gafsa. We manufacture hospital uniforms, which are crucial for maintaining hygiene standards in healthcare facilities. Our steam tunnel system plays a vital role in the dying process of these uniforms. However, we have noticed a discrepancy in the first pass yield, with one of our steam tunnels showing a lower yield compared to the others.
+
+We have collected data on the steam tunnel with the lower yield, including its performance metrics and operational parameters. The first pass yield for this particular steam tunnel is only 86%, significantly lower than the 92% average across all our facilities. We believe that analyzing this data could help us identify the root cause of this issue and improve our overall production efficiency.
+
+We would like to request your esteemed engineering school to conduct a study on this steam tunnel to determine the reasons behind the lower first pass yield. Specifically, we would like the students to perform an acceptance sampling to validate the current data and possibly propose improvements or solutions.
+
+The study must be completed within an 8-week timeframe and should not exceed an investment of TND 25,000. Please note that the study should be conducted by an internal auditor to ensure impartiality.
+
+Ms. Rania Ghorbel, our internal auditor, will be responsible for coordinating this project. She can be reached via email at r.ghorbel@eapl.tn or by phone at +216 82 331 627. Thank you for considering our request and we look forward to your positive response.

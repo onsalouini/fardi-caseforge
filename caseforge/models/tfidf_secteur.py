@@ -1,7 +1,8 @@
 """Lot C · Baseline classique : classification du SECTEUR d'un document par TF-IDF + régression logistique.
 
     python -m caseforge.models.tfidf_secteur              # réglage et résultats sur le DEV
-    python -m caseforge.models.tfidf_secteur --test       # UNE SEULE FOIS, à la fin : test gelé
+
+Dev seulement : l'évaluation unique sur le test gelé passe par scripts/final_eval.py (CLAUDE.md §2, constat H1).
 
 Le secteur est une propriété du DOCUMENT (un passage « Objet : … » ne dit rien du secteur) : on classe donc
 le document entier, à partir de son texte ANONYMISÉ (c'est ce que verra le système une fois l'anonymisation faite).
@@ -64,12 +65,11 @@ def scores(docs, pred) -> dict:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--test", action="store_true", help="évaluer sur le test gelé (une seule fois, à la fin)")
     ap.add_argument("--out", default="reports/lotC_tfidf_secteur.md")
     a = ap.parse_args()
 
-    train, ev = charger("train"), charger("test" if a.test else "dev")
-    nom = "test gelé" if a.test else "dev"
+    train, ev = charger("train"), charger("dev")
+    nom = "dev"
     X, y, Xe = [d["texte"] for d in train], [d["classe"] for d in train], [d["texte"] for d in ev]
     cols = ["global", *LANGS, "SYN", "LIBRE"]
 
