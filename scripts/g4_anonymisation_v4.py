@@ -194,18 +194,21 @@ def controles_fichiers(docs: list[dict]) -> dict[str, Any]:
 
 def controle_gel(docs: list[dict]) -> dict[str, Any]:
     """Gel Gold : si ``fichier_predictions`` pointe vers v4 s42, ``anonymize_document(doc)`` sans argument doit
-    redonner les masques v4 s42 mesurés ici (``results/lotb_gold/g4/masques_v4_s42.jsonl``)."""
+    redonner les masques v4 s42 mesurés ici (``results/lotb_gold/g4/masques_v4_s42.jsonl``).
+
+    Depuis G5, la configuration généralise (``generaliser: true``, ``generaliser_sauf``) : le contrôle compare les
+    autres options et anonymise avec ``generaliser=False``, ce qui redonne le système gelé par G4."""
     defaut = chemin_predictions()
     attendu = next(v.chemin for v in V4 if v.nom == "s42")
     out: dict[str, Any] = {"fichier_predictions": defaut.relative_to(REPO_ROOT).as_posix()}
     if defaut != attendu:
         return {**out, "fait": False}
     opts = charger_politique().options
-    diff = {k: opts[k] for k, x in OPTIONS_GEL_SILVER.items() if opts[k] != x}
+    diff = {k: opts[k] for k, x in OPTIONS_GEL_SILVER.items() if k != "generaliser" and opts[k] != x}
     if opts["backend"] != "union_fichier" or diff:
         raise RuntimeError(f"configuration gelée différente des options du gel Silver : {diff or opts['backend']}")
     ref = SORTIE / "masques_v4_s42.jsonl"
-    n = ecarts_masques(masques([anonymize_document(d) for d in docs]), ref)
+    n = ecarts_masques(masques([anonymize_document(d, generaliser=False) for d in docs]), ref)
     if n:
         raise RuntimeError(f"système par défaut différent de v4 s42 ({n} passages)")
     return {**out, "fait": True, "reference": ref.relative_to(REPO_ROOT).as_posix(), "passages_differents": n}

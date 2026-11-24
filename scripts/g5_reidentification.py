@@ -3,6 +3,7 @@
     python -m scripts.g5_reidentification seuil      # train seul : seuil de rareté de la variante rares_train
     python -m scripts.g5_reidentification base       # ligne de base : configuration gelée Gold, 3 graines v4
     python -m scripts.g5_reidentification mesurer    # ligne de base + variantes, décision, rapport
+    python -m scripts.g5_reidentification controle   # après la décision : défaut de la config = variante retenue
 
 Système : ``union_fichier`` avec les options du gel Gold (``configs/anonymization.yaml`` du 24/11/2026, commit
 2cef770 : ``fusion_fichier: bornes_ds``, coréférence, balayage renforcé, ``generaliser: false``), prédictions XLM-R
@@ -195,8 +196,9 @@ def ic_part(ks: list[int], n_tirages: int = N_TIRAGES, graine: int = GRAINE_BOOT
 
 
 def politique_gel() -> Politique:
-    """Politique de ``configs/anonymization.yaml`` avec les options du gel Gold (= gel Silver) imposées."""
-    return charger_politique(**OPTIONS_GEL_SILVER)
+    """Politique avec les options du gel Gold du 24/11 (= gel Silver) imposées, sans ``generaliser_sauf`` (option
+    ajoutée par G5 : les variantes sont des filtres explicites des détections généralisables)."""
+    return charger_politique(**OPTIONS_GEL_SILVER, generaliser_sauf=[])
 
 
 def reidentification(
@@ -395,6 +397,28 @@ def mesurer_tout(variantes: bool) -> dict[str, Any]:
     return res
 
 
+def controle_configuration(docs: list[dict], declencheurs: list[str], retenue: str) -> dict[str, Any]:
+    """Après mise à jour de la configuration : ``anonymize_document(doc)`` sans argument doit redonner, passage par
+    passage, les remplacements et offsets de la variante retenue mesurée avec v4 s42 (graine gelée)."""
+    from caseforge.anonymization.detect import chemin_predictions
+
+    opts = charger_politique().options
+    attendu = {k: v for k, v in OPTIONS_GEL_SILVER.items() if k != "generaliser"}
+    diff = {k: opts[k] for k, v in attendu.items() if opts[k] != v}
+    s42 = next(v.chemin for v in V4 if v.nom == "s42")
+    if opts["backend"] != "union_fichier" or diff or chemin_predictions() != s42:
+        raise RuntimeError(f"configuration différente du gel Gold : {diff or opts['backend']}")
+    if not opts["generaliser"] or sorted(opts["generaliser_sauf"]) != sorted(declencheurs):
+        raise RuntimeError("generaliser / generaliser_sauf ne correspondent pas à complete_sauf_fiche")
+    ref = SORTIE / f"anonymisation_dev_{retenue}_s42.jsonl"
+    attendues = {r["passage_id"]: r for r in charger(str(ref))}
+    obtenues = {r["passage_id"]: r for r in lignes_remplacements([anonymize_document(d) for d in docs])}
+    n = sum(attendues.get(p) != r for p, r in obtenues.items()) + len(set(attendues) ^ set(obtenues))
+    if n:
+        raise RuntimeError(f"système par défaut différent de {retenue} s42 ({n} passages)")
+    return {"reference": ref.relative_to(REPO_ROOT).as_posix(), "passages_differents": n, "n_passages": len(obtenues)}
+
+
 # ---------- Rapport ----------
 def _f(x: float, d: int = 3) -> str:
     return f"{x:.{d}f}".replace(".", ",")
@@ -510,6 +534,13 @@ def markdown(res: dict[str, Any]) -> str:
         + ", ".join(f"{k.split(' ·')[0]} {v} / {n}" for k, v in res["e5_reference"].items())
         + " ; le k du script est vérifié égal à `auditer` (E5) pour chaque exécution."
     )
+    if "controle_configuration" in res:
+        c = res["controle_configuration"]
+        L.append(
+            "- Configuration mise à jour (`generaliser: true`, `generaliser_sauf`) : `anonymize_document(doc)` sans "
+            f"argument redonne `{c['reference']}` (remplacements et offsets) : {c['passages_differents']} / "
+            f"{c['n_passages']} passage(s) différent(s)."
+        )
     L += [
         "",
         "## Ré-identification (audit E5, texte anonymisé)",
@@ -655,15 +686,27 @@ def markdown(res: dict[str, Any]) -> str:
 
 
 def main() -> None:
-    """Point d'entrée : ``seuil``, ``base`` ou ``mesurer``."""
+    """Point d'entrée : ``seuil``, ``base``, ``mesurer`` ou ``controle`` (configuration après la décision)."""
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")  # « ≤ » et « · » absents de cp1252 (console Windows)
     ap = argparse.ArgumentParser(description=(__doc__ or "").split("\n")[0])
-    ap.add_argument("etape", choices=("seuil", "base", "mesurer"))
+    ap.add_argument("etape", choices=("seuil", "base", "mesurer", "controle"))
     a = ap.parse_args()
     if a.etape == "seuil":
         r = etape_seuil()
         print({k: v for k, v in r.items()})
+        return
+    if a.etape == "controle":
+        warnings.filterwarnings("ignore", message=r"passage .* absent de ")
+        res = json.loads(JSON.read_text(encoding="utf-8"))
+        if res["decision"]["retenue"] is None:
+            raise SystemExit("aucune variante retenue : rien à contrôler")
+        res["controle_configuration"] = controle_configuration(
+            charger_documents("dev"), res["declencheurs_fiche"], res["decision"]["retenue"]
+        )
+        ecrire_json(JSON, res)
+        RAPPORT.write_text(markdown(res), encoding="utf-8")
+        print(res["controle_configuration"])
         return
     res = mesurer_tout(variantes=a.etape == "mesurer")
     if a.etape == "base":

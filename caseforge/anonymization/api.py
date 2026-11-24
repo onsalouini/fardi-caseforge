@@ -9,7 +9,9 @@ Les deux fonctions s'appuient sur ``anonymizer.anonymize_document``, qu'elles ne
 remplacement sont les siens. Le défaut reste le Bronze ``union_seuil`` et non le Silver ``union_fichier`` (clé
 ``backend`` de la configuration) : un texte libre n'a pas de prédictions XLM-R dans ``fichier_predictions``, et
 ``union_fichier`` y reviendrait à ``rules``. Les pseudonymes sont cohérents dans tout le document (même entreprise
-= même pseudonyme d'un passage à l'autre).
+= même pseudonyme d'un passage à l'autre). Pas de généralisation des PRODUIT / EQUIPEMENT (``generaliser=False``
+imposé) : l'option ``generaliser`` de la configuration (vraie depuis G5) n'a été mesurée qu'avec ``union_fichier`` sur
+les documents du dev, et le contrat du pipeline (Lot E) n'admet que des remplacements d'étiquettes sensibles.
 
 Format d'un résultat (positions dans le texte d'ORIGINE du passage) ::
 
@@ -59,7 +61,7 @@ def anonymiser_document(passages: list[str], langue: str, backend: str = "union_
         "lang": langue,
         "passages": [{"passage_id": str(i), "text": passages[i], "lang": langue} for i in pleins],
     }
-    res = anonymize_document(doc, backend)
+    res = anonymize_document(doc, backend, generaliser=False)  # contrat : remplacements sensibles seulement
     for p in res["passages"]:
         out[int(p["passage_id"])]["texte_anonymise"] = p["text_anonymise"]
     for r in res["remplacements"]:

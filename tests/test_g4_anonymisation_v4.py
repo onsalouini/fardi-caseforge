@@ -57,8 +57,10 @@ def test_fichiers_v4_conformes_au_lot_c() -> None:
 
 
 def test_gel_gold_options_silver_inchangees() -> None:
-    """Gel Gold : seul fichier_predictions change par rapport au gel Silver."""
+    """Gel Gold : seul fichier_predictions change par rapport au gel Silver ; puis G5 active la généralisation."""
     opts = charger_politique().options
     assert opts["backend"] == "union_fichier"
-    assert {k: opts[k] for k in OPTIONS_GEL_SILVER} == OPTIONS_GEL_SILVER
+    autres = {k: v for k, v in OPTIONS_GEL_SILVER.items() if k != "generaliser"}
+    assert {k: opts[k] for k in autres} == autres
+    assert opts["generaliser"] is True  # G5 (généralisation ciblée, complete_sauf_fiche)
     assert chemin_predictions() == next(v.chemin for v in V4 if v.nom == "s42")

@@ -70,10 +70,25 @@ balayage_longueur_min: 3   # caractères non blancs d'une forme pour qu'elle soi
 # B12 (Silver) : généralisation des indices rares. Vrai : les PRODUIT et EQUIPEMENT détectés sont remplacés par leur
 # famille (data/lexicons/familles_produits.txt, categories_equipements.txt, générés depuis le train par
 # scripts/b12_lexiques.py ; forme inconnue -> [PRODUIT] / [EQUIPEMENT]), avec coréférence et balayage.
-# Faux par défaut : sortie identique au Bronze.
-# Mesure (b12_generalisation.md, b16_ablations.md) : fuite inchangée (Δ 0), documents ré-identifiables N2 20 -> 2 sur
-# 21, mais F1 de la fiche −5,8 points. Règle : non retenue si la F1 de la fiche baisse de plus de 3 points -> false.
-generaliser: false
+# Silver (B12, B16) : fuite inchangée (Δ 0), documents ré-identifiables N2 20 -> 2 sur 21, mais F1 de la fiche
+# −5,8 points (règle : non retenue si la F1 de la fiche baisse de plus de 3 points) -> false au Silver et au gel Gold.
+# ---------- G5 (Gold, 24/11/2026) : généralisation ciblée ----------
+# results/lotb_gold/g5_reidentification.md (.json), scripts/g5_reidentification.py. Variantes et règle écrites dans
+# experiments.md AVANT la mesure (commit e0f311f) : on retient la variante qui atteint N3 ≤ 50 % des documents du dev
+# (moyenne des 3 graines v4, audit E5) avec une perte moyenne de F1 de la fiche ≤ 3 points et une hausse de fuite
+# ≤ +0,5 point ; s'il y en a plusieurs, celle qui perd le moins sur la fiche ; sinon generaliser reste false.
+# Mesure (dev, 21 documents, union_fichier v4, options du gel Gold, moyenne sur s13 / s42 / s2026) :
+#   base (gel Gold, generaliser false)  : N1–N4 ré-identifiables 2 / 20 / 21 / 21 sur 21 (N3 100 %), fiche F1 0,931
+#   complete_sauf_fiche (RETENUE)       : N1–N4 2 / 2 / 2,7 / 21 (N3 12,7 %, IC 95 % par graine ≤ 29 %), perte de
+#                                         fiche 0,0 pt, Δ fuite +0,0 pt (1,3 %), sur-masquage 9,2 -> 8,9 %
+#   complete (Silver B12), rares_train  : N3 12,7 %, perte de fiche 5,8 pt -> non éligibles
+# LIMITES (hors règle) : attaque par familles N3 10 / 21 ; texte des fiches générées N3 20 / 21 (gabarit.py recopie
+# les équipements depuis le texte original, Lot D) : la fiche diffusée reste ré-identifiable.
+generaliser: true
+# G5 : mentions généralisables laissées telles quelles si elles contiennent l'un de ces déclencheurs (sous-chaîne, en
+# minuscules) : copie des « données citées » de generation/gabarit.py (DONNEES_CITEES ; vérifié par
+# tests/test_g5_reidentification.py). Liste vide : généralisation complète (B12).
+generaliser_sauf: ["erp", "non conformité", "non-conformity", "non-conformité", "عدم المطابقة", "نظام التصرف المندمج"]
 # B6c : second passage renforcé (variantes sans article, ORG sans le pays, nom de famille seul, translittération
 # simple arabe <-> latin ; caseforge.anonymization.anonymizer.variantes_balayage, squelette_mot).
 balayage_renforce: true

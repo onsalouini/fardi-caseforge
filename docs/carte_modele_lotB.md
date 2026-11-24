@@ -3,7 +3,8 @@
 Responsable : Ali Ben Jannet · co-équipière : Boutheina Rjab · branche `lot-b`. Commit de référence `89b27e0` pour
 B1, B3 et B6 à B6c ; `0298d79` pour B6d, B6e, B6f, B8 et B9 (mise à jour du 27/10/2026). Palier Silver (B12 à B16,
 branche `lot-b-silver`, gel du 14/11/2026) : section « Palier Silver » ci-dessous. Palier Gold (branche `lot-b-gold`,
-gel de l'anonymisation du 24/11/2026, G4, commit 2cef770) : section « Palier Gold » ci-dessous.
+gel de l'anonymisation du 24/11/2026, G4, commit 2cef770 ; généralisation ciblée G5) : sections « Palier Gold »
+ci-dessous.
 Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`). Tous les réglages et résultats ci-dessous sont
 mesurés sur le **dev**. **Le test gelé n'a pas encore été utilisé : ces chiffres sont des estimations sur le dev.** Il
 le sera une seule fois, à la fin du lot, avec `scripts/final_eval.py`.
@@ -20,6 +21,7 @@ d'`experiments.md` d'où il vient. Une valeur absente de `reports/` et d'`experi
 | B6 | Coréférence simple (un pseudonyme par entité) | `caseforge/anonymization/coref_simple.py` | `reports/lotb_anonymisation.md` (annexe « Ablations B6 (26/10/2026) » ; section 6 pour B10) |
 | B8 | Pipeline NLTK et ablation de tokenisation | `caseforge/extraction/nltk_pipeline.py` | `reports/lotb_b8_tokenisation.md` |
 | B9 | Interface publique d'anonymisation (Lots D et E) | `caseforge/anonymization/api.py` | `README.md` (section Lot B) |
+| G5 (Gold) | Audit de ré-identification N1–N4 et généralisation ciblée (`generaliser: true`, sauf déclencheurs de la fiche) | `caseforge/anonymization/generalisation_ciblee.py`, `configs/anonymization.yaml`, `scripts/g5_reidentification.py` | `results/lotb_gold/g5_reidentification.md` |
 | G4 (Gold) | Anonymisation `union_fichier` avec XLM-R v4 du Lot C (gel Gold) | `configs/anonymization.yaml`, `scripts/g4_anonymisation_v4.py` | `results/lotb_gold/g4_anonymisation_v4.md` |
 | B12–B16 (Silver) | Anonymisation `union_fichier` (règles ∪ XLM-R du Lot C, bornes DS), généralisation (non retenue), règles du train | `caseforge/anonymization/detect.py`, `generalisation.py`, `configs/anonymization.yaml` | `results/lotb_silver/b12_generalisation.md` à `b16_ablations.md` |
 | B7 | Règles PRODUIT (libellés, nominalisations, verbes) dans B3 : PRODUIT au dev 0,031 → 0,911, micro 0,681 → 0,751 (mode token) ; **optimiste**, le dev a servi à la mise au point, 0,192 sans les éléments vus au dev ; train 0,886 → 0,952 | `caseforge/extraction/rules/produit.py` | `reports/lotb_b7_produit.md` |
@@ -220,6 +222,43 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 
 ---
 
+## Palier Gold · G5 : ré-identification N1–N4 et généralisation ciblée
+
+Branche `lot-b-gold`, 24/11/2026. **Split : dev** (`documents_dev.jsonl`, 21 documents) ; seuil de `rares_train`
+choisi sur le train seul ; test gelé et fichiers du kappa non lus. Chiffres : `results/lotb_gold/g5_reidentification.md`
+(et `.json`).
+
+- **Attaque (E5)** : l'attaquant connaît le profil public (secteur, PRODUIT, EQUIPEMENT, INDICATEUR gold) des
+  87 entreprises train + dev ; un document est ré-identifiable si une seule entreprise du même secteur est compatible
+  avec les indices encore visibles dans le texte anonymisé (k = 1). N1 secteur, N2 + PRODUIT, N3 + EQUIPEMENT,
+  N4 + INDICATEUR. Perte de F1 de la fiche (B12) : F1 des éléments de `generation/evaluer.py`, base − variante.
+- **Règle écrite avant la mesure** (`experiments.md`, commit e0f311f) : variante retenue si N3 ≤ 50 % (moyenne des
+  3 graines v4), perte de fiche ≤ 3 points et hausse de fuite ≤ +0,5 point ; si plusieurs, la moins coûteuse pour la
+  fiche. Appliquée telle quelle : **`complete_sauf_fiche` retenue** → `generaliser: true` et `generaliser_sauf`
+  (déclencheurs « données citées » de `gabarit.py` : « erp », « non-conformité »…) dans `configs/anonymization.yaml`.
+
+| Système (moyenne, 3 graines v4) | Ré-identifiables N1 / N2 / N3 / N4 (sur 21) | N3 [IC 95 % par graine] | Perte fiche | Fuite | Sur-masquage |
+|---|---|---|---|---|---|
+| Gel Gold G4 (`generaliser: false`) | 2 / 20 / 21 / 21 | 100 % | — (F1 0,931) | 1,3 % | 9,2 % |
+| `rares_train` (s = 1, train) | 2 / 2 / 2,7 / 21 | 12,7 % (≤ 29 %) | 5,8 pt | 1,3 % | 8,8 % |
+| **`complete_sauf_fiche` (retenue)** | **2 / 2 / 2,7 / 21** | **12,7 % (≤ 29 %)** | **0,0 pt** | **1,3 %** | **8,9 %** |
+| `complete` (Silver B12) | 2 / 2 / 2,7 / 21 | 12,7 % (≤ 29 %) | 5,8 pt | 1,3 % | 8,8 % |
+
+- Ventilations (retenue, 3 graines) : N3 fr 1 / 7, ar 0 / 7, en 1,7 / 7 ; syn_ 0,7 / 18, lib_ 2 / 3 (tendance).
+  Fuite inchangée par étiquette, langue et source (Δ 0 sur chaque graine) ; F1 de la fiche inchangée en fr, ar, en,
+  syn_, lib_ et par rubrique. Masques sensibles identiques à la base pour s13 et s42 ; s2026 : 5 passages, 39
+  caractères de sur-masquage en moins (le balayage ne repasse pas sur les mentions généralisées), aucune fuite ajoutée.
+- `rares_train` est identique à `complete` : les clés du dev sont absentes du train (familles de vocabulaire séparées
+  par le Lot A ; « ERP » n'est pas annoté comme entité au train), comme annoncé dans le pré-enregistrement.
+- **Limites (hors règle, à lire avant toute diffusion)** : (1) N4 reste à 21 / 21 : les indicateurs chiffrés suffisent
+  à reconnaître l'entreprise ; (2) l'attaque par familles (l'attaquant connaît aussi la famille de chaque indice) donne
+  N3 10 / 21 ; (3) **le texte des fiches générées reste ré-identifiable (N3 20 / 21)** : `gabarit.py` recopie les
+  équipements depuis le texte original (Lot D) ; (4) l'API texte libre (`anonymiser`, pipeline du Lot E) impose
+  `generaliser=False` : la généralisation n'y a pas été mesurée et le contrat du pipeline n'admet que des
+  remplacements sensibles ; (5) 21 documents. **Relecture humaine obligatoire.**
+
+---
+
 ## Palier Gold · G4 : anonymisation avec XLM-R v4 du Lot C (gel Gold)
 
 Branche `lot-b-gold`, gel du 24/11/2026 (commit 2cef770). **Split : dev** (`documents_dev.jsonl`, 21 documents, 171 passages,
@@ -229,7 +268,7 @@ Branche `lot-b-gold`, gel du 24/11/2026 (commit 2cef770). **Split : dev** (`docu
 - **Ce qui change par rapport au gel Silver** : seulement `fichier_predictions`, qui passe à
   `reports/predictions/xlmr_v4_dev_s42.jsonl` (XLM-R réentraîné sur le train v4 par le Lot C, `origin/lot-c-gold`,
   commit 8a0581d ; graine s42 comme au Silver). Backend, `fusion_fichier: bornes_ds`, coréférence, balayage et
-  `generaliser: false` sont inchangés et n'ont pas été réajustés.
+  `generaliser: false` sont inchangés et n'ont pas été réajustés (la généralisation est ensuite activée par G5).
 - **Règle écrite avant la mesure** (`experiments.md`, commit a2f5bfb) : v4 remplace le Silver si la fuite moyenne
   (3 graines) ne monte pas et si le sur-masquage moyen ne monte pas de plus de 2 points. Appliquée telle quelle :
   **v4 retenu**.
@@ -383,6 +422,7 @@ bootstrap par document (1 000 tirages, graine 42), donné par graine pour XLM-R.
   - B8 : `python -m nltk.downloader punkt_tab`, puis `python -m scripts.b8_ablation_tokenisation` (dev) ;
   - Silver (branche `lot-b-silver`) : `python -m scripts.b12_generalisation`, `python -m scripts.b13_backend_fichier`, `python -m scripts.b14_xlmr`, `python -m scripts.b15_regles_train` (train) puis `python -m scripts.b15_eval_dev`, `python -m scripts.b16_ablations_silver` ; contrôle du gel : `python -m scripts.gel_silver_verif` (dev). B13, B14 et B16 fixent `fusion_fichier="union"` là où ils mesuraient la fusion d'origine, pour redonner leurs chiffres ;
   - Gold, G4 (branche `lot-b-gold`) : `python -m scripts.g4_anonymisation_v4` (dev ; v4 contre Silver, options du gel Silver imposées, contrôle du gel Gold) ;
+  - Gold, G5 : `python -m scripts.g5_reidentification seuil` (train), puis `base`, `mesurer` et `controle` (dev ; ré-identification N1–N4, généralisation ciblée, contrôle de la configuration) ;
   - tests : `pytest` (complet), ou `pytest -m "not slow"` pour exclure le test de l'interface B9 sur le dev (≈ 1 min 30).
 - Graines : bootstrap par document, graine 42 (1 000 tirages ; 10 000 pour les comparaisons appariées de l'anonymisation) ; plis de CV groupés par document, graine 42 ; variance du CRF, graines 13, 42, 2026 ; CRF L-BFGS déterministe.
 - Résultats chiffrés : `results/lotb/*.json` ; prédictions pour le Lot D : `reports/predictions/lotb_dev_v2.jsonl` (entités, inchangées par B6f) et `results/lotb/b6d_anonymisation_dev_union_seuil.jsonl` (anonymisation, configuration recommandée ; l'export de B6e lui est identique).
@@ -405,4 +445,5 @@ bootstrap par document (1 000 tirages, graine 42), donné par graine pour XLM-R.
   - sur-masquage : fusion aux bornes des règles limitée à DONNEE_SENSIBLE avec XLM-R (B16) : retenue (14,7 → 9,4 %) ; la fusion aux bornes pour toutes les étiquettes (B6d) reste désactivée ;
   - XLM-R du Lot C branché dans l'anonymisation (B14) : fuite 6,6 → 2,5 ± 0,6 % au dev ;
   - Gold (G4, 24/11/2026, commit 2cef770) : XLM-R v4 du Lot C remplace les prédictions Silver : fuite 2,5 → 1,3 ± 0,2 % au dev, sur-masquage 9,4 → 9,2 % ;
+  - Gold (G5, 24/11/2026) : généralisation ciblée (`complete_sauf_fiche`) : documents ré-identifiables N3 100 → 12,7 % au dev, perte de fiche 0,0 point, fuite inchangée ; la fiche générée et le niveau N4 restent ré-identifiables ;
   - reste à faire : évaluation finale unique sur `test-gele-v3`, avec des prédictions XLM-R sur le test.

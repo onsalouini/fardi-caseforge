@@ -180,3 +180,41 @@ def test_declencheurs_de_la_fiche() -> None:
 
     declencheurs = {k for v in DONNEES_CITEES.values() for cles, _ in v for k in cles}
     assert {"erp", "non-conformity"} <= declencheurs
+
+
+# ---------- Configuration après la décision (generaliser_sauf) ----------
+def test_configuration_generaliser_sauf_egale_gabarit() -> None:
+    """generaliser_sauf de configs/anonymization.yaml = déclencheurs DONNEES_CITEES de generation/gabarit.py."""
+    from caseforge.anonymization.policy import charger_politique
+    from generation.gabarit import DONNEES_CITEES
+
+    opts = charger_politique().options
+    assert opts["generaliser"] is True
+    assert sorted(opts["generaliser_sauf"]) == sorted(
+        {k for v in DONNEES_CITEES.values() for cles, _ in v for k in cles}
+    )
+
+
+@pytest.mark.parametrize("valeur", ["erp", [""], [3]])
+def test_politique_generaliser_sauf_invalide(valeur: object) -> None:
+    from caseforge.anonymization.policy import charger_politique
+
+    with pytest.raises(ValueError, match="generaliser_sauf"):
+        charger_politique(generaliser_sauf=valeur)
+
+
+def test_anonymiseur_exclut_les_declencheurs() -> None:
+    """Une mention qui contient un déclencheur reste telle quelle ; les autres sont généralisées ; masques inchangés."""
+    from caseforge.anonymization.anonymizer import anonymize_document
+    from caseforge.anonymization.policy import charger_politique
+
+    doc = _doc("syn_fr_999", "s", [("ERP", "EQUIPEMENT"), ("presse hydraulique 200 t", "EQUIPEMENT"), ("Zitex", "ORG")])
+    doc["lang"] = "fr"
+    avec = anonymize_document(doc, "gold", politique=charger_politique(generaliser=True, generaliser_sauf=["erp"]))
+    sans = anonymize_document(doc, "gold", politique=charger_politique(generaliser=True, generaliser_sauf=[]))
+    t_avec, t_sans = avec["passages"][0]["text_anonymise"], sans["passages"][0]["text_anonymise"]
+    assert t_avec.startswith("ERP ; ") and "presse hydraulique 200 t" not in t_avec and "Zitex" not in t_avec
+    assert "ERP" not in t_sans
+    etape = next(j for j in avec["journal"] if j["etape"] == "generalisation")
+    assert etape["exclues_generaliser_sauf"] == 1 and etape["mentions"] == {"EQUIPEMENT": 1}
+    assert avec["passages"][0]["masque_offsets"] == sans["passages"][0]["masque_offsets"]

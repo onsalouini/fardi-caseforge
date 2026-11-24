@@ -16,12 +16,15 @@
 4. **remplacement** de droite à gauche dans chaque passage, pour que les offsets des mentions situées à gauche
    restent valides.
 
-Option ``generaliser`` (B12, ``configs/anonymization.yaml``, fausse par défaut) : les PRODUIT et EQUIPEMENT détectés
+Option ``generaliser`` (B12, ``configs/anonymization.yaml`` ; vraie depuis G5, fausse si la clé manque) : les
+PRODUIT et EQUIPEMENT détectés
 (``detect.detect_generalisables``) qui ne chevauchent aucune mention sensible sont remplacés par leur famille
 (``generalisation.famille`` : « presse hydraulique 200 t » -> « presse », forme inconnue -> « [PRODUIT] ») ; même
 forme normalisée = même cluster (``generalisation.regrouper``), et le balayage cherche aussi ces formes, après les
 formes sensibles. Leurs caractères vont dans ``generalise_offsets``, pas dans ``masque_offsets`` : le taux de fuite
 et le sur-masquage gardent leur définition. Option fausse : sortie identique au Bronze (mêmes clés).
+Option ``generaliser_sauf`` (G5) : une mention généralisable qui contient l'un de ces déclencheurs (« erp »…, ceux
+des « données citées » de ``generation/gabarit.py``) n'est pas généralisée (``generalisation_ciblee``).
 
 ``masque_offsets`` (offsets des caractères masqués dans le texte ORIGINAL) alimente ``caseforge.eval.leak``.
 Chaque remplacement donne aussi sa position dans le texte anonymisé (``start_anonymise``, ``end_anonymise``).
@@ -39,6 +42,7 @@ from typing import Any
 from caseforge.anonymization.coref_simple import ETIQUETTES_COREF, Clusters, Mention, clusteriser
 from caseforge.anonymization.detect import detect_document, detect_generalisables, etendre_montants, lang_passage
 from caseforge.anonymization.generalisation import accorder_casse, famille, regrouper
+from caseforge.anonymization.generalisation_ciblee import contient_declencheur
 from caseforge.anonymization.policy import Politique, charger_politique
 from caseforge.extraction.rules.lexicons import APRES_MOT, avant_mot, est_arabe, motif_terme
 from caseforge.labels import GENERALISABLE_LABELS
@@ -318,16 +322,27 @@ def anonymize_document(
             if detections_generalisables is not None
             else detect_generalisables(doc, backend, fichier=fichier_predictions)
         )
+        sauf = pol.options.get("generaliser_sauf") or ()
         compte_gen: dict[str, int] = defaultdict(int)
+        exclues = 0
         for ip, ds in enumerate(gdets):
             for d in ds:
                 if any(d["start"] < s["end"] and s["start"] < d["end"] for s in dets[ip]):
                     continue  # chevauche une mention sensible : le pseudonyme ou le masque l'emporte
+                if sauf and contient_declencheur(textes[ip][d["start"] : d["end"]], sauf):
+                    exclues += 1  # G5 : déclencheur d'une « donnée citée » de la fiche, laissé tel quel
+                    continue
                 mentions.append(Mention(ip, d["start"], d["end"], d["label"], textes[ip][d["start"] : d["end"]]))
                 systemes.append(d.get("systemes", []))
                 origines.append("detection")
                 compte_gen[d["label"]] += 1
-        journal.append({"etape": "generalisation", "mentions": dict(sorted(compte_gen.items()))})
+        journal.append(
+            {
+                "etape": "generalisation",
+                "mentions": dict(sorted(compte_gen.items())),
+                "exclues_generaliser_sauf": exclues,
+            }
+        )
 
     clusters = clusteriser(textes, mentions, coref)
     if gen:
