@@ -20,6 +20,11 @@ extend-exclude = ["cfdata", "exemples", "tests/simulate_human.py"]
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B"]
 
+[tool.ruff.lint.per-file-ignores]
+# Notebooks Kaggle du Lot D : les commandes shell (`!python … {g}`) utilisent les variables de boucle (que ruff ne
+# voit pas : faux B007) et ne se coupent pas sur plusieurs lignes (E501).
+"notebooks/lot_d_*.ipynb" = ["B007", "E501"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
