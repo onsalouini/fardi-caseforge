@@ -8,7 +8,7 @@ Toutes les mesures portent sur le **dev** (21 documents : 7 fr, 7 ar, 7 en ; 18 
 
 | Tâche du plan | État | Résultat principal (dev) | Détail |
 |---|---|---|---|
-| 40 textes libres neufs, ≥ 40 % en arabe, LLM ouvert déclaré | rédigés (Qwen2.5-7B) ; révision et vérification humaine **en cours** | 16 ar / 12 fr / 12 en ; 267 passages, 498 entités pré-annotées (120 approchées, à vérifier) | `generation/textes_libres.py`, `data/gold/libres_v4/` |
+| 40 textes libres neufs, ≥ 40 % en arabe, LLM ouvert déclaré | fait : rédigés par Qwen2.5-7B, vérifiés par Ons (24/11), intégrés | 16 ar / 12 fr / 12 en documents ; 267 passages (arabe 47 %), 577 entités ; train v4 d'essai : 979 passages, `lib_` 78 → 321 | `generation/textes_libres.py`, `data/gold/libres_v4/` |
 | 30 couples problème → fiche au train | fait (générateur v4 du lot A) | 0 ajout signalé ; 33 omissions régulières signalées au lot A | `experiments.md` (22/11) |
 | 40 fiches notées par deux relecteurs | fait (Ali, Boutheina) | accord sur la décision 82 % ; LLM extractif 14,56 / 16, gabarit du pipeline 12,35 | `reports/lot_d_gold_juge.md` |
 | Contrôle des ajouts et omissions, P et R ≥ 0,80 | fait | erreurs injectées : rappel 1,00 (63 / 63) ; contre les relecteurs : omissions P 0,80 à 1,00 mais R 0,15 à 0,36, ajouts 0 / 4 retrouvés (**cible non atteinte**) | `reports/lot_d_gold_controle.md`, `reports/lot_d_gold_juge.md` §4 |
@@ -41,7 +41,7 @@ p = 0,036).
 
 ## Reste à faire
 
-1. Passe de révision des textes libres sur Kaggle (réécrit aussi `lib_ar_500`, qui boucle), puis vérification humaine
-   des 267 passages et `integrer` ; le lot A (Boutheina) relance ensuite `train_v4` et le kappa.
+1. Lot A (Boutheina) : regeler le train v4 avec les textes libres (`python -m caseforge.gold.train_v4`) et double
+   annotation à l'aveugle de 15 % des nouveaux passages (kappa ≥ 0,70).
 2. Robustesse du LLM aux abréviations (exécution Kaggle interrompue).
 3. Évaluation finale unique sur le test gelé, en équipe (`scripts/final_eval.py`).
