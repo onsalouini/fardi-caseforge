@@ -1,0 +1,9 @@
+SARL Laboratoires Thala est implantée au cœur du Kef, au cœur du Maroc, où elle se consacre depuis plus de deux décennies à la production de suppositoires pour la santé infantile. Notre usine, modernisée récemment, est dotée d’équipements de pointe, notamment d’un granulateur à haut cisaillement qui permet de traiter les matières premières avec précision.
+
+Le problème que nous constatons actuellement est la non-conformité de la performance de notre granulateur à haut cisaillement. En effet, le taux de disponibilité de l’équipement est de seulement 78%, ce qui représente une perte significative en termes de productivité. Nous avons également noté que la qualité de la production est variable, ce qui nécessite une amélioration de la qualification des équipements.
+
+Pour résoudre ce problème, nous avons besoin de l’aide de nos étudiants ingénieurs. Nous leur demandons de collecter et analyser les données sur la performance de l’usine, en particulier celles relatives au granulateur à haut cisaillement. Ils devront évaluer la fiabilité et la maintenance de l’équipement, et proposer des solutions pour améliorer son taux de disponibilité.
+
+Les étudiants doivent prendre en compte certaines contraintes. Tout d’abord, les essais ne peuvent avoir lieu que le samedi, en raison des opérations normales de l’usine. De plus, un changement de série ne doit pas dépasser 20 minutes, ce qui est une exigence stricte pour maintenir la qualité de la production.
+
+Pour toute information supplémentaire ou pour les questions concernant cette tâche, veuillez contacter Mme Nesrine Mzali, notre responsable des achats. Elle peut être jointe par e-mail à l’adresse suivante : n.mzali@slth.tn ou par téléphone au numéro 78 954 871.

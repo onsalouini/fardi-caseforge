@@ -1,0 +1,9 @@
+Manufacture Laboratoires Djerba est une entreprise située à Teboulba, spécialisée dans la production de collyres stériles. L'entreprise a investi dans un granulateur à haut cisaillement pour améliorer sa production. Malheureusement, les taux de disponibilité de ce dernier ne sont que de 81 %, comparativement à 93 % pour d'autres équipements.
+
+Le problème constaté est que les arrêts fréquents de l'équipement affectent la production globale. Il est nécessaire d'analyser les données de disponibilité et d'efficacité de l'équipement afin de comprendre les raisons de ces arrêts. Les données disponibles comprennent les logs de production, les rapports d'arrêts et les indicateurs de performance.
+
+Les étudiants doivent analyser ces données pour identifier les causes potentielles des arrêts. Ensuite, ils doivent proposer des solutions pour améliorer le taux de disponibilité du granulateur à haut cisaillement. Le travail devrait inclure une étude de faisabilité et des recommandations techniques pour la qualification des équipements.
+
+Toute modification apportée à l'équipement doit être validée par le client final avant mise en œuvre. Le changement de série ne doit pas dépasser 30 minutes. Cette exigence est importante pour minimiser l'impact sur la production.
+
+Pour toute question supplémentaire, veuillez contacter Mme Hiba Bouslama, pilote de ligne chez Manufacture Laboratoires Djerba. Vous pouvez la joindre au 51,63 DT par unité ou par e-mail à h.bouslama@mldj.tn, ou au numéro de téléphone +216 47 992 408.

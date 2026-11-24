@@ -1,0 +1,13 @@
+Chams Packaging Co. is located in the city of Manouba. The company specializes in the production of thermoformed cups for various industries, including food and beverage.
+
+An issue has been observed with the pellet dryer machine at the production line. Currently, it operates at an availability rate of 87%, which is lower than the desired performance level. This machine is crucial for the overall production process, and its underperformance affects the efficiency of the entire operation.
+
+Data from the past six months is available for analysis, including the operating hours, downtime records, and maintenance logs. This information will provide a comprehensive understanding of the current state of the pellet dryer machine.
+
+We request that the final-year engineering students conduct a detailed study on improving the availability rate of the pellet dryer machine. The goal is to increase its operational efficiency and reduce downtime. The study should explore potential causes of the low availability rate and propose solutions to enhance the machine's performance.
+
+The study must adhere to certain constraints: it should be completed within a period of six weeks, and the ISO 50001 certification must be maintained or improved during this time. Additionally, the use of Kanban visual management principles is recommended to optimize inventory control and workflow.
+
+Please contact Mr. Haythem Zribi, the workshop supervisor, for further details. His email address is h.zribi@cpco.tn, and his phone number is +216 37 147 789.
+
+Thank you for your attention to this matter. We look forward to your prompt response.

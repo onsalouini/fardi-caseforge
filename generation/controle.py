@@ -93,9 +93,13 @@ SIX_ANGLAIS = re.compile(r"\bsix-month\b", re.IGNORECASE)
 
 
 def _vocabulaire_gabarit() -> set[str]:
-    """Mots des formulations du gabarit (gabarit.PHRASES, llm.HISTORIQUE) : ils ne viennent pas du document."""
+    """Mots des formulations des gabarits (gabarit.PHRASES, llm.HISTORIQUE et fiches v4 du Lot A,
+    caseforge.gold.gabarits_v4.FICHE_FIXE) : ils ne viennent pas du document."""
+    from caseforge.gold.gabarits_v4 import FICHE_FIXE
+
     modeles = [m for phrases in gabarit.PHRASES.values() for m in phrases.values()] + list(HISTORIQUE.values())
-    return {w for m in modeles for w in re.findall(r"\w+", normaliser(m.replace("{}", " ")))}
+    modeles += [str(f[k]) for f in FICHE_FIXE.values() for k in ("objectif_1", "objectif_2", "donnees")]
+    return {w for m in modeles for w in re.findall(r"\w+", normaliser(re.sub(r"\{\w*\}", " ", m)))}
 
 
 MOTS_GABARIT = _vocabulaire_gabarit()
@@ -150,7 +154,7 @@ def elements_source(fiche: dict) -> list[tuple[str, dict]]:
         (rub, e)
         for rub in RUBRIQUES_SOURCE
         for e in liste(fiche.get(rub))
-        if e.get("origine") != "gabarit" and e.get("texte")
+        if e.get("origine") not in ("gabarit", "abstention") and e.get("texte")
     ]
 
 
@@ -385,6 +389,7 @@ def ecrire_rapport(chemin: Path, val: dict, resumes: dict[str, tuple[dict, list[
 
 
 def main() -> None:
+    sys.stdout.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]  # console Windows (cp1252)
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--ref", type=Path, default=RACINE / "data/final/fiches_dev.jsonl")
     ap.add_argument("--docs", type=Path, default=RACINE / "data/final/documents_dev.jsonl")

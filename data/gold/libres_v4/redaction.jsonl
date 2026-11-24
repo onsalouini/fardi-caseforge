@@ -1,0 +1,40 @@
+{"doc_id": "lib_en_500", "valeurs_absentes": ["IND", "IND2", "PROC", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1950}
+{"doc_id": "lib_ar_500", "valeurs_absentes": ["EQUIP", "IND", "IND2", "PROC", "CTR", "CTR2", "PER", "DS_COUT", "DS_LOT", "DS_MAIL", "DS_TEL"], "caracteres": 3106}
+{"doc_id": "lib_ar_501", "valeurs_absentes": ["ORG", "IND", "IND2", "CTR", "CTR2", "DS_LOT"], "caracteres": 916}
+{"doc_id": "lib_fr_500", "valeurs_absentes": ["PROD", "IND", "IND2", "PROC", "CTR", "CTR2", "DS_LOT"], "caracteres": 656}
+{"doc_id": "lib_ar_502", "valeurs_absentes": ["EQUIP", "IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1198}
+{"doc_id": "lib_ar_503", "valeurs_absentes": ["IND", "IND2", "PROC", "CTR", "CTR2"], "caracteres": 1094}
+{"doc_id": "lib_ar_504", "valeurs_absentes": ["IND", "IND2", "PROC", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1181}
+{"doc_id": "lib_en_501", "valeurs_absentes": ["PROD", "IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1563}
+{"doc_id": "lib_ar_505", "valeurs_absentes": ["IND", "IND2", "CTR2"], "caracteres": 1082}
+{"doc_id": "lib_fr_501", "valeurs_absentes": ["IND", "IND2", "PROC", "CTR", "CTR2", "DS_LOT"], "caracteres": 1374}
+{"doc_id": "lib_en_502", "valeurs_absentes": ["IND", "IND2", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1923}
+{"doc_id": "lib_en_503", "valeurs_absentes": ["IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1274}
+{"doc_id": "lib_fr_502", "valeurs_absentes": ["EQUIP", "IND", "IND2", "DS_COUT"], "caracteres": 1039}
+{"doc_id": "lib_ar_506", "valeurs_absentes": ["ORG", "IND", "IND2", "CTR", "CTR2", "PER", "DS_COUT", "DS_TEL"], "caracteres": 718}
+{"doc_id": "lib_fr_503", "valeurs_absentes": ["IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1189}
+{"doc_id": "lib_ar_507", "valeurs_absentes": ["SITEC", "IND", "IND2", "DS_COUT", "DS_LOT"], "caracteres": 801}
+{"doc_id": "lib_fr_504", "valeurs_absentes": ["IND2", "PROC", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1530}
+{"doc_id": "lib_fr_505", "valeurs_absentes": ["IND", "IND2", "PROC", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1377}
+{"doc_id": "lib_fr_506", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1467}
+{"doc_id": "lib_fr_507", "valeurs_absentes": ["IND", "IND2", "PROC", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1867}
+{"doc_id": "lib_ar_508", "valeurs_absentes": ["EQUIP", "IND", "IND2", "PROC", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 853}
+{"doc_id": "lib_en_504", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1459}
+{"doc_id": "lib_en_505", "valeurs_absentes": ["IND", "IND2", "PROC", "CTR", "CTR2", "DS_COUT"], "caracteres": 1529}
+{"doc_id": "lib_ar_509", "valeurs_absentes": ["EQUIP", "IND", "IND2", "PROC", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 814}
+{"doc_id": "lib_en_506", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1626}
+{"doc_id": "lib_fr_508", "valeurs_absentes": ["IND", "IND2", "PROC", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 815}
+{"doc_id": "lib_ar_510", "valeurs_absentes": ["EQUIP", "IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1092}
+{"doc_id": "lib_ar_511", "valeurs_absentes": ["IND", "IND2", "CTR", "DS_COUT", "DS_LOT"], "caracteres": 1222}
+{"doc_id": "lib_en_507", "valeurs_absentes": ["IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1623}
+{"doc_id": "lib_fr_509", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "DS_LOT"], "caracteres": 1522}
+{"doc_id": "lib_en_508", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1675}
+{"doc_id": "lib_en_509", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1600}
+{"doc_id": "lib_en_510", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1873}
+{"doc_id": "lib_ar_512", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "PER", "DS_COUT", "DS_LOT"], "caracteres": 896}
+{"doc_id": "lib_fr_510", "valeurs_absentes": ["IND", "IND2", "CTR", "CTR2", "DS_LOT"], "caracteres": 1340}
+{"doc_id": "lib_fr_511", "valeurs_absentes": ["SITEC", "IND", "IND2", "DS_COUT", "DS_LOT"], "caracteres": 1724}
+{"doc_id": "lib_ar_513", "valeurs_absentes": ["ORG", "EQUIP", "IND2", "PROC", "CTR", "CTR2", "PER", "DS_COUT", "DS_MAIL"], "caracteres": 1059}
+{"doc_id": "lib_ar_514", "valeurs_absentes": ["PROD", "IND", "PROC", "CTR", "CTR2", "DS_LOT"], "caracteres": 664}
+{"doc_id": "lib_en_511", "valeurs_absentes": ["PROD", "IND", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 1478}
+{"doc_id": "lib_ar_515", "valeurs_absentes": ["EQUIP", "IND2", "CTR", "CTR2", "DS_COUT", "DS_LOT"], "caracteres": 891}

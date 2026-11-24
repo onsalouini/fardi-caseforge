@@ -1,0 +1,9 @@
+Sbeitla Apparel Works operates in the heart of Hammamet, a picturesque coastal town known for its serene atmosphere and vibrant community life. Our company specializes in producing high-quality knitted sweaters, which we manufacture using state-of-the-art circular knitting machines. We pride ourselves on our commitment to quality and efficiency, but even the best systems can face challenges.
+
+We have noticed a discrepancy in the cycle times of our circular knitting machines. The current cycle time is set at 45 seconds, but recent trials suggest it could be reduced to as low as 42 seconds. This potential improvement has sparked interest among our team, but we require further analysis to determine if this optimization is feasible and beneficial for our operations.
+
+To aid in this process, we would like to engage the engineering students at your esteemed institution. We believe that with their expertise and innovative thinking, they can provide valuable insights and data that will help us understand the implications of reducing the cycle time. Specifically, we need detailed reports on how such a change might affect production efficiency, cost, and overall performance of the circular knitting machines.
+
+The work to be done should strictly adhere to the following constraints: any changes implemented must be approved by the end customer before implementation. Additionally, we can only conduct trials on Saturdays to minimize disruption to our regular production schedule. We trust the students will approach this project with creativity and diligence.
+
+Should you have any questions or need further clarification regarding this request, please do not hesitate to contact Mr. Zied Guesmi, our internal auditor. He can be reached via email at z.guesmi@sawo.tn or by phone at +216 35 724 232. We look forward to the possibility of working with your students and contributing to the continuous improvement of our manufacturing processes.
