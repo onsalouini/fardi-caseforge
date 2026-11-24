@@ -4,6 +4,14 @@
     python -m scripts.g5_reidentification base       # ligne de base : configuration gelée Gold, 3 graines v4
     python -m scripts.g5_reidentification mesurer    # ligne de base + variantes, décision, rapport
     python -m scripts.g5_reidentification controle   # après la décision : défaut de la config = variante retenue
+    python -m scripts.g5_reidentification mesurer --gabarit-corrige    # G5 bis : re-mesure, gabarit du Lot D edf0629
+    python -m scripts.g5_reidentification controle --gabarit-corrige   # G5 bis : défaut de la config = décision finale
+
+G5 bis (re-mesure) : ``generation/gabarit.py`` recopiait dans la fiche les entités depuis le texte original (corrigé
+par le Lot D, commit edf0629). Avec ``--gabarit-corrige``, le script vérifie que la copie de travail de ``gabarit.py``
+est celle de edf0629 (blob Git), mesure la base et les MÊMES variantes avec la MÊME règle, vérifie que les
+anonymisations sont identiques à la première mesure (seul l'instrument change), et écrit dans des fichiers à part
+(``JSON_REMESURE``, ``SORTIE_REMESURE``) ; le rapport garde la première mesure et ajoute une section.
 
 Système : ``union_fichier`` avec les options du gel Gold (``configs/anonymization.yaml`` du 24/11/2026, commit
 2cef770 : ``fusion_fichier: bornes_ds``, coréférence, balayage renforcé, ``generaliser: false``), prédictions XLM-R
@@ -34,6 +42,7 @@ import argparse
 import json
 import random
 import statistics
+import subprocess
 import sys
 import time
 import warnings
@@ -76,6 +85,11 @@ G4 = REPO_ROOT / "results" / "lotb_gold" / "g4"
 FICHES = REPO_ROOT / "generation" / "sorties"
 REF_FICHES = "data/final/fiches_dev.jsonl"
 DOCS_DEV = "data/final/documents_dev.jsonl"
+COMMIT_GABARIT_CORRIGE = "edf0629"
+"""Commit du Lot D (``origin/lot-d-gold``) : ``gabarit.py`` lit les entités de la fiche dans le texte anonymisé."""
+SORTIE_REMESURE = SORTIE / "remesure_gabarit_corrige"
+JSON_REMESURE = REPO_ROOT / "results" / "lotb_gold" / "g5_reidentification_remesure.json"
+TITRE_REMESURE = f"Re-mesure avec gabarit corrigé (Lot D, commit {COMMIT_GABARIT_CORRIGE})"
 
 N3 = "N3 · secteur + produits + équipements"
 SEUILS_CANDIDATS: tuple[int, ...] = (1, 2, 3, 5, 10)
@@ -96,6 +110,26 @@ REGLE = (
     "déclaré non atteint."
 )
 """Règle de décision, écrite dans ``experiments.md`` avant la mesure des variantes."""
+
+
+# ---------- Instrument (G5 bis) ----------
+def _git(*args: str) -> str:
+    return subprocess.run(["git", *args], cwd=REPO_ROOT, capture_output=True, text=True, check=True).stdout.strip()
+
+
+def verifier_gabarit_corrige() -> dict[str, str]:
+    """Vérifie que ``generation/gabarit.py`` (copie de travail) est celui du commit ``COMMIT_GABARIT_CORRIGE``.
+
+    Comparaison des blobs Git (``git hash-object`` applique la conversion des fins de ligne) ; arrêt sinon.
+    """
+    attendu = _git("rev-parse", f"{COMMIT_GABARIT_CORRIGE}:generation/gabarit.py")
+    obtenu = _git("hash-object", "generation/gabarit.py")
+    if attendu != obtenu:
+        raise SystemExit(
+            f"generation/gabarit.py n'est pas celui de {COMMIT_GABARIT_CORRIGE} : "
+            f"git restore --source {COMMIT_GABARIT_CORRIGE} --worktree generation/gabarit.py"
+        )
+    return {"commit": COMMIT_GABARIT_CORRIGE, "blob": obtenu}
 
 
 # ---------- Seuil de rareté (train seul) ----------
@@ -221,10 +255,15 @@ def reidentification(
     return out
 
 
-def fiche(nom: str, chemin_anonymisation: Path, docs: list[dict], population: list[dict]) -> dict[str, Any]:
-    """Génère et évalue les fiches du dev avec ``generation/`` (tels quels) ; audit E5 du texte des fiches."""
-    sortie_fiche = FICHES / f"fiches_dev_g5_{nom}.jsonl"
-    rapport_fiche = SORTIE / f"fiche_dev_{nom}.md"
+def fiche(
+    nom: str, chemin_anonymisation: Path, docs: list[dict], population: list[dict], remesure: bool = False
+) -> dict[str, Any]:
+    """Génère et évalue les fiches du dev avec ``generation/`` (tels quels) ; audit E5 du texte des fiches.
+
+    ``remesure`` (G5 bis) : fiches et rapports écrits à part, la première mesure n'est pas écrasée."""
+    sortie_fiche = FICHES / f"fiches_dev_g5{'bis' if remesure else ''}_{nom}.jsonl"
+    rapport_fiche = (SORTIE_REMESURE if remesure else SORTIE) / f"fiche_dev_{nom}.md"
+    rapport_fiche.parent.mkdir(parents=True, exist_ok=True)
     py = sys.executable
     rel = [
         str(p.relative_to(REPO_ROOT)).replace("\\", "/") for p in (chemin_anonymisation, sortie_fiche, rapport_fiche)
@@ -258,8 +297,11 @@ def executer_systeme(
     pol: Politique,
     dets: list[list[list[dict]]],
     gdets: list[list[list[dict]]] | None,
+    remesure: bool = False,
 ) -> tuple[dict[str, Any], list[dict]]:
-    """Anonymise le dev (base si ``gdets`` vaut None), puis toutes les mesures d'une exécution."""
+    """Anonymise le dev (base si ``gdets`` vaut None), puis toutes les mesures d'une exécution.
+
+    ``remesure`` (G5 bis) : l'anonymisation doit être identique à celle de la première mesure (déjà écrite)."""
     gen = gdets is not None
     sorties = [
         anonymize_document(
@@ -269,13 +311,18 @@ def executer_systeme(
     ]
     cle = f"{nom}_{graine}"
     chemin = SORTIE / f"anonymisation_dev_{cle}.jsonl"
-    ecrire_jsonl(chemin, lignes_remplacements(sorties))
+    lignes = lignes_remplacements(sorties)
+    if remesure:
+        if charger(str(chemin)) != json.loads(json.dumps(lignes, ensure_ascii=False)):
+            raise RuntimeError(f"anonymisation {cle} différente de la première mesure ({chemin.name})")
+    else:
+        ecrire_jsonl(chemin, lignes)
     r = mesurer(docs, gold, sorties)
     res = {
         "mesures": {k: r[k] for k in ("fuite", "f1_caractere", "sur_masquage_par_etiquette_gold")},
         "chiffres": chiffres(r, masques(sorties), gold),
         "reid": reidentification(docs, sorties, population, familles=gen),
-        "fiche": fiche(cle, chemin, docs, population),
+        "fiche": fiche(cle, chemin, docs, population, remesure),
         "couverture": couverture_gold(docs, sorties) if gen else {},
         "generalises": comptes_generalises(sorties),
     }
@@ -320,8 +367,9 @@ def resume_execution(e: dict[str, Any]) -> dict[str, float]:
     return out
 
 
-def mesurer_tout(variantes: bool) -> dict[str, Any]:
-    """Ligne de base (et variantes si demandé) sur les 3 graines v4."""
+def mesurer_tout(variantes: bool, remesure: bool = False) -> dict[str, Any]:
+    """Ligne de base (et variantes si demandé) sur les 3 graines v4 ; ``remesure`` : G5 bis, gabarit corrigé."""
+    gabarit = verifier_gabarit_corrige() if remesure else None
     warnings.filterwarnings("ignore", category=FutureWarning)
     warnings.filterwarnings("ignore", message=r"passage .* absent de ")  # 9 passages dédoublonnés (B14)
     debut = time.perf_counter()
@@ -343,6 +391,8 @@ def mesurer_tout(variantes: bool) -> dict[str, Any]:
         "deltas": {},
         "controles_base": {},
     }
+    if gabarit:
+        res["gabarit"] = gabarit
     systemes = [BASE]
     filtres = {}
     if variantes:
@@ -364,7 +414,7 @@ def mesurer_tout(variantes: bool) -> dict[str, Any]:
         m_par: dict[str, dict[str, list[int]]] = {}
         for s in systemes:
             gd = None if s == BASE else [filtrer(x, t, filtres[s]) for x, t in zip(gdets, textes, strict=True)]
-            e, sorties = executer_systeme(s, g, docs, gold, population, pol, dets, gd)
+            e, sorties = executer_systeme(s, g, docs, gold, population, pol, dets, gd, remesure)
             res["executions"].setdefault(s, {})[g] = e
             m_par[s] = masques(sorties)
         ref = G4 / f"masques_v4_{g}.jsonl"
@@ -393,13 +443,18 @@ def mesurer_tout(variantes: bool) -> dict[str, Any]:
             for s in VARIANTES
         }
         res["decision"] = decision(mesures_dec)
+    if remesure:
+        if verifier_gabarit_corrige() != gabarit:
+            raise RuntimeError("generation/gabarit.py modifié pendant la mesure")
+        res["anonymisations_identiques_premiere_mesure"] = True
     res["duree_s"] = time.perf_counter() - debut
     return res
 
 
-def controle_configuration(docs: list[dict], declencheurs: list[str], retenue: str) -> dict[str, Any]:
+def controle_configuration(docs: list[dict], declencheurs: list[str], retenue: str | None) -> dict[str, Any]:
     """Après mise à jour de la configuration : ``anonymize_document(doc)`` sans argument doit redonner, passage par
-    passage, les remplacements et offsets de la variante retenue mesurée avec v4 s42 (graine gelée)."""
+    passage, les remplacements et offsets de la variante retenue mesurée avec v4 s42 (graine gelée) ; sans variante
+    retenue (``None``), ceux de la ligne de base (``generaliser: false``)."""
     from caseforge.anonymization.detect import chemin_predictions
 
     opts = charger_politique().options
@@ -408,15 +463,20 @@ def controle_configuration(docs: list[dict], declencheurs: list[str], retenue: s
     s42 = next(v.chemin for v in V4 if v.nom == "s42")
     if opts["backend"] != "union_fichier" or diff or chemin_predictions() != s42:
         raise RuntimeError(f"configuration différente du gel Gold : {diff or opts['backend']}")
-    if not opts["generaliser"] or sorted(opts["generaliser_sauf"]) != sorted(declencheurs):
+    if retenue is None:
+        if opts["generaliser"]:
+            raise RuntimeError("aucune variante retenue : generaliser doit être false")
+    elif not opts["generaliser"] or sorted(opts["generaliser_sauf"]) != sorted(declencheurs):
         raise RuntimeError("generaliser / generaliser_sauf ne correspondent pas à complete_sauf_fiche")
-    ref = SORTIE / f"anonymisation_dev_{retenue}_s42.jsonl"
+    nom = retenue or BASE
+    ref = SORTIE / f"anonymisation_dev_{nom}_s42.jsonl"
     attendues = {r["passage_id"]: r for r in charger(str(ref))}
     obtenues = {r["passage_id"]: r for r in lignes_remplacements([anonymize_document(d) for d in docs])}
     n = sum(attendues.get(p) != r for p, r in obtenues.items()) + len(set(attendues) ^ set(obtenues))
     if n:
-        raise RuntimeError(f"système par défaut différent de {retenue} s42 ({n} passages)")
-    return {"reference": ref.relative_to(REPO_ROOT).as_posix(), "passages_differents": n, "n_passages": len(obtenues)}
+        raise RuntimeError(f"système par défaut différent de {nom} s42 ({n} passages)")
+    return {"reference": ref.relative_to(REPO_ROOT).as_posix(), "passages_differents": n, "n_passages": len(obtenues),
+            "generaliser": bool(opts["generaliser"])}  # fmt: skip
 
 
 # ---------- Rapport ----------
@@ -460,14 +520,26 @@ def markdown(res: dict[str, Any]) -> str:
     systemes = list(M)
     dec = res.get("decision")
     n = res["n_docs"]
+    bis = "gabarit" in res
+    commande, fichier_json = ("mesurer --gabarit-corrige", JSON_REMESURE.name) if bis else ("mesurer", JSON.name)
     L = [
         "# Lot B Gold · G5 : audit de ré-identification N1–N4 (configuration gelée Gold) et généralisation ciblée",
         "",
         f"**Split : dev** (`documents_dev.jsonl`, {n} documents, {res['n_passages']} passages) ; population de "
         f"l'attaquant : {res['n_population']} entreprises (train + dev). Test gelé non lu ; texte du dev non affiché. "
-        "Commande : `python -m scripts.g5_reidentification mesurer` ; chiffres complets dans "
-        "`results/lotb_gold/g5_reidentification.json`.",
+        f"Commande : `python -m scripts.g5_reidentification {commande}` ; chiffres complets dans "
+        f"`results/lotb_gold/{fichier_json}`.",
         "",
+    ]
+    if bis:
+        L += [
+            f"**Instrument** : `generation/gabarit.py` du commit {res['gabarit']['commit']} du Lot D "
+            f"(`origin/lot-d-gold`, blob `{res['gabarit']['blob'][:12]}`), utilisé pour la base ET les variantes : "
+            "les entités de la fiche sont lues dans le texte anonymisé. Copie de travail seulement, non committée sur "
+            "`lot-b-gold`. Variantes et règle inchangées (commit e0f311f) ; note d'avant mesure : commit d96cdaa.",
+            "",
+        ]
+    L += [
         "**Système** : `union_fichier`, options du gel Gold (`configs/anonymization.yaml`, 24/11/2026, commit "
         "2cef770 : `fusion_fichier: bornes_ds`, coréférence, balayage renforcé, `generaliser: false`), prédictions "
         "XLM-R v4 du Lot C, 3 graines (s13, s42 = graine gelée, s2026). Moyenne ± écart-type de population "
@@ -534,10 +606,21 @@ def markdown(res: dict[str, Any]) -> str:
         + ", ".join(f"{k.split(' ·')[0]} {v} / {n}" for k, v in res["e5_reference"].items())
         + " ; le k du script est vérifié égal à `auditer` (E5) pour chaque exécution."
     )
+    if bis:
+        L.append(
+            "- Anonymisations (12 exécutions : 4 systèmes × 3 graines) identiques à la première mesure, passage par "
+            "passage (fichiers `results/lotb_gold/g5/anonymisation_dev_*.jsonl`) : seul le gabarit change ; blob de "
+            "`gabarit.py` vérifié avant et après la mesure."
+        )
     if "controle_configuration" in res:
         c = res["controle_configuration"]
+        quoi = (
+            "`generaliser: true`, `generaliser_sauf`"
+            if c.get("generaliser", True)
+            else "`generaliser: false`, `generaliser_sauf` inactif"
+        )
         L.append(
-            "- Configuration mise à jour (`generaliser: true`, `generaliser_sauf`) : `anonymize_document(doc)` sans "
+            f"- Configuration mise à jour ({quoi}) : `anonymize_document(doc)` sans "
             f"argument redonne `{c['reference']}` (remplacements et offsets) : {c['passages_differents']} / "
             f"{c['n_passages']} passage(s) différent(s)."
         )
@@ -678,11 +761,32 @@ def markdown(res: dict[str, Any]) -> str:
         "larges.",
         "- E5 compare les mentions à l'identique : une mention généralisée sort de l'attaque par construction ; "
         "l'attaque par familles est plus exigeante (complément).",
-        "- `gabarit.py` écrit une partie de la fiche depuis le texte original des entités (B12, section 7) : la "
-        "généralisation du texte anonymisé ne protège pas toute la fiche (audit E5 du texte des fiches ci-dessus).",
+        (
+            "- Gabarit corrigé (edf0629) : la fiche ne recopie plus que des entités lues dans le texte anonymisé ; la "
+            "perte de fiche des variantes est donc réelle (rubrique « données »)."
+            if bis
+            else "- `gabarit.py` écrit une partie de la fiche depuis le texte original des entités (B12, section 7) : "
+            "la généralisation du texte anonymisé ne protège pas toute la fiche (audit E5 du texte des fiches "
+            "ci-dessus)."
+        ),
         "- Points de contrôle XLM-R choisis sur le dev par le Lot C : chiffres optimistes pour tous les systèmes.",
     ]
     return "\n".join(L) + "\n"
+
+
+def rapport_complet() -> str:
+    """Rapport G5 : première mesure, puis la section de re-mesure (G5 bis) si elle existe, sans rien effacer."""
+    initial = markdown(json.loads(JSON.read_text(encoding="utf-8")))
+    if not JSON_REMESURE.is_file():
+        return initial
+    titre, reste = initial.split("\n", 1)
+    bandeau = (
+        f"> **Mise à jour (G5 bis, 24/11/2026)** : la décision de la première mesure ci-dessous est remplacée par la "
+        f"section « {TITRE_REMESURE} » en fin de document (le gabarit recopiait les entités depuis le texte original)."
+    )
+    corps = markdown(json.loads(JSON_REMESURE.read_text(encoding="utf-8"))).split("\n", 1)[1]
+    corps = "\n".join("#" + ligne if ligne.startswith("#") else ligne for ligne in corps.split("\n"))
+    return f"{titre}\n\n{bandeau}\n{reste}\n## {TITRE_REMESURE}\n{corps}"
 
 
 def main() -> None:
@@ -691,30 +795,32 @@ def main() -> None:
         sys.stdout.reconfigure(encoding="utf-8")  # « ≤ » et « · » absents de cp1252 (console Windows)
     ap = argparse.ArgumentParser(description=(__doc__ or "").split("\n")[0])
     ap.add_argument("etape", choices=("seuil", "base", "mesurer", "controle"))
+    ap.add_argument(
+        "--gabarit-corrige", action="store_true", help=f"G5 bis : re-mesure avec gabarit.py de {COMMIT_GABARIT_CORRIGE}"
+    )
     a = ap.parse_args()
+    fichier_json = JSON_REMESURE if a.gabarit_corrige else JSON
     if a.etape == "seuil":
         r = etape_seuil()
         print({k: v for k, v in r.items()})
         return
     if a.etape == "controle":
         warnings.filterwarnings("ignore", message=r"passage .* absent de ")
-        res = json.loads(JSON.read_text(encoding="utf-8"))
-        if res["decision"]["retenue"] is None:
-            raise SystemExit("aucune variante retenue : rien à contrôler")
+        res = json.loads(fichier_json.read_text(encoding="utf-8"))
         res["controle_configuration"] = controle_configuration(
             charger_documents("dev"), res["declencheurs_fiche"], res["decision"]["retenue"]
         )
-        ecrire_json(JSON, res)
-        RAPPORT.write_text(markdown(res), encoding="utf-8")
+        ecrire_json(fichier_json, res)
+        RAPPORT.write_text(rapport_complet(), encoding="utf-8")
         print(res["controle_configuration"])
         return
-    res = mesurer_tout(variantes=a.etape == "mesurer")
+    res = mesurer_tout(variantes=a.etape == "mesurer", remesure=a.gabarit_corrige)
     if a.etape == "base":
         ecrire_json(BASE_JSON, res)
         print(markdown(res))
         return
-    ecrire_json(JSON, res)
-    RAPPORT.write_text(markdown(res), encoding="utf-8")
+    ecrire_json(fichier_json, res)
+    RAPPORT.write_text(rapport_complet(), encoding="utf-8")
     d = res["decision"]
     print(f"Décision : retenue = {d['retenue']} · éligibles = {d['eligibles']} · {res['duree_s']:.0f} s")
 

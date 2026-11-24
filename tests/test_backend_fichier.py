@@ -262,11 +262,12 @@ def test_fusion_fichier_inconnue() -> None:
 
 def test_configuration_gel_gold() -> None:
     """Gel Gold (configs/anonymization.yaml, G4) : options du gel Silver inchangées (union_fichier + bornes DS +
-    coréférence + balayage), prédictions XLM-R v4 s42 du dev ; généralisation ciblée de G5 (generaliser vrai, sauf les
-    déclencheurs de la fiche) ; les prédictions du gel Silver restent présentes ; le Bronze reste un backend."""
+    coréférence + balayage), prédictions XLM-R v4 s42 du dev ; pas de généralisation (G5 bis : aucune variante
+    éligible avec le gabarit corrigé, generaliser_sauf gardé mais inactif) ; les prédictions du gel Silver restent
+    présentes ; le Bronze reste un backend."""
     opts = charger_politique().options
     assert opts["backend"] == "union_fichier" and opts["fusion_fichier"] == "bornes_ds"
-    assert opts["coreference"] and opts["balayage"] and opts["generaliser"] is True and opts["generaliser_sauf"]
+    assert opts["coreference"] and opts["balayage"] and opts["generaliser"] is False and opts["generaliser_sauf"]
     assert chemin_predictions() == REPO_ROOT / "reports" / "predictions" / "xlmr_v4_dev_s42.jsonl"
     assert chemin_predictions().is_file()
     assert (REPO_ROOT / "reports" / "predictions" / "xlmr_dev_s42.jsonl").is_file()
@@ -315,6 +316,8 @@ def test_anonymiseur_avec_fichier_en_argument(fichier: Path) -> None:
     assert "Zitex" not in texte and "Belhadj" not in texte and "Gabès" not in texte
     assert "pantalons" in texte  # PRODUIT non sensible : conservé sans généralisation
     assert res["backend"] == "fichier"
-    defaut = anonymize_document(DOC, "fichier", fichier_predictions=fichier)  # G5 : generaliser vrai par défaut
-    assert "pantalons" not in defaut["passages"][0]["text_anonymise"]
-    assert res["passages"][0]["masque_offsets"] == defaut["passages"][0]["masque_offsets"]
+    defaut = anonymize_document(DOC, "fichier", fichier_predictions=fichier)  # G5 bis : generaliser faux par défaut
+    assert defaut["passages"] == res["passages"]
+    gen = anonymize_document(DOC, "fichier", fichier_predictions=fichier, generaliser=True)
+    assert "pantalons" not in gen["passages"][0]["text_anonymise"]
+    assert res["passages"][0]["masque_offsets"] == gen["passages"][0]["masque_offsets"]

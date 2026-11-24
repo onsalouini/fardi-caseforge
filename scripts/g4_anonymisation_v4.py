@@ -196,7 +196,7 @@ def controle_gel(docs: list[dict]) -> dict[str, Any]:
     """Gel Gold : si ``fichier_predictions`` pointe vers v4 s42, ``anonymize_document(doc)`` sans argument doit
     redonner les masques v4 s42 mesurés ici (``results/lotb_gold/g4/masques_v4_s42.jsonl``).
 
-    Depuis G5, la configuration généralise (``generaliser: true``, ``generaliser_sauf``) : le contrôle compare les
+    G5 a activé la généralisation, G5 bis l'a remise à false (``generaliser_sauf`` inactif) : le contrôle compare les
     autres options et anonymise avec ``generaliser=False``, ce qui redonne le système gelé par G4."""
     defaut = chemin_predictions()
     attendu = next(v.chemin for v in V4 if v.nom == "s42")

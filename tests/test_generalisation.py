@@ -221,10 +221,11 @@ def test_sensible_prioritaire_sur_generalisation(pol_gen) -> None:
 
 
 # ---------- Option désactivée ----------
-def test_option_par_defaut_activee_depuis_g5() -> None:
-    """B12 : fausse ; G5 (Gold) : vraie, avec les déclencheurs de la fiche exclus (generaliser_sauf)."""
+def test_option_par_defaut_desactivee_g5_bis() -> None:
+    """B12 : fausse ; G5 : vraie (première mesure) ; G5 bis (gabarit corrigé) : fausse, aucune variante éligible ;
+    generaliser_sauf reste documenté (inactif)."""
     opts = charger_politique().options
-    assert opts["generaliser"] is True and "erp" in opts["generaliser_sauf"]
+    assert opts["generaliser"] is False and "erp" in opts["generaliser_sauf"]
 
 
 @pytest.mark.parametrize("lang", sorted(DOCS))

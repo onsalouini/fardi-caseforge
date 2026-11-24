@@ -77,17 +77,23 @@ balayage_longueur_min: 3   # caractères non blancs d'une forme pour qu'elle soi
 # experiments.md AVANT la mesure (commit e0f311f) : on retient la variante qui atteint N3 ≤ 50 % des documents du dev
 # (moyenne des 3 graines v4, audit E5) avec une perte moyenne de F1 de la fiche ≤ 3 points et une hausse de fuite
 # ≤ +0,5 point ; s'il y en a plusieurs, celle qui perd le moins sur la fiche ; sinon generaliser reste false.
-# Mesure (dev, 21 documents, union_fichier v4, options du gel Gold, moyenne sur s13 / s42 / s2026) :
-#   base (gel Gold, generaliser false)  : N1–N4 ré-identifiables 2 / 20 / 21 / 21 sur 21 (N3 100 %), fiche F1 0,931
-#   complete_sauf_fiche (RETENUE)       : N1–N4 2 / 2 / 2,7 / 21 (N3 12,7 %, IC 95 % par graine ≤ 29 %), perte de
-#                                         fiche 0,0 pt, Δ fuite +0,0 pt (1,3 %), sur-masquage 9,2 -> 8,9 %
-#   complete (Silver B12), rares_train  : N3 12,7 %, perte de fiche 5,8 pt -> non éligibles
-# LIMITES (hors règle) : attaque par familles N3 10 / 21 ; texte des fiches générées N3 20 / 21 (gabarit.py recopie
-# les équipements depuis le texte original, Lot D) : la fiche diffusée reste ré-identifiable.
-generaliser: true
+# Première mesure (commit a27a0ad) : complete_sauf_fiche retenue (perte de fiche 0,0 pt), MAIS gabarit.py recopiait
+# les entités de la fiche depuis le texte original (défaut signalé par le Lot D, corrigé au commit edf0629) : la perte
+# de fiche était sous-estimée. Décision ANNULÉE et refaite (G5 bis) avec le gabarit corrigé, variantes et règle
+# inchangées (note d'avant mesure : commit d96cdaa), scripts/g5_reidentification.py mesurer --gabarit-corrige.
+# Re-mesure G5 bis (dev, 21 documents, union_fichier v4, options du gel Gold, moyenne sur s13 / s42 / s2026) :
+#   base (generaliser false)            : N1–N4 ré-identifiables 2 / 20 / 21 / 21 sur 21 (N3 100 %), fiche F1 0,930 ;
+#                                         fiches générées N3 21 / 21
+#   complete_sauf_fiche                 : N3 12,7 %, fiches générées N3 2 / 21, perte de fiche 3,7 pt
+#                                         (3,6 / 3,3 / 4,1 > 3) -> non éligible
+#   complete (Silver B12), rares_train  : N3 12,7 %, perte de fiche 11,2 pt -> non éligibles
+#   Δ fuite +0,0 pt pour les trois (1,3 %).
+# Aucune variante éligible -> generaliser reste FALSE ; objectif N3 ≤ 50 % du plan Gold NON ATTEINT (N3 100 %).
+generaliser: false
 # G5 : mentions généralisables laissées telles quelles si elles contiennent l'un de ces déclencheurs (sous-chaîne, en
 # minuscules) : copie des « données citées » de generation/gabarit.py (DONNEES_CITEES ; vérifié par
-# tests/test_g5_reidentification.py). Liste vide : généralisation complète (B12).
+# tests/test_g5_reidentification.py). Liste vide : généralisation complète (B12). INACTIF tant que generaliser est
+# false (G5 bis) ; gardé documenté pour reproduire la variante complete_sauf_fiche (generaliser=True).
 generaliser_sauf: ["erp", "non conformité", "non-conformity", "non-conformité", "عدم المطابقة", "نظام التصرف المندمج"]
 # B6c : second passage renforcé (variantes sans article, ORG sans le pays, nom de famille seul, translittération
 # simple arabe <-> latin ; caseforge.anonymization.anonymizer.variantes_balayage, squelette_mot).

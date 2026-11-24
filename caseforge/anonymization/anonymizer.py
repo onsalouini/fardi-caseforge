@@ -16,7 +16,7 @@
 4. **remplacement** de droite à gauche dans chaque passage, pour que les offsets des mentions situées à gauche
    restent valides.
 
-Option ``generaliser`` (B12, ``configs/anonymization.yaml`` ; vraie depuis G5, fausse si la clé manque) : les
+Option ``generaliser`` (B12, ``configs/anonymization.yaml`` ; fausse, G5 bis ; fausse si la clé manque) : les
 PRODUIT et EQUIPEMENT détectés
 (``detect.detect_generalisables``) qui ne chevauchent aucune mention sensible sont remplacés par leur famille
 (``generalisation.famille`` : « presse hydraulique 200 t » -> « presse », forme inconnue -> « [PRODUIT] ») ; même

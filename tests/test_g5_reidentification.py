@@ -184,12 +184,13 @@ def test_declencheurs_de_la_fiche() -> None:
 
 # ---------- Configuration après la décision (generaliser_sauf) ----------
 def test_configuration_generaliser_sauf_egale_gabarit() -> None:
-    """generaliser_sauf de configs/anonymization.yaml = déclencheurs DONNEES_CITEES de generation/gabarit.py."""
+    """generaliser_sauf de configs/anonymization.yaml = déclencheurs DONNEES_CITEES de generation/gabarit.py
+    (inactif depuis G5 bis : generaliser false, aucune variante éligible avec le gabarit corrigé)."""
     from caseforge.anonymization.policy import charger_politique
     from generation.gabarit import DONNEES_CITEES
 
     opts = charger_politique().options
-    assert opts["generaliser"] is True
+    assert opts["generaliser"] is False
     assert sorted(opts["generaliser_sauf"]) == sorted(
         {k for v in DONNEES_CITEES.values() for cles, _ in v for k in cles}
     )
@@ -218,3 +219,32 @@ def test_anonymiseur_exclut_les_declencheurs() -> None:
     etape = next(j for j in avec["journal"] if j["etape"] == "generalisation")
     assert etape["exclues_generaliser_sauf"] == 1 and etape["mentions"] == {"EQUIPEMENT": 1}
     assert avec["passages"][0]["masque_offsets"] == sans["passages"][0]["masque_offsets"]
+
+
+# ---------- G5 bis : re-mesure avec le gabarit corrigé (Lot D, edf0629) ----------
+def test_remesure_decision_appliquee_a_la_configuration() -> None:
+    """Re-mesure enregistrée : aucune variante éligible, mêmes variantes et même règle ; la configuration suit."""
+    from caseforge.anonymization.policy import charger_politique
+    from scripts.g5_reidentification import COMMIT_GABARIT_CORRIGE, JSON_REMESURE
+
+    res = json.loads(JSON_REMESURE.read_text(encoding="utf-8"))
+    assert res["gabarit"]["commit"] == COMMIT_GABARIT_CORRIGE
+    assert res["regle"] == REGLE and list(res["decision"]["verdicts"]) == list(VARIANTES)
+    assert res["decision"]["retenue"] is None and res["decision"]["eligibles"] == []
+    assert res["anonymisations_identiques_premiere_mesure"] is True
+    assert res["controle_configuration"]["passages_differents"] == 0
+    assert charger_politique().options["generaliser"] is False
+
+
+def test_rapport_garde_la_premiere_mesure() -> None:
+    """Le rapport commence par la première mesure (inchangée, hors bandeau) et finit par la section de re-mesure."""
+    from scripts.g5_reidentification import JSON, TITRE_REMESURE, markdown, rapport_complet
+
+    rapport = rapport_complet()
+    initial = markdown(json.loads(JSON.read_text(encoding="utf-8")))
+    titre, reste = initial.split("\n", 1)
+    assert rapport.startswith(titre + "\n\n> **Mise à jour (G5 bis")
+    assert reste in rapport
+    section = rapport.split(f"\n## {TITRE_REMESURE}\n", 1)[1]
+    assert "### Décision" in section and "**Aucune variante retenue**" in section
+    assert not any(ligne.startswith("## ") for ligne in section.split("\n"))

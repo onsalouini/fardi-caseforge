@@ -10,7 +10,7 @@ remplacement sont les siens. Le défaut reste le Bronze ``union_seuil`` et non l
 ``backend`` de la configuration) : un texte libre n'a pas de prédictions XLM-R dans ``fichier_predictions``, et
 ``union_fichier`` y reviendrait à ``rules``. Les pseudonymes sont cohérents dans tout le document (même entreprise
 = même pseudonyme d'un passage à l'autre). Pas de généralisation des PRODUIT / EQUIPEMENT (``generaliser=False``
-imposé) : l'option ``generaliser`` de la configuration (vraie depuis G5) n'a été mesurée qu'avec ``union_fichier`` sur
+imposé) : l'option ``generaliser`` (fausse depuis G5 bis) n'a été mesurée qu'avec ``union_fichier`` sur
 les documents du dev, et le contrat du pipeline (Lot E) n'admet que des remplacements d'étiquettes sensibles.
 
 Format d'un résultat (positions dans le texte d'ORIGINE du passage) ::
