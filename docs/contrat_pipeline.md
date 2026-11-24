@@ -75,3 +75,15 @@ Avec `recherche`, la sortie gagne une clé optionnelle :
 
 Les 3 cas du **train** les plus proches, calculés à partir des termes métier (PRODUIT, EQUIPEMENT, PROCESSUS, INDICATEUR)
 **prédits** sur le document : aucune donnée de référence n'entre dans le pipeline. Liste vide si aucun terme métier.
+
+## 6. Option Gold (ajout compatible, la version 1.0 reste valable)
+
+| Option de `traiter` | Valeurs | Effet sur la sortie |
+| --- | --- | --- |
+| `controle` | `False` (défaut), `True` | ajoute la clé `controle` : `{"ajouts": [...], "omissions": [...]}`, contrôle automatique de la fiche du Lot D (`generation/controle.py`, sans modèle ni GPU) |
+
+- Un **ajout** est un élément de la fiche qu'aucun passage ne porte : `{"rubrique", "texte", "motif", "detail"}`, avec `motif` à `nombre_absent` (un nombre absent du document, `detail` les liste) ou `non_ancre` (moins de 50 % des mots retrouvés dans un passage).
+- Une **omission** est un fait clé du document (entité `CONTRAINTE` ou `INDICATEUR`) que la fiche ne reprend pas : `{"label", "texte", "passage_id"}`.
+- Le contrôle est lexical : il guide la relecture de l'enseignant, il ne la remplace pas (rappel 1,00 sur les erreurs injectées, rappel faible contre les relecteurs humains, voir `reports/lot_d_gold_juge.md`).
+- CaseForge Studio : le palier **Gold** = options Silver + `controle=True`. L'onglet « Explications XLM-R » montre les 30 cas de gradients intégrés du Lot C (`reports/explications/lotC_gold_explications.json`, calculés hors ligne sur le dev, servis par `GET /api/explications`).
+
