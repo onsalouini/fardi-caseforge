@@ -1,7 +1,8 @@
 """Lot C · Recherche du passage source : fusion BM25 + TF-IDF caractères, et recherche dans le document de la fiche.
 
     python -m caseforge.retrieval.hybride            # dev
-    python -m caseforge.retrieval.hybride --test     # UNE SEULE FOIS, à la fin du lot
+
+Dev seulement : l'évaluation unique sur le test gelé passe par scripts/final_eval.py (CLAUDE.md §2, constat H1).
 
 Deux améliorations classiques de la tâche 3 (caseforge/retrieval/bm25.py), même requêtes, mêmes métriques :
   1. FUSION des rangs (Reciprocal Rank Fusion, k = 60) de BM25 (mots) et du TF-IDF sur n-grammes de caractères :
@@ -35,10 +36,9 @@ def rrf(*classements: list[str], k: int = 60) -> list[str]:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--test", action="store_true")
     ap.add_argument("--out", default="reports/lotC_retrieval_hybride.md")
     a = ap.parse_args()
-    split, nom = ("test", "test gelé") if a.test else ("dev", "dev")
+    split = nom = "dev"
     passages, requetes, ignorees = charger(split)
     ids = [p["id"] for p in passages]
     doc_de = {p["id"]: p["doc_id"] for p in passages}

@@ -84,7 +84,7 @@ function initialiserReglages() {
     $$(".segment button").forEach((x) => {
       x.classList.toggle("actif", x === b); x.setAttribute("aria-checked", String(x === b));
     });
-    $("#options-silver").classList.toggle("inactif", etat.palier !== "Silver");
+    $("#options-silver").classList.toggle("inactif", etat.palier === "Bronze");
   }));
   const legende = $("#legende");
   for (const [lab, c] of Object.entries(COULEURS)) {
@@ -220,6 +220,12 @@ function afficher(s) {
   let alertes = "";
   if (fuites) alertes += `<div class="alerte grave">Un nom masqué apparaît encore dans la sortie : ne pas diffuser avant correction.</div>`;
   for (const a of m.alertes || []) alertes += `<div class="alerte">${esc(a)}</div>`;
+  if (s.controle) {
+    const na = s.controle.ajouts.length, no = s.controle.omissions.length;
+    alertes += na || no
+      ? `<div class="alerte">Contrôle de la fiche (Lot D) : ${na} ajout(s) et ${no} omission(s) à vérifier — onglet « Fiche pédagogique ».</div>`
+      : `<div class="alerte ok">Contrôle de la fiche (Lot D) : aucun ajout ni omission détecté.</div>`;
+  }
   $("#alertes").innerHTML = alertes;
 
   const anon = Object.fromEntries((s.anonymise?.passages || []).map((p) => [p.passage_id, p.texte]));
@@ -227,6 +233,7 @@ function afficher(s) {
   $("#col-anonyme").innerHTML = s.passages.map((p) => blocPassage(p, pseudonymes(anon[p.passage_id] || ""), "anon")).join("");
   $("#col-fiche").innerHTML = ficheHTML(s.fiche, s.lang);
   $("#fiche-complete").innerHTML = ficheHTML(s.fiche, s.lang);
+  $("#controle-fiche").innerHTML = controleHTML(s.controle);
   $("#json").textContent = JSON.stringify(s, null, 1);
 
   // Bronze ↔ Silver
@@ -261,13 +268,74 @@ function afficher(s) {
   ouvrirOnglet("vue");
 }
 
+// ---------- Contrôle des ajouts et omissions (Lot D, Gold) ----------
+const MOTIFS = { nombre_absent: "nombre absent du document", non_ancre: "aucun passage ne porte cet élément" };
+function controleHTML(c) {
+  if (!c) return "";
+  const lignes = (els, rendu) => els.length ? "<ul>" + els.map(rendu).join("") + "</ul>" : `<p class="vide">Aucun.</p>`;
+  return `<div class="controle"><h3>Contrôle automatique <small>Lot D · à vérifier avant de valider</small></h3>
+    <div class="deux-colonnes">
+      <div><h4>Ajouts possibles (${c.ajouts.length})</h4>${lignes(c.ajouts, (a) =>
+        `<li dir="auto">${esc(a.texte)} <span class="motif">${esc(a.rubrique)} · ${esc(MOTIFS[a.motif] || a.motif)}${
+          Array.isArray(a.detail) ? " : " + esc(a.detail.join(", ")) : ""}</span></li>`)}</div>
+      <div><h4>Omissions possibles (${c.omissions.length})</h4>${lignes(c.omissions, (o) =>
+        `<li dir="auto">${esc(o.texte)} <span class="motif">${esc(NOMS[o.label] || o.label)}</span>
+         <button type="button" class="source" data-source="${esc(o.passage_id)}" data-aide="Voir le passage source">${esc(court(o.passage_id))}</button></li>`)}</div>
+    </div>
+    <p class="petit">Contrôle lexical : il repère les nombres inventés et les contraintes ou indicateurs oubliés, pas les inventions de sens. Il guide la relecture sans la remplacer.</p></div>`;
+}
+
+// ---------- Explications XLM-R (Lot C, Gold) ----------
+const CATEGORIES = { correcte: "correcte", bornes: "erreur de bornes", "étiquette": "erreur d'étiquette", manquee: "manquée", "manquée": "manquée", en_trop: "en trop", "en trop": "en trop" };
+async function chargerExplications() {
+  const zone = $("#explications");
+  if (zone.dataset.charge) return;
+  zone.innerHTML = `<p class="petit">Chargement…</p>`;
+  try {
+    const r = await fetch("/api/explications");
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.detail || "indisponible");
+    zone.dataset.charge = "1";
+    const cats = [...new Set(d.cas.map((c) => c.categorie))];
+    zone.innerHTML = `<h2>Pourquoi XLM-R a-t-il prédit cette entité ?</h2>
+      <p class="petit">Gradients intégrés (Lot C) sur XLM-R v4, ${d.cas.length} cas du dev calculés hors ligne. Vert : le mot pousse vers l'étiquette ; rouge : il l'en éloigne. L'entité est encadrée.</p>
+      <div class="filtres">${["toutes", ...cats].map((c, i) =>
+        `<button type="button" class="puce${i ? "" : " actif"}" data-categorie="${esc(c)}">${esc(CATEGORIES[c] || c)}</button>`).join("")}</div>
+      <div id="liste-explications">${d.cas.map(casHTML).join("")}</div>`;
+    zone.querySelectorAll("[data-categorie]").forEach((b) => b.addEventListener("click", () => {
+      zone.querySelectorAll("[data-categorie]").forEach((x) => x.classList.toggle("actif", x === b));
+      zone.querySelectorAll(".cas-expl").forEach((el) =>
+        (el.hidden = b.dataset.categorie !== "toutes" && el.dataset.categorie !== b.dataset.categorie));
+    }));
+  } catch (e) {
+    zone.innerHTML = `<p class="vide">Explications indisponibles : ${esc(e.message)}</p>`;
+  }
+}
+function casHTML(c) {
+  const e = c.entite || {};
+  const mots = (c.mots || []).map((m) => {
+    const v = Math.max(-1, Math.min(1, Number(m.score) || 0));
+    const fond = v >= 0 ? `rgba(47,158,68,${(0.75 * v).toFixed(2)})` : `rgba(224,49,49,${(-0.75 * v).toFixed(2)})`;
+    const dans = m.start >= e.start && m.end <= e.end ? " dans-entite" : "";
+    return `<span class="mot${dans}" style="background:${fond}" data-aide="score ${v.toFixed(2)}">${esc(m.texte)}</span>`;
+  }).join(" ");
+  const etiq = (x) => (x ? `${esc(NOMS[x.label] || x.label)}` : "—");
+  return `<div class="cas-expl" data-categorie="${esc(c.categorie)}">
+    <div class="meta"><strong>#${esc(c.id)}</strong> · ${esc(CATEGORIES[c.categorie] || c.categorie)} · ${esc((c.langue || "").toUpperCase())} · ${esc(c.passage_id)}
+      · référence : ${etiq(c.gold)} · prédiction : ${etiq(c.prediction)} · part sur l'entité ${Math.round(100 * (c.part_attribution_entite || 0))} %</div>
+    <div class="phrase" dir="auto">${mots}</div></div>`;
+}
+
 // ---------- Interactions des résultats ----------
 function ouvrirOnglet(nom) {
   $$(".onglets button").forEach((b) => b.classList.toggle("actif", b.dataset.onglet === nom));
   $$(".panneau-onglet").forEach((p) => (p.hidden = p.dataset.panneau !== nom));
 }
 function initialiserResultats() {
-  $$(".onglets button").forEach((b) => b.addEventListener("click", () => ouvrirOnglet(b.dataset.onglet)));
+  $$(".onglets button").forEach((b) => b.addEventListener("click", () => {
+    ouvrirOnglet(b.dataset.onglet);
+    if (b.dataset.onglet === "explications") chargerExplications();
+  }));
   document.addEventListener("click", (e) => {
     const src = e.target.closest("[data-source]");
     if (!src) return;

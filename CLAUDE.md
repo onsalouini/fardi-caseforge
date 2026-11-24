@@ -90,14 +90,15 @@ Une seule session Claude Code écrit dans ce dossier à la fois ; une seconde se
 
 ## 8. Git et travail en équipe
 
-- **Une branche par lot** (exigence du cahier des charges) : le Lot B travaille directement sur `lot-b`. Pas de branche ni de PR par tâche.
+- **Une branche par lot** (exigence du cahier des charges) : pour le palier Gold (plan d'équipe du 20/11/2026), le Lot B travaille directement sur `lot-b-gold`, créée depuis `origin/main`. Pas de branche ni de PR par tâche. Les branches `lot-b` et `lot-b-silver` ne reçoivent plus de commits.
 - **Périmètre ruff du Lot B** : seulement les fichiers du Lot B. Ne modifier ni `caseforge/models/` ni `caseforge/retrieval/` (Lot C), même pour les mettre aux normes. `caseforge/eval/ner_eval.py` appartient aussi au Lot C : il est exclu du périmètre et n'est pas modifié.
 
   ```bash
   LOTB="caseforge/labels.py caseforge/eval caseforge/extraction caseforge/anonymization scripts \
         tests/test_labels.py tests/test_test_gele.py tests/test_ner_metrics.py tests/test_non_regression_kappa.py \
         tests/test_bio.py tests/test_nlp.py tests/test_lib_cv.py tests/test_mode_token.py tests/test_leak.py tests/test_regles.py tests/test_anonymisation.py \
-        tests/test_nltk_pipeline.py tests/test_api_anonymisation.py tests/test_produit.py tests/test_generalisation.py tests/test_backend_fichier.py tests/test_contrainte_ar.py"
+        tests/test_nltk_pipeline.py tests/test_api_anonymisation.py tests/test_produit.py tests/test_generalisation.py tests/test_backend_fichier.py tests/test_contrainte_ar.py \
+        tests/test_externe_dev.py tests/test_tunisien.py"
   EXCL="--extend-exclude caseforge/eval/ner_eval.py"
   ruff check $EXCL $LOTB && ruff format --check $EXCL $LOTB
   ```
@@ -108,22 +109,22 @@ Une seule session Claude Code écrit dans ce dossier à la fois ; une seconde se
 - **Début de chaque tâche** :
 
   ```bash
-  git checkout lot-b && git pull origin lot-b
+  git checkout lot-b-gold && git pull origin lot-b-gold
   ```
 
 - **Fin de chaque tâche**, seulement si ruff (périmètre `$LOTB` ci-dessus) et `pytest` passent :
 
   ```bash
   git commit
-  git pull origin lot-b           # fusion (merge), pas de rebase
+  git pull origin lot-b-gold      # fusion (merge), pas de rebase
   pytest                          # relancé si le pull a apporté des commits
-  git push origin lot-b
+  git push origin lot-b-gold
   ```
 
-- **PR `lot-b` -> `main` seulement aux jalons** (J2, J3, J4…), relue par un pair avant fusion.
+- **PR `lot-b-gold` -> `main` seulement aux jalons** (J2, J3, J4…), relue par un pair avant fusion.
 - **Claude Code ne fusionne jamais une PR et ne pousse jamais sur `main`.**
-- **Intégration de `main` dans `lot-b`** : `git merge origin/main --no-edit`, uniquement à la demande.
-- **Interdit** : `push --force` sur `main` ou `lot-b`.
+- **Intégration de `main` dans `lot-b-gold`** : `git merge origin/main --no-edit`, uniquement à la demande.
+- **Interdit** : `push --force` sur `main`, `lot-b` ou `lot-b-gold`.
 - **Conflit pendant une fusion** : s'arrêter, lister les fichiers en conflit, ne rien résoudre seul. Pour `experiments.md`, les entrées des deux côtés sont conservées, triées par date décroissante.
 - Ne jamais committer de données partenaires (`data/raw/fardi/`) ni de modèles (`*.safetensors`, `runs/`).
 - **Pas d'attribution automatique** : aucune ligne `Co-Authored-By` ni `Claude-Session` dans les messages de commit, aucune mention « Generated with Claude Code » dans les PR (réglé dans `.claude/settings.json` : `includeCoAuthoredBy: false`, `attribution` vide). Les anciens commits ne sont pas réécrits.

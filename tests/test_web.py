@@ -82,3 +82,23 @@ def test_validation(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
         client.post("/api/validation", json={"doc_id": "essai", "statut": "autre", "valide_par": "X"}).status_code
         == 422
     )
+
+
+def test_gold_ajoute_le_controle(pipeline_factice: list[dict[str, Any]]) -> None:
+    s = client.post("/api/analyser", json={"texte": "Bonjour.", "langue": "fr", "palier": "Gold"}).json()
+    assert s["palier"] == "Gold"
+    assert pipeline_factice[0] == {"langue": "fr", "ptype": "e5", "recherche": "dense", "controle": True}
+
+
+def test_explications_xlmr(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    fichier = tmp_path / "explications.json"
+    fichier.write_text(json.dumps({"cas": [{"id": 1, "categorie": "correcte", "mots": []}]}), encoding="utf-8")
+    monkeypatch.setattr(serveur, "EXPLICATIONS", fichier)
+    assert client.get("/api/explications").json()["cas"][0]["id"] == 1
+    monkeypatch.setattr(serveur, "EXPLICATIONS", tmp_path / "absent.json")
+    assert client.get("/api/explications").status_code == 404
+
+
+def test_page_propose_gold_et_explications() -> None:
+    page = client.get("/").text
+    assert 'data-palier="Gold"' in page and 'data-onglet="explications"' in page

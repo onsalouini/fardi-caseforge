@@ -1,0 +1,151 @@
+﻿rang,passage_id,doc_id,origine,langue,entropie,entropie_max,marge,sous_mots_entite,n_sous_mots,alerte,extrait
+1,lib_en_501_p004,lib_en_501,libres_v4,en,1.2016,2.5103,0.5751,25,45,,"The study must last no more than five weeks, and the students should adhere to the 5S approach to organize and improve t"
+2,lib_en_503_p004,lib_en_503,libres_v4,en,1.0438,2.7395,0.6560,39,59,,"The investment in new equipment or improvements is capped at TND 40,000. Therefore, any proposed solutions must be withi"
+3,lib_ar_508_p001,lib_ar_508,libres_v4,ar,0.9190,3.1449,0.7144,25,63,,عندما نظرنا في فرعنا في قفصة، لاحظنا أن هناك فرقاً كبيراً في استهلاك الطاقة بين حزم أسلاك لوحة القيادة. بينما يستهلك الج
+4,lib_ar_501_p001,lib_ar_501,libres_v4,ar,0.8996,2.8324,0.6957,27,50,,لدينا بيانات متوفرة حول الوقت المستغرق لتغيير السلسلة في كل من الأماكن، ونجد أنه يجب ألا يتجاوز هذا الوقت 20 دقيقة. كما 
+5,lib_ar_510_p003,lib_ar_510,libres_v4,ar,0.8774,2.5073,0.6886,14,56,,نطلب من طلابنا استخدام هذه البيانات لتحديد الأسباب الرئيسية وراء نسبة الغياب المرتفعة. يجب عليهم استخدام منهجية 8D لتحلي
+6,lib_fr_507_p004,lib_fr_507,libres_v4,fr,0.8547,2.2695,0.7535,0,70,,Le travail devra respecter certaines contraintes. Les modifications de processus doivent être réalisées de manière à min
+7,syn_ar_505_p006,syn_ar_505,train_v4,ar,0.8375,2.4234,0.7012,7,31,,المعطيات المرفقة: سجل توقفات four à induction، التقرير NCR-2025-7740، رقم تسجيل العامل MAT-15760.
+8,lib_ar_515_p003,lib_ar_515,libres_v4,ar,0.8313,2.6359,0.6567,7,40,,نتوقع من الطلاب أن يقوموا بتقييم الوضع الحالي واقتراح حلول عملية لخفض نسبة التغيب. يجب أن يكون العمل مفصلًا وملائمًا لتط
+9,lib_ar_513_p005,lib_ar_513,libres_v4,ar,0.8304,2.3471,0.7179,12,43,,من فضلكم، حاولوا أن تكونوا محددين في متطلبات العمل، بحيث يكون العمل مباشراً على هذه البيانات. يجب أن تكون كل مقترحاتكم و
+10,lib_en_508_p002,lib_en_508,libres_v4,en,0.8161,2.6633,0.7140,20,59,,"The data available includes the operational logs, maintenance records, and production output for the past six months. We"
+11,lib_ar_509_p003,lib_ar_509,libres_v4,ar,0.8119,2.8576,0.7189,8,43,,نطلب من الطلاب تنفيذ دراسة جدوى لتحسين كفاءة استخدام التحاميل. يجب عليهم تحديد الوقت المستغرق لتغيير السلسلة واقتراح طرق
+12,lib_ar_508_p002,lib_ar_508,libres_v4,ar,0.7889,1.8281,0.7123,13,27,,لدينا بيانات حول استهلاك الطاقة لكل طن من الأسلاك الم produite. هذا سيساعدنا على فهم الفرق بين الأجهزة.
+13,lib_en_511_p004,lib_en_511,libres_v4,en,0.7779,2.4505,0.7554,13,55,,The students will also need to ensure that all process improvements comply with the ISO 50001 energy management system s
+14,syn_fr_502_p006,syn_fr_502,train_v4,fr,0.7747,2.7700,0.7136,15,39,,"Données jointes : export des arrêts de machine de coupe-dénudage, rapport NCR-2026-4798, matricule opérateur MAT-70037."
+15,syn_en_509_p003,syn_en_509,train_v4,en,0.7685,2.6900,0.7194,10,27,,"D3 – Containment: 100% sorting of stock, MTTR of 30 minutes during sorting, coiling machine stopped."
+16,syn_en_501_p002,syn_en_501,train_v4,en,0.7638,2.5250,0.7367,19,35,,"D2 – Problem: complaint NCR-2026-8834 on bed linen, batch 26K836; cycle time of 52 seconds found on the spreading table."
+17,lib_ar_513_p000,lib_ar_513,libres_v4,ar,0.7585,1.2466,0.8263,0,8,,الشركة الشمس للملابس الجاهزة
+18,syn_ar_501_p003,syn_ar_501,train_v4,ar,0.7488,2.2644,0.7525,14,33,,D3 – الاحتواء: فرز كامل للمخزون، مردود المرور الأول يبلغ 80 % أثناء الفرز، ايقاف المحبب عالي القص.
+19,lib_ar_505_p001,lib_ar_505,libres_v4,ar,0.7056,2.6342,0.7220,14,34,,المشكلة التي نواجهها هو استمرار تأخير في وقت إصلاح الآلة، حيث يبلغ متوسط زمن الإصلاح 45 دقيقة، بينما تم تحديد الاستثمار 
+20,lib_ar_510_p000,lib_ar_510,libres_v4,ar,0.6981,2.4861,0.7186,25,40,,دار بوقرنين للربط الكهربائي في مدينة البقالطة، نحن نقدم حلول الربط الكهربائي عالية الجودة. لدينا موقع متخصص لاختبار الكو
+21,syn_fr_506_p002,syn_fr_506,train_v4,fr,0.6966,2.3193,0.7495,15,43,,"D2 – Problème : réclamation NCR-2026-6460 sur linge de lit, lot 26R798 ; MTTR de 40 minutes constaté sur métier à tricot"
+22,lib_ar_510_p001,lib_ar_510,libres_v4,ar,0.6895,3.4157,0.7800,17,50,,من بين المشاكل التي واجهناها، هناك نسبة تغيب مرتفعة تصل إلى 9% في فئة الهندسة المدنية، و 6% في فئة الهندسة الكهربائية. ه
+23,lib_ar_504_p003,lib_ar_504,libres_v4,ar,0.6887,2.8884,0.7357,13,56,,نطلب من طلاب المدرسة أن يقوموا بتقييم الوقت الحالي لعملية تغيير السلسلة، وتحديد العوامل التي تؤثر على هذا الوقت، واقتراح
+24,lib_ar_506_p000,lib_ar_506,libres_v4,ar,0.6876,2.6288,0.7710,33,72,,شركة تونسية شنني للمصبرات نظمت اجتماعاً لمناقشة الإنتاج في ورشتها. في هذا الاجتماع، تناولت ماطر مشكلة استهلاك الطاقة الع
+25,syn_ar_509_p005,syn_ar_509,train_v4,ar,0.6859,2.5272,0.7563,12,37,,D5 – الإجراءات التصحيحية: طريقة لماذا الخمس على الفرن النفقي بمتابعة وائل الشتيوي؛ تم إعلام الحريف (موزعين ليبيين).
+26,syn_fr_507_p006,syn_fr_507,train_v4,fr,0.6791,2.4785,0.7707,16,37,,"Données jointes : export des arrêts de sécheur de granulés, rapport NCR-2025-9580, matricule opérateur MAT-40256."
+27,lib_en_500_p003,lib_en_500,libres_v4,en,0.6786,1.8575,0.7471,51,73,,The work to be done should strictly adhere to the following constraints: any changes implemented must be approved by the
+28,lib_en_510_p003,lib_en_510,libres_v4,en,0.6647,2.5439,0.7932,37,89,,The students are required to analyze the root cause of the increased absenteeism rate and propose solutions to improve w
+29,lib_ar_511_p003,lib_ar_511,libres_v4,ar,0.6550,2.4074,0.7692,12,67,,نطلب من الطلاب استخدام منهجية DMAIC لتحليل المشكلات وتطوير الحلول. يجب أن يقوموا بتحديد الأسباب الجذرية للاختلافات في ال
+30,lib_en_505_p004,lib_en_505,libres_v4,en,0.6550,1.8265,0.7746,30,34,,Any changes or adjustments proposed must be approved by the end customer before implementation. This will ensure that th
+31,lib_fr_506_p002,lib_fr_506,libres_v4,fr,0.6466,2.0710,0.7654,31,64,,"Nous avons recensé les données suivantes : le nombre de pièces produites, le temps de production, le taux de défectuosit"
+32,syn_en_502_p005,syn_en_502,train_v4,en,0.6461,1.8587,0.8243,18,22,,"- investment is capped at TND 15,000 - any change must be approved by the end custorner"
+33,lib_ar_506_p001,lib_ar_506,libres_v4,ar,0.6406,2.3596,0.7589,12,56,,لحل هذه المشكلة، قررت الشركة جمع بيانات حول استهلاك الطاقة وطرق تقليله. طلبت من الطلاب دراسة طريقة لماذا الخمس لتحسين فع
+34,lib_ar_511_p005,lib_ar_511,libres_v4,ar,0.6327,2.2993,0.7725,12,55,,الميزانية المخصصة لهذا المشروع محدودة بمبلغ 40000 دينار، لذلك يجب أن يكون المشروع فعالاً وموثوقاً. نأمل في الحصول على نت
+35,lib_fr_508_p002,lib_fr_508,libres_v4,fr,0.6248,2.4818,0.8440,0,39,,"Données disponibles incluent les registres de présence, les horaires de travail, les factures de main-d'œuvre, et les ra"
+36,lib_en_510_p004,lib_en_510,libres_v4,en,0.6233,2.6127,0.7734,5,61,,"The task is subject to several constraints, including the need to ensure that all proposed solutions are cost-effective "
+37,syn_en_504_p003,syn_en_504,train_v4,en,0.6232,2.2680,0.8015,14,30,,"D3 – Containment: 100% sorting of stock, first pass yield of 95% during sorting, embroidery machine stopped."
+38,syn_fr_508_p001,syn_fr_508,train_v4,fr,0.6109,2.8736,0.8599,26,42,,"Site : l'unité de Sayada (Usines C0nnectique Bassatine, UCBA). Fabrication de boîtiers de fusibles pour un équipementier"
+39,lib_en_500_p000,lib_en_500,libres_v4,en,0.6022,2.2115,0.8127,31,88,,"Sbeitla Apparel Works operates in the heart of Hammamet, a picturesque coastal town known for its serene atmosphere and "
+40,lib_fr_510_p003,lib_fr_510,libres_v4,fr,0.5996,2.4124,0.8124,6,45,,"Le projet devra respecter certaines contraintes, notamment le respect du temps de changement de série et la validation f"
+41,lib_en_504_p002,lib_en_504,libres_v4,en,0.5994,2.4047,0.8266,5,56,,"We would like the students to gather data on the energy consumption patterns, identify potential areas for improvement, "
+42,lib_en_511_p002,lib_en_511,libres_v4,en,0.5976,2.7969,0.8169,21,58,,"Data available includes the current stock levels, which are at an average of 18 days for raw materials and 15 days for f"
+43,lib_ar_507_p003,lib_ar_507,libres_v4,ar,0.5948,2.4321,0.8375,7,38,,نطلب من الطلاب استخدام منهجية DMAIC لتحليل المشكلات وإيجاد حلول. يجب أن يدرسوا العملية بأكملها ويعملوا على تحسين مردود ا
+44,lib_en_502_p004,lib_en_502,libres_v4,en,0.5753,3.0210,0.8265,37,62,,"To complete this project within the set timeframe, the study must last no more than 7 weeks. Additionally, it is essenti"
+45,lib_en_505_p003,lib_en_505,libres_v4,en,0.5748,2.7426,0.8204,22,69,,We would like the final-year students to conduct a detailed analysis of these data to identify the root causes of the hi
+46,lib_fr_510_p002,lib_fr_510,libres_v4,fr,0.5697,2.1032,0.8242,49,81,,"Nous demandons aux étudiants de concevoir un système permettant de gérer efficacement les changements de série, afin que"
+47,lib_ar_504_p004,lib_ar_504,libres_v4,ar,0.5662,2.5221,0.8758,8,31,,يجب أن يتم هذا العمل ضمن حدود استثمار محدد بسقف 15000 دينار. نأمل في الحصول على نتائج ملموسة وقابلة للتنفيذ.
+48,syn_en_505_p006,syn_en_505,train_v4,en,0.5658,1.6616,0.7456,15,29,,"Attached data: pellet dryer downtime export, report NCR-2025-5631, operator ID MAT-58449."
+49,lib_ar_503_p002,lib_ar_503,libres_v4,ar,0.5648,2.2356,0.8104,38,79,,تواجه الشركة التونسية عليسة للمخابر في وحدة الأكياس الفوارة مشكلة في التغيب الزائد من قبل العمال، حيث بلغت نسبة التغيب 9
+50,syn_en_501_p003,syn_en_501,train_v4,en,0.5643,2.4460,0.8078,17,29,,"D3 – Containment: 100% sorting of stock, absenteeism rate of 9% during sorting, steam tunnel stopped."
+51,syn_ar_501_p005,syn_ar_501,train_v4,ar,0.5630,2.8307,0.7827,13,39,,D5 – الإجراءات التصحيحيه: تأهيل التجهيزات على اله التعليب في الكرتون بمتابعة شكري الغربال؛ تم إعلام الحريف (موزعين ليبيي
+52,lib_ar_512_p002,lib_ar_512,libres_v4,ar,0.5625,2.7623,0.8144,17,45,,"لدينا بيانات حول الاستهلاك اليومي للصمامات الحديدية، وكذلك سعر الوحدة البالغ 93,81 دينار. بالإضافة إلى ذلك، لدينا تقارير"
+53,lib_ar_502_p002,lib_ar_502,libres_v4,ar,0.5579,2.0520,0.8157,21,65,,للأسف، لا نملك بيانات مفصلة حول أسباب هذه النسبة المرتفعة، مما يجعل من الصعب اتخاذ الإجراءات اللازمة لتحسين الجودة. لدين
+54,lib_ar_505_p002,lib_ar_505,libres_v4,ar,0.5565,2.0991,0.7681,10,37,,للحل، نحتاج إلى بيانات مفصلة حول الآلة وعملية الإصلاح. البيانات المتاحة تشمل التقرير الفني للآلة، وسجل الصيانة، وملخص عم
+55,syn_ar_501_p002,syn_ar_501,train_v4,ar,0.5564,2.6956,0.8148,23,47,,D2 – المشكل: الشكوى NCR-2026-5183 حول الاكياس الفواره، الحصة 26K594؛ تم تسجيل متوسط زمن الإصلاح يبلغ 55 دقيقة على آلة ال
+56,lib_en_502_p001,lib_en_502,libres_v4,en,0.5521,1.8142,0.8152,20,61,,"A recent analysis has revealed that our first pass yield for the production process of HDPE pipes is currently at 83%, w"
+57,lib_ar_510_p004,lib_ar_510,libres_v4,ar,0.5518,2.2719,0.8222,6,38,,الميزانية المخصصة لحل هذه المشكلة محددة بسقف قدره 40000 دينار. يتوقع من الطلاب تقديم حلول مادية وغير مادية مع التكاليف ا
+58,lib_en_508_p003,lib_en_508,libres_v4,en,0.5494,2.1684,0.8098,27,64,,"We are looking for innovative solutions within an investment cap of TND 15,000. The focus should be on improving the ava"
+59,lib_en_501_p003,lib_en_501,libres_v4,en,0.5481,2.5405,0.7598,20,55,,The students are tasked with conducting a comprehensive study on the current maintenance procedures and proposing soluti
+60,syn_en_508_p006,syn_en_508,train_v4,en,0.5458,1.5523,0.7500,14,28,,"Attached data: pellet dryer downtime export, report NCR-2025-5407, operator ID MAT-50573."
+61,syn_fr_504_p002,syn_fr_504,train_v4,fr,0.5451,1.9351,0.8247,9,31,,Constat : stock moyen de 28 jours relevé sur ligne de calandrage ; démarche non suivie en poste de nuit : méthode QRQC.
+62,lib_fr_500_p003,lib_fr_500,libres_v4,fr,0.5342,2.1905,0.8140,10,29,,On demande aux étudiants de travailler sur la réduction du MTTR. Ils doivent chercher des solutions pour ramener le temp
+63,lib_ar_500_p000,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+64,lib_ar_500_p003,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+65,lib_ar_500_p006,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+66,lib_ar_500_p009,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+67,lib_ar_500_p012,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+68,lib_ar_500_p015,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+69,lib_ar_500_p018,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+70,lib_ar_500_p021,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+71,lib_ar_500_p024,lib_ar_500,libres_v4,ar,0.5247,2.0511,0.8365,13,17,,المصنع النخلة للمصبرات، البقالطة، معجون التين
+72,syn_fr_501_p002,syn_fr_501,train_v4,fr,0.5234,1.8159,0.8232,14,32,,Constat : stock moyen de 28 jours relevé sur ligne de calandrage ; démarche non suivie en poste de nuit : gestion visuel
+73,lib_fr_503_p003,lib_fr_503,libres_v4,fr,0.5220,2.1827,0.7954,5,55,,Travail demandé aux étudiants : Les étudiants doivent analyser pourquoi le rendement n'est pas au niveau attendu et prop
+74,lib_en_503_p002,lib_en_503,libres_v4,en,0.5173,2.2499,0.7908,7,30,,"We have the following data available: production records, quality control reports, and maintenance logs. These will be p"
+75,lib_fr_504_p001,lib_fr_504,libres_v4,fr,0.5154,2.0874,0.8410,23,78,,"Nous avons observé que le temps de cycle du sécheur peut être considérablement réduit. Actuellement, il prend 55 seconde"
+76,syn_en_500_p006,syn_en_500,train_v4,en,0.5135,1.4250,0.7987,17,31,,"Attached data: cut-and-strip machine downtime export, report NCR-2026-6805, operator ID MAT-59580."
+77,lib_ar_511_p002,lib_ar_511,libres_v4,ar,0.5035,2.7418,0.8448,4,51,,لحل هذه المشكلة، نحتاج إلى تحليل البيانات المتاحة لدينا. لدينا بيانات حول أسعار الوحدات، وكمية الإنتاج اليومي، ومعدلات ا
+78,lib_ar_512_p001,lib_ar_512,libres_v4,ar,0.4997,2.1949,0.8657,12,46,,أصبحنا نعاني من زيادة في استهلاك الصمامات الحديدية بسبب زيادة طلب العملاء. المتوسط اليومي للمخزون يبلغ 32 يومًا، مما يزي
+79,lib_en_502_p006,lib_en_502,libres_v4,en,0.4985,2.8746,0.8472,13,38,,"TND 89.93 is the cost per unit of HDPE pipe produced, and this figure will be used as a reference point in evaluating th"
+80,lib_ar_515_p002,lib_ar_515,libres_v4,ar,0.4966,2.7165,0.8634,15,46,,نطلب من الطلاب استخدام منهجية DMAIC لتحليل المشكلة واقتراح الحلول. يجب أن يتم صق الحريف النهائي على كل تعديل. نحن نسعى د
+81,syn_ar_507_p002,syn_ar_507,train_v4,ar,0.4951,2.3343,0.8117,19,37,,المعاينة: تم تسجيل مردود المرور الأول يبلغ 89 % على آلة التعليب في الكرتون، ولا يتم تطبيق المراجعة السنوية لجودة المنتوج
+82,syn_fr_505_p001,syn_fr_505,train_v4,fr,0.4920,1.8039,0.8230,26,43,,"Site : le pôle industriel de Tozeur (Manufacture Connectique Kantaoui, MCKA). Fabrication de boîtiers de fusibles pour d"
+83,syn_ar_502_p006,syn_ar_502,train_v4,ar,0.4894,2.1321,0.8053,14,34,,المعطيات المرفقة: سجل توقفات cellule de grenaillage، التقرير NCR-2026-3689، رقم تسجيل العامل MAT-67073.
+84,lib_fr_508_p003,lib_fr_508,libres_v4,fr,0.4889,1.7433,0.8724,7,28,,Travail demandé aux étudiants est de déterminer les causes profondes du taux d'absentéisme et de proposer des solutions 
+85,syn_en_507_p005,syn_en_507,train_v4,en,0.4871,2.0740,0.8547,16,20,,"- investment is capped at TND 40,000 - any change must be approved by the end customer"
+86,lib_ar_502_p004,lib_ar_502,libres_v4,ar,0.4866,1.6601,0.8989,5,29,,الاستثمار المخصص لهذا المشروع محدود بسقف 15000 دينار، ومن المهم أن تتم دراسة القضية وتقديم الحلول في غضون 6 أسابيع فقط.
+87,lib_en_509_p004,lib_en_509,libres_v4,en,0.4857,1.6164,0.8934,30,46,,There are certain constraints to consider. The total investment required for any proposed improvements cannot exceed TND
+88,lib_ar_502_p000,lib_ar_502,libres_v4,ar,0.4842,1.3631,0.8634,10,10,,مصانع الشمس للتغليف سيدي بوزيد
+89,lib_fr_503_p001,lib_fr_503,libres_v4,fr,0.4737,2.1881,0.8040,24,50,,Problème constaté : Le rendement de l'enrouleuse est inférieur aux normes prévues. Les essais actuels donnent un rendeme
+90,lib_ar_513_p004,lib_ar_513,libres_v4,ar,0.4711,2.0186,0.8334,12,41,,نرجو من طلابكم أن يدرسوا هذه المشكلة ويقدموا حلولاً ممكنة. نسعى لتحسين كفاءة العملية دون زيادة التكاليف أكثر من الاستثما
+91,syn_ar_504_p006,syn_ar_504,train_v4,ar,0.4683,1.5190,0.7629,25,31,,"توزيع محدود: كلفه الانتاج 53,30 دينار للوحدة، هامش ربح خام يبلغ 12 %، الحصة المعنية 25W416."
+92,lib_en_507_p003,lib_en_507,libres_v4,en,0.4654,2.9612,0.8563,13,66,,We request that the final-year engineering students conduct a detailed study on improving the availability rate of the p
+93,syn_fr_506_p003,syn_fr_506,train_v4,fr,0.4654,2.2647,0.8780,19,38,,"D3 – Confinement : tri à 100 % des stocks, taux de non-conformité de 11 % pendant le tri, arrêt de table de matelassage."
+94,lib_ar_513_p003,lib_ar_513,libres_v4,ar,0.4643,2.3567,0.8659,15,50,,لتحديد سبب هذا التأخير، نحتاج إلى بيانات مفصلة حول عملية التبخير. لدينا نظام مراقبة بالعينات يوفر بيانات دقيقة عن العملي
+95,syn_en_500_p003,syn_en_500,train_v4,en,0.4633,2.1065,0.8773,19,41,,Retained causes: - settings differ between shifts on the coiling machine; - MTTR of 25 minutes on the cut-and-strip mach
+96,syn_ar_506_p002,syn_ar_506,train_v4,ar,0.4630,2.3877,0.8442,26,48,,D2 – المشكل: الشكوى NCR-2025-6565 حول معجون التين، الحصة 25T928؛ تم تسجيل نسبة عدم المطابقة تبلغ 11 % على آلة الفرز البص
+97,lib_fr_501_p002,lib_fr_501,libres_v4,fr,0.4625,2.2967,0.8887,21,43,,"Données disponibles : Le stock moyen de nos carters de pompe se situe à 28 jours. Cependant, pour optimiser notre flux d"
+98,lib_en_507_p004,lib_en_507,libres_v4,en,0.4616,2.7472,0.8417,37,66,,"The study must adhere to certain constraints: it should be completed within a period of six weeks, and the ISO 50001 cer"
+99,lib_ar_501_p002,lib_ar_501,libres_v4,ar,0.4577,1.8681,0.8519,6,41,,نطلب من الطلاب دراسة هذه القضية وتطبيق منهجية 8D لتحليل السبب الجذري ووضع حلول عملية. يجب على الطلاب تقديم تقرير يتضمن ت
+100,syn_en_506_p004,syn_en_506,train_v4,en,0.4546,3.1412,0.8395,22,70,,| Action | Owner | Tool | | --- | --- | --- | | Standardise settings | N. Belaid | value stream mapping | | Train the ni
+101,syn_ar_500_p001,syn_ar_500,train_v4,ar,0.4530,2.1195,0.8807,14,28,,الموقع: وحدة توزر (دار الشمس للمصبرات). تصنيع عصير البرتقال المالطي لفائدة مزود ألماني.
+102,syn_fr_502_p003,syn_fr_502,train_v4,fr,0.4527,2.0973,0.8045,16,51,,Causes retenues : - réglages différents d'une équipe à l'autre sur enrouleuse ; - MTTR de 35 minutes sur machine de coup
+103,syn_ar_507_p003,syn_ar_507,train_v4,ar,0.4516,1.7983,0.8322,31,45,,قياسات إضافية: - استهلاك الطاقه يبلغ 365 كيلوواط ساعه للطن - مردود المرور الأول يبلغ 92 % في التدقيق الأخير - مركز العمل
+104,syn_ar_509_p002,syn_ar_509,train_v4,ar,0.4504,2.1801,0.8748,27,49,,D2 – المشكل: الشكوى NCR-2025-3681 حول معجون التين، الحصة 25T935؛ تم تسجيل استهلاك الطاقة يبلغ 390 كيلوواط ساعة للطن على 
+105,lib_en_504_p003,lib_en_504,libres_v4,en,0.4456,1.9533,0.8678,33,42,,We request that the students adhere to strict safety guidelines and that all experiments comply with the total productiv
+106,syn_en_506_p005,syn_en_506,train_v4,en,0.4426,1.8489,0.8491,16,20,,"- investment is capped at TND 20,000 - the study must last no more than 8 weeks"
+107,syn_en_504_p002,syn_en_504,train_v4,en,0.4406,2.1188,0.8489,23,39,,"D2 – Problem: complaint NCR-2025-9617 on hospital uniforms, batch 25T719; average stock of 32 days found on the circular"
+108,syn_en_503_p006,syn_en_503,train_v4,en,0.4386,1.7560,0.7996,20,27,,"Restricted: unit cost TND 58.53 per unit, gross margin of 17%, affected batch 25T873."
+109,syn_fr_502_p002,syn_fr_502,train_v4,fr,0.4372,2.3734,0.8472,24,42,,"Point bloquant : taux de non-conformité de 9 % sur le poste enrouleuse à Ariana, contre taux de non-conformité de 3 % il"
+110,syn_en_508_p001,syn_en_508,train_v4,en,0.4372,1.3115,0.7979,22,36,,"Site: the Gafsa unit (Rimel Packaging P1ants, RPPL). Manufacturing therrnoforrncd cups for a German supplier."
+111,syn_fr_503_p003,syn_fr_503,train_v4,fr,0.4350,2.3496,0.8653,14,40,,"D3 – Confinement : tri à 100 % des stocks, taux de non-conformité de 5 % pendant le tri, arrêt de métier à tricoter circ"
+112,lib_ar_503_p005,lib_ar_503,libres_v4,ar,0.4347,3.1563,0.8952,18,47,,يجب أن يتم العمل ضمن قيود استثمارية محددة بسقف 60000 دينار، وذلك لتنفيذ أي تحسينات أو تحديثات قد يتم اقتراحها. يتم تقديم
+113,syn_ar_509_p007,syn_ar_509,train_v4,ar,0.4345,1.5176,0.7845,24,30,,"توزيع محدود: كلفة الإنتاج 71,10 دينار للوحدة، هامش ربح خام يبلغ 17 %، الحصة المعنية 25T935."
+114,syn_en_504_p007,syn_en_504,train_v4,en,0.4344,1.7224,0.8046,19,26,,"Restricted: unit cost TND 13.83 per unit, gross margin of 21%, affected batch 25T719."
+115,syn_ar_507_p006,syn_ar_507,train_v4,ar,0.4336,1.5118,0.7920,24,30,,"توزيع محدود: كلفة الانتاج 95,43 دينار للوحدة، هامش ربح خام يبلغ 9 %، الحصة المعنية 26K834."
+116,syn_ar_506_p003,syn_ar_506,train_v4,ar,0.4333,1.8793,0.8862,14,33,,D3 – الاحتواء: فرز كامل للمخزون، نسبة التغيب تبلغ 6 % أثناء الفرز، إيقاف الفرن النفقي.
+117,syn_fr_503_p005,syn_fr_503,train_v4,fr,0.4285,1.9026,0.8635,10,36,,"D5 – Actions correctives : équilibrage de chaîne sur machine à broder, suivi par M. Mzali ; client informé (une chaîne d"
+118,syn_en_507_p006,syn_en_507,train_v4,en,0.4282,1.7425,0.8226,20,27,,"Restricted: unit cost TND 44.98 per unit, gross margin of 14%, affected batch 26W323."
+119,lib_ar_503_p004,lib_ar_503,libres_v4,ar,0.4279,2.0776,0.8550,19,67,,يُطلب من الطلاب القيام بتحليل هذه البيانات، وتحديد الأسباب المحتملة وراء ارتفاع نسبة التغيب في وحدة الأكياس الفوارة، وال
+120,lib_fr_511_p003,lib_fr_511,libres_v4,fr,0.4274,1.8957,0.8543,24,70,,"Les étudiants doivent prendre en compte certaines contraintes. Tout d’abord, les essais ne peuvent avoir lieu que le sam"
+121,syn_fr_509_p006,syn_fr_509,train_v4,fr,0.4267,1.7888,0.8740,20,32,,"Diffusion restreinte : coût de revient 75,45 DT par unité, marge brute de 17 %, lot concerné 26W374."
+122,syn_ar_506_p005,syn_ar_506,train_v4,ar,0.4266,2.4531,0.8388,18,38,,D5 – الإجراءات التصحيحية: طريقة لماذا الخمس على آلة الفرز البصري بمتابعة أسامة العمري؛ تم إعلام الحريف (موزعين ليبيين).
+123,lib_ar_514_p003,lib_ar_514,libres_v4,ar,0.4236,1.9187,0.8773,8,34,"écriture inattendue (1 segment(s), ex. « 降低成本 »)",نطلب من الطلاب دراسة أسباب انخفاض كفاءة الآلة وإيجاد حلول ممكنة. يجب أن يتضمن العمل الاقتراحات لتحسين الكفاءة و降低成本。
+124,lib_en_504_p000,lib_en_504,libres_v4,en,0.4233,1.9602,0.8576,35,82,,"Kantaoui Foundry Co. is located in the heart of Manouba, specializing in the production of hardened pinions for various "
+125,syn_fr_503_p007,syn_fr_503,train_v4,fr,0.4184,1.8063,0.8727,22,32,,"Diffusion restreinte : coût de revient 83,61 DT par unité, marge brute de 24 %, lot concerné 26T653."
+126,syn_en_502_p006,syn_en_502,train_v4,en,0.4160,1.4453,0.7942,23,30,,"Restricted: unit cost TND 75.52 per unit, gr0ss margin of 17%, affected batch 25R905."
+127,syn_ar_508_p006,syn_ar_508,train_v4,ar,0.4157,1.4219,0.8232,23,29,,"توزيع محدود: كلفة الإنتاج 9,66 دينار للوحدة، هامش ربح خام يبلغ 24 %، الحصة المعنية 26T606."
+128,lib_ar_514_p001,lib_ar_514,libres_v4,ar,0.4152,1.8472,0.8326,18,32,,المشكلة التي نواجهها هي انخفاض كفاءة آلة التعبئة الحجمية، حيث أن زمن الدورة يبلغ 55 ثانية بدلاً من الـ 60 ثانية المطلوبة
+129,syn_ar_503_p003,syn_ar_503,train_v4,ar,0.4143,2.8874,0.9109,9,29,,قام منتصر الشوشان (قائد الخط) بالتحليل باعتماد طريقة لماذا الخمس: يعود الفارق أساسا إلى الفرن النفقي.
+130,lib_ar_500_p001,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+131,lib_ar_500_p004,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+132,lib_ar_500_p007,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+133,lib_ar_500_p010,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+134,lib_ar_500_p013,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+135,lib_ar_500_p016,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+136,lib_ar_500_p019,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+137,lib_ar_500_p022,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+138,lib_ar_500_p025,lib_ar_500,libres_v4,ar,0.4140,2.2210,0.8751,26,42,,في هذه الاجتماع، ناقشنا مشكلة في الإنتاج تتعلق بتخزين المواد الخام. المخزون الحالي في المصنع يبلغ 21 يوماً، بينما يتطلب 
+139,lib_en_504_p001,lib_en_504,libres_v4,en,0.4138,2.1951,0.8517,27,72,,The welding robot has been in operation for two years now and is critical for our productivity. We need your help to inv
+140,syn_en_506_p006,syn_en_506,train_v4,en,0.4135,1.7652,0.8361,19,27,,"Restricted: unit cost TND 82.34 per unit, gross margin of 12%, affected batch 25T223."
+141,syn_ar_507_p004,syn_ar_507,train_v4,ar,0.4125,2.0451,0.8463,10,40,,قام هبة الفخفاخ (مدققة داخليه) بالتحليل باعتماد المراجعة السنوية لجودة المنتوج: يعود الفارق اساسا إلى الة التعليب في الك
+142,syn_ar_509_p006,syn_ar_509,train_v4,ar,0.4099,2.8126,0.8539,18,29,,D6 – قيود التنفيذ: يجب ألا يتجاوز تغيير السلسلة 20 دقيقة؛ الاستثمار محدد بسقف 40000 دينار.
+143,syn_ar_506_p007,syn_ar_506,train_v4,ar,0.4095,1.4255,0.8124,24,30,,"توزيع محدود: كلفة الإنتاج 18,73 دينار للوحدة، هامش ربح خام يبلغ 17 %، الحصة المعنية 25T928."
+144,syn_en_509_p002,syn_en_509,train_v4,en,0.4093,3.1144,0.8783,23,44,,"D2 – Problem: complaint NCR-2026-0413 on coaxial cables, batch 26M121; first pass yield of 76% found on the cut-and-stri"
+145,lib_en_502_p005,lib_en_502,libres_v4,en,0.4068,1.9681,0.8413,39,75,,"The project should be completed by the end of the semester, and students will present their findings and recommendations"
+146,lib_fr_507_p003,lib_fr_507,libres_v4,fr,0.4004,2.2877,0.8422,14,80,,Notre objectif est de demander aux étudiants de concevoir et de mettre en place une solution pour améliorer la productiv
+147,syn_fr_508_p005,syn_fr_508,train_v4,fr,0.3989,1.5800,0.8797,14,26,,- l'investissement est p1afonné à 60000 DT - toute modification doit être validee par le client final
+148,lib_ar_514_p004,lib_ar_514,libres_v4,ar,0.3948,1.1685,0.9027,25,27,,الدراسة يجب أن تستغرق لا تتجاوز 7 أسابيع، ولا يمكن تجاوز التكلفة الإجمالية للاستثمار إلى حدود 40000 دينار.
+149,lib_ar_501_p003,lib_ar_501,libres_v4,ar,0.3948,2.0984,0.8802,28,43,,يجب ألا يتجاوز الوقت المستغرق لتغيير السلسلة 20 دقيقة. كما يجب أن يكون الاستثمار المحدد بسقف 20000 دينار. سنحتاج إلى متا
+150,syn_fr_501_p006,syn_fr_501,train_v4,fr,0.3907,1.3751,0.8868,23,33,,"Diffusion restreinte : coût de revient 14,44 DT par unité, marge brute de 21 %, lot concerné 26M284."

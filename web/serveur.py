@@ -3,12 +3,15 @@
     uvicorn web.serveur:app --port 8600          ->  http://127.0.0.1:8600
 
 La page (`web/static/`) appelle le même pipeline que l'interface Streamlit (`caseforge.pipeline.traiter`), au palier
-Bronze ou Silver (type de passage e5, cas similaires LaBSE, comparaison avec le Bronze). La décision de l'enseignant est
+Bronze, Silver (type de passage e5, cas similaires LaBSE, comparaison avec le Bronze) ou Gold (Silver + contrôle
+des ajouts et des omissions de la fiche, Lot D) ; l'onglet Explications montre les gradients intégrés de XLM-R v4
+(Lot C, calculés hors ligne sur le dev). La décision de l'enseignant est
 enregistrée dans le même journal (`reports/journal_validation.jsonl`, sans aucun texte du document).
 """
 
 from __future__ import annotations
 
+import json
 import sys
 import time
 from pathlib import Path
@@ -24,6 +27,7 @@ sys.path.insert(0, str(RACINE))
 from app.rendu import entree_journal, journaliser  # noqa: E402
 
 STATIQUE = Path(__file__).resolve().parent / "static"
+EXPLICATIONS = RACINE / "reports" / "explications" / "lotC_gold_explications.json"
 TAILLE_MAX = 50_000  # même limite que l'API (api/main.py)
 
 # Textes de démonstration inventés pour l'interface (aucun texte du test gelé ni du dev).
@@ -62,7 +66,7 @@ class Demande(BaseModel):
 
     texte: str = Field(..., max_length=TAILLE_MAX)
     langue: Literal["auto", "fr", "ar", "en"] = "auto"
-    palier: Literal["Bronze", "Silver"] = "Silver"
+    palier: Literal["Bronze", "Silver", "Gold"] = "Silver"
     ptype_e5: bool = True
     similaires: bool = True
     comparer: bool = True
@@ -119,6 +123,8 @@ def analyser(d: Demande) -> dict[str, Any]:
             sortie = traiter(d.texte, d.langue)
         else:
             options = {"ptype": "e5" if d.ptype_e5 else "tfidf", "recherche": "dense" if d.similaires else None}
+            if d.palier == "Gold":
+                options["controle"] = True  # Lot D : contrôle des ajouts et des omissions de la fiche
             sortie = traiter(d.texte, d.langue, **options)
             if d.comparer:
                 sortie["bronze"] = traiter(d.texte, d.langue)
@@ -129,6 +135,14 @@ def analyser(d: Demande) -> dict[str, Any]:
     sortie["palier"] = d.palier
     sortie["duree_totale_ms"] = round(1000 * (time.perf_counter() - debut))
     return sortie
+
+
+@app.get("/api/explications")
+def explications() -> dict[str, Any]:
+    """Explications de XLM-R v4 par gradients intégrés (Lot C, Gold) : 30 cas du dev, calculés hors ligne."""
+    if not EXPLICATIONS.exists():
+        raise HTTPException(404, "Explications absentes : python -m caseforge.models.explications_xlmr (Lot C, GPU).")
+    return json.loads(EXPLICATIONS.read_text(encoding="utf-8"))
 
 
 @app.post("/api/validation")

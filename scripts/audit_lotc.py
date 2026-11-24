@@ -32,8 +32,13 @@ GRAINES: tuple[int, ...] = (13, 42, 2026)
 ANNONCE_PTYPE = 0.896
 """Macro-F1 au dev annoncé par le Lot C pour la variante A (position du passage)."""
 
-MOTIFS_ACCES_TEST: tuple[str, ...] = (r'add_argument\("--test"', r'choices=\["dev", "test"\]')
-"""Options en ligne de commande qui font lire le test gelé à un script."""
+MOTIFS_ACCES_TEST: tuple[str, ...] = (
+    r'add_argument\("--test"',
+    r'choices=\["dev", "test"\]',
+    r'charger\("test"\)',
+    r'"test" if ',
+)
+"""Options en ligne de commande ou chemins de code qui font lire le test gelé à un script."""
 
 CONFUSIONS_OCR: dict[str, str] = {"m": "rn", "l": "1", "e": "c", "o": "0", "i": "l", "a": "o", "ا": "أ", "ه": "ة"}
 """Substitutions typiques d'une reconnaissance optique de caractères (latin et arabe)."""
@@ -201,9 +206,13 @@ def rapport(fichiers_test: list[str], robu: dict[str, dict[str, float]], stats: 
         "",
         "## Lecture",
         "",
-        f"- Protocole : {len(fichiers_test)} scripts du Lot C peuvent lire le test gelé par une simple option, sans "
-        "passer par `scripts/final_eval.py`, qui n'existe pas encore. Recommandation : retirer ces options et créer "
-        "le script unique d'évaluation finale.",
+        (
+            f"- Protocole : {len(fichiers_test)} scripts du Lot C peuvent lire le test gelé par une simple "
+            "option, sans passer par `scripts/final_eval.py`. Recommandation : retirer ces options."
+            if fichiers_test
+            else "- Protocole : conforme ; aucun script du Lot C n'expose d'option ni de chemin de lecture du "
+            "test gelé (constat H1 levé) ; seul `scripts/final_eval.py` y accède."
+        ),
         f"- Reproduction : {base['global']:.3f} au lieu de {ANNONCE_PTYPE:.3f} annoncé ; le résultat du Lot C est "
         f"{'reproduit' if abs(base['global'] - ANNONCE_PTYPE) < 0.01 else 'à vérifier (écart de plus de 0,01)'}.",
         f"- Robustesse : la perturbation la plus coûteuse est « {pire} » "
