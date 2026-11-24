@@ -20,6 +20,20 @@ donnee_sensible:
     contrat / référence: "[REFERENCE]"
     autre: "[REFERENCE]"
   masque_reference_lot_a: "[DONNEE_MASQUEE]"   # pour comparer avec text_anonymise de référence
+# ---------- Gel Gold (26/11/2026) ----------
+# G4 (results/lotb_gold/g4_anonymisation_v4.md, .json ; scripts/g4_anonymisation_v4.py) : même système que le gel
+# Silver, seul fichier_predictions change : XLM-R v4 du Lot C (origin/lot-c-gold, commit 8a0581d ; fichiers
+# reports/predictions/xlmr_v4_dev_s13/_s42/_s2026.jsonl ajoutés en 0b47a2e, récupérés seuls, sans fusion).
+# Règle écrite dans experiments.md AVANT la mesure (commit a2f5bfb) : v4 remplace le Silver si la fuite moyenne
+# (3 graines) ne monte pas et si le sur-masquage moyen ne monte pas de plus de 2 points ; fusion_fichier,
+# coreference, balayage et generaliser ne sont pas réajustés.
+# Mesure (dev, 21 documents, 213 occurrences sensibles, moyenne ± écart-type sur s13 / s42 / s2026) :
+#   v4     : fuite 1,3 ± 0,2 %, sur-masquage 9,2 ± 0,9 %, F1 caractère 0,834 ± 0,024 (DONNEE_SENSIBLE 0,871)
+#   Silver : fuite 2,5 ± 0,6 %, sur-masquage 9,4 ± 0,7 %, F1 caractère 0,794 ± 0,014 (DONNEE_SENSIBLE 0,917)
+#   Δ v4 − Silver : fuite −1,3 pt (baisse démontrée 1/3 graines seulement), sur-masquage −0,1 pt (non démontré)
+# -> v4 retenu (règle appliquée telle quelle) : fichier_predictions = xlmr_v4_dev_s42.jsonl (graine s42, comme au
+# Silver). Le gel Silver ci-dessous reste la trace de la configuration précédente (toutes les autres options sont
+# inchangées) ; ses prédictions restent dans reports/predictions/xlmr_dev_s42.jsonl.
 # ---------- Gel Silver (étape 6, 14/11/2026) ----------
 # Mesures : dev (documents_dev.jsonl, 21 documents, 213 occurrences sensibles), XLM-R du Lot C = 3 graines officielles
 # (s13, s42, s2026), moyenne ± écart-type ; rapports results/lotb_silver/b12 à b16.
@@ -90,7 +104,8 @@ extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombr
 # voir b16_ablations_dev.json. Dev seulement : pour le test, fichier_predictions doit pointer vers des prédictions
 # XLM-R sur le test (scripts/final_eval.py) ; sans elles, union_fichier revient à rules.
 # B13 : reports/predictions/crf_dev.jsonl (union_fichier(crf), fuite 6,6 %, sur-masquage 27,2 %).
-fichier_predictions: reports/predictions/xlmr_dev_s42.jsonl
+# Gel Gold (26/11/2026, G4) : XLM-R v4 s42 (origin/lot-c-gold 8a0581d) ; gel Silver : xlmr_dev_s42.jsonl.
+fichier_predictions: reports/predictions/xlmr_v4_dev_s42.jsonl
 union_seuil:
   agregation: minimum
   seuils: {ORG: 0.35, PERSONNE: 0.8, SITE: 0.55, DONNEE_SENSIBLE: 0.3}

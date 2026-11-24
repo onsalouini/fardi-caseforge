@@ -260,14 +260,16 @@ def test_fusion_fichier_inconnue() -> None:
         charger_politique(backend="xlmr")
 
 
-def test_configuration_gel_silver() -> None:
-    """Gel Silver (configs/anonymization.yaml) : union_fichier + bornes DS + coréférence + balayage, sans
-    généralisation, prédictions XLM-R s42 du dev ; le Bronze reste un backend (union_seuil)."""
+def test_configuration_gel_gold() -> None:
+    """Gel Gold (configs/anonymization.yaml, G4) : options du gel Silver inchangées (union_fichier + bornes DS +
+    coréférence + balayage, sans généralisation), prédictions XLM-R v4 s42 du dev ; les prédictions du gel Silver
+    restent présentes ; le Bronze reste un backend (union_seuil)."""
     opts = charger_politique().options
     assert opts["backend"] == "union_fichier" and opts["fusion_fichier"] == "bornes_ds"
     assert opts["coreference"] and opts["balayage"] and opts["generaliser"] is False
-    assert chemin_predictions() == REPO_ROOT / "reports" / "predictions" / "xlmr_dev_s42.jsonl"
+    assert chemin_predictions() == REPO_ROOT / "reports" / "predictions" / "xlmr_v4_dev_s42.jsonl"
     assert chemin_predictions().is_file()
+    assert (REPO_ROOT / "reports" / "predictions" / "xlmr_dev_s42.jsonl").is_file()
     assert "union_seuil" in BACKENDS_PUBLICS
 
 
