@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-24 · Boutheina · Lot E Gold · intégration des branches Gold dans main
+- Branche `integration-gold` : fusion de `lot-c-gold` (8a0581d), `lot-b-gold` (e0457cb), `lot-d-gold` (b78f02d) et `lot-e-gold-rapport` (88c6a1a), avec l'accord des trois lots. Conflits seulement dans `experiments.md` : toutes les entrées gardées, triées par date.
+- Deux tests ajustés, dus au croisement des lots et non à un défaut : `tests/test_test_gele.py::test_aucun_acces_construit_lot_c` n'est plus marqué `xfail` (H1 corrigé par le lot C et maintenant intégré, le test redevient bloquant, comme prévu par le lot B) ; `tests/test_tunisien.py` autorise `caseforge/models/robustesse_xlmr.py`, qui évalue le jeu tunisien sans entraîner.
+- Suite complète : **576 tests passent**. Test gelé non lu.
+
 ## 2026-11-23 · Ghayth · Lot C Gold · tâche 8 : carte de modèle du Lot C mise à jour
 - `docs/carte_modele_lotC.md` : en-tête Gold (train v4 gelé, dev inchangé, test gelé lisible seulement par `scripts/final_eval.py`), 5 lignes C8 dans le tableau des modèles, section **C8 · NER XLM-R au palier Gold** (résultats v4, courbe, post-traitement des bornes, RQ1, robustesse, explications, sélection active, usage prévu), limites Gold (synthétiques non vérifiés, textes libres v4 absents, réglages sur le dev, sensibilité à la forme) et usage d'IA déclaré. Lien mort `reports/lotC_explications.md` (signalé le 14/11) remplacé par `reports/lotC_gold_explications.md`.
 - Chiffres repris des entrées du 21 au 23/11 (tâches 1 à 7). Reste ouvert : jeu tunisien du Lot B (à mesurer dès sa livraison avec `robustesse_xlmr.py --tunisien`).

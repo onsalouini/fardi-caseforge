@@ -452,14 +452,8 @@ def test_aucun_acces_construit_hors_lot_c() -> None:
     assert not fautes, "Accès construit à un fichier interdit :\n" + "\n".join(fautes)
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "Constat H1 : options --test / --split test du Lot C, retirées sur origin/lot-c-gold (94c903f) "
-        "mais pas encore sur main. Strict : le test redevient bloquant dès que la correction est intégrée."
-    ),
-)
 def test_aucun_acces_construit_lot_c() -> None:
+    """Constat H1 corrigé par le lot C et intégré (lot E, 24/11) : le test est de nouveau bloquant."""
     fautes = _fautes_construites(p for p in _fichiers() if _du_lot_c(p))
     assert not fautes, "Accès construit à un fichier interdit (Lot C) :\n" + "\n".join(fautes)
 
