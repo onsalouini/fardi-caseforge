@@ -23,6 +23,12 @@ Options Silver (le Bronze reste le défaut, la sortie par défaut ne change pas)
   - ``ptype`` : ``"tfidf"`` (Bronze, défaut) ou ``"e5"`` (Silver, Lot C : e5 ⊕ TF-IDF + position, 0,948 au dev).
   - ``recherche`` : ``None`` (défaut, pas de cas similaires), ``"dense"`` (LaBSE) ou ``"tfidf"`` (Bronze) ; ajoute la
     clé ``cas_similaires`` à la sortie.
+
+Option Gold :
+  - ``controle`` : ``False`` (défaut) ou ``True`` ; ajoute la clé ``controle`` à la sortie, le contrôle automatique des
+    ajouts et des omissions de la fiche du Lot D (``generation/controle.py``) : éléments de la fiche qu'aucun passage
+    ne porte (nombre absent du document, contenu non ancré) et faits clés du document (CONTRAINTE, INDICATEUR) que la
+    fiche ne reprend pas. Sans modèle ni GPU ; à montrer à l'enseignant avant la validation.
 """
 
 from __future__ import annotations
@@ -179,6 +185,17 @@ enregistrer_fiche("gabarit", _fiche_gabarit)
 enregistrer_fiche("llm", _fiche_llm)
 
 
+# ---------- Contrôle des ajouts et des omissions (Lot D, Gold) ----------
+
+
+def controler_fiche(doc: dict[str, Any], fiche: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
+    """Ajouts et omissions de la fiche par rapport au document (``generation/controle.py`` du Lot D)."""
+    import controle  # noqa: PLC0415  (generation/ n'est pas un paquet ; import à la demande)
+
+    res = controle.controler({"doc_id": doc["doc_id"], **fiche}, doc)
+    return {"ajouts": res["ajouts"], "omissions": res["omissions"]}
+
+
 # ---------- 7. Cas similaires (Lot E, Silver) ----------
 
 
@@ -237,6 +254,7 @@ def traiter(
     fiche: str = "gabarit",
     recherche: str | None = None,
     ptype: str = "tfidf",
+    controle: bool = False,
 ) -> dict[str, Any]:
     """Texte brut -> sortie complète du contrat (§2). ``ValueError`` si le texte est vide, la langue ou une option
     inconnue. Options Silver : voir l'en-tête du module."""
@@ -356,6 +374,8 @@ def traiter(
     }
     if recherche is not None:
         sortie["cas_similaires"] = cas_similaires(passages, recherche)
+    if controle:
+        sortie["controle"] = controler_fiche(doc_d, fiche)
     sortie["metriques"]["temps_ms"] = round((time.perf_counter() - t0) * 1000)
     return sortie
 
@@ -370,6 +390,7 @@ def main() -> None:
     ap.add_argument("--fiche", default="gabarit", help=f"générateur de fiche : {', '.join(GENERATEURS)}")
     ap.add_argument("--recherche", default=None, choices=RECHERCHES, help="ajoute les cas similaires du train")
     ap.add_argument("--ptype", default="tfidf", choices=PTYPES, help="type de passage : tfidf (Bronze) ou e5 (Silver)")
+    ap.add_argument("--controle", action="store_true", help="ajoute le contrôle des ajouts et omissions (Gold)")
     a = ap.parse_args()
     sortie = traiter(
         Path(a.fichier).read_text(encoding="utf-8-sig"),
@@ -379,6 +400,7 @@ def main() -> None:
         fiche=a.fiche,
         recherche=a.recherche,
         ptype=a.ptype,
+        controle=a.controle,
     )
     js = json.dumps(sortie, ensure_ascii=False, indent=1)
     if a.out:
