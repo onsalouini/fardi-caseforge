@@ -98,7 +98,7 @@ Une seule session Claude Code écrit dans ce dossier à la fois ; une seconde se
         tests/test_labels.py tests/test_test_gele.py tests/test_ner_metrics.py tests/test_non_regression_kappa.py \
         tests/test_bio.py tests/test_nlp.py tests/test_lib_cv.py tests/test_mode_token.py tests/test_leak.py tests/test_regles.py tests/test_anonymisation.py \
         tests/test_nltk_pipeline.py tests/test_api_anonymisation.py tests/test_produit.py tests/test_generalisation.py tests/test_backend_fichier.py tests/test_contrainte_ar.py \
-        tests/test_externe_dev.py tests/test_tunisien.py tests/test_g4_anonymisation_v4.py tests/test_g5_reidentification.py"
+        tests/test_externe_dev.py tests/test_tunisien.py tests/test_g4_anonymisation_v4.py tests/test_g5_reidentification.py tests/test_g7_audit_lotA.py"
   EXCL="--extend-exclude caseforge/eval/ner_eval.py"
   ruff check $EXCL $LOTB && ruff format --check $EXCL $LOTB
   ```
