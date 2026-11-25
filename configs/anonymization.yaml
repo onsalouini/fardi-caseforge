@@ -20,6 +20,20 @@ donnee_sensible:
     contrat / référence: "[REFERENCE]"
     autre: "[REFERENCE]"
   masque_reference_lot_a: "[DONNEE_MASQUEE]"   # pour comparer avec text_anonymise de référence
+# ---------- Gel Gold (24/11/2026, commit 2cef770) ----------
+# G4 (results/lotb_gold/g4_anonymisation_v4.md, .json ; scripts/g4_anonymisation_v4.py) : même système que le gel
+# Silver, seul fichier_predictions change : XLM-R v4 du Lot C (origin/lot-c-gold, commit 8a0581d ; fichiers
+# reports/predictions/xlmr_v4_dev_s13/_s42/_s2026.jsonl ajoutés en 0b47a2e, récupérés seuls, sans fusion).
+# Règle écrite dans experiments.md AVANT la mesure (commit a2f5bfb) : v4 remplace le Silver si la fuite moyenne
+# (3 graines) ne monte pas et si le sur-masquage moyen ne monte pas de plus de 2 points ; fusion_fichier,
+# coreference, balayage et generaliser ne sont pas réajustés.
+# Mesure (dev, 21 documents, 213 occurrences sensibles, moyenne ± écart-type sur s13 / s42 / s2026) :
+#   v4     : fuite 1,3 ± 0,2 %, sur-masquage 9,2 ± 0,9 %, F1 caractère 0,834 ± 0,024 (DONNEE_SENSIBLE 0,871)
+#   Silver : fuite 2,5 ± 0,6 %, sur-masquage 9,4 ± 0,7 %, F1 caractère 0,794 ± 0,014 (DONNEE_SENSIBLE 0,917)
+#   Δ v4 − Silver : fuite −1,3 pt (baisse démontrée 1/3 graines seulement), sur-masquage −0,1 pt (non démontré)
+# -> v4 retenu (règle appliquée telle quelle) : fichier_predictions = xlmr_v4_dev_s42.jsonl (graine s42, comme au
+# Silver). Le gel Silver ci-dessous reste la trace de la configuration précédente (toutes les autres options sont
+# inchangées) ; ses prédictions restent dans reports/predictions/xlmr_dev_s42.jsonl.
 # ---------- Gel Silver (étape 6, 14/11/2026) ----------
 # Mesures : dev (documents_dev.jsonl, 21 documents, 213 occurrences sensibles), XLM-R du Lot C = 3 graines officielles
 # (s13, s42, s2026), moyenne ± écart-type ; rapports results/lotb_silver/b12 à b16.
@@ -56,10 +70,31 @@ balayage_longueur_min: 3   # caractères non blancs d'une forme pour qu'elle soi
 # B12 (Silver) : généralisation des indices rares. Vrai : les PRODUIT et EQUIPEMENT détectés sont remplacés par leur
 # famille (data/lexicons/familles_produits.txt, categories_equipements.txt, générés depuis le train par
 # scripts/b12_lexiques.py ; forme inconnue -> [PRODUIT] / [EQUIPEMENT]), avec coréférence et balayage.
-# Faux par défaut : sortie identique au Bronze.
-# Mesure (b12_generalisation.md, b16_ablations.md) : fuite inchangée (Δ 0), documents ré-identifiables N2 20 -> 2 sur
-# 21, mais F1 de la fiche −5,8 points. Règle : non retenue si la F1 de la fiche baisse de plus de 3 points -> false.
+# Silver (B12, B16) : fuite inchangée (Δ 0), documents ré-identifiables N2 20 -> 2 sur 21, mais F1 de la fiche
+# −5,8 points (règle : non retenue si la F1 de la fiche baisse de plus de 3 points) -> false au Silver et au gel Gold.
+# ---------- G5 (Gold, 24/11/2026) : généralisation ciblée ----------
+# results/lotb_gold/g5_reidentification.md (.json), scripts/g5_reidentification.py. Variantes et règle écrites dans
+# experiments.md AVANT la mesure (commit e0f311f) : on retient la variante qui atteint N3 ≤ 50 % des documents du dev
+# (moyenne des 3 graines v4, audit E5) avec une perte moyenne de F1 de la fiche ≤ 3 points et une hausse de fuite
+# ≤ +0,5 point ; s'il y en a plusieurs, celle qui perd le moins sur la fiche ; sinon generaliser reste false.
+# Première mesure (commit a27a0ad) : complete_sauf_fiche retenue (perte de fiche 0,0 pt), MAIS gabarit.py recopiait
+# les entités de la fiche depuis le texte original (défaut signalé par le Lot D, corrigé au commit edf0629) : la perte
+# de fiche était sous-estimée. Décision ANNULÉE et refaite (G5 bis) avec le gabarit corrigé, variantes et règle
+# inchangées (note d'avant mesure : commit d96cdaa), scripts/g5_reidentification.py mesurer --gabarit-corrige.
+# Re-mesure G5 bis (dev, 21 documents, union_fichier v4, options du gel Gold, moyenne sur s13 / s42 / s2026) :
+#   base (generaliser false)            : N1–N4 ré-identifiables 2 / 20 / 21 / 21 sur 21 (N3 100 %), fiche F1 0,930 ;
+#                                         fiches générées N3 21 / 21
+#   complete_sauf_fiche                 : N3 12,7 %, fiches générées N3 2 / 21, perte de fiche 3,7 pt
+#                                         (3,6 / 3,3 / 4,1 > 3) -> non éligible
+#   complete (Silver B12), rares_train  : N3 12,7 %, perte de fiche 11,2 pt -> non éligibles
+#   Δ fuite +0,0 pt pour les trois (1,3 %).
+# Aucune variante éligible -> generaliser reste FALSE ; objectif N3 ≤ 50 % du plan Gold NON ATTEINT (N3 100 %).
 generaliser: false
+# G5 : mentions généralisables laissées telles quelles si elles contiennent l'un de ces déclencheurs (sous-chaîne, en
+# minuscules) : copie des « données citées » de generation/gabarit.py (DONNEES_CITEES ; vérifié par
+# tests/test_g5_reidentification.py). Liste vide : généralisation complète (B12). INACTIF tant que generaliser est
+# false (G5 bis) ; gardé documenté pour reproduire la variante complete_sauf_fiche (generaliser=True).
+generaliser_sauf: ["erp", "non conformité", "non-conformity", "non-conformité", "عدم المطابقة", "نظام التصرف المندمج"]
 # B6c : second passage renforcé (variantes sans article, ORG sans le pays, nom de famille seul, translittération
 # simple arabe <-> latin ; caseforge.anonymization.anonymizer.variantes_balayage, squelette_mot).
 balayage_renforce: true
@@ -90,7 +125,8 @@ extension_montants: true   # B6b : DONNEE_SENSIBLE qui touche un nombre -> nombr
 # voir b16_ablations_dev.json. Dev seulement : pour le test, fichier_predictions doit pointer vers des prédictions
 # XLM-R sur le test (scripts/final_eval.py) ; sans elles, union_fichier revient à rules.
 # B13 : reports/predictions/crf_dev.jsonl (union_fichier(crf), fuite 6,6 %, sur-masquage 27,2 %).
-fichier_predictions: reports/predictions/xlmr_dev_s42.jsonl
+# Gel Gold (24/11/2026, G4, commit 2cef770) : XLM-R v4 s42 (origin/lot-c-gold 8a0581d) ; gel Silver : xlmr_dev_s42.jsonl.
+fichier_predictions: reports/predictions/xlmr_v4_dev_s42.jsonl
 union_seuil:
   agregation: minimum
   seuils: {ORG: 0.35, PERSONNE: 0.8, SITE: 0.55, DONNEE_SENSIBLE: 0.3}

@@ -109,6 +109,15 @@ def test_source_inchangee(decoupe: dict) -> None:
     assert decoupe["sha256_source"] == sha256_fichier(EXTERNE_TRAIN)
 
 
+def test_empreinte_independante_des_fins_de_ligne(tmp_path: Path) -> None:
+    contenu = '{"passage_id": "a"}\n{"passage_id": "b"}\n'
+    lf, crlf = tmp_path / "lf.jsonl", tmp_path / "crlf.jsonl"
+    lf.write_bytes(contenu.encode("utf-8"))
+    crlf.write_bytes(contenu.replace("\n", "\r\n").encode("utf-8"))
+    assert lf.read_bytes() != crlf.read_bytes()
+    assert sha256_fichier(lf) == sha256_fichier(crlf)
+
+
 def test_fichier_relu_tel_quel(tmp_path: Path) -> None:
     jouet = _jouet()
     d = tirer_dev_externe(jouet)
