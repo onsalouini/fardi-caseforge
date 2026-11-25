@@ -1,0 +1,1409 @@
+{
+ "annotateur": "Boutheina",
+ "date": "2026-11-24T10:33:11.350Z",
+ "annotations": [
+  {
+   "passage_id": "lib_en_507_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 19,
+     "label": "ORG",
+     "text": "Chams Packaging Co."
+    },
+    {
+     "start": 46,
+     "end": 53,
+     "label": "SITE",
+     "text": "Manouba"
+    },
+    {
+     "start": 86,
+     "end": 96,
+     "label": "PROCESSUS",
+     "text": "production"
+    },
+    {
+     "start": 100,
+     "end": 117,
+     "label": "PRODUIT",
+     "text": "thermoformed cups"
+    },
+    {
+     "start": 152,
+     "end": 169,
+     "label": "PROCESSUS",
+     "text": "food and beverage"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_507_p004",
+   "entities": [
+    {
+     "start": 34,
+     "end": 47,
+     "label": "PROCESSUS",
+     "text": "تغيير السلسلة"
+    },
+    {
+     "start": 48,
+     "end": 57,
+     "label": "INDICATEUR",
+     "text": "30 دقيقة،"
+    },
+    {
+     "start": 62,
+     "end": 76,
+     "label": "CONTRAINTE",
+     "text": "يجب ألا تتجاوز"
+    },
+    {
+     "start": 89,
+     "end": 97,
+     "label": "INDICATEUR",
+     "text": "6 أسابيع"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_505_p005",
+   "entities": [
+    {
+     "start": 57,
+     "end": 70,
+     "label": "PERSONNE",
+     "text": "Mr. Wael Amri"
+    },
+    {
+     "start": 83,
+     "end": 102,
+     "label": "PERSONNE",
+     "text": "industrial engineer"
+    },
+    {
+     "start": 159,
+     "end": 173,
+     "label": "DONNEE_SENSIBLE",
+     "text": "w.amri@kpwo.tn"
+    },
+    {
+     "start": 189,
+     "end": 204,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 24 151 586"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p004",
+   "entities": [
+    {
+     "start": 71,
+     "end": 83,
+     "label": "CONTRAINTE",
+     "text": "no more than"
+    },
+    {
+     "start": 84,
+     "end": 91,
+     "label": "INDICATEUR",
+     "text": "7 weeks"
+    },
+    {
+     "start": 164,
+     "end": 174,
+     "label": "PRODUIT",
+     "text": "HDPE pipes"
+    },
+    {
+     "start": 175,
+     "end": 217,
+     "label": "CONTRAINTE",
+     "text": "remains intact throughout the study period"
+    },
+    {
+     "start": 288,
+     "end": 310,
+     "label": "PROCESSUS",
+     "text": "continuous improvement"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_504_p005",
+   "entities": [
+    {
+     "start": 50,
+     "end": 71,
+     "label": "PERSONNE",
+     "text": "السيدة إيمان الغربال،"
+    },
+    {
+     "start": 72,
+     "end": 83,
+     "label": "PERSONNE",
+     "text": "قائدة الخط،"
+    },
+    {
+     "start": 92,
+     "end": 118,
+     "label": "ORG",
+     "text": "دار السلام للملابس الجاهزة"
+    },
+    {
+     "start": 122,
+     "end": 130,
+     "label": "SITE",
+     "text": "الحمامات"
+    },
+    {
+     "start": 161,
+     "end": 176,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 86 306 597"
+    },
+    {
+     "start": 207,
+     "end": 226,
+     "label": "DONNEE_SENSIBLE",
+     "text": ".ghorbel@essalam.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_504_p004",
+   "entities": [
+    {
+     "start": 21,
+     "end": 47,
+     "label": "CONTRAINTE",
+     "text": "ضمن حدود استثمار محدد بسقف"
+    },
+    {
+     "start": 48,
+     "end": 59,
+     "label": "INDICATEUR",
+     "text": "15000 دينار"
+    },
+    {
+     "start": 80,
+     "end": 107,
+     "label": "CONTRAINTE",
+     "text": "نتائج ملموسة وقابلة للتنفيذ"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_501_p004",
+   "entities": [
+    {
+     "start": 54,
+     "end": 60,
+     "label": "CONTRAINTE",
+     "text": "samedi"
+    },
+    {
+     "start": 118,
+     "end": 128,
+     "label": "INDICATEUR",
+     "text": "FSSC 22000"
+    },
+    {
+     "start": 134,
+     "end": 158,
+     "label": "CONTRAINTE",
+     "text": "maintenue et mise à jour"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_509_p001",
+   "entities": [
+    {
+     "start": 46,
+     "end": 59,
+     "label": "ORG",
+     "text": "فريق التحاميل"
+    },
+    {
+     "start": 66,
+     "end": 80,
+     "label": "INDICATEUR",
+     "text": "نسبة التغيب 8%"
+    },
+    {
+     "start": 94,
+     "end": 103,
+     "label": "INDICATEUR",
+     "text": "الإنتاجية"
+    },
+    {
+     "start": 113,
+     "end": 121,
+     "label": "INDICATEUR",
+     "text": "التكاليف"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_508_p004",
+   "entities": [
+    {
+     "start": 39,
+     "end": 56,
+     "label": "CONTRAINTE",
+     "text": "حدود استثمار محدد"
+    },
+    {
+     "start": 60,
+     "end": 71,
+     "label": "INDICATEUR",
+     "text": "15000 دينار"
+    },
+    {
+     "start": 99,
+     "end": 119,
+     "label": "PROCESSUS",
+     "text": "بتقييم جميع الخيارات"
+    },
+    {
+     "start": 120,
+     "end": 144,
+     "label": "CONTRAINTE",
+     "text": "قبل اتخاذ قرار الاستثمار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_509_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 15,
+     "label": "ORG",
+     "text": "دار دقة للمخابر"
+    },
+    {
+     "start": 45,
+     "end": 60,
+     "label": "PROCESSUS",
+     "text": "تجهيز المختبرات"
+    },
+    {
+     "start": 68,
+     "end": 89,
+     "label": "PROCESSUS",
+     "text": "خدمات فحص عالية الدقة"
+    },
+    {
+     "start": 113,
+     "end": 121,
+     "label": "SITE",
+     "text": "القصرين،"
+    },
+    {
+     "start": 159,
+     "end": 174,
+     "label": "PROCESSUS",
+     "text": "التجارب العلمية"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_503_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 29,
+     "label": "ORG",
+     "text": "الشركة التونسية عليسة للمخابر"
+    },
+    {
+     "start": 32,
+     "end": 40,
+     "label": "SITE",
+     "text": "الحمامات"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_510_p004",
+   "entities": [
+    {
+     "start": 61,
+     "end": 80,
+     "label": "PERSONNE",
+     "text": "M. Montassar Belaid"
+    },
+    {
+     "start": 82,
+     "end": 98,
+     "label": "PERSONNE",
+     "text": "pilote de ligne."
+    },
+    {
+     "start": 135,
+     "end": 151,
+     "label": "DONNEE_SENSIBLE",
+     "text": "m.belaid@ueka.tn"
+    },
+    {
+     "start": 172,
+     "end": 187,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 32 817 340"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_502_p004",
+   "entities": [
+    {
+     "start": 32,
+     "end": 47,
+     "label": "PERSONNE",
+     "text": "M. Chokri Bahri"
+    },
+    {
+     "start": 49,
+     "end": 67,
+     "label": "PERSONNE",
+     "text": "ingénieur méthodes"
+    },
+    {
+     "start": 92,
+     "end": 102,
+     "label": "DONNEE_SENSIBLE",
+     "text": "75 178 267"
+    },
+    {
+     "start": 119,
+     "end": 135,
+     "label": "DONNEE_SENSIBLE",
+     "text": "c.bahri@ccefa.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p003",
+   "entities": [
+    {
+     "start": 4,
+     "end": 13,
+     "label": "PERSONNE",
+     "text": "étudiants"
+    },
+    {
+     "start": 68,
+     "end": 90,
+     "label": "INDICATEUR",
+     "text": "l'investissement total"
+    },
+    {
+     "start": 101,
+     "end": 109,
+     "label": "CONTRAINTE",
+     "text": "limité à"
+    },
+    {
+     "start": 110,
+     "end": 118,
+     "label": "INDICATEUR",
+     "text": "25000 DT"
+    },
+    {
+     "start": 133,
+     "end": 148,
+     "label": "PROCESSUS",
+     "text": "tests et essais"
+    },
+    {
+     "start": 172,
+     "end": 178,
+     "label": "CONTRAINTE",
+     "text": "samedi"
+    },
+    {
+     "start": 197,
+     "end": 225,
+     "label": "CONTRAINTE",
+     "text": "disponibilité des ressources"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_511_p004",
+   "entities": [
+    {
+     "start": 71,
+     "end": 86,
+     "label": "PROCESSUS",
+     "text": "التحسين المستمر"
+    },
+    {
+     "start": 93,
+     "end": 105,
+     "label": "PERSONNE",
+     "text": "منتصر البحري"
+    },
+    {
+     "start": 166,
+     "end": 181,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 80 842 721"
+    },
+    {
+     "start": 203,
+     "end": 220,
+     "label": "DONNEE_SENSIBLE",
+     "text": "m.bahri@dougga.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_503_p005",
+   "entities": [
+    {
+     "start": 70,
+     "end": 86,
+     "label": "PERSONNE",
+     "text": "Ms. Sirine Turki"
+    },
+    {
+     "start": 92,
+     "end": 111,
+     "label": "PERSONNE",
+     "text": "industrial engineer"
+    },
+    {
+     "start": 134,
+     "end": 149,
+     "label": "DONNEE_SENSIBLE",
+     "text": "s.turki@slco.tn"
+    },
+    {
+     "start": 174,
+     "end": 189,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 79 707 405"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p005",
+   "entities": [
+    {
+     "start": 31,
+     "end": 46,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 40 860 256"
+    },
+    {
+     "start": 73,
+     "end": 87,
+     "label": "DONNEE_SENSIBLE",
+     "text": "k.amri@cees.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_505_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 24,
+     "label": "ORG",
+     "text": "Kantaoui Packaging Works"
+    },
+    {
+     "start": 54,
+     "end": 64,
+     "label": "PRODUIT",
+     "text": "woven bags"
+    },
+    {
+     "start": 68,
+     "end": 74,
+     "label": "SITE",
+     "text": "Mateur"
+    },
+    {
+     "start": 109,
+     "end": 121,
+     "label": "EQUIPEMENT",
+     "text": "pellet dryer"
+    },
+    {
+     "start": 137,
+     "end": 155,
+     "label": "PROCESSUS",
+     "text": "production process"
+    },
+    {
+     "start": 198,
+     "end": 218,
+     "label": "INDICATEUR",
+     "text": "workforce attendance"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_502_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 29,
+     "label": "ORG",
+     "text": "Bou Kornine Packaging Holding"
+    },
+    {
+     "start": 54,
+     "end": 73,
+     "label": "PROCESSUS",
+     "text": "packaging solutions"
+    },
+    {
+     "start": 105,
+     "end": 111,
+     "label": "SITE",
+     "text": "Tozeur"
+    },
+    {
+     "start": 113,
+     "end": 120,
+     "label": "SITE",
+     "text": "Tunisia"
+    },
+    {
+     "start": 147,
+     "end": 160,
+     "label": "PROCESSUS",
+     "text": "manufacturing"
+    },
+    {
+     "start": 180,
+     "end": 194,
+     "label": "EQUIPEMENT",
+     "text": "pick-and-place"
+    },
+    {
+     "start": 205,
+     "end": 215,
+     "label": "PROCESSUS",
+     "text": "automation"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_508_p002",
+   "entities": [
+    {
+     "start": 32,
+     "end": 48,
+     "label": "DONNEE_SENSIBLE",
+     "text": "operational logs"
+    },
+    {
+     "start": 50,
+     "end": 69,
+     "label": "DONNEE_SENSIBLE",
+     "text": "maintenance records"
+    },
+    {
+     "start": 75,
+     "end": 92,
+     "label": "INDICATEUR",
+     "text": "production output"
+    },
+    {
+     "start": 106,
+     "end": 116,
+     "label": "INDICATEUR",
+     "text": "six months"
+    },
+    {
+     "start": 145,
+     "end": 153,
+     "label": "INDICATEUR",
+     "text": "OEKO-TEX"
+    },
+    {
+     "start": 164,
+     "end": 181,
+     "label": "CONTRAINTE",
+     "text": "quality standards"
+    },
+    {
+     "start": 191,
+     "end": 199,
+     "label": "PRODUIT",
+     "text": "products"
+    },
+    {
+     "start": 256,
+     "end": 292,
+     "label": "CONTRAINTE",
+     "text": "do not compromise this certification"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p002",
+   "entities": [
+    {
+     "start": 68,
+     "end": 89,
+     "label": "INDICATEUR",
+     "text": "temps de cycle actuel"
+    },
+    {
+     "start": 96,
+     "end": 115,
+     "label": "INDICATEUR",
+     "text": "capacité du sécheur"
+    },
+    {
+     "start": 212,
+     "end": 221,
+     "label": "PERSONNE",
+     "text": "étudiants"
+    },
+    {
+     "start": 237,
+     "end": 259,
+     "label": "PROCESSUS",
+     "text": "d'analyser ces données"
+    },
+    {
+     "start": 264,
+     "end": 296,
+     "label": "PROCESSUS",
+     "text": "proposer des solutions concrètes"
+    },
+    {
+     "start": 315,
+     "end": 328,
+     "label": "PROCESSUS",
+     "text": "plan d'action"
+    },
+    {
+     "start": 334,
+     "end": 359,
+     "label": "PROCESSUS",
+     "text": "l'optimisation du sécheur"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_510_p002",
+   "entities": [
+    {
+     "start": 30,
+     "end": 44,
+     "label": "PROCESSUS",
+     "text": "تحليل البيانات"
+    },
+    {
+     "start": 78,
+     "end": 98,
+     "label": "INDICATEUR",
+     "text": "عدد الطلاب المسجلين،"
+    },
+    {
+     "start": 99,
+     "end": 119,
+     "label": "INDICATEUR",
+     "text": "عدد الطلاب الغائبين،"
+    },
+    {
+     "start": 120,
+     "end": 132,
+     "label": "INDICATEUR",
+     "text": "ونسبة الغياب"
+    },
+    {
+     "start": 137,
+     "end": 147,
+     "label": "ORG",
+     "text": "فئة دراسية"
+    },
+    {
+     "start": 185,
+     "end": 200,
+     "label": "INDICATEUR",
+     "text": "التحصيل الدراسي"
+    },
+    {
+     "start": 201,
+     "end": 207,
+     "label": "PERSONNE",
+     "text": "للطلاب"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_502_p003",
+   "entities": [
+    {
+     "start": 14,
+     "end": 19,
+     "label": "PERSONNE",
+     "text": "طلابك"
+    },
+    {
+     "start": 23,
+     "end": 41,
+     "label": "PROCESSUS",
+     "text": "تحليل هذه البيانات"
+    },
+    {
+     "start": 42,
+     "end": 54,
+     "label": "PROCESSUS",
+     "text": "وتحديد أسباب"
+    },
+    {
+     "start": 59,
+     "end": 75,
+     "label": "INDICATEUR",
+     "text": "النسبة المرتفعة،"
+    },
+    {
+     "start": 76,
+     "end": 94,
+     "label": "PROCESSUS",
+     "text": "واقتراح حلول عملية"
+    },
+    {
+     "start": 95,
+     "end": 103,
+     "label": "PROCESSUS",
+     "text": "لتقليلها"
+    },
+    {
+     "start": 124,
+     "end": 155,
+     "label": "PROCESSUS",
+     "text": "منهجية الاستجابة السريعة للجودة"
+    },
+    {
+     "start": 163,
+     "end": 170,
+     "label": "CONTRAINTE",
+     "text": "المشكلة"
+    },
+    {
+     "start": 178,
+     "end": 189,
+     "label": "PROCESSUS",
+     "text": "حلول ملموسة"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_511_p003",
+   "entities": [
+    {
+     "start": 25,
+     "end": 33,
+     "label": "PERSONNE",
+     "text": "students"
+    },
+    {
+     "start": 52,
+     "end": 67,
+     "label": "PROCESSUS",
+     "text": "production line"
+    },
+    {
+     "start": 85,
+     "end": 93,
+     "label": "EQUIPEMENT",
+     "text": "fuse box"
+    },
+    {
+     "start": 102,
+     "end": 128,
+     "label": "EQUIPEMENT",
+     "text": "ultrasonic welding station"
+    },
+    {
+     "start": 142,
+     "end": 167,
+     "label": "PROCESSUS",
+     "text": "identify potential causes"
+    },
+    {
+     "start": 175,
+     "end": 186,
+     "label": "INDICATEUR",
+     "text": "malfunction"
+    },
+    {
+     "start": 191,
+     "end": 208,
+     "label": "PROCESSUS",
+     "text": "propose solutions"
+    },
+    {
+     "start": 294,
+     "end": 309,
+     "label": "INDICATEUR",
+     "text": "changeover time"
+    },
+    {
+     "start": 327,
+     "end": 337,
+     "label": "INDICATEUR",
+     "text": "20 minutes"
+    },
+    {
+     "start": 370,
+     "end": 382,
+     "label": "CONTRAINTE",
+     "text": "no more than"
+    },
+    {
+     "start": 383,
+     "end": 393,
+     "label": "INDICATEUR",
+     "text": "15 minutes"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_511_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 23,
+     "label": "ORG",
+     "text": "SARL Laboratoires Thala"
+    },
+    {
+     "start": 49,
+     "end": 52,
+     "label": "SITE",
+     "text": "Kef"
+    },
+    {
+     "start": 65,
+     "end": 70,
+     "label": "SITE",
+     "text": "Maroc"
+    },
+    {
+     "start": 127,
+     "end": 154,
+     "label": "PROCESSUS",
+     "text": "production de suppositoires"
+    },
+    {
+     "start": 163,
+     "end": 178,
+     "label": "PROCESSUS",
+     "text": "santé infantile"
+    },
+    {
+     "start": 186,
+     "end": 191,
+     "label": "SITE",
+     "text": "usine"
+    },
+    {
+     "start": 265,
+     "end": 296,
+     "label": "EQUIPEMENT",
+     "text": "granulateur à haut cisaillement"
+    },
+    {
+     "start": 323,
+     "end": 341,
+     "label": "PRODUIT",
+     "text": "matières premières"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_502_p001",
+   "entities": [
+    {
+     "start": 12,
+     "end": 23,
+     "label": "EQUIPEMENT",
+     "text": "خطوط لتعبئة"
+    },
+    {
+     "start": 24,
+     "end": 43,
+     "label": "PRODUIT",
+     "text": "قوارير مواد التجميل"
+    },
+    {
+     "start": 47,
+     "end": 53,
+     "label": "SITE",
+     "text": "مصنعنا"
+    },
+    {
+     "start": 114,
+     "end": 137,
+     "label": "SITE",
+     "text": "السوق المحلية والعالمية"
+    },
+    {
+     "start": 176,
+     "end": 199,
+     "label": "INDICATEUR",
+     "text": "جودة المنتجات النهائية،"
+    },
+    {
+     "start": 216,
+     "end": 234,
+     "label": "INDICATEUR",
+     "text": "بنسبة عدم المطابقة"
+    },
+    {
+     "start": 251,
+     "end": 254,
+     "label": "INDICATEUR",
+     "text": "11%"
+    },
+    {
+     "start": 255,
+     "end": 258,
+     "label": "INDICATEUR",
+     "text": "و6%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_510_p001",
+   "entities": [
+    {
+     "start": 61,
+     "end": 76,
+     "label": "PROCESSUS",
+     "text": "production line"
+    },
+    {
+     "start": 84,
+     "end": 99,
+     "label": "SITE",
+     "text": "Le Kef facility"
+    },
+    {
+     "start": 127,
+     "end": 143,
+     "label": "INDICATEUR",
+     "text": "absenteeism rate"
+    },
+    {
+     "start": 151,
+     "end": 160,
+     "label": "PERSONNE",
+     "text": "workforce"
+    },
+    {
+     "start": 201,
+     "end": 204,
+     "label": "INDICATEUR",
+     "text": "10%"
+    },
+    {
+     "start": 245,
+     "end": 260,
+     "label": "CONTRAINTE",
+     "text": "acceptable rate"
+    },
+    {
+     "start": 264,
+     "end": 266,
+     "label": "INDICATEUR",
+     "text": "7%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_504_p004",
+   "entities": [
+    {
+     "start": 174,
+     "end": 191,
+     "label": "PERSONNE",
+     "text": "Mme Kaouther Amri"
+    },
+    {
+     "start": 193,
+     "end": 212,
+     "label": "PERSONNE",
+     "text": "ingénieure méthodes"
+    },
+    {
+     "start": 216,
+     "end": 243,
+     "label": "ORG",
+     "text": "Comptoir Emballages Essalam"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_510_p000",
+   "entities": [
+    {
+     "start": 0,
+     "end": 17,
+     "label": "ORG",
+     "text": "Usines Emballages"
+    },
+    {
+     "start": 37,
+     "end": 43,
+     "label": "SITE",
+     "text": "Tozeur"
+    },
+    {
+     "start": 81,
+     "end": 94,
+     "label": "PRODUIT",
+     "text": "tubes en PEHD"
+    },
+    {
+     "start": 99,
+     "end": 122,
+     "label": "PROCESSUS",
+     "text": "processus de production"
+    },
+    {
+     "start": 146,
+     "end": 161,
+     "label": "EQUIPEMENT",
+     "text": "robot de dépose"
+    },
+    {
+     "start": 176,
+     "end": 191,
+     "label": "PROCESSUS",
+     "text": "premier passage"
+    },
+    {
+     "start": 200,
+     "end": 216,
+     "label": "INDICATEUR",
+     "text": "rendement de 76%"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_501_p004",
+   "entities": [
+    {
+     "start": 20,
+     "end": 32,
+     "label": "CONTRAINTE",
+     "text": "no more than"
+    },
+    {
+     "start": 33,
+     "end": 43,
+     "label": "INDICATEUR",
+     "text": "five weeks"
+    },
+    {
+     "start": 53,
+     "end": 61,
+     "label": "PERSONNE",
+     "text": "students"
+    },
+    {
+     "start": 83,
+     "end": 85,
+     "label": "PROCESSUS",
+     "text": "5S"
+    },
+    {
+     "start": 98,
+     "end": 141,
+     "label": "PROCESSUS",
+     "text": "organize and improve their work environment"
+    },
+    {
+     "start": 210,
+     "end": 228,
+     "label": "CONTRAINTE",
+     "text": "time and resources"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_514_p002",
+   "entities": [
+    {
+     "start": 17,
+     "end": 31,
+     "label": "INDICATEUR",
+     "text": "استهلاك الطاقة"
+    },
+    {
+     "start": 32,
+     "end": 46,
+     "label": "INDICATEUR",
+     "text": "وتكلفة التشغيل"
+    },
+    {
+     "start": 47,
+     "end": 53,
+     "label": "EQUIPEMENT",
+     "text": "للآلة،"
+    },
+    {
+     "start": 72,
+     "end": 86,
+     "label": "INDICATEUR",
+     "text": "الأخطاء الفنية"
+    },
+    {
+     "start": 90,
+     "end": 97,
+     "label": "PROCESSUS",
+     "text": "التصنيع"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_505_p005",
+   "entities": [
+    {
+     "start": 62,
+     "end": 80,
+     "label": "PERSONNE",
+     "text": "Mme Sirine Ellouze"
+    },
+    {
+     "start": 82,
+     "end": 98,
+     "label": "PERSONNE",
+     "text": "cheffe d'atelier"
+    },
+    {
+     "start": 123,
+     "end": 147,
+     "label": "SITE",
+     "text": "l'atelier de granulation"
+    },
+    {
+     "start": 189,
+     "end": 199,
+     "label": "DONNEE_SENSIBLE",
+     "text": "73 412 263"
+    },
+    {
+     "start": 216,
+     "end": 233,
+     "label": "DONNEE_SENSIBLE",
+     "text": "s.ellouze@slna.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_fr_509_p002",
+   "entities": [
+    {
+     "start": 0,
+     "end": 13,
+     "label": "PERSONNE",
+     "text": "Les étudiants"
+    },
+    {
+     "start": 22,
+     "end": 42,
+     "label": "PROCESSUS",
+     "text": "analyser ces données"
+    },
+    {
+     "start": 63,
+     "end": 93,
+     "label": "PROCESSUS",
+     "text": "causes potentielles des arrêts"
+    },
+    {
+     "start": 129,
+     "end": 138,
+     "label": "PROCESSUS",
+     "text": "solutions"
+    },
+    {
+     "start": 157,
+     "end": 178,
+     "label": "INDICATEUR",
+     "text": "taux de disponibilité"
+    },
+    {
+     "start": 182,
+     "end": 213,
+     "label": "EQUIPEMENT",
+     "text": "granulateur à haut cisaillement"
+    },
+    {
+     "start": 246,
+     "end": 266,
+     "label": "PROCESSUS",
+     "text": "étude de faisabilité"
+    },
+    {
+     "start": 274,
+     "end": 300,
+     "label": "PROCESSUS",
+     "text": "recommandations techniques"
+    },
+    {
+     "start": 309,
+     "end": 338,
+     "label": "PROCESSUS",
+     "text": "qualification des équipements"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_500_p001",
+   "entities": [
+    {
+     "start": 33,
+     "end": 40,
+     "label": "PROCESSUS",
+     "text": "الإنتاج"
+    },
+    {
+     "start": 47,
+     "end": 66,
+     "label": "PROCESSUS",
+     "text": "بتخزين المواد الخام"
+    },
+    {
+     "start": 98,
+     "end": 107,
+     "label": "INDICATEUR",
+     "text": "21 يوماً،"
+    },
+    {
+     "start": 150,
+     "end": 161,
+     "label": "INDICATEUR",
+     "text": "بثلاثة أيام"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_507_p005",
+   "entities": [
+    {
+     "start": 37,
+     "end": 49,
+     "label": "PERSONNE",
+     "text": "لطفي العمري،"
+    },
+    {
+     "start": 50,
+     "end": 70,
+     "label": "PERSONNE",
+     "text": "مهندس الطرق الصناعية"
+    },
+    {
+     "start": 98,
+     "end": 113,
+     "label": "DONNEE_SENSIBLE",
+     "text": "+216 46 496 615"
+    },
+    {
+     "start": 139,
+     "end": 153,
+     "label": "DONNEE_SENSIBLE",
+     "text": "l.amri@fajr.tn"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_ar_514_p004",
+   "entities": [
+    {
+     "start": 22,
+     "end": 31,
+     "label": "CONTRAINTE",
+     "text": "لا تتجاوز"
+    },
+    {
+     "start": 32,
+     "end": 41,
+     "label": "INDICATEUR",
+     "text": "7 أسابيع،"
+    },
+    {
+     "start": 57,
+     "end": 84,
+     "label": "INDICATEUR",
+     "text": "التكلفة الإجمالية للاستثمار"
+    },
+    {
+     "start": 94,
+     "end": 105,
+     "label": "INDICATEUR",
+     "text": "40000 دينار"
+    }
+   ]
+  },
+  {
+   "passage_id": "lib_en_511_p002",
+   "entities": [
+    {
+     "start": 28,
+     "end": 48,
+     "label": "INDICATEUR",
+     "text": "current stock levels"
+    },
+    {
+     "start": 77,
+     "end": 84,
+     "label": "INDICATEUR",
+     "text": "18 days"
+    },
+    {
+     "start": 89,
+     "end": 102,
+     "label": "PRODUIT",
+     "text": "raw materials"
+    },
+    {
+     "start": 107,
+     "end": 114,
+     "label": "INDICATEUR",
+     "text": "15 days"
+    },
+    {
+     "start": 119,
+     "end": 133,
+     "label": "PRODUIT",
+     "text": "finished goods"
+    },
+    {
+     "start": 182,
+     "end": 202,
+     "label": "PROCESSUS",
+     "text": "last inventory check"
+    },
+    {
+     "start": 215,
+     "end": 239,
+     "label": "PROCESSUS",
+     "text": "recent production delays"
+    },
+    {
+     "start": 245,
+     "end": 275,
+     "label": "CONTRAINTE",
+     "text": "actual levels may have changed"
+    }
+   ]
+  }
+ ]
+}

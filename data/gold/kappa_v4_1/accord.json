@@ -1,0 +1,59 @@
+{
+  "annotateurs": [
+    "Boutheina",
+    "ali"
+  ],
+  "humains": {
+    "passages": 37,
+    "tokens": 1414,
+    "kappa": 0.695,
+    "f1_spans_exacts": 0.508,
+    "kappa_par_etiquette": {
+      "ORG": 0.876,
+      "PERSONNE": 0.736,
+      "SITE": 0.887,
+      "DONNEE_SENSIBLE": 0.96,
+      "PRODUIT": 0.251,
+      "EQUIPEMENT": -0.004,
+      "PROCESSUS": 0.613,
+      "INDICATEUR": 0.62,
+      "CONTRAINTE": 0.315
+    }
+  },
+  "Boutheina_construction": {
+    "passages": 37,
+    "tokens": 1414,
+    "kappa": 0.556,
+    "f1_spans_exacts": 0.351,
+    "kappa_par_etiquette": {
+      "ORG": 0.904,
+      "PERSONNE": 0.649,
+      "SITE": 0.621,
+      "DONNEE_SENSIBLE": 0.964,
+      "PRODUIT": 0.644,
+      "EQUIPEMENT": 0.848,
+      "PROCESSUS": 0.161,
+      "INDICATEUR": 0.446,
+      "CONTRAINTE": 0.32
+    }
+  },
+  "ali_construction": {
+    "passages": 37,
+    "tokens": 1414,
+    "kappa": 0.562,
+    "f1_spans_exacts": 0.374,
+    "kappa_par_etiquette": {
+      "ORG": 0.967,
+      "PERSONNE": 0.879,
+      "SITE": 0.625,
+      "DONNEE_SENSIBLE": 0.975,
+      "PRODUIT": 0.335,
+      "EQUIPEMENT": -0.004,
+      "PROCESSUS": 0.17,
+      "INDICATEUR": 0.509,
+      "CONTRAINTE": 0.334
+    }
+  },
+  "kappa_min": 0.7,
+  "atteint": false
+}

@@ -42,10 +42,10 @@ def _lire(chemin: Path) -> list[dict[str, Any]]:
     return [json.loads(ligne) for ligne in chemin.read_text(encoding="utf-8").splitlines() if ligne.strip()]
 
 
-def nouveaux_passages(gold: Path = GOLD) -> list[dict[str, Any]]:
+def nouveaux_passages(gold: Path = GOLD, sources: tuple[str, ...] = SOURCES) -> list[dict[str, Any]]:
     """Tous les nouveaux passages du Gold (synthétiques v4, puis textes libres v4 s'ils existent)."""
     out: list[dict[str, Any]] = []
-    for s in SOURCES:
+    for s in sources:
         if (gold / s / "passages.jsonl").exists():
             out += _lire(gold / s / "passages.jsonl")
     return out
@@ -65,9 +65,11 @@ def tirer(passages: list[dict[str, Any]], part: float = PART, graine: int = GRAI
     return tirage
 
 
-def preparer(gold: Path = GOLD, dossier: Path = DOSSIER) -> int:
+def preparer(gold: Path = GOLD, dossier: Path = DOSSIER, sources: tuple[str, ...] = SOURCES) -> int:
     """Écrit les tâches (``taches.jsonl``) et la page d'annotation (``annoter.html``) ; renvoie leur nombre."""
-    tirage = tirer(nouveaux_passages(gold))
+    if (dossier / "taches.jsonl").exists():
+        raise FileExistsError(f"{dossier} contient déjà un tirage : choisissez un autre dossier.")
+    tirage = tirer(nouveaux_passages(gold, sources))
     dossier.mkdir(parents=True, exist_ok=True)
     taches = [
         {
@@ -124,10 +126,20 @@ def _accord(
 
 
 def calculer(
-    fichier_a: Path, fichier_b: Path, gold: Path = GOLD, dossier: Path = DOSSIER, rapport: Path = RAPPORT
+    fichier_a: Path,
+    fichier_b: Path,
+    gold: Path = GOLD,
+    dossier: Path = DOSSIER,
+    rapport: Path = RAPPORT,
+    sources: tuple[str, ...] = SOURCES,
 ) -> dict[str, Any]:
-    """Kappa entre les deux annotateurs et avec la construction ; écrit ``accord.json`` et le rapport."""
-    ref = {p["passage_id"]: p for p in nouveaux_passages(gold)}
+    """Kappa entre les deux annotateurs et avec l'annotation du jeu ; écrit ``accord.json`` et le rapport.
+
+    L'annotation du jeu est la construction pour les synthétiques, la pré-annotation vérifiée pour les textes libres.
+    """
+    ref = {p["passage_id"]: p for p in nouveaux_passages(gold, sources)}
+    avec_libres = "libres_v4" in sources and (gold / "libres_v4" / "passages.jsonl").exists()
+    nom_ref = "annotation vérifiée (Ons)" if avec_libres else "construction"
     textes = {pid: p["text"] for pid, p in ref.items()}
     construction = {pid: p["entities"] for pid, p in ref.items()}
     nom_a, a = _annotations(fichier_a)
@@ -143,9 +155,9 @@ def calculer(
     dossier.mkdir(parents=True, exist_ok=True)
     (dossier / "accord.json").write_bytes((json.dumps(res, ensure_ascii=False, indent=2) + "\n").encode())
     lignes = [
-        "# Gold · double annotation à l'aveugle des passages v4",
+        f"# Gold · double annotation à l'aveugle ({', '.join(sources)})",
         "",
-        f"Annotateurs : {nom_a} et {nom_b}, à l'aveugle (page `data/gold/kappa_v4/annoter.html`, sans "
+        f"Annotateurs : {nom_a} et {nom_b}, à l'aveugle (page `{dossier.as_posix()}/annoter.html`, sans "
         "pré-annotation). Kappa de Cohen au token, tokenisation et kappa du Lot A. Cible : kappa ≥ 0,70.",
         "",
         "| Paire | Passages | Tokens | Kappa | F1 spans exacts |",
@@ -153,8 +165,8 @@ def calculer(
     ]
     for cle, titre in (
         ("humains", f"{nom_a} – {nom_b}"),
-        (f"{nom_a}_construction", f"{nom_a} – construction"),
-        (f"{nom_b}_construction", f"{nom_b} – construction"),
+        (f"{nom_a}_construction", f"{nom_a} – {nom_ref}"),
+        (f"{nom_b}_construction", f"{nom_b} – {nom_ref}"),
     ):
         r = res[cle]
         lignes.append(f"| {titre} | {r['passages']} | {r['tokens']} | {r['kappa']:.3f} | {r['f1_spans_exacts']:.3f} |")
@@ -175,23 +187,28 @@ def calculer(
 def main(argv: list[str] | None = None) -> None:
     """Point d'entrée en ligne de commande."""
     ap = argparse.ArgumentParser(description="Double annotation à l'aveugle des passages v4 et kappa.")
+    ap.add_argument("--sources", nargs="+", default=list(SOURCES), help="jeux de data/gold/ à tirer (défaut : tous)")
+    ap.add_argument("--dossier", type=Path, default=DOSSIER, help="dossier du tirage et de accord.json")
+    ap.add_argument("--rapport", type=Path, help="défaut : reports/gold_<nom du dossier>.md")
     sp = ap.add_subparsers(dest="cmd", required=True)
     sp.add_parser("preparer")
     c = sp.add_parser("calculer")
     c.add_argument("a", type=Path)
     c.add_argument("b", type=Path)
     args = ap.parse_args(argv)
+    sources = tuple(args.sources)
+    args.rapport = args.rapport or RAPPORT.with_name(f"gold_{args.dossier.name}.md")
     if args.cmd == "preparer":
-        n = preparer()
-        print(f"{n} passages à annoter -> {DOSSIER}/annoter.html")
+        n = preparer(GOLD, args.dossier, sources)
+        print(f"{n} passages à annoter -> {args.dossier}/annoter.html")
     else:
-        r = calculer(args.a, args.b)
+        r = calculer(args.a, args.b, GOLD, args.dossier, args.rapport, sources)
         h = r["humains"]
         print(
             f"kappa {r['annotateurs'][0]} – {r['annotateurs'][1]} : {h['kappa']:.3f} sur {h['passages']} passages "
             f"({h['tokens']} tokens) ; cible ≥ {KAPPA_MIN} : {'atteinte' if r['atteint'] else 'NON atteinte'}"
         )
-        print(f"-> {RAPPORT}")
+        print(f"-> {args.rapport}")
 
 
 if __name__ == "__main__":

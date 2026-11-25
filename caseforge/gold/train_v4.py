@@ -113,7 +113,7 @@ def effectifs(passages: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def geler(sortie: Path = SORTIE_DEFAUT, final: Path = FINAL, gold: Path = GOLD) -> dict[str, Any]:
+def geler(sortie: Path = SORTIE_DEFAUT, final: Path = FINAL, gold: Path = GOLD, version: str = "v4") -> dict[str, Any]:
     """Écrit le train v4 et son manifeste ; renvoie le manifeste."""
     passages, documents, fiches, bilan = assembler(final, gold)
     sortie.mkdir(parents=True, exist_ok=True)
@@ -136,7 +136,7 @@ def geler(sortie: Path = SORTIE_DEFAUT, final: Path = FINAL, gold: Path = GOLD) 
     _ecrire(sortie / "fiches_train.jsonl", fiches)
     fichiers = ("train.jsonl", "train.bio.jsonl", "documents_train.jsonl", "fiches_train.jsonl")
     manifeste = {
-        "version": "v4",
+        "version": version,
         "base": "data/final/train.jsonl (v3, inchangé)",
         "sources_v4": [s for s in SOURCES_V4 if (gold / s / "passages.jsonl").exists()],
         "dev_inchange": sha256(final / "dev.jsonl"),
@@ -154,14 +154,20 @@ def main(argv: list[str] | None = None) -> None:
     """Point d'entrée en ligne de commande."""
     ap = argparse.ArgumentParser(description="Assemble et gèle le train v4 (palier Gold).")
     ap.add_argument("--sortie", type=Path, default=SORTIE_DEFAUT)
+    ap.add_argument("--version", default="v4", help="étiquette du gel dans le manifeste (v4, v4.1…)")
     args = ap.parse_args(argv)
     if args.sortie.resolve().is_relative_to(FINAL.resolve()):
         raise SystemExit("Refus : le train v4 ne s'écrit jamais dans data/final/ (CLAUDE.md §1).")
-    m = geler(args.sortie)
+    if (args.sortie / "manifest.json").exists():
+        raise SystemExit(
+            f"Refus : {args.sortie} est déjà gelé (manifest.json). Un gel ne se réécrit pas : écrivez le nouveau "
+            "train dans un autre dossier, par exemple --sortie data/gold/train_v4_1 --version v4.1."
+        )
+    m = geler(args.sortie, version=args.version)
     e = m["effectifs"]
     print(
-        f"train v4 : {e['passages']} passages, {e['documents']} documents ({m['ajoutes']} passages ajoutés, "
-        f"{len(m['ecartes'])} écartés) ; sources v4 : {', '.join(m['sources_v4'])}"
+        f"train {m['version']} : {e['passages']} passages, {e['documents']} documents "
+        f"({m['ajoutes']} passages ajoutés, {len(m['ecartes'])} écartés) ; sources v4 : {', '.join(m['sources_v4'])}"
     )
     print(f"par version : {e['par_version']} ; par langue : {e['par_langue']}")
     print(f"-> {args.sortie}/manifest.json")
