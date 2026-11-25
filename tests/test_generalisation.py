@@ -221,14 +221,17 @@ def test_sensible_prioritaire_sur_generalisation(pol_gen) -> None:
 
 
 # ---------- Option désactivée ----------
-def test_option_par_defaut_desactivee() -> None:
-    assert charger_politique().options["generaliser"] is False
+def test_option_par_defaut_desactivee_g5_bis() -> None:
+    """B12 : fausse ; G5 : vraie (première mesure) ; G5 bis (gabarit corrigé) : fausse, aucune variante éligible ;
+    generaliser_sauf reste documenté (inactif)."""
+    opts = charger_politique().options
+    assert opts["generaliser"] is False and "erp" in opts["generaliser_sauf"]
 
 
 @pytest.mark.parametrize("lang", sorted(DOCS))
 def test_option_desactivee_identique_au_bronze(lang: str) -> None:
     attendu = json.loads(FIXTURE.read_text(encoding="utf-8"))[lang]
-    res = anonymize_document(DOCS[lang], "gold")
+    res = anonymize_document(DOCS[lang], "gold", generaliser=False)
     assert json.loads(json.dumps(res, ensure_ascii=False)) == attendu
     explicite = anonymize_document(DOCS[lang], "gold", politique=charger_politique(generaliser=False))
     assert json.loads(json.dumps(explicite, ensure_ascii=False)) == attendu

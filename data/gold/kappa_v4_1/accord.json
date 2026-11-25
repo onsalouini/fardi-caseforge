@@ -23,8 +23,8 @@
   "Boutheina_construction": {
     "passages": 37,
     "tokens": 1414,
-    "kappa": 0.546,
-    "f1_spans_exacts": 0.347,
+    "kappa": 0.556,
+    "f1_spans_exacts": 0.351,
     "kappa_par_etiquette": {
       "ORG": 0.904,
       "PERSONNE": 0.649,
@@ -32,16 +32,16 @@
       "DONNEE_SENSIBLE": 0.964,
       "PRODUIT": 0.644,
       "EQUIPEMENT": 0.848,
-      "PROCESSUS": 0.135,
+      "PROCESSUS": 0.161,
       "INDICATEUR": 0.446,
-      "CONTRAINTE": 0.307
+      "CONTRAINTE": 0.32
     }
   },
   "ali_construction": {
     "passages": 37,
     "tokens": 1414,
-    "kappa": 0.557,
-    "f1_spans_exacts": 0.377,
+    "kappa": 0.562,
+    "f1_spans_exacts": 0.374,
     "kappa_par_etiquette": {
       "ORG": 0.967,
       "PERSONNE": 0.879,
@@ -49,9 +49,9 @@
       "DONNEE_SENSIBLE": 0.975,
       "PRODUIT": 0.335,
       "EQUIPEMENT": -0.004,
-      "PROCESSUS": 0.178,
+      "PROCESSUS": 0.17,
       "INDICATEUR": 0.509,
-      "CONTRAINTE": 0.32
+      "CONTRAINTE": 0.334
     }
   },
   "kappa_min": 0.7,

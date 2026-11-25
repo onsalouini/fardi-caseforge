@@ -202,7 +202,7 @@ class Detections:
 
 def anonymiser(docs: list[dict], ligne: Ligne, graine: str, dets: Detections) -> list[dict]:
     """Sorties de l'anonymiseur pour une ligne et une graine."""
-    pol = charger_politique()
+    pol = charger_politique(generaliser=False, generaliser_sauf=[])  # options Silver (G5 : défauts changés)
     backend, f = Detections.backend(ligne), fichier_de(ligne, graine)
     sens = dets.sensibles(ligne, graine)
     gen = ligne.options.get("generaliser", False)

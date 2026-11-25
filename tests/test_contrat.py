@@ -1,4 +1,5 @@
 """Contrat du pipeline (docs/contrat_pipeline.md) : l'exemple factice le respecte, et ne vient que du train."""
+
 from __future__ import annotations
 
 import json
@@ -38,7 +39,9 @@ def test_positions_sur_le_texte_original() -> None:
 
 def test_chaque_entite_sensible_est_remplacee() -> None:
     x = charger()
-    gold = {(p["passage_id"], e["start"], e["end"]) for p in x["passages"] for e in p["entities"] if e["label"] in SENSIBLES}
+    gold = {
+        (p["passage_id"], e["start"], e["end"]) for p in x["passages"] for e in p["entities"] if e["label"] in SENSIBLES
+    }
     rempl = {(r["passage_id"], r["start"], r["end"]) for r in x["anonymise"]["remplacements"]}
     assert gold == rempl
 
@@ -46,7 +49,11 @@ def test_chaque_entite_sensible_est_remplacee() -> None:
 def test_aucun_nom_sensible_dans_le_texte_anonymise_ni_la_fiche() -> None:
     x = charger()
     textes = {p["passage_id"]: p["text"] for p in x["passages"]}
-    noms = {textes[r["passage_id"]][r["start"]:r["end"]] for r in x["anonymise"]["remplacements"] if r["label"] != "DONNEE_SENSIBLE"}
+    noms = {
+        textes[r["passage_id"]][r["start"] : r["end"]]
+        for r in x["anonymise"]["remplacements"]
+        if r["label"] != "DONNEE_SENSIBLE"
+    }
     sortie = " ".join(p["texte"] for p in x["anonymise"]["passages"]) + json.dumps(x["fiche"], ensure_ascii=False)
     assert not [n for n in noms if n in sortie]
 
