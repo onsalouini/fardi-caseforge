@@ -91,4 +91,8 @@ par la règle « Relevés ».
    nettement plus faibles (0,726 contre 0,977) ; 3 fausses abstentions sur des textes libres.
 5. **Éthique et sécurité** : la fiche hérite des fuites du lot B (1 nom non masqué au dev, fuite partielle « aeronautics
    park » sur `lib_en_01`) ; le garde-fou de confidentialité retire les passages qui s'annoncent confidentiels, pas une
-   donnée que rien n'annonce. La fiche reste une **proposition** à valider par un enseignant.
+   donnée que rien n'annonce. **Ré-identification** (audit G5 bis du lot B, dev) : le gabarit lit désormais les entités
+   dans le texte anonymisé (fiches ré-identifiables en N3 : 21 → 2 sur 21 avec généralisation), mais la généralisation
+   coûte 3,7 points de F1 à la fiche (seuil de 3) : elle reste désactivée (`generaliser: false`), et le texte comme la
+   fiche restent ré-identifiables par secteur + produit + équipement (N3 21 / 21). La fiche reste une **proposition** à
+   valider par un enseignant.
