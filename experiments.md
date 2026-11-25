@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-25 · Boutheina · Lot E Gold · tableau de bord Gold à jour et kappa par langue
+- `reports/gold.md` mis à jour (état au 25/11) avec les résultats de tous les lots, repris de leurs rapports sans nouveau calcul : lot A (train v4.1, kappa des textes libres), lot B (G4, G5 bis, G7), lot C (RQ1, robustesse, explications), lot D (synthèse `reports/lot_d_gold.md`). Statut des 9 exigences : 4 ✅ (LLM-juge, abstention, explications, question de recherche), 2 🟡 (robustesse, audits), 1 ⏳ (tunisien), 2 ❌ rapportées telles quelles (ré-identification N3, contrôle des ajouts et omissions contre les relecteurs). Nouvelles sections « Écarts au plan » et « Reste à faire ».
+- `caseforge/gold/kappa_v4.py` : kappa entre humains par langue dans `accord.json` et le rapport (demande d'Ons). Textes libres : fr 0,720 (11 passages), ar 0,697 (15), en 0,662 (11), identique au calcul d'Ons. Test : `tests/test_gold_kappa_v4.py`.
+- Test gelé non lu. Code écrit avec l'aide d'un assistant IA (déclaré).
+
 ## 2026-11-25 · Boutheina · Lot A Gold · gel du train v4.1 (textes libres arbitrés) et carte de données v4 à jour
 - Fusion de `main` (d719702 : règles arbitrées appliquées aux 242 textes libres par Ons) dans `lot-a-gold-v41`.
 - `python -m caseforge.gold.train_v4 --sortie data/gold/train_v4_1 --version v4.1` → **978 passages**, 136 documents : 496 v3 + 482 v4 (240 synthétiques, 242 textes libres), 0 doublon écarté. Empreintes SHA-256 dans `data/gold/train_v4_1/manifest.json` (`train.jsonl` : `d5e45c591ae0…`), vérifiées par `tests/test_gold_train_v4.py::test_trains_geles_non_modifies`. Le train v4 gelé (736 passages) n'est pas modifié : les résultats calculés dessus restent valables.

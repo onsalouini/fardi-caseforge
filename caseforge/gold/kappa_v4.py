@@ -151,6 +151,10 @@ def calculer(
         f"{nom_b}_construction": _accord(textes, b, construction),
         "kappa_min": KAPPA_MIN,
     }
+    langues = sorted({ref[pid]["lang"] for pid in a if pid in ref})
+    res["humains_par_langue"] = {
+        lg: _accord({pid: t for pid, t in textes.items() if ref[pid]["lang"] == lg}, a, b) for lg in langues
+    }
     res["atteint"] = res["humains"]["kappa"] >= KAPPA_MIN
     dossier.mkdir(parents=True, exist_ok=True)
     (dossier / "accord.json").write_bytes((json.dumps(res, ensure_ascii=False, indent=2) + "\n").encode())
@@ -178,6 +182,16 @@ def calculer(
         "| --- | --- |",
     ]
     lignes += [f"| {lab} | {k:.3f} |" for lab, k in res["humains"]["kappa_par_etiquette"].items()]
+    lignes += [
+        "",
+        "Kappa entre humains par langue :",
+        "",
+        "| Langue | Passages | Tokens | Kappa |",
+        "| --- | --- | --- | --- |",
+    ]
+    lignes += [
+        f"| {lg} | {r['passages']} | {r['tokens']} | {r['kappa']:.3f} |" for lg, r in res["humains_par_langue"].items()
+    ]
     lignes += ["", f"Cible atteinte : **{'oui' if res['atteint'] else 'non'}**."]
     rapport.parent.mkdir(parents=True, exist_ok=True)
     rapport.write_bytes(("\n".join(lignes) + "\n").encode("utf-8"))
