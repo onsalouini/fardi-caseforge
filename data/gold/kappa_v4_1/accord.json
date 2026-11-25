@@ -55,5 +55,58 @@
     }
   },
   "kappa_min": 0.7,
+  "humains_par_langue": {
+    "ar": {
+      "passages": 15,
+      "tokens": 440,
+      "kappa": 0.697,
+      "f1_spans_exacts": 0.548,
+      "kappa_par_etiquette": {
+        "ORG": 0.809,
+        "PERSONNE": 0.743,
+        "SITE": 0.873,
+        "DONNEE_SENSIBLE": 0.985,
+        "PRODUIT": 0.664,
+        "EQUIPEMENT": 0.0,
+        "PROCESSUS": 0.675,
+        "INDICATEUR": 0.676,
+        "CONTRAINTE": 0.2
+      }
+    },
+    "en": {
+      "passages": 11,
+      "tokens": 515,
+      "kappa": 0.662,
+      "f1_spans_exacts": 0.441,
+      "kappa_par_etiquette": {
+        "ORG": 0.907,
+        "PERSONNE": 0.795,
+        "SITE": 0.873,
+        "DONNEE_SENSIBLE": 0.919,
+        "PRODUIT": 0.267,
+        "EQUIPEMENT": 0.0,
+        "PROCESSUS": 0.445,
+        "INDICATEUR": 0.56,
+        "CONTRAINTE": 0.367
+      }
+    },
+    "fr": {
+      "passages": 11,
+      "tokens": 459,
+      "kappa": 0.72,
+      "f1_spans_exacts": 0.538,
+      "kappa_par_etiquette": {
+        "ORG": 0.94,
+        "PERSONNE": 0.697,
+        "SITE": 0.922,
+        "DONNEE_SENSIBLE": 0.963,
+        "PRODUIT": -0.015,
+        "EQUIPEMENT": -0.01,
+        "PROCESSUS": 0.671,
+        "INDICATEUR": 0.555,
+        "CONTRAINTE": 0.383
+      }
+    }
+  },
   "atteint": false
 }

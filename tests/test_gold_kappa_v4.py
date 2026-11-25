@@ -37,6 +37,10 @@ def test_kappa_parfait_et_rapport(tmp_path: Path) -> None:
     res = kv.calculer(tmp_path / "a.json", tmp_path / "b.json", GOLD, tmp_path, tmp_path / "rapport.md")
     assert res["humains"]["kappa"] == 1.0 and res["atteint"]
     assert (tmp_path / "rapport.md").exists()
+    par_langue = res["humains_par_langue"]
+    assert {"ar", "en", "fr"} <= set(par_langue) and all(r["kappa"] == 1.0 for r in par_langue.values())
+    assert sum(r["passages"] for r in par_langue.values()) == res["humains"]["passages"]
+    assert "par langue" in (tmp_path / "rapport.md").read_text("utf-8")
 
 
 def test_tirage_par_source_et_dossier_protege(tmp_path: Path) -> None:

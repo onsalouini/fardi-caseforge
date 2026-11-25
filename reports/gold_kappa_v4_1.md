@@ -22,4 +22,12 @@ Kappa entre humains par étiquette (étiquette contre le reste) :
 | INDICATEUR | 0.620 |
 | CONTRAINTE | 0.315 |
 
+Kappa entre humains par langue :
+
+| Langue | Passages | Tokens | Kappa |
+| --- | --- | --- | --- |
+| ar | 15 | 440 | 0.697 |
+| en | 11 | 515 | 0.662 |
+| fr | 11 | 459 | 0.720 |
+
 Cible atteinte : **non**.
