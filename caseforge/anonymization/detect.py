@@ -66,8 +66,8 @@ from caseforge.labels import GENERALISABLE_LABELS, REPO_ROOT, SENSITIVE_LABELS, 
 BACKENDS: tuple[str, ...] = ("gold", "rules", "b3", "crf", "union", "union_seuil", "fichier", "union_fichier")
 BACKENDS_FICHIER: tuple[str, ...] = ("fichier", "union_fichier")
 """Backends qui lisent les entités d'un fichier de prédictions (B13)."""
-FICHIER_PREDICTIONS_DEFAUT = "reports/predictions/xlmr_dev_s42.jsonl"
-"""Fichier de prédictions si ``configs/anonymization.yaml`` n'a pas de clé ``fichier_predictions``."""
+FICHIER_PREDICTIONS_DEFAUT = "reports/predictions/xlmr_v4_dev_s42.jsonl"
+"""Fichier de prédictions si ``configs/anonymization.yaml`` n'a pas de clé ``fichier_predictions`` (gel Gold, G4)."""
 AGREGATIONS: tuple[str, ...] = ("moyenne", "minimum")
 """Agrégation de la probabilité marginale sur les tokens d'une entité du CRF (``union_seuil``)."""
 FUSIONS: tuple[str, ...] = ("union", "regles")

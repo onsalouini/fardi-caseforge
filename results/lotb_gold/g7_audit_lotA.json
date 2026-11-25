@@ -1,0 +1,675 @@
+{
+  "ref": "origin/main",
+  "commit": "effe392",
+  "tag": "test-gele-v3",
+  "effectifs": {
+    "train_v3": 496,
+    "dev": 162,
+    "synth": 240,
+    "synth_docs": 30,
+    "libres": 242,
+    "libres_docs": 40,
+    "train_v4": 736,
+    "train_v4_bio": 736,
+    "train_v4_docs": 96,
+    "train_v4_fiches": 96
+  },
+  "controles": [
+    {
+      "controle": "a1. data/final/ et cfdata/ inchangés depuis le tag",
+      "verdict": "OK",
+      "detail": "git diff test-gele-v3 origin/main et git status vides",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "a2. empreintes du manifeste de data/final/",
+      "verdict": "OK",
+      "detail": "16 fichiers train/dev identiques au manifeste (blob Git et copie de travail normalisée) ; 10 fichiers du test gelé non ouverts, couverts par a1",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "verifies": 16,
+      "non_ouverts": 10,
+      "faux_ecarts_sans_normalisation": [
+        "train.jsonl",
+        "train.bio.jsonl",
+        "hf/train.jsonl",
+        "train.conll",
+        "documents_train.jsonl",
+        "fiches_train.jsonl",
+        "dev.jsonl",
+        "dev.bio.jsonl",
+        "hf/validation.jsonl",
+        "dev.conll",
+        "documents_dev.jsonl",
+        "fiches_dev.jsonl",
+        "externe_train.jsonl",
+        "externe_train.bio.jsonl",
+        "hf/externe_train.jsonl",
+        "externe_train.conll"
+      ]
+    },
+    {
+      "controle": "a3. manifeste du train v4 gelé",
+      "verdict": "OK",
+      "detail": "4 fichiers du train v4 et empreinte du dev conformes",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "b. format : synthétiques v4 (synth_v4)",
+      "verdict": "OK",
+      "detail": "240 passages, 30 documents conformes ; champs en plus de data/final : ['annotateur', 'generation', 'version']",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "champs_en_plus": [
+        "annotateur",
+        "generation",
+        "version"
+      ],
+      "prefixes": {
+        "syn_": 240
+      },
+      "versions": {
+        "v4": 240
+      }
+    },
+    {
+      "controle": "b. format : textes libres v4 (libres_v4, hors train gelé)",
+      "verdict": "OK",
+      "detail": "242 passages, 40 documents conformes ; champs en plus de data/final : ['annotateur', 'generation', 'version']",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "champs_en_plus": [
+        "annotateur",
+        "generation",
+        "version"
+      ],
+      "prefixes": {
+        "lib_": 242
+      },
+      "versions": {
+        "v4": 242
+      }
+    },
+    {
+      "controle": "b. format : train v4 gelé (train_v4)",
+      "verdict": "OK",
+      "detail": "736 passages = 496 v3 (inchangés) + 240 v4 (= synth_v4) ; BIO conforme à spans_to_bio ; documents et fiches cohérents",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "champs_v3_ajoutes": [
+        "version"
+      ],
+      "herites_du_v3": [
+        "syn_ar_003 : passages du document ≠ passages du JSONL",
+        "syn_ar_004 : passages du document ≠ passages du JSONL",
+        "syn_ar_005 : passages du document ≠ passages du JSONL",
+        "syn_ar_013 : passages du document ≠ passages du JSONL",
+        "syn_ar_014 : passages du document ≠ passages du JSONL",
+        "syn_ar_015 : passages du document ≠ passages du JSONL",
+        "syn_ar_016 : passages du document ≠ passages du JSONL",
+        "syn_ar_019 : passages du document ≠ passages du JSONL",
+        "syn_ar_020 : passages du document ≠ passages du JSONL",
+        "syn_ar_023 : passages du document ≠ passages du JSONL",
+        "syn_ar_025 : passages du document ≠ passages du JSONL",
+        "syn_ar_028 : passages du document ≠ passages du JSONL",
+        "syn_en_003 : passages du document ≠ passages du JSONL",
+        "syn_en_010 : passages du document ≠ passages du JSONL",
+        "syn_en_011 : passages du document ≠ passages du JSONL",
+        "syn_en_016 : passages du document ≠ passages du JSONL",
+        "syn_en_021 : passages du document ≠ passages du JSONL",
+        "syn_en_022 : passages du document ≠ passages du JSONL",
+        "syn_en_025 : passages du document ≠ passages du JSONL",
+        "syn_en_026 : passages du document ≠ passages du JSONL",
+        "syn_en_027 : passages du document ≠ passages du JSONL",
+        "syn_en_029 : passages du document ≠ passages du JSONL",
+        "syn_fr_004 : passages du document ≠ passages du JSONL",
+        "syn_fr_009 : passages du document ≠ passages du JSONL",
+        "syn_fr_010 : passages du document ≠ passages du JSONL",
+        "syn_fr_011 : passages du document ≠ passages du JSONL",
+        "syn_fr_017 : passages du document ≠ passages du JSONL",
+        "syn_fr_019 : passages du document ≠ passages du JSONL",
+        "syn_fr_021 : passages du document ≠ passages du JSONL"
+      ]
+    },
+    {
+      "controle": "c1. dédoublonnage : synthétiques v4 contre train v3 + dev",
+      "verdict": "OK",
+      "detail": "0 doublon exact, 0 quasi-doublon (Jaccard 5-grammes ≥ 0.8) sur 240 passages",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "plus_proches": [
+        [
+          0.153,
+          "syn_en_507_p002",
+          "lib_en_06_p003"
+        ],
+        [
+          0.135,
+          "syn_fr_507_p005",
+          "lib_fr_01_p005"
+        ],
+        [
+          0.135,
+          "syn_ar_507_p005",
+          "syn_ar_021_p004"
+        ],
+        [
+          0.134,
+          "syn_fr_504_p005",
+          "syn_fr_029_p005"
+        ],
+        [
+          0.129,
+          "syn_fr_505_p005",
+          "syn_fr_026_p005"
+        ]
+      ],
+      "doublons_internes_entre_documents": [
+        "syn_ar_503_p000 = syn_ar_508_p000",
+        "syn_ar_508_p000 = syn_ar_503_p000",
+        "syn_fr_501_p000 = syn_fr_504_p000",
+        "syn_fr_504_p000 = syn_fr_501_p000",
+        "syn_fr_509_p000 = syn_fr_501_p000",
+        "syn_ar_500_p005 ≈ syn_ar_503_p005 (Jaccard 0.87)",
+        "syn_ar_503_p005 ≈ syn_ar_500_p005 (Jaccard 0.87)",
+        "syn_ar_507_p005 ≈ syn_ar_508_p005 (Jaccard 0.86)",
+        "syn_ar_508_p005 ≈ syn_ar_507_p005 (Jaccard 0.86)",
+        "syn_en_501_p000 ≈ syn_en_504_p000 (Jaccard 0.90)",
+        "syn_en_504_p000 ≈ syn_en_501_p000 (Jaccard 0.90)",
+        "syn_fr_503_p000 ≈ syn_fr_506_p000 (Jaccard 0.94)",
+        "syn_fr_506_p000 ≈ syn_fr_503_p000 (Jaccard 0.94)"
+      ]
+    },
+    {
+      "controle": "c1. dédoublonnage : textes libres v4 contre train v3 + dev",
+      "verdict": "OK",
+      "detail": "0 doublon exact, 0 quasi-doublon (Jaccard 5-grammes ≥ 0.8) sur 242 passages",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "plus_proches": [
+        [
+          0.167,
+          "lib_fr_507_p005",
+          "syn_fr_022_p007"
+        ],
+        [
+          0.158,
+          "lib_ar_507_p005",
+          "syn_ar_022_p007"
+        ],
+        [
+          0.144,
+          "lib_ar_510_p005",
+          "syn_ar_022_p007"
+        ],
+        [
+          0.142,
+          "lib_en_506_p003",
+          "syn_en_008_p004"
+        ],
+        [
+          0.14,
+          "lib_fr_500_p004",
+          "lib_fr_01_p005"
+        ]
+      ],
+      "doublons_internes_entre_documents": []
+    },
+    {
+      "controle": "c2. aucun gabarit de la famille B (variante 1 des gabarits v3)",
+      "verdict": "OK",
+      "detail": "familles {'syn/G': 240, 'lib/L': 242} ; 48 parties fixes des gabarits B/C absentes des passages v4",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "reprises_variante_0": []
+    },
+    {
+      "controle": "c3. aucun nom propre de la famille B (partition 1 des lexiques v3)",
+      "verdict": "OK",
+      "detail": "65 noms de la famille B absents de tous les passages v4",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "c4. entités v4 disjointes des lexiques v3 (toutes familles)",
+      "verdict": "OK",
+      "detail": "aucune entité sensible v4 identique à une entrée des lexiques v3",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "communes_non_sensibles": {}
+    },
+    {
+      "controle": "c5. noms (PERSONNE, ORG, SITE) v4 absents du train v3 et du dev, arabe compris",
+      "verdict": "OK",
+      "detail": "aucun nom v4 déjà présent au train v3 ni au dev",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "d1. kappa des synthétiques v4 (train gelé) recalculé avec cfdata.agreement",
+      "verdict": "OK",
+      "detail": "kappa Boutheina – ons = 0.821 sur 36 passages (972 tokens), identique au rapport (0.821) ; échantillon 36 / 240 = 15.0%",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "humains": {
+        "passages": 36,
+        "tokens": 972,
+        "kappa": 0.821,
+        "par_etiquette": {
+          "ORG": 0.842,
+          "PERSONNE": 0.881,
+          "SITE": 0.569,
+          "DONNEE_SENSIBLE": 0.862,
+          "PRODUIT": 0.908,
+          "EQUIPEMENT": 0.978,
+          "PROCESSUS": 0.73,
+          "INDICATEUR": 0.879,
+          "CONTRAINTE": 0.555
+        }
+      },
+      "annotateur_a_construction": {
+        "passages": 36,
+        "tokens": 972,
+        "kappa": 0.763,
+        "par_etiquette": {
+          "ORG": 0.437,
+          "PERSONNE": 0.961,
+          "SITE": 0.822,
+          "DONNEE_SENSIBLE": 0.719,
+          "PRODUIT": 0.908,
+          "EQUIPEMENT": 0.978,
+          "PROCESSUS": 0.808,
+          "INDICATEUR": 0.788,
+          "CONTRAINTE": 0.381
+        }
+      },
+      "annotateur_b_construction": {
+        "passages": 36,
+        "tokens": 972,
+        "kappa": 0.816,
+        "par_etiquette": {
+          "ORG": 0.494,
+          "PERSONNE": 0.881,
+          "SITE": 0.726,
+          "DONNEE_SENSIBLE": 0.847,
+          "PRODUIT": 1.0,
+          "EQUIPEMENT": 1.0,
+          "PROCESSUS": 0.8,
+          "INDICATEUR": 0.894,
+          "CONTRAINTE": 0.304
+        }
+      },
+      "passages_identiques_entre_annotateurs": 2,
+      "par_langue": {
+        "fr": 12,
+        "en": 12,
+        "ar": 12
+      }
+    },
+    {
+      "controle": "d2. 15 % de TOUS les nouveaux passages (synthétiques + textes libres)",
+      "verdict": "ecart",
+      "detail": "1 écart(s)",
+      "ecarts": [
+        "textes libres v4 : 0 passage(s) doublement annoté(s) sur 242 (besoin 37) ; origin/lot-a-gold-v41 : 37 tâches libres, annotations présentes : ['boutheina']"
+      ],
+      "n_ecarts": 1,
+      "nouveaux": 482,
+      "doublement_annotes": 36
+    },
+    {
+      "controle": "d3. pré-annotation automatique déclarée et vérifiée par un humain",
+      "verdict": "OK",
+      "detail": "synthétiques : annotation par construction déclarée (verifie_humain false, contrôlée par l'échantillon à l'aveugle) ; textes libres : pré-annotation LLM déclarée, entités identiques à l'export vérifié par « ons »",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "methodes": {
+        "syn|construction|False": 240,
+        "lib|redaction_llm_preannotation_verifiee|True": 242
+      }
+    },
+    {
+      "controle": "e. robustesse : abreviations",
+      "verdict": "OK",
+      "detail": "162 passages = passage_id du dev ; 67 passages et 57 / 449 entités modifiés ; offsets valides, BIO conforme",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "passages_modifies": 67,
+      "entites_modifiees": 57,
+      "entites": 449,
+      "spans_peu_ressemblants": [],
+      "n_spans_peu_ressemblants": 0
+    },
+    {
+      "controle": "e. robustesse : ocr",
+      "verdict": "OK",
+      "detail": "162 passages = passage_id du dev ; 145 passages et 155 / 449 entités modifiés ; offsets valides, BIO conforme",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "passages_modifies": 145,
+      "entites_modifiees": 155,
+      "entites": 449,
+      "spans_peu_ressemblants": [],
+      "n_spans_peu_ressemblants": 0
+    },
+    {
+      "controle": "e. robustesse : mise_en_page",
+      "verdict": "OK",
+      "detail": "162 passages = passage_id du dev ; 162 passages et 0 / 449 entités modifiés ; offsets valides, BIO conforme",
+      "ecarts": [],
+      "n_ecarts": 0,
+      "passages_modifies": 162,
+      "entites_modifiees": 0,
+      "entites": 449,
+      "spans_peu_ressemblants": [],
+      "n_spans_peu_ressemblants": 0
+    },
+    {
+      "controle": "f. carte de données v4 (effectifs, empreintes, sources, IA)",
+      "verdict": "ecart",
+      "detail": "2 écart(s)",
+      "ecarts": [
+        "sources : la carte annonce 0 texte libre v4 alors que data/gold/libres_v4/ en contient 242 (vérifiés, hors train gelé) ; à mettre à jour au regel",
+        "usage d'IA : la rédaction des textes libres v4 par Qwen2.5-7B n'est pas déclarée dans la carte"
+      ],
+      "n_ecarts": 2
+    },
+    {
+      "controle": "g. aucune écriture chinoise : train v4 gelé (passages)",
+      "verdict": "OK",
+      "detail": "736 lignes sans écriture chinoise",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "g. aucune écriture chinoise : train v4 gelé (documents)",
+      "verdict": "OK",
+      "detail": "96 lignes sans écriture chinoise",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "g. aucune écriture chinoise : train v4 gelé (fiches)",
+      "verdict": "OK",
+      "detail": "96 lignes sans écriture chinoise",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "g. aucune écriture chinoise : textes libres v4 (passages)",
+      "verdict": "OK",
+      "detail": "242 lignes sans écriture chinoise",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "g. aucune écriture chinoise : textes libres v4 (documents)",
+      "verdict": "OK",
+      "detail": "40 lignes sans écriture chinoise",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "g. lib_ar_500 et lib_ar_514 corrigés ou exclus",
+      "verdict": "OK",
+      "detail": "absents du train v4 gelé ; corrigés dans libres_v4 (lib_ar_500 : 3 passages ; lib_ar_514 : 7 passages, « خفض التكاليف » présent : True) ; journal corrections.txt : True ; trace brute conservée : {'lib_ar_500': True, 'lib_ar_514': True}",
+      "ecarts": [],
+      "n_ecarts": 0
+    },
+    {
+      "controle": "h1. configuration gelée Gold et prédictions XLM-R v4 dans le pipeline intégré",
+      "verdict": "ecart",
+      "detail": "2 écart(s)",
+      "ecarts": [
+        "origin/main : fichier_predictions = reports/predictions/xlmr_dev_s42.jsonl (gel Gold : reports/predictions/xlmr_v4_dev_s42.jsonl)",
+        "le pipeline (caseforge.pipeline.traiter) anonymise avec le backend union_seuil par défaut et des passage_id « 0 », « 1 »… : les prédictions XLM-R v4 du fichier ne peuvent pas être utilisées sur un texte libre"
+      ],
+      "n_ecarts": 2,
+      "config_locale": "reports/predictions/xlmr_v4_dev_s42.jsonl",
+      "config_ref": "reports/predictions/xlmr_dev_s42.jsonl"
+    },
+    {
+      "controle": "h2. bout en bout (dev, options par défaut du pipeline) : aucune entité sensible gold ne fuit",
+      "verdict": "ecart",
+      "detail": "10 écart(s)",
+      "ecarts": [
+        "lib_ar_02 : 2 fuite(s) dans le texte, 0 dans la fiche",
+        "lib_en_01 : 3 fuite(s) dans le texte, 0 dans la fiche",
+        "lib_fr_06 : 2 fuite(s) dans le texte, 0 dans la fiche",
+        "syn_ar_017 : 1 fuite(s) dans le texte, 0 dans la fiche",
+        "syn_ar_022 : 1 fuite(s) dans le texte, 2 dans la fiche",
+        "syn_en_005 : 1 fuite(s) dans le texte, 0 dans la fiche",
+        "syn_en_006 : 1 fuite(s) dans le texte, 0 dans la fiche",
+        "syn_en_008 : 1 fuite(s) dans le texte, 0 dans la fiche",
+        "syn_fr_007 : 1 fuite(s) dans le texte, 0 dans la fiche",
+        "syn_fr_022 : 1 fuite(s) dans le texte, 0 dans la fiche"
+      ],
+      "n_ecarts": 10,
+      "documents_alignes": 21,
+      "documents_sans_fuite": [
+        "syn_ar_001",
+        "syn_ar_006",
+        "syn_ar_008",
+        "syn_ar_021",
+        "syn_en_013",
+        "syn_en_015",
+        "syn_en_028",
+        "syn_fr_024",
+        "syn_fr_026",
+        "syn_fr_027",
+        "syn_fr_029"
+      ],
+      "taux_fuite": {
+        "n": 213,
+        "fuites": 14,
+        "taux": 0.06572769953051644,
+        "totales": 9,
+        "partielles": 5,
+        "taux_totale": 0.04225352112676056,
+        "taux_partielle": 0.023474178403755867,
+        "ic95": [
+          0.03210642620753215,
+          0.10680914042150129
+        ]
+      },
+      "resultat_taux_fuite": {
+        "n_occurrences": 213,
+        "n_documents": 21,
+        "global": {
+          "n": 213,
+          "fuites": 14,
+          "taux": 0.06572769953051644,
+          "totales": 9,
+          "partielles": 5,
+          "taux_totale": 0.04225352112676056,
+          "taux_partielle": 0.023474178403755867,
+          "ic95": [
+            0.03210642620753215,
+            0.10680914042150129
+          ]
+        },
+        "par_etiquette": {
+          "ORG": {
+            "n": 40,
+            "fuites": 3,
+            "taux": 0.075,
+            "totales": 3,
+            "partielles": 0,
+            "taux_totale": 0.075,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.17073170731707318
+            ]
+          },
+          "PERSONNE": {
+            "n": 52,
+            "fuites": 1,
+            "taux": 0.019230769230769232,
+            "totales": 1,
+            "partielles": 0,
+            "taux_totale": 0.019230769230769232,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.06003061224489793
+            ]
+          },
+          "SITE": {
+            "n": 57,
+            "fuites": 5,
+            "taux": 0.08771929824561403,
+            "totales": 0,
+            "partielles": 5,
+            "taux_totale": 0.0,
+            "taux_partielle": 0.08771929824561403,
+            "ic95": [
+              0.018850771869639793,
+              0.15791562238930656
+            ]
+          },
+          "DONNEE_SENSIBLE": {
+            "n": 64,
+            "fuites": 5,
+            "taux": 0.078125,
+            "totales": 5,
+            "partielles": 0,
+            "taux_totale": 0.078125,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.0,
+              0.16678571428571418
+            ]
+          }
+        },
+        "par_langue": {
+          "ar": {
+            "n": 69,
+            "fuites": 4,
+            "taux": 0.057971014492753624,
+            "totales": 3,
+            "partielles": 1,
+            "taux_totale": 0.043478260869565216,
+            "taux_partielle": 0.014492753623188406,
+            "ic95": [
+              0.013157894736842105,
+              0.12698412698412698
+            ]
+          },
+          "en": {
+            "n": 70,
+            "fuites": 6,
+            "taux": 0.08571428571428572,
+            "totales": 2,
+            "partielles": 4,
+            "taux_totale": 0.02857142857142857,
+            "taux_partielle": 0.05714285714285714,
+            "ic95": [
+              0.02531645569620253,
+              0.1774193548387097
+            ]
+          },
+          "fr": {
+            "n": 74,
+            "fuites": 4,
+            "taux": 0.05405405405405406,
+            "totales": 4,
+            "partielles": 0,
+            "taux_totale": 0.05405405405405406,
+            "taux_partielle": 0.0,
+            "ic95": [
+              0.012048192771084338,
+              0.12903225806451613
+            ]
+          }
+        },
+        "par_source": {
+          "lib": {
+            "n": 21,
+            "fuites": 7,
+            "taux": 0.3333333333333333,
+            "totales": 6,
+            "partielles": 1,
+            "taux_totale": 0.2857142857142857,
+            "taux_partielle": 0.047619047619047616,
+            "ic95": [
+              0.2857142857142857,
+              0.375
+            ]
+          },
+          "syn": {
+            "n": 192,
+            "fuites": 7,
+            "taux": 0.036458333333333336,
+            "totales": 3,
+            "partielles": 4,
+            "taux_totale": 0.015625,
+            "taux_partielle": 0.020833333333333332,
+            "ic95": [
+              0.01530418004765358,
+              0.05851846057571965
+            ]
+          }
+        },
+        "mixtes": {
+          "n": 5,
+          "fuites": 0,
+          "taux": 0.0,
+          "totales": 0,
+          "partielles": 0,
+          "taux_totale": 0.0,
+          "taux_partielle": 0.0
+        },
+        "bootstrap": {
+          "unite": "doc_id",
+          "n_resamples": 1000,
+          "seed": 42
+        },
+        "sur_masquage": {
+          "global": {
+            "masques": 3688,
+            "hors_entites": 808,
+            "taux": 0.21908893709327548
+          },
+          "par_langue": {
+            "ar": {
+              "masques": 1308,
+              "hors_entites": 271,
+              "taux": 0.20718654434250763
+            },
+            "en": {
+              "masques": 1067,
+              "hors_entites": 201,
+              "taux": 0.18837863167760074
+            },
+            "fr": {
+              "masques": 1313,
+              "hors_entites": 336,
+              "taux": 0.2559025133282559
+            }
+          },
+          "par_source": {
+            "lib": {
+              "masques": 284,
+              "hors_entites": 27,
+              "taux": 0.09507042253521127
+            },
+            "syn": {
+              "masques": 3404,
+              "hors_entites": 781,
+              "taux": 0.22943595769682726
+            }
+          }
+        },
+        "passages_sans_masque": 0,
+        "methode": "masque"
+      },
+      "fuites_fiche": [
+        "syn_ar_022 PERSONNE « ريم الجزيري »",
+        "syn_ar_022 PERSONNE « ريم الجزيري »"
+      ]
+    }
+  ]
+}

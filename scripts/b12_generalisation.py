@@ -83,7 +83,7 @@ def anonymiser(
     docs: list[dict], backend: str, generaliser: bool, dets: list[list[list[dict]]], gdets: list[list[list[dict]]]
 ) -> list[dict[str, Any]]:
     """Anonymise le dev avec la configuration Bronze, avec ou sans généralisation (détections précalculées)."""
-    pol = charger_politique()
+    pol = charger_politique(generaliser_sauf=[])  # B12 : généralisation complète (G5 a ajouté generaliser_sauf)
     return [
         anonymize_document(
             d, backend, politique=pol, detections=det, generaliser=generaliser, detections_generalisables=gdet

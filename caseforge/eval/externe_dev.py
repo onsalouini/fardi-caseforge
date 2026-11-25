@@ -38,8 +38,13 @@ class DecoupeExistante(FileExistsError):
 
 
 def sha256_fichier(chemin: Path) -> str:
-    """Empreinte sha256 d'un fichier (octets bruts)."""
-    return hashlib.sha256(chemin.read_bytes()).hexdigest()
+    """Empreinte sha256 d'un fichier texte, fins de ligne CRLF ramenées à LF avant le hachage.
+
+    Sous Windows avec ``core.autocrlf=true``, Git extrait les fichiers texte en CRLF, alors que le dépôt (blob Git)
+    et la CI Linux les ont en LF : hacher les octets bruts donnerait deux empreintes différentes pour un même
+    contenu. Après normalisation, l'empreinte est la même sous Windows et sous Linux, et vaut celle du blob Git.
+    """
+    return hashlib.sha256(chemin.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
 
 
 def etiquettes_externes(rows: list[dict]) -> tuple[str, ...]:
