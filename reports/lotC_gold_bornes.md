@@ -65,4 +65,47 @@ Prédictions XLM-R du Silver (fine-tuning complet, graines 13, 42, 2026), corrig
 - mots seuls : token +0.002, strict -0.000 (solde gains − pertes démontrés sur 3 graines : token +0, strict +0).
 - ponctuation + mots : token +0.043, strict +0.040 (solde gains − pertes démontrés sur 3 graines : token +3, strict +3).
 - **Variante retenue : ponctuation seule** (ne baisse pas le mode token, meilleure au caractère strict). Prédictions écrites dans `reports/predictions/xlmr_dev_s{graine}_bornes.jsonl` ; à appliquer au réentraînement sur le train v4 (tâche 5).
-- Limites : réglage et mesure sur le même dev (les deux règles viennent de l'analyse d'erreurs du dev) ; gain à confirmer sur le train v4 et, une seule fois, sur le test gelé.
+- Limites : réglage et mesure sur le même dev (les deux règles viennent de l'analyse d'erreurs du dev) ; gain à confirmer sur le train v4 (section 7) et, une seule fois, sur le test gelé.
+
+## 6. D'où vient le gain (portée de la règle « ponctuation », XLM-R v3, somme des 3 graines)
+
+Recommandation 1 de l'audit croisé du Lot A (`reports/audit_lotC_gold.md`, constat C4) : le gain doit être annoncé avec sa portée. Une entité est comptée si la règle a déplacé l'une de ses bornes. Le point des formes juridiques abrégées (`Co.`, `Inc.`, `Sté.`, `S.A.`…) est gardé (constat C5) ; aucune n'apparaît dans le dev, les chiffres ne changent donc pas.
+
+| Groupe | Entités modifiées | Part |
+|---|---|---|
+| source = syn | 63 | 100% |
+| langue = ar | 33 | 52% |
+| langue = fr | 25 | 40% |
+| langue = en | 5 | 8% |
+| étiquette = INDICATEUR | 54 | 86% |
+| étiquette = DONNEE_SENSIBLE | 9 | 14% |
+| caractère final retiré = . | 63 | 100% |
+
+- 63 entités modifiées, dont 54 (86%) INDICATEUR synthétiques finissant par « . » et 0 (0%) dans des textes libres : le gain corrige surtout un artefact des gabarits synthétiques (l'indicateur termine la phrase). Sur les textes libres, F1 `lib_` 0.557 → 0.557.
+
+## 7. Confirmation sur le train v4 (recommandation 1 de l'audit croisé)
+
+XLM-R v4 (tâche 5), prédictions brutes `xlmr_v4_dev_s{graine}_brut.jsonl`, même règle (ponctuation seule, formes juridiques protégées). Moyenne ± écart-type sur 3 graines.
+
+| Variante | F1 token | fr | ar | en | syn_ | lib_ | INDICATEUR |
+|---|---|---|---|---|---|---|---|
+| v4 brut | **0.768 ± 0.010** | 0.775 | 0.758 | 0.771 | 0.804 | 0.555 | 0.432 |
+| v4 ponctuation | **0.809 ± 0.011** | 0.824 | 0.826 | 0.777 | 0.852 | 0.555 | 0.841 |
+
+| Graine | Écart token | IC 95 % | Conclusion |
+|---|---|---|---|
+| 13 | +0.042 | [+0.021 ; +0.062] | gain |
+| 42 | +0.040 | [+0.021 ; +0.057] | gain |
+| 2026 | +0.041 | [+0.022 ; +0.059] | gain |
+
+Entités modifiées par la règle sur le v4 (somme des 3 graines) :
+
+| Groupe | Entités modifiées | Part |
+|---|---|---|
+| source = syn | 60 | 100% |
+| langue = ar | 33 | 55% |
+| langue = fr | 24 | 40% |
+| langue = en | 3 | 5% |
+| étiquette = INDICATEUR | 54 | 90% |
+| étiquette = DONNEE_SENSIBLE | 6 | 10% |
+| caractère final retiré = . | 60 | 100% |

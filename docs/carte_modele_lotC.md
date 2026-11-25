@@ -173,7 +173,11 @@ Explications : `reports/lotC_gold_explications.md` et `reports/explications/lotC
 - **Courbe d'apprentissage** (train v3) : 0,533 / 0,637 / 0,693 / 0,743 à 25 / 50 / 75 / 100 % ; elle monte encore
   à 100 % (gain démontré 75 → 100 % pour 2 graines sur 3), contrairement au CRF (plateau dès 50 %).
 - **Post-traitement des bornes** (tâche 4, sans réentraînement) : ponctuation +0,041 (gain démontré 3/3, INDICATEUR
-  0,423 → 0,830) ; extension au mot : aucun gain démontré, écartée.
+  0,423 → 0,830) ; extension au mot : aucun gain démontré, écartée. **Portée** (audit croisé du Lot A, C4) : les
+  entités modifiées sont à 100 % synthétiques et finissent toutes par « . » (INDICATEUR 86 %) : la règle corrige un
+  artefact des gabarits, les textes libres ne gagnent rien (`lib_` 0,557 → 0,557). Confirmé sur le v4 : +0,040 à
+  +0,042, gain démontré 3/3, `lib_` inchangé (0,555). Le point des formes juridiques abrégées (`Co.`, `Inc.`, `Sté.`,
+  `S.A.`) est gardé (C5 ; absent du dev, aucun chiffre ne change).
 - **RQ1** (`reports/lotC_gold_rq1.md`) : XLM-R v4 + bornes bat les règles au global (+0,10 à +0,12, 3 graines sur 3)
   et sur PRODUIT, EQUIPEMENT, CONTRAINTE, PERSONNE ; aucune étiquette où les règles sont démontrées meilleures ;
   pas de différence démontrée sur ORG, SITE, DONNEE_SENSIBLE, PROCESSUS, INDICATEUR. Effet du train v4 (même
