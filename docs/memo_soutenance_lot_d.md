@@ -1,16 +1,29 @@
 # Mémo de soutenance · Lot D (Ons)
 
 À la soutenance (W14), « chaque membre répond sur son lot » : les réponses ci-dessous reprennent uniquement des chiffres
-du dev (`docs/rapport_lot_d.md`). Les chiffres du test gelé s'ajouteront après l'évaluation finale unique.
+du **dev** (`docs/rapport_lot_d.md`, `reports/lot_d_gold.md`, `experiments.md`). Les chiffres du test gelé s'ajouteront
+après l'évaluation finale unique (`scripts/final_eval.py`, W13).
+
+## Déroulé en 3 minutes
+
+1. **La tâche** : transformer un document industriel déjà anonymisé (lot B) en fiche pédagogique, sans rien inventer
+   ni rien exposer, chaque élément étant cité.
+2. **Du Bronze au Gold** : gabarit à règles → Qwen2.5-7B qui **extrait** des valeurs ancrées → garde-fous du Gold
+   (contrôle des ajouts et omissions, abstention, juge calibré).
+3. **Le résultat** : +0,057 de F1 sur les entrées du pipeline (p = 0,007), 0 invention en abstention.
+4. **La question de recherche (RQ2)** : rédiger directement fait inventer 4,6 % des éléments, extraire 0 %.
+5. **Les données** : 40 textes libres neufs, rédaction par LLM déclarée, vérification humaine, double annotation.
+6. **Les limites**, chiffrées : bruit OCR, textes libres, kappa à 0,695, ré-identification.
 
 ## Les chiffres à retenir
 
 1. Fiche LLM sur les entrées du pipeline : **0,872** contre 0,815 pour le gabarit (**+0,057**, p = 0,007).
 2. Abstention : **95 %** de bonnes abstentions, **0 invention** (Silver : 50 %).
 3. Contrôle des ajouts et omissions : **63 erreurs injectées sur 63** détectées ; 8 fiches de référence fautives trouvées.
-4. Relecteurs humains d'accord sur la décision à **82 %** ; juge par règles à **83,5 %** avec eux.
+4. Relecteurs humains d'accord sur la décision à **82 %** ; juge hybride à **83,5 %** avec eux.
 5. RQ2 : rédiger directement fait inventer **4,6 %** des éléments (Gold : 0 %, IC [+1,4 ; +8,9]) et tombe à F1 0,74.
-6. Points faibles : textes libres **0,726** contre 0,977 ; bruit OCR −11,2 points pour le LLM.
+6. Textes libres v4 : **242 passages** vérifiés (41 % en arabe), double annotation **κ = 0,695** (cible 0,70).
+7. Points faibles : textes libres **0,726** contre 0,977 ; bruit OCR **−11,2** points pour le LLM.
 
 ## Questions probables
 
@@ -47,5 +60,36 @@ résultat négatif consigné.
 des valeurs bruitées que la référence propre ne reconnaît plus), −4,0 avec abréviations, −0,6 pour la mise en page.
 Piste : normaliser le texte OCR avant l'extraction.
 
-**Et si on ne sait pas ?** « Nous ne savons pas encore : 3 textes libres seulement au dev ; les 40 textes libres v4 et le
-test gelé le diront. »
+**Vos textes libres sont écrits par un LLM : sont-ils fiables ?** La rédaction par Qwen2.5-7B est une décision d'équipe,
+déclarée dans les cartes. Rien n'entre au train sans humain : les 40 textes ont été pré-annotés automatiquement, puis
+**vérifiés passage par passage** (432 entités gardées, 145 ajoutées ou corrigées, 66 retirées). Le LLM a aussi raté
+des textes : `lib_ar_500` répétait une phrase en chinois. Ali l'a signalé, nous avons nettoyé à l'intégration (texte
+chinois retiré, répétitions supprimées, journal des corrections), en gardant les textes bruts comme trace : 267 → 242
+passages. Les lexiques sont disjoints de ceux du test, et l'audit d'Ali n'a trouvé aucun doublon avec le train ou le dev.
+
+**Votre kappa est sous la cible : que vaut l'annotation ?** Le kappa à l'aveugle Boutheina / Ali est de **0,695** pour
+une cible de 0,70 : nous l'avons rapporté tel quel, sans arrondir. Il est excellent sur les entités sensibles
+(DONNEE_SENSIBLE 0,96, SITE 0,89, ORG 0,88) et faible sur quatre règles du guide (machines classées en PRODUIT,
+contraintes coupées en morceaux, fonctions annotées en PERSONNE, tâches annotées en PROCESSUS). Nous avons arbitré ces
+quatre règles à trois, puis appliqué les décisions aux 242 passages : 27 propositions, 20 validées une par une
+(PROCESSUS 28 → 42). Le kappa mesure la fiabilité du guide ; le train utilise l'annotation vérifiée et corrigée.
+
+**Vos fiches protègent-elles la vie privée ?** Un garde-fou retire tout élément de fiche qui contient un nom sensible
+détecté ; avec les entrées de référence, aucune fuite. De bout en bout, la fiche hérite des erreurs du lot B : un nom
+que le lot B n'a pas détecté (`syn_ar_022`) reste visible. Et l'audit de ré-identification d'Ali (G5) a montré une faille : le gabarit
+recopiait les équipements depuis le texte **original**. Corrigé : il lit maintenant le texte anonymisé, et avec la
+généralisation des équipements, les fiches ré-identifiables passent de 21 à 2 sur 21. Le prix : −3,7 points de F1
+pour la fiche, au-delà du seuil de 3 fixé d'avance ; la généralisation reste donc désactivée et la fiche reste
+ré-identifiable par secteur + produit + équipement. C'est un arbitrage vie privée contre qualité, chiffré et assumé.
+
+**Comment avez-vous utilisé l'IA ?** Trois usages, déclarés : Qwen2.5-7B dans le système lui-même (extraction, juge) et
+pour rédiger les textes libres ; un assistant IA pour écrire du code et des rapports. Les chiffres viennent de
+l'exécution des scripts ; les annotations et les notes de fiches sont humaines (vérification par Ons, relecture à
+l'aveugle par Ali et Boutheina) ; aucune annotation de modèle n'est présentée comme humaine.
+
+**Qu'est-ce que vous referiez autrement ?** Fixer le périmètre de PROCESSUS dans le guide avant d'annoter (c'est la
+règle qui a le plus coûté au kappa) ; mesurer la ré-identification des fiches dès le Silver ; normaliser le texte OCR
+avant l'extraction.
+
+**Et si on ne sait pas ?** « Nous ne savons pas encore : le dev n'a que 3 textes libres. L'effet des 242 nouveaux
+passages sur XLM-R (train v4.1, règle de décision fixée d'avance) et le test gelé le diront. »
