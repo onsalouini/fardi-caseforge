@@ -16,6 +16,17 @@ def test_ponctuation_arabe() -> None:
     assert t[d:f] == "نسبة فضلات تبلغ 7 %"
 
 
+def test_garde_le_point_des_formes_juridiques() -> None:
+    def borne(t: str, d: int, f: int) -> str:
+        d, f = retirer_ponctuation(t, d, f)
+        return t[d:f]
+
+    assert borne("Company: Dougga Apparel Co.\nAu", 9, 28) == "Dougga Apparel Co."
+    assert borne("chez Bou Kornine Connectors Co., Bizerte", 5, 32) == "Bou Kornine Connectors Co."
+    assert borne("la SOTEC S.A.", 3, 13) == "SOTEC S.A."
+    assert borne("chez Ecoplast.", 5, 14) == "Ecoplast"
+
+
 def test_etend_un_mot_coupe() -> None:
     t = "le phosphogypse stocké"
     assert t.__getitem__(slice(*etendre_au_mot(t, 6, 15))) == "phosphogypse"

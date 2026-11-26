@@ -173,7 +173,11 @@ Explications : `reports/lotC_gold_explications.md` et `reports/explications/lotC
 - **Courbe d'apprentissage** (train v3) : 0,533 / 0,637 / 0,693 / 0,743 à 25 / 50 / 75 / 100 % ; elle monte encore
   à 100 % (gain démontré 75 → 100 % pour 2 graines sur 3), contrairement au CRF (plateau dès 50 %).
 - **Post-traitement des bornes** (tâche 4, sans réentraînement) : ponctuation +0,041 (gain démontré 3/3, INDICATEUR
-  0,423 → 0,830) ; extension au mot : aucun gain démontré, écartée.
+  0,423 → 0,830) ; extension au mot : aucun gain démontré, écartée. **Portée** (audit croisé du Lot A, C4) : les
+  entités modifiées sont à 100 % synthétiques et finissent toutes par « . » (INDICATEUR 86 %) : la règle corrige un
+  artefact des gabarits, les textes libres ne gagnent rien (`lib_` 0,557 → 0,557). Confirmé sur le v4 : +0,040 à
+  +0,042, gain démontré 3/3, `lib_` inchangé (0,555). Le point des formes juridiques abrégées (`Co.`, `Inc.`, `Sté.`,
+  `S.A.`) est gardé (C5 ; absent du dev, aucun chiffre ne change).
 - **RQ1** (`reports/lotC_gold_rq1.md`) : XLM-R v4 + bornes bat les règles au global (+0,10 à +0,12, 3 graines sur 3)
   et sur PRODUIT, EQUIPEMENT, CONTRAINTE, PERSONNE ; aucune étiquette où les règles sont démontrées meilleures ;
   pas de différence démontrée sur ORG, SITE, DONNEE_SENSIBLE, PROCESSUS, INDICATEUR. Effet du train v4 (même
@@ -200,6 +204,12 @@ Explications : `reports/lotC_gold_explications.md` et `reports/explications/lotC
   inhabituelle (mise en page −5,2 points, OCR −6,6).
 - Usage d'IA déclaré : code des Lots C (Bronze à Gold) écrit avec l'aide d'un assistant IA ; toutes les mesures
   obtenues en exécutant les scripts, vérifiées et analysées par l'équipe.
-- Prochaines étapes : textes libres v4 dans le train (après correction de `lib_ar_500`) ; mesure sur le jeu tunisien
+- Limitations en 5 dimensions (données, méthode, évaluation, robustesse, éthique) : `docs/memo_soutenance_lot_c.md`.
+- Ablation des textes libres v4 (26/11, `reports/lot_d_gold_textes_libres_xlmr.md`) : train v4.1 (978 passages,
+  dont 242 textes libres vérifiés) contre v4, même réglage, 3 graines : micro **0,809 ± 0,011 → 0,837 ± 0,006**,
+  gain démontré pour 2 graines sur 3 (42 : +0,034 ; 2026 : +0,045 ; 13 : +0,005, non démontré), aucune perte ;
+  `lib_` 0,555 → 0,568 (non démontrable sur 3 documents) ; DONNEE_SENSIBLE 0,758 → 0,898, CONTRAINTE 0,975 → 0,919.
+  Règle fixée d'avance respectée : **v4.1 retenu comme modèle Gold** (`xlmr_v41_dev_s*.jsonl`).
+- Prochaines étapes : mesure sur le jeu tunisien
   du Lot B (`python -m caseforge.models.robustesse_xlmr --tunisien …`) ; évaluation finale unique sur
   `test-gele-v3` par `scripts/final_eval.py`.
