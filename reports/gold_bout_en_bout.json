@@ -1,0 +1,87 @@
+{
+  "documents": 21,
+  "passages": 162,
+  "systemes": {
+    "Bronze (défaut du pipeline, union_seuil)": {
+      "backend": "union_seuil",
+      "fuite": {
+        "n": 213,
+        "fuites": 14,
+        "taux": 0.06572769953051644,
+        "totales": 9,
+        "partielles": 5,
+        "taux_totale": 0.04225352112676056,
+        "taux_partielle": 0.023474178403755867,
+        "ic95": [
+          0.03210642620753215,
+          0.10680914042150129
+        ]
+      },
+      "par_etiquette": {
+        "ORG": 0.075,
+        "PERSONNE": 0.019230769230769232,
+        "SITE": 0.08771929824561403,
+        "DONNEE_SENSIBLE": 0.078125
+      },
+      "par_langue": {
+        "ar": 0.057971014492753624,
+        "en": 0.08571428571428572,
+        "fr": 0.05405405405405406
+      },
+      "par_source": {
+        "lib": 0.3333333333333333,
+        "syn": 0.036458333333333336
+      },
+      "sur_masquage": 0.21908893709327548,
+      "documents_sans_fuite": 11,
+      "fuites_fiche": [
+        "syn_ar_022 PERSONNE « ريم الجزيري »",
+        "syn_ar_022 PERSONNE « ريم الجزيري »"
+      ]
+    },
+    "Gold (union_fichier + XLM-R v4, passage_ids)": {
+      "backend": "union_fichier",
+      "fuite": {
+        "n": 213,
+        "fuites": 2,
+        "taux": 0.009389671361502348,
+        "totales": 1,
+        "partielles": 1,
+        "taux_totale": 0.004694835680751174,
+        "taux_partielle": 0.004694835680751174,
+        "ic95": [
+          0.0,
+          0.0297029702970297
+        ]
+      },
+      "par_etiquette": {
+        "ORG": 0.0,
+        "PERSONNE": 0.0,
+        "SITE": 0.0,
+        "DONNEE_SENSIBLE": 0.03125
+      },
+      "par_langue": {
+        "ar": 0.028985507246376812,
+        "en": 0.0,
+        "fr": 0.0
+      },
+      "par_source": {
+        "lib": 0.09523809523809523,
+        "syn": 0.0
+      },
+      "sur_masquage": 0.09496067579376638,
+      "documents_sans_fuite": 20,
+      "fuites_fiche": []
+    }
+  },
+  "ecart_gold_moins_bronze": {
+    "ecart": -0.05633802816901409,
+    "ic95": [
+      -0.09743589743589744,
+      -0.02631578947368421
+    ],
+    "p_bilaterale": 0.0,
+    "n_tirages": 10000,
+    "graine": 42
+  }
+}

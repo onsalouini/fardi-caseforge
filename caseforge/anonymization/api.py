@@ -42,16 +42,25 @@ def _vide(texte: str) -> dict[str, Any]:
     return {"texte_anonymise": texte, "entites": [], "remplacements": []}
 
 
-def anonymiser_document(passages: list[str], langue: str, backend: str = "union_seuil") -> list[dict[str, Any]]:
+def anonymiser_document(
+    passages: list[str], langue: str, backend: str = "union_seuil", passage_ids: list[str] | None = None
+) -> list[dict[str, Any]]:
     """Anonymise les passages d'un même document : un résultat par passage, dans l'ordre.
 
     ``langue`` : ``fr``, ``ar`` ou ``en`` (sinon ``ValueError``), langue de tous les passages. Un passage vide ou
     fait de blancs est renvoyé tel quel, sans entité ; il ne participe pas à la détection.
+    ``passage_ids`` (palier Gold, Lot E) : identifiants des passages, un par passage et tous différents. Avec
+    ``union_fichier``, ce sont eux qui retrouvent les prédictions XLM-R du fichier (``fichier_predictions``) ; sans
+    eux, les passages s'appellent ``0``, ``1``… et aucune prédiction n'est trouvée.
     """
     if langue not in LANGUES:
         raise ValueError(f"langue inconnue {langue!r} : {', '.join(LANGUES)}")
     if backend not in BACKENDS_PUBLICS:
         raise ValueError(f"backend inconnu {backend!r} : {', '.join(BACKENDS_PUBLICS)}")
+    if passage_ids is not None and (len(passage_ids) != len(passages) or len(set(passage_ids)) != len(passage_ids)):
+        raise ValueError("passage_ids : un identifiant différent par passage")
+    ids = [str(i) for i in range(len(passages))] if passage_ids is None else list(passage_ids)
+    rang = {pid: i for i, pid in enumerate(ids)}
     pleins = [i for i, t in enumerate(passages) if t.strip()]
     out = [_vide(t) for t in passages]
     if not pleins:
@@ -59,13 +68,13 @@ def anonymiser_document(passages: list[str], langue: str, backend: str = "union_
     doc = {
         "doc_id": "api",
         "lang": langue,
-        "passages": [{"passage_id": str(i), "text": passages[i], "lang": langue} for i in pleins],
+        "passages": [{"passage_id": ids[i], "text": passages[i], "lang": langue} for i in pleins],
     }
     res = anonymize_document(doc, backend, generaliser=False)  # contrat : remplacements sensibles seulement
     for p in res["passages"]:
-        out[int(p["passage_id"])]["texte_anonymise"] = p["text_anonymise"]
+        out[rang[p["passage_id"]]]["texte_anonymise"] = p["text_anonymise"]
     for r in res["remplacements"]:
-        o = out[int(r["passage_id"])]
+        o = out[rang[r["passage_id"]]]
         o["entites"].append({"start": r["start"], "end": r["end"], "label": r["label"]})
         o["remplacements"].append(
             {
