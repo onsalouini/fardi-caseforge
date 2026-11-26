@@ -1,6 +1,6 @@
 # Tableau de bord du palier Gold (FARDI CaseForge, projet 7)
 
-**État au 25/11/2026 au soir : palier presque bouclé.** Les quatre lots ont livré leur travail Gold sur `main` (PR n° 34 à 44, puis le train v4.1). Restent : le jeu tunisien (lot B), l'ablation XLM-R v4.1 (lot D), l'audit croisé du lot D (lot C), le contrôle de bout en bout après le passage du pipeline à XLM-R v4, puis l'évaluation finale unique sur le test gelé, en équipe.
+**État au 26/11/2026 : palier presque bouclé.** Les quatre lots ont livré leur travail Gold sur `main` (PR n° 34 à 44, puis le train v4.1). Restent : le jeu tunisien (lot B), l'ablation XLM-R v4.1 (lot D), l'audit croisé du lot D (lot C), puis l'évaluation finale unique sur le test gelé, en équipe.
 
 **Règles de mesure**
 - Toutes les mesures sont faites sur le **dev** (162 passages, 21 documents), qui n'a pas changé depuis le Silver.
@@ -19,7 +19,7 @@ Légende : ✅ fait et mesuré · 🟡 en cours, ou fait sans la mesure finale �
 | B · Anonymisation | Ali | anonymisation avec XLM-R v4 (G4), audit de ré-identification N1–N4 et généralisation ciblée (G5, G5 bis), audit croisé du lot A (G7), outils du jeu tunisien (G2) | fuite **2,5 → 1,3 %** avec XLM-R v4 ; N3 **100 %**, aucune généralisation éligible (perte de fiche 3,7 pt > 3) | `results/lotb_gold/`, [`../docs/carte_modele_lotB.md`](../docs/carte_modele_lotB.md) | 🟡 jeu tunisien vide |
 | C · NER | Ghayth | post-traitement des bornes, courbe d'apprentissage, XLM-R v4 (RQ1), robustesse, explications, sélection active | XLM-R v4 + bornes **0,809 ± 0,011** contre règles 0,701 ; v3 + bornes 0,784 | [`lotC_gold_rq1.md`](lotC_gold_rq1.md), [`lotC_gold_robustesse.md`](lotC_gold_robustesse.md), [`lotC_gold_explications.md`](lotC_gold_explications.md) | ✅ |
 | D · LLM | Ons | 40 textes libres, abstention, LLM-juge, contrôle des ajouts et omissions, RQ2, robustesse, audit croisé du lot B | fiche LLM **0,872** contre gabarit 0,815 sur les entrées du pipeline ; abstention **95 %** ; juge hybride **83,5 %** | [`lot_d_gold.md`](lot_d_gold.md) | ✅ ablation v4.1 à lancer |
-| E · Intégration et audit | Boutheina | intégration des branches Gold, palier Gold dans Studio (contrôle du lot D, explications du lot C), audit croisé du lot C | 576 tests au moment de l'intégration ; H1 corrigé ; explications visibles dans Studio | [`audit_lotC_gold.md`](audit_lotC_gold.md), [`../docs/contrat_pipeline.md`](../docs/contrat_pipeline.md) §6 | ✅ PR n° 38, 39 |
+| E · Intégration et audit | Boutheina | intégration des branches Gold, palier Gold dans Studio (contrôle du lot D, explications du lot C), anonymisation Gold dans le pipeline (écart I1), audit croisé du lot C | bout en bout sur le dev : fuite **6,6 → 0,9 %**, 0 entité sensible dans la fiche ; explications visibles dans Studio | [`gold_bout_en_bout.md`](gold_bout_en_bout.md), [`audit_lotC_gold.md`](audit_lotC_gold.md), [`../docs/contrat_pipeline.md`](../docs/contrat_pipeline.md) §6 | ✅ |
 
 ## 2. Les neuf exigences du Gold
 
@@ -76,7 +76,7 @@ Jeux perturbés du lot A, mêmes passages que le dev, bootstrap apparié par doc
    - Les synthétiques sont annotés par construction et suivent la convention du générateur.
 3. **Anonymisation.**
    - Objectif de ré-identification non atteint (N3 100 % au dev) : la généralisation coûte 3,7 points de fiche, au-delà du seuil fixé d'avance.
-   - Le pipeline de `main` utilise encore la configuration Silver pour le bout en bout (fuite 6,6 %, écart I1 de l'audit G7), à refaire après le passage aux prédictions XLM-R v4.
+   - Le pipeline profite du gel Gold du lot B (XLM-R v4) seulement pour les documents du dev, dont les prédictions sont calculées : fuite de bout en bout 6,6 → 0,9 % [écart −5,6 pt, IC −9,7 ; −2,6]. Un texte tapé dans Studio garde le Bronze, car le modèle XLM-R n'est pas chargé ([`gold_bout_en_bout.md`](gold_bout_en_bout.md)).
 4. **Couverture des exigences.** Le transfert vers le tunisien n'est pas mesuré (jeu vide) ; le contrôle des ajouts et omissions ne tient pas la cible contre les relecteurs humains.
 5. **Évaluation.** Aucun chiffre Gold n'est mesuré sur le test gelé ; le post-traitement des bornes a été trouvé sur le même dev (risque faible, audit C4). Évaluation finale unique à faire en équipe.
 
@@ -94,7 +94,7 @@ Jeux perturbés du lot A, mêmes passages que le dev, bootstrap apparié par doc
 | Qui | Quoi | Échéance |
 | --- | --- | --- |
 | Ons (D) | ablation XLM-R v4 → v4.1 (3 graines, règle de décision fixée d'avance) | après la fusion du v4.1 |
-| Ali (B) | jeu tunisien (60 passages, double annotation, transfert avec IC 95 %) ; bout en bout après passage à XLM-R v4 (écart I1) | 27-29/11 |
+| Ali (B) | jeu tunisien (60 passages, double annotation, transfert avec IC 95 %) ; vérification de la correction de l'écart I1 | 27-29/11 |
 | Ghayth (C) | audit croisé du lot D ; PR de `lot-c-gold` (suites de l'audit) | 27-28/11 |
 | Boutheina (A, E) | mise à jour de ce tableau avec les derniers résultats ; entrée de clôture et tag `palier-gold` | 29/11 |
 | Tous | évaluation finale unique sur le test gelé (`scripts/final_eval.py`) ; section Limitations ; soutenance | W13-W14 |

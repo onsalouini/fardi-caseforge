@@ -29,6 +29,11 @@ Option Gold :
     ajouts et des omissions de la fiche du Lot D (``generation/controle.py``) : éléments de la fiche qu'aucun passage
     ne porte (nombre absent du document, contenu non ancré) et faits clés du document (CONTRAINTE, INDICATEUR) que la
     fiche ne reprend pas. Sans modèle ni GPU ; à montrer à l'enseignant avant la validation.
+  - ``passage_ids`` avec ``backend="union_fichier"`` : anonymisation du gel Gold du Lot B (prédictions XLM-R v4 de
+    ``configs/anonymization.yaml``). Les prédictions n'existent que pour les passages du dev : il faut passer leurs
+    identifiants, un par passage du découpage, dans l'ordre. Un texte libre (sans identifiants connus) garde le
+    Bronze ``union_seuil`` : ``union_fichier`` n'y trouverait aucune prédiction et reviendrait aux seules règles.
+    Mesure de bout en bout : ``scripts/e_bout_en_bout_gold.py``.
 """
 
 from __future__ import annotations
@@ -255,9 +260,10 @@ def traiter(
     recherche: str | None = None,
     ptype: str = "tfidf",
     controle: bool = False,
+    passage_ids: list[str] | None = None,
 ) -> dict[str, Any]:
     """Texte brut -> sortie complète du contrat (§2). ``ValueError`` si le texte est vide, la langue ou une option
-    inconnue. Options Silver : voir l'en-tête du module."""
+    inconnue. Options Silver et Gold : voir l'en-tête du module."""
     t0 = time.perf_counter()
     if not texte or not texte.strip():
         raise ValueError("le texte est vide")
@@ -272,12 +278,15 @@ def traiter(
     lang = choisir_langue(texte, langue)
     doc_id = doc_id or "doc_" + hashlib.sha1(texte.encode("utf-8")).hexdigest()[:8]
     blocs = decouper(texte)
+    if passage_ids is not None and (len(passage_ids) != len(blocs) or len(set(passage_ids)) != len(passage_ids)):
+        raise ValueError(f"passage_ids : {len(passage_ids)} identifiants pour {len(blocs)} passages")
+    ids = passage_ids or [f"{doc_id}_p{i:03d}" for i in range(len(blocs))]
 
     # 2. entités (B3 par défaut) ; positions dans le texte original de chaque passage
     entites = EXTRACTEURS[ner]([(b, lang) for b in blocs])
     passages = [
         {
-            "passage_id": f"{doc_id}_p{i:03d}",
+            "passage_id": ids[i],
             "text": b,
             "entities": [{"start": e["start"], "end": e["end"], "label": e["label"]} for e in ents],
         }
@@ -285,12 +294,18 @@ def traiter(
     ]
 
     # 3. type de passage (C)
-    for p, t in zip(passages, predire_ptypes(doc_id, passages, ptype), strict=True):
+    # position du passage lue dans l'identifiant : toujours le rang du découpage, même avec passage_ids
+    rangs = [{"passage_id": f"{doc_id}_p{i:03d}", "text": p["text"]} for i, p in enumerate(passages)]
+    for p, t in zip(passages, predire_ptypes(doc_id, rangs, ptype), strict=True):
         p["ptype"] = t
     passages = [{k: p[k] for k in ("passage_id", "text", "ptype", "entities")} for p in passages]
 
     # 4. anonymisation (B9), pseudonymes cohérents dans tout le document
-    anon = anonymiser_document(blocs, lang, backend)
+    anon = (
+        anonymiser_document(blocs, lang, backend)
+        if passage_ids is None
+        else anonymiser_document(blocs, lang, backend, passage_ids=ids)
+    )
     anonymise = {
         "passages": [
             {"passage_id": p["passage_id"], "texte": a["texte_anonymise"]} for p, a in zip(passages, anon, strict=True)
