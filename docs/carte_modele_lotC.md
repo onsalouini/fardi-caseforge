@@ -204,6 +204,8 @@ Explications : `reports/lotC_gold_explications.md` et `reports/explications/lotC
   inhabituelle (mise en page −5,2 points, OCR −6,6).
 - Usage d'IA déclaré : code des Lots C (Bronze à Gold) écrit avec l'aide d'un assistant IA ; toutes les mesures
   obtenues en exécutant les scripts, vérifiées et analysées par l'équipe.
-- Prochaines étapes : textes libres v4 dans le train (après correction de `lib_ar_500`) ; mesure sur le jeu tunisien
+- Limitations en 5 dimensions (données, méthode, évaluation, robustesse, éthique) : `docs/memo_soutenance_lot_c.md`.
+- Prochaines étapes : ablation des textes libres v4 (train v4.1 gelé le 25/11, `lib_ar_500` corrigé ;
+  `generation/ablation_textes_libres.py`, règle de décision fixée d'avance) ; mesure sur le jeu tunisien
   du Lot B (`python -m caseforge.models.robustesse_xlmr --tunisien …`) ; évaluation finale unique sur
   `test-gele-v3` par `scripts/final_eval.py`.
