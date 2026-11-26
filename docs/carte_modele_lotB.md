@@ -223,6 +223,48 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 
 ---
 
+## Palier Gold · G6 : robustesse de l'anonymisation gelée
+
+Branche `lot-b-gold`, 27/11/2026. **Split : dev** (162 passages de `dev.jsonl` dans les 21 documents de
+`documents_dev.jsonl`, 213 occurrences sensibles) et ses 3 jeux perturbés du Lot A (`data/gold/robustesse/` :
+abréviations, bruit OCR, mise en page ; mêmes passages, spans recalés). **Évaluation seulement** : aucune option de
+`configs/anonymization.yaml` n'a changé. Systèmes, métriques et hypothèses écrits avant la mesure (`experiments.md`,
+commit 895e834). Chiffres : `results/lotb_gold/g6_robustesse.md` (et `.json`), `python -m scripts.g6_robustesse mesurer`.
+
+- **Mesuré : (a) `union_seuil`** (règles + CRF, sans XLM-R ; c'est le système d'un texte libre, sans prédictions
+  XLM-R). **Non mesuré : (b) `union_fichier` gelé (XLM-R v4)**, faute de prédictions XLM-R du Lot C sur les jeux
+  perturbés (absentes de toutes les branches au 27/11). La commande est prête (`--predictions`) et refuse de lancer
+  `union_fichier` sans fichier couvrant tous les passages. **La robustesse du système Gold gelé reste donc inconnue.**
+
+| Jeu, système (a) | Fuite [IC 95 %] | Δ fuite apparié [IC 95 %] | Sur-masquage (Δ) | F1 car. (Δ) |
+|---|---|---|---|---|
+| dev propre | 6,6 % (14 / 213) [3,2 ; 10,7] | — | 21,9 % | 0,628 |
+| abréviations | 13,1 % (28 / 213) [8,0 ; 19,3] | **+6,6 pt [+2,4 ; +11,3]**, hausse démontrée | 22,6 % (+0,6, n. d.) | 0,616 (−0,012) |
+| bruit OCR | 8,5 % (18 / 213) [4,3 ; 13,5] | +1,9 pt [+0,0 ; +4,2], non démontré | 26,3 % (**+4,4**) | 0,583 (**−0,044**) |
+| mise en page | 7,0 % (15 / 213) [3,6 ; 11,2] | +0,5 pt [+0,0 ; +1,4], non démontré | 32,4 % (**+10,5**) | 0,586 (**−0,041**) |
+
+- Ventilations (dev propre → jeu) : abréviations, fuite ORG 7,5 → 32,5 %, SITE 8,8 → 15,8 %, **ar 5,8 → 26,1 %**
+  (fr et en inchangés) ; OCR, SITE 8,8 → 14,0 %, PERSONNE 1,9 → 3,8 % ; mise en page, sur-masquage ar 20,7 → 41,4 %.
+  Par source : `syn_` 3,6 → 9,9 / 5,2 / 4,2 % ; `lib_` (21 occurrences, n < 30) 33,3 → 42,9 / 38,1 / 33,3 %.
+  Passages mixtes (annexe, 5 occurrences) : 1 fuite en OCR seulement.
+- Erreurs : (1) **noms abrégés** : les 14 fuites nouvelles des abréviations sont des ORG et SITE arabes dont le mot
+  déclencheur est abrégé (« شركة » → « ش. », « المنطقة الصناعية » → « م.ص ») et que ni les règles ni le CRF ne détectent plus (9 fuites totales sur 14) ;
+  (2) **noms déformés par l'OCR** : 3 SITE (« النفيضة » → « التفىضه », « Zaghouan » → « Zaghouari ») et une PERSONNE
+  dans un contexte bruité ; (3) **mise en page** : une seule fuite nouvelle (PERSONNE arabe dans un e-mail), mais
+  l'en-tête d'e-mail arabe « مصلحة الجودة » est masqué comme PERSONNE et l'en-tête de tableau arabe comme
+  DONNEE_SENSIBLE (485 des 595 caractères sur-masqués ajoutés).
+- Hypothèses : H2 (« les abréviations font peu fuir ») **contredite** ; H1 (OCR) dans le sens prévu mais non
+  démontrée ; H3 (mise en page : fuite stable, sur-masquage en hausse) conforme ; H5 conforme pour l'OCR et la mise
+  en page, pas pour les abréviations ; H4 (XLM-R plus robuste) non testable.
+- Contrôle : la mesure reproduit celle du Lot A (`reports/gold_robustesse.md`, même fuite et même sur-masquage pour
+  les 3 jeux) et le dev propre redonne le Bronze de l'audit G7 (14 / 213, 21,9 %).
+- Limites : 21 documents (3 `lib_`), perturbations synthétiques d'un seul générateur (graine 2027), une seule
+  exécution (`union_seuil` est déterministe). Pour un texte libre abrégé (formes juridiques arabes) ou scanné, la
+  fuite du Bronze peut doubler : **relecture humaine obligatoire**. Partie B (jeu tunisien, ventilée par écriture) :
+  `python -m scripts.g6_robustesse tunisien`, prête, non lancée (jeu pas encore converti).
+
+---
+
 ## Palier Gold · G5 : ré-identification N1–N4 et généralisation ciblée
 
 > **G5 bis (24/11/2026) : la décision ci-dessous est annulée.** `generation/gabarit.py` recopiait les entités de la
