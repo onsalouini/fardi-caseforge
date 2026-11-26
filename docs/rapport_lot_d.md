@@ -3,6 +3,7 @@
 Responsable : Ons Alouini. Toutes les mesures sont faites sur le **dev** (21 documents : 7 fr, 7 ar, 7 en ; 18 `syn_`,
 3 `lib_`) ; le test gelé `test-gele-v3` n'a jamais été lu et sera évalué une seule fois, en équipe
 (`scripts/final_eval.py`). Détail des expériences : `experiments.md` ; carte du modèle : `docs/carte_modele_lotD.md`.
+Sorties du LLM du dev, pour vérifier sans GPU : `reports/predictions/lot_d/` ; audit croisé : `reports/audit_lotD_gold.md`.
 Usage d'assistants IA : code et rédaction aidés (déclarés) ; les chiffres viennent de l'exécution des scripts ; les
 textes libres v4 sont rédigés avec Qwen2.5-7B et leurs annotations vérifiées par un humain (décision d'équipe).
 
@@ -37,7 +38,7 @@ Exigence du sujet : ne rien inventer, ne rien exposer, et rendre chaque élémen
 - Silver contre Bronze, entrées du pipeline : **+0,057 [+0,010 ; +0,104], p = 0,007** (arabe +0,122, français +0,080) ;
   entrées de référence : +0,013, non significatif.
 - Gold contre Silver : aucune perte (+0,001 [−0,011 ; +0,016] et −0,001 [−0,010 ; +0,008]) ; textes libres
-  **0,726 contre 0,687** (+0,039, p = 0,036).
+  **0,726 contre 0,687** (+0,039 ; 2 documents `lib_` sur 3 améliorés : 3 documents ne suffisent pas à conclure).
 - Par langue (Gold, référence) : fr 0,959, en 0,945, ar 0,932 ; par source : `syn_` 0,977, **`lib_` 0,726**.
 
 ## 4. Exigences du palier Gold (lot D)
@@ -45,11 +46,12 @@ Exigence du sujet : ne rien inventer, ne rien exposer, et rendre chaque élémen
 | Exigence | Résultat | Rapport |
 |---|---|---|
 | Contrôle automatique des ajouts et omissions | rappel 1,00 sur 63 erreurs injectées (21 ajouts étrangers, 21 nombres modifiés, 21 omissions) ; a révélé 8 fiches de **référence** qui inventent « six mois » et une valeur « 6,1 % » tronquée par le gabarit du pipeline. Contre les relecteurs (40 fiches) : omissions précision 0,80 à 1,00 mais rappel 0,15 à 0,36 ; ajouts : 0 des 1 à 4 inventions humaines retrouvée (inventions sémantiques). **Cible P et R ≥ 0,80 non atteinte** face aux humains | `reports/lot_d_gold_controle.md`, `reports/lot_d_gold_juge.md` §4 |
-| Abstention | 42 variantes du dev sans contraintes ou sans données : **95 % d'abstentions correctes, 0 invention** (Silver : 50 %) ; cible ≥ 80 % atteinte | `reports/lot_d_gold_abstention.md` |
+| Abstention | 42 variantes du dev sans contraintes ou sans données : **95 % d'abstentions correctes** (40 / 42, IC de Wilson 95 % [0,84 ; 0,99], une graine), **0 invention détectée par le contrôle lexical** (Silver : 50 %) ; cible ≥ 80 % atteinte | `reports/lot_d_gold_abstention.md` |
 | Validation humaine | 40 fiches générées notées à l'aveugle par Ali et Boutheina ; accord sur la décision 82 % ; note sur 16 : LLM extractif 14,56, gabarit 14,40, LLM à champs 14,18, gabarit du pipeline 12,35 | `reports/lot_d_gold_juge.md` |
-| LLM-juge calibré | **juge retenu : hybride** (règles pour les 6 critères mesurables, LLM pour faisabilité et langue) : décision 92 % et 75 % d'accord avec les relecteurs (moyenne 83,5 %, au niveau de l'accord entre humains, 82 %), anonymisation 98 à 100 % ; juge LLM seul : v1 invalide (échelle inversée), **v2 : 62 % et 60 %**, notes incohérentes avec ses commentaires (« invention » 0 sur 18 fiches sur 40) : **résultat négatif** pour Qwen2.5-7B 4 bits comme juge de cette grille | `reports/lot_d_gold_juge.md` |
+| LLM-juge calibré | **juge retenu : hybride** (règles pour les 6 critères mesurables, LLM pour faisabilité et langue) : décision 92 % et 75 % d'accord avec les relecteurs (moyenne 83,5 %, accord entre humains 82 %) ; un juge qui accepte toujours obtient déjà 78,8 % (87,5 % et 70 %) : +4,8 points, et les décisions viennent des règles seules (la partie LLM note 2 partout) ; anonymisation 98 à 100 % ; juge LLM seul : v1 invalide (échelle inversée), **v2 : 62 % et 60 %**, notes incohérentes avec ses commentaires (« invention » 0 sur 18 fiches sur 40) : **résultat négatif** pour Qwen2.5-7B 4 bits comme juge de cette grille | `reports/lot_d_gold_juge.md` |
 | Robustesse (abréviations, OCR, mise en page) | gabarit : −4,2 points (abréviations), −8,4 (OCR ; arabe −12,7), 0 (mise en page) ; LLM Gold (graine 42) : −4,0 avec abréviations (IC [−6,5 ; −1,6]), **−11,2 sous OCR** (IC [−15,0 ; −7,6] ; arabe −13,7), −0,6 pour la mise en page (non significatif). Cible ≤ 5 points atteinte pour les abréviations et la mise en page, pas pour l'OCR | `reports/lot_d_gold_robustesse.md` |
 | Question de recherche RQ2 (extraction structurée contre génération directe, sur les faits inventés) | même LLM, 3 graines : la génération directe invente **4,6 %** de ses éléments contre **0 %** pour le Gold (Δ +4,6 points, IC 95 % [+1,4 ; +8,9]) ; arabe 7,9 %, anglais 4,3 %, français 1,7 % ; faits clés omis 10 % contre 4 % ; F1 **0,74 ± 0,03** contre 0,945. Réponse : l'extraction ancrée réduit les inventions | `reports/lot_d_gold_rq2.md` |
+| Effet des 242 textes libres sur XLM-R (train v4 / v4.1, 3 graines, script du lot D, calcul par Ghayth) | micro **0,809 → 0,837**, gain démontré pour 2 graines sur 3, aucune perte ; `lib_` 0,555 → 0,568 (non démontrable sur 3 documents) ; DONNEE_SENSIBLE +0,140, CONTRAINTE −0,057 ; **v4.1 retenu** par la règle fixée d'avance | `reports/lot_d_gold_textes_libres_xlmr.md` |
 
 ## 5. Ablations et résultats négatifs
 
@@ -79,8 +81,9 @@ par la règle « Relevés ».
 ## 7. Limitations (chiffrées)
 
 1. **Données** : 21 documents au dev, dont **3 textes libres** ; un écart de 3 à 4 points n'y est pas démontrable par
-   langue (7 documents). Les fiches de référence ont des défauts : 9 sur 21 inventent « six mois » ; le LLM qui refuse
-   d'inventer est pénalisé sur ces éléments.
+   langue (7 documents). Les fiches de référence ont des défauts : **18 sur 21** (toutes les synthétiques) ajoutent « sur six mois », absent
+   de chaque document (le contrôle n'en voit que 8, son test des nombres se faisant à l'échelle du document) ; le LLM
+   qui refuse d'inventer est pénalisé sur ces éléments, sans doute aussi au test gelé (même générateur, non lu).
 2. **Méthode** : la règle « Relevés » et le contrôle ont été mis au point sur le dev (analyse d'erreurs) : gains à
    confirmer sur le test gelé. Le LLM (7 B, 4 bits) demande un GPU ; 0 repli sur le gabarit en 105 générations Silver.
 3. **Évaluation** : métrique lexicale (une paraphrase fidèle peut compter comme erreur) ; accord humain faible sur
