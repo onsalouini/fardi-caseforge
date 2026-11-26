@@ -205,7 +205,11 @@ Explications : `reports/lotC_gold_explications.md` et `reports/explications/lotC
 - Usage d'IA déclaré : code des Lots C (Bronze à Gold) écrit avec l'aide d'un assistant IA ; toutes les mesures
   obtenues en exécutant les scripts, vérifiées et analysées par l'équipe.
 - Limitations en 5 dimensions (données, méthode, évaluation, robustesse, éthique) : `docs/memo_soutenance_lot_c.md`.
-- Prochaines étapes : ablation des textes libres v4 (train v4.1 gelé le 25/11, `lib_ar_500` corrigé ;
-  `generation/ablation_textes_libres.py`, règle de décision fixée d'avance) ; mesure sur le jeu tunisien
+- Ablation des textes libres v4 (26/11, `reports/lot_d_gold_textes_libres_xlmr.md`) : train v4.1 (978 passages,
+  dont 242 textes libres vérifiés) contre v4, même réglage, 3 graines : micro **0,809 ± 0,011 → 0,837 ± 0,006**,
+  gain démontré pour 2 graines sur 3 (42 : +0,034 ; 2026 : +0,045 ; 13 : +0,005, non démontré), aucune perte ;
+  `lib_` 0,555 → 0,568 (non démontrable sur 3 documents) ; DONNEE_SENSIBLE 0,758 → 0,898, CONTRAINTE 0,975 → 0,919.
+  Règle fixée d'avance respectée : **v4.1 retenu comme modèle Gold** (`xlmr_v41_dev_s*.jsonl`).
+- Prochaines étapes : mesure sur le jeu tunisien
   du Lot B (`python -m caseforge.models.robustesse_xlmr --tunisien …`) ; évaluation finale unique sur
   `test-gele-v3` par `scripts/final_eval.py`.
