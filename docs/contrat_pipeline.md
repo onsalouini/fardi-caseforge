@@ -81,9 +81,11 @@ Les 3 cas du **train** les plus proches, calculés à partir des termes métier 
 | Option de `traiter` | Valeurs | Effet sur la sortie |
 | --- | --- | --- |
 | `controle` | `False` (défaut), `True` | ajoute la clé `controle` : `{"ajouts": [...], "omissions": [...]}`, contrôle automatique de la fiche du Lot D (`generation/controle.py`, sans modèle ni GPU) |
+| `passage_ids` | `None` (défaut), liste d'identifiants | un identifiant par passage du découpage, tous différents (sinon `ValueError`) ; remplace les `passage_id` `<doc_id>_pNNN` de la sortie et sert à l'anonymisation. Avec `backend="union_fichier"`, retrouve les prédictions XLM-R v4 du gel Gold du Lot B (`configs/anonymization.yaml`) |
 
 - Un **ajout** est un élément de la fiche qu'aucun passage ne porte : `{"rubrique", "texte", "motif", "detail"}`, avec `motif` à `nombre_absent` (un nombre absent du document, `detail` les liste) ou `non_ancre` (moins de 50 % des mots retrouvés dans un passage).
 - Une **omission** est un fait clé du document (entité `CONTRAINTE` ou `INDICATEUR`) que la fiche ne reprend pas : `{"label", "texte", "passage_id"}`.
 - Le contrôle est lexical : il guide la relecture de l'enseignant, il ne la remplace pas (rappel 1,00 sur les erreurs injectées, rappel faible contre les relecteurs humains, voir `reports/lot_d_gold_juge.md`).
+- **Anonymisation Gold** (`passage_ids` + `backend="union_fichier"`) : les prédictions XLM-R v4 n'existent que pour les passages du dev ; un texte libre, sans identifiants connus, garde le Bronze `union_seuil` (le modèle n'est pas chargé dans le pipeline). Bout en bout sur le dev (`scripts/e_bout_en_bout_gold.py`, `reports/gold_bout_en_bout.md`) : fuite 6,6 % → 0,9 %, sur-masquage 21,9 % → 9,5 %, 0 entité sensible dans la fiche (écart I1 de l'audit G7 du Lot B).
 - CaseForge Studio : le palier **Gold** = options Silver + `controle=True`. L'onglet « Explications XLM-R » montre les 30 cas de gradients intégrés du Lot C (`reports/explications/lotC_gold_explications.json`, calculés hors ligne sur le dev, servis par `GET /api/explications`).
 

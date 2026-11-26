@@ -68,3 +68,20 @@ def test_train_v4_gele_non_modifie() -> None:
 def test_refuse_data_final() -> None:
     with pytest.raises(SystemExit):
         tv4.main(["--sortie", "data/final/train_v4"])
+
+
+def test_refuse_de_regeler_un_dossier_gele(tmp_path: Path) -> None:
+    (tmp_path / "manifest.json").write_text("{}", encoding="utf-8")
+    with pytest.raises(SystemExit, match="déjà gelé"):
+        tv4.main(["--sortie", str(tmp_path)])
+
+
+@pytest.mark.parametrize("dossier", ["train_v4", "train_v4_1"])
+def test_trains_geles_non_modifies(dossier: str) -> None:
+    """Chaque gel (v4, v4.1) garde ses empreintes : un fichier modifié fait échouer le test."""
+    gele = GOLD / dossier
+    if not (gele / "manifest.json").exists():
+        pytest.skip(f"{dossier} pas encore gelé")
+    m = json.loads((gele / "manifest.json").read_text(encoding="utf-8"))
+    for fichier, empreinte in m["sha256"].items():
+        assert tv4.sha256(gele / fichier) == empreinte, f"{dossier}/{fichier} a changé depuis le gel"

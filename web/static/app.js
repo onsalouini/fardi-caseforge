@@ -282,7 +282,8 @@ function controleHTML(c) {
         `<li dir="auto">${esc(o.texte)} <span class="motif">${esc(NOMS[o.label] || o.label)}</span>
          <button type="button" class="source" data-source="${esc(o.passage_id)}" data-aide="Voir le passage source">${esc(court(o.passage_id))}</button></li>`)}</div>
     </div>
-    <p class="petit">Contrôle lexical : il repère les nombres inventés et les contraintes ou indicateurs oubliés, pas les inventions de sens. Il guide la relecture sans la remplacer.</p></div>`;
+    <p class="petit">Contrôle lexical : il repère les nombres inventés et les contraintes ou indicateurs oubliés, pas les inventions de sens. Il guide la relecture sans la remplacer.</p>
+    <p class="petit">Anonymisation : un texte tapé ici est anonymisé par le Bronze (règles), car le modèle XLM-R n'est pas chargé dans Studio. Le gel Gold du Lot B (XLM-R v4) ne s'applique qu'aux documents du dev : fuite 6,6 % → 0,9 % de bout en bout (reports/gold_bout_en_bout.md).</p></div>`;
 }
 
 // ---------- Explications XLM-R (Lot C, Gold) ----------
