@@ -18,6 +18,13 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-26 · Ghayth · Lot C Gold · ablation des textes libres v4 : train v4.1 retenu (0,809 → 0,837)
+- XLM-R entraîné sur le train v4.1 gelé (978 passages, dont 242 textes libres vérifiés) contre le train v4 (736), mêmes réglages (bornes ponctuation), graines 13, 42, 2026, CPU (~30 min par graine). Script d'Ons : `python generation/ablation_textes_libres.py entrainer --seed g` puis `comparer` → `reports/lot_d_gold_textes_libres_xlmr.md`. Split : **dev** (162 passages), harnais officiel, mode token ; test gelé non lu.
+- Micro **0,809 ± 0,011 → 0,837 ± 0,006** ; macro_9 0,819 → 0,840 ; fr 0,824 → 0,878, ar 0,826 → 0,848, en 0,777 → 0,786 ; `syn_` 0,852 → 0,882, `lib_` 0,555 → 0,568. Bootstrap apparié par document : gain démontré en micro pour les graines 42 (+0,034, IC [+0,008 ; +0,063]) et 2026 (+0,045, [+0,012 ; +0,079]), non démontré pour 13 (+0,005, [−0,018 ; +0,025]).
+- Par étiquette : DONNEE_SENSIBLE 0,758 → 0,898 (± 0,067), EQUIPEMENT +0,052, PROCESSUS 0,469 → 0,503 ; CONTRAINTE 0,975 → 0,919 (baisse).
+- Décision par la règle fixée avant le résultat (aucune perte démontrée en micro ET `lib_` en hausse) : **v4.1 retenu comme modèle Gold**. Limite : la hausse `lib_` (+0,013) n'est pas démontrable sur 3 documents ; robustesse et explications restent mesurées sur v4.
+- Carte du modèle et mémo de soutenance mis à jour. Code écrit avec l'aide d'un assistant IA (déclaré) ; chiffres obtenus en exécutant les scripts.
+
 ## 2026-11-26 · Boutheina · Lot E Gold · anonymisation Gold dans le pipeline (écart I1 de l'audit G7 du Lot B)
 - Constat de l'audit G7 (Ali) : `caseforge.pipeline.traiter` anonymisait avec `union_seuil` et des `passage_id` « 0 », « 1 »… ; le gel Gold du Lot B (`union_fichier` + prédictions XLM-R v4 de `configs/anonymization.yaml`, déjà sur `main`) ne pouvait pas retrouver ses prédictions. Bout en bout sur le dev : fuite 6,6 %.
 - Changement : option `passage_ids` de `traiter` et de `caseforge.anonymization.anonymiser_document` (un identifiant par passage, tous différents, sinon `ValueError`) ; avec `backend="union_fichier"`, les prédictions XLM-R v4 sont retrouvées. Sans l'option, la sortie ne change pas (test). Le type de passage garde la position du découpage. Un texte libre (Studio) garde le Bronze `union_seuil` : le modèle n'est pas chargé, et Studio l'indique sous la fiche. Contrat du pipeline §6 mis à jour.
@@ -25,6 +32,12 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Contrôles : le Bronze redonne la mesure de l'audit G7 (14 / 213, 21,9 %) ; le Gold redonne la mesure G4 du Lot B pour s42 (2 / 213, 9,5 %), calculée hors pipeline.
 - Limites : une graine (s42, celle du gel) ; Gold limité aux documents du dev ; 3 documents `lib_`.
 - Test gelé non lu. Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le script.
+
+## 2026-11-25 · Ghayth · Lot C Gold · suites de l'audit croisé du Lot C (bornes : portée du gain, formes juridiques)
+- Réponse à `reports/audit_lotC_gold.md` (Boutheina, 22/11). Split : **dev** (162 passages), harnais officiel, mode token ; le test gelé n'est pas lu. Script : `python -m caseforge.models.bornes_xlmr` (rapport `reports/lotC_gold_bornes.md`, sections 6 et 7).
+- Recommandation 2 (C5) : `retirer_ponctuation` garde le point final d'une forme juridique abrégée (`Co.`, `Inc.`, `Ltd.`, `Sté.`, `S.A.`, `ش.م.م.`…), comme dans « Dougga Apparel Co. » du train v4. Test ajouté (`tests/test_bornes_xlmr.py`). Aucune de ces formes n'apparaît au dev ni dans les jeux perturbés : prédictions `xlmr_dev_s*_bornes.jsonl` et `xlmr_v4_dev_s*.jsonl` régénérées **identiques à l'octet**, aucun chiffre publié ne change.
+- Recommandation 1 (C4), portée du gain : sur v3, 63 entités modifiées (3 graines), **100 % synthétiques**, toutes finissant par « . », dont 54 INDICATEUR (86 %) ; 0 dans un texte libre (`lib_` 0,557 → 0,557). Confirmation sur v4 (prédictions brutes de la tâche 5) : 0,768 ± 0,010 → **0,809 ± 0,011**, écart +0,042 / +0,040 / +0,041 (graines 13 / 42 / 2026), IC 95 % au-dessus de 0 pour les 3 ; 60 entités modifiées, 100 % synthétiques ; `lib_` 0,555 → 0,555. Conclusion : le gain des bornes corrige un artefact des gabarits synthétiques, il ne doit pas être présenté comme un gain sur les textes réels.
+- Recommandation 3 (même règle sur v3 et v4) : déjà faite dans la RQ1 (`reports/lotC_gold_rq1.md`, v3 + bornes contre v4 + bornes).
 
 ## 2026-11-25 · Boutheina · Lot E Gold · tableau de bord Gold à jour et kappa par langue
 - `reports/gold.md` mis à jour (état au 25/11) avec les résultats de tous les lots, repris de leurs rapports sans nouveau calcul : lot A (train v4.1, kappa des textes libres), lot B (G4, G5 bis, G7), lot C (RQ1, robustesse, explications), lot D (synthèse `reports/lot_d_gold.md`). Statut des 9 exigences : 4 ✅ (LLM-juge, abstention, explications, question de recherche), 2 🟡 (robustesse, audits), 1 ⏳ (tunisien), 2 ❌ rapportées telles quelles (ré-identification N3, contrôle des ajouts et omissions contre les relecteurs). Nouvelles sections « Écarts au plan » et « Reste à faire ».
