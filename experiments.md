@@ -18,6 +18,11 @@ Test gelé de référence : tag `test-gele-v3` (générateur v3, après relectur
 
 Une entrée par expérience ou décision qui change les données ou les résultats, les plus récentes en haut.
 
+## 2026-11-26 · Ghayth · Lot C (audit) · audit croisé du Lot D au palier Gold (lecture seule)
+- Rapport `reports/audit_lotD_gold.md`, contrôles `python scripts/audit_lotD_gold.py` ; `main` au commit `5ff35c7` ; **dev** seulement, le test gelé n'est pas lu.
+- 10 constats, 0 bloquant. Conformes : aucun accès au test dans `generation/` (4 scripts le refusent) ; `controle.py`, `abstention.py`, `robustesse_fiches.py` régénérés identiques au rapport pour toutes les parties sans LLM.
+- Écarts : sorties du LLM absentes du dépôt (`generation/sorties/` ignoré), chiffres du LLM non vérifiables sans GPU ; **18 / 21** fiches de référence du dev ajoutent « sur six mois » (le rapport dit 9, le contrôle en voit 8) ; « 0 invention » mesuré par un contrôle de rappel nul face aux relecteurs ; juge hybride 83,5 % contre **78,8 %** pour un juge qui accepte toujours, décisions identiques au juge par règles seul ; `lib_` « p = 0,036 » = 1/27, résolution d'un bootstrap sur 3 documents ; abstention et robustesse du LLM sur une seule graine ; synthèse « Reste à faire » périmée.
+
 ## 2026-11-26 · Boutheina · Lot E Gold · anonymisation Gold dans le pipeline (écart I1 de l'audit G7 du Lot B)
 - Constat de l'audit G7 (Ali) : `caseforge.pipeline.traiter` anonymisait avec `union_seuil` et des `passage_id` « 0 », « 1 »… ; le gel Gold du Lot B (`union_fichier` + prédictions XLM-R v4 de `configs/anonymization.yaml`, déjà sur `main`) ne pouvait pas retrouver ses prédictions. Bout en bout sur le dev : fuite 6,6 %.
 - Changement : option `passage_ids` de `traiter` et de `caseforge.anonymization.anonymiser_document` (un identifiant par passage, tous différents, sinon `ValueError`) ; avec `backend="union_fichier"`, les prédictions XLM-R v4 sont retrouvées. Sans l'option, la sortie ne change pas (test). Le type de passage garde la position du découpage. Un texte libre (Studio) garde le Bronze `union_seuil` : le modèle n'est pas chargé, et Studio l'indique sous la fiche. Contrat du pipeline §6 mis à jour.
@@ -25,6 +30,7 @@ Une entrée par expérience ou décision qui change les données ou les résulta
 - Contrôles : le Bronze redonne la mesure de l'audit G7 (14 / 213, 21,9 %) ; le Gold redonne la mesure G4 du Lot B pour s42 (2 / 213, 9,5 %), calculée hors pipeline.
 - Limites : une graine (s42, celle du gel) ; Gold limité aux documents du dev ; 3 documents `lib_`.
 - Test gelé non lu. Code écrit avec l'aide d'un assistant IA (déclaré) ; résultats obtenus en exécutant le script.
+
 
 ## 2026-11-25 · Boutheina · Lot E Gold · tableau de bord Gold à jour et kappa par langue
 - `reports/gold.md` mis à jour (état au 25/11) avec les résultats de tous les lots, repris de leurs rapports sans nouveau calcul : lot A (train v4.1, kappa des textes libres), lot B (G4, G5 bis, G7), lot C (RQ1, robustesse, explications), lot D (synthèse `reports/lot_d_gold.md`). Statut des 9 exigences : 4 ✅ (LLM-juge, abstention, explications, question de recherche), 2 🟡 (robustesse, audits), 1 ⏳ (tunisien), 2 ❌ rapportées telles quelles (ré-identification N3, contrôle des ajouts et omissions contre les relecteurs). Nouvelles sections « Écarts au plan » et « Reste à faire ».
