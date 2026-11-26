@@ -10,7 +10,7 @@ après l'évaluation finale unique (`scripts/final_eval.py`, W13).
    ni rien exposer, chaque élément étant cité.
 2. **Du Bronze au Gold** : gabarit à règles → Qwen2.5-7B qui **extrait** des valeurs ancrées → garde-fous du Gold
    (contrôle des ajouts et omissions, abstention, juge calibré).
-3. **Le résultat** : +0,057 de F1 sur les entrées du pipeline (p = 0,007), 0 invention en abstention.
+3. **Le résultat** : +0,057 de F1 sur les entrées du pipeline (p = 0,007), 95 % d'abstentions correctes.
 4. **La question de recherche (RQ2)** : rédiger directement fait inventer 4,6 % des éléments, extraire 0 %.
 5. **Les données** : 40 textes libres neufs, rédaction par LLM déclarée, vérification humaine, double annotation.
 6. **Les limites**, chiffrées : bruit OCR, textes libres, kappa à 0,695, ré-identification.
@@ -18,9 +18,9 @@ après l'évaluation finale unique (`scripts/final_eval.py`, W13).
 ## Les chiffres à retenir
 
 1. Fiche LLM sur les entrées du pipeline : **0,872** contre 0,815 pour le gabarit (**+0,057**, p = 0,007).
-2. Abstention : **95 %** de bonnes abstentions, **0 invention** (Silver : 50 %).
-3. Contrôle des ajouts et omissions : **63 erreurs injectées sur 63** détectées ; 8 fiches de référence fautives trouvées.
-4. Relecteurs humains d'accord sur la décision à **82 %** ; juge hybride à **83,5 %** avec eux.
+2. Abstention : **95 %** de bonnes abstentions (40 / 42), **0 invention détectée** par le contrôle (Silver : 50 %).
+3. Contrôle des ajouts et omissions : **63 erreurs injectées sur 63** détectées ; 18 fiches de référence sur 21 ajoutent « six mois ».
+4. Relecteurs humains d'accord sur la décision à **82 %** ; juge hybride à **83,5 %** avec eux (78,8 % pour un juge qui accepte toujours).
 5. RQ2 : rédiger directement fait inventer **4,6 %** des éléments (Gold : 0 %, IC [+1,4 ; +8,9]) et tombe à F1 0,74.
 6. Textes libres v4 : **242 passages** vérifiés (41 % en arabe), double annotation **κ = 0,695** (cible 0,70).
 7. Points faibles : textes libres **0,726** contre 0,977 ; bruit OCR **−11,2** points pour le LLM.
@@ -30,7 +30,7 @@ après l'évaluation finale unique (`scripts/final_eval.py`, W13).
 **Pourquoi un LLM qui extrait, et pas un LLM qui rédige ?** Parce que le sujet interdit d'inventer : en extrayant des
 valeurs recopiées et en les ancrant dans un passage cité (≥ 80 % des mots), chaque élément est vérifiable. Le schéma
 rédigé directement est justement la question de recherche RQ2 : avec le même LLM, il invente 4,6 % de ses éléments
-(0 % en extraction), surtout en arabe (7,9 %), omet plus de faits clés (10 % contre 4 %) et perd 20 points de F1.
+(0 % détecté en extraction, avec le même contrôle), surtout en arabe (7,9 %), omet plus de faits clés (10 % contre 4 %) et perd 20 points de F1.
 
 **Le LLM bat-il vraiment le gabarit ?** Sur les entrées du pipeline, oui (+0,057, IC [+0,010 ; +0,104]) ; sur les entrées
 de référence, non démontré (+0,013, p = 0,14). Le LLM supporte mieux les erreurs du lot B, surtout en arabe (+0,122).
@@ -42,14 +42,17 @@ contrôle est lexical et ne voit pas une affirmation dont tous les mots sont dan
 inventions qu'ils ont vues et 15 à 36 % de leurs omissions (précision 0,80 à 1,00) : il cible la relecture humaine,
 il ne la remplace pas.
 
-**Vos fiches de référence sont-elles fiables ?** Pas toutes : le contrôle a trouvé 9 fiches sur 21 qui écrivent
-« Historique sur six mois » sans appui dans la source. Nous ne les avons pas corrigées (lot A figé), nous les avons
+**Vos fiches de référence sont-elles fiables ?** Pas toutes : **18 fiches sur 21** (toutes les synthétiques) écrivent
+« Historique sur six mois » sans appui dans la source ; notre contrôle n'en voyait que 8, l'audit de Ghayth a trouvé
+les autres. Nous ne les avons pas corrigées (lot A figé), nous les avons
 signalées, et elles pénalisent un modèle qui refuse d'inventer.
 
 **Le juge LLM est-il fiable ?** Le premier ne l'était pas : il notait « invention » à l'envers (0 partout). Nous l'avons
 vu en le comparant au juge par règles et corrigé avant d'avoir les notes humaines. La v2 reste peu fiable (62 % et 60 %
 d'accord sur la décision, contre 82 % entre humains) : un LLM de 7 B en 4 bits ne tient pas 8 critères à la fois. Nous
 avons retenu un juge hybride : règles pour les critères mesurables, LLM pour faisabilité et langue, 83,5 % d'accord.
+À dire aussi : un juge qui accepte toujours obtient déjà 78,8 %, et les décisions viennent des règles seules (la
+partie LLM note 2 partout) ; le vrai résultat du Gold est le résultat négatif du juge LLM.
 
 **Pourquoi le RAG n'aide-t-il pas ?** Le retrieval dense trouve des cas proches par le sujet (5 fois plus du même
 secteur) mais pas par la forme (courriel, PV, formulaire), qui guide davantage l'extraction : 0,934 contre 0,944,
@@ -91,5 +94,9 @@ l'aveugle par Ali et Boutheina) ; aucune annotation de modèle n'est présentée
 règle qui a le plus coûté au kappa) ; mesurer la ré-identification des fiches dès le Silver ; normaliser le texte OCR
 avant l'extraction.
 
-**Et si on ne sait pas ?** « Nous ne savons pas encore : le dev n'a que 3 textes libres. L'effet des 242 nouveaux
-passages sur XLM-R (train v4.1, règle de décision fixée d'avance) et le test gelé le diront. »
+**Les 242 textes libres ont-ils servi ?** Oui : XLM-R entraîné avec eux (train v4.1) passe de 0,809 à 0,837 en micro,
+gain démontré pour 2 graines sur 3, aucune perte ; la règle fixée d'avance retient v4.1. Sur les textes libres du dev,
+0,555 → 0,568 : non démontrable sur 3 documents. CONTRAINTE baisse (0,975 → 0,919), DONNEE_SENSIBLE monte (0,758 →
+0,898).
+
+**Et si on ne sait pas ?** « Nous ne savons pas encore : le dev n'a que 3 textes libres ; le test gelé le dira. »
