@@ -39,6 +39,8 @@ class Politique:
     regles_rappel (rule_id des règles de rappel ajoutées à la détection ``rules``), fusion_crf (``union`` ou
     ``regles``), plafonds_contrainte (B6d, ``caseforge.anonymization.detect``), generaliser (B12 : PRODUIT et
     EQUIPEMENT remplacés par leur famille, ``caseforge.anonymization.generalisation`` ; faux si la clé manque),
+    generaliser_sauf (G5 : mentions généralisables qui contiennent l'un de ces déclencheurs, en minuscules, laissées
+    telles quelles, ``generalisation_ciblee.contient_declencheur`` ; liste vide si la clé manque),
     fusion_fichier (B16 : ``union`` ou ``bornes_ds`` pour ``union_fichier`` ; ``union`` si la clé manque) et backend
     (backend par défaut de ``anonymize_document`` ; ``rules`` si la clé manque).
     """
@@ -101,6 +103,7 @@ def charger_politique(path: Path | str = CONFIG, **options: Any) -> Politique:
         )
     }
     opts["generaliser"] = cfg.get("generaliser", False)
+    opts["generaliser_sauf"] = list(cfg.get("generaliser_sauf") or [])
     opts["fusion_fichier"] = cfg.get("fusion_fichier", "union")
     opts["backend"] = cfg.get("backend", "rules")
     for k, v in options.items():
@@ -109,6 +112,9 @@ def charger_politique(path: Path | str = CONFIG, **options: Any) -> Politique:
         opts[k] = v
     if not isinstance(opts["generaliser"], bool):
         raise ValueError(f"generaliser doit être un booléen : {opts['generaliser']!r}")
+    sauf = opts["generaliser_sauf"]
+    if not isinstance(sauf, (list, tuple)) or not all(isinstance(k, str) and k.strip() for k in sauf):
+        raise ValueError(f"generaliser_sauf doit être une liste de chaînes non vides : {sauf!r}")
     if opts["fusion_crf"] not in ("union", "regles"):
         raise ValueError(f"fusion_crf inconnue {opts['fusion_crf']!r} : union, regles")
     from caseforge.anonymization.detect import BACKENDS, FUSIONS_FICHIER  # import paresseux (detect lit la politique)

@@ -52,9 +52,30 @@ def _accords(gold: Path) -> list[tuple[str, dict[str, Any]]]:
     return res
 
 
+def _accord_libres(gold: Path) -> tuple[list[tuple[str, dict[str, Any]]], dict[str, float]]:
+    """Kappa des textes libres (``kappa_v4_1``) : entre humains, puis chacun avec l'annotation vérifiée."""
+    dossier = gold / "kappa_v4_1"
+    fichiers = sorted(dossier.glob("annotations_*.json")) if dossier.exists() else []
+    if len(fichiers) < 2:
+        return [], {}
+    ref = {p["passage_id"]: p for p in kappa_v4.nouveaux_passages(gold, ("libres_v4",))}
+    textes = {pid: p["text"] for pid, p in ref.items()}
+    verifiee = {pid: p["entities"] for pid, p in ref.items()}
+    (n1, a1), (n2, a2) = [kappa_v4._annotations(f) for f in fichiers[:2]]
+    humains = kappa_v4._accord(textes, a1, a2)
+    res = [
+        (f"{n1} – {n2} (humains, à l'aveugle)", humains),
+        (f"{n1} – annotation vérifiée (Ons)", kappa_v4._accord(textes, a1, verifiee)),
+        (f"{n2} – annotation vérifiée (Ons)", kappa_v4._accord(textes, a2, verifiee)),
+    ]
+    return res, humains["kappa_par_etiquette"]
+
+
 def construire(gold: Path = GOLD, final: Path = FINAL) -> str:
-    """Texte Markdown de la carte de données v4."""
+    """Texte Markdown de la carte de données v4 (et v4.1 s'il est gelé)."""
     m = json.loads((gold / "train_v4/manifest.json").read_text(encoding="utf-8"))
+    m41_chemin = gold / "train_v4_1/manifest.json"
+    m41 = json.loads(m41_chemin.read_text(encoding="utf-8")) if m41_chemin.exists() else None
     v3 = _lire(final / "train.jsonl")
     synth = _lire(gold / "synth_v4/passages.jsonl")
     c3, c4 = _compter(v3), m["effectifs"]["entites_par_etiquette"]
@@ -75,13 +96,20 @@ def construire(gold: Path = GOLD, final: Path = FINAL) -> str:
         "",
         "| Jeu | v3 | v4 | Changement |",
         "| --- | --- | --- | --- |",
-        f"| Train | 496 passages (`data/final/train.jsonl`) | {m['effectifs']['passages']} passages "
-        "(`data/gold/train_v4/train.jsonl`) | + synthétiques v4" + (" + textes libres v4" if libres else "") + " |",
+        f"| Train v4 (gelé) | 496 passages (`data/final/train.jsonl`) | {m['effectifs']['passages']} passages "
+        "(`data/gold/train_v4/train.jsonl`) | + synthétiques v4 |",
+    ]
+    if m41:
+        L.append(
+            f"| Train v4.1 (gelé) | — | {m41['effectifs']['passages']} passages (`data/gold/train_v4_1/train.jsonl`) "
+            "| train v4 + textes libres v4 ; le v4 reste gelé tel quel, ses résultats restent valables |"
+        )
+    L += [
         "| Dev | 162 passages | 162 passages | inchangé (empreinte dans le manifeste) |",
         "| Test gelé | 206 passages | 206 passages | inchangé, jamais lu |",
         "| Robustesse | — | 3 × 162 passages (`data/gold/robustesse/`) | nouveau, évaluation seulement |",
         "",
-        "## 2. Sources du train v4",
+        "## 2. Sources du train v4" + (" et v4.1" if m41 else ""),
         "",
         "| Source | Passages | Documents | Méthode d'annotation | Annoté par | Licence |",
         "| --- | --- | --- | --- | --- | --- |",
@@ -93,9 +121,12 @@ def construire(gold: Path = GOLD, final: Path = FINAL) -> str:
     if libres:
         lib = _lire(gold / "libres_v4/passages.jsonl")
         meth = Counter(p.get("annotation_method", "?") for p in lib)
+        verif = sum(bool(p.get("verifie_humain")) for p in lib)
         L.append(
-            f"| SRC-LIBRE v4 (`data/gold/libres_v4/`) | {len(lib)} | {len({p['doc_id'] for p in lib})} | "
-            f"{', '.join(f'{k} ({v})' for k, v in meth.items())} | lot D | CC-BY-4.0 (équipe) |"
+            f"| SRC-LIBRE v4 (`data/gold/libres_v4/`), **v4.1 seulement** | {len(lib)} | "
+            f"{len({p['doc_id'] for p in lib})} | {', '.join(f'{k} ({v})' for k, v in meth.items())} : rédaction "
+            f"par LLM, pré-annotation automatique, vérification humaine ({verif}/{len(lib)} passages), règles "
+            "d'arbitrage appliquées (section 4) | Ons (vérification) | CC-BY-4.0 (équipe) |"
         )
     else:
         L.append("| SRC-LIBRE v4 | 0 | 0 | à venir (lot D), dans un second temps | — | — |")
@@ -107,16 +138,22 @@ def construire(gold: Path = GOLD, final: Path = FINAL) -> str:
         "",
         "## 3. Entités par étiquette (train)",
         "",
-        "| Étiquette | Train v3 | Train v4 | Gain |",
-        "| --- | --- | --- | --- |",
+        "| Étiquette | Train v3 | Train v4 | Gain |" + (" Train v4.1 |" if m41 else ""),
+        "| --- | --- | --- | --- |" + (" --- |" if m41 else ""),
     ]
+    c41 = m41["effectifs"]["entites_par_etiquette"] if m41 else {}
     for lab in LABELS:
         gain = (c4[lab] - c3[lab]) / c3[lab] * 100 if c3[lab] else 0
-        L.append(f"| {lab} | {c3[lab]} | {c4[lab]} | +{gain:.0f} % |")
+        L.append(f"| {lab} | {c3[lab]} | {c4[lab]} | +{gain:.0f} % |" + (f" {c41[lab]} |" if m41 else ""))
     lang = m["effectifs"]["par_langue"]
     L += [
         "",
-        f"Langues du train v4 : {', '.join(f'{k} {v}' for k, v in sorted(lang.items()))}.",
+        f"Langues du train v4 : {', '.join(f'{k} {v}' for k, v in sorted(lang.items()))}."
+        + (
+            f" Train v4.1 : {', '.join(f'{k} {v}' for k, v in sorted(m41['effectifs']['par_langue'].items()))}."
+            if m41
+            else ""
+        ),
         "",
         "## 4. Annotateurs et accord",
         "",
@@ -143,6 +180,37 @@ def construire(gold: Path = GOLD, final: Path = FINAL) -> str:
             ]
     else:
         L.append("Aucune annotation humaine des passages v4 pour l'instant.")
+    libres_acc, par_etiquette = _accord_libres(gold)
+    if libres_acc:
+        humains = libres_acc[0][1]
+        L += [
+            "",
+            "### Textes libres v4 (`data/gold/kappa_v4_1/`)",
+            "",
+            "Échantillon : 15 % des textes libres nettoyés, stratifié par langue (graine 2027), annoté **à l'aveugle** "
+            "par deux personnes qui n'avaient pas vu ces passages (page sans pré-annotation). Ons, qui a vérifié "
+            "l'annotation du jeu, n'est pas annotatrice ici.",
+            "",
+            "| Paire | Passages | Tokens | Kappa | F1 spans exacts |",
+            "| --- | --- | --- | --- | --- |",
+        ]
+        L += [
+            f"| {nom} | {r['passages']} | {r['tokens']} | {r['kappa']:.3f} | {r['f1_spans_exacts']:.3f} |"
+            for nom, r in libres_acc
+        ]
+        L += [
+            "",
+            "Kappa entre humains par étiquette : "
+            + ", ".join(f"{lab} {k:.2f}" for lab, k in par_etiquette.items())
+            + ".",
+            "",
+            f"Cible ≥ 0,70 **{'atteinte' if humains['kappa'] >= kappa_v4.KAPPA_MIN else 'non atteinte'}** "
+            f"({humains['kappa']:.3f}), rapportée telle quelle. Accord élevé sur les entités à anonymiser, faible sur "
+            "les frontières de CONTRAINTE, PRODUIT / EQUIPEMENT et PROCESSUS. Arbitrage à trois (Boutheina, Ali, Ons) "
+            "en 4 règles du guide v2 (`reports/gold_kappa_v4_1_arbitrage.md`), appliquées à l'annotation vérifiée des "
+            "textes libres avant le gel du v4.1 (`generation/regles_arbitrage.py`, entrée du 25/11 de "
+            "`experiments.md`). Le gel du v4.1 malgré un kappa sous la cible est un écart au plan, décidé en équipe.",
+        ]
     L += [
         "",
         "## 5. Usage d'IA déclaré",
@@ -157,11 +225,23 @@ def construire(gold: Path = GOLD, final: Path = FINAL) -> str:
         "| Annotations des synthétiques v4 | aucune : annotation exacte par construction (script) | échantillon "
         "annoté à l'aveugle par un humain (section 4) |",
         "| Annotations humaines de l'échantillon | aucune | annotation manuelle à l'aveugle |",
-        "| Textes libres v4 | à venir (lot D) : rédaction aidée par un LLM prévue, déclarée dans ce tableau "
-        "quand ils seront ajoutés | vérification humaine prévue |",
+        (
+            "| Textes libres v4 (rédaction) | rédigés par un LLM ouvert, Qwen2.5-7B-Instruct en 4 bits (Lot D, "
+            "`generation/textes_libres.py`) | sorties ratées retirées (répétitions, caractères chinois) par Ons |"
+            if libres
+            else "| Textes libres v4 | à venir (lot D) : rédaction aidée par un LLM prévue | vérification humaine "
+            "prévue |"
+        ),
+        (
+            "| Textes libres v4 (annotation) | pré-annotation automatique par script (Lot D) | vérifiée passage par "
+            "passage par Ons, puis règles d'arbitrage ; double annotation à l'aveugle d'un échantillon (section 4) |"
+            if libres
+            else "| Textes libres v4 (annotation) | — | — |"
+        ),
         "",
         "Aucune annotation produite par un script ou une IA n'est présentée comme humaine : le champ "
-        "`annotation_method` de chaque passage le dit (`construction` pour les synthétiques v4).",
+        "`annotation_method` de chaque passage le dit (`construction` pour les synthétiques v4, "
+        "`redaction_llm_preannotation_verifiee` pour les textes libres v4).",
         "",
         "## 6. Jeux de robustesse (évaluation seulement)",
         "",
@@ -186,7 +266,12 @@ def construire(gold: Path = GOLD, final: Path = FINAL) -> str:
     L += [
         f"| `data/final/dev.jsonl` (inchangé) | `{m['dev_inchange']}` |",
         "",
-        "`tests/test_gold_train_v4.py` échoue si un fichier du train v4 gelé change.",
+    ]
+    if m41:
+        L += [f"| `data/gold/train_v4_1/{f}` | `{h}` |" for f, h in m41["sha256"].items()]
+    L += [
+        "",
+        "`tests/test_gold_train_v4.py` échoue si un fichier d'un train gelé (v4, v4.1) change.",
         "",
     ]
     return "\n".join(L)
