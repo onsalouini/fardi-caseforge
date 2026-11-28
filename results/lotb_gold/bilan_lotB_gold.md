@@ -38,7 +38,8 @@ Système : `union_fichier` (règles ∪ XLM-R v4 s42), `fusion_fichier: bornes_d
 
 | Prévu | Au gel du 29/11 | Raison |
 |---|---|---|
-| Transfert vers le tunisien, avec IC 95 % | **jeu tunisien non terminé au gel du 29/11, mesure ajoutée après le gel** | 60 passages en cours d'écriture (Ali, Boutheina) |
+| Transfert vers le tunisien, avec IC 95 % | **jeu tunisien non terminé au gel du 29/11, mesure ajoutée après le gel** | 60 passages en cours d'écriture (Ali) ; 2ᵉ annotation à l'aveugle par Boutheina |
+| Anonymisation avec le modèle retenu par le Lot C | **XLM-R v4.1 non mesuré en anonymisation, gel sur v4** | le Lot C a retenu v4.1 (0,837) après le gel de l'anonymisation du 24/11 |
 | Robustesse du système gelé (G6, système (b)) | **robustesse du système gelé non mesurée (prédictions XLM-R des jeux perturbés non disponibles au gel)** | aucune prédiction XLM-R des jeux perturbés sur `origin` |
 | N3 ≤ 50 % pour une perte de fiche ≤ 3 pt (G5) | **non atteint** : N3 100 % (texte et fiche) | règle fixée d'avance, appliquée telle quelle |
 | Gel Gold pour tout texte | Studio garde `union_seuil` pour le texte libre | XLM-R non chargé dans le pipeline |

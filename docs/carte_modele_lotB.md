@@ -235,6 +235,7 @@ n'existe (évaluation finale unique à faire avec `scripts/final_eval.py`).
   (B3, règles de rappel B6c, B1 pour DONNEE_SENSIBLE) ∪ prédictions **XLM-R v4 s42** du Lot C
   (`fichier_predictions: reports/predictions/xlmr_v4_dev_s42.jsonl`), `fusion_fichier: bornes_ds`, coréférence,
   balayage renforcé, extension des montants, plafonds de budget, **`generaliser: false`**.
+  Le Lot C a retenu ensuite XLM-R v4.1 (0,837) : **v4.1 non mesuré en anonymisation, gel sur v4**.
 - **Chiffres du dev** (G4, 21 documents, 213 occurrences sensibles, moyenne ± é.-t. des 3 graines v4) : **fuite
   1,3 ± 0,2 %** (IC 95 % par graine : s13 [0,0 ; 3,0], s42 [0,0 ; 3,0], s2026 [0,0 ; 3,5]), **sur-masquage
   9,2 ± 0,9 %**, F1 caractère 0,834 ± 0,024. Fuite par étiquette ORG 0,0 / PERSONNE 0,0 / SITE 0,6 /
@@ -315,7 +316,7 @@ commit 895e834). Chiffres : `results/lotb_gold/g6_robustesse.md` (et `.json`), `
   fuite du Bronze peut doubler : **relecture humaine obligatoire**.
 - Partie B (jeu tunisien, ventilée par écriture) : **jeu tunisien non terminé au gel du 29/11, mesure ajoutée après le
   gel.** Au 28/11/2026, `data/lotb/tunisien/tunisien.jsonl` n'existe sur aucune branche (passages en cours d'écriture
-  par Ali et Boutheina) ; aucun chiffre. Commande prête : `python -m scripts.g2_tunisien verifier`, puis
+  par Ali, 2ᵉ annotation à l'aveugle par Boutheina) ; aucun chiffre. Commande prête : `python -m scripts.g2_tunisien verifier`, puis
   `python -m scripts.g6_robustesse tunisien`.
 
 ---

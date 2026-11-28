@@ -31,6 +31,12 @@ Chaque passage porte une **écriture** et une **langue** :
 - Des formats variés (courriel, PV de réunion, message, fiche d'incident), des noms d'entreprise et de personne **inventés**. Ni données partenaires, ni passage repris du train, du dev ou d'un autre passage tunisien.
 - `python -m scripts.g2_tunisien verifier` affiche la répartition et signale les écarts (simples avertissements).
 
+### Composition réelle du jeu (28/11/2026)
+
+- `textes/ali.txt` : **60 passages = 30 situations × 2 écritures**, rédigés par Ali seul (Boutheina ne les a pas écrits, pour pouvoir les annoter à l'aveugle). 12 documents de 5 passages : les documents impairs (`tun_ali_01`, `_03`…) sont en arabizi mêlé de français (`@lang: mixte`), les documents pairs (`tun_ali_02`, `_04`…) en sont la version en lettres arabes (`@lang: ar`), passage pour passage.
+- **Écart à la règle ci-dessus** (« ni passage repris d'un autre passage tunisien ») : chaque passage arabe reprend le contenu d'un passage arabizi. Conséquence : les 60 passages ne sont **pas 60 observations indépendantes** (mêmes noms, mêmes chiffres dans les deux écritures) ; les IC sont à lire en conséquence. Avantage : comparaison **appariée** arabizi / arabe sur le même contenu, qui isole l'effet de l'écriture.
+- Double annotation à l'aveugle : `double/ali.txt` (Ali) et `double/boutheina.txt` (Boutheina), sans pré-annotation.
+
 ## 4. Écrire un fichier
 
 Partir de `data/lotb/tunisien/MODELE.txt`. Un passage par ligne, l'entité entre crochets suivie de son étiquette entre parenthèses : `[texte exact](ETIQUETTE)`. Les directives `@doc`, `@ecriture`, `@lang` valent jusqu'à la suivante ; `@annotateur` une fois par fichier. Crochet littéral : `\[` et `\]`.

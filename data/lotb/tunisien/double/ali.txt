@@ -1,0 +1,113 @@
+# Double annotation à l'aveugle : annoter seul, sans voir le fichier de l'autre annotateur.
+# Ne modifier que les crochets : le texte doit rester identique au caractère près.
+@annotateur: ali
+# Jeu tunisien (Lot B Gold, G2) : passages bruts rédigés par Ali, sans annotation. ÉVALUATION SEULEMENT.
+# 12 documents : les documents pairs sont la version en lettres arabes des documents impairs (arabizi).
+
+@doc: tun_ali_01
+@ecriture: arabizi
+@lang: mixte
+el machine ta3 el injection ta7et mel sbe7, 3andha 3otla sghira w ma tnajemch tkemel el commande. 3ayetli Si Mourad 3al 71 234 567 w 9alli jay.
+Sté Plastique Sfax, lot L-2024-118, el machine reference KM-450 3andha vibration kbira, lazem n7ottou el commande 9bal el jom3a.
+mail mte3 el chef: mourad.benali@plastique-sfax.tn, 9alli el production te7t 60% w el delai mte3 el client Sté Delta fi Tunis 9rib ykoun fil khatar.
+fi el atelier ZI Poudriere 2, el technicien Ali Trabelsi 9al el moteur mte3 el machine 3andou s5ana 3alia, 7ajet zayda 3al 85 degrés.
+Lella Amel mel qualité t7eb ta3ref 9adech el wa9fa 7atet fi el production, 9alelha el chef: el wa9fa 4 sa3at w el rebut zed 12%.
+
+@doc: tun_ali_02
+@ecriture: arabe
+@lang: ar
+الماكينة متاع الحقن طاحت من الصباح، عندها عطب صغير وما تنجمش تكمل الكوموند. عيّطت على السي مراد على 71 234 567 وقاللي جاي.
+شركة بلاستيك صفاقس، اللوط L-2024-118، الماكينة المرجع KM-450 فيها اهتزاز كبير، لازم نحطّوا الكوموند قبل الجمعة.
+الميل متاع الشاف: mourad.benali@plastique-sfax.tn، قاللي الإنتاج تحت 60% والديلي متاع الحريف شركة دلتا في تونس قريب يكون في الخطر.
+في الأتولييه ZI Poudriere 2، التقني علي الطرابلسي قال الموتور متاع الماكينة عندو حرارة عالية، حاجة زايدة على 85 درجة.
+لالّة أمل من الجودة تحب تعرف قدّاش الوقفة حطّت في الإنتاج، قاللها الشاف: الوقفة 4 سوايع والريبو زاد 12%.
+
+@doc: tun_ali_03
+@ecriture: arabizi
+@lang: mixte
+Sté Métal Tunis, el fournisseur Sté Acier Nord 3andou prix 2.450 DT/kg, ama 9alli lazem nzidou 8% 3al commande el jeya. Chnowa ra2yek Si Hatem?
+n7eb nnegocier m3a Si Hatem mel Sté Acier Nord 3al prix mte3 el lot 450 tonnes, houwa 3ared 2.380 DT/kg w e7na n7ebbou 2.250.
+mail mte3 el fournisseur: hatem.gharbi@acier-nord.tn, 9al el delai 15 joum w el prix yesker 3al 2.500 DT/kg 3al commande 9bal 30/11.
+fi ZI Ben Arous, el conteneur mte3 el fer 3andou 450 tonnes, el fournisseur y7eb yzid 8% 3al prix 9dim, 3andna contrainte budget 120k DT.
+Lella Sonia mel achats 9alet lazem n9assou el prix 3al 2.300 DT/kg, w si non n7awlou 3al fournisseur Sté Metal Sousse fi Sousse.
+
+@doc: tun_ali_04
+@ecriture: arabe
+@lang: ar
+شركة معادن تونس، المورّد شركة فولاذ الشمال عندو بري 2.450 دينار/كغ، أما قاللي لازم نزيدو 8% على الكوموند الجاية. شنوّة رأيك سي حاتم؟
+نحب نتفاوض مع سي حاتم من شركة فولاذ الشمال على بري اللوط 450 طن، هو عارض 2.380 دينار/كغ واحنا نحبّو 2.250.
+الميل متاع المورّد: hatem.gharbi@acier-nord.tn، قال الديلي 15 يوم والبري يسكر على 2.500 دينار/كغ على الكوموند قبل 30/11.
+في ZI بن عروس، الكونتينر متاع الحديد عندو 450 طن، المورّد يحب يزيد 8% على البري القديم، عندنا قيد ميزانية 120 ألف دينار.
+لالّة سنية من المشتريات قالت لازم ننقصو البري على 2.300 دينار/كغ، وإلا نتحوّلو على المورّد شركة معادن سوسة في سوسة.
+
+@doc: tun_ali_05
+@ecriture: arabizi
+@lang: mixte
+Sté Agro Sfax, el client Sté Marché Tunis 9al el livraison mte3 lot L-2024-207 t3atlet 5 joum, w el produit 3andou 3% défaut. 3ayetli 3al 98 765 432.
+mail mte3 el client: client@marche-tunis.tn, 9al el lot L-2024-207 mte3 el tomate 3andou 12% défaut w y7eb remboursement 4.500 DT.
+fi ZI Thyna, el camion mte3 el livraison t3attel 3al frontière 3 jours, el client Sté Marché Tunis y7eb y9ass el commande 9al 30% pénalité.
+Si Nabil mel service client 9al el lot L-2024-207 wasel n9ess 40 carton w el qualité mte3 el produit mahich behia, 3ayet 3al 98 765 432.
+Lella Rim 9alet el client Sté Marché Tunis 3andou contrat C-2024-88, w el retard 5 joum 3al delai, lazem n3tiw remise 5% walla nkhesrou el client.
+
+@doc: tun_ali_06
+@ecriture: arabe
+@lang: ar
+شركة أغرو صفاقس، الحريف شركة سوق تونس قال الديليفري متاع اللوط L-2024-207 تعطّل 5 أيام، والمنتوج عندو 3% عيب. عيّطلي على 98 765 432.
+الميل متاع الحريف: client@marche-tunis.tn، قال اللوط L-2024-207 متاع الطماطم عندو 12% عيب ويحب تعويض 4.500 دينار.
+في ZI ثينة، الكاميون متاع الديليفري تعطّل على الحدود 3 أيام، الحريف شركة سوق تونس يحب ينقص الكوموند قال 30% خطية.
+سي نبيل من خدمة الحرفاء قال اللوط L-2024-207 وصل ناقص 40 كرتونة والجودة متاع المنتوج ماهيش باهية، عيّط على 98 765 432.
+لالّة ريم قالت الحريف شركة سوق تونس عندو كونترا C-2024-88، والتأخير 5 أيام على الديلي، لازم نعطيو تخفيض 5% وإلا نخسرو الحريف.
+
+@doc: tun_ali_07
+@ecriture: arabizi
+@lang: mixte
+compte rendu réunion qualité mte3 Sté Textile Monastir, el taux de rebut wasel 7.2% fi chhar novembre, w el audit ISO 9001 mazel 3andna 3 non-conformités.
+fi ZI Ksar Hellal, Si Karim 9al el machine te3 el tissage 3andha 12% rebut 3al lot T-2024-55, lazem plan d'action 9bal 15/12.
+mail mte3 Lella Ines: ines.bouaziz@textile-monastir.tn, 9alet el audit ISO interne 3andou 3 non-conformités, w el taux de rebut 7.2% 3ali 3al objectif 5%.
+el réunion mte3 qualité 9al el rebut wasel 7.2% w el production 3andha 8500 pièce/jour, lazem n9assou el rebut l 5% 9bal el audit 20/12.
+Si Karim 9al el machine te3 el couture 3andha s5ana 95 degrés w el rebut zed 2%, lazem maintenance 9bal el audit ISO fi Sté Textile Monastir.
+
+@doc: tun_ali_08
+@ecriture: arabe
+@lang: ar
+تقرير اجتماع الجودة متاع شركة نسيج المنستير، نسبة الريبو وصلت 7.2% في شهر نوفمبر، والأوديت ISO 9001 مازل عندنا 3 عدم مطابقة.
+في ZI قصر هلال، سي كريم قال الماكينة متاع النسيج فيها 12% ريبو على اللوط T-2024-55، لازم خطة عمل قبل 15/12.
+الميل متاع لالّة إيناس: ines.bouaziz@textile-monastir.tn، قالت الأوديت ISO الداخلي عندو 3 عدم مطابقة، ونسبة الريبو 7.2% عالية على الهدف 5%.
+الاجتماع متاع الجودة قال الريبو وصل 7.2% والإنتاج عندو 8500 قطعة/يوم، لازم ننقصو الريبو ل 5% قبل الأوديت 20/12.
+سي كريم قال الماكينة متاع الخياطة عندها حرارة 95 درجة والريبو زاد 2%، لازم صيانة قبل الأوديت ISO في شركة نسيج المنستير.
+
+@doc: tun_ali_09
+@ecriture: arabizi
+@lang: mixte
+Sté Mécanique Sousse, el taux d'absentéisme wasel 11% fi chhar novembre, w el heures sup zedou 320 sa3a 3al atelier.
+Si Fethi mel RH 9al el matricule 4471 3andou 8 jours absence fi chhar, w lazem entretien 9bal 10/12.
+mail mte3 Lella Amel: amel.rh@mecanique-sousse.tn, 9alet el heures sup 320 sa3a fi novembre, w el budget 12.000 DT, lazem n9assou 15%.
+fi ZI Sidi Abdelhamid, el atelier 3andou 45 3amel, 5 menhom absent 3 jours, el taux 11% 3ali 3al objectif 6%.
+Si Fethi 9al el contrat C-2024-31 mte3 3amel fil atelier y7eb yzid heures sup, ama el budget mahouch kif kif, lazem décision 9bal el jom3a.
+
+@doc: tun_ali_10
+@ecriture: arabe
+@lang: ar
+شركة ميكانيك سوسة، نسبة الغياب وصلت 11% في شهر نوفمبر، والساعات الإضافية زادو 320 ساعة على الأتولييه.
+سي فتحي من الموارد البشرية قال الماتريكول 4471 عندو 8 أيام غياب في الشهر، ولازم مقابلة قبل 10/12.
+الميل متاع لالّة أمل: amel.rh@mecanique-sousse.tn، قالت الساعات الإضافية 320 ساعة في نوفمبر، والميزانية 12.000 دينار، لازم ننقصو 15%.
+في ZI سيدي عبد الحميد، الأتولييه عندو 45 عامل، 5 منهم غايبين 3 أيام، النسبة 11% عالية على الهدف 6%.
+سي فتحي قال الكونترا C-2024-31 متاع عامل في الأتولييه يحب يزيد ساعات إضافية، أما الميزانية ماهيش كيف كيف، لازم قرار قبل الجمعة.
+
+@doc: tun_ali_11
+@ecriture: arabizi
+@lang: mixte
+Sté Chimie Gabes, ana el stagiaire Yassine, 9yest el pH mte3 el produit lot G-2024-19 w l9it 8.4, normalement 7.0-7.5. N3ayet 3al Si Hichem 3al 22 334 455.
+mail mte3 Si Hichem: hichem.encadrant@chimie-gabes.tn, el mesure mte3 la viscosité lot G-2024-19 waslet 1200 cP, el spécification 900-1000 cP, lazem contrôle.
+fi laboratoire ZI Gabes, el stagiaire Yassine 9al el machine te3 el analyse 3andha erreur 0.3, w el mesure mte3 el densité 1.18 g/cm3.
+Si Hichem 9al el rapport mte3 el stagiaire lazem ykoun fih 5 mesures 3al lot G-2024-19, w el valeur mte3 el température 78 degrés 3al réacteur R-2.
+Lella Salma mel labo 9alet el mesure mte3 el pH 8.4 mahich fi spécification, lazem n3awdou el analyse 3al lot G-2024-19 9bal el jom3a.
+
+@doc: tun_ali_12
+@ecriture: arabe
+@lang: ar
+شركة كيمياء قابس، أنا المتربّص ياسين، قست الـ pH متاع المنتوج لوط G-2024-19 ولقيت 8.4، عادي 7.0-7.5. نعيّط على سي هشام على 22 334 455.
+الميل متاع سي هشام: hichem.encadrant@chimie-gabes.tn، القيس متاع اللزوجة لوط G-2024-19 وصل 1200 cP، المواصفة 900-1000 cP، لازم مراقبة.
+في مخبر ZI قابس، المتربّص ياسين قال الماكينة متاع التحليل عندها خطأ 0.3، والقيس متاع الكثافة 1.18 g/cm3.
+سي هشام قال التقرير متاع المتربّص لازم يكون فيه 5 قياسات على اللوط G-2024-19، والقيمة متاع الحرارة 78 درجة على المفاعل R-2.
+لالّة سلمى من المخبر قالت القيس متاع الـ pH 8.4 ماهيش في المواصفة، لازم نعاودو التحليل على اللوط G-2024-19 قبل الجمعة.
