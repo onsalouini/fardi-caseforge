@@ -44,7 +44,7 @@ from cfdata.common import spans_to_bio, tokenize
 
 MODES: tuple[str, ...] = ("token", "strict", "partiel")
 TOKENIZERS: tuple[str, ...] = ("cfdata", "stanza", "nltk")
-SOURCES: tuple[str, ...] = ("syn", "lib", "externe")
+SOURCES: tuple[str, ...] = ("syn", "lib", "tun", "externe")
 MANQUE = "MANQUÉ"
 INVENTE = "INVENTÉ"
 
@@ -54,11 +54,16 @@ Counts = dict[str, list[int]]  # étiquette -> [tp, fp, fn]
 
 # ---------- Alignement des lignes ----------
 def source_of(doc_id: str) -> str:
-    """Renvoie la source d'un document d'après le préfixe de ``doc_id`` : ``syn``, ``lib`` ou ``externe``."""
+    """Renvoie la source d'un document d'après le préfixe de ``doc_id`` : ``syn``, ``lib``, ``tun`` ou ``externe``.
+
+    ``tun`` : jeu tunisien et code-switché du Lot B (G2, ``tun_<identifiant>``, évaluation seulement).
+    """
     if doc_id.startswith("syn_"):
         return "syn"
     if doc_id.startswith("lib_"):
         return "lib"
+    if doc_id.startswith("tun_"):
+        return "tun"
     return "externe"
 
 

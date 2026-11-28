@@ -291,6 +291,8 @@ def test_jeu_tunisien_jamais_en_entrainement() -> None:
         REPO_ROOT / "scripts" / "g2_tunisien.py",
         # Lot C : robustesse de XLM-R, évaluation seulement (aucun entraînement), intégrée le 24/11
         REPO_ROOT / "caseforge" / "models" / "robustesse_xlmr.py",
+        # Lot B G6 partie B : anonymisation gelée mesurée sur le jeu tunisien, évaluation seulement (27/11)
+        REPO_ROOT / "scripts" / "g6_robustesse.py",
     }
     fautes = []
     for dossier in ("caseforge", "scripts"):
