@@ -11,7 +11,7 @@ el machine ta3 el injection ta7et mel sbe7, 3andha 3otla sghira w ma tnajemch tk
 Sté Plastique Sfax, lot L-2024-118, el machine reference KM-450 3andha vibration kbira, lazem n7ottou el commande 9bal el jom3a.
 mail mte3 el chef: mourad.benali@plastique-sfax.tn, 9alli el production te7t 60% w el delai mte3 el client Sté Delta fi Tunis 9rib ykoun fil khatar.
 fi el atelier ZI Poudriere 2, el technicien Ali Trabelsi 9al el moteur mte3 el machine 3andou s5ana 3alia, 7ajet zayda 3al 85 degrés.
-Lella Amel mel qualité t7eb ta3ref 9adech el wa9fa 7atet fi el production, 9alelha el chef: el wa9fa 4 sa3at w el rebut zed 12%.
+Lella Amel mel qualité t7eb ta3ref 9adech el wa9te 7atet fi el production, 9alelha el chef: 4 sa3at w el rebut zed 12%.
 
 @doc: tun_ali_02
 @ecriture: arabe
@@ -20,7 +20,7 @@ Lella Amel mel qualité t7eb ta3ref 9adech el wa9fa 7atet fi el production, 9ale
 شركة بلاستيك صفاقس، اللوط L-2024-118، الماكينة المرجع KM-450 فيها اهتزاز كبير، لازم نحطّوا الكوموند قبل الجمعة.
 الميل متاع الشاف: mourad.benali@plastique-sfax.tn، قاللي الإنتاج تحت 60% والديلي متاع الحريف شركة دلتا في تونس قريب يكون في الخطر.
 في الأتولييه ZI Poudriere 2، التقني علي الطرابلسي قال الموتور متاع الماكينة عندو حرارة عالية، حاجة زايدة على 85 درجة.
-لالّة أمل من الجودة تحب تعرف قدّاش الوقفة حطّت في الإنتاج، قاللها الشاف: الوقفة 4 سوايع والريبو زاد 12%.
+لالّة أمل من الجودة تحب تعرف قدّاش الوقت حطّت في الإنتاج، قاللها الشاف: 4 سوايع والريبو زاد 12%.
 
 @doc: tun_ali_03
 @ecriture: arabizi
