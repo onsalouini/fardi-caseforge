@@ -141,3 +141,9 @@ Par type : retour à la ligne proche (mail) 1. Par étiquette : PERSONNE 1.
 - **H5** (la F1 caractère baisse plus que la fuite ne monte) : abréviations Δ F1 -0,012 (baisse démontrée) pour Δ fuite +6,6 pt, bruit OCR Δ F1 -0,044 (baisse démontrée) pour Δ fuite +1,9 pt, mise en page Δ F1 -0,041 (baisse démontrée) pour Δ fuite +0,5 pt.
 - Cible indicative du plan Gold (fuite ≤ +1 point), citée sans être appliquée : abréviations non, bruit OCR non, mise en page oui pour (a).
 
+
+## État au gel du 29/11/2026 (ajout manuel de clôture, hors sortie du script)
+
+- **(b) `union_fichier` gelé + XLM-R v4 : robustesse du système gelé non mesurée (prédictions XLM-R des jeux perturbés non disponibles au gel).** Recherche faite le 28/11/2026 sur toutes les branches d'`origin` (`reports/predictions/*abreviations*`, `*ocr*`, `*mise_en_page*`) : seules les sorties du LLM du Lot D existent (`reports/predictions/lot_d/robustesse_llm_{abreviations,ocr,mise_en_page}_s42.jsonl`, `origin/lot-d-gold`), aucune prédiction XLM-R. H4 reste non testable.
+- **Partie B (jeu tunisien) : jeu tunisien non terminé au gel du 29/11, mesure ajoutée après le gel.** `data/lotb/tunisien/tunisien.jsonl` est absent de toutes les branches au 28/11/2026 ; aucun chiffre.
+- Les chiffres de (a) ci-dessus sont inchangés ; le script n'a pas été relancé.

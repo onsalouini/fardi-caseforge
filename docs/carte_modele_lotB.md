@@ -1,11 +1,11 @@
 # Carte de modèle — Lot B (paliers Bronze, Silver et Gold)
 
-Responsable : Ali Ben Jannet · co-équipière : Boutheina Rjab · branche `lot-b`. Commit de référence `89b27e0` pour
-B1, B3 et B6 à B6c ; `0298d79` pour B6d, B6e, B6f, B8 et B9 (mise à jour du 27/10/2026). Palier Silver (B12 à B16,
-branche `lot-b-silver`, gel du 14/11/2026) : section « Palier Silver » ci-dessous. Palier Gold (branche `lot-b-gold`,
-gel de l'anonymisation du 24/11/2026, G4, commit 2cef770 ; généralisation ciblée G5, non retenue après la re-mesure
-G5 bis) : sections « Palier Gold »
-ci-dessous.
+Responsable : Ali Ben Jannet · co-équipière : Boutheina Rjab. Palier Bronze (branche `lot-b`) : commit de référence
+`89b27e0` pour B1, B3 et B6 à B6c ; `0298d79` pour B6d, B6e, B6f, B8 et B9 (mise à jour du 27/10/2026). Palier Silver
+(B12 à B16, branche `lot-b-silver`, gel du 14/11/2026) : section « Palier Silver » ci-dessous. Palier Gold (G1 à G7,
+branche `lot-b-gold`, **clôture au gel d'équipe du 29/11/2026**) : gel de l'anonymisation du 24/11/2026 (G4, commit
+2cef770), généralisation ciblée G5 non retenue après la re-mesure G5 bis. Synthèse au gel : section « Palier Gold ·
+état au gel du 29/11/2026 » ; détail : sections « Palier Gold » ci-dessous.
 Données : jeu CaseForge du Lot A (`data/final`, tag `test-gele-v3`). Tous les réglages et résultats ci-dessous sont
 mesurés sur le **dev**. **Le test gelé n'a pas encore été utilisé : ces chiffres sont des estimations sur le dev.** Il
 le sera une seule fois, à la fin du lot, avec `scripts/final_eval.py`.
@@ -24,6 +24,8 @@ d'`experiments.md` d'où il vient. Une valeur absente de `reports/` et d'`experi
 | B9 | Interface publique d'anonymisation (Lots D et E) | `caseforge/anonymization/api.py` | `README.md` (section Lot B) |
 | G5 (Gold) | Audit de ré-identification N1–N4 et généralisation ciblée ; re-mesure G5 bis avec le gabarit corrigé du Lot D : aucune variante éligible, `generaliser: false` | `caseforge/anonymization/generalisation_ciblee.py`, `configs/anonymization.yaml`, `scripts/g5_reidentification.py` | `results/lotb_gold/g5_reidentification.md` |
 | G4 (Gold) | Anonymisation `union_fichier` avec XLM-R v4 du Lot C (gel Gold) | `configs/anonymization.yaml`, `scripts/g4_anonymisation_v4.py` | `results/lotb_gold/g4_anonymisation_v4.md` |
+| G6 (Gold) | Robustesse de l'anonymisation sur les jeux perturbés du dev : `union_seuil` mesuré ; système gelé non mesuré (prédictions XLM-R des jeux perturbés non disponibles au gel) ; jeu tunisien non terminé au gel | `scripts/g6_robustesse.py` | `results/lotb_gold/g6_robustesse.md` |
+| G1, G2, G3, G7 (Gold) | Dev externe et ablation des corpus externes (G1) ; outils du jeu tunisien (G2) ; garde-fou du test gelé sur les chemins construits (G3) ; audit croisé du Lot A Gold et de l'intégration (G7) | `caseforge/eval/externe_dev.py`, `caseforge/eval/tunisien.py`, `tests/test_test_gele.py`, `scripts/audit_lotA_gold.py` | `results/lotb_gold/g1_ablation_externe.md`, `docs/guide_tunisien.md`, `results/lotb_gold/g7_audit_lotA.md` |
 | B12–B16 (Silver) | Anonymisation `union_fichier` (règles ∪ XLM-R du Lot C, bornes DS), généralisation (non retenue), règles du train | `caseforge/anonymization/detect.py`, `generalisation.py`, `configs/anonymization.yaml` | `results/lotb_silver/b12_generalisation.md` à `b16_ablations.md` |
 | B7 | Règles PRODUIT (libellés, nominalisations, verbes) dans B3 : PRODUIT au dev 0,031 → 0,911, micro 0,681 → 0,751 (mode token) ; **optimiste**, le dev a servi à la mise au point, 0,192 sans les éléments vus au dev ; train 0,886 → 0,952 | `caseforge/extraction/rules/produit.py` | `reports/lotb_b7_produit.md` |
 
@@ -223,6 +225,52 @@ Annexe mixte : 4 passages pour le NER, 5 occurrences sensibles pour l'anonymisat
 
 ---
 
+## Palier Gold · état au gel du 29/11/2026 (synthèse)
+
+Aucun réglage depuis le gel de l'anonymisation du 24/11/2026 (G4, commit 2cef770) et G5 bis (commit 93b4d83) : G6
+et la clôture sont des évaluations seulement. **Tous les chiffres sont mesurés sur le dev** ; aucun chiffre du test gelé
+n'existe (évaluation finale unique à faire avec `scripts/final_eval.py`).
+
+- **Système gelé** (`configs/anonymization.yaml`, défaut d'`anonymize_document`) : backend `union_fichier` = règles
+  (B3, règles de rappel B6c, B1 pour DONNEE_SENSIBLE) ∪ prédictions **XLM-R v4 s42** du Lot C
+  (`fichier_predictions: reports/predictions/xlmr_v4_dev_s42.jsonl`), `fusion_fichier: bornes_ds`, coréférence,
+  balayage renforcé, extension des montants, plafonds de budget, **`generaliser: false`**.
+- **Chiffres du dev** (G4, 21 documents, 213 occurrences sensibles, moyenne ± é.-t. des 3 graines v4) : **fuite
+  1,3 ± 0,2 %** (IC 95 % par graine : s13 [0,0 ; 3,0], s42 [0,0 ; 3,0], s2026 [0,0 ; 3,5]), **sur-masquage
+  9,2 ± 0,9 %**, F1 caractère 0,834 ± 0,024. Fuite par étiquette ORG 0,0 / PERSONNE 0,0 / SITE 0,6 /
+  DONNEE_SENSIBLE 3,6 % ; par langue fr 0,0 / ar 2,4 / en 1,4 % ; par source `syn_` 0,2 / `lib_` 11,1 % (3 documents,
+  tendance) ; passages mixtes 5 occurrences, 0 fuite (n < 30).
+- **Bout en bout dans le pipeline** (après la PR #50 du Lot E, `reports/gold_bout_en_bout.md`, dev, graine s42) :
+  fuite **0,9 %** (2 / 213) [0,0 ; 3,0], contre 6,6 % avant (écart apparié −5,6 pt [−9,7 ; −2,6]) ; sur-masquage 9,5 % ;
+  `syn_` 0,0 %, `lib_` 9,5 % ; les 2 fuites restantes sont des DONNEE_SENSIBLE arabes ; 0 entité sensible dans la fiche.
+- **G5 bis : résultat négatif.** Aucune généralisation éligible (meilleure variante `complete_sauf_fiche` : N3 100 →
+  12,7 % sur le texte, mais perte de fiche 3,7 pt > 3) → `generaliser: false`, **objectif N3 ≤ 50 % non atteint**.
+- **G6 : faiblesse aux abréviations arabes.** Pour `union_seuil` (le système du texte libre de Studio), la fuite passe
+  de 6,6 à 13,1 % sur le jeu abrégé (+6,6 pt [+2,4 ; +11,3], démontré), et **en arabe de 5,8 à 26,1 %** (4 → 18 / 69) :
+  ORG et SITE dont le déclencheur est abrégé (« ش. », « م.ص »). Robustesse du système gelé non mesurée (prédictions
+  XLM-R des jeux perturbés non disponibles au gel).
+- **Limites au gel** :
+  1. **N3 des fiches** : la fiche générée reste ré-identifiable au niveau N3 pour 21 / 21 documents avec
+     `generaliser: false` (G5 bis) ;
+  2. **N4** : 21 / 21 documents ré-identifiables par les indicateurs chiffrés, quelle que soit la variante ;
+  3. **Studio en `union_seuil`** : un texte libre tapé dans Studio n'a pas de prédictions XLM-R et garde le Bronze
+     (fuite 6,6 % au dev, 26,1 % en arabe abrégé) ; le gain du gel Gold ne vaut que pour les documents du dev ;
+  4. **jeu tunisien non terminé au gel du 29/11, mesure ajoutée après le gel** (aucun chiffre de transfert) ;
+  5. **robustesse du système gelé non mesurée** (prédictions XLM-R des jeux perturbés non disponibles au gel) ;
+  6. prédictions XLM-R pour le dev seulement : sans fichier pour le test gelé, `union_fichier` retombe sur `rules` ;
+  7. 21 documents au dev (3 `lib_`), corpus simulé, dev réutilisé pour choisir des familles d'erreurs (section
+     « Limites communes »). **Relecture humaine obligatoire.**
+- **Travail futur** :
+  - **abréviations arabes** : formes abrégées des déclencheurs ORG / SITE (« ش. », « ش.م.ع », « م.ص »…) dans les
+    règles et le balayage, mises au point sur le train (ou une version abrégée du train), jamais sur le dev abrégé, puis
+    une seule mesure G6 ;
+  - mesurer (b) dès que le Lot C publie les prédictions XLM-R v4 des jeux perturbés (`--predictions`, prêt) ;
+  - mesure du jeu tunisien après le gel (`g2_tunisien verifier`, puis `g6_robustesse tunisien`, ventilée par écriture) ;
+  - inférence XLM-R dans Studio, pour que le texte libre profite du gel Gold ;
+  - généralisation moins coûteuse pour la fiche (N3), et une protection pour N4.
+
+---
+
 ## Palier Gold · G6 : robustesse de l'anonymisation gelée
 
 Branche `lot-b-gold`, 27/11/2026. **Split : dev** (162 passages de `dev.jsonl` dans les 21 documents de
@@ -232,9 +280,13 @@ abréviations, bruit OCR, mise en page ; mêmes passages, spans recalés). **Év
 commit 895e834). Chiffres : `results/lotb_gold/g6_robustesse.md` (et `.json`), `python -m scripts.g6_robustesse mesurer`.
 
 - **Mesuré : (a) `union_seuil`** (règles + CRF, sans XLM-R ; c'est le système d'un texte libre, sans prédictions
-  XLM-R). **Non mesuré : (b) `union_fichier` gelé (XLM-R v4)**, faute de prédictions XLM-R du Lot C sur les jeux
-  perturbés (absentes de toutes les branches au 27/11). La commande est prête (`--predictions`) et refuse de lancer
+  XLM-R, donc celui de Studio). **(b) `union_fichier` gelé (XLM-R v4) : robustesse du système gelé non mesurée
+  (prédictions XLM-R des jeux perturbés non disponibles au gel).** Vérifié le 28/11/2026 sur toutes les branches
+  d'`origin` : seules les sorties du LLM du Lot D existent pour ces jeux (`reports/predictions/lot_d/robustesse_llm_*`,
+  `origin/lot-d-gold`), aucune prédiction XLM-R. La commande est prête (`--predictions`) et refuse de lancer
   `union_fichier` sans fichier couvrant tous les passages. **La robustesse du système Gold gelé reste donc inconnue.**
+  Indication indirecte, pas une mesure de fuite : la F1 NER de XLM-R v4 du Lot C baisse de −0,026 (abréviations),
+  −0,066 (OCR) et −0,052 (mise en page) sur ces jeux (`reports/lotC_gold_robustesse.md`, 3 graines, dev).
 
 | Jeu, système (a) | Fuite [IC 95 %] | Δ fuite apparié [IC 95 %] | Sur-masquage (Δ) | F1 car. (Δ) |
 |---|---|---|---|---|
@@ -260,8 +312,11 @@ commit 895e834). Chiffres : `results/lotb_gold/g6_robustesse.md` (et `.json`), `
   les 3 jeux) et le dev propre redonne le Bronze de l'audit G7 (14 / 213, 21,9 %).
 - Limites : 21 documents (3 `lib_`), perturbations synthétiques d'un seul générateur (graine 2027), une seule
   exécution (`union_seuil` est déterministe). Pour un texte libre abrégé (formes juridiques arabes) ou scanné, la
-  fuite du Bronze peut doubler : **relecture humaine obligatoire**. Partie B (jeu tunisien, ventilée par écriture) :
-  `python -m scripts.g6_robustesse tunisien`, prête, non lancée (jeu pas encore converti).
+  fuite du Bronze peut doubler : **relecture humaine obligatoire**.
+- Partie B (jeu tunisien, ventilée par écriture) : **jeu tunisien non terminé au gel du 29/11, mesure ajoutée après le
+  gel.** Au 28/11/2026, `data/lotb/tunisien/tunisien.jsonl` n'existe sur aucune branche (passages en cours d'écriture
+  par Ali et Boutheina) ; aucun chiffre. Commande prête : `python -m scripts.g2_tunisien verifier`, puis
+  `python -m scripts.g6_robustesse tunisien`.
 
 ---
 
@@ -386,7 +441,8 @@ Branche `lot-b-silver`, gel du 14/11/2026. **Split : dev** (`documents_dev.jsonl
   point de contrôle choisi sur le dev par le Lot C ; remplacées au gel Gold par XLM-R v4, section « Palier Gold »). **Les chiffres cités sont la moyenne ± écart-type (de population) des 3
   graines officielles du Lot C** (s13, s42, s2026). **Toujours suivi d'une relecture humaine.**
 - **Bronze toujours accessible** : backend `union_seuil` (`anonymize_document(doc, "union_seuil")`). C'est aussi le
-  défaut de l'interface B9 (`anonymiser`, `anonymiser_document`), qui reçoit un texte libre sans prédictions XLM-R.
+  défaut de l'interface B9 (`anonymiser`, `anonymiser_document`), qui reçoit un texte libre sans prédictions XLM-R, et
+  donc le système d'un texte libre tapé dans Studio (au gel Gold aussi).
 
 ### Nouveaux backends et options
 
@@ -497,6 +553,7 @@ bootstrap par document (1 000 tirages, graine 42), donné par graine pour XLM-R.
   - Silver (branche `lot-b-silver`) : `python -m scripts.b12_generalisation`, `python -m scripts.b13_backend_fichier`, `python -m scripts.b14_xlmr`, `python -m scripts.b15_regles_train` (train) puis `python -m scripts.b15_eval_dev`, `python -m scripts.b16_ablations_silver` ; contrôle du gel : `python -m scripts.gel_silver_verif` (dev). B13, B14 et B16 fixent `fusion_fichier="union"` là où ils mesuraient la fusion d'origine, pour redonner leurs chiffres ;
   - Gold, G4 (branche `lot-b-gold`) : `python -m scripts.g4_anonymisation_v4` (dev ; v4 contre Silver, options du gel Silver imposées, contrôle du gel Gold) ;
   - Gold, G5 : `python -m scripts.g5_reidentification seuil` (train), puis `base`, `mesurer` et `controle` (dev ; ré-identification N1–N4, généralisation ciblée, contrôle de la configuration) ; G5 bis : `git restore --source edf0629 --worktree generation/gabarit.py`, `mesurer --gabarit-corrige`, `git restore generation/gabarit.py`, puis `controle --gabarit-corrige` ;
+  - Gold, G6 : `python -m scripts.g6_robustesse mesurer` (dev et ses 3 jeux perturbés ; `--predictions` pour le système gelé quand les prédictions XLM-R existeront ; `tunisien` pour le jeu tunisien) ; G1 : `python -m scripts.externe_dev_split` (une seule fois, refuse d'écraser), `python -m scripts.g1_ablation_externe` (GPU) puis `--rapport` ; G2 : `python -m scripts.g2_tunisien preparer|kappa|verifier|convertir` ; G7 : `python -m scripts.audit_lotA_gold --integration` ;
   - tests : `pytest` (complet), ou `pytest -m "not slow"` pour exclure le test de l'interface B9 sur le dev (≈ 1 min 30).
 - Graines : bootstrap par document, graine 42 (1 000 tirages ; 10 000 pour les comparaisons appariées de l'anonymisation) ; plis de CV groupés par document, graine 42 ; variance du CRF, graines 13, 42, 2026 ; CRF L-BFGS déterministe.
 - Résultats chiffrés : `results/lotb/*.json` ; prédictions pour le Lot D : `reports/predictions/lotb_dev_v2.jsonl` (entités, inchangées par B6f) et `results/lotb/b6d_anonymisation_dev_union_seuil.jsonl` (anonymisation, configuration recommandée ; l'export de B6e lui est identique).
@@ -520,4 +577,10 @@ bootstrap par document (1 000 tirages, graine 42), donné par graine pour XLM-R.
   - XLM-R du Lot C branché dans l'anonymisation (B14) : fuite 6,6 → 2,5 ± 0,6 % au dev ;
   - Gold (G4, 24/11/2026, commit 2cef770) : XLM-R v4 du Lot C remplace les prédictions Silver : fuite 2,5 → 1,3 ± 0,2 % au dev, sur-masquage 9,4 → 9,2 % ;
   - Gold (G5, 24/11/2026) : généralisation ciblée `complete_sauf_fiche` d'abord retenue (perte de fiche 0,0 point), puis **annulée en G5 bis** : avec le gabarit corrigé du Lot D (edf0629), perte de fiche 3,7 points > 3 → `generaliser: false`, objectif N3 ≤ 50 % non atteint (N3 100 % au dev) ;
-  - reste à faire : évaluation finale unique sur `test-gele-v3`, avec des prédictions XLM-R sur le test.
+  - Gold (PR #50 du Lot E, 26/11/2026) : gel Gold branché dans le pipeline pour les documents du dev, fuite de bout en
+    bout 6,6 → 0,9 % ; un texte libre (Studio) garde `union_seuil` ;
+  - Gold (G6, 27/11/2026) : `union_seuil` fragile aux abréviations arabes (fuite ar 5,8 → 26,1 %) ; robustesse du
+    système gelé non mesurée (prédictions XLM-R des jeux perturbés non disponibles au gel) ;
+  - clôture Gold (29/11/2026) : jeu tunisien non terminé au gel du 29/11, mesure ajoutée après le gel ;
+  - reste à faire : évaluation finale unique sur `test-gele-v3`, avec des prédictions XLM-R sur le test ; travaux
+    futurs listés dans la section « Palier Gold · état au gel du 29/11/2026 ».
